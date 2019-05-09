@@ -1,0 +1,305 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/primeng/resources/themes/omega/theme.css';
+@import '../node_modules/primeng/resources/primeng.min.css';
+@import '../node_modules/primeicons/primeicons.css';
+@import '../node_modules/primeflex/primeflex.css';
+
+.body {
+  margin: 0px 0px 50px 0px !important
+}
+
+.div-content {
+  padding: 0px !important;
+}
+.error {
+  color: red!important;
+  font-size: 13px;
+  padding: 0px !important;
+}
+
+/*x.footer {
+  color: #333;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: bottom;
+  background-color: #3c8dbc !important;
+} */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #3c8dbc !important;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+}
+
+  .footer:before {
+    clear: both;
+    display: block;
+    height: 120px;
+    min-height: 120px;
+    background-color: #0073e6 !important;
+  }
+.main-header {
+  background-color: #3c8dbc !important;
+  display: inline-block !important;
+  text-align: center !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  width: 100% !important;
+}
+
+.main-header .h1 {
+  padding: 5px !important;
+}
+  .main-header .h3 {
+    padding: 5px !important;
+  }
+.content {
+  display: inline-block;
+}
+
+.login-icon-user {
+  color: darkslateblue !important;
+}
+/*#region name */
+
+/*.login-button {
+  background-color: darkslateblue !important;
+  color: white !important;
+  width: 100% !important;
+} */
+
+/*#endregion */
+
+.login-panel {
+  text-align: center;
+  width: 300px;
+  min-height: 440px;
+  padding: 50px 20px 20px 0px;
+  margin: 75px auto 0 auto;
+  display: block;
+  position: relative;
+}
+
+.login-header {
+  position: absolute;
+top:0;
+  background-color: #3366cc !important;
+  font-size: 20px;
+}
+
+.login .icon {
+  text-align: center !important;
+  display: block;
+}
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+.header h1 {
+  position: relative;
+  top: 18px;
+  text-align: center;
+}
+
+.header h2 {
+  position: relative;
+  top: 14px;
+  text-align: center;
+  padding: 2px !important;
+}
+
+.card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.calendar {
+  float: right !important;
+}
+
+.fa-grey {
+  color: gray;
+}
+
+.input-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input-group-addon:first-child {
+  border-right: 0;
+}
+
+.input-group-addon {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.input-group-addon, .input-group-btn {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.input-group .form-control, .input-group-addon, .input-group-btn {
+  display: table-cell;
+}
+
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+  .dashboard .overview {
+  padding: 0 !important;
+  min-height: 140px;
+  position: relative;
+  margin-bottom: 0px !important;
+}
+
+  .dashboard .overview .overview-content {
+    padding: 10px;
+  }
+
+    .dashboard .overview .overview-content .overview-badge {
+      float: right;
+      color: #757575;
+    }
+
+    .dashboard .overview .overview-content .overview-detail {
+      display: block;
+      font-size: 24px;
+      margin-top: 5px;
+    }
+
+    .dashboard .overview .overview-content .overview-link {
+      display: block;
+      font-size: 15px;
+      margin-top: 5px;
+    }
+
+    .dashboard .overview .overview-content .overview-title {
+      font-size: 18px;
+      text-align: center;
+    }
+
+  .dashboard .overview .overview-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+.dashboard .colorbox {
+  padding: 0 !important;
+  text-align: center;
+  overflow: hidden;
+  margin-bottom: 0px !important;
+}
+
+  .dashboard .colorbox.colorbox-notifications-header {
+    background-color: #009933 !important;
+  }
+
+  .dashboard .colorbox.colorbox-goods {
+    background-color: #4CAF50;
+  }
+
+  .dashboard .colorbox.colorbox-user {
+    background-color: #03A9F4;
+  }
+
+  .dashboard .colorbox.colorbox-report {
+    background-color: #ebf442;
+  }
+
+  .dashboard .colorbox.colorbox-warehouses {
+    background-color: #d8203c;
+  }
+
+  .dashboard .colorbox.colorbox-districts {
+    background-color: #cc0066;
+  }
+
+  .dashboard .colorbox.colorbox-beneficiaries {
+    background-color: #8cff1a;
+  }
+
+  .dashboard .colorbox.colorbox-ration-card {
+    background-color: #cc66ff;
+  }
+
+  .dashboard .colorbox.colorbox-areas {
+    background-color: #85adad;
+  }
+
+
+  .dashboard .colorbox.colorbox-icon-user {
+    background-color: #266ae0;
+    display: inline-block;
+  }
+
+  .dashboard .colorbox.colorbox-icon-goods {
+    background-color: #09770b;
+  }
+
+  .dashboard .colorbox.colorbox-icon-report {
+    background-color: #eab107;
+  }
+
+  .dashboard .colorbox.colorbox-icon-warehouses {
+    background-color: #a00808;
+  }
+
+  .dashboard .colorbox.colorbox-icon-districts {
+    background-color: #800040;
+  }
+
+  .dashboard .colorbox.colorbox-icon-beneficiaries {
+    background-color: #59b300;
+  }
+
+  .dashboard .colorbox.colorbox-icon-ration-card {
+    background-color: #8800cc;
+  }
+
+  .dashboard .colorbox.colorbox-icon-areas {
+    background-color: #334d4d;
+  }
+
+  .dashboard .colorbox .colorbox-name {
+    font-size: 20px;
+    display: inline-block;
+    width: 100%;
+    margin: 4px 0 10px 0;
+    color: #ffffff;
+  }
+
+  .dashboard .colorbox .colorbox-count {
+    font-weight: bold;
+  }
+
+  .inline-padding {
+    padding: 5px;
+  }
+
+.panel-header {
+  font-size: 16px;
+  font: bold;
+}
+
+
+
+
+

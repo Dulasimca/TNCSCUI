@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\dailystockstatement",
+    "\\src\\app\\footer",
+    "\\src\\app\\interfaces",
+    "\\src\\app\\login",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared-services",
+    "\\src\\assets"
+  ],
+  "SelectedNode": "\\src\\app\\dailystockstatement\\dailystockstatement.component.html",
+  "PreviewInSolutionExplorer": false
+}

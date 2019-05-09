@@ -1,0 +1,270 @@
+<app-menu [LoggedIn]="isViewLogin"></app-menu>
+<div class="div-content">
+  <!-- <p-card class="" [style]="{width: '100%', height: '500px'}" styleClass="ui-card-shadow"> -->
+  <div class="ui-g ui-md-6 ui-lg-12 card" style="margin: 0px !important">
+    <!-- <div class="ui-g" style="float:right">
+      <p-calendar [(ngModel)]="date" [showIcon]="true"></p-calendar>
+    </div> -->
+    <div class="ui-g">
+      <div class="ui-g-8 ui-g-nopad">
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-goods">
+              <div class="ui-g-4 colorbox colorbox-icon-goods">
+                <i class="fa fa-home fa-4x"></i>
+              </div>
+              <div class="ui-g-8">
+                <span class="colorbox-name">Godowns</span>
+                <span class="colorbox-count">50,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-user">
+              <div class="ui-g-4 colorbox colorbox-icon-user">
+                <i class="fa fa-industry fa-4x"></i>
+              </div><div class="ui-g-8">
+                <span class="colorbox-name">MRM</span>
+                <span class="colorbox-count">22,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-report">
+              <div class="ui-g-4 colorbox colorbox-icon-report">
+                <i class="fa fa-cubes fa-4x"></i>
+              </div>
+              <div class="ui-g-8">
+                <span class="colorbox-name">AADS</span>
+                <span class="colorbox-count">2,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-districts">
+              <div class="ui-g-4 colorbox colorbox-icon-districts">
+                <i class="fa fa-pagelines fa-4x"></i>
+              </div><div class="ui-g-8">
+                <span class="colorbox-name">FCI</span>
+                <span class="colorbox-count">33</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-beneficiaries">
+              <div class="ui-g-4 colorbox colorbox-icon-beneficiaries">
+                <i class="fa fa-map fa-4x"></i>
+              </div><div class="ui-g-8">
+                <span class="colorbox-name">Regions</span>
+                <span class="colorbox-count">52,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card colorbox colorbox-ration-card">
+              <div class="ui-g-4 colorbox colorbox-icon-ration-card">
+                <i class="fa fa-shopping-cart fa-4x"></i>
+              </div><div class="ui-g-8">
+                <span class="colorbox-name">CRS</span>
+                <span class="colorbox-count">78,000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card overview">
+              <div class="ui-g-8 overview-content clearfix">
+                <span class="overview-title">Hulling Agencies</span>
+                <span class="overview-detail">18,000</span>
+              </div>
+              <div class="overview-footer">
+                <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card overview">
+              <div class="ui-g-8 overview-content clearfix">
+                <span class="overview-title">Depositors/Suppliers</span>
+                <span class="overview-detail">45,000</span>
+              </div>
+              <div class="overview-footer">
+                <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="ui-g card overview">
+              <div class="ui-g-8 overview-content clearfix">
+                <span class="overview-title">Schemes</span>
+                <span class="overview-detail">1,000</span>
+              </div>
+              <div class="overview-footer">
+                <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-4">
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-12 ui-md-4 ui-lg-12">
+            <div class="ui-g card colorbox">
+              <div class="ui-g-12 colorbox colorbox-notifications-header">
+                <span>Notifications</span>
+              </div>
+              <div class="ui-g-12" style="max-height: 320px !important">
+                <marquee class="ui-g-12 " scrollamount="1" scrolldelay="10" direction="down" width="200" height="320" onmouseover="this.stop()" onmouseout="this.start()">
+                  <ul style="margin-top: 25px">
+                    <li>Under the guidelines, which were published in the state gazette, several current beneficiaries of the public distribution system will no longer be eligible for the benefits.</li>
+                    <li>Households with at least one taxpaying member</li>
+                    <li>Households paying professional tax</li>
+                    <li>Any household owning a motorised four-wheeler (except one commercial vehicle in household for earning livelihood)</li>
+                    <li>Any household which owns or operate an enterprise(s) registered under any law</li>
+                    <li>The Tamil Nadu Civil Supplies Corporation under the Universal Public Distribution System supplies ration to 1,97,82,593 families.</li>
+                    <li>Rice is supplied free of cost since June 1, 2011 while sugar, kerosene and wheat are provided at subsidised rates.</li>
+                    <li>State food minister R Kamaraj claimed that the gazette notification was published as per the rules.</li>
+                    <li>Households with at least one taxpaying member</li>
+                    <li>Households paying professional tax</li>
+                    <li>Any household owning a motorised four-wheeler (except one commercial vehicle in household for earning livelihood)</li>
+                    <li>Any household which owns or operate an enterprise(s) registered under any law</li>
+                  </ul>
+                </marquee>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </p-card> -->
+
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div class="header">
+      <h2  >Rice chart</h2>
+    </div>
+    <div class="ui-g-12">
+      <div style="width: 100%;">
+        <canvas baseChart
+                [chartType]="'bar'"
+                [colors]="chartColors"
+                [datasets]="riceChartData"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="true"
+                (chartClick)="onChartClick($event)"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div class="header">
+      <h2>Dhall & Oil chart</h2>
+    </div>
+    <div class="ui-g-12">
+      <div style="width: 100%;">
+        <canvas baseChart
+                [chartType]="'bar'"
+                [colors]="chartColors"
+                [datasets]="dhallOilChartData"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="true"
+                (chartClick)="onChartClick($event)"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div class="header">
+      <h2>Wheat & Sugar chart</h2>
+    </div>
+    <div class="ui-g-12">
+      <div style="width: 100%;">
+        <canvas baseChart
+                [chartType]="'line'"
+                [colors]="chartColors"
+                [datasets]="wheatSugarChartData"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="true"
+                (chartClick)="onChartClick($event)"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div class="ui-g">
+    <div class="ui-g-12 dashboard">
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card colorbox colorbox-goods">
+          <div class="ui-g-4 colorbox colorbox-icon-goods">
+            <i class="fa fa-map fa-4x"></i>
+          </div>
+          <div class="ui-g-8">
+            <span class="colorbox-name">Districts</span>
+            <span class="colorbox-count">33</span>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card colorbox colorbox-report">
+          <div class="ui-g-4 colorbox colorbox-icon-report">
+            <i class="fa fa-address-card-o fa-4x"></i>
+          </div>
+          <div class="ui-g-8">
+            <span class="colorbox-name">Family Cards</span>
+            <span class="colorbox-count">50,000</span>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card colorbox colorbox-user">
+          <div class="ui-g-4 colorbox colorbox-icon-user">
+            <i class="fa fa-users fa-4x"></i>
+          </div>
+          <div class="ui-g-8">
+            <span class="colorbox-name">Beneficiaries</span>
+            <span class="colorbox-count">66,10,000</span>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card overview">
+          <div class="ui-g-8 overview-content clearfix">
+            <!-- <i class="fa fa-refresh fa-2x"></i> -->
+            <span class="overview-title">Convert Your Card</span>
+            <a href="" class="overview-link">click here</a>
+          </div>
+          <div class="overview-footer">
+            <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card overview">
+          <div class="ui-g-8 overview-content clearfix">
+            <span class="overview-title">Register a complaint</span>
+            <a href="" class="overview-link">click here</a>
+          </div>
+          <div class="overview-footer">
+            <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="ui-g card overview">
+          <div class="ui-g-8 overview-content clearfix">
+            <span class="overview-title">PDS Reports</span>
+            <a href="" class="overview-link">View reports here</a>
+          </div>
+          <div class="overview-footer">
+            <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>  
+</div>

@@ -1,0 +1,30 @@
+<div class="ui-g-12">
+  <p-panel>
+    <p-header>
+      <div class="panel-header">Daily Stock Statement</div>
+    </p-header>
+    <div class="ui-g-12">
+      <div class="ui-g-5">
+        <label class="inline-padding">Daily Statement</label>
+        <p-dropdown #dailyStmnt class="inline-padding" [options]="dailyStmntOptions" [(ngModel)]="selectedItem" filter="true"></p-dropdown>
+      </div>
+      <div class="ui-g-7" style="padding:5px">
+        <label class="inline-padding">Date</label>
+        <p-calendar class="inline-padding" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+        <p-calendar class="inline-padding" [(ngModel)]="toDate" [showIcon]="true"></p-calendar>
+        </div>
+      </div>
+      <p-table [value]="dailyStockData">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of dailyStockDataCoulmns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr></tr>
+        </ng-template>
+      </p-table>
+</p-panel>
+</div>
