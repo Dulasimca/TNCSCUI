@@ -8,7 +8,6 @@ import { AuthService } from '../shared-services/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  isViewLogin: boolean;
   date: Date;
   chartOptions = {
     responsive: true,
@@ -122,7 +121,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isViewLogin = this.authService.getValidUser();
   }
 
 }

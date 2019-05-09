@@ -8,31 +8,35 @@
   margin: 0px 0px 50px 0px !important
 }
 
-.div-content {
-  padding: 0px !important;
-}
 .error {
-  color: red!important;
+  color: red !important;
   font-size: 13px;
   padding: 0px !important;
 }
 
-/*x.footer {
-  color: #333;
-  font-size: 13px;
-  text-align: center;
-  vertical-align: bottom;
-  background-color: #3c8dbc !important;
-} */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 0 auto;
+  position: relative;
+  min-height: 100%
+}
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  background-color: #3c8dbc !important;
-  /* Set the fixed height of the footer here */
+  clear: both;
+  position: relative;
   height: 40px;
+  bottom: 0;
+  vertical-align: bottom;
+  text-align: center !important;
+  background-color: #3c8dbc !important;
 }
 
   .footer:before {
@@ -42,6 +46,7 @@
     min-height: 120px;
     background-color: #0073e6 !important;
   }
+
 .main-header {
   background-color: #3c8dbc !important;
   display: inline-block !important;
@@ -51,12 +56,14 @@
   width: 100% !important;
 }
 
-.main-header .h1 {
-  padding: 5px !important;
-}
+  .main-header .h1 {
+    padding: 5px !important;
+  }
+
   .main-header .h3 {
     padding: 5px !important;
   }
+
 .content {
   display: inline-block;
 }
@@ -64,15 +71,6 @@
 .login-icon-user {
   color: darkslateblue !important;
 }
-/*#region name */
-
-/*.login-button {
-  background-color: darkslateblue !important;
-  color: white !important;
-  width: 100% !important;
-} */
-
-/*#endregion */
 
 .login-panel {
   text-align: center;
@@ -86,7 +84,7 @@
 
 .login-header {
   position: absolute;
-top:0;
+  top: 0;
   background-color: #3366cc !important;
   font-size: 20px;
 }
@@ -95,6 +93,7 @@ top:0;
   text-align: center !important;
   display: block;
 }
+
 .header img {
   float: left;
   width: 100px;
@@ -147,6 +146,7 @@ top:0;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 .input-group-addon, .input-group-btn {
   width: 1%;
   white-space: nowrap;
@@ -162,7 +162,8 @@ top:0;
   display: table;
   border-collapse: separate;
 }
-  .dashboard .overview {
+
+.dashboard .overview {
   padding: 0 !important;
   min-height: 140px;
   position: relative;
@@ -290,16 +291,15 @@ top:0;
     font-weight: bold;
   }
 
-  .inline-padding {
-    padding: 5px;
-  }
+.inline-padding {
+  padding: 5px;
+}
+
+.inline-margin {
+  margin: 3px;
+}
 
 .panel-header {
   font-size: 16px;
   font: bold;
 }
-
-
-
-
-

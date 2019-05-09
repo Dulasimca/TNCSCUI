@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { User } from './user';
 import { AuthService } from '../shared-services/auth.service';
 
 @Component({
@@ -29,15 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   get formControls() {
-    return this.loginForm.controls;
-  }
-
-  public sendValue() {
-    this.loggingIn.emit(this.isViewLogin);
-  }
-
-  handlePanel() {
-    this.openPanel = true;
+    return this.loginForm.controls; s
   }
 
   onSignIn() {
@@ -46,11 +37,9 @@ export class LoginComponent implements OnInit {
       return;
     }
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.loginForm.value))
-    // this.authService.login(this.loginForm.value);
-    this.isViewLogin = true;
-    this.authService.setValidUser(this.isViewLogin);
+    this.authService.login(this.loginForm.value);
     this.router.navigate(['home']);
-    
+
 
   }
 }

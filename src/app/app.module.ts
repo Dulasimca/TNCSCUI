@@ -30,6 +30,7 @@ import { DailyStockStatementComponent } from './dailystockstatement/dailystockst
 import { AuthService } from './shared-services/auth.service';
 import { MenuService } from './menu/menu.service';
 import { TableConstants } from './shared/tableconstants';
+import { RestAPIService } from './shared-services/restAPI.service';
 
 
 
@@ -69,8 +70,7 @@ import { TableConstants } from './shared/tableconstants';
     PanelModule
 
   ],
- // entryComponents: [TableConstants],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants],
+  providers: [MenuService, AuthService, ConfirmationService, TableConstants, RestAPIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
