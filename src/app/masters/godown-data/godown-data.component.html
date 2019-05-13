@@ -1,3 +1,24 @@
-<p>
-  godown-data works!
-</p>
+<app-menu></app-menu>
+<div class="ui-g-12 ui-md-12 ui-lg-12 card content">
+  <p-panel>
+    <p-header>
+      <div class="panel-header">Godown Master</div>
+    </p-header>
+      <p-treeTable [value]="data" [columns]="column">
+        <ng-template pTemplate="header" let-columns>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+          <tr >
+            <td *ngFor="let col of columns">
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              {{rowData[col.field]}}
+           </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+  </p-panel>
+
+</div>

@@ -5,6 +5,8 @@ import { RestAPIService } from '../shared-services/restAPI.service';
 import { DatePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChartConstants } from '../constants/chartconstants';
+import { Router } from '@angular/router';
+import { PathConstants } from '../constants/path.constants';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,7 @@ import { ChartConstants } from '../constants/chartconstants';
 })
 export class HomeComponent implements OnInit {
   date: any;
+  notifications: any;
   riceChartData: any;
   dhallOilChartData: any;
   wheatSugarChartData: any;
@@ -100,7 +103,8 @@ export class HomeComponent implements OnInit {
       pointHoverBorderColor: 'rgba(225,10,24,0.2)'
     }];
 
-  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants) {
+  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants,
+    private router: Router) {
 
   }
 
@@ -109,7 +113,9 @@ export class HomeComponent implements OnInit {
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
     this.chartLabels = this.chartConstants.districtNames;
-    this.restApiService.getByParameters('/api/Dashboard/GetRiceList', params).subscribe((response: any[]) => {
+    this.restApiService.get(PathConstants.NOTIFICATIONS).subscribe(data => this.notifications = data);
+    this.restApiService.get(PathConstants.AADS).subscribe(data => data);
+    this.restApiService.getByParameters(PathConstants.CHART, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.riceChartData = [{ data: response[2], label: 'BOILED COMMON', stack: 4 },
         { data: response[3], label: 'BOILED GRADEA', stack: 4 },
@@ -128,5 +134,39 @@ export class HomeComponent implements OnInit {
         ];
       }
     });
+  }
+
+  onGridClicked(param) {
+    switch (param) {
+      case 'godown':
+        this.router.navigate(['godownData']);
+        break;
+      case 'mrm':
+        this.router.navigate(['mrmData']);
+        break;
+      case 'crs':
+        this.router.navigate(['crsData']);
+        break;
+      case 'aads':
+        this.router.navigate(['aadsData']);
+        break;
+      case 'fci':
+        this.router.navigate(['fciData']);
+        break;
+      case 'regions':
+        this.router.navigate(['regionsData']);
+        break;
+      case 'hullingAgencies':
+        this.router.navigate(['hullingAgencies']);
+        break;
+      case 'depositors':
+        this.router.navigate(['depositors']);
+        break;
+      case 'schemes':
+        this.router.navigate(['schemes']);
+        break;
+    
+    }
+    
   }
 }

@@ -1,5 +1,6 @@
 export class TableConstants {
   DailyStockStatement: any;
+  GodownMasterData: any;
   constructor() {
     this.DailyStockStatement = [
       {
@@ -15,6 +16,11 @@ export class TableConstants {
       { "field": 'woff', "header": 'Cs0104+CU.YrCS-WOFF' },
       { "field": 'physicalBalance', "header": 'Physical Balance' }
 
+    ]
+    this.GodownMasterData = [
+      { "field": 'RGNAME', "header": 'Region Name' },
+      { "field": 'TNCSCapacity', "header": 'Capacity' },
+      { "field": 'TNCSCarpet', "header": 'Carpet' },
     ]
   }
 }

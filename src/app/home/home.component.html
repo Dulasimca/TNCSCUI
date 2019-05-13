@@ -4,7 +4,7 @@
     <div class="ui-g">
       <div class="ui-g-8 ui-g-nopad">
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClick()">
+          <div id="godown" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('godown')">
             <div class="ui-g card colorbox colorbox-goods">
               <div class="ui-g-4 colorbox colorbox-icon-goods">
                 <i class="fa fa-home fa-4x"></i>
@@ -15,7 +15,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="mrm" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('mrm')">
             <div class="ui-g card colorbox colorbox-user">
               <div class="ui-g-4 colorbox colorbox-icon-user">
                 <i class="fa fa-industry fa-4x"></i>
@@ -25,7 +25,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="aads" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('aads')">
             <div class="ui-g card colorbox colorbox-report">
               <div class="ui-g-4 colorbox colorbox-icon-report">
                 <i class="fa fa-cubes fa-4x"></i>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="fci" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('fci')">
             <div class="ui-g card colorbox colorbox-districts">
               <div class="ui-g-4 colorbox colorbox-icon-districts">
                 <i class="fa fa-pagelines fa-4x"></i>
@@ -48,7 +48,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="regions" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('regions')">
             <div class="ui-g card colorbox colorbox-beneficiaries">
               <div class="ui-g-4 colorbox colorbox-icon-beneficiaries">
                 <i class="fa fa-map fa-4x"></i>
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="crs" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('crs')">
             <div class="ui-g card colorbox colorbox-ration-card">
               <div class="ui-g-4 colorbox colorbox-icon-ration-card">
                 <i class="fa fa-shopping-cart fa-4x"></i>
@@ -71,7 +71,7 @@
 
         </div>
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="hullingAgencies" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('hullingAgencies')">
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Hulling Agencies</span>
@@ -82,7 +82,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="depositors" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('depositors')">
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Depositors/Suppliers</span>
@@ -93,7 +93,7 @@
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div id="schemes" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('schemes')">
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Schemes</span>
@@ -116,18 +116,7 @@
               <div class="ui-g-12" style="max-height: 320px !important">
                 <marquee class="ui-g-12 " scrollamount="1" scrolldelay="10" direction="down" width="200" height="320" onmouseover="this.stop()" onmouseout="this.start()">
                   <ul style="margin-top: 25px">
-                    <li>Under the guidelines, which were published in the state gazette, several current beneficiaries of the public distribution system will no longer be eligible for the benefits.</li>
-                    <li>Households with at least one taxpaying member</li>
-                    <li>Households paying professional tax</li>
-                    <li>Any household owning a motorised four-wheeler (except one commercial vehicle in household for earning livelihood)</li>
-                    <li>Any household which owns or operate an enterprise(s) registered under any law</li>
-                    <li>The Tamil Nadu Civil Supplies Corporation under the Universal Public Distribution System supplies ration to 1,97,82,593 families.</li>
-                    <li>Rice is supplied free of cost since June 1, 2011 while sugar, kerosene and wheat are provided at subsidised rates.</li>
-                    <li>State food minister R Kamaraj claimed that the gazette notification was published as per the rules.</li>
-                    <li>Households with at least one taxpaying member</li>
-                    <li>Households paying professional tax</li>
-                    <li>Any household owning a motorised four-wheeler (except one commercial vehicle in household for earning livelihood)</li>
-                    <li>Any household which owns or operate an enterprise(s) registered under any law</li>
+                    {{notifications}}
                   </ul>
                 </marquee>
               </div>

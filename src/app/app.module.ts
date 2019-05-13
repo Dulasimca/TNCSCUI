@@ -14,7 +14,7 @@ import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
-
+import { TreeTableModule } from 'primeng/treetable';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { DepositorsComponent } from './masters/depositors/depositors.component';
 import { AADSDataComponent } from './masters/aadsdata/aadsdata.component';
 import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
+import { PathConstants } from './constants/path.constants';
 
 
 
@@ -87,10 +88,11 @@ import { SchemesComponent } from './masters/schemes/schemes.component';
     CalendarModule,
     CardModule,
     ChartsModule,
-    PanelModule
+    PanelModule,
+    TreeTableModule
 
   ],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants, ChartConstants, DatePipe, RestAPIService],
+  providers: [MenuService, AuthService, ConfirmationService, TableConstants, ChartConstants, DatePipe, RestAPIService, PathConstants],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
