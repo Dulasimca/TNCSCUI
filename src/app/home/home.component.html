@@ -1,10 +1,10 @@
 <app-menu></app-menu>
 <div class="content">
-  <div class="ui-g ui-md-6 ui-lg-12 card" style="margin: 0px !important">
+  <div class="ui-g-12 ui-md-6 ui-lg-12 card" style="margin: 0px !important">
     <div class="ui-g">
       <div class="ui-g-8 ui-g-nopad">
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <div class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClick()">
             <div class="ui-g card colorbox colorbox-goods">
               <div class="ui-g-4 colorbox colorbox-icon-goods">
                 <i class="fa fa-home fa-4x"></i>
@@ -137,14 +137,13 @@
       </div>
     </div>
   </div>
-  <!-- </p-card> -->
 
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="riceChartData">
     <div class="header">
       <h2>Rice chart</h2>
     </div>
     <div class="ui-g-12">
-      <div style="width: 100%;">
+      <div style="width: 100%">
         <canvas baseChart
                 [chartType]="'bar'"
                 [colors]="chartColors"
@@ -156,7 +155,7 @@
       </div>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="dhallOilChartData">
     <div class="header">
       <h2>Dhall & Oil chart</h2>
     </div>
@@ -173,7 +172,7 @@
       </div>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="wheatSugarChartData">
     <div class="header">
       <h2>Wheat & Sugar chart</h2>
     </div>

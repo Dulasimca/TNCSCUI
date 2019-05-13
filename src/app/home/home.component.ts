@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../shared-services/auth.service';
+import { RestAPIService } from '../shared-services/restAPI.service';
+import { DatePipe } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
+import { ChartConstants } from '../constants/chartconstants';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +12,11 @@ import { AuthService } from '../shared-services/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  date: Date;
+  date: any;
+  riceChartData: any;
+  dhallOilChartData: any;
+  wheatSugarChartData: any;
+  chartLabels: any[];
   chartOptions = {
     responsive: true,
     scaleShowValues: true,
@@ -45,7 +53,6 @@ export class HomeComponent implements OnInit {
             var total = 0;
             for (var i = 0; i < data.length; i++)
               total += data[i].data[index];
-            console.log('total', total);
           });
         });
 
@@ -55,30 +62,6 @@ export class HomeComponent implements OnInit {
       animationDuration: 0
     },
   };
-  riceChartData = [
-    { data: [65, 110, 80, 81, 56, 55, 120, 56, 110, 88, 90, 89, 77, 67, 124, 65, 87, 178, 90, 89, 78, 90, 89, 155, 48, 90, 165, 56, 88, 120, 90, 50, 70, 110], label: 'BOILED COMMON', stack: 4 },
-    { data: [120, 45, 80, 78, 66, 100, 71, 56, 88, 66, 92, 89, 110, 54, 62, 102, 98, 66, 90, 81, 78, 65, 75, 82, 48, 90, 77, 120, 68, 32, 70, 25, 100, 65], label: 'BOILED GRADEA', stack: 4 },
-    { data: [190, 22, 55, 76, 166, 87, 71, 90, 77, 155, 92, 89, 34, 54, 46, 32, 88, 110, 90, 81, 78, 44, 56, 66, 48, 93, 76, 43, 125, 95, 55, 75, 40, 78], label: 'RAW COMMON', stack: 4 },
-    { data: [70, 55, 123, 111, 11, 66, 42, 35, 98, 120, 56, 63, 88, 29, 89, 70, 54, 108, 70, 81, 78, 87, 56, 54, 48, 93, 88, 43, 77, 150, 30, 60, 80, 55], label: 'RAW GRADEA', stack: 4 }
-
-  ];
-  dhallOilChartData = [
-    { data: [65, 110, 80, 81, 56, 55, 120, 56, 110, 88, 90, 89, 77, 67, 124, 65, 87, 178, 90, 89, 78, 90, 89, 155, 48, 90, 165, 56, 88, 120, 90, 50, 70, 110], label: 'DHALL', stack: 4 },
-    { data: [120, 45, 80, 78, 66, 100, 71, 56, 88, 66, 92, 89, 110, 54, 62, 102, 98, 66, 90, 81, 78, 65, 75, 82, 48, 90, 77, 120, 68, 32, 70, 25, 100, 65], label: 'PAMOLIEN OIL', stack: 4 },
-    { data: [190, 22, 55, 76, 166, 87, 71, 90, 77, 155, 92, 89, 34, 54, 46, 32, 88, 110, 90, 81, 78, 44, 56, 66, 48, 93, 76, 43, 125, 95, 55, 75, 40, 78], label: 'PAMOLIEN POUCH', stack: 4 },
-
-  ];
-
-  wheatSugarChartData = [
-    { data: [120, 45, 80, 78, 66, 100, 71, 56, 88, 66, 92, 89, 110, 54, 62, 102, 98, 66, 90, 81, 78, 65, 75, 82, 48, 90, 77, 120, 68, 32, 70, 25, 100, 65], fill: false, label: 'WHEAT', stack: 4 },
-    { data: [70, 55, 123, 111, 11, 66, 42, 35, 98, 120, 56, 63, 88, 29, 89, 70, 54, 108, 70, 81, 78, 87, 56, 54, 48, 93, 88, 43, 77, 150, 30, 60, 80, 55], fill: false, label: 'SUGAR', stack: 4 }
-
-  ];
-
-
-  chartLabels = ['Ariyalur', 'Chennai North', 'Chennai South', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 'Dindugal', 'Erode',
-    'Kanchipuram', 'Kanyakumari', 'Karur', 'Krishnagiri', 'Madurai', 'Nagapattinam', 'Namakkal', 'Niligiris', 'Perambalur', 'Pudukottai', 'Ramanathapuram', 'Salem',
-    'Sivaganga', 'Thanjavur', 'Theni', 'Thoothukudi', 'Trichy', 'Tirunelveli', 'Thiruvallore', 'Tripur', 'Trivarur', 'Thiruvannamalai', 'Tuticorn', 'Vellore', 'Villipuram', 'Viruthunagar'];
 
   onChartClick(event) {
     console.log(event);
@@ -117,10 +100,33 @@ export class HomeComponent implements OnInit {
       pointHoverBorderColor: 'rgba(225,10,24,0.2)'
     }];
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants) {
+
   }
 
   ngOnInit() {
-  }
+    const date = new Date();
+    this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
+    let params = new HttpParams().set('Date', this.date);
+    this.chartLabels = this.chartConstants.districtNames;
+    this.restApiService.getByParameters('/api/Dashboard/GetRiceList', params).subscribe((response: any[]) => {
+      if (response !== undefined) {
+        this.riceChartData = [{ data: response[2], label: 'BOILED COMMON', stack: 4 },
+        { data: response[3], label: 'BOILED GRADEA', stack: 4 },
+        { data: response[4], label: 'RAW COMMON', stack: 4 },
+        { data: response[5], label: 'RAW GRADEA', stack: 4 }];
+        this.dhallOilChartData = [
+          { data: response[6], label: 'DHALL', stack: 4 },
+          { data: response[7], label: 'PAMOLIEN OIL', stack: 4 },
+          { data: response[8], label: 'PAMOLIEN POUCH', stack: 4 },
 
+        ];
+        this.wheatSugarChartData = [
+          { data: response[9], fill: false, label: 'WHEAT', stack: 4 },
+          { data: response[10], fill: false, label: 'SUGAR', stack: 4 }
+
+        ];
+      }
+    });
+  }
 }

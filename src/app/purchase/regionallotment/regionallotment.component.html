@@ -1,0 +1,29 @@
+<app-menu></app-menu>
+<div class="ui-g ui-md-12 ui-lg-12 card content" style="margin: 0px !important">
+  <p-panel header="Allotment - Region">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <label class="ui-g-2 inline-padding">Order Number:</label>
+        <!-- <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="orderNumber" type="text" /> -->
+    <p-autoComplete [(ngModel)]="orderNumber" [suggestions]="orderNumberOptions" (completeMethod)="search($event)" [dropdown]="true" [size]="17"></p-autoComplete>
+  </div>
+  <div class="ui-g-12">
+    <label class="ui-g-2 inline-padding">Region Name:</label>
+    <p-autoComplete [(ngModel)]="regionName" [suggestions]="regionNameOptions" (completeMethod)="search($event)" [dropdown]="true" [size]="17"></p-autoComplete>
+    <!-- <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="regionName" type="text" /> -->
+      </div>
+      <div class="ui-g-12">
+        <label class="ui-g-2 inline-padding">Quantity:</label>
+        <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="qty" type="text" />
+      </div>
+      <div class="ui-g-12">
+        <label class="ui-g-2 inline-padding">Remarks:</label>
+        <textarea pInputTextarea class="ui-g-2 inline-padding" [(ngModel)]="remarks" type="text"></textarea>
+      </div>
+      <div class="ui-g-12">
+        <p-button class="inline-margin" label="Save" (click)="onSave()"></p-button>
+        <p-button class="inline-margin" label="View" (click)="onView()"></p-button>
+      </div>
+    </div>
+  </p-panel>
+</div>

@@ -25,12 +25,14 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { ConfirmationService } from 'primeng/api';
-import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
-import { DailyStockStatementComponent } from './dailystockstatement/dailystockstatement.component';
 import { AuthService } from './shared-services/auth.service';
 import { MenuService } from './menu/menu.service';
-import { TableConstants } from './shared/tableconstants';
+import { TableConstants } from './constants/tableconstants';
+import { DailyStockStatementComponent } from './reports/dailystockstatement/dailystockstatement.component';
+import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.component';
+import { DatePipe } from '@angular/common';
 import { RestAPIService } from './shared-services/restAPI.service';
+import { ChartConstants } from './constants/chartconstants';
 
 
 
@@ -43,8 +45,8 @@ import { RestAPIService } from './shared-services/restAPI.service';
     MenuComponent,
     FooterComponent,
     HeaderComponent,
-    ForgetpasswordComponent,
     DailyStockStatementComponent,
+    StockPurchaseComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,7 @@ import { RestAPIService } from './shared-services/restAPI.service';
     PanelModule
 
   ],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants, RestAPIService],
+  providers: [MenuService, AuthService, ConfirmationService, TableConstants, ChartConstants, DatePipe, RestAPIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,242 @@
+{
+  "items": [
+    {
+      "label": "Home",
+      "routerLink": [ "/home" ]
+
+    },
+    {
+      "label": "Administrator",
+      "items": [
+        { "label": "Godown Profile" },
+        { "label": "Password Change" },
+        { "label": "Exit" }
+      ]
+    },
+    {
+      "label": "Documents",
+      "items": [
+        {
+          "label": "Receipts",
+          "items": [
+            { "label": "Stock Receipt" }
+          ]
+        },
+        {
+          "label": " Issue Sale A/c",
+          "items": [
+            { "label": "Stock Issue Memo" },
+            { "label": "Truck Memo" }
+          ]
+        },
+        { "label": "DeliveryOrder" },
+        {
+          "label": "Gatepass",
+          "items": [
+            { "label": "Gate-out New" }
+          ]
+        },
+        { "label": "Stack New" },
+        { "label": "Stackcard Closing" },
+        { "label": "DD/Cheque receipt collection " },
+        {
+          "label": "Duplicate Copy",
+          "items": [
+            { "label": "Issue Memo" }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Admin-MasterEntry",
+      "items": [
+        { "label": "Opening Balance Master" },
+        { "label": "GodownMaster" },
+        { "label": "Commodity/Packing" },
+        { "label": "SchemeCommodity" },
+        { "label": "OtherMasters" },
+        { "label": "Region Change" },
+        { "label": "CNC Correction" }
+      ]
+    },
+    {
+      "label": "User-Master",
+      "items": [
+        { "label": "Opening Balance Current Year Shortages" },
+        { "label": "Depositor/Customer" },
+        { "label": "Depositor/Godown Active-update" },
+        { "label": "Commodity Break" },
+        { "label": "Vat" },
+        { "label": "Employee Master" },
+        { "label": "Issue Memo Rate Master" },
+        { "label": "Society Master" },
+        { "label": "Shop-Society Update" },
+        { "label": "Shop Allotment Master" },
+        { "label": "AllotmentMasterImport" }
+      ]
+    },
+    {
+      "label": "ImportExport"
+    },
+    {
+      "label": "Reports",
+      "items": [
+        {
+          "label": "Daily Reports",
+          "items": [
+            {
+              "label": "Daily Stock Statement",
+              "routerLink": [ "/dailyStockStatement" ]
+            }
+          ]
+        },
+        {
+          "label": "Stack Reports",
+          "items": [
+            {
+              "label": "Stack Card-1"
+            },
+            {
+              "label": "StackCard Register-2"
+            },
+            {
+              "label": "StackCard Opening Entry-3"
+            },
+            {
+              "label": "StackCard Register-R-3"
+            }
+          ]
+            },
+        {
+          "label": "Registers",
+          "items": [
+            {
+              "label": "Stock Receipt Register-1"
+            },
+            {
+              "label": "Stock Issue Register-2"
+            },
+            {
+              "label": "Truck Memo Register-3"
+            },
+            {
+              "label": "Delivery Order Register-4"
+            }
+          ]
+        },
+            { "label": "Correction Slip" },
+        {
+          "label": "Other Reports",
+          "items": [
+            {
+              "label": "Commodity-Receipt-1"
+            },
+            {
+              "label": "Scheme-Receipt-2"
+            },
+            {
+              "label": "Transaction Receipt-3"
+            },
+            {
+              "label": "Commodity Issue Memo-4"
+            },
+            {
+              "label": "Commodity IssueMemo-4"
+            },
+            {
+              "label": "Scheme IssueMemo-5"
+            },
+            {
+              "label": "Vat Purchase-6"
+            },
+            {
+              "label": "Cash Receipt-7"
+            },
+            {
+              "label": "WriteOff-8"
+            },
+            {
+              "label": "Hulling Details"
+            },
+            {
+              "label": "Documents"
+            }
+          ]
+        },
+        {
+          "label": "Transfer A/c",
+          "items": [
+            { "label": "Truck-To Region-1" },
+            { "label": "Truck-From Region-2" }
+          ]
+        },
+        {
+          "label": "Purchase A/c",
+          "items": [
+            { "label": "HO Purchase" },
+            { "label": "Regional Purchase" },
+            { "label":  "RO.NO" }
+          ]
+        },
+            { "label": "Gunny-GU/GR-A/c" },
+        {
+          "label": "Sale A/c",
+          "items": [
+            { "label": "IssueMemo- 1 old" },
+            { "label": "IssueMemo- 2-New" },
+            { "label":  "Issue Abstract(Shop)-2" }
+          ]
+        },
+        {
+          "label": "Delivery Order",
+          "items": [
+            { "label": "Do all Scheme- 1" },
+            { "label": "Do Splpds- 2" },
+            { "label": "Do OAP-3" },
+            { "label": "Do Annapoorna-4" },
+            { "label": "Do Other Schemes-5" },
+            { "label": "Do Society Abstract-6" },
+            { "label": "Demand Draft with Bank Name- 7" },
+            { "label": "Do Margin Amount Details" }
+          ]
+        },
+        {
+          "label": "Quantity A/c Statement",
+          "items": [
+            { "label": "Scheme Abstract Receipt - 1" },
+            { "label": "Scheme Abstract Issues-All-2" },
+            { "label": "Scheme Abstract Receipt" },
+            { "label": "Scheme Abstract Issue-Oly Crs-3" },
+            { "label": "Scheme Abstract Issue-Oly Co-op-4" },
+            { "label": "Scheme Abstract Truck - 5" },
+            { "label": "Qty A/c Receipt/Issue Commodity-8" },
+            { "label": "Qty A/c Receipt/Issue Other-items-9" },
+            { "label": "Opening Balance Details - 10" },
+            { "label": "Opening Balance Stack Details - 11" }
+          ]
+        },
+        {
+          "label": "Quta Watch Register",
+          "items ": [
+            { "label": "Quta Watch Register Qty" },
+            { "label": "Quta Watch Register Noof Shops" },
+            { "label": "Quta Watch Register Qty Abstract" }
+          ]
+        }
+          ]
+        },
+
+    {
+      "label": "Master Details",
+      "items": [
+        { "label": "Shopr Master"}
+      ]
+    },
+    {
+      "label": "Quit"
+    },
+    {
+      "label": "About"
+    }
+  ]
+}
