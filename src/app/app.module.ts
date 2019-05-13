@@ -33,6 +33,15 @@ import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.c
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from './shared-services/restAPI.service';
 import { ChartConstants } from './constants/chartconstants';
+import { GodownDataComponent } from './masters/godown-data/godown-data.component';
+import { HullingAgenciesComponent } from './masters/hulling-agencies/hulling-agencies.component';
+import { CRSDataComponent } from './masters/crsdata/crsdata.component';
+import { RegionsDataComponent } from './masters/regions-data/regions-data.component';
+import { MRMDataComponent } from './masters/mrmdata/mrmdata.component';
+import { DepositorsComponent } from './masters/depositors/depositors.component';
+import { AADSDataComponent } from './masters/aadsdata/aadsdata.component';
+import { FCIDataComponent } from './masters/fcidata/fcidata.component';
+import { SchemesComponent } from './masters/schemes/schemes.component';
 
 
 
@@ -47,6 +56,15 @@ import { ChartConstants } from './constants/chartconstants';
     HeaderComponent,
     DailyStockStatementComponent,
     StockPurchaseComponent,
+    GodownDataComponent,
+    HullingAgenciesComponent,
+    CRSDataComponent,
+    RegionsDataComponent,
+    MRMDataComponent,
+    DepositorsComponent,
+    AADSDataComponent,
+    FCIDataComponent,
+    SchemesComponent
   ],
   imports: [
     BrowserModule,
