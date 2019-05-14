@@ -5,66 +5,66 @@
       <div class="ui-g-8 ui-g-nopad">
         <div class="ui-g-12 dashboard">
           <div id="godown" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('godown')">
-            <div class="ui-g card colorbox colorbox-goods">
-              <div class="ui-g-4 colorbox colorbox-icon-goods">
+            <div class="ui-g card colorbox colorbox-lightBlue">
+              <div class="ui-g-4 colorbox colorbox-icon-lightBlue">
                 <i class="fa fa-home fa-4x"></i>
               </div>
               <div class="ui-g-8">
                 <span class="colorbox-name">Godowns</span>
-                <span class="colorbox-count">50,000</span>
+                <span class="colorbox-count">{{godownCount}}</span>
               </div>
             </div>
           </div>
           <div id="mrm" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('mrm')">
-            <div class="ui-g card colorbox colorbox-user">
-              <div class="ui-g-4 colorbox colorbox-icon-user">
+            <div class="ui-g card colorbox colorbox-yellow">
+              <div class="ui-g-4 colorbox colorbox-icon-yellow">
                 <i class="fa fa-industry fa-4x"></i>
               </div><div class="ui-g-8">
                 <span class="colorbox-name">MRM</span>
-                <span class="colorbox-count">22,000</span>
+                <span class="colorbox-count">{{mrmCount}}</span>
               </div>
             </div>
           </div>
           <div id="aads" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('aads')">
-            <div class="ui-g card colorbox colorbox-report">
-              <div class="ui-g-4 colorbox colorbox-icon-report">
+            <div class="ui-g card colorbox colorbox-green">
+              <div class="ui-g-4 colorbox colorbox-icon-green">
                 <i class="fa fa-cubes fa-4x"></i>
               </div>
               <div class="ui-g-8">
                 <span class="colorbox-name">AADS</span>
-                <span class="colorbox-count">2,000</span>
+                <span class="colorbox-count">{{aadsCount}}</span>
               </div>
             </div>
           </div>
         </div>
         <div class="ui-g-12 dashboard">
           <div id="fci" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('fci')">
-            <div class="ui-g card colorbox colorbox-districts">
-              <div class="ui-g-4 colorbox colorbox-icon-districts">
+            <div class="ui-g card colorbox colorbox-pink">
+              <div class="ui-g-4 colorbox colorbox-icon-pink">
                 <i class="fa fa-pagelines fa-4x"></i>
               </div><div class="ui-g-8">
                 <span class="colorbox-name">FCI</span>
-                <span class="colorbox-count">33</span>
+                <span class="colorbox-count">{{fciCount}}</span>
               </div>
             </div>
           </div>
           <div id="regions" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('regions')">
-            <div class="ui-g card colorbox colorbox-beneficiaries">
-              <div class="ui-g-4 colorbox colorbox-icon-beneficiaries">
+            <div class="ui-g card colorbox colorbox-gray">
+              <div class="ui-g-4 colorbox colorbox-icon-gray">
                 <i class="fa fa-map fa-4x"></i>
               </div><div class="ui-g-8">
                 <span class="colorbox-name">Regions</span>
-                <span class="colorbox-count">52,000</span>
+                <span class="colorbox-count">{{regionCount}}</span>
               </div>
             </div>
           </div>
           <div id="crs" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('crs')">
-            <div class="ui-g card colorbox colorbox-ration-card">
-              <div class="ui-g-4 colorbox colorbox-icon-ration-card">
+            <div class="ui-g card colorbox colorbox-blue">
+              <div class="ui-g-4 colorbox colorbox-icon-blue">
                 <i class="fa fa-shopping-cart fa-4x"></i>
               </div><div class="ui-g-8">
                 <span class="colorbox-name">CRS</span>
-                <span class="colorbox-count">78,000</span>
+                <span class="colorbox-count">{{crsCount}}</span>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Hulling Agencies</span>
-                <span class="overview-detail">18,000</span>
+                <span class="overview-detail">{{hullingAgencies}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
@@ -86,7 +86,7 @@
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Depositors/Suppliers</span>
-                <span class="overview-detail">45,000</span>
+                <span class="overview-detail">{{suppliersCount}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
@@ -97,7 +97,7 @@
             <div class="ui-g card overview">
               <div class="ui-g-8 overview-content clearfix">
                 <span class="overview-title">Schemes</span>
-                <span class="overview-detail">1,000</span>
+                <span class="overview-detail">{{schemeCount}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
@@ -127,63 +127,34 @@
     </div>
   </div>
 
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="riceChartData">
-    <div class="header">
-      <h2>Rice chart</h2>
-    </div>
-    <div class="ui-g-12">
-      <div style="width: 100%">
-        <canvas baseChart
-                [chartType]="'bar'"
-                [colors]="chartColors"
-                [datasets]="riceChartData"
-                [labels]="chartLabels"
-                [options]="chartOptions"
-                [legend]="true"
-                (chartClick)="onChartClick($event)"></canvas>
-      </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div style="width: 100%">
+      <highcharts-chart [Highcharts]="Highcharts"
+                        [options]="riceData"
+                        style="width: 100%; height: 400px; display: block;"></highcharts-chart>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="dhallOilChartData">
-    <div class="header">
-      <h2>Dhall & Oil chart</h2>
-    </div>
-    <div class="ui-g-12">
-      <div style="width: 100%;">
-        <canvas baseChart
-                [chartType]="'bar'"
-                [colors]="chartColors"
-                [datasets]="dhallOilChartData"
-                [labels]="chartLabels"
-                [options]="chartOptions"
-                [legend]="true"
-                (chartClick)="onChartClick($event)"></canvas>
-      </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+
+    <div style="width: 100%;">
+      <highcharts-chart [Highcharts]="Highcharts"
+                        [options]="dhallAndOilData"
+                        style="width: 100%; height: 400px; display: block;"></highcharts-chart>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card" *ngIf="wheatSugarChartData">
-    <div class="header">
-      <h2>Wheat & Sugar chart</h2>
-    </div>
-    <div class="ui-g-12">
-      <div style="width: 100%;">
-        <canvas baseChart
-                [chartType]="'line'"
-                [colors]="chartColors"
-                [datasets]="wheatSugarChartData"
-                [labels]="chartLabels"
-                [options]="chartOptions"
-                [legend]="true"
-                (chartClick)="onChartClick($event)"></canvas>
-      </div>
+  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+    <div style="width: 100%;">
+      <highcharts-chart [Highcharts]="Highcharts"
+                        [options]="wheatAndSugarData"
+                        style="width: 100%; height: 400px; display: block;"></highcharts-chart>
     </div>
   </div>
   <div class="ui-g-12 ui-g-6 ui-lg-12 card">
     <div class="ui-g">
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-6 ui-lg-4">
-          <div class="ui-g card colorbox colorbox-goods">
-            <div class="ui-g-4 colorbox colorbox-icon-goods">
+          <div class="ui-g card colorbox colorbox-blue">
+            <div class="ui-g-4 colorbox colorbox-icon-blue">
               <i class="fa fa-map fa-4x"></i>
             </div>
             <div class="ui-g-8">
@@ -193,8 +164,8 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-4">
-          <div class="ui-g card colorbox colorbox-report">
-            <div class="ui-g-4 colorbox colorbox-icon-report">
+          <div class="ui-g card colorbox colorbox-green">
+            <div class="ui-g-4 colorbox colorbox-icon-green">
               <i class="fa fa-address-card-o fa-4x"></i>
             </div>
             <div class="ui-g-8">
@@ -204,8 +175,8 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6 ui-lg-4">
-          <div class="ui-g card colorbox colorbox-user">
-            <div class="ui-g-4 colorbox colorbox-icon-user">
+          <div class="ui-g card colorbox colorbox-gray">
+            <div class="ui-g-4 colorbox colorbox-icon-gray">
               <i class="fa fa-users fa-4x"></i>
             </div>
             <div class="ui-g-8">

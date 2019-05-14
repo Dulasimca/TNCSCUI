@@ -7,6 +7,8 @@ import { HttpParams } from '@angular/common/http';
 import { ChartConstants } from '../constants/chartconstants';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
+import * as Highcharts from 'highcharts';
+
 
 @Component({
   selector: 'app-home',
@@ -16,93 +18,22 @@ import { PathConstants } from '../constants/path.constants';
 export class HomeComponent implements OnInit {
   date: any;
   notifications: any;
-  riceChartData: any;
-  dhallOilChartData: any;
-  wheatSugarChartData: any;
+  errMessage: string;
+  godownCount: any;
+  mrmCount: any;
+  aadsCount: any;
+  fciCount: any;
+  regionCount: any;
+  crsCount: any;
+  hullingAgencies: any;
+  suppliersCount: any;
+  schemeCount: any;
+  Highcharts = Highcharts;
+  options: any;
+  riceData: any;
+  dhallAndOilData: any;
+  wheatAndSugarData: any;
   chartLabels: any[];
-  chartOptions = {
-    responsive: true,
-    scaleShowValues: true,
-    scaleShowVerticalLines: true,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          display: false
-        },
-        stacked: true,
-        stackLabels: {
-          enabled: true
-        }
-      }],
-      yAxes: [{
-        gridLines: {
-          display: false
-        },
-        stacked: true,
-      }],
-    },
-    animation: {
-      onComplete: function () {
-        const chartInstance = this.chart,
-          ctx = chartInstance.ctx;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillStyle = "Black";
-        this.data.datasets.forEach(function (dataset, i) {
-          const meta = chartInstance.controller.getDatasetMeta(i);
-          meta.data.forEach(function (bar, index) {
-            const data = dataset.data[index];
-            ctx.fillText(data, bar._model.x, bar._model.y + 8);
-            var total = 0;
-            for (var i = 0; i < data.length; i++)
-              total += data[i].data[index];
-          });
-        });
-
-      }
-    },
-    hover: {
-      animationDuration: 0
-    },
-  };
-
-  onChartClick(event) {
-    console.log(event);
-  }
-  public chartColors: Array<any> = [
-    { // first color
-      backgroundColor: '#00ff00',
-      borderColor: '#55ff00',
-      pointBackgroundColor: 'rgba(225,10,24,0.2)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
-    },
-    { // second color
-      backgroundColor: '#00cc00',
-      borderColor: '#008000',
-      pointBackgroundColor: 'rgba(225,10,24,0.2)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
-    },
-    { // third color
-      backgroundColor: '#ffff1a',
-      borderColor: '#e6e600',
-      pointBackgroundColor: 'rgba(225,10,24,0.2)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
-    },
-    { // fourth color
-      backgroundColor: '#ffcc00',
-      borderColor: '#e69900',
-      pointBackgroundColor: 'rgba(225,10,24,0.2)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
-    }];
-
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants,
     private router: Router) {
 
@@ -113,27 +44,142 @@ export class HomeComponent implements OnInit {
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
     this.chartLabels = this.chartConstants.districtNames;
-    this.restApiService.get(PathConstants.NOTIFICATIONS).subscribe(data => this.notifications = data);
-    this.restApiService.get(PathConstants.AADS).subscribe(data => data);
+    this.restApiService.get(PathConstants.DASHBOARD).subscribe(res => {
+      if (res !== undefined) {
+      this.godownCount = res[0];
+      this.mrmCount = res[1];
+      this.aadsCount = res[2];
+      this.fciCount = res[3];
+      this.regionCount = res[4];
+      this.crsCount = res[5];
+      this.hullingAgencies = res[6];
+      this.suppliersCount = res[7];
+      this.schemeCount = res[8];
+      this.notifications = res[9];
+      } else {
+        this.errMessage = 'Record not found';
+      }
+    })
+    this.restApiService.get(PathConstants.REGION).subscribe(data => data);
     this.restApiService.getByParameters(PathConstants.CHART, params).subscribe((response: any[]) => {
       if (response !== undefined) {
-        this.riceChartData = [{ data: response[2], label: 'BOILED COMMON', stack: 4 },
-        { data: response[3], label: 'BOILED GRADEA', stack: 4 },
-        { data: response[4], label: 'RAW COMMON', stack: 4 },
-        { data: response[5], label: 'RAW GRADEA', stack: 4 }];
-        this.dhallOilChartData = [
-          { data: response[6], label: 'DHALL', stack: 4 },
-          { data: response[7], label: 'PAMOLIEN OIL', stack: 4 },
-          { data: response[8], label: 'PAMOLIEN POUCH', stack: 4 },
-
-        ];
-        this.wheatSugarChartData = [
-          { data: response[9], fill: false, label: 'WHEAT', stack: 4 },
-          { data: response[10], fill: false, label: 'SUGAR', stack: 4 }
-
-        ];
+        this.riceData = {
+          title: {
+            text: 'Rice chart'
+          },
+            series: [{ data: response[2], name: 'BOILED COMMON', color: '#00ff00' },
+            { data: response[3], name: 'BOILED GRADEA', color: '#00cc00' },
+            { data: response[4], name: 'RAW COMMON', color:'#ffff1a' },
+              { data: response[5], name: 'RAW GRADEA', color: '#ffcc00' }],
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  enabled: true
+                }
+              },
+              series: {
+                stacking: 'normal',
+                pointWidth: '25',
+                pointPadding: 0,
+                borderWidth: 0
+              }
+            },
+            chart: {
+              type: "column"
+            },
+            credits: {
+              enabled: false
+            },
+            xAxis: {
+              categories: this.chartLabels
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: 'Total Quantity (thousands)',
+                align: 'high'
+              },
+              stackLabels: {
+                enabled: true,
+                style: {
+                  overflow: 'justify'
+                }
+              }
+            },
+        };
+        this.dhallAndOilData = {
+          title: {
+            text: 'Dhall & Oil chart'
+          },
+          series: [{ data: response[6], name: 'DHALL', color: '#00ff00' },
+            { data: response[7], name: 'PAMOLIEN OIL', color: '#00cc00' },
+            { data: response[8], name: 'PAMOLIEN POUCH', color: '#ffff1a' }],
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                enabled: true
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
+            }
+          },
+          chart: {
+            type: "column"
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            categories: this.chartLabels
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Quantity (thousands)',
+              align: 'high'
+            },
+            stackLabels: {
+              enabled: true,
+              style: {
+                overflow: 'justify'
+              }
+            }
+          },
+        };
+        this.wheatAndSugarData = {
+          title: {
+            text: 'Wheat & Sugar chart'
+          },
+          series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
+          { data: response[10], name: 'SUGAR', color: '#ffff1a' }],
+          plotOptions: {
+            line: {
+              dataLabels: {
+                enabled: true
+              },
+              enableMouseTracking: false
+            }
+          },
+          chart: {
+            type: "line"
+          },
+          xAxis: {
+            categories: this.chartLabels
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Quantity (thousands)',
+              align: 'high'
+            },
+          },
+        };
       }
-    });
+      });
   }
 
   onGridClicked(param) {

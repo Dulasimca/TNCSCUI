@@ -26,7 +26,6 @@ body {
 .content {
   flex: 1 0 auto;
   position: relative;
-  min-height: 100%
 }
 
 .footer {
@@ -213,28 +212,28 @@ body {
     background-color: #009933 !important;
   }
 
-  .dashboard .colorbox.colorbox-goods {
-    background-color: #4CAF50;
+  .dashboard .colorbox.colorbox-lightBlue {
+    background-color: #337ab7;
   }
 
-  .dashboard .colorbox.colorbox-user {
-    background-color: #03A9F4;
+  .dashboard .colorbox.colorbox-yellow {
+    background-color: #f8cb00;
   }
 
-  .dashboard .colorbox.colorbox-report {
-    background-color: #ebf442;
+  .dashboard .colorbox.colorbox-green {
+    background-color: #4dbd74;
   }
 
-  .dashboard .colorbox.colorbox-warehouses {
-    background-color: #d8203c;
+  .dashboard .colorbox.colorbox-pink {
+    background-color: #f86c6b;
   }
 
-  .dashboard .colorbox.colorbox-districts {
-    background-color: #cc0066;
+  .dashboard .colorbox.colorbox-gray {
+    background-color: #a4b7c1;
   }
 
-  .dashboard .colorbox.colorbox-beneficiaries {
-    background-color: #8cff1a;
+  .dashboard .colorbox.colorbox-blue {
+    background-color: #63c2de;
   }
 
   .dashboard .colorbox.colorbox-ration-card {
@@ -246,29 +245,29 @@ body {
   }
 
 
-  .dashboard .colorbox.colorbox-icon-user {
-    background-color: #266ae0;
+  .dashboard .colorbox.colorbox-icon-yellow {
+    background-color: #ffd800;
     display: inline-block;
   }
 
-  .dashboard .colorbox.colorbox-icon-goods {
-    background-color: #09770b;
+  .dashboard .colorbox.colorbox-icon-lightBlue {
+    background-color: #3366cc;
   }
 
-  .dashboard .colorbox.colorbox-icon-report {
-    background-color: #eab107;
+  .dashboard .colorbox.colorbox-icon-green {
+    background-color: #20c997;
   }
 
-  .dashboard .colorbox.colorbox-icon-warehouses {
-    background-color: #a00808;
+  .dashboard .colorbox.colorbox-icon-pink {
+    background-color: #e83e8c;
   }
 
-  .dashboard .colorbox.colorbox-icon-districts {
-    background-color: #800040;
+  .dashboard .colorbox.colorbox-icon-gray {
+    background-color: #678898;
   }
 
-  .dashboard .colorbox.colorbox-icon-beneficiaries {
-    background-color: #59b300;
+  .dashboard .colorbox.colorbox-icon-blue {
+    background-color: #20a8d8;
   }
 
   .dashboard .colorbox.colorbox-icon-ration-card {
@@ -289,6 +288,8 @@ body {
 
   .dashboard .colorbox .colorbox-count {
     font-weight: bold;
+    font-size: 24px;
+    color: white;
   }
 
 .inline-padding {

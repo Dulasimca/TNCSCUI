@@ -5,8 +5,6 @@ import { DataTableModule, SharedModule, ButtonModule, MenubarModule, DropdownMod
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
-import { ChartsModule } from 'ng2-charts';
-import { ChartModule } from 'primeng/chart';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -15,6 +13,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -74,7 +74,6 @@ import { PathConstants } from './constants/path.constants';
     HttpClientModule,
     ConfirmDialogModule,
     FormsModule,
-    ChartModule,
     TableModule,
     OverlayPanelModule,
     AppRoutingModule,
@@ -87,7 +86,7 @@ import { PathConstants } from './constants/path.constants';
     ButtonModule,
     CalendarModule,
     CardModule,
-    ChartsModule,
+    HighchartsChartModule,
     PanelModule,
     TreeTableModule
 
