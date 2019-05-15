@@ -43,6 +43,7 @@ import { AADSDataComponent } from './masters/aadsdata/aadsdata.component';
 import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { PathConstants } from './constants/path.constants';
+import { LoginService } from './login/login.service';
 
 
 
@@ -91,7 +92,8 @@ import { PathConstants } from './constants/path.constants';
     TreeTableModule
 
   ],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants, ChartConstants, DatePipe, RestAPIService, PathConstants],
+  providers: [MenuService, AuthService, ConfirmationService, TableConstants,
+    ChartConstants, DatePipe, RestAPIService, PathConstants, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

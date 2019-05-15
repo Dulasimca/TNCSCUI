@@ -73,9 +73,9 @@
         <div class="ui-g-12 dashboard">
           <div id="hullingAgencies" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('hullingAgencies')">
             <div class="ui-g card overview">
-              <div class="ui-g-8 overview-content clearfix">
-                <span class="overview-title">Hulling Agencies</span>
-                <span class="overview-detail">{{hullingAgencies}}</span>
+              <div class="ui-g-10 overview-content clearfix">
+                <span class="ui-g-6 overview-title">Hulling Agencies</span>
+                <span class="ui-g-4 overview-detail">{{hullingAgencies}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
@@ -84,9 +84,9 @@
           </div>
           <div id="depositors" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('depositors')">
             <div class="ui-g card overview">
-              <div class="ui-g-8 overview-content clearfix">
-                <span class="overview-title">Depositors/Suppliers</span>
-                <span class="overview-detail">{{suppliersCount}}</span>
+              <div class="ui-g-10 overview-content clearfix">
+                <span class="ui-g-6 overview-title">Depositors/ Suppliers</span>
+                <span class="ui-g-4 overview-detail">{{suppliersCount}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
@@ -95,9 +95,9 @@
           </div>
           <div id="schemes" class="ui-g-12 ui-md-6 ui-lg-4" (click)="onGridClicked('schemes')">
             <div class="ui-g card overview">
-              <div class="ui-g-8 overview-content clearfix">
-                <span class="overview-title">Schemes</span>
-                <span class="overview-detail">{{schemeCount}}</span>
+              <div class="ui-g-10 overview-content clearfix">
+                <span class="ui-g-6 overview-title">Schemes</span>
+                <span class="ui-g-4 overview-detail">{{schemeCount}}</span>
               </div>
               <div class="overview-footer">
                 <img src="../../assets/layout/images/dashboard/progress.svg" style="width: 100%">
@@ -114,9 +114,9 @@
                 <span>Notifications</span>
               </div>
               <div class="ui-g-12" style="max-height: 320px !important">
-                <marquee class="ui-g-12 " scrollamount="1" scrolldelay="10" direction="down" width="200" height="320" onmouseover="this.stop()" onmouseout="this.start()">
-                  <ul style="margin-top: 25px">
-                    {{notifications}}
+                <marquee class="ui-g-12 " scrollamount="1" scrolldelay="10" direction="up" width="200" height="320" onmouseover="this.stop()" onmouseout="this.start()">
+                  <ul>
+                   <li *ngFor="let list of notifications"> {{list}}</li>
                   </ul>
                 </marquee>
               </div>

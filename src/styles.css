@@ -35,7 +35,7 @@ body {
   bottom: 0;
   vertical-align: bottom;
   text-align: center !important;
-  background-color: #3c8dbc !important;
+  /* background-color: #3c8dbc !important; */
 }
 
   .footer:before {
@@ -43,11 +43,11 @@ body {
     display: block;
     height: 120px;
     min-height: 120px;
-    background-color: #0073e6 !important;
+    /* background-color: #0073e6 !important; */
   }
 
 .main-header {
-  background-color: #3c8dbc !important;
+  /* background-color: #3c8dbc !important; */
   display: inline-block !important;
   text-align: center !important;
   padding: 0px !important;
@@ -180,8 +180,10 @@ body {
 
     .dashboard .overview .overview-content .overview-detail {
       display: block;
-      font-size: 24px;
+      font-size: 38px;
+      font-weight: bold;
       margin-top: 5px;
+      float: right;
     }
 
     .dashboard .overview .overview-content .overview-link {
@@ -191,7 +193,7 @@ body {
     }
 
     .dashboard .overview .overview-content .overview-title {
-      font-size: 18px;
+      font-size: 22px;
       text-align: center;
     }
 
@@ -209,15 +211,15 @@ body {
 }
 
   .dashboard .colorbox.colorbox-notifications-header {
-    background-color: #009933 !important;
+    background-color: #82CDC0 !important;
   }
 
   .dashboard .colorbox.colorbox-lightBlue {
-    background-color: #337ab7;
+    background-color: #9FDBDB;
   }
 
   .dashboard .colorbox.colorbox-yellow {
-    background-color: #f8cb00;
+    background-color: #FFC264;
   }
 
   .dashboard .colorbox.colorbox-green {
@@ -225,7 +227,7 @@ body {
   }
 
   .dashboard .colorbox.colorbox-pink {
-    background-color: #f86c6b;
+    background-color: #F89E89;
   }
 
   .dashboard .colorbox.colorbox-gray {
@@ -246,12 +248,12 @@ body {
 
 
   .dashboard .colorbox.colorbox-icon-yellow {
-    background-color: #ffd800;
+    background-color: #FFA824;
     display: inline-block;
   }
 
   .dashboard .colorbox.colorbox-icon-lightBlue {
-    background-color: #3366cc;
+    background-color: #79CDCD;
   }
 
   .dashboard .colorbox.colorbox-icon-green {
@@ -259,7 +261,7 @@ body {
   }
 
   .dashboard .colorbox.colorbox-icon-pink {
-    background-color: #e83e8c;
+    background-color: #F5785A;
   }
 
   .dashboard .colorbox.colorbox-icon-gray {
@@ -304,3 +306,17 @@ body {
   font-size: 16px;
   font: bold;
 }
+
+ul
+	{
+    list-style-type: square;
+
+	}
+	li
+	{
+    padding:10px;
+    
+  }
+
+  /* li:nth-child(odd) { background: lightgray; }
+  li:nth-child(even) { background: lightgray; } */
