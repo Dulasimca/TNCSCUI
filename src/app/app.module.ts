@@ -44,6 +44,7 @@ import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { PathConstants } from './constants/path.constants';
 import { LoginService } from './login/login.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
@@ -66,7 +67,8 @@ import { LoginService } from './login/login.service';
     DepositorsComponent,
     AADSDataComponent,
     FCIDataComponent,
-    SchemesComponent
+    SchemesComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

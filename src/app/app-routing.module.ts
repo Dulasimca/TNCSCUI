@@ -13,15 +13,16 @@ import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { RegionsDataComponent } from './masters/regions-data/regions-data.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { DepositorsComponent } from './masters/depositors/depositors.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
-    path: 'home', component: HomeComponent
+    path: 'Home', component: HomeComponent
   },
   { path: 'login', component: LoginComponent },
-  { path: 'dailyStockStatement', component: DailyStockStatementComponent, canActivate: [AuthGuard] },
+  { path: 'Daily Stock Statement', component: DailyStockStatementComponent, canActivate: [AuthGuard] },
   { path: 'godownData', component: GodownDataComponent, canActivate: [AuthGuard] },
   { path: 'crsData', component: CRSDataComponent, canActivate: [AuthGuard] },
   { path: 'mrmData', component: MRMDataComponent, canActivate: [AuthGuard] },
@@ -30,7 +31,8 @@ const routes: Routes = [
   { path: 'fciData', component: FCIDataComponent, canActivate: [AuthGuard] },
   { path: 'regions', component: RegionsDataComponent, canActivate: [AuthGuard] },
   { path: 'schemes', component: SchemesComponent, canActivate: [AuthGuard] },
-  { path: 'depositors', component: DepositorsComponent, canActivate: [AuthGuard] }
+  { path: 'depositors', component: DepositorsComponent, canActivate: [AuthGuard] },
+  { path: '**', component: PageNotFoundComponent }
   
 ];
 
