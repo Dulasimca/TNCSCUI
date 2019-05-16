@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class LoginService {
 roleID: number;
+showMenu: boolean;
   constructor() {
   }
 setValue(value) {
@@ -13,5 +14,12 @@ setValue(value) {
 
 getValue(){
     return this.roleID;
+}
+
+isValid(value){
+  this.showMenu = value;
+}
+canShow() {
+  return this.showMenu;
 }
 }

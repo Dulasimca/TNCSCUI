@@ -8,6 +8,7 @@ import { ChartConstants } from '../constants/chartconstants';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
+import { LoginService } from '../login/login.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ import * as Highcharts from 'highcharts';
 })
 export class HomeComponent implements OnInit {
   date: any;
+  canShowMenu: boolean;
   notifications: any;
   errMessage: string;
   godownCount: any;
@@ -35,11 +37,12 @@ export class HomeComponent implements OnInit {
   wheatAndSugarData: any;
   chartLabels: any[];
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants,
-    private router: Router) {
+    private router: Router, private loginService: LoginService) {
 
   }
 
   ngOnInit() {
+    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
     const date = new Date();
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -106,6 +109,17 @@ export class HomeComponent implements OnInit {
                 }
               }
             },
+            legend: {
+              align: 'right',
+              x: -30,
+              verticalAlign: 'top',
+              y: 5,
+              floating: true,
+              // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+              borderColor: '#CCC',
+              borderWidth: 1,
+              shadow: false
+          },
         };
         this.dhallAndOilData = {
           title: {
@@ -142,6 +156,7 @@ export class HomeComponent implements OnInit {
               text: 'Total Quantity (thousands)',
               align: 'high'
             },
+           
             stackLabels: {
               enabled: true,
               style: {
@@ -149,6 +164,17 @@ export class HomeComponent implements OnInit {
               }
             }
           },
+          legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 5,
+            floating: true,
+            // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
         };
         this.wheatAndSugarData = {
           title: {
@@ -176,7 +202,27 @@ export class HomeComponent implements OnInit {
               text: 'Total Quantity (thousands)',
               align: 'high'
             },
+            stackLabels: {
+              enabled: true,
+              style: {
+                overflow: 'justify'
+              }
           },
+          },
+          legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 5,
+            floating: true,
+            // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+          credits: {
+            enabled: false
+        },
         };
       }
       });

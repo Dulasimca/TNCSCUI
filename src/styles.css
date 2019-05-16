@@ -14,31 +14,36 @@
   padding: 0px !important;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
   display: flex;
   flex-direction: column;
+  margin: 20px;
 }
 
 .content {
-  flex: 1 0 auto;
-  position: relative;
+  /* flex: 1 0 auto;
+  position: relative; */
+  display: flex;
+  flex-direction: column;
+  margin: 0px 25px 0px 25px;
 }
 
 .footer {
-  clear: both;
+  /* clear: both;
   position: relative;
-  height: 40px;
   bottom: 0;
   vertical-align: bottom;
+  text-align: center !important; */
+  /* margin-top: auto; */
+  left: 0;
+  bottom: 0;
   text-align: center !important;
+  /* margin-top: 50%; */
   /* background-color: #3c8dbc !important; */
 }
 
-  .footer:before {
+  .footer:host-context() {
+    position: fixed;
     clear: both;
     display: block;
     height: 120px;
@@ -47,7 +52,7 @@ body {
   }
 
 .main-header {
-  /* background-color: #3c8dbc !important; */
+ background-color: #ffffff	 !important;
   display: inline-block !important;
   text-align: center !important;
   padding: 0px !important;
@@ -56,27 +61,105 @@ body {
 }
 
   .main-header .h1 {
-    padding: 5px !important;
+    padding:  5px 5px 2px 5px !important;
   }
 
   .main-header .h3 {
-    padding: 5px !important;
+    padding: 5px 5px 2px 5px !important;
   }
 
 .content {
   display: inline-block;
 }
+img {
+  max-width: 100%;
+}
 
+.slidecontainer {
+  height:100%;
+  overflow: hidden;
+}
+
+.img-container {
+  position: absolute;
+  opacity: 0;
+  height: auto !important;
+  background-size: cover;
+  background-position: center;
+  will-change: opacity;
+  transition: opacity .3s;
+  cursor: pointer;
+}
+.slide-button:hover, .slide-button-select {
+  width: 64px !important;
+  background-color: rgba(255,255,255,1) !important;
+  pointer-events: none;
+  transition: background-color .4s, width 4s cubic-bezier(0.190, 1.000, 0.220, 1.000) !important;
+}
+
+
+.slide-button {
+  width: 30px;
+  height: 4px;
+  background-color: rgba(255,255,255,.5);
+  cursor: pointer;
+  position: absolute;
+
+}
+
+.slider {
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  opacity: 1;
+  min-width: 30px;
+
+}
+
+.slide-button-parent-container {
+  position: relative;
+  margin: 22px 0;
+  min-height: 4px;
+}
+
+.select-box {
+  min-height: 10px;
+}
+
+.text-container {
+
+  height: 100vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.page-text {
+  min-height: 373px;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  font-weight: 300;
+  font-size: 90px;
+  color: white;
+}
+
+.selected {
+  opacity: 1;
+  transition: 1s;
+}
 .login-icon-user {
   color: darkslateblue !important;
 }
 
 .login-panel {
   text-align: center;
-  width: 300px;
+  width: 350px;
   min-height: 440px;
   padding: 50px 20px 20px 0px;
-  margin: 75px auto 0 auto;
+  border-color: -moz-linear-gradient(top, #555555, #111111);
+  /* margin: 75px auto 0 auto; */
   display: block;
   position: relative;
 }
@@ -84,7 +167,7 @@ body {
 .login-header {
   position: absolute;
   top: 0;
-  background-color: #3366cc !important;
+  background-color: #D0CFCF !important;
   font-size: 20px;
 }
 
@@ -162,6 +245,14 @@ body {
   border-collapse: separate;
 }
 
+.no-padding {
+  padding: .2em !important;
+}
+
+.dashboard{
+  padding: 0px;
+}
+
 .dashboard .overview {
   padding: 0 !important;
   min-height: 140px;
@@ -212,6 +303,12 @@ body {
 
   .dashboard .colorbox.colorbox-notifications-header {
     background-color: #82CDC0 !important;
+    min-height: 50px;
+    align-content: center;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+    padding: 10px;
   }
 
   .dashboard .colorbox.colorbox-lightBlue {
@@ -245,7 +342,6 @@ body {
   .dashboard .colorbox.colorbox-areas {
     background-color: #85adad;
   }
-
 
   .dashboard .colorbox.colorbox-icon-yellow {
     background-color: #FFA824;
@@ -317,6 +413,11 @@ ul
     padding:10px;
     
   }
+
+  .ui-datatable .ui-datatable-data tr.ui-datatable-odd.ui-state-highlight {
+    background-color: #D0CFCF	;
+    color: #ffffff;
+    border-color: #709bc0;}
 
   /* li:nth-child(odd) { background: lightgray; }
   li:nth-child(even) { background: lightgray; } */
