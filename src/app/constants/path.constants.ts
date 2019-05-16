@@ -10,7 +10,7 @@ export class PathConstants {
   public static readonly FCI = '/api/FCI';
   public static readonly REGION = '/api/Region';
   public static readonly SCHEMES = '/api/Scheme';
-  public static readonly DEOPOSITOR = '/api/Suppliers';
+  public static readonly DEPOSITOR = '/api/Suppliers';
   public static readonly MENU = '/api/Menu/Get';
   public static readonly LOGIN = '/api/Users/Get';
 }

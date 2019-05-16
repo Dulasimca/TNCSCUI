@@ -1,3 +1,41 @@
-<p>
-  fcidata works!
-</p>
+<app-menu></app-menu>
+<div class="center-div ui-g-12 ui-md-12 ui-lg-12 card content">
+  <p-panel>
+      <p-header>
+            <div align="center">
+          <div class="panel-header"> FCI DATA</div>
+        </div>
+        </p-header>
+        
+        <p-table [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" >
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <div class="centerContent">
+            <ng-template pTemplate="body" let-columns="columns" let-response>
+                  <tr>
+                      <td *ngFor="let col of columns" style="width:30px">
+                            <div align="center">
+                                 {{response[col.SlNo]}}
+                      </div>
+                                </td>
+                  </tr>
+              </ng-template>
+            <ng-template pTemplate="body" let-columns="columns" let-response>
+                <tr>
+                    <td *ngFor="let col of columns">
+                            <div align="center">
+                          {{response[col.field]}}
+                          </div>
+                    </td>
+                </tr>
+            </ng-template>
+            </div>
+        </p-table>
+
+    </p-panel>
+  </div>
