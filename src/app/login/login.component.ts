@@ -15,8 +15,6 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  submitted: boolean;
-  isViewLogin = false;
   roleId: number;
   openPanel: boolean;
   userName: string;
@@ -25,7 +23,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
     private restApiService: RestAPIService, private loginService: LoginService) {
-    this.isViewLogin = true;
 
   }
 
@@ -41,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn() {
-    this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }
@@ -51,9 +47,10 @@ export class LoginComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
       if (credentials !== undefined) {
       if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
-        this.router.navigate(['home']);
+        this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);
+        this.loginService.isValid(true);
       } else {
         this.clearFields();
         console.log('invalid user');
