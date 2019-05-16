@@ -44,8 +44,8 @@ import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { PathConstants } from './constants/path.constants';
 import { LoginService } from './login/login.service';
+import { NotificationsComponent } from './masters/notifications/notifications.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
 
 
 
@@ -68,6 +68,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AADSDataComponent,
     FCIDataComponent,
     SchemesComponent,
+    NotificationsComponent,
     PageNotFoundComponent
   ],
   imports: [
