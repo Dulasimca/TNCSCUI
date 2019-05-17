@@ -1,12 +1,13 @@
 <app-menu></app-menu>
-<div class="center-div ui-g-12 ui-md-12 ui-lg-12 card content">
+<div class="ui-g-12 ui-md-12 ui-lg-12">
   <p-panel>
       <p-header>
-            <div align="center">
-          <div class="panel-header"> FCI DATA</div>
-        </div>
+          <div class="panel-header">FCI DATA</div>
+          <div align="right">
+            <p-splitButton label="Export" icon="pi pi-download" (onClick)="exportAsXLSX()" [model]="items" styleClass="ui-button-danger"></p-splitButton>
+           </div>
         </p-header>
-        
+        <div style="margin-right: 300px; margin-left: 300px;">
         <p-table [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -15,27 +16,21 @@
                     </th>
                 </tr>
             </ng-template>
-            <div class="centerContent">
-            <ng-template pTemplate="body" let-columns="columns" let-response>
+               <ng-template pTemplate="body" let-columns="columns" let-response>
                   <tr>
-                      <td *ngFor="let col of columns" style="width:30px">
-                            <div align="center">
+                    <td *ngFor="let col of columns" style="width:30px">
                                  {{response[col.SlNo]}}
-                      </div>
-                                </td>
+                    </td>
                   </tr>
               </ng-template>
             <ng-template pTemplate="body" let-columns="columns" let-response>
                 <tr>
                     <td *ngFor="let col of columns">
-                            <div align="center">
                           {{response[col.field]}}
-                          </div>
                     </td>
                 </tr>
             </ng-template>
-            </div>
         </p-table>
-
+    </div>
     </p-panel>
   </div>

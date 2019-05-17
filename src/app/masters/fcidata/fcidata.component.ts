@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-fcidata',
@@ -13,21 +14,40 @@ export class FCIDataComponent implements OnInit {
   data: any;
   column?: any;
   errMessage: string;
+  items: any;
   
-    constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants) { }
+    constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
     ngOnInit() {
       this.column = this.tableConstants.FciData;
       this.restApiService.get(PathConstants.FCI).subscribe((response: any[]) => {
-        if (response !== undefined){
+        if(response!==undefined){
           this.data = response;
-        } else{
-          this.errMessage = 'Record Not Found';
+        }else 
+        {
+          return this.errMessage;
         }
-         console.log('res', this.data);
+          this.items = [
+            {
+              label: 'Excel', icon: 'fa fa-table', command: () => {
+                this.exportAsXLSX();
+            }},
+            {
+              label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+               this.exportAsPDF();
+              }
+            
+                 
+            }]
+         //console.log('res', this.data);
         
       });
         
-    
-  }
+    }
+    exportAsXLSX():void{
+      this.excelService.exportAsExcelFile(this.data,'FCI DATA');
+    }
+    exportAsPDF(){
+
+    }
 }

@@ -4,6 +4,7 @@ import { TreeNode } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 
 @Component({
@@ -14,10 +15,12 @@ import { PathConstants } from 'src/app/constants/path.constants';
 export class GodownDataComponent implements OnInit {
   data?: any = [];
   column: any;
+  items: any;
 
-  constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants) { }
+  constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
+    // this.canShowMenu = this.log
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
       let treeData = [];
@@ -46,7 +49,25 @@ export class GodownDataComponent implements OnInit {
         regionData = [];
       });
       this.data = treeData;
+      
+      this.items = [
+        {
+          label: 'Excel', icon: 'fa fa-table', command: () => {
+            this.exportAsXLSX();
+        }},
+        {
+          label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+           this.exportAsPDF();
+          }
+        
+             
+        }]
     });
   }
+  exportAsXLSX():void{
+    this.excelService.exportAsExcelFile(this.data,'CRS DATA');
+  }
+  exportAsPDF(){
 
+  }
 }

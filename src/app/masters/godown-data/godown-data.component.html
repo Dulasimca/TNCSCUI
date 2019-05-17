@@ -2,7 +2,11 @@
   <p-panel class="content">
     <p-header>
       <div class="panel-header">Godown Master</div>
+      <div align="right">
+        <p-splitButton label="Export" icon="pi pi-download" (onClick)="exportAsXLSX()" [model]="items" styleClass="ui-button-danger"></p-splitButton>
+       </div>
     </p-header>
+    <div style="margin-right: 300px; margin-left: 300px;">
       <p-treeTable [value]="data" [columns]="column">
         <ng-template pTemplate="header" let-columns>
           <th *ngFor="let col of columns">
@@ -18,5 +22,6 @@
           </tr>
         </ng-template>
       </p-treeTable>
+      </div>
   </p-panel>
 
