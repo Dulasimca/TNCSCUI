@@ -28,9 +28,9 @@ export class TableConstants {
 
     ]
     this.GodownMasterData = [
-      { "field": 'RGNAME', "header": 'Region Name' },
-      { "field": 'TNCSCapacity', "header": 'Capacity' },
-      { "field": 'TNCSCarpet', "header": 'Carpet' }
+      { "field": 'Name', "header": 'Region Name' },
+      { "field": 'Capacity', "header": 'Capacity' },
+      { "field": 'Carpet', "header": 'Carpet' }
     ]
     this.CrsData = [
       { "field": 'SlNo', "header": 'SlNo' },

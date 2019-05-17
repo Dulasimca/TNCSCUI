@@ -12,9 +12,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./godown-data.component.css']
 })
 export class GodownDataComponent implements OnInit {
-  tableData?: any;
   data?: any = [];
-  children?: TreeNode[];
   column: any;
 
   constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants) { }
@@ -22,32 +20,32 @@ export class GodownDataComponent implements OnInit {
   ngOnInit() {
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
+      let treeData = [];
+      let childNode: TreeNode;
+      let regionData = [];
       response.forEach(x => {
-        this.data.push(Object.assign({},
+        let list = x.list;
+        for (let i = 0; i < list.length; i++) {
+          childNode = { 'data': {
+            'Name': list[i].Name,
+            'Capacity': list[i].Capacity,
+            'Carpet': list[i].Carpet
+          }}
+          regionData.push(childNode);
+        }
+        treeData.push(Object.assign({},
           {
             "data": {
-              "RGNAME": x.RGNAME,
-              "TNCSCapacity": x.TNCSCapacity,
-              "TNCSCarpet": x.TNCSCarpet
+              "Name": x.Name,
+              "Capacity": x.Capacity,
+              "Carpet": x.Carpet
             },
-            "children": [
-              {
-                "data": {
-                  "RGNAME": x.TNCSName,
-                  "TNCSCapacity": x.TNCSRegn,
-                  "TNCSCarpet": x.TNCSCode
-                }
-              },
-              {
-                "data": {
-                  "RGNAME": x.TNCSName,
-                  "TNCSCapacity": x.TNCSRegn,
-                  "TNCSCarpet": x.TNCSCode
-                }
-              }]
+            "children": regionData
           },
         ));
+        regionData = [];
       });
+      this.data = treeData;
     });
   }
 

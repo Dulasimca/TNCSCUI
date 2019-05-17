@@ -1,6 +1,5 @@
 <p-menubar [model]="items">
   <div>
     <button pButton *ngIf="isLoggedIn" label="Logout" icon="fa fa-sign-out" (click)="onLogout()"></button>
-    <button pButton *ngIf="!isLoggedIn" label="Login" (click)="onLogin()"></button>
   </div>
 </p-menubar>

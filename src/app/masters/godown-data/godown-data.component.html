@@ -1,6 +1,5 @@
-<app-menu></app-menu>
-<div class="ui-g-12 ui-md-12 ui-lg-12 card content">
-  <p-panel>
+<app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel class="content">
     <p-header>
       <div class="panel-header">Godown Master</div>
     </p-header>
@@ -21,4 +20,3 @@
       </p-treeTable>
   </p-panel>
 
-</div>

@@ -17,8 +17,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', component: HomeComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'Home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'Daily Stock Statement', component: DailyStockStatementComponent, canActivate: [AuthGuard] },
   { path: 'godownData', component: GodownDataComponent, canActivate: [AuthGuard] },

@@ -27,6 +27,8 @@
     "highcharts": "^7.1.1",
     "highcharts-angular": "^2.4.0",
     "ng2-charts": "^2.2.3",
+    "ngx": "^2.4.0",
+    "ngx-bootstrap": "^4.1.1",
     "primeflex": "^1.0.0-rc.1",
     "primeicons": "^1.0.0",
     "primeng": "^7.1.2",

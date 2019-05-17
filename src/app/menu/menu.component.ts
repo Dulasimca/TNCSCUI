@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-import { OverlayPanel } from 'primeng/primeng';
 import { MenuService } from './menu.service';
 import { AuthService } from '../shared-services/auth.service';
+import { RestAPIService } from '../shared-services/restAPI.service';
+import { PathConstants } from '../constants/path.constants';
+import { HttpParams } from '@angular/common/http';
+import { LoginService } from '../login/login.service';
 
 
 @Component({
@@ -13,24 +16,33 @@ import { AuthService } from '../shared-services/auth.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  items: MenuItem[];
+  items?: MenuItem[];
   isUser = false;
+  roleId: any;
   username: string;
   password: any;
   isLoggedIn: boolean;
+  canShowMenu: boolean;
 
-  constructor(private router: Router, private menuService: MenuService, private authService: AuthService) { }
+  constructor(private router: Router, private menuService: MenuService,
+    private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
     this.isLoggedIn = this.authService.getValidUser();
-    this.menuService.getMenu().subscribe((response: any) => {
-      this.items = response.items;
-    })
-  }
-
-  onLogin() {
-    if (this.username !== '' && this.password !== '') {
-      this.router.navigate(['login']);
+    this.roleId = this.loginService.getValue();
+    let roleId = new HttpParams().append('roleId', this.roleId);
+    if (this.roleId !== undefined && this.roleId !== '') {
+      this.restApiService.getByParameters(PathConstants.MENU, roleId).subscribe((res: any[]) => {
+        if (res !== undefined) {
+          this.items = res;
+          this.items.forEach(x => {
+            if (x.items.length === 0) {
+              delete (x.items);
+            }
+          })
+        }
+      });
     }
   }
 
@@ -38,3 +50,4 @@ export class MenuComponent implements OnInit {
     this.authService.logout();
   }
 }
+

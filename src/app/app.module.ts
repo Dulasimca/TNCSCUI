@@ -14,6 +14,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CarouselModule } from 'ngx-bootstrap';
 
 
 
@@ -92,8 +93,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CardModule,
     HighchartsChartModule,
     PanelModule,
-    TreeTableModule
-
+    TreeTableModule,
+    CarouselModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     ChartConstants, DatePipe, RestAPIService, PathConstants, LoginService],

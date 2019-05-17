@@ -1,48 +1,62 @@
-<div class="ui-g-12">
-  <div class="ui-g card login-panel">
+<div style="margin: 0px 0px 0px 60px !important">
+  <div class="ui-g-4 card login-panel">
     <div class="ui-g-12 login-header">
       <span>Sign In</span>
     </div>
     <form [formGroup]="loginForm" ngSubmit="OnSignIn()">
       <div class="ui-g-12" style="display: inline-grid; align-items: center; justify-content: center">
-        <div class="ui-g-12 form-control">
-          <div class="ui-g-1">
-            <i class="fa fa-user fa-grey"></i>
-          </div>
-          <div class="ui-g-4">
-            <input id="float-input" formControlName="username" type="text" pInputText [(ngModel)]="userName" placeholder="username" [ngClass]="{'is-invalid': submitted && formControls.username.errors}" />
-          </div>
+        <div class="ui-g-12">
+          <!-- <div > -->
+          <i class="ui-g-2 fa fa-user fa-grey icon-fa-2x dashboard"></i>
+          <!-- </div>
+          <div class="ui-g-4"> -->
+          <input class="ui-g-10 rounded-input" size="50" id="float-input" formControlName="username" type="text" pInputText
+            [(ngModel)]="userName" placeholder="username"
+            [ngClass]="{'is-invalid': submitted && formControls.username.errors}" />
+          <!-- </div> -->
           <div *ngIf="submitted && formControls.username.errors" class="invalid-feedback">
             <div class="ui-g-12 error" *ngIf="formControls.username.errors.required">Username is required</div>
           </div>
         </div>
-        <div class="ui-g-12 form-control">
-          <div class="ui-g-1">
-            <i class="fa fa-lock fa-grey"></i>
-          </div>
-          <div class="ui-g-4">
-            <input pInputText type="password" formControlName="password" [(ngModel)]="password" placeholder="Password" [ngClass]="{'is-invalid': submitted && formControls.password.errors}" />
-          </div>
+        <div class="ui-g-12">
+          <!-- <div class="ui-g-1"> -->
+          <i class="ui-g-2 fa fa-lock fa-grey icon-fa-2x dashboard"></i>
+          <!-- </div>
+          <div class="ui-g-4"> -->
+          <input class="ui-g-10 rounded-input" size="50" pInputText type="password" formControlName="password" [(ngModel)]="password"
+            placeholder="Password" [ngClass]="{'is-invalid': submitted && formControls.password.errors}" />
+          <!-- </div> -->
           <div *ngIf="submitted && formControls.password.errors" class="invalid-feedback">
             <div class="ui-g-12 error" *ngIf="formControls.password.errors.required">Password is required</div>
           </div>
         </div>
       </div>
-      <div class="ui-g-12 form-control">
+      <div class="ui-g-12">
         <div class="ui-g-12">
-          <p-button label="Sign In" (click)="onSignIn()"></p-button>
+          <button pButton class="ui-button-raised" label="Sign In" (click)="onSignIn()"></button>
         </div>
       </div>
       <div class="ui-g-12">
         <div class="ui-g-12">
           <a href="forgetpassword">Forget Password?</a>
         </div>
-        <div class="ui-g-12">
-          <a href="">Register here</a>
-        </div>
       </div>
     </form>
   </div>
+ <!-- <div class="p-grid p-align-stretch vertical-container" style="padding: 0px !important"> -->
+    <div class="ui-g-8 ui-md-6 ui-lg-8" style="padding: 0px 0px 0px 25px !important">
+        <carousel>
+            <slide class="image-shadow">
+              <img class="image-shadow" src="../../assets/layout/images/login/rice-supply.png" alt="first slide" style="width: 850px; height: 440px;">
+            </slide>
+            <slide class="image-shadow">
+              <img class="image-shadow" src="../../assets/layout/images/login/civil-supplies.png" alt="second slide" style="width: 850px; height: 440px;">
+            </slide>
+            <slide class="image-shadow">
+              <img class="image-shadow" src="../../assets/layout/images/login/rice-supply.png" alt="third slide" style="width: 850px; height: 440px;">
+            </slide>
+          </carousel>
+    </div>
+  </div>
 
-</div>
-
+<!-- </div>  -->
