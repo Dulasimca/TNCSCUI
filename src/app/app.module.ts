@@ -15,6 +15,7 @@ import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { CarouselModule } from 'ngx-bootstrap';
+import {SplitButtonModule} from 'primeng/splitbutton';
 
 
 
@@ -47,6 +48,7 @@ import { PathConstants } from './constants/path.constants';
 import { LoginService } from './login/login.service';
 import { NotificationsComponent } from './masters/notifications/notifications.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ExcelService } from './shared-services/excel.service';
 
 
 
@@ -94,10 +96,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HighchartsChartModule,
     PanelModule,
     TreeTableModule,
-    CarouselModule
+    CarouselModule,
+    SplitButtonModule
+
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
-    ChartConstants, DatePipe, RestAPIService, PathConstants, LoginService],
+    ChartConstants, DatePipe, RestAPIService, PathConstants, LoginService, ExcelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
