@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { LoginService } from 'src/app/login/login.service';
 
 
 @Component({
@@ -16,11 +17,13 @@ export class GodownDataComponent implements OnInit {
   data?: any = [];
   column: any;
   items: any;
+  canShowMenu: boolean;
 
-  constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private loginService: LoginService,
+    private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    // this.canShowMenu = this.log
+    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
       let treeData = [];

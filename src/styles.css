@@ -1,3 +1,4 @@
+
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/primeng/resources/themes/omega/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
@@ -5,7 +6,117 @@
 @import '../node_modules/primeflex/primeflex.css';
 
 .body {
-  margin: 0px 0px 50px 0px !important
+  margin: 0px !important
+}
+
+.slides {
+  padding: 0 0 0 15px;
+  width: 609px;
+  height: 420px;
+  display: block;
+  margin: 0 0 0 20px;
+  position: relative;
+}
+
+.slides * {
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.slides input { display: none; }
+
+.slide-container { display: block; }
+
+.slide {
+  top: 0;
+  opacity: 0;
+  width: 609px;
+  height: 420px;
+  display: block;
+  position: absolute;
+
+  transform: scale(0);
+
+  transition: all .7s ease-in-out;
+}
+
+.slide img {
+  box-shadow: 0 1px 4px rgb(145, 142, 142), 0 0 0 1px #c4bfbf;
+  width: 100%;
+  height: 440px;
+}
+
+.nav label {
+  width: 100px;
+  height: 100%;
+  display: none;
+  position: absolute;
+
+  opacity: 0;
+  z-index: 9;
+  cursor: pointer;
+
+  transition: opacity .2s;
+
+  color: #FFF;
+  font-size: 55pt;
+  text-align: center;
+  line-height: 380px;
+  font-family: "Varela Round", sans-serif;
+  text-shadow: 0px 0px 15px rgb(116, 111, 111);
+}
+
+.slide:hover + .nav label { opacity: 0.5; }
+
+.nav label:hover { opacity: 1; }
+
+.nav .next { right: 0; }
+
+input:checked + .slide-container  .slide {
+  opacity: 1;
+
+  transform: scale(1);
+
+  transition: opacity 1s ease-in-out;
+}
+
+input:checked + .slide-container .nav label { display: block; }
+
+.nav-dots {
+width: 100%;
+bottom: 9px;
+height: 11px;
+display: block;
+position: absolute;
+text-align: center;
+}
+
+.nav-dots .nav-dot {
+top: 25px;
+width: 11px;
+height: 11px;
+margin: 0 4px;
+position: relative;
+border-radius: 100%;
+display: inline-block;
+background-color: rgba(0, 0, 0, 0.6);
+}
+
+.nav-dots .nav-dot:hover {
+cursor: pointer;
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+input#img-1:checked ~ .nav-dots label#img-dot-1,
+input#img-2:checked ~ .nav-dots label#img-dot-2,
+input#img-3:checked ~ .nav-dots label#img-dot-3,
+input#img-4:checked ~ .nav-dots label#img-dot-4,
+input#img-5:checked ~ .nav-dots label#img-dot-5 {
+background: rgba(0, 0, 0, 0.8);
 }
 
 .error {
@@ -15,11 +126,26 @@
 }
 
 body {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
-  margin: 20px;
 }
-
+.ui-menubar  {
+  border: 1px solid #aed0ea !important;
+  background: #74b2e2;
+  color: #ffffff !important;
+  font-weight: bolder !important;
+  max-height: 50px !important;
+  background: linear-gradient(to bottom, #9cb8f1 0%, #80acec 100%);
+}
+.ui-widget-content {
+  border: 1px solid #3ca1e2;
+}
+.ui-menubar .ui-widget {
+  color: #ededf0 !important;
+}
+.cursor-pointer{
+  cursor: pointer !important;
+}
 .content {
   /* flex: 1 0 auto;
   position: relative; */
@@ -35,8 +161,9 @@ body {
   vertical-align: bottom;
   text-align: center !important; */
   /* margin-top: auto; */
-  position: fixed;
-  left: 40%;
+  margin-top: 25px;
+  position: relative;                                                                              
+  left: 0;
   bottom: 0;
   text-align: center !important;
   /* margin-top: 50%; */

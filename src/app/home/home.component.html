@@ -4,7 +4,7 @@
     <div class="ui-g">
       <div class="ui-g-8 ui-g-nopad">
         <div class="ui-g-12 dashboard">
-          <div id="godown" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('godown')">
+          <div id="godown" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('godown')">
             <div class="ui-g card colorbox colorbox-lightBlue">
               <div class="ui-g-4 colorbox colorbox-icon-lightBlue">
                 <i class="fa fa-home fa-4x"></i>
@@ -15,7 +15,7 @@
               </div>
             </div>
           </div>
-          <div id="mrm" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('mrm')">
+          <div id="mrm" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('mrm')">
             <div class="ui-g card colorbox colorbox-yellow">
               <div class="ui-g-4 colorbox colorbox-icon-yellow">
                 <i class="fa fa-industry fa-4x"></i>
@@ -25,7 +25,7 @@
               </div>
             </div>
           </div>
-          <div id="aads" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('aads')">
+          <div id="aads" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('aads')">
             <div class="ui-g card colorbox colorbox-green">
               <div class="ui-g-4 colorbox colorbox-icon-green">
                 <i class="fa fa-cubes fa-4x"></i>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="ui-g-12 dashboard">
-          <div id="fci" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('fci')">
+          <div id="fci" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('fci')">
             <div class="ui-g card colorbox colorbox-pink">
               <div class="ui-g-4 colorbox colorbox-icon-pink">
                 <i class="fa fa-pagelines fa-4x"></i>
@@ -48,7 +48,7 @@
               </div>
             </div>
           </div>
-          <div id="regions" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('regions')">
+          <div id="regions" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('regions')">
             <div class="ui-g card colorbox colorbox-gray">
               <div class="ui-g-4 colorbox colorbox-icon-gray">
                 <i class="fa fa-map fa-4x"></i>
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div id="crs" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('crs')">
+          <div id="crs" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('crs')">
             <div class="ui-g card colorbox colorbox-blue">
               <div class="ui-g-4 colorbox colorbox-icon-blue">
                 <i class="fa fa-shopping-cart fa-4x"></i>
@@ -71,7 +71,7 @@
 
         </div>
         <div class="ui-g-12 dashboard">
-          <div id="hullingAgencies" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('hullingAgencies')">
+          <div id="hullingAgencies" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('hullingAgencies')">
             <div class="ui-g card overview">
               <div class="ui-g-10 overview-content clearfix">
                 <span class="ui-g-6 overview-title">Hulling Agencies</span>
@@ -82,7 +82,7 @@
               </div>
             </div>
           </div>
-          <div id="depositors" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('depositors')">
+          <div id="depositors" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('depositors')">
             <div class="ui-g card overview">
               <div class="ui-g-10 overview-content clearfix">
                 <span class="ui-g-6 overview-title">Depositors/ Suppliers</span>
@@ -93,7 +93,7 @@
               </div>
             </div>
           </div>
-          <div id="schemes" class="ui-g-12 ui-md-6 ui-lg-4 no-padding" (click)="onGridClicked('schemes')">
+          <div id="schemes" class="ui-g-12 ui-md-6 ui-lg-4 no-padding cursor-pointer" (click)="onGridClicked('schemes')">
             <div class="ui-g card overview">
               <div class="ui-g-10 overview-content clearfix">
                 <span class="ui-g-6 overview-title">Schemes</span>
@@ -127,14 +127,14 @@
     </div>
   </div>
 
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-md-12 ui-lg-12 card">
     <div style="width: 100%">
       <highcharts-chart [Highcharts]="Highcharts"
                         [options]="riceData"
                         style="width: 100%; height: 400px; display: block;"></highcharts-chart>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-md-12 ui-lg-12 card">
 
     <div style="width: 100%;">
       <highcharts-chart [Highcharts]="Highcharts"
@@ -142,7 +142,7 @@
                         style="width: 100%; height: 400px; display: block;"></highcharts-chart>
     </div>
   </div>
-  <div class="ui-g-12 ui-g-6 ui-lg-12 card">
+  <div class="ui-g-12 ui-md-12 ui-lg-12 card">
     <div style="width: 100%;">
       <highcharts-chart [Highcharts]="Highcharts"
                         [options]="wheatAndSugarData"
