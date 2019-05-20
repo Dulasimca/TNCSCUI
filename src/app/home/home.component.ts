@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { DatePipe } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChartConstants } from '../constants/chartconstants';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
@@ -36,7 +34,7 @@ export class HomeComponent implements OnInit {
   dhallAndOilData: any;
   wheatAndSugarData: any;
   chartLabels: any[];
-  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe, private chartConstants: ChartConstants,
+  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
     private router: Router, private loginService: LoginService) {
 
   }
@@ -46,7 +44,6 @@ export class HomeComponent implements OnInit {
     const date = new Date();
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
-    this.chartLabels = this.chartConstants.districtNames;
     this.restApiService.get(PathConstants.DASHBOARD).subscribe(res => {
       if (res !== undefined) {
       this.godownCount = res[0];
@@ -66,6 +63,7 @@ export class HomeComponent implements OnInit {
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
     this.restApiService.getByParameters(PathConstants.CHART, params).subscribe((response: any[]) => {
       if (response !== undefined) {
+        this.chartLabels = response[1];
         this.riceData = {
           title: {
             text: 'Rice chart'

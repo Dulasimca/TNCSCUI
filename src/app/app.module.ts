@@ -34,7 +34,6 @@ import { DailyStockStatementComponent } from './reports/dailystockstatement/dail
 import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.component';
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from './shared-services/restAPI.service';
-import { ChartConstants } from './constants/chartconstants';
 import { GodownDataComponent } from './masters/godown-data/godown-data.component';
 import { HullingAgenciesComponent } from './masters/hulling-agencies/hulling-agencies.component';
 import { CRSDataComponent } from './masters/crsdata/crsdata.component';
@@ -101,7 +100,7 @@ import { ExcelService } from './shared-services/excel.service';
 
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
-    ChartConstants, DatePipe, RestAPIService, PathConstants, LoginService, ExcelService],
+    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
