@@ -1,27 +1,34 @@
-<app-menu *ngIf="canShowMenu"></app-menu>
-  <p-panel class="content">
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
     <p-header>
-      <div class="panel-header">Godown Master</div>
-      <div align="right">
-        <p-splitButton label="Export" icon="pi pi-download" (onClick)="exportAsXLSX()" [model]="items" styleClass="ui-button-danger"></p-splitButton>
-       </div>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Godown Master</div>
+          <div class="ui-g-8 dashboard" style="text-align: end !important;">
+            <input class="search-masters" type="text" pInputText placeholder="Search">
+            <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+            <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+              styleClass="ui-button-danger"></p-splitButton>
+          </div>
+      </div>
     </p-header>
     <div style="margin-right: 300px; margin-left: 300px;">
-      <p-treeTable [value]="data" [columns]="column">
+      <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+        [paginator]="true" autoLayout="true">
         <ng-template pTemplate="header" let-columns>
           <th *ngFor="let col of columns">
             {{col.header}}
           </th>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-          <tr >
+          <tr>
             <td *ngFor="let col of columns">
-              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+               <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler> 
               {{rowData[col.field]}}
-           </td>
+            </td>
           </tr>
         </ng-template>
       </p-treeTable>
-      </div>
+    </div>
   </p-panel>
-
+</div>
