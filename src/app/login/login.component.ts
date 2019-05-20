@@ -8,6 +8,7 @@ import { PathConstants } from '../constants/path.constants';
 import { HttpParams } from '@angular/common/http';
 import { LoginService } from './login.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);
+        this.loginService.setUsername(this.userName);
         this.loginService.isValid(true);
       } else {
         this.clearFields();

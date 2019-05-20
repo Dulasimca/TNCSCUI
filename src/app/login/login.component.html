@@ -1,31 +1,24 @@
-<div class="ui-g-12 ui-md-12 ui-lg-12" style="margin-left: 10% !important">
-  <div class="ui-g-4 card login-panel">
+<div class="ui-g-12 ui-md-12 ui-lg-12" >
+  <div class="ui-g-12">
+  <div class="ui-g-4 card login-panel"  style="margin-left: 12%">
     <div class="ui-g-12 login-header">
       <span>Sign In</span>
     </div>
     <form [formGroup]="loginForm" ngSubmit="OnSignIn()">
       <div class="ui-g-12" style="display: inline-grid; align-items: center; justify-content: center">
         <div class="ui-g-12">
-          <!-- <div > -->
           <i class="ui-g-2 fa fa-user fa-grey icon-fa-2x dashboard"></i>
-          <!-- </div>
-          <div class="ui-g-4"> -->
           <input class="ui-g-10 rounded-input" size="50" id="float-input" formControlName="username" type="text" pInputText
             [(ngModel)]="userName" placeholder="username"
             [ngClass]="{'is-invalid': submitted && formControls.username.errors}" />
-          <!-- </div> -->
           <div *ngIf="submitted && formControls.username.errors" class="invalid-feedback">
             <div class="ui-g-12 error" *ngIf="formControls.username.errors.required">Username is required</div>
           </div>
         </div>
         <div class="ui-g-12">
-          <!-- <div class="ui-g-1"> -->
           <i class="ui-g-2 fa fa-lock fa-grey icon-fa-2x dashboard"></i>
-          <!-- </div>
-          <div class="ui-g-4"> -->
           <input class="ui-g-10 rounded-input" size="50" pInputText type="password" formControlName="password" [(ngModel)]="password"
             placeholder="Password" [ngClass]="{'is-invalid': submitted && formControls.password.errors}" />
-          <!-- </div> -->
           <div *ngIf="submitted && formControls.password.errors" class="invalid-feedback">
             <div class="ui-g-12 error" *ngIf="formControls.password.errors.required">Password is required</div>
           </div>
@@ -33,12 +26,12 @@
       </div>
       <div class="ui-g-12">
         <div class="ui-g-12" style="margin-top: 5%">
-          <button pButton class="ui-button-raised" label="Sign In" (click)="onSignIn()"></button>
+          <button pButton style="padding: 0px; width: 50%" class="rounded-button" label="Sign In" (click)="onSignIn()"></button>
         </div>
       </div>
       <div class="ui-g-12">
-        <div class="ui-g-12">
-          <a href="forgetpassword">Forget Password?</a>
+        <div class="ui-g-12" style="margin-top: 5%">
+            <button pButton class="rounded-button" label="Forget Password" (click)="onForgetPswdClicked()"></button>
         </div>
       </div>
     </form>
@@ -55,7 +48,6 @@
         <label for="img-2" class="next">&#x203a;</label>
       </div>
       </li>
-  
       <input type="radio" name="radio-btn" id="img-2" />
       <li class="slide-container">
           <div class="slide">
@@ -66,7 +58,6 @@
         <label for="img-4" class="next">&#x203a;</label>
       </div>
       </li>
-  
       <input type="radio" name="radio-btn" id="img-3" />
       <li class="slide-container">
           <div class="slide">
@@ -77,7 +68,6 @@
         <label for="img-1" class="next">&#x203a;</label>
       </div>
       </li>
-  
       <input type="radio" name="radio-btn" id="img-4" />
       <li class="slide-container">
           <div class="slide">
@@ -88,7 +78,6 @@
         <label for="img-3" class="next">&#x203a;</label>
       </div>
       </li>
-  
       <input type="radio" name="radio-btn" id="img-5" />
       <li class="slide-container">
           <div class="slide">
@@ -99,7 +88,6 @@
         <label for="img-5" class="next">&#x203a;</label>
       </div>
       </li>
-  
       <li class="nav-dots">
         <label for="img-1" class="nav-dot" id="img-dot-1"></label>
         <label for="img-2" class="nav-dot" id="img-dot-2"></label>
@@ -109,20 +97,5 @@
       </li>
   </ul>
   </div>
- <!-- <div class="p-grid p-align-stretch vertical-container" style="padding: 0px !important"> -->
-    <!-- <div class="ui-g-8 ui-md-6 ui-lg-8" style="padding: 0px 0px 0px 25px !important">
-        <carousel>
-            <slide class="image-shadow">
-              <img class="image-shadow" src="../../assets/layout/images/login/rice-supply.png" alt="first slide" style="width: 850px; height: 440px;">
-            </slide>
-            <slide class="image-shadow">
-              <img class="image-shadow" src="../../assets/layout/images/login/civil-supplies.png" alt="second slide" style="width: 850px; height: 440px;">
-            </slide>
-            <slide class="image-shadow">
-              <img class="image-shadow" src="../../assets/layout/images/login/rice-supply.png" alt="third slide" style="width: 850px; height: 440px;">
-            </slide>
-          </carousel>
-    </div> -->
+</div>
   </div>
-
-<!-- </div>  -->
