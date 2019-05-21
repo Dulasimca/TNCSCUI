@@ -22,27 +22,27 @@ export class HeaderComponent implements OnInit {
   constructor(private loginService: LoginService, private authService: AuthService) { }
 
   ngOnInit() {
-    if (this.duration > 0) {
-      setInterval(() => {
-      this.duration = this.duration - 1;
-        if (this.duration <= 0) {
-          clearInterval(this.interval)
-        }
+    // if (this.duration > 0) {
+    //   setInterval(() => {
+    //   this.duration = this.duration - 1;
+    //     if (this.duration <= 0) {
+    //       clearInterval(this.interval)
+    //     }
 
-        if (this.duration % 60 >= 0) {
-          this.seconds = (this.duration % 60 < 10) ? ("0" + this.duration % 60) : (this.duration % 60).toString();
-        } else {
-          this.authService.logout();
-        }
+    //     if (this.duration % 60 >= 0) {
+    //       this.seconds = (this.duration % 60 < 10) ? ("0" + this.duration % 60) : (this.duration % 60).toString();
+    //     } else {
+    //       // this.authService.logout();
+    //     }
 
-        if (this.duration / 60 < 10) {
-          this.minutes = "0" + parseInt("" + this.duration / 60, 10);
-        } else {
-          this.minutes = "" + parseInt((this.duration / 60).toString(), 10);
-        }
-        this.clockDisplay = this.minutes + " : " + this.seconds;
-      }, 1000);
-    }
+    //     if (this.duration / 60 < 10) {
+    //       this.minutes = "0" + parseInt("" + this.duration / 60, 10);
+    //     } else {
+    //       this.minutes = "" + parseInt((this.duration / 60).toString(), 10);
+    //     }
+    //     this.clockDisplay = this.minutes + " : " + this.seconds;
+    //   }, 1000);
+    // }
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
