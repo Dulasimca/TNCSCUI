@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login/login.service';
-import {  Observable } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { AuthService } from '../shared-services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,30 +13,37 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HeaderComponent implements OnInit {
   isValidUser: boolean;
   loggedUsername: string;
-  countDown;
-  timer = 1800;
-  tick = 1000;
-  constructor(private loginService: LoginService) { }
+  timeString: string;
+  duration = 60;
+  seconds = "--";
+  minutes = "--";
+  clockDisplay: string;
+  interval: number;
+  constructor(private loginService: LoginService, private authService: AuthService) { }
 
   ngOnInit() {
-    // this.countDown = Observable.timer(0, this.tick)
-    //   .take(this.timer)
-    //   .map(() => --this.timer
-    //   )
+    if (this.duration > 0) {
+      setInterval(() => {
+      this.duration = this.duration - 1;
+        if (this.duration <= 0) {
+          clearInterval(this.interval)
+        }
+
+        if (this.duration % 60 >= 0) {
+          this.seconds = (this.duration % 60 < 10) ? ("0" + this.duration % 60) : (this.duration % 60).toString();
+        } else {
+          this.authService.logout();
+        }
+
+        if (this.duration / 60 < 10) {
+          this.minutes = "0" + parseInt("" + this.duration / 60, 10);
+        } else {
+          this.minutes = "" + parseInt((this.duration / 60).toString(), 10);
+        }
+        this.clockDisplay = this.minutes + " : " + this.seconds;
+      }, 1000);
+    }
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
-  
-  
-}
-@Pipe({
-  name: 'formatTime'
-})
-export class FormatTimePipe implements PipeTransform {
-
-  transform(value: number): string {
-    const minutes: number = Math.floor(value / 60);
-    return ('00' + minutes).slice(-2) + ':' + ('00' + Math.floor(value - minutes * 60)).slice(-2);
-  }
-
 }

@@ -129,61 +129,58 @@
   <div class="ui-g-12 ui-g-6 ui-lg-12 card">
       <div class="ui-g">
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding" style="min-width: 255px">
+          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding cursor-pointer" id="PB" style="min-width: 255px" (click)="onGridClicked('PB')">
             <div class="ui-g card colorbox colorbox-dirtyGreen">
               <div class="ui-g-4 colorbox colorbox-icon-dirtyGreen" style="text-align: center">
-                <i class="fa fa-camera fa-3x"></i>
+                  <img src="../../assets/layout/images/login/rice.svg" style="max-height: 60px"/>
               </div>
               <div class="ui-g-8">
                 <span class="colorbox-name">Rice-PB</span>
-                <span class="overview-count">10,000</span>
+                <span class="overview-count">{{ricePB | number}}</span>
               </div>
             </div>
           </div>
-          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding" style="min-width: 255px">
+          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding cursor-pointer" id="PB" style="min-width: 255px" (click)="onGridClicked('PB')">
               <div class="ui-g card colorbox colorbox-yellow">
                 <div class="ui-g-4 colorbox colorbox-icon-yellow">
-                  <i class="fa fa-camera fa-3x"></i>
+                    <img src="../../assets/layout/images/login/dhall.svg" style="max-height: 60px"/>
                 </div>
                 <div class="ui-g-8">
                   <span class="colorbox-name">Dhall</span>
-                  <span class="overview-count">36,000</span>
+                  <span class="overview-count">{{dhallPB | number}}</span>
                 </div>
               </div>
             </div>
-            <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding" style="min-width: 255px">
+            <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding cursor-pointer" id="PB" style="min-width: 255px" (click)="onGridClicked('PB')">
                 <div class="ui-g card colorbox colorbox-blue">
                   <div class="ui-g-4 colorbox colorbox-icon-blue">
-                    <i class="fa fa-camera fa-3x"></i>
+                      <img src="../../assets/layout/images/login/oil.svg" style="max-height: 60px"/>
                   </div>
                   <div class="ui-g-8">
                     <span class="colorbox-name">P-Oil</span>
-                    <span class="overview-count">21,000</span>
+                    <span class="overview-count">{{pOilPB | number}}</span>
                   </div>
                 </div>
               </div>
-          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding" style="min-width: 255px">
+          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding cursor-pointer" id="PB" style="min-width: 255px" (click)="onGridClicked('PB')">
             <div class="ui-g card colorbox colorbox-green">
               <div class="ui-g-4 colorbox colorbox-icon-green">
-                 <i class="fa fa-map-marker fa-3x"></i>
-                <!-- <svg-icon src="../../assets/layout/images/login/wheat.svg" [stretch]="false" [svgStyle]="{'width.px':17,'padding.px':1,'margin.px':3}">
-                  ></svg-icon> -->
-                <i svgIcon="wheat"></i>
+                  <img src="../../assets/layout/images/login/wheat.svg" style="max-height: 60px"/>
               </div>
               <div class="ui-g-8">
                 <span class="colorbox-name">Wheat</span>
-                <span class="overview-count">11,900</span>
+                <span class="overview-count">{{wheatPB | number}}</span>
               </div>
             </div>
           </div>
-          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding" style="min-width: 255px">
+          <div class="ui-g-2 ui-md-2 ui-lg-2 no-padding cursor-pointer" id="PB" style="min-width: 255px" (click)="onGridClicked('PB')">
             <div class="ui-g card colorbox colorbox-gray">
               <div class="ui-g-4 colorbox colorbox-icon-gray">
-                <i class="fa fa-users fa-3x"></i>
+                  <img src="../../assets/layout/images/login/sugar.svg" style="max-height: 60px"/>
               </div>
               <div class="ui-g-8">
                 <span class="colorbox-name">Sugar</span>
-                <span class="overview-count">12,300</span>
+                <span class="overview-count">{{sugarPB | number}}</span>
               </div>
             </div>
           </div>

@@ -4,6 +4,11 @@
 @import '../node_modules/primeng/resources/primeng.min.css';
 @import '../node_modules/primeicons/primeicons.css';
 @import '../node_modules/primeflex/primeflex.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.wheat{
+src: url('assets/layout/images/login/wheat.svg');
+}
 
 .slider .indicators .indicator-item {
   background-color: #666666;
@@ -156,7 +161,7 @@ body {
   padding: 0;
 }
  .ui-menubar  {
-  border: 1.5px solid #aed0ea !important;
+  border: 2px solid #44a3ec !important;
   background: #44a3ec;
   font-weight: bolder !important;
   max-height: 50px !important;
@@ -174,7 +179,7 @@ body {
   background: #44a3ec;
 }
 .ui-menuitem .ui-menuitem-link {
-  color: whitesmoke;
+  color: white;
   background: #44a3ec;
 }
 .cursor-pointer{
