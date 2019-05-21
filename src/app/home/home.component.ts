@@ -179,7 +179,7 @@ export class HomeComponent implements OnInit {
             text: 'Wheat & Sugar chart'
           },
           series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
-          { data: response[10], name: 'SUGAR', color: '#ffff1a' }],
+          { data: response[10], name: 'SUGAR', color: '#FFA824' }],
           plotOptions: {
             line: {
               dataLabels: {
@@ -213,7 +213,6 @@ export class HomeComponent implements OnInit {
             verticalAlign: 'top',
             y: 5,
             floating: true,
-            // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
