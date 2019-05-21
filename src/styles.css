@@ -460,19 +460,16 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   .header-icons .colorbox.colorbox-blue {
     background-color: #63c2de;
   }
-
-
-  .dashboard .colorbox.colorbox-ration-card {
-    background-color: #cc66ff;
-  }
-
-  .dashboard .colorbox.colorbox-areas {
-    background-color: #85adad;
+  .dashboard .colorbox.colorbox.colorbox-dirtyGreen {
+    background-color: #C1E950;
   }
 
   .dashboard .colorbox.colorbox-icon-yellow {
     background-color: #FFA824;
     display: inline-block;
+  }
+  .dashboard .colorbox.colorbox.colorbox-icon-dirtyGreen {
+    background-color: #9CCB19	;
   }
 
   .dashboard .colorbox.colorbox-icon-lightBlue {
