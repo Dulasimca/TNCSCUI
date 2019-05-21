@@ -6,7 +6,9 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { LoginService } from 'src/app/login/login.service';
-
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-godown-data',
@@ -68,9 +70,20 @@ export class GodownDataComponent implements OnInit {
     });
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'CRS DATA');
+    this.excelService.exportAsExcelFile(this.data,'GODOWN_DATA');
   }
-  exportAsPDF(){
-
+  exportAsPDF() {
+    var doc = new jsPDF();
+    var col = this.column;
+    col.push({'field': 'District', 'header': 'District'});
+    var rows = [];
+    this.data.forEach(element => {
+      var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
+          rows.push(temp);
+    });
+      doc.autoTable(col,rows);
+      doc.save('GODOWN_DATA.pdf');
+    
+  //  })
   }
 }

@@ -4,6 +4,9 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { LoginService } from 'src/app/login/login.service';
 
 @Component({
   selector: 'app-depositors',
@@ -16,10 +19,12 @@ export class DepositorsComponent implements OnInit {
   column?: any;
   errMessage: string;
   items: any;
+  canShowMenu: boolean;
   
-    constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+    constructor(private restApiService: RestAPIService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
     ngOnInit() {
+      this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
       this.column = this.tableConstants.SupplierData;
       this.restApiService.get(PathConstants.DEPOSITOR).subscribe((response: any[]) => {
         if(response!==undefined){
@@ -45,9 +50,19 @@ export class DepositorsComponent implements OnInit {
       });
         }
         exportAsXLSX():void{
-          this.excelService.exportAsExcelFile(this.data,'Suppliers Data');
+          this.excelService.exportAsExcelFile(this.data,'SUPPLIERS_DATA');
         }
-        exportAsPDF(){
+        exportAsPDF() {
+          var doc = new jsPDF();
+          var col = this.column;
+          var rows = [];
+          this.data.forEach(element => {
+             var temp = [element.SlNo,element.DepositorName];
+                rows.push(temp);
+                
+          });
+            doc.autoTable(col,rows);
+            doc.save('SUPPLIERS_DATA.pdf');
           
         }
   }

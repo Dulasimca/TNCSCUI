@@ -5,6 +5,9 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { LoginService } from 'src/app/login/login.service';
 //var JSPDF = require('jspdf');
 //require('jspdf-autotable');
 
@@ -19,12 +22,15 @@ export class RegionsDataComponent implements OnInit {
 
   data: any;
   column?: any;
-errMessage: string;
+  errMessage: string;
   items: any;
+  canShowMenu: boolean;
+  
 
-  constructor(private restApiService: RestAPIService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
     this.column = this.tableConstants.RegionData;
     this.restApiService.get(PathConstants.REGION).subscribe((response: any[]) => {
       if(response!==undefined){
@@ -51,14 +57,20 @@ errMessage: string;
     });
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'AADS DATA');
+    this.excelService.exportAsExcelFile(this.data,'REGION_DATA');
 }
 
 exportAsPDF() {
-  // let doc = new JSPDF('p', 'pt', 'a4');
-  //  doc.setFontSize(15);
-  //  doc.autoTable('response');
-  //  doc.save('RegionData.pdf');
+  var doc = new jsPDF();
+  var col = this.column;
+  var rows = [];
+  this.data.forEach(element => {
+     var temp = [element.SlNo,element.RGNAME];
+        rows.push(temp);
+        
+  });
+    doc.autoTable(col,rows);
+    doc.save('REGION_DATA.pdf');
   
-}
+ }
 }

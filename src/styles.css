@@ -360,6 +360,10 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   padding: .2em !important;
 }
 
+.search-masters {
+  padding: 2px;
+}
+
 .dashboard{
   padding: 0px;
 }
@@ -520,6 +524,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 
 .inline-padding {
   padding: 5px;
+  text-align: center;
 }
 
 .inline-margin {
