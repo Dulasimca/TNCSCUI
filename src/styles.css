@@ -151,10 +151,7 @@ background: rgba(0, 0, 0, 0.8);
   padding: 0px !important;
 }
 
-body {
-  display: inline-block;
-  flex-direction: column;
-}
+
 .ui-menubar li {
   padding: 2px 10px 2px 2px;
 }
