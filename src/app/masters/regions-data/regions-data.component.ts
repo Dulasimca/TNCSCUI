@@ -8,8 +8,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
-//var JSPDF = require('jspdf');
-//require('jspdf-autotable');
+
 
 
 
@@ -25,7 +24,8 @@ export class RegionsDataComponent implements OnInit {
   errMessage: string;
   items: any;
   canShowMenu: boolean;
-  
+  searchText : string;
+  filterArray: any;
 
   constructor(private restApiService: RestAPIService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
@@ -35,7 +35,9 @@ export class RegionsDataComponent implements OnInit {
     this.restApiService.get(PathConstants.REGION).subscribe((response: any[]) => {
       if(response!==undefined){
         this.data = response;
-      }else 
+        this.filterArray = response;
+      }
+      else 
       {
         return this.errMessage;
       }
@@ -48,13 +50,18 @@ export class RegionsDataComponent implements OnInit {
             label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
               this.exportAsPDF();
             }
-          
-               
           }]
-      
-      //console.log('res', this.data);
-      
     });
+  }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+          return item.RGNAME.toString().startsWith(value);
+      });
+       } else {
+         this.data = this.filterArray;
+       }
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'REGION_DATA');

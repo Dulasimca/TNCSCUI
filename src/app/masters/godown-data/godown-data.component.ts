@@ -20,6 +20,7 @@ export class GodownDataComponent implements OnInit {
   column: any;
   items: any;
   canShowMenu: boolean;
+  filterArray: any;
 
   constructor(private restApiService: RestAPIService, private loginService: LoginService,
     private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
@@ -54,6 +55,7 @@ export class GodownDataComponent implements OnInit {
         regionData = [];
       });
       this.data = treeData;
+      this.filterArray = treeData;
       
       this.items = [
         {
@@ -64,10 +66,18 @@ export class GodownDataComponent implements OnInit {
           label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
            this.exportAsPDF();
           }
-        
-             
         }]
     });
+  }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+          return item.data.Name.toString().startsWith(value);
+      });
+       } else {
+         this.data = this.filterArray;
+       }
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'GODOWN_DATA');

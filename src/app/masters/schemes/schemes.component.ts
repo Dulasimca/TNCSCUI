@@ -16,9 +16,10 @@ import { LoginService } from 'src/app/login/login.service';
 export class SchemesComponent implements OnInit {
   data: any;
   column?: any;
-errMessage: string;
-items: any;
+  errMessage: 'Record Not Found';
+  items: any;
   canShowMenu: boolean;
+  filterArray: any;
 
   constructor(private restApiService: RestAPIService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
@@ -28,8 +29,11 @@ items: any;
     this.restApiService.get(PathConstants.SCHEMES).subscribe((response: any[]) => {
       if (response !== undefined){
         this.data = response;
-      } else{
-        this.errMessage = 'Record Not Found';
+        this.filterArray = response;
+      } 
+      else
+      {
+        return this.errMessage;
       }
       this.items = [
         {
@@ -40,13 +44,18 @@ items: any;
           label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
            this.exportAsPDF();
           }
-        
-             
         }]
-      
-      //console.log('res', this.data);
-      
     });
+  }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+          return item.DepositorName.toString().startsWith(value);
+      });
+       } else {
+         this.data = this.filterArray;
+       }
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'SCHEME_DATA');

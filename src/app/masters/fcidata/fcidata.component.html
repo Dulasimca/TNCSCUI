@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12">
         <app-menu *ngIf="canShowMenu"></app-menu>
         <p-panel>
@@ -5,8 +6,8 @@
             <div class="ui-g panel-header">
               <div class="ui-g-4 dashboard">FCI DATA</div>
                 <div class="ui-g-8 dashboard" style="text-align: end !important;">
-                  <input class="search-masters" type="text" pInputText placeholder="Search">
-                  <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+                  <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search" (ngModelChange)="onSearch($event)">
+                  <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn" (ngModelChange)="onSearch($event)" ></button>
                   <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
                     styleClass="ui-button-danger"></p-splitButton>
                 </div>

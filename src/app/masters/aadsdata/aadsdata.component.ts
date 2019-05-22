@@ -12,7 +12,7 @@ import { LoginService } from 'src/app/login/login.service';
   selector: 'app-aadsdata',
   templateUrl: './aadsdata.component.html',
   styleUrls: ['./aadsdata.component.css']
-})
+ })
 export class AADSDataComponent implements OnInit {
 
   data: any;
@@ -20,6 +20,7 @@ export class AADSDataComponent implements OnInit {
   errMessage: 'Record Not Found';
   items: any;
   canShowMenu: boolean;
+  filterArray: any;
 
   constructor(private restApiService: RestAPIService,private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
@@ -29,7 +30,9 @@ export class AADSDataComponent implements OnInit {
     this.restApiService.get(PathConstants.AADS).subscribe((response: any[]) => {
       if(response!==undefined){
         this.data = response;
-      }else 
+        this.filterArray = response;
+      }
+      else 
       {
         return this.errMessage;
       }
@@ -42,13 +45,18 @@ export class AADSDataComponent implements OnInit {
           label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
             this.exportAsPDF();
           }
-        
-             
         }]
-      
-       //console.log('res',this.data);
     })
-  
+  }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+          return item.GodownName.toString().startsWith(value);
+      });
+       } else {
+         this.data = this.filterArray;
+       }
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'AADS_DATA');
@@ -61,7 +69,6 @@ export class AADSDataComponent implements OnInit {
       this.data.forEach(element => {
        var temp = [element.SlNo,element.DepositorName,element.RegionName,element.GodownName];
           rows.push(temp);
-          
     });
       doc.autoTable(col,rows);
       doc.save('AADS_DATA.pdf');

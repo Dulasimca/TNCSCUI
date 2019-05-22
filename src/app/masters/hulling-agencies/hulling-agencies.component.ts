@@ -19,6 +19,7 @@ export class HullingAgenciesComponent implements OnInit {
   errMessage: string;
   items: any;
   canShowMenu: boolean;
+  filterArray: any;
   
     constructor(private restApiService: RestAPIService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
@@ -28,6 +29,7 @@ export class HullingAgenciesComponent implements OnInit {
       this.restApiService.get(PathConstants.HULLING_AGENCIES).subscribe((response: any[]) => {
         if(response!==undefined){
           this.data = response;
+          this.filterArray = response;
         }else 
         {
           return this.errMessage;
@@ -47,6 +49,18 @@ export class HullingAgenciesComponent implements OnInit {
         //console.log('res', this.data);
         
       });
+        }
+        onSearch(value) {
+          if (value !== undefined && value !== '') {
+            value = value.toString().toUpperCase();
+            this.data = this.data.filter(item => {
+             // if (item.DepositorName.toString().startsWith(value)) {
+                return item.DepositorName.toString().startsWith(value);
+             // }
+            });
+             } else {
+               this.data = this.filterArray;
+             }
         }
         exportAsXLSX():void{
           this.excelService.exportAsExcelFile(this.data,'HULLING-AGENCIES_DATA');
