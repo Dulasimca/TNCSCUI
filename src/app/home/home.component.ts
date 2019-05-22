@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
           yAxis: {
             min: 0,
             title: {
-              text: 'Total Quantity (thousands)',
+              text: 'Total Quantity in Mts (thousands)',
               align: 'high'
             },
             stackLabels: {
@@ -120,7 +120,6 @@ export class HomeComponent implements OnInit {
             verticalAlign: 'top',
             y: 5,
             floating: true,
-            // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -158,7 +157,7 @@ export class HomeComponent implements OnInit {
           yAxis: {
             min: 0,
             title: {
-              text: 'Total Quantity (thousands)',
+              text: 'Total Quantity in Mts (thousands)',
               align: 'high'
             },
 
@@ -175,7 +174,6 @@ export class HomeComponent implements OnInit {
             verticalAlign: 'top',
             y: 5,
             floating: true,
-            // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -204,7 +202,7 @@ export class HomeComponent implements OnInit {
           yAxis: {
             min: 0,
             title: {
-              text: 'Total Quantity (thousands)',
+              text: 'Total Quantity in Mts (thousands)',
               align: 'high'
             },
             stackLabels: {

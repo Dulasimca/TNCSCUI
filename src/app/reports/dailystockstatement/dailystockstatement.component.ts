@@ -3,6 +3,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { TreeNode } from 'primeng/api';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-dailystockstatement',
@@ -14,12 +15,24 @@ export class DailyStockStatementComponent implements OnInit {
   dailyStockData: any;
   fromDate: Date;
   toDate: Date;
+  itemCodes: any = [];
+  ITCODE1: any;
+  ITCODE2: any;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.dailyStockDataCoulmns = this.tableConstants.DailyStockStatement;
-    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT).subscribe((response: any[]) => {
+    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
+      if (itemCodes !== undefined) {
+        // this.itemCodes.push(itemCodes);
+        // for (let c = 0; c < itemCodes.length; c++) {
+        //   this.ITCODE1 = itemCodes[c].ITCode;
+        //   this.ITCODE2 = itemCodes[c + 1].ITCode;
+        //   c++;
+        this.ITCODE1 = 'IT009'; this.ITCODE2 = 'IT013';
+       let params = new HttpParams().set('ITCode1', this.ITCODE1).append('ITCode2', this.ITCODE2);
+    this.restApiService.getByParameters(PathConstants.DAILY_STOCK_STATEMENT, params).subscribe((response: any[]) => {
       let treeData = [];
       let childNode: TreeNode;
       let regionChildNode: TreeNode;
@@ -39,9 +52,9 @@ export class DailyStockStatementComponent implements OnInit {
                 "IssueSales": godownList[i].IssueSales,
                 "IssueOthers": godownList[i].IssueOthers,
                 "TotalIssue": parseInt(godownList[i].IssueSales, 0) + parseInt(godownList[i].IssueOthers, 0),
-                "CS Balance": godownList[i].CSBalance,
+                "CSBalance": godownList[i].CSBalance,
+                "PhycialBalance": godownList[i].PhycialBalance,
                 "Shortage": godownList[i].Shortage,
-                "PhycialBalance": godownList[i].PhycialBalance
             }}
             godownData.push(regionChildNode);
           }
@@ -54,9 +67,9 @@ export class DailyStockStatementComponent implements OnInit {
               "IssueSales": list[i].IssueSales,
               "IssueOthers": list[i].IssueOthers,
               "TotalIssue": parseInt(list[i].IssueSales, 0) + parseInt(list[i].IssueOthers, 0),
-              "CS Balance": list[i].CSBalance,
+              "CSBalance": list[i].CSBalance,
+              "PhycialBalance": list[i].PhycialBalance,
               "Shortage": list[i].Shortage,
-              "PhycialBalance": list[i].PhycialBalance
           }, "children": godownData}
           regionData.push(childNode);
         godownData = [];
@@ -72,9 +85,9 @@ export class DailyStockStatementComponent implements OnInit {
               "IssueSales": x.IssueSales,
               "IssueOthers": x.IssueOthers,
               "TotalIssue": parseInt(x.IssueSales, 0) + parseInt(x.IssueOthers, 0),
-              "CS Balance": x.CSBalance,
+              "CSBalance": x.CSBalance,
+              "PhycialBalance": x.PhycialBalance,
               "Shortage": x.Shortage,
-              "PhycialBalance": x.PhycialBalance
             },
             "children": regionData,
           },
@@ -83,5 +96,8 @@ export class DailyStockStatementComponent implements OnInit {
       });
       this.dailyStockData = treeData;
        });
+      }
+    // }
+  })
       }
 }

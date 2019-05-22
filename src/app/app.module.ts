@@ -16,7 +16,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { CarouselModule } from 'ngx-bootstrap';
 import {SplitButtonModule} from 'primeng/splitbutton';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -96,8 +96,8 @@ import { ExcelService } from './shared-services/excel.service';
     PanelModule,
     TreeTableModule,
     CarouselModule,
-    SplitButtonModule
-
+    SplitButtonModule,
+    AutoCompleteModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService],

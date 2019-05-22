@@ -10,6 +10,7 @@ export class TableConstants {
   AadsData: any;
   Notification: any;
   SchemeData: any;
+  StockPurchase: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -23,9 +24,9 @@ export class TableConstants {
       { "field": 'ClosingBalance', "header": 'Closing Balance' },
       { "field": 'CSBalance', "header": 'Cummilative Shortage' },
       { "field": 'Shortage', "header": 'Current CS' },
-      { "field": 'PhycialBalance ', "header": 'Physical Balance' }
-
+      { "field": 'PhycialBalance', "header": 'Physical Balance' },
     ]
+
     this.GodownMasterData = [
       { "field": 'Name', "header": 'Region Name' },
       { "field": 'Capacity', "header": 'Capacity' },
@@ -69,5 +70,14 @@ export class TableConstants {
       { "field": 'SlNo', "header": 'SlNo' },
       { "field": 'Notes', "header": 'Description' }
     ]
+
+    this.StockPurchase = [
+      {
+        "field": 'depositorName', "header": 'Depositor Name'
+      },
+      { "field": 'itemName', "header": 'Item Name' },
+      { "field": 'qty', "header": 'Quantity' },
+      { "field": 'orderNumber', "header": 'Order Number' },
+      { "field": 'remarks', "header": 'Remarks' }]
   }
-}
+  }

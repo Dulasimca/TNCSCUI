@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
     //   }, 1000);
     // }
     const currentDate = new Date();
-    this.date = this.datePipe.transform(currentDate, 'MM/dd/yyyy');
+    this.date = this.datePipe.transform(currentDate, 'dd/MM/yyyy');
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
