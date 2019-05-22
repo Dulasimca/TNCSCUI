@@ -10,23 +10,23 @@ export class TableConstants {
   AadsData: any;
   Notification: any;
   SchemeData: any;
+  StockPurchase: any;
 
   constructor() {
     this.DailyStockStatement = [
-      {
-        "field": 'commodity', "header": 'Commodity'
-      },
-      { "field": 'openingBalance', "header": 'Opening Balance' },
-      { "field": 'totalReceipt', "header": 'Total Receipt' },
-      { "field": 'grandTotalIssue', "header": 'Grand Total Issue' },
-      { "field": 'saleIssue', "header": 'Sale Issue' },
-      { "field": 'totalIssue', "header": 'Total Issue' },
-      { "field": 'otherISsue', "header": 'Other Issue' },
-      { "field": 'bookBalance', "header": 'Book Balance' },
-      { "field": 'woff', "header": 'Cs0104+CU.YrCS-WOFF' },
-      { "field": 'physicalBalance', "header": 'Physical Balance' }
-
+      { "field": 'Name', "header": 'Commodity', "text-align": "left" },
+      { "field": 'OpeningBalance', "header": 'OB' },
+      { "field": 'TotalReceipt', "header": 'Receipt' },
+      { "field": 'Receipt', "header": 'Total Receipt' },
+      { "field": 'IssueSales', "header": 'Sales' },
+      { "field": 'IssueOthers', "header": 'Other Issue' },
+      { "field": 'TotalIssue', "header": 'Total Issue' },
+      { "field": 'ClosingBalance', "header": 'Closing Balance' },
+      { "field": 'CSBalance', "header": 'Cummilative Shortage' },
+      { "field": 'Shortage', "header": 'Current CS' },
+      { "field": 'PhycialBalance', "header": 'Physical Balance' },
     ]
+
     this.GodownMasterData = [
       { "field": 'Name', "header": 'Region Name' },
       { "field": 'Capacity', "header": 'Capacity' },
@@ -70,5 +70,14 @@ export class TableConstants {
       { "field": 'SlNo', "header": 'SlNo' },
       { "field": 'Notes', "header": 'Description' }
     ]
+
+    this.StockPurchase = [
+      {
+        "field": 'depositorName', "header": 'Depositor Name'
+      },
+      { "field": 'itemName', "header": 'Item Name' },
+      { "field": 'qty', "header": 'Quantity' },
+      { "field": 'orderNumber', "header": 'Order Number' },
+      { "field": 'remarks', "header": 'Remarks' }]
   }
-}
+  }

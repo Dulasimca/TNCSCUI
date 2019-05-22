@@ -14,6 +14,9 @@ import { RegionsDataComponent } from './masters/regions-data/regions-data.compon
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { DepositorsComponent } from './masters/depositors/depositors.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.component';
+import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
+import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
 
 
 const routes: Routes = [
@@ -30,6 +33,9 @@ const routes: Routes = [
   { path: 'regions', component: RegionsDataComponent, canActivate: [AuthGuard] },
   { path: 'schemes', component: SchemesComponent, canActivate: [AuthGuard] },
   { path: 'depositors', component: DepositorsComponent, canActivate: [AuthGuard] },
+  { path: 'stockPurchase', component: StockPurchaseComponent},
+  { path: 'regionalAllotment', component: RegionAllotmentComponent },
+  { path: 'godownAllotment', component: GodownAllotmentComponent },
   { path: '**', component: PageNotFoundComponent }
   
 ];

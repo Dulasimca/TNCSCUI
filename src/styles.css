@@ -189,12 +189,12 @@ background: rgba(0, 0, 0, 0.8);
 }
 .content {
   margin: 0px 25px 0px 25px;
+  min-height: -webkit-fill-available;
 }
 
 .footer {
   position: relative;                                                                              
-  left: 0;
-  bottom: 0; margin-top: 4%;
+  bottom: 0;
   text-align: center !important;
   background-color: rgb(19, 119, 185) !important;
   font-family: Arial, Helvetica, sans-serif !important;
@@ -214,7 +214,7 @@ background: rgba(0, 0, 0, 0.8);
   color: rgb(19, 119, 185) !important;
  background-color: #f1f8f9	 !important;
   padding: 0px !important;
-  margin: 0px 25px 0px 15px;
+  margin: 0px 25px 0px 0px;
   font-family: Arial, Helvetica, sans-serif !important;
 }
 
@@ -391,7 +391,6 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
       display: block;
       font-size: 24px;
       float: right;
-      text-align: end;
       padding-right: 0px;
     }
 
@@ -550,3 +549,44 @@ ul
     background-color: #D0CFCF	;
     color: #ffffff;
     border-color: #709bc0;}
+
+    #err-page-header {
+      margin: 0 0 0 0;
+      padding: 6px 2% 6px 2%;
+      font-family: "trebuchet MS", Verdana, sans-serif;
+      color: #FFF;
+      background-color: #555555;
+  }
+  #err-page-content {
+    margin: 0;
+    position: relative;
+    min-height:100%;
+    height: -webkit-fill-available;
+}
+.content-container {
+  background: #FFF;
+    position: relative;
+}
+    .err-page-border {
+  border: 1px solid #5f5c5c;
+      
+    }
+
+    .err-page-h1 {
+      font-size: 2.4em;
+      margin: 0;
+      color: #FFF;
+  }
+    .err-page-h2{
+        font-size: 1.7em;
+        margin: 0;
+        color: #CC0000;
+    }
+
+    .err-page-h3 {
+        font-size: 1.2em;
+        margin: 10px 0 0 0;
+        color: #000000;
+    }
+
+
