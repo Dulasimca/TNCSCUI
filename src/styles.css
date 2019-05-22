@@ -31,6 +31,8 @@ src: url('assets/layout/images/login/wheat.svg');
 .body {
   margin: 0px !important;
   font-family: Arial, Helvetica, sans-serif !important;
+  background-color: #f1f8f9;
+  width: -webkit-fill-available;
 }
 
 .slides {
@@ -153,6 +155,9 @@ body {
   display: inline-block;
   flex-direction: column;
 }
+.ui-menubar li {
+  padding: 2px 10px 2px 2px;
+}
 
 .ui-menubar ul {
   margin: -7px 0px 0px 0px;
@@ -164,7 +169,7 @@ body {
   border: 2px solid #44a3ec !important;
   background: #44a3ec;
   font-weight: bolder !important;
-  max-height: 50px !important;
+  max-height: 40px !important;
 } 
 .ui-menu .ui-menuitem > .ui-menuitem-link:hover,
  .ui-menubar .ui-menuitem > .ui-menuitem-link:hover,
@@ -186,8 +191,6 @@ body {
   cursor: pointer !important;
 }
 .content {
-  display: flex;
-  flex-direction: column;
   margin: 0px 25px 0px 25px;
 }
 
@@ -212,8 +215,7 @@ body {
 
 .main-header {
   color: rgb(19, 119, 185) !important;
- background-color: #ffffff	 !important;
-  display: inline-block !important;
+ background-color: #f1f8f9	 !important;
   padding: 0px !important;
   margin: 0px 25px 0px 15px;
   font-family: Arial, Helvetica, sans-serif !important;
@@ -227,11 +229,7 @@ body {
     padding: 5px 5px 2px 2px !important;
   }
 
-
-.content {
-  display: inline-block;
-}
-.carousel-indicators li {
+  .carousel-indicators li {
   height: 0.01px;
   width: 0.01px;
 }
@@ -378,9 +376,9 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 
 .dashboard .overview {
   padding: 0 !important;
-  min-height: 140px;
   position: relative;
   margin-bottom: 0px !important;
+  height: 90px;
 }
 
   .dashboard .overview .overview-content {
@@ -394,10 +392,10 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 
     .dashboard .overview .overview-content .overview-detail {
       display: block;
-      font-size: 38px;
-      font-weight: bold;
-      margin-top: 5px;
+      font-size: 24px;
       float: right;
+      text-align: end;
+      padding-right: 0px;
     }
 
     .dashboard .overview .overview-content .overview-link {
@@ -407,8 +405,9 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
     }
 
     .dashboard .overview .overview-content .overview-title {
-      font-size: 22px;
+      font-size: 20px;
       text-align: center;
+      padding-top: 0px;
     }
 
   .dashboard .overview .overview-footer {
@@ -513,17 +512,16 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   }
 
   .dashboard .colorbox .colorbox-name {
-    font-size: 20px;
+    font-size: 18px;
     display: inline-block;
     width: 100%;
-    margin: 4px 0 10px 0;
-    color: #ffffff;
+    color: #09143e;
+    padding: 0px;
   }
 
   .dashboard .colorbox .colorbox-count {
-    font-weight: bold;
     font-size: 24px;
-    color: white;
+    color: #09143e;
   }
 
 .inline-padding {

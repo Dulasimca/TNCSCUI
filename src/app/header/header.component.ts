@@ -4,6 +4,7 @@ import { Observable, interval } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../shared-services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,8 @@ export class HeaderComponent implements OnInit {
   minutes = "--";
   clockDisplay: string;
   interval: number;
-  constructor(private loginService: LoginService, private authService: AuthService) { }
+  date: any;
+  constructor(private loginService: LoginService, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     // if (this.duration > 0) {
@@ -43,6 +45,8 @@ export class HeaderComponent implements OnInit {
     //     this.clockDisplay = this.minutes + " : " + this.seconds;
     //   }, 1000);
     // }
+    const currentDate = new Date();
+    this.date = this.datePipe.transform(currentDate, 'MM/dd/yyyy');
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
