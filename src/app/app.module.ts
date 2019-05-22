@@ -48,6 +48,8 @@ import { LoginService } from './login/login.service';
 import { NotificationsComponent } from './masters/notifications/notifications.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ExcelService } from './shared-services/excel.service';
+import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
+import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 
 
 
@@ -71,6 +73,8 @@ import { ExcelService } from './shared-services/excel.service';
     FCIDataComponent,
     SchemesComponent,
     NotificationsComponent,
+    GodownAllotmentComponent,
+    RegionAllotmentComponent,
     PageNotFoundComponent
   ],
   imports: [

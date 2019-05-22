@@ -550,12 +550,7 @@ ul
     color: #ffffff;
     border-color: #709bc0;}
 
-
-
-
-
     #err-page-header {
-      width: 96%;
       margin: 0 0 0 0;
       padding: 6px 2% 6px 2%;
       font-family: "trebuchet MS", Verdana, sans-serif;
@@ -566,12 +561,10 @@ ul
     margin: 0;
     position: relative;
     min-height:100%;
+    height: -webkit-fill-available;
 }
 .content-container {
   background: #FFF;
-    width: 98%;
-    margin-top: 8px;
-    padding: 10px;
     position: relative;
 }
     .err-page-border {

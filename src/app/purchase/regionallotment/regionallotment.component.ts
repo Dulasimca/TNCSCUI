@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/login/login.service';
 
 @Component({
   selector: 'app-regionallotment',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./regionallotment.component.css']
 })
 export class RegionAllotmentComponent implements OnInit {
-
-  constructor() { }
+  canShowMenu: boolean;
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.loginService.canShow()) ? this.loginService.canShow() : false;
   }
 
 }
