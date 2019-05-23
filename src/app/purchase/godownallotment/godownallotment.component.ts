@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/login/login.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-godownallotment',
@@ -8,10 +8,10 @@ import { LoginService } from 'src/app/login/login.service';
 })
 export class GodownAllotmentComponent implements OnInit {
 canShowMenu: boolean;
-  constructor(private loginService: LoginService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow()) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
   }
 
 }

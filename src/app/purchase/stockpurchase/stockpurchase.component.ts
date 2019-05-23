@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { LoginService } from 'src/app/login/login.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-stockpurchase',
@@ -21,10 +21,10 @@ export class StockPurchaseComponent implements OnInit {
   remarks: any;
   stockArray: Array<any> = [];
 
-  constructor(private tableConstants: TableConstants, private loginService: LoginService) { }
+  constructor(private tableConstants: TableConstants, private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow()) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockPurchaseDataCoulmns = this.tableConstants.StockPurchase;
   }
 

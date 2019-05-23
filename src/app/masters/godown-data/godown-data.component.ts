@@ -9,6 +9,7 @@ import { LoginService } from 'src/app/login/login.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { element } from '@angular/core/src/render3';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-godown-data',
@@ -22,11 +23,11 @@ export class GodownDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
 
-  constructor(private restApiService: RestAPIService, private loginService: LoginService,
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService,
     private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
       let treeData = [];
@@ -80,7 +81,15 @@ export class GodownDataComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data.data,'GODOWN_DATA');
+    let tempArray = [];
+    this.data.forEach(x => {
+      tempArray.push(x.data);
+      let childNode = x.children;
+      childNode.forEach(y => {
+        tempArray.push(y.data);
+      })
+    })
+    this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
   }
   exportAsPDF() {
     var doc = new jsPDF();

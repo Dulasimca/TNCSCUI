@@ -7,6 +7,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-aadsdata',
@@ -22,10 +23,10 @@ export class AADSDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
 
-  constructor(private restApiService: RestAPIService,private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column=this.tableConstants.AadsData;
     this.restApiService.get(PathConstants.AADS).subscribe((response: any[]) => {
       if(response!==undefined){
@@ -52,7 +53,7 @@ export class AADSDataComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-          return item.GodownName.toString().startsWith(value);
+          return item.Name.toString().startsWith(value);
       });
        } 
        else 
@@ -68,7 +69,7 @@ export class AADSDataComponent implements OnInit {
     var col = this.column;
     var rows = [];
       this.data.forEach(element => {
-       var temp = [element.SlNo,element.DepositorName,element.RegionName,element.GodownName];
+       var temp = [element.SlNo,element.Name,element.AADSType,element.RegionName];
           rows.push(temp);
     });
       doc.autoTable(col,rows);

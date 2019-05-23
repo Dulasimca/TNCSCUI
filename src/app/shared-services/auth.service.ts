@@ -18,20 +18,32 @@ export class AuthService {
     this.isSignedIn = value;
   }
 
-   public login(userInfo: User) {
-     localStorage.setItem('ACCESS_TOKEN', "access_token");
-     if (userInfo !== undefined) {
+   public login(userInfo: User, id) {
+     if (userInfo !== undefined && id !== undefined) {
        this.isSignedIn = true;
+       localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
+       localStorage.setItem('ID', id);
      }
    }
 
   public isLoggedIn() {
-    return localStorage.getItem('ACCESS_TOKEN') !== null;
+    let getInfo = localStorage.getItem('USER_INFO');
+   if(getInfo !== null) {
+    return true;
+   }
+   return false;
+  }
 
+  public checkLoggedInUserId() {
+    let roleId = localStorage.getItem('ID');
+    if (roleId !== undefined && roleId !== '') {
+      return roleId;
+    }
   }
 
   public logout() {
-    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('USER_INFO');
+    localStorage.removeItem('ID');
     this.isSignedIn = false;
     this.router.navigate(['/login']);
   }

@@ -17,13 +17,6 @@ getValue(){
     return this.roleID;
 }
 
-isValid(value){
-  this.showMenu = value;
-}
-canShow() {
-  return this.showMenu;
-}
-
 setUsername(username) {
   this.userName = username;
 }

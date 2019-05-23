@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="ui-g-12 ui-md-12 ui-lg-12">
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
         <app-menu *ngIf="canShowMenu"></app-menu>
         <p-panel>
           <p-header>
@@ -13,7 +13,7 @@
                 </div>
             </div>
           </p-header>
-          <div style="min-height: 400px;">
+          <div style="margin-left: 200px; margin-right: 200px;">
         <p-table [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
            
             <ng-template pTemplate="header" let-columns>

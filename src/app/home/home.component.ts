@@ -6,9 +6,6 @@ import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
-import { LoginService } from '../login/login.service';
-import { MatIconRegistry } from '@angular/material/icon';
-
 
 @Component({
   selector: 'app-home',
@@ -41,13 +38,10 @@ export class HomeComponent implements OnInit {
   wheatPB: any;
   sugarPB: any;
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
-    private router: Router, private loginService: LoginService, private matIconRegistry: MatIconRegistry) {
-      this.matIconRegistry.addSvgIcon('wheat', '../../assets/layout/images/login/wheat.svg');
+    private router: Router) {}
 
-  }
-
-  ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
+    ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     const date = new Date();
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);

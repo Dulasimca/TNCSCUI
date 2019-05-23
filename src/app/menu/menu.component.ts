@@ -28,22 +28,34 @@ export class MenuComponent implements OnInit {
     private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
-    this.isLoggedIn = this.authService.getValidUser();
-    this.roleId = this.loginService.getValue();
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.roleId = this.authService.checkLoggedInUserId();
     let roleId = new HttpParams().append('roleId', this.roleId);
-    if (this.roleId !== undefined && this.roleId !== '') {
       this.restApiService.getByParameters(PathConstants.MENU, roleId).subscribe((res: any[]) => {
         if (res !== undefined) {
           this.items = res;
           this.items.forEach(x => {
+            let list: any = x.items;
             if (x.items.length === 0) {
-              delete (x.items);
+              return delete (x.items);
+            } else {
+              list.forEach(y => {
+                let nestedList: any = y.items;
+                if(y.items.length === 0) {
+                 return delete (y.items);
+                } else {
+                  nestedList.forEach(z => {
+                    let deepNestedList: any = z.items;
+                    if(z.items.length === 0) {
+                     return delete (z.items);
+                    }
+                  });
+                }
+              });
             }
-          })
+          });
         }
       });
-    }
   }
 
   onLogout() {

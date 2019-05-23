@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(this.loginForm.value);
     let username = new HttpParams().append('userName', this.userName);
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
       if (credentials !== undefined) {
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
-        this.loginService.isValid(true);
+        this.authService.login(this.loginForm.value, this.roleId);
       } else {
         this.clearFields();
         console.log('invalid user');

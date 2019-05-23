@@ -8,6 +8,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 
 
@@ -27,10 +28,10 @@ export class RegionsDataComponent implements OnInit {
   searchText : string;
   filterArray: any;
 
-  constructor(private restApiService: RestAPIService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.RegionData;
     this.restApiService.get(PathConstants.REGION).subscribe((response: any[]) => {
       if(response!==undefined){
