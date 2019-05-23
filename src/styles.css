@@ -405,7 +405,7 @@ background: rgba(0, 0, 0, 0.8);
   cursor: pointer !important;
 }
 .content {
-  margin: 0px 25px 0px 25px;
+  margin: 0px !important;
   min-height: -webkit-fill-available;
 }
 
