@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     const date = new Date();
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);

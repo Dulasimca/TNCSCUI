@@ -104,7 +104,6 @@ export class DailyStockStatementComponent implements OnInit {
             for (let i = 0; i < this.treeData.length; i++) {
               tempArray.push({ 'data': this.treeData[i].data, 'children': this.treeData[i].children });
             }
-            console.log('temp', tempArray);
             this.treeData = [];
             this.dailyStockData = tempArray;
           });

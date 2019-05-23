@@ -19,19 +19,22 @@ export class AuthService {
   }
 
    public login(userInfo: User) {
-     localStorage.setItem('ACCESS_TOKEN', "access_token");
      if (userInfo !== undefined) {
        this.isSignedIn = true;
+       localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
      }
    }
 
   public isLoggedIn() {
-    return localStorage.getItem('ACCESS_TOKEN') !== null;
-
+    let getInfo = localStorage.getItem('USER_INFO');
+   if(getInfo !== null) {
+    return true;
+   }
+   return false;
   }
 
   public logout() {
-    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('USER_INFO');
     this.isSignedIn = false;
     this.router.navigate(['/login']);
   }
