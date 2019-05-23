@@ -81,4 +81,7 @@ export class MRMDataComponent implements OnInit {
         doc.save('MRM_DATA.pdf');
       
     }
+    print(){
+      window.print();
+    }
   }

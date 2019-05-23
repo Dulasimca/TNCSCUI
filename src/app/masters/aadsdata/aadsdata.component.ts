@@ -54,14 +54,15 @@ export class AADSDataComponent implements OnInit {
       this.data = this.data.filter(item => {
           return item.GodownName.toString().startsWith(value);
       });
-       } else {
+       } 
+       else 
+       {
          this.data = this.filterArray;
        }
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'AADS_DATA');
   }
-  
   exportAsPDF() {
     var doc = new jsPDF();
     var col = this.column;
@@ -72,6 +73,8 @@ export class AADSDataComponent implements OnInit {
     });
       doc.autoTable(col,rows);
       doc.save('AADS_DATA.pdf');
-
+  }
+  print(){
+    window.print();
   }
 }

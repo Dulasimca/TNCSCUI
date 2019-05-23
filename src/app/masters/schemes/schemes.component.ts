@@ -16,7 +16,7 @@ import { LoginService } from 'src/app/login/login.service';
 export class SchemesComponent implements OnInit {
   data: any;
   column?: any;
-  errMessage: 'Record Not Found';
+  errMessage: "Record Not Found";
   items: any;
   canShowMenu: boolean;
   filterArray: any;
@@ -27,13 +27,14 @@ export class SchemesComponent implements OnInit {
     this.canShowMenu = (this.loginService.canShow() !== undefined) ? this.loginService.canShow() : false;
     this.column = this.tableConstants.SchemeData;
     this.restApiService.get(PathConstants.SCHEMES).subscribe((response: any[]) => {
-      if (response !== undefined){
+      if (response !== undefined)
+      {
         this.data = response;
         this.filterArray = response;
       } 
       else
       {
-        return this.errMessage;
+        document.getElementById("errMessage").innerHTML = "Record Not Found!";
       }
       this.items = [
         {
@@ -53,7 +54,9 @@ export class SchemesComponent implements OnInit {
       this.data = this.data.filter(item => {
           return item.DepositorName.toString().startsWith(value);
       });
-       } else {
+       } 
+       else 
+       {
          this.data = this.filterArray;
        }
   }
@@ -67,10 +70,11 @@ export class SchemesComponent implements OnInit {
     this.data.forEach(element => {
        var temp = [element.SlNo,element.RGNAME];
           rows.push(temp);
-          
     });
       doc.autoTable(col,rows);
       doc.save('SCHEME_DATA.pdf');
-    
+  }
+  print(){
+    window.print();
   }
 }

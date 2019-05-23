@@ -79,4 +79,7 @@ export class DepositorsComponent implements OnInit {
             doc.save('SUPPLIERS_DATA.pdf');
           
         }
+        print(){
+          window.print();
+        }
   }

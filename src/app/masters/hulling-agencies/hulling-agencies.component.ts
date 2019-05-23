@@ -78,4 +78,7 @@ export class HullingAgenciesComponent implements OnInit {
             doc.save('HULLING-AGENCIES_DATA.pdf');
           
         }
+        print(){
+          window.print();
+        }
   }

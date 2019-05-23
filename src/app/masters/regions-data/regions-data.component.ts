@@ -80,4 +80,7 @@ exportAsPDF() {
     doc.save('REGION_DATA.pdf');
   
  }
+ print(){
+  window.print();
+}
 }

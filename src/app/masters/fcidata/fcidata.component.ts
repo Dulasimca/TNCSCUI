@@ -31,8 +31,8 @@ export class FCIDataComponent implements OnInit {
         if(response!==undefined){
           this.data = response;
           this.filterArray = response;
-         
-        }else 
+        }
+        else 
         {
           return this.errMessage;
         }
@@ -45,13 +45,8 @@ export class FCIDataComponent implements OnInit {
               label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
                this.exportAsPDF();
               }
-            
-                 
             }]
-         //console.log('res', this.data);
-        
       });
-        
     }
     onSearch(value) {
       if (value !== undefined && value !== '') {
@@ -77,6 +72,9 @@ export class FCIDataComponent implements OnInit {
       });
         doc.autoTable(col,rows);
         doc.save('FCI_DATA.pdf');
-      
+    }
+    print()
+    {
+      window.print();
     }
 }

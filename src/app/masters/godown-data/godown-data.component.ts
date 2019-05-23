@@ -80,7 +80,7 @@ export class GodownDataComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'GODOWN_DATA');
+    this.excelService.exportAsExcelFile(this.data.data,'GODOWN_DATA');
   }
   exportAsPDF() {
     var doc = new jsPDF();
@@ -95,5 +95,8 @@ export class GodownDataComponent implements OnInit {
       doc.save('GODOWN_DATA.pdf');
     
   //  })
+  }
+  print(){
+    window.print();
   }
 }

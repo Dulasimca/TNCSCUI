@@ -53,7 +53,9 @@ export class CRSDataComponent implements OnInit {
       this.data = this.data.filter(item => {
           return item.GodownName.toString().startsWith(value);
       });
-       } else {
+       } 
+       else 
+       {
          this.data = this.filterArray;
        }
   }
@@ -71,5 +73,7 @@ export class CRSDataComponent implements OnInit {
       doc.autoTable(col,rows);
       doc.save('CRS_DATA.pdf');
   }
-
+  print(){
+    window.print();
+  }
 }
