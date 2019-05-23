@@ -35,25 +35,25 @@ export class MenuComponent implements OnInit {
         if (res !== undefined) {
           this.items = res;
           this.items.forEach(x => {
-            let list = x.items;
+            let list: any = x.items;
             if (x.items.length === 0) {
-              delete (x.items);
+              return delete (x.items);
             } else {
               list.forEach(y => {
-                let nestedList = y.items;
+                let nestedList: any = y.items;
                 if(y.items.length === 0) {
-                  delete (y.items);
+                 return delete (y.items);
                 } else {
                   nestedList.forEach(z => {
-                    let deepNestedList = z.items;
+                    let deepNestedList: any = z.items;
                     if(z.items.length === 0) {
-                      delete (z.items);
+                     return delete (z.items);
                     }
-                  })
+                  });
                 }
-              })
+              });
             }
-          })
+          });
         }
       });
   }
