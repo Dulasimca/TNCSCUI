@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.roleId = this.loginService.getValue();
+    this.roleId = this.authService.checkLoggedInUserId();
     let roleId = new HttpParams().append('roleId', this.roleId);
       this.restApiService.getByParameters(PathConstants.MENU, roleId).subscribe((res: any[]) => {
         if (res !== undefined) {

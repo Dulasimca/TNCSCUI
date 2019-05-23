@@ -4,6 +4,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { TreeNode } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-dailystockstatement',
@@ -19,16 +20,16 @@ export class DailyStockStatementComponent implements OnInit {
   itemCodes: any = [];
   ITCODE1: any;
   ITCODE2: any;
-  totalRecords: number;
-  loading: boolean;
+  canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService) { }
+  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
+    private authService: AuthService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
     this.treeData = [];
     this.dailyStockDataCoulmns = this.tableConstants.DailyStockStatement;
-    this.loading = true;
     this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
         for (let c = 0; c < itemCodes.length; c++) {

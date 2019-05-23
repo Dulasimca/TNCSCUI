@@ -18,10 +18,11 @@ export class AuthService {
     this.isSignedIn = value;
   }
 
-   public login(userInfo: User) {
-     if (userInfo !== undefined) {
+   public login(userInfo: User, id) {
+     if (userInfo !== undefined && id !== undefined) {
        this.isSignedIn = true;
        localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
+       localStorage.setItem('ID', id);
      }
    }
 
@@ -33,8 +34,16 @@ export class AuthService {
    return false;
   }
 
+  public checkLoggedInUserId() {
+    let roleId = localStorage.getItem('ID');
+    if (roleId !== undefined && roleId !== '') {
+      return roleId;
+    }
+  }
+
   public logout() {
     localStorage.removeItem('USER_INFO');
+    localStorage.removeItem('ID');
     this.isSignedIn = false;
     this.router.navigate(['/login']);
   }

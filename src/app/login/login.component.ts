@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
-        this.authService.login(this.loginForm.value);
+        this.authService.login(this.loginForm.value, this.roleId);
       } else {
         this.clearFields();
         console.log('invalid user');
