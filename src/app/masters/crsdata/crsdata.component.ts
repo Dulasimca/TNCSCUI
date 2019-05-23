@@ -20,6 +20,7 @@ export class CRSDataComponent implements OnInit {
   errMessage: "Record Not Found";
   items: any;
   canShowMenu: boolean;
+  filterArray: any;
   
     constructor(private restApiService:RestAPIService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
@@ -29,6 +30,7 @@ export class CRSDataComponent implements OnInit {
       this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
         if(response!==undefined){
           this.data = response;
+          this.filterArray = response;
         }else 
         {
           return this.errMessage;
@@ -42,13 +44,19 @@ export class CRSDataComponent implements OnInit {
           label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
            this.exportAsPDF();
           }
-        
-             
         }]
-        // console.log('res', this.data);
-        
       });
    }
+   onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+          return item.GodownName.toString().startsWith(value);
+      });
+       } else {
+         this.data = this.filterArray;
+       }
+  }
    exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'CRS DATA');
   }
@@ -56,14 +64,12 @@ export class CRSDataComponent implements OnInit {
     var doc = new jsPDF();
     var col = this.column;
     var rows = [];
-    
       this.data.forEach(element => {
        var temp = [element.SlNo,element.Issuername,element.RegionName,element.SocietyName,element.GodownName];
           rows.push(temp);
-          
     });
       doc.autoTable(col,rows);
       doc.save('CRS_DATA.pdf');
- 
   }
+
 }

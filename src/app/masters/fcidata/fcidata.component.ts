@@ -19,6 +19,8 @@ export class FCIDataComponent implements OnInit {
   errMessage: string;
   items: any;
   canShowMenu: boolean;
+  searchText: string;
+  filterArray: any;
   
     constructor(private restApiService: RestAPIService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
@@ -28,6 +30,8 @@ export class FCIDataComponent implements OnInit {
       this.restApiService.get(PathConstants.FCI).subscribe((response: any[]) => {
         if(response!==undefined){
           this.data = response;
+          this.filterArray = response;
+         
         }else 
         {
           return this.errMessage;
@@ -48,6 +52,16 @@ export class FCIDataComponent implements OnInit {
         
       });
         
+    }
+    onSearch(value) {
+      if (value !== undefined && value !== '') {
+        value = value.toString().toUpperCase();
+        this.data = this.data.filter(item => {
+            return item.DepositorName.toString().startsWith(value);
+        });
+         } else {
+           this.data = this.filterArray;
+         }
     }
     exportAsXLSX():void{
       this.excelService.exportAsExcelFile(this.data,'FCI_DATA');
