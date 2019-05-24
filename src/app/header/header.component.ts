@@ -21,37 +21,39 @@ export class HeaderComponent implements OnInit {
   clockDisplay: string;
   interval: number;
   date: any;
+  seconds: any;
   constructor(private loginService: LoginService, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
-    let secPerMin = 60;
-    let oneMinToMilliSec = 60000;
-    this.hours = new Date().getHours();
-    this.minutes = new Date().getMinutes();
-    this.clockDisplay = this.hours + ':' + this.minutes;
-    if (this.duration > 0) {
-      setInterval(() => {
-      this.duration = this.duration - 1;
-        if (this.duration <= 0) {
-          clearInterval(this.interval)
-        }
-        // if (this.duration % 60 >= 0) {
-        //   this.minutes = (this.duration % 60 < 10) ? ("0" + this.duration % 60) : (this.duration % 60).toString();
-        // } else {
-        //    this.authService.logout();
-        // }
-
-        // if (this.duration / 60 < 10) {
-        //   this.hours = "0" + parseInt("" + this.duration / 60, 10);
-        // } else {
-        //   this.hours = "" + parseInt((this.duration / 60).toString(), 10);
-        // }
-        this.clockDisplay = new Date().getHours() + " : " + new Date().getMinutes();
-      }, oneMinToMilliSec);
-    }
+    showTime();
     const currentDate = new Date();
     this.date = this.datePipe.transform(currentDate, 'dd-MM-yyyy');
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
+ 
+}
+function showTime() {
+  let todayDate = new Date();
+  let hours: any = todayDate.getHours();
+  let minutes: any = todayDate.getMinutes();
+  let seconds: any = todayDate.getSeconds();
+  let period = 'AM';
+
+  if (hours === 0) {
+      hours = 12;
+  }
+  if (hours > 12) {
+      hours = hours - 12;
+      period = 'PM';
+  }
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  let timer = hours + ':' + minutes + ':' + seconds + period;
+  document.getElementById('displayTimer').innerText = timer;
+  document.getElementById('displayTimer').innerHTML = timer;
+
+  setTimeout(showTime, 1000);
 }

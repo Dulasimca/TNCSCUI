@@ -28,7 +28,12 @@
             <tr >
               <td *ngFor="let col of columns; let i = index">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
-                {{rowData[col.field]}}
+                <!-- <div *ngIf = "rowData[col.field] === 'Receipt' && rowData[col.field] === 'TotalIssue'"> -->
+                    <!-- {{rowData[col.field] | number : '.3'}} -->
+                <!-- </div> -->
+                <!-- <div *ngIf = "rowData[col.field] !== 'Receipt' && rowData[col.field] !== 'TotalIssue'"> -->
+                    {{rowData[col.field]}}
+                <!-- </div> -->
               </td>
             </tr>
           </ng-template>
