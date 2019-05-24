@@ -7,32 +7,30 @@
         Supply Chain Management-(SCM)
       </h3>
     </div>
-    <div class="ui-g-4">
+    <div class="ui-g-4" style="padding-bottom: 0px">
       <h4 class="ui-g-3" style="margin: 0px;padding: 0px">Welcome!</h4>
       <h4 class="ui-g-8" style="margin: 0px;padding: 0px"> <b>{{loggedUsername}}</b></h4>
-      <span style="float: right;margin: 0px">{{date}}
-        <span style="text-align:end;margin: 0px">{{clockDisplay}}</span>
-    </span>
+      <div class="ui-g date">{{date}}</div>
+        <div class="ui-g clock" id="displayTimer" onload="showTime()"></div>
       
-      <div class="ui-g-12" style="margin:0px 0px 0px 50px; padding: 0px 0px 0px 50px; max-height: 35px">
-        <div class="ui-g-1" style="margin-right: 20px;">
+      <div class="ui-g-12" style="float: right !important;max-height: 35px;margin-top: 10px">
+        <div class="ui-g-2">
           <a href="http://omnisurv-cloud.com/index" target="_blank">
-            <i class="fa fa-camera-retro fa-2x header-icons" title="CCTV Details"></i>
+            <i class="fa fa-camera-retro fa-icon-2xresize header-camera" title="CCTV Details"></i>
           </a>
         </div>
-        <div class="ui-g-1">
+        <div class="ui-g-2">
           <a href="https://bonton.aquilatrack.com" target="_blank">
-            <i class="fa fa-map-marker fa-2x header-icons" title="CCTV Details"></i>
+            <i class="fa fa-map-marker fa-icon-2xresize header-tracking" title="Lorry Tracking"></i>
           </a>
         </div>
-        <div class="ui-g-1" style="margin-right: 20px;">
-          <i class="fa fa-book fa-2x header-icons" title="CCTV Details"></i>
+        <div class="ui-g-2">
+          <i class="fa fa-book fa-icon-2xresize header-accounts" title="Account Details"></i>
         </div>
-        <div class="ui-g-1">
-          <i class="fa fa-comments-o fa-2x header-icons" title="CCTV Details"></i>
+        <div class="ui-g-2">
+          <i class="fa fa-comments-o fa-icon-2xresize header-bugs" title="Bugs"></i>
         </div>
        
       </div>
     </div>
   </div>
-  

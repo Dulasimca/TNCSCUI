@@ -43,20 +43,22 @@ export class DailyStockStatementComponent implements OnInit {
             let regionData = [];
             let godownData = [];
             response.forEach(x => {
-              let list = x.ListItems;
-              for (let i = 0; i < list.length; i++) {
-                let godownList = list[i].ListItems;
+              let regionList = x.ListItems;
+              for (let i = 0; i < regionList.length; i++) {
+                let godownList = regionList[i].ListItems;
                 for (let i = 0; i < godownList.length; i++) {
+                  let godownOBReceiptTotal = ((godownList[i].OpeningBalance) * 1) + ((godownList[i].TotalReceipt) * 1);
+                  let godownIssueTotal = ((godownList[i].IssueSales) * 1) + ((godownList[i].IssueOthers) * 1);
                   regionChildNode = {
                     'data': {
                       'Name': godownList[i].Name,
                       'OpeningBalance': godownList[i].OpeningBalance,
                       "ClosingBalance": godownList[i].ClosingBalance,
                       "TotalReceipt": godownList[i].TotalReceipt,
-                      "Receipt": parseInt(godownList[i].OpeningBalance, 0) + parseInt(godownList[i].TotalReceipt, 0),
+                      "Receipt": godownOBReceiptTotal.toFixed(3),
                       "IssueSales": godownList[i].IssueSales,
                       "IssueOthers": godownList[i].IssueOthers,
-                      "TotalIssue": parseInt(godownList[i].IssueSales, 0) + parseInt(godownList[i].IssueOthers, 0),
+                      "TotalIssue": godownIssueTotal.toFixed(3),
                       "CSBalance": godownList[i].CSBalance,
                       "PhycialBalance": godownList[i].PhycialBalance,
                       "Shortage": godownList[i].Shortage,
@@ -64,24 +66,28 @@ export class DailyStockStatementComponent implements OnInit {
                   }
                   godownData.push(regionChildNode);
                 }
+                let regionOBReceiptTotal = ((regionList[i].OpeningBalance) * 1) + ((regionList[i].TotalReceipt) * 1);
+                let regionIssueTotal = ((regionList[i].IssueSales) * 1) + ((regionList[i].IssueOthers) * 1);
                 childNode = {
                   'data': {
-                    'Name': list[i].Name,
-                    'OpeningBalance': list[i].OpeningBalance,
-                    "ClosingBalance": list[i].ClosingBalance,
-                    "TotalReceipt": list[i].TotalReceipt,
-                    "Receipt": parseInt(list[i].OpeningBalance, 0) + parseInt(list[i].TotalReceipt, 0),
-                    "IssueSales": list[i].IssueSales,
-                    "IssueOthers": list[i].IssueOthers,
-                    "TotalIssue": parseInt(list[i].IssueSales, 0) + parseInt(list[i].IssueOthers, 0),
-                    "CSBalance": list[i].CSBalance,
-                    "PhycialBalance": list[i].PhycialBalance,
-                    "Shortage": list[i].Shortage,
+                    'Name': regionList[i].Name,
+                    'OpeningBalance': regionList[i].OpeningBalance,
+                    "ClosingBalance": regionList[i].ClosingBalance,
+                    "TotalReceipt": regionList[i].TotalReceipt,
+                    "Receipt": regionOBReceiptTotal.toFixed(3),
+                    "IssueSales": regionList[i].IssueSales,
+                    "IssueOthers": regionList[i].IssueOthers,
+                    "TotalIssue": regionIssueTotal.toFixed(3),
+                    "CSBalance": regionList[i].CSBalance,
+                    "PhycialBalance": regionList[i].PhycialBalance,
+                    "Shortage": regionList[i].Shortage,
                   }, "children": godownData
                 }
                 regionData.push(childNode);
                 godownData = [];
               }
+              let OBReceiptTotal = ((x.OpeningBalance) * 1) + ((x.TotalReceipt) * 1);
+              let IssueTotal = ((x.IssueSales) * 1) + ((x.IssueOthers) * 1);
               this.treeData.push(
                 {
                   "data": {
@@ -89,10 +95,10 @@ export class DailyStockStatementComponent implements OnInit {
                     "OpeningBalance": x.OpeningBalance,
                     "ClosingBalance": x.ClosingBalance,
                     "TotalReceipt": x.TotalReceipt,
-                    "Receipt": parseInt(x.OpeningBalance, 0) + parseInt(x.TotalReceipt, 0),
+                    "Receipt": OBReceiptTotal.toFixed(3),
                     "IssueSales": x.IssueSales,
                     "IssueOthers": x.IssueOthers,
-                    "TotalIssue": parseInt(x.IssueSales, 0) + parseInt(x.IssueOthers, 0),
+                    "TotalIssue": IssueTotal.toFixed(3),
                     "CSBalance": x.CSBalance,
                     "PhycialBalance": x.PhycialBalance,
                     "Shortage": x.Shortage,
