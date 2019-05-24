@@ -1,0 +1,2 @@
+.col { page-break-after: always; }
+.col:last-child { page-break-after: avoid; }

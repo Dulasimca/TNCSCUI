@@ -23,11 +23,11 @@ export class GodownDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService,
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService,
     private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn() !== undefined) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
       let treeData = [];
@@ -81,7 +81,15 @@ export class GodownDataComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'GODOWN_DATA');
+    let tempArray = [];
+    this.data.forEach(x => {
+      tempArray.push(x.data);
+      let childNode = x.children;
+      childNode.forEach(y => {
+        tempArray.push(y.data);
+      })
+    })
+    this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
   }
   exportAsPDF() {
     var doc = new jsPDF();
@@ -96,5 +104,8 @@ export class GodownDataComponent implements OnInit {
       doc.save('GODOWN_DATA.pdf');
     
   //  })
+  }
+  print(){
+    window.print();
   }
 }

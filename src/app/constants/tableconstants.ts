@@ -33,41 +33,44 @@ export class TableConstants {
       { "field": 'Carpet', "header": 'Carpet' }
     ]
     this.CrsData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'Issuername', "header": 'Issuer Name' },
       { "field": 'RegionName', "header": 'Region Name' },
       { "field": 'SocietyName', "header": 'Society Name' },
       { "field": 'GodownName', "header": 'Godown Name' }
     ]
     this.MrmData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'DepositorName', "header": 'Depositor Name' }
     ]
     this.HullingAgenciesData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'DepositorName', "header": 'Depositor Name' }
     ]
     this.FciData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'DepositorName', "header": 'Depositor Name' }
     ]
     this.SupplierData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'DepositorName', "header": 'Depositor Name' }
     ]
     this.RegionData = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'RGNAME', "header": 'Register Name' }
     ]
     this.AadsData = [
-      { "field": 'SlNo', "header": 'SlNo' },
-      { "field": 'DepositorName', "header": 'Depositor Name' },
-      { "field": 'RegionName', "header": 'Region Name' },
-      { "field": 'GodownName', "header": 'Godown Name' }
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Name', "header": 'Name' },
+      { "field": 'AADSType', "header": 'AADS Type' },
+      { "field": 'RegionName', "header": 'Region Name' }
     ]
-    this.SchemeData = []
+    this.SchemeData = [
+      { "field": "SlNo", "header" : "S.No"},
+      { "field": "Name", "header" : "Name"}
+    ]
     this.Notification = [
-      { "field": 'SlNo', "header": 'SlNo' },
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'Notes', "header": 'Description' }
     ]
 

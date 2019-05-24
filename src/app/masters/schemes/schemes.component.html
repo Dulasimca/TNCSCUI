@@ -10,10 +10,11 @@
                   <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
                   <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
                    styleClass="ui-button-danger"></p-splitButton>
+                   <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn" (click)="print()"></button>
                 </div>
             </div>
           </p-header>
-        <div style="margin-right: 300px; margin-left: 300px;">
+          <div style="margin-left: 200px; margin-right: 200px;">
          <p-table [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -22,10 +23,11 @@
                     </th>
                 </tr>
             </ng-template>
+            
             <ng-template pTemplate="body" let-columns="columns" let-response>
                   <tr>
                       <td *ngFor="let col of columns" style="width:30px"> 
-                        {{response[col.SlNo]}}
+                       <span style="text-align: center"> {{response[col.SlNo]}}</span>
                       </td>
                   </tr>
               </ng-template>
@@ -36,9 +38,10 @@
                     </td>
                 </tr>
             </ng-template>
+          
           </p-table>
         </div>
-    </p-panel>
+        </p-panel>
  
  </div>
 

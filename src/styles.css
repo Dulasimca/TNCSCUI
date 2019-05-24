@@ -430,8 +430,7 @@ background: rgba(0, 0, 0, 0.8);
   cursor: pointer !important;
 }
 .content {
-  margin: 0px !important;
-  min-height: -webkit-fill-available;
+ min-height: 501px;
 }
 
 .footer {

@@ -21,62 +21,65 @@ export class DepositorsComponent implements OnInit {
   items: any;
   canShowMenu: boolean;
   filterArray: any;
-
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
-
-  ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.column = this.tableConstants.SupplierData;
-    this.restApiService.get(PathConstants.DEPOSITOR).subscribe((response: any[]) => {
-      if (response !== undefined) {
-        this.data = response;
-        this.filterArray = response;
-      } else {
-        return this.errMessage;
-      }
-      this.items = [
+  
+    constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  
+    ngOnInit() {
+      this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+      this.column = this.tableConstants.SupplierData;
+      this.restApiService.get(PathConstants.DEPOSITOR).subscribe((response: any[]) => {
+        if(response!==undefined){
+          this.data = response;
+          this.filterArray = response;
+        }else 
         {
-          label: 'Excel', icon: 'fa fa-table', command: () => {
-            this.exportAsXLSX();
-          }
-        },
-        {
-          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-            this.exportAsPDF();
-          }
-
-
-        }]
+          return this.errMessage;
+        }
+          this.items = [
+            {
+              label: 'Excel', icon: 'fa fa-table', command: () => {
+                this.exportAsXLSX();
+            }},
+            {
+              label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+               this.exportAsPDF();
+              }
+            
+                 
+            }]
       // console.log('res', this.data);
-
-    });
-  }
-  onSearch(value) {
-    if (value !== undefined && value !== '') {
-      value = value.toString().toUpperCase();
-      this.data = this.data.filter(item => {
-        // if (item.DepositorName.toString().startsWith(value)) {
-        return item.DepositorName.toString().startsWith(value);
-        // }
+        
       });
-    } else {
-      this.data = this.filterArray;
-    }
+        }
+        onSearch(value) {
+          if (value !== undefined && value !== '') {
+            value = value.toString().toUpperCase();
+            this.data = this.data.filter(item => {
+             // if (item.DepositorName.toString().startsWith(value)) {
+                return item.DepositorName.toString().startsWith(value);
+             // }
+            });
+             } else {
+               this.data = this.filterArray;
+             }
+        }
+        exportAsXLSX():void{
+          this.excelService.exportAsExcelFile(this.data,'SUPPLIERS_DATA');
+        }
+        exportAsPDF() {
+          var doc = new jsPDF();
+          var col = this.column;
+          var rows = [];
+          this.data.forEach(element => {
+             var temp = [element.SlNo,element.DepositorName];
+                rows.push(temp);
+                
+          });
+            doc.autoTable(col,rows);
+            doc.save('SUPPLIERS_DATA.pdf');
+          
+        }
+        print(){
+          window.print();
+        }
   }
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.data, 'SUPPLIERS_DATA');
-  }
-  exportAsPDF() {
-    var doc = new jsPDF();
-    var col = this.column;
-    var rows = [];
-    this.data.forEach(element => {
-      var temp = [element.SlNo, element.DepositorName];
-      rows.push(temp);
-
-    });
-    doc.autoTable(col, rows);
-    doc.save('SUPPLIERS_DATA.pdf');
-
-  }
-}

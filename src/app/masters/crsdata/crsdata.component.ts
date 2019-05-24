@@ -6,6 +6,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
@@ -22,11 +23,11 @@ export class CRSDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   
-    constructor(private restApiService:RestAPIService, private authService: AuthService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+    constructor(private restApiService:RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
     ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-     this.column = this.tableConstants.CrsData;
+      this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+      this.column = this.tableConstants.CrsData;
       this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
         if(response!==undefined){
           this.data = response;
@@ -53,7 +54,9 @@ export class CRSDataComponent implements OnInit {
       this.data = this.data.filter(item => {
           return item.GodownName.toString().startsWith(value);
       });
-       } else {
+       } 
+       else 
+       {
          this.data = this.filterArray;
        }
   }
@@ -71,5 +74,7 @@ export class CRSDataComponent implements OnInit {
       doc.autoTable(col,rows);
       doc.save('CRS_DATA.pdf');
   }
-
+  print(){
+    window.print();
+  }
 }
