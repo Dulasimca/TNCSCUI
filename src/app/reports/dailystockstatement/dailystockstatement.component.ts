@@ -5,6 +5,9 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { TreeNode } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { ExcelService } from 'src/app/shared-services/excel.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-dailystockstatement',
@@ -12,7 +15,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
   styleUrls: ['./dailystockstatement.component.css']
 })
 export class DailyStockStatementComponent implements OnInit {
-  dailyStockDataCoulmns: any;
+  dailyStockDataColumns: any;
   dailyStockData: any;
   treeData: any[];
   fromDate: Date;
@@ -22,14 +25,14 @@ export class DailyStockStatementComponent implements OnInit {
   ITCODE2: any;
   canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
+  constructor(private tableConstants: TableConstants,private excelService: ExcelService, private restApiService: RestAPIService,
     private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
     this.treeData = [];
-    this.dailyStockDataCoulmns = this.tableConstants.DailyStockStatement;
+    this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
     this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
         for (let c = 0; c < itemCodes.length; c++) {
@@ -111,5 +114,41 @@ export class DailyStockStatementComponent implements OnInit {
         }
       }
     })
+  }
+  exportAsXLSX():void{
+    let tempArray = [];
+    this.dailyStockData.forEach(x => {
+      tempArray.push(x.data);
+      let childNode = x.children;
+      childNode.forEach(y => {
+        tempArray.push(y.data);
+      })
+    })
+    this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
+  }
+  exportAsPDF() {
+    var doc = new jsPDF('p','pt','a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    var col = this.dailyStockDataColumns;
+    var rows = [];
+    this.dailyStockData.forEach(element => {
+      var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+      rows.push(temp);
+      let regionData = element.children;
+      regionData.forEach(element => {
+        let godownData = element.children;
+        var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+        rows.push(temp);
+        godownData.forEach(element => {
+          var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+          rows.push(temp);
+        })
+      })
+    });
+      doc.autoTable(col,rows);
+      doc.save('GODOWN_DATA.pdf');
+  }
+  print(){
+    window.print();
   }
 }

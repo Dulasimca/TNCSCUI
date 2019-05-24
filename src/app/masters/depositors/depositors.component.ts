@@ -67,7 +67,8 @@ export class DepositorsComponent implements OnInit {
           this.excelService.exportAsExcelFile(this.data,'SUPPLIERS_DATA');
         }
         exportAsPDF() {
-          var doc = new jsPDF();
+          var doc = new jsPDF('p','pt','a4');
+          doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
           var col = this.column;
           var rows = [];
           this.data.forEach(element => {

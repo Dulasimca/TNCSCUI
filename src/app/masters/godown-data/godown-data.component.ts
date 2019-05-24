@@ -92,18 +92,25 @@ export class GodownDataComponent implements OnInit {
     this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
   }
   exportAsPDF() {
-    var doc = new jsPDF();
+    var doc = new jsPDF('p','pt','a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
     var col = this.column;
-    col.push({'field': 'District', 'header': 'District'});
     var rows = [];
+    
+    
     this.data.forEach(element => {
       var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
-          rows.push(temp);
+      rows.push(temp);
+      let childNode = element.children;
+      childNode.forEach(element => {
+      var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
+      rows.push(temp);
+      })
+      // let tempArray = [element.data.Name, element.data.Capacity,element.data.Carpet];
+      // rows.push(tempArray);
     });
       doc.autoTable(col,rows);
       doc.save('GODOWN_DATA.pdf');
-    
-  //  })
   }
   print(){
     window.print();

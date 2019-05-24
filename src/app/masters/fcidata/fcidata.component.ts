@@ -8,6 +8,7 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-fcidata',
@@ -59,17 +60,21 @@ export class FCIDataComponent implements OnInit {
            this.data = this.filterArray;
          }
     }
-    exportAsXLSX():void{
+    exportAsXLSX(){
       this.excelService.exportAsExcelFile(this.data,'FCI_DATA');
     }
     exportAsPDF() {
-      var doc = new jsPDF();
+      var doc = new jsPDF('p','pt','a4');
+      doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+      // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+      // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+      
       var col = this.column;
       var rows = [];
       this.data.forEach(element => {
+        
          var temp = [element.SlNo,element.DepositorName];
             rows.push(temp);
-            
       });
         doc.autoTable(col,rows);
         doc.save('FCI_DATA.pdf');
