@@ -96,8 +96,6 @@ export class GodownDataComponent implements OnInit {
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
     var col = this.column;
     var rows = [];
-    
-    
     this.data.forEach(element => {
       var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
       rows.push(temp);
