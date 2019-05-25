@@ -15,8 +15,11 @@ import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { CarouselModule } from 'ngx-bootstrap';
-import {SplitButtonModule} from 'primeng/splitbutton';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -101,10 +104,11 @@ import { RegionAllotmentComponent } from './purchase/regionallotment/regionallot
     TreeTableModule,
     CarouselModule,
     SplitButtonModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ToastModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
-    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService],
+    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

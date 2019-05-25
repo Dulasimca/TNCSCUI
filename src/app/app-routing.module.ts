@@ -20,9 +20,9 @@ import { GodownAllotmentComponent } from './purchase/godownallotment/godownallot
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'Home', component: HomeComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'Home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'Daily Stock Statement', component: DailyStockStatementComponent, canActivate: [AuthGuard] },
   { path: 'godownData', component: GodownDataComponent, canActivate: [AuthGuard] },
   { path: 'crsData', component: CRSDataComponent, canActivate: [AuthGuard] },

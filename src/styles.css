@@ -492,7 +492,7 @@ h3 a {
 }
 
   .main-header .h3 {
-    padding: 5px 5px 2px 2px !important;
+    padding: 10px 5px 2px 2px !important;
   }
 
   .carousel-indicators li {
@@ -766,7 +766,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   }
 
   .dashboard .colorbox.colorbox-icon-gray {
-    background-color: #678898;
+    background-color: rgb(103, 135, 151);
   }
 
   .dashboard .colorbox.colorbox-icon-blue {

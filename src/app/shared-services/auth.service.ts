@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   isSignedIn: boolean;
+  canGoBack = true;
 
   constructor(private router: Router) { }
 
@@ -45,6 +46,6 @@ export class AuthService {
     localStorage.removeItem('USER_INFO');
     localStorage.removeItem('ID');
     this.isSignedIn = false;
-    this.router.navigate(['/login']);
+    this.router.navigateByUrl('');
   }
 }
