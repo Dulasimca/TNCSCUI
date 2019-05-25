@@ -22,9 +22,10 @@ export class HullingAgenciesComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   
-    constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
-    ngOnInit() {
+  ngOnInit() 
+   {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.column = this.tableConstants.HullingAgenciesData;
       this.restApiService.get(PathConstants.HULLING_AGENCIES).subscribe((response: any[]) => {
@@ -44,16 +45,12 @@ export class HullingAgenciesComponent implements OnInit {
           label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
            this.exportAsPDF();
           }
-        
-             
         }]
-        //console.log('res', this.data);
-        
       });
-        }
-        onSearch(value) {
-          if (value !== undefined && value !== '') {
-            value = value.toString().toUpperCase();
+    }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+       value = value.toString().toUpperCase();
             this.data = this.data.filter(item => {
              // if (item.DepositorName.toString().startsWith(value)) {
                 return item.DepositorName.toString().startsWith(value);
@@ -63,23 +60,24 @@ export class HullingAgenciesComponent implements OnInit {
                this.data = this.filterArray;
              }
         }
-        exportAsXLSX():void{
-          this.excelService.exportAsExcelFile(this.data,'HULLING-AGENCIES_DATA');
+  exportAsXLSX():void{
+     this.excelService.exportAsExcelFile(this.data,'HULLING-AGENCIES_DATA');
         }
-        exportAsPDF() {
-          var doc = new jsPDF();
+  exportAsPDF() {
+      var doc = new jsPDF('p','pt','a4');
+      doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+      // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+      // doc.addImage(img, 'PNG', 150, 10, 40, 20);
           var col = this.column;
           var rows = [];
           this.data.forEach(element => {
              var temp = [element.SlNo,element.DepositorName];
                 rows.push(temp);
-                
-          });
+      });
             doc.autoTable(col,rows);
             doc.save('HULLING-AGENCIES_DATA.pdf');
-          
-        }
-        print(){
-          window.print();
-        }
+    }
+  print(){
+    window.print();
   }
+}

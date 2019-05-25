@@ -34,10 +34,11 @@ export class TableConstants {
     ]
     this.CrsData = [
       { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'Issuername', "header": 'Issuer Name' },
-      { "field": 'RegionName', "header": 'Region Name' },
-      { "field": 'SocietyName', "header": 'Society Name' },
-      { "field": 'GodownName', "header": 'Godown Name' }
+      { "field": 'RegionName', "header": 'Region' },
+      { "field": 'GodownName', "header": 'Godown Name' },
+      { "field": 'Issuername', "header": 'Shop Name' },
+      { "field": '', "header": 'Shop Code (TNCSC)' },
+      { "field": '', "header": 'sHOP cODE (CCS)'}
     ]
     this.MrmData = [
       { "field": 'SlNo', "header": 'S.No' },
@@ -57,13 +58,14 @@ export class TableConstants {
     ]
     this.RegionData = [
       { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'RGNAME', "header": 'Register Name' }
+      { "field": 'RGCODE', "header": 'Region Code'},
+      { "field": 'RGNAME', "header": 'Region Name' }
     ]
     this.AadsData = [
       { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'Name', "header": 'Name' },
-      { "field": 'AADSType', "header": 'AADS Type' },
-      { "field": 'RegionName', "header": 'Region Name' }
+      { "field": 'RegionName', "header": 'Region' },
+      { "field": 'AADSType', "header": 'AADS Code' },
+      { "field": 'Name', "header": 'AADS Name' },
     ]
     this.SchemeData = [
       { "field": "SlNo", "header" : "S.No"},

@@ -7,8 +7,8 @@
               <div class="ui-g-4 dashboard">SUPPLIERS DATA</div>
                 <div class="ui-g-8 dashboard" style="text-align: end !important;">
                     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search" (ngModelChange)="onSearch($event)">
-                  <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-                  <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+                    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+                    <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
                     styleClass="ui-button-danger"></p-splitButton>
                     <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn" (click)="print()"></button>
                 </div>
