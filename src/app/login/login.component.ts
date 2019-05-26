@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      user: ['', Validators.required],
+      pswd: ['', Validators.required]
     })
   }
 
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     let username = new HttpParams().append('userName', this.userName);
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
       if (credentials !== undefined) {
-      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
+      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd.toLowerCase()) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);

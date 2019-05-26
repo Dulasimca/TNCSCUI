@@ -65,11 +65,11 @@ if(typeof _bsa !== 'undefined' && _bsa) {
                     <form [formGroup]="loginForm" ngSubmit="OnSignIn()">
                         <div for="userName" class="icon1">
                             <span class="fa fa-user"></span>
-                            <input type="text" class="inputxt" formControlName="username" id="userName" [(ngModel)]="userName" placeholder="Username" required="">
+                            <input type="text" class="inputxt" formControlName="user" id="userName" [(ngModel)]="userName" placeholder="Username" required="">
                         </div>
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
-                            <input type="password" id="password" formControlName="password" [(ngModel)]="password" placeholder="Password" required="">
+                            <input type="password" id="password" formControlName="pswd" [(ngModel)]="password" placeholder="Password" required="">
                         </div>
                         <div class="login-check">
                             <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Keep me logged in</label>
