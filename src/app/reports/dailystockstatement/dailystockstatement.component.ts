@@ -17,7 +17,7 @@ import 'jspdf-autotable';
 export class DailyStockStatementComponent implements OnInit {
   dailyStockDataColumns: any;
   dailyStockData: any;
-  treeData: any[];
+  treeData: any[] = [];
   fromDate: Date;
   toDate: Date;
   itemCodes: any = [];
@@ -31,7 +31,6 @@ export class DailyStockStatementComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
-    this.treeData = [];
     this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
     this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
@@ -58,10 +57,10 @@ export class DailyStockStatementComponent implements OnInit {
                       'OpeningBalance': godownList[i].OpeningBalance,
                       "ClosingBalance": godownList[i].ClosingBalance,
                       "TotalReceipt": godownList[i].TotalReceipt,
-                      "Receipt": godownOBReceiptTotal.toFixed(3),
+                      "Receipt": (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
                       "IssueSales": godownList[i].IssueSales,
                       "IssueOthers": godownList[i].IssueOthers,
-                      "TotalIssue": godownIssueTotal.toFixed(3),
+                      "TotalIssue": (godownIssueTotal > 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
                       "CSBalance": godownList[i].CSBalance,
                       "PhycialBalance": godownList[i].PhycialBalance,
                       "Shortage": godownList[i].Shortage,
@@ -77,10 +76,10 @@ export class DailyStockStatementComponent implements OnInit {
                     'OpeningBalance': regionList[i].OpeningBalance,
                     "ClosingBalance": regionList[i].ClosingBalance,
                     "TotalReceipt": regionList[i].TotalReceipt,
-                    "Receipt": regionOBReceiptTotal.toFixed(3),
+                    "Receipt": (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
                     "IssueSales": regionList[i].IssueSales,
                     "IssueOthers": regionList[i].IssueOthers,
-                    "TotalIssue": regionIssueTotal.toFixed(3),
+                    "TotalIssue": (regionIssueTotal > 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
                     "CSBalance": regionList[i].CSBalance,
                     "PhycialBalance": regionList[i].PhycialBalance,
                     "Shortage": regionList[i].Shortage,
@@ -98,10 +97,10 @@ export class DailyStockStatementComponent implements OnInit {
                     "OpeningBalance": x.OpeningBalance,
                     "ClosingBalance": x.ClosingBalance,
                     "TotalReceipt": x.TotalReceipt,
-                    "Receipt": OBReceiptTotal.toFixed(3),
+                    "Receipt": (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
                     "IssueSales": x.IssueSales,
                     "IssueOthers": x.IssueOthers,
-                    "TotalIssue": IssueTotal.toFixed(3),
+                    "TotalIssue": (IssueTotal > 0) ? IssueTotal.toFixed(3) : IssueTotal,
                     "CSBalance": x.CSBalance,
                     "PhycialBalance": x.PhycialBalance,
                     "Shortage": x.Shortage,

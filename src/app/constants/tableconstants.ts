@@ -14,7 +14,7 @@ export class TableConstants {
 
   constructor() {
     this.DailyStockStatement = [
-      { "field": 'Name', "header": 'Commodity', "text-align": "left" },
+      { "field": 'Name', "header": 'Commodity' },
       { "field": 'OpeningBalance', "header": 'OB' },
       { "field": 'TotalReceipt', "header": 'Receipt' },
       { "field": 'Receipt', "header": 'Total Receipt' },
