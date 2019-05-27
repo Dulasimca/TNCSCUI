@@ -23,16 +23,17 @@ export class FCIDataComponent implements OnInit {
   canShowMenu: boolean;
   searchText: string;
   filterArray: any;
+  filteredItem: any;
   
-    constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
-    ngOnInit() {
+  ngOnInit() {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.column = this.tableConstants.FciData;
       this.restApiService.get(PathConstants.FCI).subscribe((response: any[]) => {
         if(response!==undefined){
           this.data = response;
-          this.filterArray = response;
+          this.filterArray = response ;
         }
         else 
         {
@@ -49,16 +50,21 @@ export class FCIDataComponent implements OnInit {
               }
             }]
       });
+      this.filteredItem = this.data;
     }
+    
     onSearch(value) {
       if (value !== undefined && value !== '') {
         value = value.toString().toUpperCase();
         this.data = this.data.filter(item => {
-            return item.DepositorName.toString().startsWith(value);
-        });
-         } else {
+        return item.DepositorName.toString().startsWith(value);
+      });
+         } 
+         else 
+         {
+          //this.filterArray = Object.assign([], this.data.item);
            this.data = this.filterArray;
-         }
+           }
     }
     exportAsXLSX(){
       this.excelService.exportAsExcelFile(this.data,'FCI_DATA');
@@ -68,11 +74,9 @@ export class FCIDataComponent implements OnInit {
       doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
       // var img ="assets\layout\images\dashboard\tncsc-logo.png";
       // doc.addImage(img, 'PNG', 150, 10, 40, 20);
-      
       var col = this.column;
       var rows = [];
       this.data.forEach(element => {
-        
          var temp = [element.SlNo,element.DepositorName];
             rows.push(temp);
       });

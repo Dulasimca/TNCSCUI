@@ -14,8 +14,9 @@ export class TableConstants {
 
   constructor() {
     this.DailyStockStatement = [
-      { "field": 'Name', "header": 'Commodity', "text-align": "left" },
-      { "field": 'OpeningBalance', "header": 'OB' },
+      { "field": "serialNo", "header": "S.No", "width": "40px"},
+      { "field": 'Name', "header": 'Commodity' },
+      { "field": 'OpeningBalance', "header": 'OB', "text-align": "right" },
       { "field": 'TotalReceipt', "header": 'Receipt' },
       { "field": 'Receipt', "header": 'Total Receipt' },
       { "field": 'IssueSales', "header": 'Sales' },
@@ -28,6 +29,7 @@ export class TableConstants {
     ]
 
     this.GodownMasterData = [
+      { "field": "serialNo", "header": "S.No"},
       { "field": 'Name', "header": 'Region Name' },
       { "field": 'Capacity', "header": 'Capacity' },
       { "field": 'Carpet', "header": 'Carpet' }
@@ -38,7 +40,7 @@ export class TableConstants {
       { "field": 'GodownName', "header": 'Godown Name' },
       { "field": 'Issuername', "header": 'Shop Name' },
       { "field": '', "header": 'Shop Code (TNCSC)' },
-      { "field": '', "header": 'sHOP cODE (CCS)'}
+      //{ "field": '', "header": 'Shop Code (CCS)'}
     ]
     this.MrmData = [
       { "field": 'SlNo', "header": 'S.No' },

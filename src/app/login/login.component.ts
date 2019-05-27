@@ -7,6 +7,7 @@ import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { HttpParams } from '@angular/common/http';
 import { LoginService } from './login.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -23,14 +24,14 @@ export class LoginComponent implements OnInit {
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
-    private restApiService: RestAPIService, private loginService: LoginService) {
+    private restApiService: RestAPIService, private loginService: LoginService, private messageService: MessageService) {
 
   }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      user: ['', Validators.required],
+      pswd: ['', Validators.required]
     })
   }
 
@@ -40,12 +41,13 @@ export class LoginComponent implements OnInit {
 
   onSignIn() {
     if (this.loginForm.invalid) {
+      this.messageService.add({severity:'error', summary:'Error!', detail:'Please enter a valid credentials!'});
       return;
-    }
+    } else {
     let username = new HttpParams().append('userName', this.userName);
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
       if (credentials !== undefined) {
-      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
+      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd.toLowerCase()) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.loginService.setValue(this.roleId);
@@ -53,10 +55,12 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value, this.roleId);
       } else {
         this.clearFields();
+        this.messageService.add({severity:'error', summary:'Error!', detail:'Validation Failed!'});
         console.log('invalid user');
       }
     }
     });
+  }
   }
   clearFields() {
     this.userName = this.password = '';

@@ -52,20 +52,22 @@ export class CRSDataComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-          return item.GodownName,item.RegionName.toString().startsWith(value);
-      });
+      return item.GodownName,item.RegionName.toString().startsWith(value);
+    });
        } 
        else 
        {
-         this.data = this.filterArray;
-       }
+         this.data = this.filterArray
+         }
   }
    exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data,'CRS DATA');
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+      doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+      // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+      // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;
     var rows = [];
       this.data.forEach(element => {

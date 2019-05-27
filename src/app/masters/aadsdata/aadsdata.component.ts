@@ -67,6 +67,8 @@ export class AADSDataComponent implements OnInit {
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;
     var rows = [];
       this.data.forEach(element => {
