@@ -53,6 +53,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ExcelService } from './shared-services/excel.service';
 import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
+import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
 
 
 
@@ -78,7 +79,8 @@ import { RegionAllotmentComponent } from './purchase/regionallotment/regionallot
     NotificationsComponent,
     GodownAllotmentComponent,
     RegionAllotmentComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CBStatementComponent,
   ],
   imports: [
     BrowserModule,

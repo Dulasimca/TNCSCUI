@@ -8,7 +8,6 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { LoginService } from 'src/app/login/login.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { element } from '@angular/core/src/render3';
 import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
@@ -82,6 +81,16 @@ export class GodownDataComponent implements OnInit {
        } else {
          this.data = this.filterArray;
        }
+  }
+  onRowSelect(event) {
+    if (event.node.children !== null && event.node.children !== undefined) {
+      return event.originalEvent.returnValue;
+    } else if (event.node.parent !== null && event.node.parent !== undefined) {
+      event.originalEvent.returnValue = false;
+      return event.originalEvent.returnValue;
+    } else {
+      return event.originalEvent.returnValue;
+    }
   }
   exportAsXLSX():void{
     let tempArray = [];

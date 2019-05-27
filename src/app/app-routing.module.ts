@@ -17,6 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.component';
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
+import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'stockPurchase', component: StockPurchaseComponent},
   { path: 'regionalAllotment', component: RegionAllotmentComponent },
   { path: 'godownAllotment', component: GodownAllotmentComponent },
+  { path: 'cbStatement', component: CBStatementComponent},
   { path: '**', component: PageNotFoundComponent }
   
 ];

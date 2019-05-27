@@ -16,16 +16,16 @@
     </p-header>
     <div style="margin-left: 200px; margin-right: 200px;">
       <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" autoLayout="true">
+        [paginator]="true" autoLayout="true" (onNodeSelect)="onRowSelect($event)" selectionMode="single" datakey="Name"> 
         <ng-template pTemplate="header" let-columns>
-            <tr [ttRow]="rowNode">
+            <tr>
           <th *ngFor="let col of columns">
             {{col.header}}
           </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-          <tr >
+          <tr [ttSelectableRow]="rowNode">
             <td *ngFor="let col of columns; let i = index">
               <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
               {{rowData[col.field]}}
