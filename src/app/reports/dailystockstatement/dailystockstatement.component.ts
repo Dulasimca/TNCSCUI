@@ -24,6 +24,8 @@ export class DailyStockStatementComponent implements OnInit {
   ITCODE1: any;
   ITCODE2: any;
   canShowMenu: boolean;
+  items: any;
+  filterArray: any;
 
   constructor(private tableConstants: TableConstants,private excelService: ExcelService, private restApiService: RestAPIService,
     private authService: AuthService) { }
@@ -74,7 +76,7 @@ export class DailyStockStatementComponent implements OnInit {
                 let regionIssueTotal = ((regionList[i].IssueSales) * 1) + ((regionList[i].IssueOthers) * 1);
                 childNode = {
                   'data': {
-                    'serialNo': i + 1 + '.',
+                    'serialNo': i + 1 + ")",
                     'Name': regionList[i].Name,
                     'OpeningBalance': regionList[i].OpeningBalance,
                     'ClosingBalance': regionList[i].ClosingBalance,
@@ -96,7 +98,7 @@ export class DailyStockStatementComponent implements OnInit {
               this.treeData.push(
                 {
                   'data': {
-                    'serialNo': index + '.',
+                    'serialNo': index,
                     'Name': x.Name,
                     'OpeningBalance': x.OpeningBalance,
                     'ClosingBalance': x.ClosingBalance,
@@ -120,10 +122,31 @@ export class DailyStockStatementComponent implements OnInit {
             }
             this.treeData = [];
             this.dailyStockData = tempArray;
+            this.filterArray=tempArray;
           });
         }
       }
     })
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.exportAsXLSX();
+      }},
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+         this.exportAsPDF();
+        }
+      }]
+  }
+  onSearch(value) {
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.dailyStockData = this.dailyStockData.filter(item => {
+          return item.data.Name.toString().startsWith(value);
+      });
+       } else {
+         this.dailyStockData = this.filterArray;
+       }
   }
   exportAsXLSX():void{
     let tempArray = [];
@@ -134,7 +157,7 @@ export class DailyStockStatementComponent implements OnInit {
         tempArray.push(y.data);
       })
     })
-    this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
+    this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement');
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
@@ -142,15 +165,15 @@ export class DailyStockStatementComponent implements OnInit {
     var col = this.dailyStockDataColumns;
     var rows = [];
     this.dailyStockData.forEach(element => {
-      var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+      var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
       rows.push(temp);
       let regionData = element.children;
       regionData.forEach(element => {
         let godownData = element.children;
-        var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+        var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
         rows.push(temp);
         godownData.forEach(element => {
-          var temp = [element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+          var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
           rows.push(temp);
         })
       })

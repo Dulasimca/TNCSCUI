@@ -6,7 +6,8 @@
             <div class="ui-g panel-header">
               <div class="ui-g-4 dashboard">FCI DATA</div>
                 <div class="ui-g-8 dashboard" style="text-align: end !important;">
-                  <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search" (ngModelChange)="onSearch($event)">
+                  <input class="search-masters" type="text" [(ngModel)]="searchText" placeholder="Search" (ngModelChange)="onSearch($event)">
+                 <!-- <input #myInput placeholder="Search" [(ngModel)]="searchText" (input)="onSearch(myInput.value)"> -->
                   <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn" (ngModelChange)="onSearch($event)" ></button>
                   <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
                     styleClass="ui-button-danger"></p-splitButton>

@@ -36,7 +36,7 @@ export class GodownDataComponent implements OnInit {
         let list = x.list;
         for (let i = 0; i < list.length; i++) {
           childNode = { 'data': {
-            'serialNo': i + 1 + '.',
+            'serialNo': i + 1 + ")",
             'Name': list[i].Name,
             'Capacity': list[i].Capacity,
             'Carpet': list[i].Carpet
@@ -47,7 +47,7 @@ export class GodownDataComponent implements OnInit {
         treeData.push(Object.assign({},
           {
             "data": {
-              "serialNo": index + 1 + '.',
+              "serialNo": index + 1 ,
               "Name": x.Name,
               "Capacity": x.Capacity,
               "Carpet": x.Carpet
@@ -109,11 +109,11 @@ export class GodownDataComponent implements OnInit {
     var col = this.column;
     var rows = [];
     this.data.forEach(element => {
-      var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
+      var temp = [element.data.serialNo,element.data.Name,element.data.Capacity,element.data.Carpet];
       rows.push(temp);
       let childNode = element.children;
       childNode.forEach(element => {
-      var temp = [element.data.Name,element.data.Capacity,element.data.Carpet];
+      var temp = [element.data.serialNo,element.data.Name,element.data.Capacity,element.data.Carpet];
       rows.push(temp);
       })
       // let tempArray = [element.data.Name, element.data.Capacity,element.data.Carpet];
