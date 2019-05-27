@@ -37,15 +37,18 @@ export class GodownDataComponent implements OnInit {
         let list = x.list;
         for (let i = 0; i < list.length; i++) {
           childNode = { 'data': {
+            'serialNo': i + 1 + '.',
             'Name': list[i].Name,
             'Capacity': list[i].Capacity,
             'Carpet': list[i].Carpet
           }}
           regionData.push(childNode);
         }
+        var index = response.findIndex(index => index.Name === x.Name);
         treeData.push(Object.assign({},
           {
             "data": {
+              "serialNo": index + 1 + '.',
               "Name": x.Name,
               "Capacity": x.Capacity,
               "Carpet": x.Carpet

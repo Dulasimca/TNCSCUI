@@ -38,6 +38,7 @@ export class DailyStockStatementComponent implements OnInit {
           this.ITCODE1 = itemCodes[c].ITCode;
           this.ITCODE2 = itemCodes[c + 1].ITCode;
           c = c + 1;
+          var index = 1;
           let params = new HttpParams().set('ITCode1', this.ITCODE1).append('ITCode2', this.ITCODE2);
           this.restApiService.getByParameters(PathConstants.DAILY_STOCK_STATEMENT, params).subscribe((response: any[]) => {
             let childNode: TreeNode;
@@ -53,17 +54,18 @@ export class DailyStockStatementComponent implements OnInit {
                   let godownIssueTotal = ((godownList[i].IssueSales) * 1) + ((godownList[i].IssueOthers) * 1);
                   regionChildNode = {
                     'data': {
+                      'serialNo': i + 1 + '.',
                       'Name': godownList[i].Name,
                       'OpeningBalance': godownList[i].OpeningBalance,
-                      "ClosingBalance": godownList[i].ClosingBalance,
-                      "TotalReceipt": godownList[i].TotalReceipt,
-                      "Receipt": (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
-                      "IssueSales": godownList[i].IssueSales,
-                      "IssueOthers": godownList[i].IssueOthers,
-                      "TotalIssue": (godownIssueTotal > 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
-                      "CSBalance": godownList[i].CSBalance,
-                      "PhycialBalance": godownList[i].PhycialBalance,
-                      "Shortage": godownList[i].Shortage,
+                      'ClosingBalance': godownList[i].ClosingBalance,
+                      'TotalReceipt': godownList[i].TotalReceipt,
+                      'Receipt': (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
+                      'IssueSales': godownList[i].IssueSales,
+                      'IssueOthers': godownList[i].IssueOthers,
+                      'TotalIssue': (godownIssueTotal > 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
+                      'CSBalance': godownList[i].CSBalance,
+                      'PhycialBalance': godownList[i].PhycialBalance,
+                      'Shortage': godownList[i].Shortage,
                     }
                   }
                   godownData.push(regionChildNode);
@@ -72,18 +74,19 @@ export class DailyStockStatementComponent implements OnInit {
                 let regionIssueTotal = ((regionList[i].IssueSales) * 1) + ((regionList[i].IssueOthers) * 1);
                 childNode = {
                   'data': {
+                    'serialNo': i + 1 + '.',
                     'Name': regionList[i].Name,
                     'OpeningBalance': regionList[i].OpeningBalance,
-                    "ClosingBalance": regionList[i].ClosingBalance,
-                    "TotalReceipt": regionList[i].TotalReceipt,
-                    "Receipt": (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
-                    "IssueSales": regionList[i].IssueSales,
-                    "IssueOthers": regionList[i].IssueOthers,
-                    "TotalIssue": (regionIssueTotal > 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
-                    "CSBalance": regionList[i].CSBalance,
-                    "PhycialBalance": regionList[i].PhycialBalance,
-                    "Shortage": regionList[i].Shortage,
-                  }, "children": godownData
+                    'ClosingBalance': regionList[i].ClosingBalance,
+                    'TotalReceipt': regionList[i].TotalReceipt,
+                    'Receipt': (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
+                    'IssueSales': regionList[i].IssueSales,
+                    'IssueOthers': regionList[i].IssueOthers,
+                    'TotalIssue': (regionIssueTotal > 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
+                    'CSBalance': regionList[i].CSBalance,
+                    'PhycialBalance': regionList[i].PhycialBalance,
+                    'Shortage': regionList[i].Shortage,
+                  }, 'children': godownData
                 }
                 regionData.push(childNode);
                 godownData = [];
@@ -92,22 +95,24 @@ export class DailyStockStatementComponent implements OnInit {
               let IssueTotal = ((x.IssueSales) * 1) + ((x.IssueOthers) * 1);
               this.treeData.push(
                 {
-                  "data": {
-                    "Name": x.Name,
-                    "OpeningBalance": x.OpeningBalance,
-                    "ClosingBalance": x.ClosingBalance,
-                    "TotalReceipt": x.TotalReceipt,
-                    "Receipt": (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
-                    "IssueSales": x.IssueSales,
-                    "IssueOthers": x.IssueOthers,
-                    "TotalIssue": (IssueTotal > 0) ? IssueTotal.toFixed(3) : IssueTotal,
-                    "CSBalance": x.CSBalance,
-                    "PhycialBalance": x.PhycialBalance,
-                    "Shortage": x.Shortage,
+                  'data': {
+                    'serialNo': index + '.',
+                    'Name': x.Name,
+                    'OpeningBalance': x.OpeningBalance,
+                    'ClosingBalance': x.ClosingBalance,
+                    'TotalReceipt': x.TotalReceipt,
+                    'Receipt': (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
+                    'IssueSales': x.IssueSales,
+                    'IssueOthers': x.IssueOthers,
+                    'TotalIssue': (IssueTotal > 0) ? IssueTotal.toFixed(3) : IssueTotal,
+                    'CSBalance': x.CSBalance,
+                    'PhycialBalance': x.PhycialBalance,
+                    'Shortage': x.Shortage,
                   },
-                  "children": regionData,
+                  'children': regionData,
                 },
               );
+              index ++;
               regionData = [];
             });
             for (let i = 0; i < this.treeData.length; i++) {
@@ -133,7 +138,7 @@ export class DailyStockStatementComponent implements OnInit {
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    doc.text('Tamil Nadu Civil Supplies Corporation - Head Office',100,30,);
     var col = this.dailyStockDataColumns;
     var rows = [];
     this.dailyStockData.forEach(element => {

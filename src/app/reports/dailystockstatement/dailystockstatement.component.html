@@ -16,7 +16,7 @@
       </p-header>
       <div class="ui-g" style="text-align:left; display:grid">
         <p-treeTable [value]="dailyStockData" [columns]="dailyStockDataColumns" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" autoLayout="true" >
+          [paginator]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
           <ng-template pTemplate="header" let-columns>
               <tr [ttRow]="rowNode">
             <th *ngFor="let col of columns">
