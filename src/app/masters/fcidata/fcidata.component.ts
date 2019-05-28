@@ -67,7 +67,7 @@ export class FCIDataComponent implements OnInit {
            }
     }
     exportAsXLSX(){
-      this.excelService.exportAsExcelFile(this.data,'FCI_DATA');
+       this.excelService.exportAsExcelFile(this.data, 'FCI_DATA', this.column);
     }
     exportAsPDF() {
       var doc = new jsPDF('p','pt','a4');

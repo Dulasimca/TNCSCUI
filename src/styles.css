@@ -291,6 +291,7 @@ a {
     -moz-transition: opacity 0.1s;
     -webkit-transition: opacity 0.1s;
 }
+
 .checkbox input + i:after {
     content: url(assets/layout/images/login/tick.png);
     top: -1px;

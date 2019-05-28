@@ -62,7 +62,7 @@ export class SchemesComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'SCHEME_DATA');
+     this.excelService.exportAsExcelFile(this.data, 'SCHEME_DATA', this.column);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');

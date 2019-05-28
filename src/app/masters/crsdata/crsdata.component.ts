@@ -61,7 +61,7 @@ export class CRSDataComponent implements OnInit {
          }
   }
    exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'CRS DATA');
+     this.excelService.exportAsExcelFile(this.data, 'CRS DATA', this.column);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');

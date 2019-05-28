@@ -63,7 +63,7 @@ ngOnInit()
   exportAsXLSX():void{
    this.restApiService.get(PathConstants.MRN).subscribe((res: any[]) => {
      this.data=res;
-      this.excelService.exportAsExcelFile(this.data,'MRM_DATA');
+       this.excelService.exportAsExcelFile(this.data, 'MRM_DATA', this.column);
       });
     }
  exportAsPDF() {

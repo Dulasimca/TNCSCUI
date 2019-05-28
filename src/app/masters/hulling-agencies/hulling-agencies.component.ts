@@ -61,7 +61,7 @@ export class HullingAgenciesComponent implements OnInit {
              }
         }
   exportAsXLSX():void{
-     this.excelService.exportAsExcelFile(this.data,'HULLING-AGENCIES_DATA');
+      this.excelService.exportAsExcelFile(this.data, 'HULLING-AGENCIES_DATA', this.column);
         }
   exportAsPDF() {
       var doc = new jsPDF('p','pt','a4');

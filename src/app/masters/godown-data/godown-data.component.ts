@@ -82,16 +82,7 @@ export class GodownDataComponent implements OnInit {
          this.data = this.filterArray;
        }
   }
-  onRowSelect(event) {
-    if (event.node.children !== null && event.node.children !== undefined) {
-      return event.originalEvent.returnValue;
-    } else if (event.node.parent !== null && event.node.parent !== undefined) {
-      event.originalEvent.returnValue = false;
-      return event.originalEvent.returnValue;
-    } else {
-      return event.originalEvent.returnValue;
-    }
-  }
+
   exportAsXLSX():void{
     let tempArray = [];
     this.data.forEach(x => {
@@ -101,7 +92,7 @@ export class GodownDataComponent implements OnInit {
         tempArray.push(y.data);
       })
     })
-    this.excelService.exportAsExcelFile(tempArray,'GODOWN_DATA');
+     this.excelService.exportAsExcelFile(tempArray, 'GODOWN_DATA', this.column);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
@@ -124,5 +115,21 @@ export class GodownDataComponent implements OnInit {
   }
   print(){
     window.print();
+  }
+
+  onRowSelect(index) {
+    console.log('orking', index);
+  }
+
+  public getColor(name: string, index): string {
+    let color;
+    this.data.forEach(x => {
+      if(x.serialNo - 1 === index) {
+        color = "#53aae4";
+      } else {
+        color = "white"
+      }
+    })
+    return color;
   }
 }

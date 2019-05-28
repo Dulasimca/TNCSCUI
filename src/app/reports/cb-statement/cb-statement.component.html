@@ -1,3 +1,42 @@
-<p>
-  cb-statement works!
-</p>
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+        <app-menu *ngIf="canShowMenu"></app-menu>
+        <p-panel>
+          <p-header>
+            <div class="ui-g panel-header">
+              <div class="ui-g-4 dashboard">CB STATEMENT</div>
+                <div class="ui-g-8 dashboard" style="text-align: end !important;">
+                  <input class="search-masters" type="text" [(ngModel)]="searchText" placeholder="Search" (ngModelChange)="onSearch($event)">
+                  <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn" (ngModelChange)="onSearch($event)" ></button>
+                  <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+                    styleClass="ui-button-danger"></p-splitButton>
+                    <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn" (click)="print()"></button>
+                </div>
+            </div>
+          </p-header>
+          <div style="margin-left: 200px; margin-right: 200px;">
+        <p-table  [value]="cbData" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
+           
+          <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Name</th>
+                    <th>Capacity</th>
+                    <th>New Rice</th>
+                    <th>Old Rice</th>
+                    <th>Total Rice</th>
+                </tr>
+            </ng-template>
+              <ng-template pTemplate="body" let-columns="columns" let-data>
+                <tr [ngStyle]="{'background-color': getColor(data.Name)}">
+                    <td>{{data.Name}}
+                    </td>
+                    <td>{{data.Capacity}}</td>
+                    <td>{{data.NewRice}}</td>
+                    <td>{{data.OldRice}}</td>
+                    <td>{{data.TotalRice}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+    </p-panel>
+  </div>

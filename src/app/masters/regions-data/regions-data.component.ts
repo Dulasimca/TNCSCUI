@@ -65,7 +65,7 @@ export class RegionsDataComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'REGION_DATA');
+    this.excelService.exportAsExcelFile(this.data, 'REGION_DATA', this.column);
 }
 exportAsPDF() {
   var doc = new jsPDF('p','pt','a4');

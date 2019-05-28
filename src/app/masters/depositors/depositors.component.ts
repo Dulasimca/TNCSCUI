@@ -60,7 +60,7 @@ export class DepositorsComponent implements OnInit {
              }
         }
         exportAsXLSX():void{
-          this.excelService.exportAsExcelFile(this.data,'SUPPLIERS_DATA');
+           this.excelService.exportAsExcelFile(this.data, 'SUPPLIERS_DATA', this.column);
         }
         exportAsPDF() {
           var doc = new jsPDF('p','pt','a4');

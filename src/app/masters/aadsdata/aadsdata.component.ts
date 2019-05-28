@@ -62,7 +62,7 @@ export class AADSDataComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data,'AADS_DATA');
+    this.excelService.exportAsExcelFile(this.data, 'AADS_DATA', this.column);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');

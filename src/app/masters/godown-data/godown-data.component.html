@@ -16,7 +16,7 @@
     </p-header>
     <div style="margin-left: 200px; margin-right: 200px;">
       <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" autoLayout="true" (onNodeSelect)="onRowSelect($event)" selectionMode="single" datakey="Name"> 
+        [paginator]="true" autoLayout="true">
         <ng-template pTemplate="header" let-columns>
             <tr>
           <th *ngFor="let col of columns">
@@ -25,7 +25,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-          <tr [ttSelectableRow]="rowNode">
+          <tr  [ngStyle]="{'background-color': getColor(rowData.Name)}" (click)="onRowSelect(i)">
             <td *ngFor="let col of columns; let i = index">
               <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
               {{rowData[col.field]}}

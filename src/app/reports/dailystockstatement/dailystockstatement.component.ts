@@ -61,12 +61,12 @@ export class DailyStockStatementComponent implements OnInit {
                       'serialNo': i + 1 + '.',
                       'Name': godownList[i].Name,
                       'OpeningBalance': godownList[i].OpeningBalance,
-                      'ClosingBalance': godownList[i].ClosingBalance,
-                      'TotalReceipt': godownList[i].TotalReceipt,
-                      'Receipt': (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
+                      'Receipt': godownList[i].TotalReceipt,
+                      'Total': (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
                       'IssueSales': godownList[i].IssueSales,
                       'IssueOthers': godownList[i].IssueOthers,
                       'TotalIssue': (godownIssueTotal > 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
+                      'ClosingBalance': godownList[i].ClosingBalance,
                       'CSBalance': godownList[i].CSBalance,
                       'PhycialBalance': godownList[i].PhycialBalance,
                       'Shortage': godownList[i].Shortage,
@@ -81,12 +81,12 @@ export class DailyStockStatementComponent implements OnInit {
                     'serialNo': i + 1 + ")",
                     'Name': regionList[i].Name,
                     'OpeningBalance': regionList[i].OpeningBalance,
-                    'ClosingBalance': regionList[i].ClosingBalance,
-                    'TotalReceipt': regionList[i].TotalReceipt,
-                    'Receipt': (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
+                    'Receipt': regionList[i].TotalReceipt,
+                    'Total': (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
                     'IssueSales': regionList[i].IssueSales,
                     'IssueOthers': regionList[i].IssueOthers,
                     'TotalIssue': (regionIssueTotal > 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
+                    'ClosingBalance': regionList[i].ClosingBalance,
                     'CSBalance': regionList[i].CSBalance,
                     'PhycialBalance': regionList[i].PhycialBalance,
                     'Shortage': regionList[i].Shortage,
@@ -103,12 +103,12 @@ export class DailyStockStatementComponent implements OnInit {
                     'serialNo': index,
                     'Name': x.Name,
                     'OpeningBalance': x.OpeningBalance,
-                    'ClosingBalance': x.ClosingBalance,
-                    'TotalReceipt': x.TotalReceipt,
-                    'Receipt': (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
+                    'Receipt': x.TotalReceipt,
+                    'Total': (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
                     'IssueSales': x.IssueSales,
                     'IssueOthers': x.IssueOthers,
                     'TotalIssue': (IssueTotal > 0) ? IssueTotal.toFixed(3) : IssueTotal,
+                    'ClosingBalance': x.ClosingBalance,
                     'CSBalance': x.CSBalance,
                     'PhycialBalance': x.PhycialBalance,
                     'Shortage': x.Shortage,
@@ -151,15 +151,15 @@ export class DailyStockStatementComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    // let tempArray = [];
-    // this.dailyStockData.forEach(x => {
-    //   tempArray.push(x.data);
-    //   let childNode = x.children;
-    //   childNode.forEach(y => {
-    //     tempArray.push(y.data);
-    //   })
-    // })
-    this.excelService.exportAsExcelFile(this.dailyStockTable.nativeElement,'DailyStocksStatement');
+    let tempArray = [];
+    this.dailyStockData.forEach(x => {
+      tempArray.push(x.data);
+      let childNode = x.children;
+      childNode.forEach(y => {
+        tempArray.push(y.data);
+      })
+    })
+    this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement', this.dailyStockDataColumns);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
