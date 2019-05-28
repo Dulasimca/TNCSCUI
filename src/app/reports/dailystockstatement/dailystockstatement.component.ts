@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -26,6 +26,8 @@ export class DailyStockStatementComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  @ViewChild('dailyStockTable') 
+  dailyStockTable: ElementRef;
 
   constructor(private tableConstants: TableConstants,private excelService: ExcelService, private restApiService: RestAPIService,
     private authService: AuthService) { }
@@ -149,15 +151,15 @@ export class DailyStockStatementComponent implements OnInit {
        }
   }
   exportAsXLSX():void{
-    let tempArray = [];
-    this.dailyStockData.forEach(x => {
-      tempArray.push(x.data);
-      let childNode = x.children;
-      childNode.forEach(y => {
-        tempArray.push(y.data);
-      })
-    })
-    this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement');
+    // let tempArray = [];
+    // this.dailyStockData.forEach(x => {
+    //   tempArray.push(x.data);
+    //   let childNode = x.children;
+    //   childNode.forEach(y => {
+    //     tempArray.push(y.data);
+    //   })
+    // })
+    this.excelService.exportAsExcelFile(this.dailyStockTable.nativeElement,'DailyStocksStatement');
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
