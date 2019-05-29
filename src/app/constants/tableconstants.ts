@@ -11,6 +11,7 @@ export class TableConstants {
   Notification: any;
   SchemeData: any;
   StockPurchase: any;
+  CBStatementColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -86,5 +87,22 @@ export class TableConstants {
       { "field": 'qty', "header": 'Quantity' },
       { "field": 'orderNumber', "header": 'Order Number' },
       { "field": 'remarks', "header": 'Remarks' }]
+
+      this.CBStatementColumns = [
+        { "field": 'serialNo', "header": 'SI.NO' },
+        { "field": 'RGNAME', "header": 'Region Name' },
+        { "field": 'TNCSCapacity', "header": 'Capacity' },
+        { "field": 'rawRice', "header": 'Raw Rice' },
+        { "field": 'boiledRice', "header": 'Boiled Rice' },
+        { "field": 'totalRice', "header": 'Rice Total' },
+        { "field": 'sugar', "header": 'SUGAR' },
+        { "field": 'wheat', "header": 'WHEAT' },
+        { "field": 'toorDhall', "header": 'TOOR DHALL' },
+        { "field": 'kanadaDhall', "header": 'Kanada Dhall' },
+        { "field": 'totalDhall', "header": 'Dhall Total' },
+        { "field": 'uridDhall', "header": 'URID Dhall' },
+        { "field": 'palmoil', "header": 'PALMOLIEN OIL' },
+        { "field": 'cement', "header": 'CEMENT' }
+      ]
   }
   }

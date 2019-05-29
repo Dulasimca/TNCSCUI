@@ -401,7 +401,7 @@ h3 a {
   font-size: 20px;
   letter-spacing: 3px;
   font-family: sans-serif;
-  padding-top: 15px;
+  padding-top: 25px;
 }
 .fa-icon-2xresize{
   font-size: 2.5em;
@@ -415,7 +415,7 @@ h3 a {
   font-size: 18px;
   letter-spacing: 1px;
   font-family: sans-serif;
-  padding-top: 15px !important;
+  padding-top: 25px !important;
 }
 .no-pad-top {
   padding-top: 0px !important;
@@ -490,6 +490,8 @@ h3 a {
  background-color: #f1f8f9	 !important;
   padding: 0px !important;
   font-family: Arial, Helvetica, sans-serif !important;
+  display: inline-block;
+  min-height: 30px;
 }
 
   .main-header .h3 {

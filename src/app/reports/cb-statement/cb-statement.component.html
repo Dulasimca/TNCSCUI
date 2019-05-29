@@ -19,21 +19,15 @@
            
           <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th>Name</th>
-                    <th>Capacity</th>
-                    <th>New Rice</th>
-                    <th>Old Rice</th>
-                    <th>Total Rice</th>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
                 </tr>
             </ng-template>
               <ng-template pTemplate="body" let-columns="columns" let-data>
                 <tr [ngStyle]="{'background-color': getColor(data.Name)}">
-                    <td>{{data.Name}}
+                    <td *ngFor="let col of columns">{{data[col.field]}}
                     </td>
-                    <td>{{data.Capacity}}</td>
-                    <td>{{data.NewRice}}</td>
-                    <td>{{data.OldRice}}</td>
-                    <td>{{data.TotalRice}}</td>
                 </tr>
               </ng-template>
             </p-table>
