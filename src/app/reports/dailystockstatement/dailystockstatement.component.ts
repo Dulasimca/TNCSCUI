@@ -181,7 +181,7 @@ export class DailyStockStatementComponent implements OnInit {
       })
     });
       doc.autoTable(col,rows);
-      doc.save('GODOWN_DATA.pdf');
+      doc.save('DailyStocksStatement.pdf');
   }
   print(){
     window.print();
