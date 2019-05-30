@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import { PathConstants } from 'src/app/constants/path.constants';
 
 @Component({
   selector: 'app-cb-statement',
@@ -15,34 +16,117 @@ export class CBStatementComponent implements OnInit {
   searchText: string;
   filterArray: any;
   filteredItem: any;
-  
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private tableConstants: TableConstants) { }
-  
-  ngOnInit() {
-      this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-      this.cbData = [
-        { 'id': 1,'Name': 'Ariyalur', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 2,'Name': 'JayaKondam', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 3,'Name': 'Senthurai', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 4,'Name': 'Anna Nagr', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 5,'Name': 'Manali', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 6,'Name': 'Sengundram', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 7,'Name': 'Toll Booth', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-        { 'id': 8,'Name': 'Tondairpet', 'Capacity': '2500', 'NewRice': '417.251', 'OldRice': '89.732', 'TotalRice': '506.983'},
-    ]; 
-    // this.cbData.forEach(x => {
-    //   if (x.id === 3) {
-    //     var index = this.cbData.findIndex(index => index.id === x.id);
-       
-    //     //this.cbData.splice(index + 1, item.length - 1);
-    //   }
-    // })
-    var index = this.cbData.length - 5;
-    var item = {'Name':'TOTAL','Capacity': '8500','NewRice': '131.81','OldRice': '572.943','TotalRice': '1885.75'};
-    this.cbData.splice(index, 0, item);
-     }
+  rowGroupMetadata: any;
+  totalMetaData: any;
 
-     public getColor(name: string): string{
-      return name === 'TOTAL' ? "#53aae4" : "white";
-   }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private tableConstants: TableConstants) { }
+
+  ngOnInit() {
+    this.rowGroupMetadata = {};
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.column = this.tableConstants.CBStatementColumns;
+    this.restApiService.get(PathConstants.CB_STATEMENT).subscribe(response => {
+      if (response !== undefined && response !== null) {
+        this.cbData = response;
+        for (let i = 0; i < this.cbData.length; i++) {
+          let rowData = this.cbData[i];
+          let RGNAME = rowData.RGNAME;
+          if (i == 0) {
+            this.rowGroupMetadata[RGNAME] = { index: 0, size: 1 };
+          }
+          else {
+            let previousRowData = this.cbData[i - 1];
+            let previousRowGroup = previousRowData.RGNAME;
+            if (RGNAME === previousRowGroup)
+              this.rowGroupMetadata[RGNAME].size++;
+            else
+              this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
+          }
+        }
+        this.cbData.forEach(record => {
+          let boiledRiceTotal = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
+            ((record.BOILED_RICE_A_HULLING !== null && record.BOILED_RICE_A_HULLING !== undefined) ? (record.BOILED_RICE_A_HULLING * 1) : 0) +
+            ((record.BOILED_RICE_C_HULLING !== null && record.BOILED_RICE_C_HULLING !== undefined) ? (record.BOILED_RICE_C_HULLING * 1) : 0) +
+            ((record.BOILED_RICE_COMMON !== null && record.BOILED_RICE_COMMON !== undefined) ? (record.BOILED_RICE_COMMON * 1) : 0);
+          record.boiledRice = (boiledRiceTotal !== 0) ? boiledRiceTotal.toFixed(3) : boiledRiceTotal;
+          let rawRiceTotal = ((record.RAW_RICE_A !== null && record.RAW_RICE_A !== undefined) ? (record.RAW_RICE_A * 1) : 0) +
+            ((record.RAW_RICE_A_HULLING !== null && record.RAW_RICE_A_HULLING !== undefined) ? (record.RAW_RICE_A_HULLING * 1) : 0) +
+            ((record.RAW_RICE_COM_HULLING !== null && record.RAW_RICE_COM_HULLING !== undefined) ? (record.RAW_RICE_COM_HULLING * 1) : 0) +
+            ((record.RAW_RICE_COMMON !== null && record.RAW_RICE_COMMON !== undefined) ? (record.RAW_RICE_COMMON * 1) : 0);
+          record.rawRice = (rawRiceTotal !== 0) ? rawRiceTotal.toFixed(3) : rawRiceTotal;
+          let kanadaToorDhallTotal = ((record.Candian_Yellow_lentil_TD !== null && record.Candian_Yellow_lentil_TD !== undefined) ?
+            record.Candian_Yellow_lentil_TD * 1 : 0) + ((record.YELLOW_LENTAL_US !== null && record.YELLOW_LENTAL_US !== undefined) ?
+              record.YELLOW_LENTAL_US * 1 : 0);
+          record.kanadaToorDhall = (kanadaToorDhallTotal !== 0) ? kanadaToorDhallTotal.toFixed(3) : kanadaToorDhallTotal;
+          let toorDhallTotal = ((record.TOOR_DHALL !== null && record.TOOR_DHALL !== undefined) ?
+            record.TOOR_DHALL * 1 : 0) + ((record.TUR_ARUSHA !== null && record.TUR_ARUSHA !== undefined) ?
+              record.TUR_ARUSHA * 1 : 0) + ((record.TUR_LEMON !== null && record.TUR_LEMON !== undefined) ?
+                record.TUR_LEMON * 1 : 0) + ((record.LIARD_LENTIL_GREEN !== null && record.LIARD_LENTIL_GREEN !== undefined) ?
+                  record.LIARD_LENTIL_GREEN * 1 : 0);
+          record.toorDhall = (toorDhallTotal !== 0) ? toorDhallTotal.toFixed(3) : toorDhallTotal;
+          let uridDhallTotal = ((record.URAD_FAQ !== null && record.URAD_FAQ !== undefined) ?
+            record.URAD_FAQ * 1 : 0) + ((record.URAD_SQ !== null && record.URAD_SQ !== undefined) ?
+              record.URAD_SQ * 1 : 0) + ((record.URID_DHALL !== null && record.URID_DHALL !== undefined) ?
+                record.URID_DHALL * 1 : 0) + ((record.URID_DHALL_FAQ !== null && record.URID_DHALL_FAQ !== undefined) ?
+                  record.URID_DHALL_FAQ * 1 : 0) + ((record.URID_DHALL_SPLIT !== null && record.URID_DHALL_SPLIT !== undefined) ?
+                    record.URID_DHALL_SPLIT * 1 : 0) + ((record.URID_DHALL_SQ !== null && record.URID_DHALL_SQ !== undefined) ?
+                      record.URID_DHALL_SQ * 1 : 0);
+          record.uridDhall = (uridDhallTotal !== 0) ? uridDhallTotal.toFixed(3) : uridDhallTotal;
+          let palmoilTotal = ((record.PALMOLIEN_OIL !== null && record.PALMOLIEN_OIL !== undefined) ?
+            record.PALMOLIEN_OIL * 1 : 0) + ((record.PALMOLIEN_POUCH !== null && record.PALMOLIEN_POUCH !== undefined) ?
+              record.PALMOLIEN_POUCH * 1 : 0);
+          record.palmoil = (palmoilTotal !== 0) ? palmoilTotal.toFixed(3) : palmoilTotal;
+          let cementTotal = ((record.CEMENT_IMPORTED !== null && record.CEMENT_IMPORTED !== undefined) ?
+            record.CEMENT_IMPORTED * 1 : 0) + ((record.CEMENT_REGULAR !== null && record.CEMENT_REGULAR !== undefined) ?
+              record.CEMENT_REGULAR * 1 : 0);
+          record.cement = (cementTotal !== 0) ? cementTotal.toFixed(3) : cementTotal;
+          let totalRice = boiledRiceTotal + rawRiceTotal;
+          let totalDhall = toorDhallTotal + uridDhallTotal;
+          record.totalRice = (totalRice !== 0) ? totalRice.toFixed(3) : totalRice;
+          record.totalDhall = (totalDhall !== 0) ? totalDhall.toFixed(3) : totalDhall;
+        });
+
+        let totalCapacity: number = 0;
+        let totalRawRice: number = 0;
+        let rowIndex;
+        let item;
+        rowIndex = 4;
+        item = {
+          'TNCSName': 'TOTAL', 'TNCSCapacity': totalCapacity, 'boiledRice': '131.81', 'rawRice': '572.943',
+          'totalRice': '1885.75', 'SUGAR': '78888.90', 'WHEAT': '8909.77', 'toorDhall': '12029.88', 'kanadaToorDhall': '220298.09',
+          'totalDhall': '18190.009', 'uridDhall': '24556.887', 'palmoil': '233149.09', 'cement': '987090.009'
+        };
+        //  this.cbData.splice(rowIndex, 0, item);
+        // this.cbData.forEach(data => {
+        //   this.cbData.filter(item => {
+        //     if (data.RGNAME === item.RGNAME) {
+        //       totalCapacity += (item.TNCSCapacity * 1);
+             
+        //       // rowIndex = -1;
+        //       // totalCapacity = 0;
+        //     }
+        //   })
+        // })
+        // let tempArray = [];
+        // let indexArray;
+        // for (let i = 0; i < this.cbData.length; i++) {
+        //   if (this.cbData[i] !== undefined && this.cbData[i + 1] !== undefined) {
+        //     if (this.cbData[i].RGNAME === this.cbData[i + 1].RGNAME) {
+        //       tempArray.push(this.cbData[i].RGNAME);
+        //       indexArray = tempArray.length;
+        //     } else {
+        //       // this.cbData.splice(indexArray, 0, item);
+        //       this.cbData[indexArray] = item;
+        //       indexArray = -1;
+        //     }
+        //   }
+        // }
+      }
+    })
+
+  }
+
+  public getColor(name: string): string {
+    return name === 'TOTAL' ? "#53aae4" : "white";
+  }
 }

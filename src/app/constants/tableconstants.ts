@@ -89,16 +89,16 @@ export class TableConstants {
       { "field": 'remarks', "header": 'Remarks' }]
 
       this.CBStatementColumns = [
-        { "field": 'serialNo', "header": 'SI.NO' },
-        { "field": 'RGNAME', "header": 'Region Name' },
+        // { "field": 'serialNo', "header": 'SI.NO' },
+        { "field": 'TNCSName', "header": 'Region Name' },
         { "field": 'TNCSCapacity', "header": 'Capacity' },
-        { "field": 'rawRice', "header": 'Raw Rice' },
         { "field": 'boiledRice', "header": 'Boiled Rice' },
+        { "field": 'rawRice', "header": 'Raw Rice' },
         { "field": 'totalRice', "header": 'Rice Total' },
-        { "field": 'sugar', "header": 'SUGAR' },
-        { "field": 'wheat', "header": 'WHEAT' },
+        { "field": 'SUGAR', "header": 'SUGAR' },
+        { "field": 'WHEAT', "header": 'WHEAT' },
         { "field": 'toorDhall', "header": 'TOOR DHALL' },
-        { "field": 'kanadaDhall', "header": 'Kanada Dhall' },
+        { "field": 'kanadaToorDhall', "header": 'Kanada TOOR Dhall' },
         { "field": 'totalDhall', "header": 'Dhall Total' },
         { "field": 'uridDhall', "header": 'URID Dhall' },
         { "field": 'palmoil', "header": 'PALMOLIEN OIL' },

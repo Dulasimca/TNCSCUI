@@ -16,4 +16,5 @@ export class PathConstants {
   public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB';
   public static readonly DAILY_STOCK_STATEMENT = '/api/DailyStatement/Get';
   public static readonly DAILY_STOCK_STATEMENT_ITEM_MASTER = '/api/ItemMaster';
+  public static readonly CB_STATEMENT = '/api/DailyCBStatement';
 }

@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   openPanel: boolean;
   userName: string;
   password: any;
+  isChecked: boolean;
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
@@ -62,6 +63,11 @@ export class LoginComponent implements OnInit {
     });
   }
   }
+
+  toggleVisibility(e) {
+    this.isChecked = e.target.checked;
+  }
+
   clearFields() {
     this.userName = this.password = '';
   }
