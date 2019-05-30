@@ -14,9 +14,8 @@
                 </div>
             </div>
           </p-header>
-          <div style="margin-left: 200px; margin-right: 200px;">
+          <div>
         <p-table  [value]="cbData" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout ="true">
-           
           <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">
@@ -24,8 +23,16 @@
                   </th>
                 </tr>
             </ng-template>
-              <ng-template pTemplate="body" let-columns="columns" let-data>
-                <tr [ngStyle]="{'background-color': getColor(data.Name)}">
+              <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
+                  <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
+                      <!-- <td colspan="1">
+                          <span style="font-weight:bold">{{data.RGNAME}}</span>
+                      </td> -->
+                      <td colspan="14">
+                          <span style="font-weight:bold">{{data.RGNAME}}</span>
+                      </td>
+                  </tr>
+                <tr [ngStyle]="{'background-color': getColor(data.TNCSName)}">
                     <td *ngFor="let col of columns">{{data[col.field]}}
                     </td>
                 </tr>

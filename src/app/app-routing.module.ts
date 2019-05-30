@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'stockPurchase', component: StockPurchaseComponent},
   { path: 'regionalAllotment', component: RegionAllotmentComponent },
   { path: 'godownAllotment', component: GodownAllotmentComponent },
-  { path: 'cbStatement', component: CBStatementComponent},
+  { path: 'Daily CB Statement', component: CBStatementComponent},
   { path: '**', component: PageNotFoundComponent }
   
 ];
