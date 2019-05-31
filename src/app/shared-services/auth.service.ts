@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   isSignedIn: boolean;
   canGoBack = true;
-  menu: any;
+  getUserInfo: any;
 
   constructor(private router: Router) { }
 
@@ -38,6 +38,23 @@ export class AuthService {
        localStorage.setItem('ID', id);
      }
    }
+
+   public getCredentials() {
+    this.getUserInfo = localStorage.getItem('USER_INFO');
+     return this.getUserInfo;
+   }
+
+   public isKeepMeLoggedIn(isLogged) {
+    localStorage.setItem('KEEP_ME_LOGGED_IN', isLogged);
+   }
+
+   public checkLoggedIn() {
+    let isLoggedInTrue = localStorage.getItem('KEEP_ME_LOGGED_IN');
+    if (this.getUserInfo !== null && this.getUserInfo !== undefined) {
+    return isLoggedInTrue;
+    } 
+   }
+
 
   public isLoggedIn() {
     let getInfo = localStorage.getItem('USER_INFO');

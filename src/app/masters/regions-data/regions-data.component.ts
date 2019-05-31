@@ -9,6 +9,7 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { isNgTemplate } from '@angular/compiler';
 
 
 
@@ -27,6 +28,7 @@ export class RegionsDataComponent implements OnInit {
   canShowMenu: boolean;
   searchText : string;
   filterArray: any;
+  selectedrow: any;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
@@ -42,6 +44,7 @@ export class RegionsDataComponent implements OnInit {
       {
         return this.errMessage;
       }
+      
         this.items = [
           {
             label: 'Excel', icon: 'fa fa-table', command: () => {
@@ -53,6 +56,7 @@ export class RegionsDataComponent implements OnInit {
             }
           }]
     });
+  
   }
   onSearch(value) {
     if (value !== undefined && value !== '') {
@@ -85,4 +89,9 @@ exportAsPDF() {
  print(){
   window.print();
 }
+
+// colorTable(value){
+// this.selectedrow = this.data.RGNAME;
+// }
+
 }

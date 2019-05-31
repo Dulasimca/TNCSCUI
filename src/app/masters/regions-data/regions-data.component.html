@@ -23,17 +23,17 @@
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-columns="columns" let-response>
-                  <tr>
+            <!-- <ng-template pTemplate="body" let-columns="columns" let-response>
+                  <tr (onClick)="colorTable(value)" [ngClass]="{'highlight' : data.RegionName == selectedrow}">
                       <td *ngFor="let col of columns">
-                            {{response[col.SlNo]}}
+                            {{response[col.SlNo]}} {{response[col.field]}}
                       </td>
                   </tr>
-              </ng-template>
+              </ng-template> -->
             <ng-template pTemplate="body" let-columns="columns" let-response>
                 <tr>
-                    <td *ngFor="let col of columns">
-                          {{response[col.field]}}
+                    <td *ngFor="let col of columns" selectionMode="single">
+                      {{response[col.SlNo]}} {{response[col.field]}}
                     </td>
                 </tr>
             </ng-template>
@@ -41,5 +41,5 @@
 </div>
   </p-panel>
  </div>
-
+ <!-- [ngClass]="{hovered: response.hovered, highlighted= !response.highlighted}" (click)="response.highlighted= !response.highlighted" (mouseover)="response.hovered = true" (mouseout)="response.hovered=false" -->
   
