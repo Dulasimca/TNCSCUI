@@ -16,8 +16,19 @@ export class AuthService {
     return this.isSignedIn;
   }
 
+  public getMenu(){
+    let menu: any = localStorage.getItem('MENU');
+    if(menu !== null) {
+     return JSON.parse(menu);
+    }
+    return null;
+  }
+
   public setValidUser(value) {
     this.isSignedIn = value;
+  }
+  public setMenu(data) {
+    localStorage.setItem('MENU', JSON.stringify(data));
   }
 
    public login(userInfo: User, id) {
@@ -63,6 +74,7 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('USER_INFO');
     localStorage.removeItem('ID');
+    localStorage.removeItem('MENU');
     this.isSignedIn = false;
     this.router.navigateByUrl('');
   }

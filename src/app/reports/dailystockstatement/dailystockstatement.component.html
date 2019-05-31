@@ -16,16 +16,16 @@
       </p-header>
       <div #dailyStockTable class="ui-g" style="text-align:left; display:grid">
         <p-treeTable  [value]="dailyStockData" [columns]="dailyStockDataColumns" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
+          [paginator]="true" autoLayout="true" selectionMode="single" (onRowSelect)="onRowSelect($event)" [resizableColumns]="true" dataKey="Name" >
           <ng-template pTemplate="header" let-columns>
               <tr [ttRow]="rowNode">
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" ttResizableColumn>
               {{col.header}}
             </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-            <tr >
+          <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns" let-rowIndex="rowIndex">
+            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
               <td *ngFor="let col of columns; let i = index">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
                     {{rowData[col.field]}}

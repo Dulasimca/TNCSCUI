@@ -11,6 +11,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 })
 export class CBStatementComponent implements OnInit {
   cbData: any = [];
+  data = [];
   column?: any;
   canShowMenu: boolean;
   searchText: string;
@@ -28,22 +29,8 @@ export class CBStatementComponent implements OnInit {
     this.restApiService.get(PathConstants.CB_STATEMENT).subscribe(response => {
       if (response !== undefined && response !== null) {
         this.cbData = response;
-        for (let i = 0; i < this.cbData.length; i++) {
-          let rowData = this.cbData[i];
-          let RGNAME = rowData.RGNAME;
-          if (i == 0) {
-            this.rowGroupMetadata[RGNAME] = { index: 0, size: 1 };
-          }
-          else {
-            let previousRowData = this.cbData[i - 1];
-            let previousRowGroup = previousRowData.RGNAME;
-            if (RGNAME === previousRowGroup)
-              this.rowGroupMetadata[RGNAME].size++;
-            else
-              this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
-          }
-        }
-        this.cbData.forEach(record => {
+        let data = response.slice(0);
+            this.cbData.forEach(record => {
           let boiledRiceTotal = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
             ((record.BOILED_RICE_A_HULLING !== null && record.BOILED_RICE_A_HULLING !== undefined) ? (record.BOILED_RICE_A_HULLING * 1) : 0) +
             ((record.BOILED_RICE_C_HULLING !== null && record.BOILED_RICE_C_HULLING !== undefined) ? (record.BOILED_RICE_C_HULLING * 1) : 0) +
@@ -85,43 +72,66 @@ export class CBStatementComponent implements OnInit {
           record.totalRice = (totalRice !== 0) ? totalRice.toFixed(3) : totalRice;
           record.totalDhall = (totalDhall !== 0) ? totalDhall.toFixed(3) : totalDhall;
         });
-
-        let totalCapacity: number = 0;
-        let totalRawRice: number = 0;
-        let rowIndex;
-        let item;
-        rowIndex = 4;
-        item = {
-          'TNCSName': 'TOTAL', 'TNCSCapacity': totalCapacity, 'boiledRice': '131.81', 'rawRice': '572.943',
-          'totalRice': '1885.75', 'SUGAR': '78888.90', 'WHEAT': '8909.77', 'toorDhall': '12029.88', 'kanadaToorDhall': '220298.09',
-          'totalDhall': '18190.009', 'uridDhall': '24556.887', 'palmoil': '233149.09', 'cement': '987090.009'
-        };
-        //  this.cbData.splice(rowIndex, 0, item);
-        // this.cbData.forEach(data => {
-        //   this.cbData.filter(item => {
-        //     if (data.RGNAME === item.RGNAME) {
-        //       totalCapacity += (item.TNCSCapacity * 1);
-             
-        //       // rowIndex = -1;
-        //       // totalCapacity = 0;
-        //     }
-        //   })
-        // })
-        // let tempArray = [];
-        // let indexArray;
-        // for (let i = 0; i < this.cbData.length; i++) {
-        //   if (this.cbData[i] !== undefined && this.cbData[i + 1] !== undefined) {
-        //     if (this.cbData[i].RGNAME === this.cbData[i + 1].RGNAME) {
-        //       tempArray.push(this.cbData[i].RGNAME);
-        //       indexArray = tempArray.length;
-        //     } else {
-        //       // this.cbData.splice(indexArray, 0, item);
-        //       this.cbData[indexArray] = item;
-        //       indexArray = -1;
-        //     }
-        //   }
+        let reduceArr = [];
+        data.forEach(x => reduceArr.push(x.RGNAME));
+        var map = reduceArr.reduce(function (item, index) {
+          item[index] = (item[index] || 0) + 1;
+          return item;
+        }, {});
+        console.log(map);
+        let count = 0;
+        let ind;
+        let mapIndex = 0;
+        let totalCapacity = 0;
+        let findIndex = 0;
+          while ((count > 0 || count === 0) && count < data.length - 1) {
+            let name = (data[count] !== undefined && data[count].RGNAME !== undefined) ? data[count].RGNAME : data[count + 1].RGNAME;
+            if (data[count].RGNAME === data[count + 1].RGNAME) { ind = map[name] + count; } else { ind = map[name] + count + 1; }
+            mapIndex = map[name];
+            if (findIndex < mapIndex && findIndex < data.length - 1) {
+              totalCapacity += (data[findIndex].TNCSCapacity * 1);
+              findIndex++;
+            } else {
+              var item = { 'TNCSName': 'TOTAL', 'TNCSCapacity': totalCapacity };
+              this.cbData.splice(ind, 0, item);
+              totalCapacity = 0;
+              count = ind + 1;
+              mapIndex += findIndex;
+              
+            }
+          }
+        // for (let j = 0; j < data.length; j++) {
+        //   while ((count > 0 || count === 0) && count < data.length - 1) {
+        //         let name = (data[count] !== undefined && data[count].RGNAME !== undefined) ? data[count].RGNAME : data[count + 1].RGNAME;
+        //         if (data[count].RGNAME === data[count + 1].RGNAME) { ind = map[name] + count; } else { ind = map[name] + count + 1; }
+        //         if (findIndex < ind) {
+        //           totalCapacity += (data[j].TNCSCapacity * 1);
+        //           findIndex++;
+        //         } else {
+        //           var item = { 'TNCSName': 'TOTAL', 'TNCSCapacity': totalCapacity };
+        //           this.cbData.splice(ind, 0, item);
+        //           totalCapacity = 0;
+        //           count = ind + 1;
+        //         }
+        //       }
         // }
       }
+      for (let i = 0; i < this.cbData.length; i++) {
+        let rowData = this.cbData[i];
+        let RGNAME = rowData.RGNAME;
+        if (i == 0) {
+          this.rowGroupMetadata[RGNAME] = { index: 0, size: 1 };
+        }
+        else {
+          let previousRowData = this.cbData[i - 1];
+          let previousRowGroup = previousRowData.RGNAME;
+          if (RGNAME === previousRowGroup)
+            this.rowGroupMetadata[RGNAME].size++;
+          else
+            this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
+        }
+      }
+
     })
 
   }
