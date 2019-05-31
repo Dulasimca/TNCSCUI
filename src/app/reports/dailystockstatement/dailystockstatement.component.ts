@@ -141,14 +141,13 @@ export class DailyStockStatementComponent implements OnInit {
       }]
   }
   onSearch(value) {
+    this.dailyStockData = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.dailyStockData = this.dailyStockData.filter(item => {
           return item.data.Name.toString().startsWith(value);
       });
-       } else {
-         this.dailyStockData = this.filterArray;
-       }
+    }
   }
   exportAsXLSX():void{
     let tempArray = [];
@@ -162,8 +161,8 @@ export class DailyStockStatementComponent implements OnInit {
     this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement', this.dailyStockDataColumns);
   }
   exportAsPDF() {
-    var doc = new jsPDF('p','pt','a4');
-    doc.text('Tamil Nadu Civil Supplies Corporation - Head Office',100,30,);
+    var doc = new jsPDF('landscape','pt','a4');
+    doc.text('Tamil Nadu Civil Supplies Corporation - Head Office',200,30);
     var col = this.dailyStockDataColumns;
     var rows = [];
     this.dailyStockData.forEach(element => {

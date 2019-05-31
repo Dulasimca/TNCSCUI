@@ -52,7 +52,6 @@ export class FCIDataComponent implements OnInit {
       });
       this.filteredItem = this.data;
     }
-    
     onSearch(value) {
       this.data = this.filterArray;
       if (value !== undefined && value !== '') {
@@ -60,8 +59,7 @@ export class FCIDataComponent implements OnInit {
         this.data = this.data.filter(item => {
         return item.DepositorName.toString().startsWith(value);
       });
-         } 
-       
+     } 
     }
     exportAsXLSX(){
        this.excelService.exportAsExcelFile(this.data, 'FCI_DATA', this.column);

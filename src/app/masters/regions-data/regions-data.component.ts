@@ -44,7 +44,6 @@ export class RegionsDataComponent implements OnInit {
       {
         return this.errMessage;
       }
-      
         this.items = [
           {
             label: 'Excel', icon: 'fa fa-table', command: () => {
@@ -56,17 +55,15 @@ export class RegionsDataComponent implements OnInit {
             }
           }]
     });
-  
   }
   onSearch(value) {
+    this.data = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
           return item.RGNAME.toString().startsWith(value);
       });
-       } else {
-         this.data = this.filterArray;
-       }
+    } 
   }
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.data, 'REGION_DATA', this.column);
@@ -79,19 +76,13 @@ exportAsPDF() {
   var col = this.column;
   var rows = [];
   this.data.forEach(element => {
-     var temp = [element.SlNo,element.RGNAME];
+     var temp = [element.SlNo,element.RGCODE,element.RGNAME];
         rows.push(temp);
-        
   });
     doc.autoTable(col,rows);
     doc.save('REGION_DATA.pdf');
  }
  print(){
   window.print();
-}
-
-// colorTable(value){
-// this.selectedrow = this.data.RGNAME;
-// }
-
+ }
 }

@@ -49,18 +49,15 @@ export class HullingAgenciesComponent implements OnInit {
       });
     }
   onSearch(value) {
+    this.data = this.filterArray;
     if (value !== undefined && value !== '') {
        value = value.toString().toUpperCase();
             this.data = this.data.filter(item => {
-             // if (item.DepositorName.toString().startsWith(value)) {
                 return item.DepositorName.toString().startsWith(value);
-             // }
             });
-             } else {
-               this.data = this.filterArray;
-             }
-        }
-  exportAsXLSX():void{
+         }
+      }
+        exportAsXLSX():void{
       this.excelService.exportAsExcelFile(this.data, 'HULLING-AGENCIES_DATA', this.column);
         }
   exportAsPDF() {

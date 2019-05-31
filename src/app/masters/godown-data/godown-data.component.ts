@@ -73,16 +73,14 @@ export class GodownDataComponent implements OnInit {
     });
   }
   onSearch(value) {
+    this.data = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
           return item.data.Name.toString().startsWith(value);
       });
-       } else {
-         this.data = this.filterArray;
-       }
+    }
   }
-
   exportAsXLSX():void{
     let tempArray = [];
     this.data.forEach(x => {

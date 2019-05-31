@@ -50,23 +50,20 @@ export class SchemesComponent implements OnInit {
     });
   }
   onSearch(value) {
+    this.data = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
           return item.Name.toString().startsWith(value);
       });
-       } 
-       else 
-       {
-         this.data = this.filterArray;
-       }
+    } 
   }
   exportAsXLSX():void{
      this.excelService.exportAsExcelFile(this.data, 'SCHEME_DATA', this.column);
   }
   exportAsPDF() {
     var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30);
     // var img ="assets\layout\images\dashboard\tncsc-logo.png";
     // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;

@@ -49,6 +49,7 @@ ngOnInit()
       });
     }
  onSearch(value) {
+  this.data = this.filterArray;
   if (value !== undefined && value !== '') {
      value = value.toString().toUpperCase();
         this.data = this.data.filter(item => {
@@ -56,9 +57,7 @@ ngOnInit()
             return item.DepositorName.toString().startsWith(value);
          // }
         });
-         } else {
-           this.data = this.filterArray;
-         }
+      } 
     }
   exportAsXLSX():void{
    this.restApiService.get(PathConstants.MRN).subscribe((res: any[]) => {
@@ -76,11 +75,9 @@ ngOnInit()
       this.data.forEach(element => {
          var temp = [element.SlNo,element.DepositorName];
             rows.push(temp);
-            
       });
         doc.autoTable(col,rows);
         doc.save('MRM_DATA.pdf');
-      
    }
   print(){
       window.print();
