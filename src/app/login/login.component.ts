@@ -65,7 +65,13 @@ export class LoginComponent implements OnInit {
   }
 
   toggleVisibility(e) {
-    this.isChecked = e.target.checked;
+    this.authService.isKeepMeLoggedIn(e.target.checked);
+    let check: any = this.authService.checkLoggedIn();
+    this.isChecked = (check !== undefined && 
+    check !== null) ? check : false;
+    if (this.isChecked) {
+     this.userName =  this.authService.getCredentials();
+    }
   }
 
   clearFields() {
