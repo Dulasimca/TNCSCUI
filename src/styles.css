@@ -393,31 +393,44 @@ h3 a {
 } 
 /*-- //responsive-design --*/
 .clock{
-  position: absolute;
-  left: 90%;
+  /* position: absolute; */
+  /* left: 90%;
   -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%); */
   color: #0b2792;
   font-size: 20px;
   letter-spacing: 3px;
   font-family: sans-serif;
-  padding-top: 25px;
+  padding: 2px; 
 }
 .fa-icon-2xresize{
   font-size: 2.5em;
 }
 .date {
-  position: absolute;
-  left: 85%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
+  /* position: absolute; */
+  /* left: 75%; */
+  /* -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%); */
   color: #0b2792;
   font-size: 18px;
   letter-spacing: 1px;
   font-family: sans-serif;
-  padding-top: 25px !important;
+  padding: 2px 2px 2px 0px !important;
 }
 .no-pad-top {
+  padding-top: 0px !important;
+}
+
+.no-pad-bottom {
+  padding-bottom: 0px !important;
+}
+
+.no-left-pad {
+  padding-left: 0px !important;
+}
+
+.div-no-top-bottom-pad {
+  padding-bottom: 2px !important;
   padding-top: 0px !important;
 }
 

@@ -54,8 +54,12 @@ export class MenuComponent implements OnInit {
               });
             }
           });
-        }
+        this.authService.setMenu(JSON.stringify(this.items));
+        } 
       });
+      if (this.items === undefined || this.items.length === 0) {
+      this.items = JSON.parse(this.authService.getMenu());
+      }
   }
 
   onLogout() {

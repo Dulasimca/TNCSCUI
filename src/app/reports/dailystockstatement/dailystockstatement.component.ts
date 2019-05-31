@@ -28,6 +28,7 @@ export class DailyStockStatementComponent implements OnInit {
   filterArray: any;
   @ViewChild('dailyStockTable') 
   dailyStockTable: ElementRef;
+  selectedRow = 0;
 
   constructor(private tableConstants: TableConstants,private excelService: ExcelService, private restApiService: RestAPIService,
     private authService: AuthService) { }
@@ -62,10 +63,10 @@ export class DailyStockStatementComponent implements OnInit {
                       'Name': godownList[i].Name,
                       'OpeningBalance': godownList[i].OpeningBalance,
                       'Receipt': godownList[i].TotalReceipt,
-                      'Total': (godownOBReceiptTotal > 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
+                      'Total': (godownOBReceiptTotal !== 0) ? godownOBReceiptTotal.toFixed(3) : godownOBReceiptTotal,
                       'IssueSales': godownList[i].IssueSales,
                       'IssueOthers': godownList[i].IssueOthers,
-                      'TotalIssue': (godownIssueTotal > 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
+                      'TotalIssue': (godownIssueTotal !== 0) ? godownIssueTotal.toFixed(3) : godownIssueTotal,
                       'ClosingBalance': godownList[i].ClosingBalance,
                       'CSBalance': godownList[i].CSBalance,
                       'PhycialBalance': godownList[i].PhycialBalance,
@@ -82,10 +83,10 @@ export class DailyStockStatementComponent implements OnInit {
                     'Name': regionList[i].Name,
                     'OpeningBalance': regionList[i].OpeningBalance,
                     'Receipt': regionList[i].TotalReceipt,
-                    'Total': (regionOBReceiptTotal > 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
+                    'Total': (regionOBReceiptTotal !== 0) ? regionOBReceiptTotal.toFixed(3) : regionOBReceiptTotal,
                     'IssueSales': regionList[i].IssueSales,
                     'IssueOthers': regionList[i].IssueOthers,
-                    'TotalIssue': (regionIssueTotal > 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
+                    'TotalIssue': (regionIssueTotal !== 0) ? regionIssueTotal.toFixed(3) : regionIssueTotal,
                     'ClosingBalance': regionList[i].ClosingBalance,
                     'CSBalance': regionList[i].CSBalance,
                     'PhycialBalance': regionList[i].PhycialBalance,
@@ -104,10 +105,10 @@ export class DailyStockStatementComponent implements OnInit {
                     'Name': x.Name,
                     'OpeningBalance': x.OpeningBalance,
                     'Receipt': x.TotalReceipt,
-                    'Total': (OBReceiptTotal > 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
+                    'Total': (OBReceiptTotal !== 0) ? OBReceiptTotal.toFixed(3) : OBReceiptTotal,
                     'IssueSales': x.IssueSales,
                     'IssueOthers': x.IssueOthers,
-                    'TotalIssue': (IssueTotal > 0) ? IssueTotal.toFixed(3) : IssueTotal,
+                    'TotalIssue': (IssueTotal !== 0) ? IssueTotal.toFixed(3) : IssueTotal,
                     'ClosingBalance': x.ClosingBalance,
                     'CSBalance': x.CSBalance,
                     'PhycialBalance': x.PhycialBalance,
@@ -140,6 +141,9 @@ export class DailyStockStatementComponent implements OnInit {
         }
       }]
   }
+onRowSelect(i) {
+  this.selectedRow = i;
+}
   onSearch(value) {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
