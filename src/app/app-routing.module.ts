@@ -18,6 +18,7 @@ import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.c
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
 import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
+import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.component';
 
 
 const routes: Routes = [
@@ -34,10 +35,11 @@ const routes: Routes = [
   { path: 'regions', component: RegionsDataComponent, canActivate: [AuthGuard] },
   { path: 'schemes', component: SchemesComponent, canActivate: [AuthGuard] },
   { path: 'depositors', component: DepositorsComponent, canActivate: [AuthGuard] },
-  { path: 'stockPurchase', component: StockPurchaseComponent},
+  { path: 'stockPurchase', component: StockPurchaseComponent },
   { path: 'regionalAllotment', component: RegionAllotmentComponent },
   { path: 'godownAllotment', component: GodownAllotmentComponent },
-  { path: 'cbStatement', component: CBStatementComponent},
+  { path: 'cbStatement', component: CBStatementComponent },
+  { path: 'stockReceipt', component: StockReceiptComponent },
   { path: '**', component: PageNotFoundComponent }
   
 ];

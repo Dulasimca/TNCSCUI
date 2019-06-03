@@ -53,6 +53,7 @@ import { ExcelService } from './shared-services/excel.service';
 import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
+import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.component';
 
 
 
@@ -80,6 +81,7 @@ import { CBStatementComponent } from './reports/cb-statement/cb-statement.compon
     RegionAllotmentComponent,
     PageNotFoundComponent,
     CBStatementComponent,
+    StockReceiptComponent,
   ],
   imports: [
     BrowserModule,
