@@ -31,7 +31,10 @@ export class HeaderComponent implements OnInit {
     this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
     this.loggedUsername = this.loginService.getUsername();
   }
- 
+  
+  onLogOut() {
+   this.authService.logout();
+ }
 }
 function showTime() {
   let todayDate = new Date();

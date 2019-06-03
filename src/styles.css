@@ -49,7 +49,7 @@ h1 {
 	letter-spacing: 1px;
 	text-align: center;
 	padding: 1em 0 0.4em 0;
-}
+} 
 /*-- slide --*/
 
 @keyframes slideleft {
@@ -352,16 +352,35 @@ h3 a {
 /*-- //main --*/
 
 /*-- responsive-design --*/ 
+@media(max-width:300px){
+	.marquee{
+    white-space: initial;
+  }
+	.span {
+		font-size: 11px;
+		letter-spacing: 1px;
+	}
+	.social {
+		margin: 1em 0 0;
+	}
+	.copyright {
+		padding: 2em 1em;
+	}
+}
 
 @media(max-width:667px){
-	
+  .marquee{
+    white-space: initial;
+  }
 	h1 {
 		font-size: 40px;
 		letter-spacing: 1px;
 	}
 }
 @media(max-width:415px){
-	
+  .marquee{
+    white-space: initial;
+  }
 	h1 {
 		font-size: 35px;
 		letter-spacing: 1px;
@@ -374,6 +393,9 @@ h3 a {
 	}
 }
 @media(max-width:384px){
+  .marquee{
+    white-space: initial;
+  }
 	.main-icon span.fa {
 		margin-bottom: .6em;
 	}
@@ -401,7 +423,6 @@ h3 a {
   font-size: 20px;
   letter-spacing: 3px;
   font-family: sans-serif;
-  padding: 2px; 
 }
 .fa-icon-2xresize{
   font-size: 2.5em;
@@ -415,7 +436,6 @@ h3 a {
   font-size: 18px;
   letter-spacing: 1px;
   font-family: sans-serif;
-  padding: 2px 2px 2px 0px !important;
 }
 .no-pad-top {
   padding-top: 0px !important;
@@ -497,10 +517,26 @@ h3 a {
     height: 120px;
     min-height: 120px;
   }
+  .ui-overlaypanel-content {
+ padding: 0px !important;
+
+}
+
+  .overlay-content{
+    margin: 20px;
+    white-space: nowrap;
+  }
+
+  .overlay-footer {
+    border-top: 1px solid lightgrey;
+    min-height: 40px;
+    padding: 5px;
+ background-color: #f1f8f9	 !important;
+
+  }
 
 .main-header {
-  color: rgb(19, 119, 185) !important;
- background-color: #f1f8f9	 !important;
+  background-color: #f1f8f9	 !important;
   padding: 0px !important;
   font-family: Arial, Helvetica, sans-serif !important;
   display: inline-block;
@@ -508,7 +544,11 @@ h3 a {
 }
 
   .main-header .h3 {
-    padding: 10px 5px 2px 2px !important;
+    padding: 2px 5px 2px 2px !important;
+  }
+  .main-header .h1 {
+    padding: 2px 5px 2px 2px !important;
+    font-size: 26px;
   }
 
   .carousel-indicators li {
@@ -600,7 +640,13 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 }
 
 .fa-grey {
-  color: gray;
+  color: rgb(209, 200, 200);
+}
+
+.marquee{
+  overflow: initial;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
 .input-group {
@@ -663,39 +709,39 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   height: 90px;
 }
 
-  .dashboard .overview .overview-content {
-    padding: 10px;
+.dashboard .overview .overview-content {
+  padding: 10px;
+}
+
+  .dashboard .overview .overview-content .overview-badge {
+    float: right;
+    color: #757575;
   }
 
-    .dashboard .overview .overview-content .overview-badge {
-      float: right;
-      color: #757575;
-    }
-
-    .dashboard .overview .overview-content .overview-detail {
-      display: block;
-      font-size: 24px;
-      float: right;
-      padding-right: 0px;
-    }
-
-    .dashboard .overview .overview-content .overview-link {
-      display: block;
-      font-size: 15px;
-      margin-top: 5px;
-    }
-
-    .dashboard .overview .overview-content .overview-title {
-      font-size: 20px;
-      text-align: center;
-      padding-top: 0px;
-    }
-
-  .dashboard .overview .overview-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+  .dashboard .overview .overview-content .overview-detail {
+    display: block;
+    font-size: 24px;
+    float: right;
+    padding-right: 0px;
   }
+
+  .dashboard .overview .overview-content .overview-link {
+    display: block;
+    font-size: 15px;
+    margin-top: 5px;
+  }
+
+  .dashboard .overview .overview-content .overview-title {
+    font-size: 20px;
+    text-align: center;
+    padding-top: 0px;
+  }
+
+.dashboard .overview .overview-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
 .dashboard .colorbox {
   padding: 0 !important;
@@ -719,6 +765,10 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
     text-align: center;
     overflow: hidden;
     margin-bottom: 0px !important;
+  }
+
+  .text-color {
+    color: rgb(19, 119, 185) !important;
   }
 
   .dashboard .colorbox.colorbox-lightBlue {

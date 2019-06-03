@@ -1,54 +1,58 @@
 <div class="ui-g-12 main-header">
     <img class="ui-g-2 ui-md-2" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-      style="width: 130px; height: 90px; margin: 0px; padding: 0px; float: left !important" routerLink="/Home" />
+      style="max-width: 130px; max-height: 90px; margin: 0px; padding: 0px; float: left !important" routerLink="/Home" />
     <div class="ui-g-6" style="text-align:center; padding: 0px 30px 0px 0px">
-      <h1 class="main-header">Tamilnadu Civil Supplies Corporation</h1>
-      <h3 class="main-header h3">
+      <h1 class="h1 text-color">Tamilnadu Civil Supplies Corporation</h1>
+      <h3 class="h3 text-color" style="padding: 0px" >
         Supply Chain Management-(SCM)
       </h3>
     </div>
-    <div class="ui-g-4  no-left-pad" style="padding-bottom: 0px">
-      <!-- <h4 class="ui-g-3" style="margin: 0px;padding: 0px">Welcome!</h4>
-      <h4 class="ui-g-8" style="margin: 0px;padding: 0px"> <b>{{loggedUsername}}</b></h4> -->
-      <div class="ui-g-4 date">{{date}}</div>
-        <div class="ui-g-4 clock" id="displayTimer" onload="showTime()"></div>
-      
-      <div class="ui-g-10 no-pad-bottom no-left-pad" style="margin-top: 10px">
-        <div class="ui-g-2 div-no-top-bottom-pad  no-left-pad">
+    <div class="ui-g-4">
+      <span class="ui-g-6 date dashboard" style="text-align: end">{{date}}</span>
+      <div class="ui-g-6 clock dashboard" style="text-align: end" id="displayTimer" onload="showTime()"></div>
+      <div class="ui-g-12" style="text-align: right; letter-spacing: 10px">
           <a href="http://omnisurv-cloud.com/index" target="_blank">
             <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
           </a>
-        </div>
-        <div class="ui-g-1 div-no-top-bottom-pad  no-left-pad">
           <a href="https://bonton.aquilatrack.com" target="_blank">
             <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking"></i>
           </a>
-        </div>
-        <div class="ui-g-1 div-no-top-bottom-pad">
           <a href="http://180.179.49.72:8081">
-          <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
-        </a>
-        </div>
-        <div class="ui-g-1 div-no-top-bottom-pad">
-          <a href=" http://180.179.49.72:82/bugs/" target="_blank">
-          <i style="margin-left: -5px" class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
-        </a>
-        </div>
-        <div class="ui-g-2 div-no-top-bottom-pad">
-          <a href=" http://tncsc-edpc.in" target="-blank">
-          <img style="margin-left: 10px;width: 30px;height: 32px;" src="../../assets/layout/images/dashboard/PDS.png" title="DPC"/>
-        </a>
-        </div>
-        <div class="ui-g-2 div-no-top-bottom-pad">
-          <a href="  http://fci.gov.in/" target="_blank">
-          <img style="margin-left: -10px;width: 30px;height: 32px;" src="../../assets/layout/images/dashboard/FCI.png" title="FCI"/>
-        </a>
-        </div>
-        <div class="ui-g-2 div-no-top-bottom-pad">
-            <a href="https://www.tnpds.gov.in/" target="_blank">
-              <img style="margin-left: -30px;width: 30px;height: 30px;" src="../../assets/layout/images/dashboard/G2G.png" title="G2G"/>
+            <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
           </a>
-            </div>
+          <a href=" http://180.179.49.72:82/bugs/" target="_blank">
+            <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
+          </a>
+          <a href=" http://tncsc-edpc.in" target="-blank">
+            <img style="width: 28px; height: 28px;padding-right: 10px" src="../../assets/layout/images/dashboard/PDS.png" title="DPC"/>
+          </a>
+          <a href="  http://fci.gov.in/" target="_blank">
+            <img style="width: 30px; height: 28px;padding-right: 10px" src="../../assets/layout/images/dashboard/FCI.png" title="FCI"/>
+          </a>
+          <a href="https://www.tnpds.gov.in/" target="_blank">
+            <img style="width: 30px; height: 28px;padding-right: 10px" src="../../assets/layout/images/dashboard/G2G.png" title="G2G"/>
+        </a>
       </div>
     </div>
+    <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"  [style]="{width: '350px'}">
+        <div class="overlay-content" style="text-align: center">
+            <div>
+              <label style="color: blue"><b>FS</b></label>
+            </div>
+            <div>
+              <label>CHENNAI-NORTH</label>
+            </div>
+            <div>
+            <label>GN00789</label>
+          </div>
+        </div>
+        <div class="overlay-footer">
+            <button class="dashboard" pButton type="button" label="Forget password?" style="float: left" (click)="onForgetPswd()"></button>
+            <button class="dashboard" pButton type="button" label="Logout" icon="fa fa-sign-out" style="float:right" (click)="onLogOut()"></button>
+        </div>
+    </p-overlayPanel>
+    <div style="float: right">
+      <i class="fa fa-user-circle fa-2x inline-padding text-color" style="text-align: end !important" (click)="op.toggle($event)"></i>
+    </div>
+  
   </div>
