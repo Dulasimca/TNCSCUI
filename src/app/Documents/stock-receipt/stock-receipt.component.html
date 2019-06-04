@@ -1,116 +1,105 @@
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
-   <!-- <h4 class="page-title">StockReceiptSlip</h4> -->
-   <div class="ibox-head">
-      <div class="ibox-title">User form</div>
-  </div>
-      <div class="page-content fade-in-up">
-      <div class="ibox">
-          <form class="form-info" action="javascript:;">
-              
+  <div class="ibox-body">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
         <div class="ibox-body">
-          <div class="row">
-              <div class="col-md-12">
-                      <div class="ibox-body">
-                          <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
-                              <li class="nav-item">
-                                  <a class="nav-link active" href="#Receipt" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Receipt Details</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="#Item" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
-                              </li>
-                              <li class="nav-item">
-                                      <a class="nav-link" href="#Freight" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Freight Details</a>
-                              </li> 
-                          </ul>
-                          
-                          <div class="tab-content">
-                              <div class="tab-pane fade show active" id="Receipt">
-                                <div class="row">
-                                        <div class="form-group mb-6">
-                                            <div class="ui-g ui-fluid">
-                                              <div>
-                                                <h5>Stock receipt Acknowledgement</h5><br>
-                                                <div class="ui-g-12 ui-md-6 ui-lg-4">
-                                              <span class="ui-float-label">
-                                              <input id="float-input" type="text" size="30" pInputText> 
-                                              <label class="float-input">No</label>
-                                          </span>
-                                              
-                                          </div>
-
-                                        <div class="ui-g-12 ui-md-6 ui-lg-4">
-                                              <span class="ui-float-label">
-                                                  <input id="float-input" type="text" pInputText> 
-                                                  <label class="float-input">Date</label>
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="col-md-3">
-                                              <h5>Period of Allotment</h5>
-                                              
-                                              <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center">
-                                          
-                                                  
-                                                      <label>Month</label>
-                                                    <p-dropdown>
-                                                          
-                                                    </p-dropdown>
-                                                  
-                                                     
-                                              </div>
-                                                  <div class="ui-g-12 ui-md-6 ui-lg-4">
-                                          
-                                                  
-                                                      <label>Year</label>
-                                                    <p-dropdown>
-                                                          <select class="form-control" class="ui-float-label">
-                                                                  <option value="">Jan</option>
-                                                                  <option value="">Feb</option>
-                                                                  <option value="">Others</option>
-                                                              </select>
-                                                    </p-dropdown>
-                                                  
-                                                     
-                                                  </div>
-                                          </div>
-
-                                          <div>
-                                              <h5>Allotment/Release Order No</h5><br>
-                                            <div class="ui-g-12 ui-md-6 ui-lg-4">
-                                                <span class="ui-float-label">
-                                                <input id="float-input" type="text" size="60" pInputText> 
-                                                <label class="float-input">OrderNo</label>
-                                            </span>
-                                                </div>
-                                            </div>
-                                        <div><br>
-                                         <h5>Allotment/Release Order Date</h5><br>
-                                         <div class="ui-g-12 ui-md-6 ui-lg-4">
-                                          
-                                         
-                                          <span class="ui-float-label">
-                                          <input id="float-input" type="text" size="40" pInputText> 
-                                          <label class="float-input">Date</label>
-                                          
-                                          
-                                                          
-
-                                      </span>
-                                        </div> <br>
-                                        <div style="text-align:end">
-                                        <p-checkbox name="groupname" value="val1" [(ngModel)]="selectedValues">Rail Head</p-checkbox>       
-                                      </div> 
-                                    </div>
-                                      <div>
-                                     
-                                    </div>
-
-                                      
-                    </div>
+          <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
+            <li class="nav-item">
+              <a class="nav-link active" href="#Receipt" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Receipt Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Item" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Freight" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Freight Details</a>
+            </li> 
+          </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="Receipt">
+        <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+            <div class="ui-g-4 ui-fluid">
+              <p-card>
+                <p-header>
+                  <div class="dashboard" style="text-align: center">
+                    STOCK RECEIPT ACKNOWLEDGEMENT
                   </div>
+                </p-header>
+                <div class="ui-g ui-fluid">
+                  <div class="ui-g-6 dashboard">
+                    <span class="ui-float-label" style="padding-right: 10px;">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                      <label class="float-input">No</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-6 dashboard">
+                    <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                  </div>
+                </div>
+              </p-card>
+            </div>
+            <div class="ui-g-4 ui-fluid" style="text-align: center">
+                <p-header>
+                    <div class="dashboard">
+                        Period of Allotment
+                    </div>
+                  </p-header><br>
+                <div class="ui-g-5">
+                  
+                  <p-calendar [(ngModel)]="date12" view="month" dateFormat="mm/yy" placeholder="Month"></p-calendar>
+                </div>
+                <div class="ui-g-5" >
+                    
+                    <p-calendar [(ngModel)]="date3" [showIcon]="true" [yearNavigator]="true" yearRange="2000:2020" placeholder="Year"></p-calendar>
+                </div>
+                </div>
+                <div class="ui-g-4 ui-fluid" style="text-align: left;">
+                    <p-header>
+                        <div class="dashboard">
+                            Allotment/Release Order No
+                        </div>
+                      </p-header><br>
+                    <div class="ui-g-8 dashboard">
+                      <span class="ui-float-label" style="padding-right: 10px;">
+                        <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                        <label class="float-input">Order No</label>
+                      </span>
+                    </div>
+                    </div>  
+                               
+                    
+
+                    <div class="ui-g-12 ui-fluid">
+                      <div class="ui-g-4">
+                            <div class="ui-g-8 dashboard">
+                                Allotment/Release Order Date
+                            </div>
+                            <!-- <div class="ui-g-2"></div> -->
+                          <div class="ui-g-8 dashboard" style="padding-left: 15px">
+                              <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                            </div>
+                    </div> 
+                    <div class="ui-g-1">
+                        <label class="ui-g-12">Road</label>
+                        <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                    </div>
+                    <div class="ui-g-2">
+                        <label class="ui-g-12">Rail Head</label>
+                        <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                    </div>
+                    <div class="ui-g-4">
+                      <br>
+                        <span class="ui-float-label">
+                            <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                            <label class="float-input">Transaction Code</label>
+                          </span>
+                    </div>
+                   </div>
+                  </div>
+                 </div>
                 </div>
               </div>
            </div>
@@ -118,10 +107,4 @@
      </div>
 
 
-          </div>
-      </div>
-      </form>
-    </div>
-</div>
-        </div>
-         
+        
