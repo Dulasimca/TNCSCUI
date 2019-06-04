@@ -21,7 +21,7 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="Receipt">
         <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-            <div class="ui-g-4 ui-fluid">
+            <div class="ui-g-3 ui-fluid">
               <p-card>
                 <p-header>
                   <div class="dashboard" style="text-align: center">
@@ -56,48 +56,72 @@
                     <p-calendar [(ngModel)]="date3" [showIcon]="true" [yearNavigator]="true" yearRange="2000:2020" placeholder="Year"></p-calendar>
                 </div>
                 </div>
-                <div class="ui-g-4 ui-fluid" style="text-align: left;">
-                    <p-header>
-                        <div class="dashboard">
+                <div class="ui-g-2 ui-fluid" >
+                        <div class="dashboard" >
                             Allotment/Release Order No
-                        </div>
-                      </p-header><br>
-                    <div class="ui-g-8 dashboard">
-                      <span class="ui-float-label" style="padding-right: 10px;">
+                        </div><br>
+                    <div class="ui-g-8 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                      <span class="ui-float-label">
                         <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                         <label class="float-input">Order No</label>
                       </span>
                     </div>
                     </div>  
+                    <div class="ui-g-3 ui-fluid">
+                      <div class="ui-g-8 dashboard">
+                          Allotment/Release Order Date
+                      </div><br><br>
+                    <div class="ui-g-8 dashboard" style="padding-left: 20px">
+                        <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                      </div>
+              </div> 
                                
                     
 
                     <div class="ui-g-12 ui-fluid">
-                      <div class="ui-g-4">
-                            <div class="ui-g-8 dashboard">
-                                Allotment/Release Order Date
-                            </div>
-                            <!-- <div class="ui-g-2"></div> -->
-                          <div class="ui-g-8 dashboard" style="padding-left: 15px">
-                              <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
-                            </div>
-                    </div> 
+                      <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                        <span class="ui-float-label">
+                          <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                          <label class="float-input">Region Name</label>
+                        </span>
+                      </div>
                     <div class="ui-g-1">
-                        <label class="ui-g-12">Road</label>
+                        <label class="ui-g-6">Road</label>
                         <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
                     </div>
                     <div class="ui-g-2">
-                        <label class="ui-g-12">Rail Head</label>
+                        <label class="ui-g-6">Rail Head</label>
                         <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
                     </div>
-                    <div class="ui-g-4">
-                      <br>
-                        <span class="ui-float-label">
-                            <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
-                            <label class="float-input">Transaction Code</label>
-                          </span>
+                    <div class="ui-g-2">
+                      <span class="ui-float-label" style="padding-right: 10px;">
+                        <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                        <label class="float-input">Transaction Code</label>
+                      </span>
                     </div>
+                    <div class="ui-g-2">
+                      <span class="ui-float-label" style="padding-right: 10px;">
+                        <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                        <label class="float-input">Depositor Type</label>
+                      </span>
+                    </div>
+                            <div class="ui-g-2">
+                              <span class="ui-float-label" style="padding-right: 10px;">
+                                <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                                <label class="float-input">Depositor Name</label>
+                              </span>
+                            </div>
+                             
                    </div>
+
+                   <div class="ui-g-12 ui-fluid">
+                   <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                    <span class="ui-float-label">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                      <label class="float-input">Receiving Godown</label>
+                    </span>
+                  </div>
+                  </div>
                   </div>
                  </div>
                 </div>
