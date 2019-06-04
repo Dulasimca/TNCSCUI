@@ -56,8 +56,9 @@ import { GodownAllotmentComponent } from './purchase/godownallotment/godownallot
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
 import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.component';
-import { IssueReceiptComponent } from './issue-receipt/issue-receipt.component';
-
+import { IssueReceiptComponent } from './Documents/issue-receipt/issue-receipt.component';
+import { DeliveryReceiptComponent } from './Documents/delivery-receipt/delivery-receipt.component';
+import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.component';
 
 
 @NgModule({
@@ -86,6 +87,8 @@ import { IssueReceiptComponent } from './issue-receipt/issue-receipt.component';
     CBStatementComponent,
     StockReceiptComponent,
     IssueReceiptComponent,
+    DeliveryReceiptComponent,
+    TruckReceiptComponent
   ],
   imports: [
     BrowserModule,

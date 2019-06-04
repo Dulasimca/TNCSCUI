@@ -19,7 +19,9 @@ import { RegionAllotmentComponent } from './purchase/regionallotment/regionallot
 import { GodownAllotmentComponent } from './purchase/godownallotment/godownallotment.component';
 import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
 import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.component';
-import { IssueReceiptComponent } from './issue-receipt/issue-receipt.component';
+import { IssueReceiptComponent } from './Documents/issue-receipt/issue-receipt.component';
+import { DeliveryReceiptComponent } from './Documents/delivery-receipt/delivery-receipt.component';
+import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.component';
 
 
 const routes: Routes = [
@@ -42,6 +44,8 @@ const routes: Routes = [
   { path: 'cbStatement', component: CBStatementComponent },
   { path: 'stockReceipt', component: StockReceiptComponent },
   { path: 'issueReceipt', component: IssueReceiptComponent },
+  { path: 'deliveryReceipt', component: DeliveryReceiptComponent },
+  { path: 'truckReceipt', component: TruckReceiptComponent },
   { path: '**', component: PageNotFoundComponent }
   
 ];
