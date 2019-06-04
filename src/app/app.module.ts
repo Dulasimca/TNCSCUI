@@ -19,6 +19,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import {InputTextModule} from 'primeng/inputtext';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -54,6 +56,7 @@ import { GodownAllotmentComponent } from './purchase/godownallotment/godownallot
 import { RegionAllotmentComponent } from './purchase/regionallotment/regionallotment.component';
 import { CBStatementComponent } from './reports/cb-statement/cb-statement.component';
 import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.component';
+import { IssueReceiptComponent } from './issue-receipt/issue-receipt.component';
 
 
 
@@ -82,6 +85,7 @@ import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.c
     PageNotFoundComponent,
     CBStatementComponent,
     StockReceiptComponent,
+    IssueReceiptComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,7 +112,9 @@ import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.c
     CarouselModule,
     SplitButtonModule,
     AutoCompleteModule,
-    ToastModule
+    ToastModule,
+    InputTextModule,
+    MatDatepickerModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService],

@@ -1,0 +1,173 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <div class="ibox-body">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="ibox-body">
+          <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
+            <li class="nav-item">
+              <a class="nav-link active" href="#Issue" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Issue
+                Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Item" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="Issue">
+        <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+            <div class="ui-g-3 ui-fluid">
+              <p-card>
+                <p-header>
+                  <div class="dashboard" style="text-align: center">
+                    STOCK ISSUE MEMO
+                  </div>
+                </p-header>
+                <div class="ui-g">
+                  <div class="ui-g-6 dashboard">
+                    <span class="ui-float-label" style="padding-right: 10px;">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off" autocomplete="off">
+                      <label class="float-input">No</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-6 dashboard">
+                    <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                  </div>
+                </div>
+              </p-card>
+            </div>
+            <div class="ui-g-4 ui-fluid">
+              <div class="ui-g-5">
+                <label>Delivery Order No</label><br>
+                <input type="text" size="15" pInputText autocomplete="off">
+              </div>
+              <div class="ui-g-5">
+                <label>Delivery Date</label><br>
+                <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+              </div><br>
+              <div class="ui-g-4">
+                <button pButton type="button" label="Enter"></button></div>
+            </div>
+            <div class="ui-g-5 ui-fluid">
+              <p-table [scrollable]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Delivery Order Number</th>
+                    <th>Issue Memo</th>
+                    <th>Issue Number</th>
+                    <th>Delivery Order Number</th>
+                    <th>Issue Memo</th>
+                    <th>Issue Number</th>
+                    <th>Issue</th>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-4">
+                <span class="ui-float-label" style="padding-right: 10px;">
+                  <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                  <label class="float-input">Transaction Code</label>
+                </span>
+              </div>
+
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Region Name</label>
+                </span>
+              </div>
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Issuing Godown Name</label>
+                </span>
+              </div>
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                  <label class="float-input">Receivor Type</label>
+                </span>
+              </div>
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                  <label class="float-input">Receivor Name</label>
+                </span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <div class="ui-g-4 ui-fluid">
+                <p-card>
+                  <div class="ui-g">
+                    <div class="ui-g-6">
+                      <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="ui-g-6">
+                      <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                    </div>
+                  </div>
+                  <p-footer>
+                    <div style="text-align: center">
+                      To Which Issue Relates
+                    </div>
+                  </p-footer>
+                </p-card>
+              </div>
+              <div class="ui-g-8"></div>
+              <div class="ui-g-8"></div>
+              <div class="ui-g-2">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Weigment Certificate No</label>
+                </span>
+              </div>
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Transporters Charges</label>
+                </span>
+              </div>
+              <div class="ui-g-3">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Transporters Name</label>
+                </span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-fluid">
+              <div class="ui-g-2">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Vehicle Number</label>
+                </span>
+              </div>
+              <div class="ui-g-2">
+                <span class="ui-float-label">
+                  <input id="float-input" pInputText autocomplete="off" />
+                  <label class="float-input">Manual Document No</label>
+                </span>
+              </div>
+              <div class="ui-g-2 ui-fluid">
+                <label class="ui-g-12">Issue/Regular Advance</label>
+                <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+              </div>
+              <div class="ui-g-6">
+                <span class="ui-float-label">
+                  <textarea id="float-input" [rows]="5" [cols]="100" pInputTextarea></textarea>
+                  <label class="float-input">Remarks</label>
+                </span>
+              </div>
+            </div>
+          </div>
+      </div></div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
