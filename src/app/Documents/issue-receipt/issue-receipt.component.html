@@ -17,7 +17,7 @@
           </ul>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="Issue">
+            <div class="tab-pane fade show active" id="#Issue">
         <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
             <div class="ui-g-3 ui-fluid">
               <p-card>
@@ -52,18 +52,26 @@
                 <button pButton type="button" label="Enter"></button></div>
             </div>
             <div class="ui-g-5 ui-fluid">
-              <p-table [scrollable]="true">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>Delivery Order Number</th>
-                    <th>Issue Memo</th>
-                    <th>Issue Number</th>
-                    <th>Delivery Order Number</th>
-                    <th>Issue Memo</th>
-                    <th>Issue Number</th>
-                    <th>Issue</th>
-                  </tr>
-                </ng-template>
+              <p-table [columns]="col" [value]="data" [responsive]="true" [scrollable]="true" scrollHeight="100px">
+                  <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                          <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                      <tr>
+                          <th *ngFor="let col of columns">
+                              {{col.header}}
+                          </th>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                          <td *ngFor="let col of columns">
+                                  {{rowData[col.field]}}
+                          </td>
+                      </tr>
+                  </ng-template>
               </p-table>
             </div>
             <div class="ui-g-12">
