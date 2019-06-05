@@ -85,12 +85,18 @@
                           <label class="float-input">Region Name</label>
                         </span>
                       </div>
+                      <div class="ui-g-2 ui-fluid" style="padding-left: 20px" style="padding-top: 10px">
+                        <span class="ui-float-label">
+                          <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                          <label class="float-input">Receiving Godown</label>
+                        </span>
+                      </div>
                     <div class="ui-g-1">
                         <label class="ui-g-6">Road</label>
                         <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
                     </div>
-                    <div class="ui-g-2">
-                        <label class="ui-g-6">Rail Head</label>
+                    <div class="ui-g-1">
+                        <label class="ui-g-8">Rail Head</label>
                         <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
                     </div>
                     <div class="ui-g-2">
@@ -111,16 +117,37 @@
                                 <label class="float-input">Depositor Name</label>
                               </span>
                             </div>
-                             
                    </div>
-
                    <div class="ui-g-12 ui-fluid">
-                   <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                  <div class="ui-g-3 dashboard" style="padding-left: 20px" style="padding-top: 16px">
                     <span class="ui-float-label">
                       <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                      <label class="float-input">Receiving Godown</label>
+                      <label class="float-input">Truck Memo No</label>
                     </span>
                   </div>
+                  <div class="ui-g-3 ui-fluid">
+                  <div class="ui-g-12 dashboard" style="padding-left: 70px;">
+                    <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                  </div>
+                </div>
+                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Vehicle No</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">From</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Manual Document No</label>
+                  </span>
+                </div>
                   </div>
                   </div>
                  </div>
