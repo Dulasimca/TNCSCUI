@@ -11,21 +11,16 @@ col: any;
   constructor() { }
 
   ngOnInit() {
-    this.col = [ { field: 'vin', header: 'Vin' },
-    {field: 'year', header: 'Year' },
-    { field: 'brand', header: 'Brand' },
-    { field: 'color', header: 'Color' },
-    { field: 'vin', header: 'Vin' },
-    {field: 'year', header: 'Year' },
-    { field: 'brand', header: 'Brand' },
-    { field: 'color', header: 'Color' }];
-    this.data = [ {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
-    {'vin': 'ajc', 'year': 'adkahd', 'brand': 'jhgdjagd', 'color': 'hjjfa'},
+    this.col = [ { field: 'Delivery Order No', header: 'DeliveryOrderNo' },
+    {field: 'Issue Memo No', header: 'IssueMemoNo' },
+    { field: 'Delivery Order', header: 'DeliveryOrder' },
+    { field: 'Delivery', header: 'Delivery' }]
+   
+
+    this.data = [ {'Delivery Order No': '1', 'Issue Memo No': 'A', 'Delivery Order': 'E','Delivery': 'I'},
+    {'Delivery Order No': '2', 'Issue Memo No': 'B', 'Delivery Order': 'F','Delivery': 'j'},
+    {'Delivery Order No': '3', 'Issue Memo No': 'C', 'Delivery Order': 'G','Delivery': 'k'},
+    {'Delivery Order No': '4', 'Issue Memo No': 'D', 'Delivery Order': 'H','Delivery': 'l'}
   ];
   }
 
