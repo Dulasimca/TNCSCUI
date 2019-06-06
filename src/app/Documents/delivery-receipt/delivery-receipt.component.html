@@ -1,3 +1,325 @@
-<p>
-  delivery-receipt works!
-</p>
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <div class="ibox-body">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="ibox-body">
+          <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
+            <li class="nav-item">
+              <a class="nav-link active" href="#Delivery" data-toggle="tab">Delivery Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Items" data-toggle="tab">Item Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Payment" data-toggle="tab">Payment Details</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane show active" id="Delivery">
+              <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12">
+                  <div class="ui-g-4 ui-fluid" style="padding-right: 10px;">
+                    <p-card>
+                      <p-header>
+                        <div class="dashboard" style="text-align: center">
+                          DELIVERY ORDER
+                        </div>
+                      </p-header>
+                      <div class="ui-g">
+                        <div class="ui-g-6 dashboard">
+                          <span class="ui-float-label" style="padding-right: 10px;">
+                            <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                            <label class="float-input">No</label>
+                          </span>
+                        </div>
+                        <div class="ui-g-6 dashboard">
+                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                        </div>
+                      </div>
+                    </p-card>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input" style="padding-top: 10px;">Transaction Code</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">Indent No</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2" style="padding-right: 10px;">
+                    <label>Permit Date</label>
+                    <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 20px;">
+                    <label class="ui-g-7">Only Rice</label>
+                    <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                  </div>
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-4 ui-fluid" style="padding-right: 10px;">
+                    <p-card>
+                      <p-header>
+                        <div class="dashboard" style="text-align: center">
+                          ORDER FOR THE PERIOD ENDING
+                        </div>
+                      </p-header>
+                      <div class="ui-g">
+                        <div class="ui-g-6">
+                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                        </div>
+                        <div class="ui-g-6">
+                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                        </div>
+                      </div>
+                    </p-card>
+                  </div>
+                  <!-- <div class="dashboard"> -->
+                  <div class="ui-g-2">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">Region Name</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">Issuing Godown Name</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input" style="padding-top: 10px;">Receivor Type</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input" style="padding-top: 10px;">Party Name</label>
+                    </span>
+                  </div>
+                  <!-- </div> -->
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-10">
+                    <span class="ui-float-label" style="padding-right: 0px">
+                      <label style="padding-left: 5px">Special Instructions If Any</label>
+                      <textarea id="float-input" [rows]="3" [cols]="110" pInputTextarea></textarea>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <button pButton type="button" label="Payment Details"></button>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <p-table [columns]="deliveryCols" [value]="deliveryData" [responsive]="true" [scrollable]="true"
+                    scrollHeight="150px">
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="Items">
+              <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12" style="text-align: center">
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <label style="padding-top: 10px;">Scheme</label>
+                    <p-dropdown></p-dropdown>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;text-align: center">
+                    <label style="padding-top: 10px;">Item Description</label>
+                    <p-dropdown></p-dropdown>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Net Wt</label>
+                    <div>
+                      <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
+                    </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <label style="padding-top: 10px;">Rate In Term Of</label>
+                    <p-dropdown></p-dropdown>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Rate</label>
+                    <div>
+                      <label style="float:left">Rs</label> <label style="float: right">Ps</label>
+                    </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Total</label>
+                    <div>
+                      <label style="float:left">Rs</label> <label style="float: right">Ps</label>
+                    </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
+                    scrollHeight="150px">
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-3 dashboard">
+                    <span class="ui-float-label" style="padding-right: 0px">
+                      <label style="padding-left: 5px">Grand Total</label>
+                      <input id="float-input" pInputText />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="Payment">
+              <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12" style="text-align: center">
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input" style="padding-top: 10px;">Payment Mode</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">CH/DD/PO/OCR No</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <div style="padding-right: 10px;padding-top: 20px;">
+                      <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                    </div>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">Payable Amount</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-6">
+                    <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input" style="padding-top: 10px;">On bank</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-1">
+                    <div style="padding-right: 10px;padding-top: 20px;">
+                      <button pButton label="Enter"></button></div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"
+                    scrollHeight="150px">
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="ui-g-12">
+                  <p-card>
+                    <div class="ui-g-12 ui-fluid">
+                      <div class="ui-g-2">
+                        <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                          <input id="float-input" pInputText autocomplete="off">
+                          <label class="float-input" style="padding-top: 10px;">Payment Mode</label>
+                        </span>
+                      </div>
+                      <div class="ui-g-2">
+                        <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                      </div>
+                      <div class="ui-g-2">
+                        <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                          <input id="float-input" pInputText autocomplete="off">
+                          <label class="float-input" style="padding-top: 10px;">Pre Amount Bal</label>
+                        </span>
+                      </div>
+                      <div class="ui-g-4">
+                        <label>(Pre.AmtBal+AmtPay)-(AmtDue+Others)=Balance>>>For Credit</label>
+                      </div>
+                    </div>
+                  </p-card>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="ui-g-10"></div>
+        <div class="ui-g-2">
+          <div class="ui-g-6">
+            <button pButton type="button" label="Print"></button>
+          </div>
+          <div class="ui-g-4">
+            <button pButton type="button" label="Save"></button>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>

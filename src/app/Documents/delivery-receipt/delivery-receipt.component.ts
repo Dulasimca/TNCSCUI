@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./delivery-receipt.component.css']
 })
 export class DeliveryReceiptComponent implements OnInit {
-
-  constructor() { }
+  deliveryCols: any;
+  deliveryData: any;
+  itemCols: any;
+  itemData: any;
+  paymentCols: any;
+  paymentData: any;
+  constructor(private tableConstants: TableConstants) { }
 
   ngOnInit() {
+    this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
+    this.itemCols = this.tableConstants.DeliveryItemColumns;
+    this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
   }
 
 }

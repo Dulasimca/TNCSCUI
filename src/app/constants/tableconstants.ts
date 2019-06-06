@@ -12,6 +12,9 @@ export class TableConstants {
   SchemeData: any;
   StockPurchase: any;
   CBStatementColumns: any;
+  DeliveryDocumentcolumns: any;
+  DeliveryItemColumns: any[];
+  DeliveryPaymentcolumns: { "field": string; "header": string; }[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -103,6 +106,29 @@ export class TableConstants {
         { "field": 'uridDhall', "header": 'URID Dhall' },
         { "field": 'palmoil', "header": 'PALMOLIEN OIL' },
         { "field": 'cement', "header": 'CEMENT' }
+      ]
+
+      this.DeliveryDocumentcolumns = [
+        { "field": 'deliveryOrder', "header": 'Delivery Order' },
+        { "field": 'transCode', "header": 'Transaction Code' },
+
+      ]
+
+      this.DeliveryItemColumns = [
+        { "field": 'schemeName', "header": 'Scheme Name' },
+        { "field": 'itemName', "header": 'Item Name' },
+        { "field": 'netWeight', "header": 'Net Weight' },
+        { "field": 'rateInTerms', "header": 'Rate In Terms' },
+        { "field": 'marginRate', "header": 'Margin Rate' },
+        { "field": 'marginAmount', "header": 'Margin Amount' },
+      ]
+
+      this.DeliveryPaymentcolumns = [
+        { "field": 'paymentMode', "header": 'Payment Mode' },
+        { "field": 'payOrderNumber', "header": 'CH/DD/PayOrder No' },
+        { "field": 'payOrderDate', "header": 'CH/DD/PayOrder Date' },
+        { "field": 'paymentAmount', "header": 'Payment Amount' },
+        { "field": 'bank', "header": 'Bank' },
       ]
   }
   }
