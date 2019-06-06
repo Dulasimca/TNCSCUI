@@ -22,6 +22,8 @@ itemData: any;
     this.data = [ {'Delivery Order No': '1', 'Issue Memo No': 'A', 'Delivery Order': 'E','Delivery': 'I'},
     {'Delivery Order No': '2', 'Issue Memo No': 'B', 'Delivery Order': 'F','Delivery': 'j'},
     {'Delivery Order No': '3', 'Issue Memo No': 'C', 'Delivery Order': 'G','Delivery': 'k'},
+    {'Delivery Order No': '4', 'Issue Memo No': 'D', 'Delivery Order': 'H','Delivery': 'l'},
+    {'Delivery Order No': '3', 'Issue Memo No': 'C', 'Delivery Order': 'G','Delivery': 'k'},
     {'Delivery Order No': '4', 'Issue Memo No': 'D', 'Delivery Order': 'H','Delivery': 'l'}
   ];
 
