@@ -1,11 +1,11 @@
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
-  <div class="ibox">
+  <div class="ibox-body">
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-      <div class="ibox-body">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="ibox-body">
           <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
             <li class="nav-item">
               <a class="nav-link active" href="#Issue" data-toggle="tab">Issue Details</a>
@@ -44,20 +44,24 @@
                     </span>
                   </div>
                 </div>
-                <div class="ui-g-4 ui-fluid">
-                  <div class="ui-g-5">
-                    <label>Delivery Order No</label><br>
-                    <input type="text" size="15" pInputText autocomplete="off">
-                  </div>
-                  <div class="ui-g-5">
-                    <label>Delivery Date</label><br>
+                <div class="ui-g-2 ui-fluid">
+                  <div class="ui-g-12 ui-fluid"><br>
+                      <span class="ui-float-label">
+                          <input id="float-input" pInputText autocomplete="off">
+                          <label class="float-input">Delivery Order No</label>
+                        </span><br><br>
+                    <!-- <label class="float-label">Delivery Order No</label><br>
+                    <input type="text" size="15" pInputText autocomplete="off"><br><br><br> -->
+                    <label style="text-align: center" class="float-label">Delivery Date</label>
                     <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
-                  </div><br>
-                  <div class="ui-g-4">
-                    <button pButton type="button" label="Enter"></button>
+                    
                   </div>
                 </div>
-                <div class="ui-g-5 ui-fluid">
+                  <div class="ui-g-1 ui-fluid" style="padding-top: 80px">
+                    <button pButton type="button" label="Enter"></button>
+                  </div>
+                
+                <div class="ui-g-6 ui-fluid">
                   <p-table [columns]="col" [value]="data" [responsive]="true" [scrollable]="true" scrollHeight="130px">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
@@ -345,21 +349,21 @@
                 </div>
 
                 <div class="ui-g-12 ui-fluid">
-                    <div class="ui-g-2">
-                        <span class="ui-float-label">
-                          <input id="float-input" pInputText autocomplete="off">
-                          <label class="float-input">Net Stack Balance</label>
-                        </span>
-                      </div>
-                      <div class="ui-g-8 ui-fluid">
-                          <input pInputText autocomplete="off">
-                      </div>
-                      <div class="ui-g-2">
-                          <span class="ui-float-label">
-                            <input id="float-input" pInputText autocomplete="off">
-                            <label class="float-input">Cur.Doc. Qtv</label>
-                          </span>
-                        </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Net Stack Balance</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-8 ui-fluid">
+                    <input pInputText autocomplete="off">
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Cur.Doc. Qtv</label>
+                    </span>
+                  </div>
                 </div>
 
               </div>
@@ -370,4 +374,4 @@
       </div>
     </div>
   </div>
-  </div>
+</div>

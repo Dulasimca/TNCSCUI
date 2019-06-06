@@ -8,124 +8,126 @@
         <div class="ibox-body">
           <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
             <li class="nav-item">
-              <a class="nav-link active" href="#Receipt" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Receipt Details</a>
+              <a class="nav-link active" href="#Receipt" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Receipt
+                Details</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#Item" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#Freight" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Freight Details</a>
-            </li> 
+            </li>
           </ul>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="Receipt">
-        <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-            <div class="ui-g-3 ui-fluid">
-              <p-card>
-                <p-header>
-                  <div class="dashboard" style="text-align: center">
-                    STOCK RECEIPT ACKNOWLEDGEMENT
-                  </div>
-                </p-header>
-                <div class="ui-g ui-fluid">
-                  <div class="ui-g-6 dashboard">
-                    <span class="ui-float-label" style="padding-right: 10px;">
-                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                      <label class="float-input">No</label>
-                    </span>
-                  </div>
-                  <div class="ui-g-6 dashboard">
-                    <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
-                  </div>
-                </div>
-              </p-card>
-            </div>
-            <div class="ui-g-4 ui-fluid" style="text-align: center">
-                <p-header>
-                    <div class="dashboard">
-                        Period of Allotment
+          <div class="tab-pane fade show active" id="Receipt">
+            <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+              <div class="ui-g-3 ui-fluid">
+                <p-card>
+                  <p-header>
+                    <div class="dashboard" style="text-align: center">
+                      STOCK RECEIPT ACKNOWLEDGEMENT
                     </div>
-                  </p-header><br>
+                  </p-header>
+                  <div class="ui-g ui-fluid">
+                    <div class="ui-g-6 dashboard">
+                      <span class="ui-float-label" style="padding-right: 10px;">
+                        <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                        <label class="float-input">No</label>
+                      </span>
+                    </div>
+                    <div class="ui-g-6 dashboard">
+                      <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <div class="ui-g-4 ui-fluid" style="text-align: center">
+                <p-header>
+                  <div class="dashboard">
+                    Period of Allotment
+                  </div>
+                </p-header><br>
                 <div class="ui-g-5">
-                  
+
                   <p-calendar [(ngModel)]="date12" view="month" dateFormat="mm/yy" placeholder="Month"></p-calendar>
                 </div>
-                <div class="ui-g-5" >
-                    
-                    <p-calendar [(ngModel)]="date3" [showIcon]="true" [yearNavigator]="true" yearRange="2000:2020" placeholder="Year"></p-calendar>
-                </div>
-                </div>
-                <div class="ui-g-2 ui-fluid" >
-                        <div class="dashboard" >
-                            Allotment/Release Order No
-                        </div><br>
-                    <div class="ui-g-8 dashboard" style="padding-left: 20px" style="padding-top: 10px">
-                      <span class="ui-float-label">
-                        <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                        <label class="float-input">Order No</label>
-                      </span>
-                    </div>
-                    </div>  
-                    <div class="ui-g-3 ui-fluid">
-                      <div class="ui-g-8 dashboard">
-                          Allotment/Release Order Date
-                      </div><br><br>
-                    <div class="ui-g-8 dashboard" style="padding-left: 20px">
-                        <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
-                      </div>
-              </div> 
-                               
-                    
+                <div class="ui-g-5">
 
-                    <div class="ui-g-12 ui-fluid">
-                      <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
-                        <span class="ui-float-label">
-                          <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                          <label class="float-input">Region Name</label>
-                        </span>
-                      </div>
-                      <div class="ui-g-2 ui-fluid" style="padding-left: 20px" style="padding-top: 10px">
-                        <span class="ui-float-label">
-                          <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                          <label class="float-input">Receiving Godown</label>
-                        </span>
-                      </div>
-                    <div class="ui-g-1">
-                        <label class="ui-g-6">Road</label>
-                        <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-                    </div>
-                    <div class="ui-g-1">
-                        <label class="ui-g-8">Rail Head</label>
-                        <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-                    </div>
-                    <div class="ui-g-2">
-                      <span class="ui-float-label" style="padding-right: 10px;">
-                        <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
-                        <label class="float-input">Transaction Code</label>
-                      </span>
-                    </div>
-                    <div class="ui-g-2">
-                      <span class="ui-float-label" style="padding-right: 10px;">
-                        <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
-                        <label class="float-input">Depositor Type</label>
-                      </span>
-                    </div>
-                            <div class="ui-g-2">
-                              <span class="ui-float-label" style="padding-right: 10px;">
-                                <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
-                                <label class="float-input">Depositor Name</label>
-                              </span>
-                            </div>
-                   </div>
-                   <div class="ui-g-12 ui-fluid">
-                  <div class="ui-g-3 dashboard" style="padding-left: 20px" style="padding-top: 16px">
-                    <span class="ui-float-label">
-                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
-                      <label class="float-input">Truck Memo No</label>
-                    </span>
-                  </div>
-                  <div class="ui-g-3 ui-fluid">
+                  <p-calendar [(ngModel)]="date3" [showIcon]="true" [yearNavigator]="true" yearRange="2000:2020"
+                    placeholder="Year"></p-calendar>
+                </div>
+              </div>
+              <div class="ui-g-2 ui-fluid">
+                <div class="dashboard">
+                  Allotment/Release Order No
+                </div><br>
+                <div class="ui-g-8 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Order No</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-3 ui-fluid">
+                <div class="ui-g-8 dashboard">
+                  Allotment/Release Order Date
+                </div><br><br>
+                <div class="ui-g-8 dashboard" style="padding-left: 20px">
+                  <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                </div>
+              </div>
+
+
+
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Region Name</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid" style="padding-left: 20px" style="padding-top: 10px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Receiving Godown</label>
+                  </span>
+                </div>
+                <div class="ui-g-1">
+                  <label class="ui-g-6">Road</label>
+                  <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                </div>
+                <div class="ui-g-1">
+                  <label class="ui-g-8">Rail Head</label>
+                  <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                </div>
+                <div class="ui-g-2">
+                  <span class="ui-float-label" style="padding-right: 10px;">
+                    <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                    <label class="float-input">Transaction Code</label>
+                  </span>
+                </div>
+                <div class="ui-g-2">
+                  <span class="ui-float-label" style="padding-right: 10px;">
+                    <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                    <label class="float-input">Depositor Type</label>
+                  </span>
+                </div>
+                <div class="ui-g-2">
+                  <span class="ui-float-label" style="padding-right: 10px;">
+                    <p-dropdown id="float-input" [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+                    <label class="float-input">Depositor Name</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-3 dashboard" style="padding-left: 20px" style="padding-top: 16px">
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    <label class="float-input">Truck Memo No</label>
+                  </span>
+                </div>
+                <div class="ui-g-3 ui-fluid">
                   <div class="ui-g-12 dashboard" style="padding-left: 70px;">
                     <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
                   </div>
@@ -148,27 +150,24 @@
                     <label class="float-input">Manual Document No</label>
                   </span>
                 </div>
-                  </div>
-                  <div class="ui-g-2 ui-fluid">
-                      <button pButton type="button" style="float: right;" label=View></button>
-                    </div>
-                  </div>
-                </div>
-                  
-
-                  <div class="tab-pane fade" id="Item">
-                  <div class="ui-g-3 ui-fluid">
-
-                    </div>
-                    </div>
-                   
-            
-                </div>
               </div>
-              
-           </div>
+              <div class="ui-g-2 ui-fluid">
+                <button pButton type="button" style="float: right;" label=View></button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="tab-pane fade" id="Item">
+            <div class="ui-g-3 ui-fluid">
+              sdga
+            </div>
+          </div>
+
+
         </div>
-     </div>
+      </div>
 
-
-        
+    </div>
+  </div>
+</div>
