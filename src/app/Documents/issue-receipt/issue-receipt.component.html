@@ -33,7 +33,7 @@
                         </span>
                       </div>
                       <div class="ui-g-6 dashboard">
-                        <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                        <p-calendar [(ngModel)]="date3" [showIcon]="true"  placeholder="Date"></p-calendar>
                       </div>
                     </div>
                   </p-card>
@@ -50,9 +50,7 @@
                           <input id="float-input" pInputText autocomplete="off">
                           <label class="float-input">Delivery Order No</label>
                         </span><br><br>
-                    <!-- <label class="float-label">Delivery Order No</label><br>
-                    <input type="text" size="15" pInputText autocomplete="off"><br><br><br> -->
-                    <label style="text-align: center" class="float-label">Delivery Date</label>
+                    <label class="float-label">Delivery Date</label>
                     <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
                     
                   </div>
@@ -62,7 +60,7 @@
                   </div>
                 
                 <div class="ui-g-6 ui-fluid">
-                  <p-table [columns]="col" [value]="data" [responsive]="true" [scrollable]="true" scrollHeight="130px">
+                  <p-table [columns]="col" [value]="data" [responsive]="true" [scrollable]="true" scrollHeight="140px">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
@@ -111,14 +109,14 @@
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
-                  <div class="ui-g-4 ui-fluid">
+                  <div class="ui-g-3 ui-fluid">
                     <p-card>
                       <div class="ui-g">
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                          <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="June"></p-calendar>
                         </div>
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                          <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="2019"></p-calendar>
                         </div>
                       </div>
                       <p-footer>
@@ -128,53 +126,59 @@
                       </p-footer>
                     </p-card>
                   </div>
-                  <div class="ui-g-8"></div>
-                  <div class="ui-g-8"></div>
-                  <div class="ui-g-2">
+                  <div class="ui-g-3 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText autocomplete="off">
                       <label class="float-input">Weigment Certificate No</label>
                     </span>
+                      <span class="ui-fluid"><br><br>
+                        <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                      <label class="ui-g-8" style="padding-left: 20px">Issue/Regular Advance</label>
+                    </span>
                   </div>
-                  <div class="ui-g-3">
+                  <div class="ui-g-3 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText autocomplete="off">
                       <label class="float-input">Transporters Charges</label>
-                    </span>
-                  </div>
-                  <div class="ui-g-3">
-                    <span class="ui-float-label">
-                      <input id="float-input" pInputText autocomplete="off">
-                      <label class="float-input">Transporters Name</label>
-                    </span>
-                  </div>
-                </div>
-                <div class="ui-g-12 ui-fluid">
-                  <div class="ui-g-2">
+                    </span><br><br>
                     <span class="ui-float-label">
                       <input id="float-input" pInputText autocomplete="off">
                       <label class="float-input">Vehicle Number</label>
                     </span>
                   </div>
-                  <div class="ui-g-2">
+                  <div class="ui-g-3 ui-fluid">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Transporters Name</label>
+                    </span><br><br>
                     <span class="ui-float-label">
                       <input id="float-input" pInputText autocomplete="off">
                       <label class="float-input">Manual Document No</label>
                     </span>
                   </div>
-                  <div class="ui-g-3">
-                    <label class="ui-g-7">Issue/Regular Advance</label>
-                    <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-                  </div>
-                  <div class="ui-g-5" style="padding-right: 20px">
-                    <span class="ui-float-label">
-                      <textarea id="float-input" [rows]="5" [cols]="100" pInputTextarea></textarea>
-                      <label class="float-input">Remarks</label>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                 <div class="ui-g-3 ui-fluid"></div>
+                  <div class="ui-g-5 ui-fluid">
+                      <span class="ui-float-label">
+                          <textarea rows="4" cols="70" pInputTextarea autoResize="autoResize"></textarea>
+                        <label class="float-input">Remarks</label>
                     </span>
+                    </div>
+                    <div class="ui-g-4 ui-fluid" style="padding-top: 50px">
+                    <div class="ui-g-4 ui-fluid">
+                            <button pButton type="button" label="View"></button>
                   </div>
+                  <div class="ui-g-4 ui-fluid">
+                      <button pButton type="button" label="Modify"></button>
+            </div>
+            <div class="ui-g-4 ui-fluid">
+                <button pButton type="button" label="Cancel"></button>
+      </div>
+    </div>
+              </div>
                 </div>
               </div>
-            </div>
 
             <div class="tab-pane" id="Items">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
