@@ -138,8 +138,152 @@
 
             <div class="tab-pane" id="Items">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-                <div class="ui-g-12" style="text-align: center">
+                <div class="ui-g-6 ui-fluid" style="padding-top: 15px;">
+                  <div class="ui-g-4" style="float: right">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Label48</label>
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g-6 ui-fluid"><br>
+                  <label>Stack No.</label>
+                </div>
 
+                <div class="ui-g-12 ui-fluid">
+                  <div class="ui-g-2 ui-fluid">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Scheme</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2 ui-fluid">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Item Description</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Godown</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Location+Formation No.</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2 ui-fluid">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Packing Type</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">No.of Packing</label>
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <div class="ui-g-2 ui-fluid">
+                    <p-header>
+                      <div class="dashboard" style="text-align: center">
+                        Gross Wt
+                      </div>
+                    </p-header>
+                    <label>Kgs</label>
+                    <label style="float: right">Gms</label>
+                    <span class="ui-float-label">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    </span>
+                  </div>
+                  <div class="ui-g-2 ui-fluid">
+                    <p-header>
+                      <div class="dashboard" style="text-align: center">
+                        Net Wt
+                      </div>
+                    </p-header>
+                    <label>Kgs</label>
+                    <label style="float: right">Gms</label>
+                    <span class="ui-float-label">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    </span>
+                  </div>
+                  <div class="ui-g-2 ui-fluid" style="padding-top: 44px">
+                    <span class="ui-float-label ui-fluid">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">WmtType</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2 ui-fluid" style="padding-top: 44px">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Moisture</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-1 ui-fluid" style="padding-top: 44px">
+                    <button pButton type="button" label="Enter"></button>
+                  </div>
+                  <div class="ui-g-2 ui-fluid" style="padding-left: 40px">
+                    <p-header>
+                      <div class="dashboard" style="text-align: center">
+                        Tare Wt
+                      </div>
+                    </p-header>
+                    <label>Kgs</label>
+                    <label style="float: right">Gms</label>
+                    <span class="ui-float-label">
+                      <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <p-table [columns]="itemCol" [value]="itemData" [responsive]="true" [scrollable]="true"
+                    scrollHeight="180px">
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Stack Balance</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Cur.Doc. Qtv</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-2">
+                    <span class="ui-float-label">
+                      <input id="float-input" pInputText autocomplete="off">
+                      <label class="float-input">Net Stack Balance</label>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -264,10 +408,10 @@
                 <!-- </div> -->
                 <div class="ui-g-12">
                   <div class="ui-g-10">
-                      <div><label>Remarks</label></div>
-                      <textarea [rows]="5" [cols]="60" pInputTextarea></textarea>
+                    <div><label>Remarks</label></div>
+                    <textarea [rows]="5" [cols]="60" pInputTextarea></textarea>
+                  </div>
                 </div>
-              </div>
 
               </div>
             </div>
