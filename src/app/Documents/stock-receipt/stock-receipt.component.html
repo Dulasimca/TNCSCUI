@@ -12,7 +12,7 @@
                 Details</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#Item" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
+              <a class="nav-link" href="#Items" data-toggle="tab"><i class="ti-support mr-2"></i>Item Details</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#Freight" data-toggle="tab"><i class="ti-briefcase mr-2"></i>Freight Details</a>
@@ -22,7 +22,7 @@
         <div class="tab-content">
           <div class="tab-pane fade show active" id="Receipt">
             <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-              <div class="ui-g-3 ui-fluid">
+              <div class="ui-g-4 ui-fluid">
                 <p-card>
                   <p-header>
                     <div class="dashboard" style="text-align: center">
@@ -42,27 +42,25 @@
                   </div>
                 </p-card>
               </div>
-              <div class="ui-g-4 ui-fluid" style="text-align: center">
-                <p-header>
+              <div class="ui-g-3 ui-fluid" style="text-align: center">
+                
                   <div class="dashboard">
                     Period of Allotment
                   </div>
-                </p-header><br>
-                <div class="ui-g-5">
-
+                <br>
+                <div class="ui-g-6 ui-fluid">
                   <p-calendar [(ngModel)]="date12" view="month" dateFormat="mm/yy" placeholder="Month"></p-calendar>
                 </div>
-                <div class="ui-g-5">
-
+                <div class="ui-g-6 ui-fluid">
                   <p-calendar [(ngModel)]="date3" [showIcon]="true" [yearNavigator]="true" yearRange="2000:2020"
                     placeholder="Year"></p-calendar>
                 </div>
               </div>
-              <div class="ui-g-2 ui-fluid">
+              <div class="ui-g-2 ui-fluid" style="text-align: center">
                 <div class="dashboard">
                   Allotment/Release Order No
                 </div><br>
-                <div class="ui-g-8 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                <div class="ui-g-12 ui-fluid" style="padding-left:15px">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Order No</label>
@@ -70,35 +68,28 @@
                 </div>
               </div>
               <div class="ui-g-3 ui-fluid">
-                <div class="ui-g-8 dashboard">
-                  Allotment/Release Order Date
-                </div><br><br>
-                <div class="ui-g-8 dashboard" style="padding-left: 20px">
+                  <label style="padding-left: 10px">Allotment/Release Order Date</label><br>
+                <div class="ui-g-12 ui-fluid" style="padding: 20px">
                   <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
                 </div>
               </div>
-
-
-
               <div class="ui-g-12 ui-fluid">
-                <div class="ui-g-2 dashboard" style="padding-left: 20px" style="padding-top: 10px">
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Region Name</label>
                   </span>
                 </div>
-                <div class="ui-g-2 ui-fluid" style="padding-left: 20px" style="padding-top: 10px">
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Receiving Godown</label>
                   </span>
                 </div>
-                <div class="ui-g-1">
-                  <label class="ui-g-6">Road</label>
+                <div class="ui-g-2 ui-fluid">
+                  <label class="ui-g-3 ui-fluid">Road</label>
                   <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-                </div>
-                <div class="ui-g-1">
-                  <label class="ui-g-8">Rail Head</label>
+                  <label class="ui-g-6" style="padding-left: 30px">RailHead</label>
                   <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
                 </div>
                 <div class="ui-g-2">
@@ -121,53 +112,346 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-fluid">
-                <div class="ui-g-3 dashboard" style="padding-left: 20px" style="padding-top: 16px">
+                <div class="ui-g-1"></div>
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Truck Memo No</label>
                   </span>
                 </div>
-                <div class="ui-g-3 ui-fluid">
-                  <div class="ui-g-12 dashboard" style="padding-left: 70px;">
-                    <p-calendar class="ui-g-8" [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                <div class="ui-g-2 ui-fluid">
+                    <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
                   </div>
-                </div>
-                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Vehicle No</label>
                   </span>
                 </div>
-                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">From</label>
                   </span>
                 </div>
-                <div class="ui-g-2 ui-fluid" style="padding-top: 16px">
+                <div class="ui-g-2 ui-fluid">
                   <span class="ui-float-label">
                     <input id="float-input" type="text" size="20" pInputText autocomplete="off">
                     <label class="float-input">Manual Document No</label>
                   </span>
                 </div>
               </div>
-              <div class="ui-g-2 ui-fluid">
-                <button pButton type="button" style="float: right;" label=View></button>
+              <div class="ui-g-1 ui-fluid" style="float: right">
+                <button pButton type="button" label=Next></button>
               </div>
+              <div class="ui-g-1 ui-fluid" style="float: right">
+                  <button pButton type="button" label=View></button>
+                </div>
             </div>
           </div>
 
-
-          <div class="tab-pane fade" id="Item">
-            <div class="ui-g-3 ui-fluid">
-              sdga
+          <div class="tab-pane" id="Items">
+            <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+              <div class="ui-g-6 ui-fluid" style="padding-top: 15px;">
+                <div class="ui-g-4" style="float: right">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Label54</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-6 ui-fluid"><br>
+                <label>Stack No.</label>
+              </div>
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Scheme</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Item Description</label>
+                  </span>
+                </div>
+                <div class="ui-g-2">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Godown No</label>
+                  </span>
+                </div>
+                <div class="ui-g-2">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Location+Formation No.</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Packing Type</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">No.of Packing</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-2 ui-fluid">
+                  <p-header>
+                    <div class="dashboard" style="text-align: center">
+                      Gross Wt
+                    </div>
+                  </p-header>
+                  <label>Kgs</label>
+                  <label style="float: right">Gms</label>
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <p-header>
+                    <div class="dashboard" style="text-align: center">
+                      Net Wt
+                    </div>
+                  </p-header>
+                  <label>Kgs</label>
+                  <label style="float: right">Gms</label>
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                  </span>
+                </div>
+                <div class="ui-g-4 ui-fluid">
+                  <div class="ui-g-4 ui-fluid" style="padding-top: 38px">
+                    <span class="ui-float-label ui-fluid">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">WmtType</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-4 ui-fluid" style="padding-top: 38px">
+                    <span class="ui-float-label">
+                      <p-dropdown id="float-input"></p-dropdown>
+                      <label class="float-input">Moisture</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-3 ui-fluid" style="padding-top: 38px">
+                    <button pButton type="button" label="Enter"></button>
+                  </div>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <p-header>
+                    <div class="dashboard" style="text-align: center">
+                      Tare Wt
+                    </div>
+                  </p-header>
+                  <label>Kgs</label>
+                  <label style="float: right">Gms</label>
+                  <span class="ui-float-label">
+                    <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid" style="padding-top: 44px">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Stack Balance</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid" style="border: 1px solid #b4b4b4">
+                <p-table [columns]="itemCol" [value]="itemData" [responsive]="true" [scrollable]="true"
+                  scrollHeight="160px">
+                  <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                      <col *ngFor="let col of columns" style="width:80px">
+                    </colgroup>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns">
+                        {{col.header}}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+              <div class="ui-g-1 ui-fluid" style="float: right">
+                  <button pButton type="button" label=Next></button>
+                </div>
+                <div class="ui-g-1 ui-fluid" style="float: right">
+                    <button pButton type="button" label=View></button>
+                  </div>
             </div>
           </div>
 
-
+          <div class="tab-pane" id="Freight">
+            <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+              <div style="padding-top: 22px">
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Transporter Name</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Lorry Way Bill No</label>
+                  </span>
+                </div>
+                <div class="ui-g-1 ui-fluid">
+                  <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                </div>
+                <div class="ui-g-1 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Kms</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Freight Amt</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Ware House Deposit Receipt</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Wmt Charges</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Handling Charges</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Un Serviceable</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Serviceable Gunny</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Gunny With Patches</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Freight Code</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">Vehicle Code</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-2"></div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Gunny Utilised</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Gunny Released</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Issue/Truck M.no</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Stack Number</label>
+                  </span>
+                </div>
+                <div class="ui-g-2"></div>
+              </div>
+              <div class="ui-g-12 ui-fluid" style="border: 1px solid #b4b4b4">
+                <div class="ui-g-3 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">From Station</label>
+                  </span>
+                </div>
+                <div class="ui-g-3 ui-fluid">
+                  <span class="ui-float-label">
+                    <p-dropdown id="float-input"></p-dropdown>
+                    <label class="float-input">To Station</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">R.R.No</label>
+                  </span>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <p-calendar [(ngModel)]="date3" [showIcon]="true" placeholder="Date"></p-calendar>
+                </div>
+                <div class="ui-g-2 ui-fluid">
+                  <span class="ui-float-label">
+                    <input id="float-input" pInputText autocomplete="off">
+                    <label class="float-input">Wagon No</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-fluid"><br>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-6 ui-fluid">
+                  <span class="ui-float-label">
+                    <textarea rows="4" cols="70" pInputTextarea autoResize="autoResize"></textarea>
+                    <label class="float-input">Remarks</label>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g-1 ui-fluid" style="float: right">
+                  <button pButton type="button" label=Next></button>
+                </div>
+                <div class="ui-g-1 ui-fluid" style="float: right">
+                    <button pButton type="button" label=View></button>
+                  </div>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
