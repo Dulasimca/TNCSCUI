@@ -110,10 +110,8 @@
                 </div>
                 <div class="ui-g-12">
                   <div class="ui-g-10">
-                    <span class="ui-float-label" style="padding-right: 0px">
-                      <label style="padding-left: 5px">Special Instructions If Any</label>
-                      <textarea id="float-input" [rows]="3" [cols]="110" pInputTextarea></textarea>
-                    </span>
+                      <label>Special Instructions If Any</label>
+                      <textarea [rows]="3" [cols]="110" pInputTextarea></textarea>
                   </div>
                   <div class="ui-g-2">
                     <button pButton type="button" label="Payment Details"></button>
@@ -188,72 +186,72 @@
                     <div class="ui-g-12"></div>
                     <div class="ui-g-10" style="padding-top: 12px">
                       <button pButton label="Enter"></button></div>
-                    </div>
+                  </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
-                    <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
-                      scrollHeight="150px">
-                      <ng-template pTemplate="colgroup" let-columns>
-                        <colgroup>
-                          <col *ngFor="let col of columns" style="width:80px">
-                        </colgroup>
-                      </ng-template>
-                      <ng-template pTemplate="header" let-columns>
-                        <tr>
-                          <th *ngFor="let col of columns">
-                            {{col.header}}
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-rowData let-columns="columns">
-                        <tr>
-                          <td *ngFor="let col of columns">
-                            {{rowData[col.field]}}
-                          </td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
+                  <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
+                    scrollHeight="150px">
+                    <ng-template pTemplate="colgroup" let-columns>
+                      <colgroup>
+                        <col *ngFor="let col of columns" style="width:80px">
+                      </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          {{rowData[col.field]}}
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="ui-g-12" style="text-align: center">
+                  <div class="ui-g-1" style="padding-left: 0px">
+                    <label style="padding-top: 10px;">Scheme</label>
+                    <p-dropdown></p-dropdown>
                   </div>
-                  <div class="ui-g-12" style="text-align: center">
-                      <div class="ui-g-1" style="padding-left: 0px">
-                        <label style="padding-top: 10px;">Scheme</label>
-                        <p-dropdown></p-dropdown>
-                      </div>
-                      <div class="ui-g-2" style="padding-left: 0px;text-align: center">
-                        <label style="padding-top: 10px;">Item Description</label>
-                        <p-dropdown></p-dropdown>
-                      </div>
-                      <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
-                        <label style="padding-top: 0px;">Margin Wt</label>
-                        <div>
-                          <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
-                        </div>
-                        <input pInputText [(ngModel)]="netWeight" />
-                      </div>
-                      <div class="ui-g-2" style="padding-left: 0px">
-                        <label style="padding-top: 10px;">Rate In Term Of</label>
-                        <p-dropdown></p-dropdown>
-                      </div>
-                      <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
-                        <label style="padding-top: 0px;">Margin Rate</label>
-                        <div>
-                          <label style="float:left">Rs</label> <label style="float: right">Ps</label>
-                        </div>
-                        <input pInputText [(ngModel)]="netWeight" />
-                      </div>
-                      <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
-                        <label style="padding-top: 0px;">Margin Amount</label>
-                        <div>
-                          <label style="float:left">Rs</label> <label style="float: right">Ps</label>
-                        </div>
-                        <input pInputText [(ngModel)]="netWeight" />
-                      </div>
-                      <div class="ui-g-1">
-                        <div class="ui-g-12"></div>
-                        <div class="ui-g-10" style="padding-top: 12px">
-                          <button pButton label="Enter"></button></div>
-                        </div>
+                  <div class="ui-g-2" style="padding-left: 0px;text-align: center">
+                    <label style="padding-top: 10px;">Item Description</label>
+                    <p-dropdown></p-dropdown>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Margin Wt</label>
+                    <div>
+                      <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
                     </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px">
+                    <label style="padding-top: 10px;">Rate In Term Of</label>
+                    <p-dropdown></p-dropdown>
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Margin Rate</label>
+                    <div>
+                      <label style="float:left">Rs</label> <label style="float: right">Ps</label>
+                    </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                  <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <label style="padding-top: 0px;">Margin Amount</label>
+                    <div>
+                      <label style="float:left">Rs</label> <label style="float: right">Ps</label>
+                    </div>
+                    <input pInputText [(ngModel)]="netWeight" />
+                  </div>
+                  <div class="ui-g-1">
+                    <div class="ui-g-12"></div>
+                    <div class="ui-g-10" style="padding-top: 12px">
+                      <button pButton label="Enter"></button></div>
+                  </div>
+                </div>
                 <div class="ui-g-12 ui-fluid">
                   <p-table [columns]="itemSchemeCols" [value]="itemSchemeData" [responsive]="true" [scrollable]="true"
                     scrollHeight="150px">
@@ -399,7 +397,7 @@
                             </span>
                           </div>
                           <div class="ui-g-4 ui-fluid"
-                            style="text-align: center;padding-right: 10px;border: .1px solid lightgray">
+                            style="text-align: center;padding-right: 10px;padding-left:20px;border: .1px solid lightgray">
                             <div class="dashboard"><label class="dashboard" style="font-size: 14px"> Adjustment Type
                               </label> </div>
                             <div class="ui-g-6">
@@ -468,21 +466,19 @@
             </div>
 
           </div>
-          <!-- <div class="ui-g-11"></div> -->
           <div class="ui-g-12">
             <div class="ui-g-10"></div>
             <div class="ui-g-2" style="float: right;">
               <div style="padding: 0px 10px 0px 0px; ">
-               <button  class="ui-g-6 dashboard" style="margin-right: 2px" pButton type="button" label="Print"></button> </div>
-              <!-- <i class="pi pi-print" style="font-size: 2em"></i> -->
-            <!-- </div>
-            <div class="ui-g-6 dashboard"> -->
-              <div  style="padding: 0px">
-               <button class="ui-g-6 dashboard" pButton type="button" label="Save"></button> </div>
-              <!-- <i class="pi pi-save" style="font-size: 2em"></i> -->
+                <button class="ui-g-6 dashboard" style="margin-right: 2px" pButton type="button" label="Print"></button>
+              </div>
+              <div style="padding: 0px">
+                <button class="ui-g-6 dashboard" pButton type="button" label="Save"></button> </div>
             </div>
           </div>
-          <div class="col-md-1"></div>
         </div>
       </div>
+      <div class="col-md-1"></div>
     </div>
+  </div>
+</div>
