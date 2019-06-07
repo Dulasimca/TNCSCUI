@@ -21,6 +21,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FieldsetModule} from 'primeng/fieldset';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -104,9 +106,11 @@ import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.c
     BrowserAnimationsModule,
     DataTableModule,
     CheckboxModule,
+    RadioButtonModule,
     DropdownModule,
     SharedModule,
     ButtonModule,
+    FieldsetModule,
     CalendarModule,
     CardModule,
     HighchartsChartModule,

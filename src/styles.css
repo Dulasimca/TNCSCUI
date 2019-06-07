@@ -900,6 +900,10 @@ ul
     color: #ffffff;
     border-color: #709bc0;}
 
+    .ui-button-text-only .ui-button-text {
+      padding: 3px 0px 3px 0px;
+    }  
+
     #err-page-header {
       margin: 0 0 0 0;
       padding: 6px 2% 6px 2%;

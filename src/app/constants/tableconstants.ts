@@ -13,8 +13,10 @@ export class TableConstants {
   StockPurchase: any;
   CBStatementColumns: any;
   DeliveryDocumentcolumns: any;
-  DeliveryItemColumns: any[];
-  DeliveryPaymentcolumns: { "field": string; "header": string; }[];
+  DeliveryItemColumns: any;
+  DeliveryItemSchemeColumns: any;
+  DeliveryPaymentcolumns: any;
+  DeliveryPaymentBalanceCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -115,13 +117,22 @@ export class TableConstants {
       ]
 
       this.DeliveryItemColumns = [
+        { "field": 'itemDesc', "header": 'Item Desc' },
+        { "field": 'netWeight', "header": 'Net Weight' },
+        { "field": 'unitMeasure', "header": 'Unit Measure' },
+        { "field": 'scheme', "header": 'Scheme' },
+        { "field": 'rate', "header": 'Rate' },
+        { "field": 'total', "header": 'Total' },
+      ]
+
+      this.DeliveryItemSchemeColumns = [
         { "field": 'schemeName', "header": 'Scheme Name' },
         { "field": 'itemName', "header": 'Item Name' },
         { "field": 'netWeight', "header": 'Net Weight' },
         { "field": 'rateInTerms', "header": 'Rate In Terms' },
         { "field": 'marginRate', "header": 'Margin Rate' },
         { "field": 'marginAmount', "header": 'Margin Amount' },
-      ]
+      ];
 
       this.DeliveryPaymentcolumns = [
         { "field": 'paymentMode', "header": 'Payment Mode' },
@@ -130,5 +141,14 @@ export class TableConstants {
         { "field": 'paymentAmount', "header": 'Payment Amount' },
         { "field": 'bank', "header": 'Bank' },
       ]
+
+      this.DeliveryPaymentBalanceCols = [
+        { "field": 'prevDeliveryOrder', "header": 'Previous Delivery Order' },
+        { "field": 'deliveryOrderDate', "header": 'Delivery Order Date' },
+        { "field": 'adjAmt', "header": 'Adjustment Amount' },
+        { "field": 'adjType', "header": 'Adjustment Type' },
+        { "field": 'amtNowAdjusted', "header": 'Amount Now Adjusted' },
+        { "field": 'balance', "header": 'Balance'}
+      ];
   }
   }
