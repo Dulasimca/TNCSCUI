@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -167,7 +167,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -211,7 +211,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
