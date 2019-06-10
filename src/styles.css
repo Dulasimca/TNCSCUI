@@ -129,10 +129,10 @@ a {
 }
 .header-main {
 	max-width: 310px;
-	margin: 0 auto;
+	margin: 30px auto;
 	position: relative;
 	z-index: 999;
-	padding: 3em 2em;
+	padding: 4em 2em;
 	background: rgba(255, 255, 255, 0.04);
 	-webkit-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
