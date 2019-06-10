@@ -34,7 +34,7 @@ export class DailyStockStatementComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
     let tempArray = [];
     this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
     this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {

@@ -14,12 +14,12 @@
           </div>
       </div>
     </p-header>
-    <div style="margin-left: 200px; margin-right: 200px;">
+    <div>
       <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" autoLayout="true">
+        [paginator]="true" autoLayout="true" [resizableColumns]="true">
         <ng-template pTemplate="header" let-columns>
             <tr>
-          <th *ngFor="let col of columns">
+          <th *ngFor="let col of columns" ttResizableColumn>
             {{col.header}}
           </th>
           </tr>

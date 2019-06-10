@@ -3,13 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import {SplitButtonModule} from 'primeng/splitbutton';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { isNgTemplate } from '@angular/compiler';
 
 
 
@@ -33,7 +31,7 @@ export class RegionsDataComponent implements OnInit {
   constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
     this.column = this.tableConstants.RegionData;
     this.restApiService.get(PathConstants.REGION).subscribe((response: any[]) => {
       if(response!==undefined){

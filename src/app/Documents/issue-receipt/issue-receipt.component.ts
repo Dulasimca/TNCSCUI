@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -10,7 +12,11 @@ data: any;
 col: any;
 itemCol: any;
 itemData: any;
-  constructor() { }
+  canShowMenu: boolean;
+  constructor(private restApiService: RestAPIService, private authService: AuthService,) { 
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+
+  }
 
   ngOnInit() {
     this.col = [ { field: 'Delivery Order No', header: 'DeliveryOrderNo' },

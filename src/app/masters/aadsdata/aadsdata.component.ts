@@ -26,7 +26,7 @@ export class AADSDataComponent implements OnInit {
   constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
     this.column=this.tableConstants.AadsData;
     this.restApiService.get(PathConstants.AADS).subscribe((response: any[]) => {
       if(response!==undefined){

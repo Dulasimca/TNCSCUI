@@ -32,35 +32,35 @@
                       <div class="ui-g">
                         <div class="ui-g-6 dashboard">
                           <span class="ui-float-label" style="padding-right: 10px;">
-                            <input id="float-input" type="text" size="20" pInputText autocomplete="off">
+                            <input id="float-input" type="text" size="20" pInputText [(ngModel)]="deliveryOrderNo" autocomplete="off">
                             <label class="float-input">No</label>
                           </span>
                         </div>
                         <div class="ui-g-6 dashboard">
-                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                          <p-calendar [(ngModel)]="deliveryDate" [showIcon]="true"></p-calendar>
                         </div>
                       </div>
                     </p-card>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input"></p-dropdown>
+                      <p-dropdown id="float-input" [options]="transactionCdOptions" [(ngModel)]="transactionCd"></p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Transaction Code</label>
                     </span>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="indentNo" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Indent No</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-right: 10px;">
                     <label>Permit Date</label>
-                    <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="permitDate" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 20px;">
                     <label class="ui-g-7">Only Rice</label>
-                    <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                    <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedItem"></p-checkbox>
                   </div>
                 </div>
                 <div class="ui-g-12">
@@ -73,10 +73,10 @@
                       </p-header>
                       <div class="ui-g">
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                          <p-calendar [(ngModel)]="orderPeriodMonth" [showIcon]="true"></p-calendar>
                         </div>
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                          <p-calendar [(ngModel)]="orderPeriodYear" [showIcon]="true"></p-calendar>
                         </div>
                       </div>
                     </p-card>
@@ -84,25 +84,25 @@
                   <!-- <div class="dashboard"> -->
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="regionName" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Region Name</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="issuingGodownName" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Issuing Godown Name</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input"></p-dropdown>
+                      <p-dropdown id="float-input" [options]="receivorTypeOptions" [(ngModel)]="receivorType"></p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Receivor Type</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input"></p-dropdown>
+                      <p-dropdown id="float-input" [options]="partyNameOptions" [(ngModel)]="partyName"></p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Party Name</label>
                     </span>
                   </div>
@@ -111,10 +111,10 @@
                 <div class="ui-g-12">
                   <div class="ui-g-10">
                       <label>Special Instructions If Any</label>
-                      <textarea [rows]="3" [cols]="110" pInputTextarea></textarea>
+                      <textarea [rows]="3" [cols]="110" [(ngModel)]="instructions" pInputTextarea></textarea>
                   </div>
                   <div class="ui-g-2">
-                    <button pButton type="button" label="Payment Details"></button>
+                    <button pButton type="button" label="Payment Details" (click)="onPayment()"></button>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
@@ -151,11 +151,11 @@
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-1" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Scheme</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="schemeOptions" [(ngModel)]="scheme"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;text-align: center">
                     <label style="padding-top: 10px;">Item Description</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="itemDescOptions" [(ngModel)]="itemDesc"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Net Wt</label>
@@ -166,26 +166,26 @@
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Rate In Term Of</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="rateInTermsOptions" [(ngModel)]="rateInTerms"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Rate</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="rate" />
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Total</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="total" />
                   </div>
                   <div class="ui-g-1">
                     <div class="ui-g-12"></div>
                     <div class="ui-g-10" style="padding-top: 12px">
-                      <button pButton label="Enter"></button></div>
+                      <button pButton label="Enter" (click)="onEnter()"></button></div>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
@@ -215,41 +215,41 @@
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-1" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Scheme</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="marginSchemeOptions" [(ngModel)]="marginScheme"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;text-align: center">
                     <label style="padding-top: 10px;">Item Description</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="marginItemDescOptions" [(ngModel)]="marginItemDesc"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Wt</label>
                     <div>
                       <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="marginNetWeight" />
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Rate In Term Of</label>
-                    <p-dropdown></p-dropdown>
+                    <p-dropdown [options]="marginRateInTermsOptions" [(ngModel)]="marginRateInTerms"></p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Rate</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="marginRate" />
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Amount</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="marginAmount" />
                   </div>
                   <div class="ui-g-1">
                     <div class="ui-g-12"></div>
                     <div class="ui-g-10" style="padding-top: 12px">
-                      <button pButton label="Enter"></button></div>
+                      <button pButton label="Enter" (click)="onMarginCalculate()"></button></div>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">

@@ -26,7 +26,7 @@ export class MRMDataComponent implements OnInit {
   
 ngOnInit() 
     {
-   this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+   this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
    this.column = this.tableConstants.MrmData;
    this.restApiService.get(PathConstants.MRN).subscribe((response: any[]) => {
      if(response!==undefined){
