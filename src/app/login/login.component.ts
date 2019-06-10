@@ -34,6 +34,10 @@ export class LoginComponent implements OnInit {
       user: ['', Validators.required],
       pswd: ['', Validators.required]
     })
+    this.isChecked = JSON.parse(this.authService.checkLoggedIn());
+    // if (this.isChecked) {
+    //   this.userName =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.userName;
+    //  }
   }
 
   get formControls() {
@@ -69,9 +73,7 @@ export class LoginComponent implements OnInit {
     let check: any = this.authService.checkLoggedIn();
     this.isChecked = (check !== undefined && 
     check !== null) ? check : false;
-    if (this.isChecked) {
-     this.userName =  this.authService.getCredentials();
-    }
+   
   }
 
   clearFields() {

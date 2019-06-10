@@ -194,15 +194,16 @@
         </div>
       </div>
     </div>
-    <div class="ui-g-12 card">
+  
+    <div class="ui-g-12 card" *ngIf="riceData">
       <highcharts-chart [Highcharts]="Highcharts" [options]="riceData" style="height: 400px; display: block;">
       </highcharts-chart>
     </div>
-    <div class="ui-g-12 card">
+    <div class="ui-g-12 card" *ngIf="dhallAndOilData">
       <highcharts-chart [Highcharts]="Highcharts" [options]="dhallAndOilData" style="height: 400px; display: block;">
       </highcharts-chart>
     </div>
-    <div class="ui-g-12 card">
+    <div class="ui-g-12 card" *ngIf="wheatAndSugarData">
       <div style="width: 100%;">
         <highcharts-chart [Highcharts]="Highcharts" [options]="wheatAndSugarData" style="height: 400px; display: block;">
         </highcharts-chart>

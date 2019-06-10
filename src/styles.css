@@ -104,12 +104,13 @@ h1 {
 }
 .icon1 {
 	margin: 0 0 1em;
-	padding: .8em 1em;
+	padding: .6em 1em;
 	background: rgba(255, 255, 255, 0.94);
 }
 .icon1 span.fa {
     color: #222;
-    width: 22px;
+    /* width: 22px; */
+    padding-right: 5px;
 }
 .main-icon {
     text-align: center;
@@ -134,7 +135,7 @@ a {
 	margin: 0 auto;
 	position: relative;
 	z-index: 999;
-	padding: 3em 2em;
+	padding: 4em 2em;
 	background: rgba(255, 255, 255, 0.04);
 	-webkit-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -6,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./truck-receipt.component.css']
 })
 export class TruckReceiptComponent implements OnInit {
-itemData: any;
-itemCol: any;
-  constructor() { }
+  canShowMenu: boolean;
+  itemCol: any;
+  itemData: any;
+
+  constructor(private restApiService: RestAPIService, private authService: AuthService,) { 
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+
+  }
 
   ngOnInit() {
     this.itemCol = [

@@ -25,9 +25,6 @@
             </ng-template>
               <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
                   <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
-                      <!-- <td colspan="1">
-                          <span style="font-weight:bold">{{data.RGNAME}}</span>
-                      </td> -->
                       <td colspan="14">
                           <span style="font-weight:bold">{{data.RGNAME}}</span>
                       </td>

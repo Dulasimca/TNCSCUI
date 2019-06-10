@@ -24,7 +24,7 @@ export class StockPurchaseComponent implements OnInit {
   constructor(private tableConstants: TableConstants, private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
     this.stockPurchaseDataCoulmns = this.tableConstants.StockPurchase;
   }
 

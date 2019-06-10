@@ -45,20 +45,34 @@ export class AuthService {
    }
 
    public isKeepMeLoggedIn(isLogged) {
+    let userCredentials;
+     if(isLogged) {
+       userCredentials = localStorage.getItem('USER_INFO');
+     }
     localStorage.setItem('KEEP_ME_LOGGED_IN', isLogged);
+    return userCredentials;
    }
 
    public checkLoggedIn() {
     let isLoggedInTrue = localStorage.getItem('KEEP_ME_LOGGED_IN');
-    if (this.getUserInfo !== null && this.getUserInfo !== undefined) {
-    return isLoggedInTrue;
-    } 
+       return isLoggedInTrue;
    }
 
 
   public isLoggedIn() {
     let getInfo = localStorage.getItem('USER_INFO');
-   if(getInfo !== null) {
+    let roleId = localStorage.getItem('ID');
+   if(getInfo !== null && roleId !== null) {
+    return true;
+   }
+   return false;
+  }
+
+  public canShowMenu() {
+    let getInfo = localStorage.getItem('USER_INFO');
+    let roleId = localStorage.getItem('ID');
+    let menu = localStorage.getItem('MENU');
+   if(getInfo !== null && roleId !== null && menu !== null) {
     return true;
    }
    return false;

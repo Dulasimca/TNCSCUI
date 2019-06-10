@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     private router: Router) {}
 
     ngOnInit() {
-    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
     const date = new Date();
     this.date = this.datePipe.transform(date, 'mm/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -167,7 +167,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -211,7 +211,7 @@ export class HomeComponent implements OnInit {
             x: -30,
             verticalAlign: 'top',
             y: 5,
-            floating: true,
+            floating: false,
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false

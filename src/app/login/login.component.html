@@ -72,7 +72,7 @@ if(typeof _bsa !== 'undefined' && _bsa) {
                             <input type="password" id="password" formControlName="pswd" [(ngModel)]="password" placeholder="Password" required="">
                         </div>
                         <div class="login-check">
-                            <label class="checkbox"><input type="checkbox" name="checkbox" [(ngModel)]="isChecked" (change)="toggleVisibility($event)"><i> </i> Keep me logged in</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox" binary="true" [(ngModel)]="isChecked" (change)="toggleVisibility($event)"><i> </i> Keep me logged in</label>
                         </div>
                     </form>
                         <div class="bottom">
