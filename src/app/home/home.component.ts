@@ -32,7 +32,8 @@ export class HomeComponent implements OnInit {
   dhallAndOilData: any;
   wheatAndSugarData: any;
   chartLabels: any[];
-  ricePB: any;
+  rawRicePB: any;
+  boiledRicePB: any;
   dhallPB: any;
   pOilPB: any;
   wheatPB: any;
@@ -224,13 +225,32 @@ export class HomeComponent implements OnInit {
     });
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
       if (data !== undefined) {
-        this.ricePB = data.Rice;
+        this.rawRicePB = data.Rice;
         this.dhallPB = data.Dhall;
         this.pOilPB = data.POil;
         this.wheatPB = data.Wheat;
         this.sugarPB = data.Sugar;
       }
     })
+    this.checkUndefined();
+  }
+
+  checkUndefined() {
+    this.rawRicePB = (this.rawRicePB !== undefined && this.rawRicePB !== '') ? this.rawRicePB : 0;
+    this.sugarPB = (this.sugarPB !== undefined && this.sugarPB !== '') ? this.sugarPB : 0;
+    this.boiledRicePB = (this.boiledRicePB !== undefined && this.boiledRicePB !== '') ? this.boiledRicePB : 0;
+    this.wheatPB = (this.wheatPB !== undefined && this.wheatPB !== '') ? this.wheatPB : 0;
+    this.pOilPB = (this.pOilPB !== undefined && this.pOilPB !== '') ? this.pOilPB : 0;
+    this.dhallPB = (this.dhallPB !== undefined && this.dhallPB !== '') ? this.dhallPB : 0;
+    this.godownCount = (this.godownCount !== undefined && this.godownCount !== '') ? this.godownCount : 0;
+    this.crsCount = (this.crsCount !== undefined && this.crsCount !== '') ? this.crsCount : 0;
+    this.regionCount = (this.regionCount !== undefined && this.regionCount !== '') ? this.regionCount : 0;
+    this.mrmCount = (this.mrmCount !== undefined && this.mrmCount !== '') ? this.mrmCount : 0;
+    this.aadsCount = (this.aadsCount !== undefined && this.aadsCount !== '') ? this.aadsCount : 0;
+    this.schemeCount = (this.schemeCount !== undefined && this.schemeCount !== '') ? this.schemeCount : 0;
+    this.suppliersCount = (this.suppliersCount !== undefined && this.suppliersCount !== '') ? this.suppliersCount : 0;
+    this.fciCount = (this.fciCount !== undefined && this.fciCount !== '') ? this.fciCount : 0;
+    this.hullingAgencies = (this.hullingAgencies !== undefined && this.hullingAgencies !== '') ? this.hullingAgencies : 0;
   }
 
   onGridClicked(param) {

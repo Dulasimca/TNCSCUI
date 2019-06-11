@@ -878,6 +878,19 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
     padding: 0px;
   }
 
+  .dashboard .colorbox .colorbox-PB-name {
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    width: 100%;
+    color: #09143e;
+  }
+
+  .dashboard .colorbox .colorbox-PB-count {
+    font-size: 20px;
+    color: #09143e;
+  }
+
   .dashboard .colorbox .colorbox-count {
     font-size: 24px;
     color: #09143e;
