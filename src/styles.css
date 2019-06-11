@@ -512,7 +512,7 @@ h3 a {
 }
 
 .footer {
-  position: absolute;
+  position: relative;
   left: 0;
   width: 100%;
   text-align: center;
@@ -737,7 +737,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
     display: block;
     font-size: 24px;
     float: right;
-    padding-right: 0px;
+    padding: 0px 0px 10px 30px;
   }
 
   .dashboard .overview .overview-content .overview-link {
@@ -747,9 +747,10 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   }
 
   .dashboard .overview .overview-content .overview-title {
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     padding-top: 0px;
+    display: flex;
   }
 
 .dashboard .overview .overview-footer {
@@ -960,7 +961,7 @@ ul
   }
   
   
-
+    /*##(large)###*/
    @media screen and (min-width: 1024px){
     /*Style*/
     .table-screen-size {
@@ -969,7 +970,7 @@ ul
     }
     }
     
-    /*###Tablet(medium)###*/
+    /*##(medium)###*/
     @media screen and (min-width : 768px) and (max-width : 1023px){
     /*Style*/
     .table-screen-size {
@@ -978,7 +979,7 @@ ul
     }
     }
     
-    /*### Smartphones (portrait and landscape)(small)### */
+    /*### (portrait and landscape)(small)### */
     @media screen and (min-width : 597px) and (max-width : 767px){
     /*Style*/
     .table-screen-size {
@@ -986,7 +987,7 @@ ul
       width: 80%;
     }
     }
-
+ /*### Smartphones (portrait and landscape)(small)### */
     @media screen and (min-width : 0px) and (max-width : 596px){
       /*Style*/
       .table-screen-size {
@@ -996,5 +997,16 @@ ul
       }
    
    
-   
+      @media screen and (min-width: 1024px){
+        .PB-img {
+          width: 50px;
+        }
+        }
+        
+        @media screen and (min-width : 768px) and (max-width : 1023px){
+        .PB-img {
+          width: 50px;
+        }
+        }
+        
    
