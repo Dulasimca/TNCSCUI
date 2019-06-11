@@ -8,24 +8,28 @@
       </div>
     </p-header>
     <div>
-      <div class="ui-g-12">
+      <div style="text-align: center">
+        <div class="ui-g-3"></div>
       <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
-        <label class="ui-g-5 dashboard">From Date:</label>
-        <p-calendar class="ui-g-7 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+        <label class="ui-g-7 dashboard">From Date:</label>
+        <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
       </div>
       <div class="ui-g-2">
-        <label class="ui-g-4 dashboard">To Date:</label>
+        <label class="ui-g-7 dashboard">To Date:</label>
         <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true"></p-calendar>
       </div>
+      <div style="padding-top: 20px;">
+          <div class="ui-g-1 ui-fluid">
+              <button pButton type="button" label=Print></button>
+            </div>
+            <div class="ui-g-1 ui-fluid">
+                <button pButton type="button" label=View></button>
+              </div>
+        </div>
+        <div class="ui-g-3"></div>
     </div>
-      <div class="ui-g table-screen-size">
-        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [responsive]="true" [scrollable]="true"
-          scrollHeight="150px">
-          <ng-template pTemplate="colgroup" let-columns>
-            <colgroup>
-              <col *ngFor="let col of columns" style="width:80px">
-            </colgroup>
-          </ng-template>
+     <div class="ui-g-12"> 
+        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [responsive]="true" [scrollable]="true" scrollHeight="150px" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns">
@@ -41,7 +45,7 @@
             </tr>
           </ng-template>
         </p-table>
-      </div>
+       </div> 
     </div>
   </p-panel>
 </div>

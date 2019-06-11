@@ -15,6 +15,14 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
+  //   this.stockReceiptRegData = [{'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo': '009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+  //   {'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo':'009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+  //   {'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo':'009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+  //   {'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo':'009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+  //   {'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo':'009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+  //   {'ackNo': 676, 'truckMemoNo': 989, 'date': '09/09/2010', 'fromreceiver':'huhh', 'stackNo':'009', 'scheme': 'jgjhsd', 'noPacking': 'ioiojn', 'commodity': 'kashjah', 'netWt':90},
+
+  // ]
   }
 
 }

@@ -5,30 +5,32 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Godown Master</div>
-          <div class="ui-g-8 dashboard" style="text-align: end !important;">
-              <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search" (ngModelChange)="onSearch($event)">
-            <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-            <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
-              styleClass="ui-button-danger"></p-splitButton>
-              <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn" (click)="print()"></button>
-          </div>
+        <div class="ui-g-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search"
+            (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+            styleClass="ui-button-danger"></p-splitButton>
+          <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
+            (click)="print()"></button>
+        </div>
       </div>
     </p-header>
     <div class="table-screen-size">
       <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
         [paginator]="true" autoLayout="true" [resizableColumns]="true" styleClass="myTable">
         <ng-template pTemplate="header" let-columns>
-            <tr>
-          <th *ngFor="let col of columns" ttResizableColumn>
-            {{col.header}}
-          </th>
+          <tr>
+            <th *ngFor="let col of columns" ttResizableColumn>
+              {{col.header}}
+            </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-          <tr  [ngStyle]="{'background-color': getColor(rowData.Name)}">
+          <tr [ngStyle]="{'background-color': getColor(rowData.Name)}">
             <td *ngFor="let col of columns; let i = index">
               <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
-                  {{rowData[col.field]}}
+              {{rowData[col.field]}}
             </td>
           </tr>
         </ng-template>

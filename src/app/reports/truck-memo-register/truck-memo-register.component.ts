@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TableConstants } from 'src/app/constants/tableconstants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 
 @Component({
   selector: 'app-truck-memo-register',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./truck-memo-register.component.css']
 })
 export class TruckMemoRegisterComponent implements OnInit {
+  TruckMemoRegCols: any;
+  TruckMemoRegData: any;
 
-  constructor() { }
+  constructor(private tableConstants: TableConstants, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
+    this.TruckMemoRegCols = this.tableConstants.TruckMemoRegisterReport;
   }
 
 }
