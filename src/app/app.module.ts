@@ -61,6 +61,9 @@ import { StockReceiptComponent } from './Documents/stock-receipt/stock-receipt.c
 import { IssueReceiptComponent } from './Documents/issue-receipt/issue-receipt.component';
 import { DeliveryReceiptComponent } from './Documents/delivery-receipt/delivery-receipt.component';
 import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.component';
+import { StockReceiptRegisterComponent } from './reports/stock-receipt-register/stock-receipt-register.component';
+import { StockIssueRegisterComponent } from './reports/stock-issue-register/stock-issue-register.component';
+import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
 
 
 @NgModule({
@@ -90,7 +93,10 @@ import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.c
     StockReceiptComponent,
     IssueReceiptComponent,
     DeliveryReceiptComponent,
-    TruckReceiptComponent
+    TruckReceiptComponent,
+    StockReceiptRegisterComponent,
+    StockIssueRegisterComponent,
+    TruckMemoRegisterComponent
   ],
   imports: [
     BrowserModule,
