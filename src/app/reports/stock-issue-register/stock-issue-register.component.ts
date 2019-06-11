@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TableConstants } from 'src/app/constants/tableconstants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 
 @Component({
   selector: 'app-stock-issue-register',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stock-issue-register.component.css']
 })
 export class StockIssueRegisterComponent implements OnInit {
-
-  constructor() { }
+stockIssueRegCols: any;
+stockIssueRegData: any;
+  constructor(private tableConstants: TableConstants, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
+    this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
   }
 
 }

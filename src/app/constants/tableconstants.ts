@@ -17,6 +17,8 @@ export class TableConstants {
   DeliveryItemSchemeColumns: any;
   DeliveryPaymentcolumns: any;
   DeliveryPaymentBalanceCols: any;
+  StockReceiptRegisterReport: any;
+  StockIssueRegisterReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -149,6 +151,31 @@ export class TableConstants {
         { "field": 'adjType', "header": 'Adjustment Type' },
         { "field": 'amtNowAdjusted', "header": 'Amount Now Adjusted' },
         { "field": 'balance', "header": 'Balance'}
+      ];
+
+      this.StockReceiptRegisterReport = [
+        { "field": 'ackNo', "header": 'ACK.No'},
+        { "field": 'truckMemoNo', "header": 'Truck Memo No'},
+        { "field": 'date', "header": 'Lorry No'},
+        { "field": 'fromreceiver', "header": 'From Whom Received'},
+        { "field": 'stackNo', "header": 'Satck No'},
+        { "field": 'scheme', "header": 'Scheme'},
+        { "field": 'noPacking', "header": 'No Packing'},
+        { "field": 'commodity', "header": 'Commodity'},
+        { "field": 'netWt', "header": 'Net Wt'},
+      ];
+
+      this.StockIssueRegisterReport = [
+        { "field": 'issueMemoNo', "header": 'Issue Memo No'},
+        { "field": 'doNo', "header": 'Do No'},
+        { "field": 'date', "header": 'Date'},
+        { "field": 'lorryNo', "header": 'Lorry No'},
+        { "field": 'toWhomIssued', "header": 'To Whom Issued'},
+        { "field": 'stackNo', "header": 'Stack No'},
+        { "field": 'scheme', "header": 'Scheme'},
+        { "field": 'noPacking', "header": 'No Packing'},
+        { "field": 'commodity', "header": 'Commodity'},
+        { "field": 'netWt', "header": 'Net Wt'},
       ];
   }
   }
