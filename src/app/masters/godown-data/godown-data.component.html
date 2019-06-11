@@ -14,9 +14,9 @@
           </div>
       </div>
     </p-header>
-    <div>
+    <div class="table-screen-size">
       <p-treeTable [value]="data" [columns]="column" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" autoLayout="true" [resizableColumns]="true">
+        [paginator]="true" autoLayout="true" [resizableColumns]="true" styleClass="myTable">
         <ng-template pTemplate="header" let-columns>
             <tr>
           <th *ngFor="let col of columns" ttResizableColumn>
@@ -28,7 +28,7 @@
           <tr  [ngStyle]="{'background-color': getColor(rowData.Name)}">
             <td *ngFor="let col of columns; let i = index">
               <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
-              {{rowData[col.field]}}
+                  {{rowData[col.field]}}
             </td>
           </tr>
         </ng-template>

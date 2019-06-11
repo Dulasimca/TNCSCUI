@@ -955,4 +955,46 @@ ul
         color: #000000;
     }
 
+    .myTable td:nth-child(1) {
+      width: 60px !important;
+  }
+  
+  
 
+   @media screen and (min-width: 1024px){
+    /*Style*/
+    .table-screen-size {
+      margin: auto;
+      width: 50%;
+    }
+    }
+    
+    /*###Tablet(medium)###*/
+    @media screen and (min-width : 768px) and (max-width : 1023px){
+    /*Style*/
+    .table-screen-size {
+      margin: auto;
+      width: 50%;
+    }
+    }
+    
+    /*### Smartphones (portrait and landscape)(small)### */
+    @media screen and (min-width : 597px) and (max-width : 767px){
+    /*Style*/
+    .table-screen-size {
+      margin: auto;
+      width: 80%;
+    }
+    }
+
+    @media screen and (min-width : 0px) and (max-width : 596px){
+      /*Style*/
+      .table-screen-size {
+        margin: auto;
+        width: 100%;
+      }
+      }
+   
+   
+   
+   
