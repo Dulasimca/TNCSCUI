@@ -24,6 +24,7 @@ import { DeliveryReceiptComponent } from './Documents/delivery-receipt/delivery-
 import { TruckReceiptComponent } from './Documents/truck-receipt/truck-receipt.component';
 import { StockIssueRegisterComponent } from './reports/stock-issue-register/stock-issue-register.component';
 import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
+import { StockReceiptRegisterComponent } from './reports/stock-receipt-register/stock-receipt-register.component';
 
 
 const routes: Routes = [
@@ -48,8 +49,7 @@ const routes: Routes = [
   { path: 'issueReceipt', component: IssueReceiptComponent },
   { path: 'deliveryReceipt', component: DeliveryReceiptComponent },
   { path: 'truckReceipt', component: TruckReceiptComponent },
-  { path: 'stockIssueRegister', component: StockIssueRegisterComponent },
-  { path: 'stockReceiptRegister', component: StockIssueRegisterComponent },
+  { path: 'stockReceiptRegister', component: StockReceiptRegisterComponent },
   { path: 'stockIssueRegister', component: StockIssueRegisterComponent },
   { path: 'truckMemoRegister', component: TruckMemoRegisterComponent },
   { path: '**', component: PageNotFoundComponent }
