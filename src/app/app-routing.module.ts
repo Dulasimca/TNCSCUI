@@ -26,6 +26,13 @@ import { StockIssueRegisterComponent } from './reports/stock-issue-register/stoc
 import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
 import { StockReceiptRegisterComponent } from './reports/stock-receipt-register/stock-receipt-register.component';
 import { DeliveryOrderRegisterComponent } from './reports/delivery-order-register/delivery-order-register.component';
+import { CommodityReceiptComponent } from './reports/commodity-receipt/commodity-receipt.component';
+import { SchemeReceiptComponent } from './reports/scheme-receipt/scheme-receipt.component';
+import { TransactionReceiptComponent } from './reports/transaction-receipt/transaction-receipt.component';
+import { CommodityIssueMemoComponent } from './reports/commodity-issue-memo/commodity-issue-memo.component';
+import { SchemeIssueMemoComponent } from './reports/scheme-issue-memo/scheme-issue-memo.component';
+import { WriteOffComponent } from './reports/write-off/write-off.component';
+import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
 
 
 const routes: Routes = [
@@ -54,6 +61,13 @@ const routes: Routes = [
   { path: 'Stock Issue Register', component: StockIssueRegisterComponent, canActivate: [AuthGuard] },
   { path: 'Truck Memo Register', component: TruckMemoRegisterComponent, canActivate: [AuthGuard] },
   { path: 'Delivery Order Register', component: DeliveryOrderRegisterComponent, canActivate: [AuthGuard] },
+  { path: 'Commodity Receipt', component: CommodityReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Scheme Receipt', component: SchemeReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Transaction Receipt', component: TransactionReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Commodity Issuememo', component: CommodityIssueMemoComponent, canActivate: [AuthGuard] },
+  { path: 'Scheme Issuememo', component: SchemeIssueMemoComponent, canActivate: [AuthGuard] },
+  { path: 'Writeoff', component: WriteOffComponent, canActivate: [AuthGuard] },
+  { path: 'Hulling Details', component: HullingDetailsComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
   
 ];

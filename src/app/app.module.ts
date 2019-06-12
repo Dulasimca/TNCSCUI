@@ -66,6 +66,13 @@ import { StockIssueRegisterComponent } from './reports/stock-issue-register/stoc
 import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
 import { DeliveryOrderRegisterComponent } from './reports/delivery-order-register/delivery-order-register.component';
 import { RoleBasedService } from './common/role-based.service';
+import { CommodityReceiptComponent } from './reports/commodity-receipt/commodity-receipt.component';
+import { SchemeReceiptComponent } from './reports/scheme-receipt/scheme-receipt.component';
+import { TransactionReceiptComponent } from './reports/transaction-receipt/transaction-receipt.component';
+import { CommodityIssueMemoComponent } from './reports/commodity-issue-memo/commodity-issue-memo.component';
+import { SchemeIssueMemoComponent } from './reports/scheme-issue-memo/scheme-issue-memo.component';
+import { WriteOffComponent } from './reports/write-off/write-off.component';
+import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
 
 
 @NgModule({
@@ -99,7 +106,14 @@ import { RoleBasedService } from './common/role-based.service';
     StockReceiptRegisterComponent,
     StockIssueRegisterComponent,
     TruckMemoRegisterComponent,
-    DeliveryOrderRegisterComponent
+    DeliveryOrderRegisterComponent,
+    CommodityReceiptComponent,
+    SchemeReceiptComponent,
+    TransactionReceiptComponent,
+    CommodityIssueMemoComponent,
+    SchemeIssueMemoComponent,
+    WriteOffComponent,
+    HullingDetailsComponent
   ],
   imports: [
     BrowserModule,
