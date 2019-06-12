@@ -156,15 +156,15 @@ export class TableConstants {
     ];
 
     this.StockReceiptRegisterReport = [
-      { "field": 'ackNo', "header": 'ACK.No' },
-      { "field": 'truckMemoNo', "header": 'Truck Memo No' },
-      { "field": 'date', "header": 'Lorry No' },
-      { "field": 'fromreceiver', "header": 'From Whom Received' },
-      { "field": 'stackNo', "header": 'Satck No' },
-      { "field": 'scheme', "header": 'Scheme' },
-      { "field": 'noPacking', "header": 'No Packing' },
-      { "field": 'commodity', "header": 'Commodity' },
-      { "field": 'netWt', "header": 'Net Wt' },
+      { "field": 'Ackno', "header": 'ACK.No' },
+      { "field": 'TruckMemoNo', "header": 'Truck Memo No' },
+      { "field": 'Lorryno', "header": 'Lorry No' },
+      { "field": 'From_Whom_Received', "header": 'From Whom Received' },
+      { "field": 'Stackno', "header": 'Satck No' },
+      { "field": 'Scheme', "header": 'Scheme' },
+      { "field": 'NoPacking', "header": 'No Packing' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'NetWt', "header": 'Net Wt' },
     ];
 
     this.StockIssueRegisterReport = [
@@ -181,16 +181,16 @@ export class TableConstants {
     ];
 
     this.TruckMemoRegisterReport = [
-      { "field": 'truckMemoNo', "header": 'Truck Memo No' },
-      { "field": 'moNo', "header": 'Mo.No' },
-      { "field": 'date', "header": 'Date' },
-      { "field": 'roNo', "header": 'Ro.No' },
-      { "field": 'toWhomIssued', "header": 'To Whom Issued' },
-      { "field": 'stackNo', "header": 'Stack No' },
-      { "field": 'scheme', "header": 'Scheme' },
-      { "field": 'noPacking', "header": 'No Packing' },
-      { "field": 'commodity', "header": 'Commodity' },
-      { "field": 'netWt', "header": 'Net Wt' },
+      { "field": 'Truck_Memono', "header": 'Truck Memo No' },
+      { "field": 'MoNo', "header": 'Mo.No' },
+      { "field": 'Issue_Date', "header": 'Date' },
+      { "field": 'RoNo', "header": 'Ro.No' },
+      { "field": 'To_Whom_Issued', "header": 'To Whom Issued' },
+      { "field": 'StackNo', "header": 'Stack No' },
+      { "field": 'Scheme', "header": 'Scheme' },
+      { "field": 'NoPacking', "header": 'No Packing' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'NetWt', "header": 'Net Wt' },
     ];
 
     this.DeliveryMemoRegisterReport = [

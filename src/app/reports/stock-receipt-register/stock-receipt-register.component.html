@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Stock Receipt Register</div>
       </div>
     </p-header>
-    <div class="card">
+    <div class="ui-g">
       <div style="text-align: center">
         <div class="ui-g-2"></div>
         <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
@@ -20,20 +20,23 @@
         </div>
         <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
           <span class="ui-float-label">
-            <p-dropdown id="float-input"></p-dropdown>
-            <label class="float-input">StockReceipt</label>
+            <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
+            <label class="float-input">Godown Name</label>
           </span>
         </div>
         <!-- <div class="ui-g-1"></div> -->
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=Print></button>
+            <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=View></button>
+            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+          </div>
+          <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+            <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
           </div>
         <div class="ui-g-2"></div>
      <div class="ui-g-12"> 
-        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [responsive]="true" [scrollable]="true" scrollHeight="150px" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns">

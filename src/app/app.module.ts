@@ -65,6 +65,7 @@ import { StockReceiptRegisterComponent } from './reports/stock-receipt-register/
 import { StockIssueRegisterComponent } from './reports/stock-issue-register/stock-issue-register.component';
 import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
 import { DeliveryOrderRegisterComponent } from './reports/delivery-order-register/delivery-order-register.component';
+import { RoleBasedService } from './common/role-based.service';
 
 
 @NgModule({
@@ -132,7 +133,7 @@ import { DeliveryOrderRegisterComponent } from './reports/delivery-order-registe
     MatDatepickerModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
-    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService],
+    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
