@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-stock-issue-register',
@@ -24,10 +25,13 @@ export class StockIssueRegisterComponent implements OnInit {
   g_cd= '548';
   godownOptions: SelectItem[];
   godownName: string;
+  canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
     this.data = this.roleBasedService.getInstance();

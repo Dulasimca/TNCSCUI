@@ -7,6 +7,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-truck-memo-register',
@@ -24,11 +25,13 @@ export class TruckMemoRegisterComponent implements OnInit {
   g_cd = '548';
   truckOptions: SelectItem[];
   truckName: string;
-  response: any;
+  canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.TruckMemoRegCols = this.tableConstants.TruckMemoRegisterReport;
     this.data = this.roleBasedService.getInstance();
@@ -51,7 +54,6 @@ export class TruckMemoRegisterComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined) {
         this.isActionDisabled = false;
-        this.response = res;
       }
       console.log('res', res);
     })

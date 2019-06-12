@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-delivery-order-register',
@@ -24,10 +25,12 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   g_cd='548';
   deliveryOptions: SelectItem[];
   deliveryName: string;
+  canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.DeliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.data = this.roleBasedService.getInstance();
