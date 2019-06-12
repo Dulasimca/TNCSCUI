@@ -26,6 +26,13 @@ import { StockIssueRegisterComponent } from './reports/stock-issue-register/stoc
 import { TruckMemoRegisterComponent } from './reports/truck-memo-register/truck-memo-register.component';
 import { StockReceiptRegisterComponent } from './reports/stock-receipt-register/stock-receipt-register.component';
 import { DeliveryOrderRegisterComponent } from './reports/delivery-order-register/delivery-order-register.component';
+import { CommodityReceiptComponent } from './reports/commodity-receipt/commodity-receipt.component';
+import { SchemeReceiptComponent } from './reports/scheme-receipt/scheme-receipt.component';
+import { TransactionReceiptComponent } from './reports/transaction-receipt/transaction-receipt.component';
+import { CommodityIssueMemoComponent } from './reports/commodity-issue-memo/commodity-issue-memo.component';
+import { SchemeIssueMemoComponent } from './reports/scheme-issue-memo/scheme-issue-memo.component';
+import { WriteOffComponent } from './reports/write-off/write-off.component';
+import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
 
 
 const routes: Routes = [
@@ -50,10 +57,17 @@ const routes: Routes = [
   { path: 'issueReceipt', component: IssueReceiptComponent },
   { path: 'deliveryReceipt', component: DeliveryReceiptComponent },
   { path: 'truckReceipt', component: TruckReceiptComponent },
-  { path: 'stockReceiptRegister', component: StockReceiptRegisterComponent },
-  { path: 'stockIssueRegister', component: StockIssueRegisterComponent },
-  { path: 'truckMemoRegister', component: TruckMemoRegisterComponent },
-  { path: 'deliveryOrderRegister', component: DeliveryOrderRegisterComponent },
+  { path: 'Stock Receipt Register', component: StockReceiptRegisterComponent },
+  { path: 'Stock Issue Register', component: StockIssueRegisterComponent },
+  { path: 'Truck Memo Register', component: TruckMemoRegisterComponent },
+  { path: 'Delivery Order Register', component: DeliveryOrderRegisterComponent },
+  { path: 'Commodity Receipt', component: CommodityReceiptComponent },
+  { path: 'Scheme Receipt', component: SchemeReceiptComponent },
+  { path: 'Transaction Receipt', component: TransactionReceiptComponent },
+  { path: 'Commodity Issuememo', component: CommodityIssueMemoComponent },
+  { path: 'Scheme Issuememo', component: SchemeIssueMemoComponent },
+  { path: 'Writeoff', component: WriteOffComponent },
+  { path: 'Hulling Details', component: HullingDetailsComponent},
   { path: '**', component: PageNotFoundComponent }
   
 ];

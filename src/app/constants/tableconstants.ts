@@ -21,6 +21,15 @@ export class TableConstants {
   StockIssueRegisterReport: any;
   TruckMemoRegisterReport: any;
   DeliveryMemoRegisterReport: any;
+  CommodityReceiptReport: any;
+  SchemeReceiptReport: any;
+  TransactionReceiptReport: any;
+  CommodityIssueMemoReport: any;
+  SchemeIssueMemoReport: any;
+  WriteoffReport: any;
+  HullingDetailsReport: any;
+  TruckToRegionReport: any;
+  TruckFromRegionReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -211,5 +220,103 @@ export class TableConstants {
       { "field": 'balance', "header": 'Balance' },
       { "field": 'margin', "header": 'Margin' }
     ];
+
+    this.CommodityReceiptReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'scheme', "header": 'SCHEME'},
+      { "field": 'AckNo', "header": 'Ack. No'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": '', "header": 'BAGS/NOS'},
+      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'recdFrom', "header": 'RECD FROM'},
+      { "field": 'lorryNo', "header": 'LORRY NO'},
+      { "field": 'tMemoMC', "header": 'T.MEMO.MC'},
+      { "field": 'tMemoDt', "header": 'T.MEMO.DT'},
+      { "field": 'orderNo', "header": 'Order.No'}
+    ];
+
+    this.SchemeReceiptReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'scheme', "header": 'SCHEME'},
+      { "field": 'AckNo', "header": 'Ack. No'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'recdFrom', "header": 'RECD FROM'},
+      { "field": 'tMemoNo', "header": 'T.MEMO.NO'},
+      { "field": 'lorryNo', "header": 'LORRY NO'}
+    ];
+
+    this.TransactionReceiptReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'transaction', "header": 'TRANSACTION'},
+      { "field": 'quantity', "header": 'QUANTITY'}
+    ];
+
+    this.CommodityIssueMemoReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'scheme', "header": 'SCHEME'},
+      { "field": 'AckNo', "header": 'I.MEMO NO'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'ISSUEDtO', "header": 'ISSUED TO'},
+      { "field": 'lorryNo', "header": 'LORRY NO'},
+      { "field": 'lorryNo', "header": 'Stack No'}
+    ];
+
+    this.SchemeIssueMemoReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'scheme', "header": 'SCHEME'},
+      { "field": 'AckNo', "header": 'I.MEMO NO'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'ISSUEDtO', "header": 'ISSUED TO'}
+    ];
+
+    this.WriteoffReport = [
+      { "field": 'godown', "header": 'GODOWN'},
+      { "field": 'date', "header": 'DATE'},
+      { "field": 'issueNo', "header": 'ISSUE NO'},
+      { "field": 'commodity', "header": 'COMMODITY'},
+      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'stackNo', "header": 'Stack No'},
+      { "field": 'remarks', "header": 'REMARKS'}
+    ];
+
+    this.HullingDetailsReport = [
+      { "field": 'AckNo', "header": 'Ack. No'},
+      { "field": 'date', "header": 'Date'},
+      { "field": 'commodity', "header": 'Commodity'},
+      { "field": 'depositor', "header": 'Depositor'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'quantity', "header": 'Quantity'}
+    ];
+
+    this.TruckToRegionReport = [
+      { "field": 'truckMemo', "header": 'Truck Memo'},
+      { "field": 'date', "header": 'Date'},
+      { "field": 'godown', "header": 'Godown'},
+      { "field": 'region', "header": 'Region'},
+      { "field": 'commodity', "header": 'Commodity'},
+      { "field": 'scheme', "header": 'Scheme'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'quantity', "header": 'Quantity'},
+      { "field": 'docnoL', "header": 'Docno./L'}
+    ];
+
+    this.TruckFromRegionReport = [
+      { "field": 'AckNo', "header": 'Ack. No'},
+      { "field": 'date', "header": 'Date'},
+      { "field": 'type', "header": 'Type'},
+      { "field": 'depositor', "header": 'Depositor'},
+      { "field": 'commodity', "header": 'Commodity'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'quantity', "header": 'Quantity'}
+    ]
   }
 }
