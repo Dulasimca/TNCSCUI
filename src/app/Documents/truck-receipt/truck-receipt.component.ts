@@ -13,7 +13,7 @@ export class TruckReceiptComponent implements OnInit {
   itemData: any;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,) { 
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
 

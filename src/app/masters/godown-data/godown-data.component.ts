@@ -26,7 +26,7 @@ export class GodownDataComponent implements OnInit {
     private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.GodownMasterData;
     this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((response: any[]) => {
       let treeData = [];

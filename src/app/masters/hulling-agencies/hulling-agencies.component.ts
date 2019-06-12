@@ -26,7 +26,7 @@ export class HullingAgenciesComponent implements OnInit {
   
   ngOnInit() 
    {
-      this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+      this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.column = this.tableConstants.HullingAgenciesData;
       this.restApiService.get(PathConstants.HULLING_AGENCIES).subscribe((response: any[]) => {
         if(response!==undefined){

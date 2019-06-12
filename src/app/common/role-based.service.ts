@@ -17,8 +17,11 @@ export class RoleBasedService {
         if (RoleBasedService.instance === undefined) {
             RoleBasedService.instance = [];
         this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
-            res.forEach(value => {
-                RoleBasedService.instance.push({'Name': value.Name, 'Code': value.Code});
+            res.forEach(x => {
+                let godownList = x.list;
+                godownList.forEach(value => {
+                RoleBasedService.instance.push({'GName': value.Name, 'GCode': value.GCode});
+            });
             });
        });
        return RoleBasedService.instance;

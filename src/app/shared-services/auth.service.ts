@@ -68,16 +68,6 @@ export class AuthService {
    return false;
   }
 
-  public canShowMenu() {
-    let getInfo = localStorage.getItem('USER_INFO');
-    let roleId = localStorage.getItem('ID');
-    let menu = localStorage.getItem('MENU');
-   if(getInfo !== null && roleId !== null && menu !== null) {
-    return true;
-   }
-   return false;
-  }
-
   public checkLoggedInUserId() {
     let roleId = localStorage.getItem('ID');
     if (roleId !== undefined && roleId !== '') {

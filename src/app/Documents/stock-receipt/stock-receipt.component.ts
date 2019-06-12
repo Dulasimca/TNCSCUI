@@ -14,7 +14,7 @@ export class StockReceiptComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.itemCol = [
       { field: 'Stack No.', header:'StackNo' },
       { field: 'Item Description', header:'ItemDesc' },

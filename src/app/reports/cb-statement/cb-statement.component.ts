@@ -24,7 +24,7 @@ export class CBStatementComponent implements OnInit {
 
   ngOnInit() {
     this.rowGroupMetadata = {};
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
     this.restApiService.get(PathConstants.CB_STATEMENT).subscribe(response => {
       if ((response.Table !== undefined && response.Table !== null && response.Table.length !== 0) &&

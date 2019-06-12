@@ -12,11 +12,11 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
           <label class="ui-g-7 dashboard">From Date:</label>
-          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"  [maxDate]="maxDate" (onSelect)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-2">
           <label class="ui-g-7 dashboard">To Date:</label>
-          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true"></p-calendar>
+          <p-calendar class="ui-g-8 ui-fluid dashboard" [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true" (onSelect)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
           <span class="ui-float-label">
