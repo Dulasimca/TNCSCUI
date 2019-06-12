@@ -7,6 +7,7 @@ import { HttpParams } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-stock-receipt-register',
@@ -27,7 +28,8 @@ export class StockReceiptRegisterComponent implements OnInit {
   canShowMenu: boolean;
   isShowErr: boolean;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.isViewDisabled = this.isActionDisabled = true;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.data = this.roleBasedService.getInstance();
-    this.maxDate = new Date;
+    this.maxDate = new Date();
   }
 
   onSelect() {
@@ -57,6 +59,8 @@ export class StockReceiptRegisterComponent implements OnInit {
       this.stockReceiptRegData = res;
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
+      } else {
+        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
     })
   }
@@ -88,5 +92,9 @@ export class StockReceiptRegisterComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
+  exportAsXLSX():void{
+    this.excelService.exportAsExcelFile(this.stockReceiptRegData, 'STOCK_ISSUE_REGISTER',this.stockReceiptRegCols);
+}
 
 }

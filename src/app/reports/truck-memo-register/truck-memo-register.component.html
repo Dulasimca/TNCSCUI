@@ -12,16 +12,16 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
           <label class="ui-g-7 dashboard">From Date:</label>
-          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-2">
           <label class="ui-g-7 dashboard">To Date:</label>
-          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true"></p-calendar>
+          <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
           <span class="ui-float-label">
-            <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
-            <label class="float-input">TruckMemo</label>
+            <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"></p-dropdown>
+            <label class="float-input">Godown Name</label>
           </span>
         </div>
         <!-- <div class="ui-g-1"></div> -->
@@ -32,11 +32,11 @@
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
         </div>
         <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-          <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+          <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
         </div>
         <div class="ui-g-2"></div>
         <div class="ui-g-12">
-          <p-table [columns]="TruckMemoRegCols" [value]="TruckMemoRegData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+          <p-table [columns]="truckMemoRegCols" [value]="truckMemoRegData" [resizableColumns]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">
