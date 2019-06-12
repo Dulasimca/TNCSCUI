@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
@@ -16,19 +16,19 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 export class StockReceiptRegisterComponent implements OnInit {
   stockReceiptRegCols: any;
   stockReceiptRegData: any;
-  fromDate: Date;
-  toDate: Date;
+  fromDate: any;
+  toDate: any;
   godownOptions: SelectItem[];
-  godownName: string;
-  g_cd = '548';
+  g_cd: any;
   data: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
-  
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private authService: AuthService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  isShowErr: boolean;
+
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -41,42 +41,52 @@ export class StockReceiptRegisterComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-    && this.g_cd !== '' && this.g_cd !== undefined) {
-    this.isViewDisabled = false;
+      && this.g_cd !== '' && this.g_cd !== undefined) {
+      this.isViewDisabled = false;
     }
     this.data.forEach(x => {
-      options.push({'label': x.GName, 'value': x.GCode});
+      options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });
   }
 
   onView() {
     this.checkValidDateSelection();
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate,'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate,'MM-dd-yyyy')).append('GCode', this.g_cd);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       this.stockReceiptRegData = res;
-      if(res !== undefined) {
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       }
-      console.log('res', res);
     })
   }
 
   onDateSelect() {
-   this.checkValidDateSelection();
+    this.checkValidDateSelection();
+    if (this.fromDate !== undefined && this.toDate !== undefined
+      && this.g_cd !== '' && this.g_cd !== undefined) {
+      this.isViewDisabled = false;
+    }
   }
 
   checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined) {
-    let selectedFromMonth = this.fromDate.getMonth();
-    let selectedToMonth = this.toDate.getMonth();
-    let selectedFromYear = this.fromDate.getFullYear();
-    let selectedToYear = this.toDate.getFullYear();
-    if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-      this.fromDate = null;
-      this.toDate = null;
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          this.isShowErr = true;
+          this.fromDate = this.toDate = '';
+        } else if (selectedFromDate >= selectedToDate) {
+          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
+        }
+      return this.fromDate, this.toDate;
     }
-  }
   }
 
 }
