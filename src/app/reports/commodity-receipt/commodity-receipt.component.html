@@ -25,9 +25,9 @@
               <p-checkbox class="ui-g-2" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
               <label class="ui-g-8" style="font-size: small">Item Selection</label>
             </div>
-          <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
+          <div class="ui-g-2" style="padding-left: 30px">
             <label class="ui-g-7 dashboard">From</label>
-            <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+            <p-calendar class="ui-g-9 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
           </div>
           <div class="ui-g-2">
             <label class="ui-g-7 dashboard">To</label>
@@ -43,7 +43,7 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="Cols" [value]="TruckMemoRegData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+            <p-table [columns]="CommodityReceiptCols" [value]="CommodityReceiptData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">
