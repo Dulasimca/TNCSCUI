@@ -14,7 +14,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
   templateUrl: './commodity-receipt.component.html',
   styleUrls: ['./commodity-receipt.component.css']
 })
-export class CommodityReceiptComponent implements OnInit{
+export class CommodityReceiptComponent implements OnInit {
   CommodityReceiptCols: any;
   CommodityReceiptData: any;
   fromDate: any;
