@@ -21,5 +21,11 @@ export class PathConstants {
   public static readonly STOCK_ISSUE_REGISTER_REPORT = '/api/StockIssue/Post';
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemo/Get';
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrder/Get';
-  public static readonly COMMODITY_RECEIPT_REPORT = '';
+  public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
+  public static readonly COMMODITY_RECEIPT_REPORT = '/api/CommodityReceipt/Post';
+  public static readonly SCHEME_ISSUE_MEMO_REPORT = '/api/CommodityReceipt/Post';
+  public static readonly COMMODITY_ISSUE_MEMO_REPORT = '/api/CommodityIssueMemo/Post';
+  public static readonly TRANSACTION_RECEIPT_REPORT = '/api/TrancactioReceipt/Post';
+  public static readonly SCHEME_RECEIPT_REPORT = '/api/SchemeReceipt/Post';
+  public static readonly HULLING_DETAILS = '/api/HullingDetails/Get';
 }
