@@ -58,7 +58,7 @@ export class DeliveryReceiptComponent implements OnInit {
   constructor(private tableConstants: TableConstants,private restApiService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;

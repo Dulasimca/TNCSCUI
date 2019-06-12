@@ -25,7 +25,7 @@ export class SchemesComponent implements OnInit {
   constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.canShowMenu = (this.authService.canShowMenu()) ? this.authService.canShowMenu() : false;
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.SchemeData;
     this.restApiService.get(PathConstants.SCHEMES).subscribe((response: any[]) => {
       if (response !== undefined)
