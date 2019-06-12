@@ -191,13 +191,13 @@ export class TableConstants {
 
     this.TruckMemoRegisterReport = [
       { "field": 'Truck_Memono', "header": 'Truck Memo No' },
-      { "field": 'MoNo', "header": 'Mo.No' },
+      { "field": 'Mono', "header": 'Mo.No' },
       { "field": 'Issue_Date', "header": 'Date' },
       { "field": 'RoNo', "header": 'Ro.No' },
       { "field": 'To_Whom_Issued', "header": 'To Whom Issued' },
-      { "field": 'StackNo', "header": 'Stack No' },
+      { "field": 'Stackno', "header": 'Stack No' },
       { "field": 'Scheme', "header": 'Scheme' },
-      { "field": 'NoPacking', "header": 'No Packing' },
+      { "field": 'NoBags', "header": 'No Packing' },
       { "field": 'Commodity', "header": 'Commodity' },
       { "field": 'NetWt', "header": 'Net Wt' },
     ];
