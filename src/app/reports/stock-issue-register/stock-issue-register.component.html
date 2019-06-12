@@ -26,7 +26,7 @@
         </div>
         <!-- <div class="ui-g-1"></div> -->
         <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+          <button pButton type="button" label=View (click)="onView(); table.reset()" [disabled]="isViewDisabled"></button>
         </div>
         <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
@@ -36,7 +36,7 @@
         </div>
         <div class="ui-g-2"></div>
         <div class="ui-g-12">
-          <p-table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+          <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">

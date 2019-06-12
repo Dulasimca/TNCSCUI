@@ -29,7 +29,7 @@ export class RestAPIService {
   }
 
   post(url, obj): Observable<any> {
-    return this.httpClient.post(this.BASEURL + url, obj, this.HttpOptions);
+    return this.httpClient.post(this.BASEURL + url, obj);
   }
 
   getByParameters(url, params): Observable<any> {

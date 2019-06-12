@@ -177,16 +177,16 @@ export class TableConstants {
     ];
 
     this.StockIssueRegisterReport = [
-      { "field": 'issueMemoNo', "header": 'Issue Memo No' },
-      { "field": 'doNo', "header": 'Do No' },
-      { "field": 'date', "header": 'Date' },
-      { "field": 'lorryNo', "header": 'Lorry No' },
-      { "field": 'toWhomIssued', "header": 'To Whom Issued' },
-      { "field": 'stackNo', "header": 'Stack No' },
-      { "field": 'scheme', "header": 'Scheme' },
-      { "field": 'noPacking', "header": 'No Packing' },
-      { "field": 'commodity', "header": 'Commodity' },
-      { "field": 'netWt', "header": 'Net Wt' },
+      { "field": 'Issue_Memono', "header": 'Issue Memo No' },
+      { "field": 'DNo', "header": 'Do No' },
+      { "field": 'Issue_Date', "header": 'Date' },
+      { "field": 'Lorryno', "header": 'Lorry No' },
+      { "field": 'To_Whom_Issued', "header": 'To Whom Issued' },
+      { "field": 'Stackno', "header": 'Stack No' },
+      { "field": 'Scheme', "header": 'Scheme' },
+      { "field": 'NoPacking', "header": 'No Packing' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'NetWt', "header": 'Net Wt' },
     ];
 
     this.TruckMemoRegisterReport = [
