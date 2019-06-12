@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -14,7 +14,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
   templateUrl: './commodity-receipt.component.html',
   styleUrls: ['./commodity-receipt.component.css']
 })
-export class CommodityReceiptComponent implements OnInit{
+export class CommodityReceiptComponent implements OnInit {
   CommodityReceiptCols: any;
   CommodityReceiptData: any;
   fromDate: any;
@@ -23,12 +23,12 @@ export class CommodityReceiptComponent implements OnInit{
   isActionDisabled: any;
   data: any;
   g_cd = '548';
-  truckOptions: SelectItem[];
+  godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
+  maxDate: Date;
 
-
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -36,27 +36,56 @@ export class CommodityReceiptComponent implements OnInit{
     this.CommodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
     console.log('data', this.data);
+    this.maxDate = new Date();
   }
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.fromDate !== '' && this.toDate !== undefined && this.toDate !== '' && this.g_cd !== '' && this.g_cd !== undefined) {
+    if (this.fromDate !== undefined && this.toDate !== undefined
+      && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
     this.data.forEach(x => {
-      options.push({ 'label': x.Name, 'value': x.Code });
-      this.truckOptions = options;
+      options.push({ 'label': x.GName, 'value': x.GCode });
+      this.godownOptions = options;
     });
   }
 
   onView() {
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-DD-YYYY')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-DD-YYYY')).append('GCode', this.g_cd);
+    this.checkValidDateSelection();
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      if (res !== undefined) {
+      this.CommodityReceiptData = res;
+      if (res !== undefined && this.CommodityReceiptData.length !== 0) {
         this.isActionDisabled = false;
+      } else {
+        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      console.log('res', res);
     })
+  }
+  onDateSelect() {
+    this.checkValidDateSelection();
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+      this.isViewDisabled = false;
+    }
+  }
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          this.fromDate = this.toDate = '';
+        } else if (selectedFromDate >= selectedToDate) {
+          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
+        }
+      return this.fromDate, this.toDate;
+    }
   }
 
   exportAsXLSX():void{
