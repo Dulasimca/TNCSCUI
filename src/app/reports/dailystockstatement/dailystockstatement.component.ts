@@ -37,7 +37,7 @@ export class DailyStockStatementComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
     this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
-    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_REPORT).subscribe(itemCodes => {
+    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
         for (let c = 0; c < itemCodes.length; c++) {
           this.ITCODE1 = itemCodes[c].ITCode;
@@ -45,7 +45,7 @@ export class DailyStockStatementComponent implements OnInit {
           c = c + 1;
           var index = 1;
           let params = new HttpParams().set('ITCode1', this.ITCODE1).append('ITCode2', this.ITCODE2);
-          this.restApiService.getByParameters(PathConstants.DAILY_STOCK_STATEMENT, params).subscribe((response: any[]) => {
+          this.restApiService.getByParameters(PathConstants.DAILY_STOCK_STATEMENT_REPORT, params).subscribe((response: any[]) => {
             let childNode: TreeNode;
             let regionChildNode: TreeNode;
             let regionData = [];

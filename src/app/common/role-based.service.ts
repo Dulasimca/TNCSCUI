@@ -41,8 +41,6 @@ export class RoleBasedService {
             });
         }
         return this.instance;
-
-
     }
 
 }
