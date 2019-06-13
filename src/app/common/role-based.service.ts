@@ -16,8 +16,8 @@ export class RoleBasedService {
 
     getInstance() {
         let roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-        let gCode = JSON.parse(this.authService.getUserAccessible().gCode);
-        let rCode = JSON.parse(this.authService.getUserAccessible().rCode);
+        let gCode = this.authService.getUserAccessible().gCode;
+        let rCode = this.authService.getUserAccessible().rCode;
         let godownList;
         if (RoleBasedService.instance === undefined) {
             RoleBasedService.instance = [];
