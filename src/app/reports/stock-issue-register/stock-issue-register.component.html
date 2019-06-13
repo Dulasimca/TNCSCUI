@@ -9,6 +9,7 @@
     </p-header>
     <div class="ui-g">
       <div style="text-align: center">
+        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
         <div class="ui-g-2"></div>
         <div class="ui-g-2" style="padding-left: 0px;padding-right: 0px">
           <label class="ui-g-7 dashboard">From Date:</label>
@@ -36,7 +37,7 @@
         </div>
         <div class="ui-g-2"></div>
         <div class="ui-g-12">
-          <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
+          <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [totalRecords]="totalRecords" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">
