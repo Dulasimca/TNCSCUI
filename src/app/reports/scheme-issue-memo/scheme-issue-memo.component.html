@@ -11,7 +11,7 @@
         <div style="text-align: center">
           <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
             <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
+              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"></p-dropdown>
               <label class="float-input">Godown</label>
             </span>
           </div>

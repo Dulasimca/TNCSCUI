@@ -46,17 +46,21 @@ export class CommodityReceiptComponent implements OnInit {
 
     switch (item) {
       case 'gd':
-        this.data.forEach(x => {
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
           this.godownOptions = godownSelection;
         });
+      }
         break;
       case 'tr':
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+          if(data !== undefined) {
           data.forEach(y => {
             transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
             this.transactionOptions = transactionSelection;
           });
+        }
         })
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
@@ -67,7 +71,7 @@ export class CommodityReceiptComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
-    const params = {
+    const params = { 
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.g_cd,
