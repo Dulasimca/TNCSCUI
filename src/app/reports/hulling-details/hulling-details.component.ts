@@ -33,7 +33,7 @@ export class HullingDetailsComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.HullingDetailsCols = this.tableConstants.WriteoffReport;
+    this.HullingDetailsCols = this.tableConstants.HullingDetailsReport;
     this.data = this.roleBasedService.getInstance();
     console.log('data', this.data);
     this.maxDate = new Date();
