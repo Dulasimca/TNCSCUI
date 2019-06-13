@@ -30,7 +30,7 @@ export class CommodityIssueMemoComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -46,17 +46,21 @@ export class CommodityIssueMemoComponent implements OnInit {
 
     switch (item) {
       case 'gd':
-        this.data.forEach(x => {
-          godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-          this.godownOptions = godownSelection;
-        });
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
         break;
       case 'cd':
         this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          if (data !== undefined) {
           data.forEach(y => {
             commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
             this.commodityOptions = commoditySelection;
           });
+        }
         })
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
@@ -87,7 +91,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' &&
-     this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
+      this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
       this.isViewDisabled = false;
     }
   }
@@ -100,13 +104,13 @@ export class CommodityIssueMemoComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
-        }
+      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        this.fromDate = this.toDate = '';
+      } else if (selectedFromDate >= selectedToDate) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
+      }
       return this.fromDate, this.toDate;
     }
   }
@@ -116,7 +120,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'Truck_Memo',this.commodityIssueMemoCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'Truck_Memo', this.commodityIssueMemoCols);
+  }
 }
