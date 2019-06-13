@@ -73,6 +73,8 @@ import { CommodityIssueMemoComponent } from './reports/commodity-issue-memo/comm
 import { SchemeIssueMemoComponent } from './reports/scheme-issue-memo/scheme-issue-memo.component';
 import { WriteOffComponent } from './reports/write-off/write-off.component';
 import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
+import { TruckToRegionComponent } from './reports/TransferAc/truck-to-region/truck-to-region.component';
+import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region/truck-from-region.component';
 
 
 @NgModule({
@@ -113,7 +115,9 @@ import { HullingDetailsComponent } from './reports/hulling-details/hulling-detai
     CommodityIssueMemoComponent,
     SchemeIssueMemoComponent,
     WriteOffComponent,
-    HullingDetailsComponent
+    HullingDetailsComponent,
+    TruckToRegionComponent,
+    TruckFromRegionComponent
   ],
   imports: [
     BrowserModule,
