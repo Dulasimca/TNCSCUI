@@ -15,15 +15,17 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./commodity-issue-memo.component.css']
 })
 export class CommodityIssueMemoComponent implements OnInit {
-  CommodityIssueMemoCols: any;
-  CommodityIssueMemoData: any;
+  commodityIssueMemoCols: any;
+  commodityIssueMemoData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
+  c_cd: any;
   godownOptions: SelectItem[];
+  commodityOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
@@ -33,42 +35,63 @@ export class CommodityIssueMemoComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.CommodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
+    this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
+  onSelect(item) {
+    let godownSelection = [];
+    let commoditySelection = [];
+
+    switch (item) {
+      case 'gd':
+        this.data.forEach(x => {
+          godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+          this.godownOptions = godownSelection;
+        });
+        break;
+      case 'cd':
+        this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          data.forEach(y => {
+            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+            this.commodityOptions = commoditySelection;
+          });
+        })
+    }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd !== '' && this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
       this.isViewDisabled = false;
     }
-    this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
   }
 
   onView() {
     this.checkValidDateSelection();
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.CommodityIssueMemoData = res;
-      if (res !== undefined && this.CommodityIssueMemoData.length !== 0) {
+    const params = {
+      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'GCode': this.g_cd,
+      'TRCode': this.c_cd
+    }
+    this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
+      this.commodityIssueMemoData = res;
+      if (res !== undefined && this.commodityIssueMemoData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
     })
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+    this.onResetTable();
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' &&
+     this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
       this.isViewDisabled = false;
     }
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -78,17 +101,22 @@ export class CommodityIssueMemoComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
           this.fromDate = this.toDate = '';
         } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
       return this.fromDate, this.toDate;
     }
   }
 
+  onResetTable() {
+    this.commodityIssueMemoData = [];
+    this.isActionDisabled = true;
+  }
+
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.CommodityIssueMemoData, 'Truck_Memo',this.CommodityIssueMemoCols);
+    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'Truck_Memo',this.commodityIssueMemoCols);
 }
 }
