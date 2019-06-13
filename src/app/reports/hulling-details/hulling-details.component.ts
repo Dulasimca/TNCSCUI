@@ -29,7 +29,10 @@ export class HullingDetailsComponent implements OnInit {
   maxDate: Date;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
+     private messageService: MessageService, private authService: AuthService,
+      private excelService: ExcelService, private restAPIService: RestAPIService,
+       private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

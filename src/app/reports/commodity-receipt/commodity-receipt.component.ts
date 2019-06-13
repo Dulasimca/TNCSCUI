@@ -15,57 +15,78 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./commodity-receipt.component.css']
 })
 export class CommodityReceiptComponent implements OnInit {
-  CommodityReceiptCols: any;
-  CommodityReceiptData: any;
+  commodityReceiptCols: any;
+  commodityReceiptData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
+  tr_cd: any;
   godownOptions: SelectItem[];
+  transactionOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.CommodityReceiptCols = this.tableConstants.CommodityReceiptReport;
+    this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
+  onSelect(item) {
+    let godownSelection = [];
+    let transactionSelection = [];
+
+    switch (item) {
+      case 'gd':
+        this.data.forEach(x => {
+          godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+          this.godownOptions = godownSelection;
+        });
+        break;
+      case 'tr':
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+          data.forEach(y => {
+            transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+            this.transactionOptions = transactionSelection;
+          });
+        })
+    }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
       this.isViewDisabled = false;
     }
-    this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
   }
 
   onView() {
     this.checkValidDateSelection();
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.CommodityReceiptData = res;
-      if (res !== undefined && this.CommodityReceiptData.length !== 0) {
+    const params = {
+      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'GCode': this.g_cd,
+      'TRCode': this.tr_cd
+    }
+    this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
+      this.commodityReceiptData = res;
+      if (res !== undefined && this.commodityReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
     })
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+    this.onResetTable();
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined
+    && this.tr_cd !== undefined && this.tr_cd !== '') {
       this.isViewDisabled = false;
     }
   }
@@ -77,18 +98,23 @@ export class CommodityReceiptComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
-        }
+      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+        this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        this.fromDate = this.toDate = '';
+      } else if (selectedFromDate >= selectedToDate) {
+        this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
+      }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.CommodityReceiptData, 'Truck_Memo',this.CommodityReceiptCols);
-}
+  onResetTable() {
+    this.commodityReceiptData = [];
+    this.isActionDisabled = true;
+  }
+
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.commodityReceiptData, 'Truck_Memo', this.commodityReceiptCols);
+  }
 }

@@ -10,7 +10,7 @@ import { AuthService } from '../shared-services/auth.service';
 })
 
 export class RoleBasedService {
-    static instance?: any;
+     instance?: any;
 
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
@@ -19,8 +19,8 @@ export class RoleBasedService {
         let gCode = this.authService.getUserAccessible().gCode;
         let rCode = this.authService.getUserAccessible().rCode;
         let godownList;
-        if (RoleBasedService.instance === undefined) {
-            RoleBasedService.instance = [];
+        if (this.instance === undefined) {
+            this.instance = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
                 res.forEach(x => {
                     if (roleId === 1) {
@@ -35,12 +35,13 @@ export class RoleBasedService {
                         }
                     }
                     godownList.forEach(value => {
-                        RoleBasedService.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
+                        this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
                     });
                 });
             });
-            return RoleBasedService.instance;
         }
+        return this.instance;
+
 
     }
 
