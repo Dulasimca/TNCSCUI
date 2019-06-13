@@ -4,25 +4,25 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">DATE WISE RECEIPT TRANSACTION</div>
+        <div class="ui-g-4 dashboard">DATE WISE COMMODITY WISE ISSUE</div>
       </div>
     </p-header>
       <div class="ui-g">
         <div style="text-align: center">
           <div class="ui-g-1"></div>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
+          <div class="ui-g-2 ui-fluid" style="padding-top: 28px">
             <span class="ui-float-label">
               <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
               <label class="float-input">Godown</label>
             </span>
           </div>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
+          <div class="ui-g-2 ui-fluid" style="padding-top: 28px">
             <span class="ui-float-label">
               <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
               <label class="float-input">Commodity</label>
             </span>
           </div>
-          <div class="ui-g-2" style="padding-left: 25px">
+          <div class="ui-g-2" style="padding-left: 40px">
             <label class="ui-g-7 dashboard">From</label>
             <p-calendar class="ui-g-9 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
           </div>
@@ -38,6 +38,22 @@
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-3"></div>
+            <div class="ui-g-2 ui-fluid">
+                <p-checkbox class="ui-g-2" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                <label class="ui-g-3">Check3</label>
+              </div>
+              <div class="ui-g-2 ui-fluid">
+                <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                <label class="ui-g-8">Issued to Godown</label>
+              </div>
+              <div class="ui-g-2 ui-fluid">
+                <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+                <label class="ui-g-8">Issued to Depositor</label>
+              </div>
+              <div class="ui-g-3"></div>
           </div>
           <div class="ui-g-12">
             <p-table [columns]="CommodityIssueMemoCols" [value]="CommodityIssueMemoData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
