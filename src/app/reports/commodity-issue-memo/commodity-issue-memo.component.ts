@@ -56,11 +56,11 @@ export class CommodityIssueMemoComponent implements OnInit {
       case 'cd':
         this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
           if (data !== undefined) {
-          data.forEach(y => {
-            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-            this.commodityOptions = commoditySelection;
-          });
-        }
+            data.forEach(y => {
+              commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+              this.commodityOptions = commoditySelection;
+            });
+          }
         })
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
@@ -121,6 +121,6 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'Truck_Memo', this.commodityIssueMemoCols);
+    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 }
