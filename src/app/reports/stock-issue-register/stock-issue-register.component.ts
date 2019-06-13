@@ -132,6 +132,6 @@ export class StockIssueRegisterComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.stockIssueRegData, 'Truck_Memo', this.stockIssueRegCols);
+    this.excelService.exportAsExcelFile(this.stockIssueRegData, 'Stock_Issue', this.stockIssueRegCols);
   }
 }
