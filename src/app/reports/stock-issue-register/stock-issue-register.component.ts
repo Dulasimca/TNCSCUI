@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 })
 export class StockIssueRegisterComponent implements OnInit {
   stockIssueRegCols: any;
-  stockIssueRegData: any[];
+  stockIssueRegData: any = [];
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
@@ -33,6 +33,7 @@ export class StockIssueRegisterComponent implements OnInit {
   position: any = 1;
   loading: boolean;
   canFetch: boolean;
+  totalRecords: number;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -73,7 +74,6 @@ export class StockIssueRegisterComponent implements OnInit {
     }
     if (this.canFetch) {
       this.loading = true;
-      this.stockIssueRegData = [];
       this.restAPIService.post(PathConstants.STOCK_ISSUE_REGISTER_REPORT, params).subscribe(res => {
         if (res !== undefined && res.length !== 0) {
           this.loading = false;
@@ -84,8 +84,9 @@ export class StockIssueRegisterComponent implements OnInit {
               'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt
             });
           });
-          this.stockIssueRegData = this.record.slice(0);
-          if (res.length === this.recordRange) {
+          this.totalRecords = this.record.length;
+          this.stockIssueRegData = this.record;
+          if (res.length === this.recordRange && this.totalRecords > 0) {
             this.canFetch = true;
             this.position += 1;
             this.startIndex = this.recordRange;
@@ -96,7 +97,7 @@ export class StockIssueRegisterComponent implements OnInit {
           this.isActionDisabled = false;
         } else {
           this.loading = false;
-          this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
       })
     }
@@ -129,11 +130,6 @@ export class StockIssueRegisterComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-
-  // tableReset() {
-  //   this.stockIssueRegData = [];
-  //   this.canFetch = true;
-  // }
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.stockIssueRegData, 'Truck_Memo', this.stockIssueRegCols);
