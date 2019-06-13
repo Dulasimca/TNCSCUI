@@ -93,6 +93,6 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'Truck_Memo',this.deliveryReceiptRegCols);
+    this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
 }
 }

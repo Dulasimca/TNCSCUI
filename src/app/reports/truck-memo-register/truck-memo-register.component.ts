@@ -93,6 +93,6 @@ export class TruckMemoRegisterComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.truckMemoRegData, 'Truck_Memo',this.truckMemoRegCols);
+    this.excelService.exportAsExcelFile(this.truckMemoRegData, 'TRUCK_MEMO_REGISTER_REPORT',this.truckMemoRegCols);
 }
 }
