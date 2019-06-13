@@ -56,10 +56,12 @@ export class StockIssueRegisterComponent implements OnInit {
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
-    this.data.forEach(x => {
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });
+  }
   }
 
   onView() {

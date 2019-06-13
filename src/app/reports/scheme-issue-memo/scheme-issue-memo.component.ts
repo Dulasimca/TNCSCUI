@@ -22,7 +22,7 @@ export class SchemeIssueMemoComponent implements OnInit {
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
@@ -45,10 +45,12 @@ export class SchemeIssueMemoComponent implements OnInit {
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
-    this.data.forEach(x => {
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });
+  }
   }
 
   onView() {

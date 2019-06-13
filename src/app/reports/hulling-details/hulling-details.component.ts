@@ -30,9 +30,9 @@ export class HullingDetailsComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-     private messageService: MessageService, private authService: AuthService,
-      private excelService: ExcelService, private restAPIService: RestAPIService,
-       private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService,
+    private excelService: ExcelService, private restAPIService: RestAPIService,
+    private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -48,10 +48,12 @@ export class HullingDetailsComponent implements OnInit {
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
-    this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
