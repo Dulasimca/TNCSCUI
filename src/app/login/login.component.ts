@@ -18,6 +18,8 @@ import { MessageService } from 'primeng/api';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   roleId: number;
+  godownCode: any;
+  regionCode: any;
   openPanel: boolean;
   userName: string;
   password: any;
@@ -55,13 +57,14 @@ export class LoginComponent implements OnInit {
       if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd.toLowerCase()) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
+        this.godownCode = credentials[0].GodownCode;
+        this.regionCode = credentials[0].Regioncode;
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
-        this.authService.login(this.loginForm.value, this.roleId);
+        this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
       } else {
         this.clearFields();
         this.messageService.add({severity:'error', summary:'Error!', detail:'Validation Failed!'});
-        console.log('invalid user');
       }
     }
     });

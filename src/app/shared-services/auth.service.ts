@@ -31,11 +31,13 @@ export class AuthService {
     localStorage.setItem('MENU', JSON.stringify(data));
   }
 
-   public login(userInfo: User, id) {
+   public login(userInfo: User, id, g_cd, r_cd) {
      if (userInfo !== undefined && id !== undefined) {
        this.isSignedIn = true;
        localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
        localStorage.setItem('ID', id);
+       localStorage.setItem('GCODE', g_cd);
+       localStorage.setItem('RCODE', r_cd);
      }
    }
 
@@ -75,10 +77,22 @@ export class AuthService {
     }
   }
 
+  public getUserAccessible() {
+    let roleId = localStorage.getItem('ID');
+    let gCode = localStorage.getItem('GCODE');
+    let rCode = localStorage.getItem('RCODE');
+    if (roleId !== undefined && roleId !== '' && gCode !== undefined && gCode !== ''
+    && rCode !== undefined && rCode !== '') {
+      return {roleId, gCode, rCode};
+    }
+  }
+
   public logout() {
     localStorage.removeItem('USER_INFO');
     localStorage.removeItem('ID');
     localStorage.removeItem('MENU');
+    localStorage.removeItem('GCODE');
+    localStorage.removeItem('RCODE');
     this.isSignedIn = false;
     this.router.navigateByUrl('');
   }
