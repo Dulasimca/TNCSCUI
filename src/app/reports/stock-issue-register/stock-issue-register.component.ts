@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -34,6 +33,7 @@ export class StockIssueRegisterComponent implements OnInit {
   loading: boolean;
   canFetch: boolean;
   totalRecords: number;
+  
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -91,10 +91,13 @@ export class StockIssueRegisterComponent implements OnInit {
             this.position += 1;
             this.startIndex = this.recordRange;
             this.recordRange += this.recordRange;
+            setTimeout(() => {
+            this.onView();
+          }, 500);
           } else {
             this.canFetch = false;
+            this.isActionDisabled = false;
           }
-          this.isActionDisabled = false;
         } else {
           this.loading = false;
           this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
@@ -103,8 +106,15 @@ export class StockIssueRegisterComponent implements OnInit {
     }
   }
 
+  onResetTable() {
+    this.record = [];
+    this.stockIssueRegData = [];
+    this.isActionDisabled = true;
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable();
     this.canFetch = true;
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined) {
@@ -131,7 +141,7 @@ export class StockIssueRegisterComponent implements OnInit {
     }
   }
 
-  exportAsXLSX(): void {
+  onExportExcel(): void {
     this.excelService.exportAsExcelFile(this.stockIssueRegData, 'Truck_Memo', this.stockIssueRegCols);
   }
 }

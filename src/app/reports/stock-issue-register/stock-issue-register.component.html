@@ -21,13 +21,13 @@
         </div>
         <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
           <span class="ui-float-label">
-            <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"></p-dropdown>
+            <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"></p-dropdown>
             <label class="float-input">Godown Name</label>
           </span>
         </div>
         <!-- <div class="ui-g-1"></div> -->
         <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-          <button pButton type="button" label=View (click)="onView(); table.reset()" [disabled]="isViewDisabled"></button>
+          <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
         </div>
         <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
@@ -37,7 +37,8 @@
         </div>
         <div class="ui-g-2"></div>
         <div class="ui-g-12">
-          <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [totalRecords]="totalRecords" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
+          <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [totalRecords]="totalRecords"
+           [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">
