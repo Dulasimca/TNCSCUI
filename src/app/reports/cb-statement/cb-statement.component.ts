@@ -26,7 +26,7 @@ export class CBStatementComponent implements OnInit {
     this.rowGroupMetadata = {};
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
-    this.restApiService.get(PathConstants.CB_STATEMENT).subscribe(response => {
+    this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
       if ((response.Table !== undefined && response.Table !== null && response.Table.length !== 0) &&
       (response.Table1 !== undefined && response.Table1 !== null && response.Table1.length !== 0)) {
         this.cbData = response.Table;

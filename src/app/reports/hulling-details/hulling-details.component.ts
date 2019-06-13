@@ -15,27 +15,27 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./hulling-details.component.css']
 })
 export class HullingDetailsComponent implements OnInit {
-  HullingDetailsCols: any;
-  HullingDetailsData: any;
+  hullingDetailsCols: any;
+  hullingDetailsData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.HullingDetailsCols = this.tableConstants.HullingDetailsReport;
+    this.hullingDetailsCols = this.tableConstants.HullingDetailsReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
@@ -54,21 +54,28 @@ export class HullingDetailsComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.HullingDetailsData = res;
-      if (res !== undefined && this.HullingDetailsData.length !== 0) {
+    this.restAPIService.getByParameters(PathConstants.HULLING_DETAILS_REPORT, params).subscribe(res => {
+      this.hullingDetailsData = res;
+      if (res !== undefined && this.hullingDetailsData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
     })
   }
+
+  onResetTable() {
+    this.hullingDetailsData = [];
+    this.isActionDisabled = true;
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -77,18 +84,18 @@ export class HullingDetailsComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
-        }
+      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        this.fromDate = this.toDate = '';
+      } else if (selectedFromDate >= selectedToDate) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
+      }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.HullingDetailsData, 'Write_Off',this.HullingDetailsCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.hullingDetailsData, 'Write_Off', this.hullingDetailsCols);
+  }
 }

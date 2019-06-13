@@ -14,9 +14,9 @@ export class PathConstants {
   public static readonly MENU = '/api/Menu/Get';
   public static readonly LOGIN = '/api/Users/Get';
   public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB';
-  public static readonly DAILY_STOCK_STATEMENT = '/api/DailyStatement/Get';
+  public static readonly DAILY_STOCK_STATEMENT_REPORT = '/api/DailyStatement/Get';
   public static readonly DAILY_STOCK_STATEMENT_ITEM_MASTER = '/api/ItemMaster';
-  public static readonly CB_STATEMENT = '/api/DailyCBStatement';
+  public static readonly CB_STATEMENT_REPORT = '/api/DailyCBStatement';
   public static readonly STOCK_RECEIPT_REGISTER_REPORT = '/api/StockReceipt/Get';
   public static readonly STOCK_ISSUE_REGISTER_REPORT = '/api/StockIssue/Post';
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemo/Get';
@@ -27,9 +27,9 @@ export class PathConstants {
   public static readonly COMMODITY_ISSUE_MEMO_REPORT = '/api/CommodityIssueMemo/Post';
   public static readonly TRANSACTION_RECEIPT_REPORT = '/api/TrancactioReceipt/Post';
   public static readonly SCHEME_RECEIPT_REPORT = '/api/SchemeReceipt/Post';
-  public static readonly HULLING_DETAILS = '/api/HullingDetails/Get';
-  public static readonly TRANSACTION = '/api/TransactionMaster';
+  public static readonly HULLING_DETAILS_REPORT = '/api/HullingDetails/Get';
+  public static readonly TRANSACTION_MASTER = '/api/TransactionMaster';
   public static readonly ITEM_MASTER = '/api/ItemMaster';
-  public static readonly TRUCK_TO_REGION = 'api/TruckToRegion/Get';
-  public static readonly TRUCK_FROM_REGION = '/api/TruckFromRegion/Get';
+  public static readonly TRUCK_TO_REGION_REPORT = 'api/TruckToRegion/Get';
+  public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
 }

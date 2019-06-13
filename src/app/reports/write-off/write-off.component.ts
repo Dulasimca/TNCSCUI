@@ -15,27 +15,27 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./write-off.component.css']
 })
 export class WriteOffComponent implements OnInit {
-  WriteoffCols: any;
-  WriteoffData: any;
+  writeoffCols: any;
+  writeoffData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.WriteoffCols = this.tableConstants.WriteoffReport;
+    this.writeoffCols = this.tableConstants.WriteoffReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
@@ -53,18 +53,28 @@ export class WriteOffComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.WriteoffData = res;
-      if (res !== undefined && this.WriteoffData.length !== 0) {
+    this.restAPIService.getByParameters(PathConstants.WRITE_OFF_REPORT, params).subscribe(res => {
+      this.writeoffData = res;
+      if (res !== undefined && this.writeoffData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     })
   }
+
+  onResetTable() {
+    this.writeoffData = [];
+    this.isActionDisabled = true;
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
@@ -78,10 +88,10 @@ export class WriteOffComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
           this.fromDate = this.toDate = '';
         } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
       return this.fromDate, this.toDate;
@@ -89,6 +99,6 @@ export class WriteOffComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.WriteoffData, 'Write_Off',this.WriteoffCols);
+    this.excelService.exportAsExcelFile(this.writeoffData, 'Write_Off',this.writeoffCols);
 }
 }

@@ -37,7 +37,7 @@ export class DailyStockStatementComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
     this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
-    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
+    this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_REPORT).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
         for (let c = 0; c < itemCodes.length; c++) {
           this.ITCODE1 = itemCodes[c].ITCode;
