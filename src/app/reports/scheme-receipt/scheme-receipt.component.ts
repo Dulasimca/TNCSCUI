@@ -15,8 +15,8 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./scheme-receipt.component.css']
 })
 export class SchemeReceiptComponent implements OnInit {
-  CommodityReceiptCols: any;
-  CommodityReceiptData: any;
+  SchemeReceiptCols: any;
+  SchemeReceiptData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
@@ -33,7 +33,7 @@ export class SchemeReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.CommodityReceiptCols = this.tableConstants.CommodityReceiptReport;
+    this.SchemeReceiptCols = this.tableConstants.SchemeReceiptReport;
     this.data = this.roleBasedService.getInstance();
     console.log('data', this.data);
     this.maxDate = new Date();
@@ -55,8 +55,8 @@ export class SchemeReceiptComponent implements OnInit {
     this.checkValidDateSelection();
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.CommodityReceiptData = res;
-      if (res !== undefined && this.CommodityReceiptData.length !== 0) {
+      this.SchemeReceiptData = res;
+      if (res !== undefined && this.SchemeReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
@@ -89,6 +89,6 @@ export class SchemeReceiptComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.CommodityReceiptData, 'Truck_Memo',this.CommodityReceiptCols);
+    this.excelService.exportAsExcelFile(this.SchemeReceiptData, 'Truck_Memo',this.SchemeReceiptCols);
 }
 }
