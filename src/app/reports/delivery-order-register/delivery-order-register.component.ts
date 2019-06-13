@@ -65,8 +65,14 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     })
   }
 
+  onResetTable() {
+    this.deliveryReceiptRegData = [];
+    this.isActionDisabled = true;
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;

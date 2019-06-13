@@ -67,6 +67,7 @@ export class TruckMemoRegisterComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
@@ -90,6 +91,11 @@ export class TruckMemoRegisterComponent implements OnInit {
         }
       return this.fromDate, this.toDate;
     }
+  }
+
+  onResetTable() {
+    this.truckMemoRegData = [];
+    this.isActionDisabled = true;
   }
 
   exportAsXLSX():void{

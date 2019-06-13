@@ -67,6 +67,7 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
@@ -91,6 +92,10 @@ export class StockReceiptRegisterComponent implements OnInit {
         }
       return this.fromDate, this.toDate;
     }
+  }
+  onResetTable() {
+    this.stockReceiptRegData = [];
+    this.isActionDisabled = true;
   }
 
   onExportExcel():void{

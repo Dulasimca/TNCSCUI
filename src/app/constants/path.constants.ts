@@ -28,4 +28,8 @@ export class PathConstants {
   public static readonly TRANSACTION_RECEIPT_REPORT = '/api/TrancactioReceipt/Post';
   public static readonly SCHEME_RECEIPT_REPORT = '/api/SchemeReceipt/Post';
   public static readonly HULLING_DETAILS = '/api/HullingDetails/Get';
+  public static readonly TRANSACTION = '/api/TransactionMaster';
+  public static readonly ITEM_MASTER = '/api/ItemMaster';
+  public static readonly TRUCK_TO_REGION = 'api/TruckToRegion/Get';
+  public static readonly TRUCK_FROM_REGION = '/api/TruckFromRegion/Get';
 }
