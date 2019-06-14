@@ -15,62 +15,93 @@ import { PathConstants } from 'src/app/constants/path.constants';
   styleUrls: ['./transaction-receipt.component.css']
 })
 export class TransactionReceiptComponent implements OnInit {
-  TransactionReceiptCols: any;
-  TransactionReceiptData: any;
+  transactionReceiptCols: any;
+  transactionReceiptData: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
   isActionDisabled: any;
   data: any;
-  g_cd = '548';
+  g_cd: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  tr_cd: string;
+  transactionOptions: SelectItem[];
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.TransactionReceiptCols = this.tableConstants.TransactionReceiptReport;
+    this.transactionReceiptCols = this.tableConstants.TransactionReceiptReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
+  onSelect(item) {
+    let godownSelection = [];
+    let transactoinSelection = [];
+
+    switch (item) {
+      case 'godown':
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
+        break;
+      case 'transaction':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactoinSelection;
+              });
+            }
+          })
+        }
+    }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
       this.isViewDisabled = false;
     }
-    if(this.data !== undefined) {
-      this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
   }
 
   onView() {
     this.checkValidDateSelection();
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.TransactionReceiptData = res;
-      if (res !== undefined && this.TransactionReceiptData.length !== 0) {
+    const params = {
+      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'GCode': this.g_cd,
+      'TRCode': this.tr_cd
+    }
+    this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
+      this.transactionReceiptData = res;
+      if (res !== undefined && this.transactionReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
     })
   }
+
+  onResetTable() {
+    this.transactionReceiptData = [];
+    this.isActionDisabled = true;
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== ''
+      && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
       this.isViewDisabled = false;
     }
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -79,18 +110,18 @@ export class TransactionReceiptComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
-        }
+      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        this.fromDate = this.toDate = '';
+      } else if (selectedFromDate >= selectedToDate) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
+      }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.TransactionReceiptData, 'Truck_Memo',this.TransactionReceiptCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.transactionReceiptData, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
+  }
 }

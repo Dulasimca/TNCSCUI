@@ -53,6 +53,7 @@ export class CommodityReceiptComponent implements OnInit {
       }
         break;
       case 'tr':
+        if(this.transactionOptions === undefined) {
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if(data !== undefined) {
           data.forEach(y => {
@@ -61,6 +62,7 @@ export class CommodityReceiptComponent implements OnInit {
           });
         }
         })
+      }
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {

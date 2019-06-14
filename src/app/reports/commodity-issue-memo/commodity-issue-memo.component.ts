@@ -54,6 +54,7 @@ export class CommodityIssueMemoComponent implements OnInit {
         }
         break;
       case 'cd':
+        if(this.commodityOptions === undefined){
         this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
           if (data !== undefined) {
             data.forEach(y => {
@@ -62,6 +63,7 @@ export class CommodityIssueMemoComponent implements OnInit {
             });
           }
         })
+      }
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {

@@ -75,6 +75,9 @@ import { WriteOffComponent } from './reports/write-off/write-off.component';
 import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
 import { TruckToRegionComponent } from './reports/TransferAc/truck-to-region/truck-to-region.component';
 import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region/truck-from-region.component';
+import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
+import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
+import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
 
 
 @NgModule({
@@ -117,7 +120,10 @@ import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region
     WriteOffComponent,
     HullingDetailsComponent,
     TruckToRegionComponent,
-    TruckFromRegionComponent
+    TruckFromRegionComponent,
+    ReceiptHOPurchaseComponent,
+    ReceiptROPurchaseComponent,
+    ReceiptHONumberPurchaseComponent
   ],
   imports: [
     BrowserModule,
