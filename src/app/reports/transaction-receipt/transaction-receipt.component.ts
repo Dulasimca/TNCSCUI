@@ -29,6 +29,7 @@ export class TransactionReceiptComponent implements OnInit {
   maxDate: Date;
   tr_cd: string;
   transactionOptions: SelectItem[];
+  loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
@@ -73,6 +74,7 @@ export class TransactionReceiptComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
@@ -84,8 +86,10 @@ export class TransactionReceiptComponent implements OnInit {
       if (res !== undefined && this.transactionReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     })
   }
 

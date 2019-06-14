@@ -252,7 +252,7 @@ export class TableConstants {
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Commodity', "header": 'COMMODITY'},
       { "field": 'Date', "header": 'DATE'},
-      { "field": 'transaction', "header": 'TRANSACTION'},
+      { "field": 'Trans_action', "header": 'TRANSACTION'},
       { "field": 'Quantity', "header": 'QUANTITY'}
     ];
 
@@ -289,12 +289,12 @@ export class TableConstants {
     ];
 
     this.HullingDetailsReport = [
-      { "field": 'AckNo', "header": 'Ack. No'},
-      { "field": 'date', "header": 'Date'},
-      { "field": 'commodity', "header": 'Commodity'},
-      { "field": 'depositor', "header": 'Depositor'},
-      { "field": 'bags', "header": 'Bags'},
-      { "field": 'quantity', "header": 'Quantity'}
+      { "field": 'SRNo', "header": 'Ack. No'},
+      { "field": 'SRDate', "header": 'Date'},
+      { "field": 'ITDescription', "header": 'Commodity'},
+      { "field": 'DepositorName', "header": 'Depositor'},
+      { "field": 'NoPacking', "header": 'Bags'},
+      { "field": 'Nkgs', "header": 'Quantity'}
     ];
 
     this.TruckToRegionReport = [

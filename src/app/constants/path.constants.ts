@@ -25,7 +25,7 @@ export class PathConstants {
   public static readonly COMMODITY_RECEIPT_REPORT = '/api/CommodityReceipt/Post';
   public static readonly SCHEME_ISSUE_MEMO_REPORT = '/api/SchemeIssueMemo/Post';
   public static readonly COMMODITY_ISSUE_MEMO_REPORT = '/api/CommodityIssueMemo/Post';
-  public static readonly TRANSACTION_RECEIPT_REPORT = '/api/TrancactioReceipt/Post';
+  public static readonly TRANSACTION_RECEIPT_REPORT = '/api/TransactionReceipt/Post';
   public static readonly SCHEME_RECEIPT_REPORT = '/api/SchemeReceipt/Post';
   public static readonly HULLING_DETAILS_REPORT = '/api/HullingDetails/Get';
   public static readonly TRANSACTION_MASTER = '/api/TransactionMaster';

@@ -460,6 +460,10 @@ h3 a {
   padding-left: 0px !important;
 }
 
+.no-right-pad {
+  padding-right: 0px !important;
+}
+
 .div-no-top-bottom-pad {
   padding-bottom: 2px !important;
   padding-top: 0px !important;
@@ -471,6 +475,16 @@ h3 a {
   padding: 0px !important;
 }
 
+.ui-dialog.ui-widget .ui-dialog-titlebar {
+  /* padding: 1em 1.5em; */
+  font-size: small;
+}
+
+.ui-dialog.ui-widget .ui-dialog-titlebar {
+  padding: .7em;
+}.pi {
+  font-size: larger;
+}
 
 .ui-menubar li {
   padding: 2px 10px 2px 2px;
