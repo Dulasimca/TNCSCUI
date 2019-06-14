@@ -35,6 +35,9 @@ import { WriteOffComponent } from './reports/write-off/write-off.component';
 import { HullingDetailsComponent } from './reports/hulling-details/hulling-details.component';
 import { TruckToRegionComponent } from './reports/TransferAc/truck-to-region/truck-to-region.component';
 import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region/truck-from-region.component';
+import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
+import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
+import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
 
 
 const routes: Routes = [
@@ -72,6 +75,9 @@ const routes: Routes = [
   { path: 'Hulling Details', component: HullingDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Truck to Region', component: TruckToRegionComponent, canActivate: [AuthGuard] },
   { path: 'Truck from Region', component: TruckFromRegionComponent, canActivate: [AuthGuard] },
+  { path: 'Receipt HO Purchase', component: ReceiptHOPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Receipt HO NO Purchase', component: ReceiptHONumberPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Receipt RO Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
   
 ];

@@ -104,10 +104,10 @@ export class CommodityReceiptComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-        this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
         this.fromDate = this.toDate = '';
       } else if (selectedFromDate >= selectedToDate) {
-        this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
