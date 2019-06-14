@@ -78,6 +78,8 @@ import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region
 import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
 import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
 import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
+import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
+import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 
 
 @NgModule({
@@ -123,7 +125,9 @@ import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-
     TruckFromRegionComponent,
     ReceiptHOPurchaseComponent,
     ReceiptROPurchaseComponent,
-    ReceiptHONumberPurchaseComponent
+    ReceiptHONumberPurchaseComponent,
+    CustomerDetailsComponent,
+    SocietyWiseCommodityAbstractComponent
   ],
   imports: [
     BrowserModule,

@@ -38,6 +38,8 @@ import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region
 import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
 import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
 import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
+import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
+import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 
 
 const routes: Routes = [
@@ -78,6 +80,8 @@ const routes: Routes = [
   { path: 'Receipt HO Purchase', component: ReceiptHOPurchaseComponent, canActivate: [AuthGuard] },
   { path: 'Receipt HO NO Purchase', component: ReceiptHONumberPurchaseComponent, canActivate: [AuthGuard] },
   { path: 'Receipt RO Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
   
 ];
