@@ -43,7 +43,6 @@ export class CommodityReceiptComponent implements OnInit {
   onSelect(item) {
     let godownSelection = [];
     let transactionSelection = [];
-
     switch (item) {
       case 'gd':
     if (this.data !== undefined) {

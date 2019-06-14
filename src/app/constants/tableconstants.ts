@@ -269,12 +269,12 @@ export class TableConstants {
     ];
 
     this.SchemeIssueMemoReport = [
-      { "field": 'godown', "header": 'GODOWN'},
-      { "field": 'scheme', "header": 'SCHEME'},
+      { "field": 'Godown', "header": 'GODOWN'},
+      { "field": 'Scheme', "header": 'SCHEME'},
       { "field": 'AckNo', "header": 'I.MEMO NO'},
-      { "field": 'date', "header": 'DATE'},
-      { "field": 'commodity', "header": 'COMMODITY'},
-      { "field": 'quantity', "header": 'QUANTITY'},
+      { "field": 'Date', "header": 'DATE'},
+      { "field": 'Commodity', "header": 'COMMODITY'},
+      { "field": 'Quantity', "header": 'QUANTITY'},
       { "field": 'ISSUEDtO', "header": 'ISSUED TO'}
     ];
 

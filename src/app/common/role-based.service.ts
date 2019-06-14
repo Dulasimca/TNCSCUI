@@ -11,6 +11,7 @@ import { AuthService } from '../shared-services/auth.service';
 
 export class RoleBasedService {
      instance?: any;
+     scheme_data?: any;
 
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
@@ -41,6 +42,20 @@ export class RoleBasedService {
             });
         }
         return this.instance;
+    }
+
+    getSchemeData() {
+        if (this.scheme_data === undefined) {
+            this.scheme_data = [];
+            this.restApiService.get(PathConstants.SCHEMES).subscribe((res: any) => {
+                if (res !== undefined) {
+                    res.forEach(value => {
+                        this.scheme_data.push({ 'SName': value.Name, 'SCode': value.SCCode});
+                    })
+                }
+            });
+        }
+        return this.scheme_data;
     }
 
 }

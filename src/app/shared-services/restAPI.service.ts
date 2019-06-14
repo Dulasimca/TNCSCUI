@@ -33,21 +33,20 @@ export class RestAPIService {
   }
 
   getByParameters(url, params): Observable<any> {
-   // this.querParams.getAll(params);
    return this.httpClient.get(this.BASEURL + url, { params: params });
-   // return this.httpClient.get(this.BASEURL + url);
   }
 
   handleError(error) {
-    let errorMessage = '';
+    let errorMessage = 'err occurred';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
+      console.log(errorMessage);
     } else {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      console.log(errorMessage);
     }
-    window.alert(errorMessage);
     return throwError(errorMessage);
   }
 

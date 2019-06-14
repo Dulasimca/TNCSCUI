@@ -9,26 +9,27 @@
     </p-header>
       <div class="ui-g">
         <div style="text-align: center">
+        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
           <div class="ui-g-1"></div>
           <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
             <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
+              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()"></p-dropdown>
               <label class="float-input">Godown</label>
             </span>
           </div>
           <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
             <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="godownName" (onClick)="onSelect()"></p-dropdown>
+              <p-dropdown id="float-input" [options]="schemeOptions" [(ngModel)]="sc_cd" (onClick)="onSelect('scheme')" (ngModelChange)="onResetTable()"></p-dropdown>
               <label class="float-input">Scheme</label>
             </span>
           </div>
           <div class="ui-g-2" style="padding-left: 25px">
             <label class="ui-g-7 dashboard">From</label>
-            <p-calendar class="ui-g-9 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"></p-calendar>
+            <p-calendar class="ui-g-9 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
           <div class="ui-g-2">
             <label class="ui-g-7 dashboard">To</label>
-            <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true"></p-calendar>
+            <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
@@ -40,7 +41,7 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="SchemeReceiptCols" [value]="SchemeReceiptData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+            <p-table [columns]="schemeReceiptCols" [value]="schemeReceiptData" [responsive]="true" [scrollable]="true" [loading]="loading" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">
