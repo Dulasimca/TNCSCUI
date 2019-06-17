@@ -80,6 +80,7 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
+import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 
 
 @NgModule({
@@ -127,7 +128,8 @@ import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-
     ReceiptROPurchaseComponent,
     ReceiptHONumberPurchaseComponent,
     CustomerDetailsComponent,
-    SocietyWiseCommodityAbstractComponent
+    SocietyWiseCommodityAbstractComponent,
+    GunnyGuGrComponent
   ],
   imports: [
     BrowserModule,

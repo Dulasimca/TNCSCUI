@@ -52,12 +52,12 @@ body {
 /*-- main --*/ 
 
 h1 {
-	font-size: 28px;
+	font-size: 26px;
 	color: #fff;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	text-align: center;
-	padding: 1em 0 0.4em 0;
+	padding: 0px;
 } 
 /*-- slide --*/
 
@@ -694,21 +694,23 @@ a:not([href]):not([tabindex]) {
 
   }
 
-.main-header {
-  background-color: #f1f8f9	 !important;
-  padding: 0px !important;
-  font-family: Arial, Helvetica, sans-serif !important;
-  display: inline-block;
-  min-height: 30px;
-}
-
-  .main-header .h3 {
-    padding: 2px 5px 2px 2px !important;
+  .main-header {
+    background-color: #f1f8f9	 !important;
+    padding: 0px !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    display: inline-block;
+    min-height: 0px;
+    color: rgb(19, 119, 185) !important;
   }
-  .main-header .h1 {
-    padding: 2px 5px 2px 2px !important;
-    font-size: 26px;
-  }
+  
+    .main-header .h3 {
+      padding: 0px;
+      text-align: center;
+    }
+    .main-header .h1 {
+      padding:0px;
+      font-size: 30px;
+    }
 
   .carousel-indicators li {
   height: 0.01px;
@@ -879,7 +881,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   }
 
   .dashboard .overview .overview-content .overview-detail {
-    display: block;
+    display: flex;
     font-size: 24px;
     float: right;
     padding: 0px 0px 10px 30px;
@@ -1167,4 +1169,42 @@ ul
         }
         }
         
-   
+        * {box-sizing: border-box;}
+
+        .header {
+            display: contents;
+          overflow: hidden;
+          background-color: #f1f1f1;
+          padding: 0px;
+        }
+        
+        .header a {
+          float: left;
+          color: black;
+          text-align: center;
+          padding: 12px;
+          text-decoration: none;
+          font-size: 18px; 
+          line-height: 25px;
+          border-radius: 4px;
+        }
+        
+        .header img.logo {
+          font-size: 25px;
+          font-weight: bold;
+        }
+        
+        .header-right {
+          float: right !important;
+          padding-top: 20px;
+        }
+        
+        @media screen and (max-width: 500px) {
+          .header a {
+            float: none;
+            display: flex;
+            text-align: left;
+          }
+          
+         
+        }

@@ -40,6 +40,7 @@ import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-
 import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
+import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 
 
 const routes: Routes = [
@@ -82,6 +83,8 @@ const routes: Routes = [
   { path: 'Receipt RO Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
+  { path: 'Gunny Report', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
+
   { path: '**', component: PageNotFoundComponent }
   
 ];
