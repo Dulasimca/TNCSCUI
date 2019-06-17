@@ -489,11 +489,7 @@ h3 a {
 .navbar-light .navbar-brand {
   color: whitesmoke;
 }
-a:not([href]):not([tabindex]) {
-  /* color: inherit; */
-  color: whitesmoke;
-  text-decoration: none;
-}
+
 .dropdown-submenu {
   position: relative;
 }

@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stock-issue-register',
@@ -37,7 +39,7 @@ export class StockIssueRegisterComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
-    private excelService: ExcelService, private messageService: MessageService) { }
+    private excelService: ExcelService, private messageService: MessageService, private router: Router) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -106,6 +108,11 @@ export class StockIssueRegisterComponent implements OnInit {
         } else {
           this.loading = false;
           this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
         }
       })
     }

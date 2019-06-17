@@ -3,11 +3,12 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { TreeNode } from 'primeng/api';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dailystockstatement',
@@ -29,8 +30,10 @@ export class DailyStockStatementComponent implements OnInit {
   @ViewChild('dailyStockTable') 
   dailyStockTable: ElementRef;
   selectedRow = 0;
+  loading: boolean;
 
-  constructor(private tableConstants: TableConstants,private excelService: ExcelService, private restApiService: RestAPIService,
+  constructor(private tableConstants: TableConstants,private excelService: ExcelService,
+     private restApiService: RestAPIService, private router: Router,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -126,7 +129,11 @@ export class DailyStockStatementComponent implements OnInit {
             this.treeData = [];
             this.dailyStockData = tempArray;
             this.filterArray=tempArray;
-          });
+          }, (err: HttpErrorResponse) => {
+            if (err.status === 0) {
+            this.router.navigate(['pageNotFound']);
+            }
+          })
         }
       }
     })

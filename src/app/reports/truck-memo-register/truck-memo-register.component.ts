@@ -4,10 +4,11 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-truck-memo-register',
@@ -31,7 +32,8 @@ export class TruckMemoRegisterComponent implements OnInit {
   loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
+     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -73,8 +75,12 @@ export class TruckMemoRegisterComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
-    })
-  }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
+      }
+    })  }
 
   onDateSelect() {
     this.checkValidDateSelection();

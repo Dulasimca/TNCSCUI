@@ -4,10 +4,11 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delivery-order-register',
@@ -28,9 +29,11 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   deliveryOptions: SelectItem[];
   deliveryName: string;
   canShowMenu: boolean;
+  loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
+     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -56,6 +59,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       this.deliveryReceiptRegData = res;
@@ -68,10 +72,15 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-    })
-  }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
+      }
+    })  }
 
   onResetTable() {
     this.deliveryReceiptRegData = [];

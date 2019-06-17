@@ -3,11 +3,12 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stock-receipt-register',
@@ -30,7 +31,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
-    private authService: AuthService, private excelService: ExcelService,
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -73,6 +74,11 @@ export class StockReceiptRegisterComponent implements OnInit {
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
+      }
     })
   }
 

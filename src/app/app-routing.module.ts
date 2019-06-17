@@ -84,9 +84,8 @@ const routes: Routes = [
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny Report', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
-
+  { path: 'pageNotFound', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
-  
 ];
 
 @NgModule({
