@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit {
   password: any;
   isLoggedIn: boolean;
   canShowMenu: boolean;
+  homeLink: any;
 
   constructor(private router: Router, private menuService: MenuService,
     private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService) { }
@@ -35,25 +36,12 @@ export class MenuComponent implements OnInit {
         if (res !== undefined) {
           this.items = res;
           this.items.forEach(x => {
-            let list: any = x.items;
-            if (x.items.length === 0) {
-              return delete (x.items);
-            } else {
-              list.forEach(y => {
-                let nestedList: any = y.items;
-                if(y.items.length === 0) {
-                 return delete (y.items);
-                } else {
-                  nestedList.forEach(z => {
-                    let deepNestedList: any = z.items;
-                    if(z.items.length === 0) {
-                     return delete (z.items);
-                    }
-                  });
-                }
-              });
-            }
-          });
+            if (x.label === 'Home') {
+              this.homeLink = x.routerLink;
+              let index = this.items.findIndex(i => i.label === 'Home');
+              this.items.splice(index, 1);
+            } 
+          })
         this.authService.setMenu(JSON.stringify(this.items));
         } 
       });

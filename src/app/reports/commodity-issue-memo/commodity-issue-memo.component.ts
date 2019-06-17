@@ -101,6 +101,7 @@ export class CommodityIssueMemoComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
+    // if ()
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' &&
       this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
       this.isViewDisabled = false;

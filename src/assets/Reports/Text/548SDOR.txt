@@ -1,0 +1,751 @@
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:07-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+1   | D548900288|             1500|MASJID-E-MOHAMA|275610     |           1500|          BULK|    RAW RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+2   | D548900289|             1500|MASJIDE KHADER |275611     |           1500|          BULK|    RAW RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+3   | D548900290|             1350|MATHINA PALLIVA|162990     |           1350|          BULK|    RAW RICE A|       1350|           100|           1350|              0|            0|             0|           0|
+4   | D548900291|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       6500|             0|              0|              0|            0|             0|           0|
+5   | D548900291|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|       3500|             0|              0|              0|            0|             0|           0|
+6   | D548900292|              500|ANJUMAN-E-MOHAM|652209     |            500|          BULK|    RAW RICE A|        500|           100|            500|              0|            0|             0|           0|
+7   | D548900293|              750|SALAMATH MASJID|492635     |            750|          BULK|    RAW RICE A|        750|           100|            750|              0|            0|             0|           0|
+8   | D548900294|             1500|MASJID-E-RAHMAN|670560     |           1500|          BULK|    RAW RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+9   | D548900295|            24780|ICF            |026778     |          24780|           PDS|         SUGAR|       1000|          2478|          24780|              0|            0|             0|           0|
+10  | D548900296|                0|ICF            |           |              0|           PDS|         WHEAT|       1000|             0|              0|              0|            0|             0|           0|
+11  | D548900296|                0|ICF            |           |              0|           PDS|    RAW RICE A|       2000|             0|              0|              0|            0|             0|           0|
+12  | D548900296|                0|ICF            |           |              0|           PDS| BOILED RICE A|       2000|             0|              0|              0|            0|             0|           0|
+13  | D548900297|            18884|ICF            |026779     |          18884|       SPL PDS|    TOOR DHALL|        400|          2912|          11648|              0|            0|             0|           0|
+14  | D548900297|            18884|ICF            |026779     |          18884|       SPL PDS|PALMOLIEN POUC|        300|          2412|           7236|              0|            0|             0|           0|
+15  | D548900298|        237508.24|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        158|          1328|        2098.24|              0|            0|             0|           0|
+16  | D548900298|        237508.24|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       9500|          2478|         235410|              0|            0|             0|           0|
+17  | D548900299|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      18714|             0|              0|              0|            0|             0|           0|
+18  | D548900299|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      17500|             0|              0|              0|            0|             0|           0|
+19  | D548900299|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       5250|             0|              0|              0|            0|             0|           0|
+20  | D548900299|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       2781|             0|              0|              0|            0|             0|           0|
+21  | D548900300|        283174.35|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       6500|          2912|         189280|              0|            0|             0|     61612.1|
+22  | D548900300|        283174.35|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       5170|          2412|       124700.4|              0|            0|             0|     61612.1|
+23  | D548900301|          6566.22|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        280|          1412|         3953.6|              0|            0|             0|           0|
+24  | D548900301|          6566.22|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|        138|          1228|        1694.64|              0|            0|             0|           0|
+25  | D548900301|          6566.22|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         79|          1162|         917.98|              0|            0|             0|           0|
+26  | D548900302|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|        132|             0|              0|              0|            0|             0|           0|
+27  | D548900302|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|       1305|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:08-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+28  | D548900303|             1500|MASJED - E - JA|415345     |           1500|          BULK|    RAW RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+29  | D548900304|        160906.68|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|         81|          1328|        1075.68|              0|            0|             0|           0|
+30  | D548900304|        160906.68|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       6450|          2478|         159831|              0|            0|             0|           0|
+31  | D548900305|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      12870|             0|              0|              0|            0|             0|           0|
+32  | D548900305|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       1665|             0|              0|              0|            0|             0|           0|
+33  | D548900305|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      13000|             0|              0|              0|            0|             0|           0|
+34  | D548900305|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       4100|             0|              0|              0|            0|             0|           0|
+35  | D548900306|        145470.95|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       3150|          2912|          91728|              0|            0|             0|     43505.3|
+36  | D548900306|        145470.95|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3130|          2412|        75495.6|              0|            0|             0|     43505.3|
+37  | D548900307|          8021.86|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        342|          1412|        4829.04|              0|            0|             0|           0|
+38  | D548900307|          8021.86|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|        172|          1228|        2112.16|              0|            0|             0|           0|
+39  | D548900307|          8021.86|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         93|          1162|        1080.66|              0|            0|             0|           0|
+40  | D548900308|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|       1465|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:08-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+41  | D548900308|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|        162|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:09-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+42  | D548900309|             1500|MASJID - E- ILL|629855     |           1500|          BULK|    RAW RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+43  | D548900310|             3000|THE MUSLIM COMM|708549     |           3000|          BULK|    RAW RICE A|       3000|           100|           3000|              0|            0|             0|           0|
+44  | D548900311|            49560|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       2000|          2478|          49560|              0|            0|             0|           0|
+45  | D548900312|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|       1000|             0|              0|              0|            0|             0|           0|
+46  | D548900312|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|       2500|             0|              0|              0|            0|             0|           0|
+47  | D548900312|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       4000|             0|              0|              0|            0|             0|           0|
+48  | D548900313|            43281|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        800|          2412|          19296|              0|            0|             0|       10270|
+49  | D548900313|            43281|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1000|          2912|          29120|              0|            0|             0|       10270|
+50  | D548900314|        205546.56|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        177|          1328|        2350.56|              0|            0|             0|           0|
+51  | D548900314|        205546.56|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       8200|          2478|         203196|              0|            0|             0|           0|
+52  | D548900315|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       4650|             0|              0|              0|            0|             0|           0|
+53  | D548900315|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      16000|             0|              0|              0|            0|             0|           0|
+54  | D548900315|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       3184|             0|              0|              0|            0|             0|           0|
+55  | D548900315|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      17631|             0|              0|              0|            0|             0|           0|
+56  | D548900316|        187761.75|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3980|          2412|        95997.6|              0|            0|             0|     58167.7|
+57  | D548900316|        187761.75|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       4150|          2912|         120848|              0|            0|             0|     58167.7|
+58  | D548900317|          4016.08|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         85|          1228|         1043.8|              0|            0|             0|           0|
+59  | D548900317|          4016.08|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        171|          1412|        2414.52|              0|            0|             0|           0|
+60  | D548900317|          4016.08|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         48|          1162|         557.76|              0|            0|             0|           0|
+61  | D548900318|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        815|             0|              0|              0|            0|             0|           0|
+62  | D548900318|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         74|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:10-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+63  | D548900319|            56250|OFFICE OF THE C|193990     |          46250|          BULK|         WHEAT|       1000|           750|           7500|              0|            0|             0|           0|
+64  | D548900319|            56250|OFFICE OF THE C|193990     |          46250|          BULK|    RAW RICE A|       1000|           100|           1000|              0|            0|             0|           0|
+65  | D548900319|            56250|OFFICE OF THE C|193990     |          46250|          BULK| BOILED RICE A|       1500|           100|           1500|              0|            0|             0|           0|
+66  | D548900319|            56250|OFFICE OF THE C|193990     |          46250|          BULK|         SUGAR|       1850|          2500|          46250|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:11-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+67  | D548900320|            77370|TUCS  LTD      |163628     |          77370|           PDS|      KEROSENE|       6000|         12895|          77370|              0|            0|             0|           0|
+68  | D548900321|          8699.56|GOVT MENTAL HOS|184395     |        8699.56|           PDS|         SUGAR|        350|          2478|           8673|              0|            0|             0|           0|
+69  | D548900321|          8699.56|GOVT MENTAL HOS|184395     |        8699.56|           AAY|         SUGAR|          2|          1328|          26.56|              0|            0|             0|           0|
+70  | D548900322|                0|GOVT MENTAL HOS|           |              0|           PDS| BOILED RICE A|       1000|             0|              0|              0|            0|             0|           0|
+71  | D548900322|                0|GOVT MENTAL HOS|           |              0|           PDS|    RAW RICE A|       1000|             0|              0|              0|            0|             0|           0|
+72  | D548900322|                0|GOVT MENTAL HOS|           |              0|           PDS|         WHEAT|        200|             0|              0|              0|            0|             0|           0|
+73  | D548900322|                0|GOVT MENTAL HOS|           |              0|           AAY|    RAW RICE A|         35|             0|              0|              0|            0|             0|           0|
+74  | D548900323|          9281.55|GOVT MENTAL HOS|184396     |        9281.55|       SPL PDS|    TOOR DHALL|        200|          2912|           5824|              0|            0|             0|      3215.3|
+75  | D548900323|          9281.55|GOVT MENTAL HOS|184396     |        9281.55|       SPL PDS|PALMOLIEN POUC|        210|          2412|         5065.2|              0|            0|             0|      3215.3|
+76  | D548900324|        208519.88|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       8350|          2478|         206913|              0|            0|             0|           0|
+77  | D548900324|        208519.88|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        121|          1328|        1606.88|              0|            0|             0|           0|
+78  | D548900325|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      12799|             0|              0|              0|            0|             0|           0|
+79  | D548900325|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      13000|             0|              0|              0|            0|             0|           0|
+80  | D548900325|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       2426|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:11-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+81  | D548900325|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       3150|             0|              0|              0|            0|             0|           0|
+82  | D548900326|        147355.45|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       3250|          2912|          94640|              0|            0|             0|     44595.5|
+83  | D548900326|        147355.45|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3110|          2412|        75013.2|              0|            0|             0|     44595.5|
+84  | D548900327|          9173.64|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|        106|          1162|        1231.72|              0|            0|             0|           0|
+85  | D548900327|          9173.64|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|        196|          1228|        2406.88|              0|            0|             0|           0|
+86  | D548900327|          9173.64|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        392|          1412|        5535.04|              0|            0|             0|           0|
+87  | D548900328|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|        167|             0|              0|              0|            0|             0|           0|
+88  | D548900328|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|       1725|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:13-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+89  | D548900329|        174916.42|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       6995|          2478|       173336.1|              0|            0|             0|           0|
+90  | D548900329|        174916.42|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        119|          1328|        1580.32|              0|            0|             0|           0|
+91  | D548900330|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       4743|             0|              0|              0|            0|             0|           0|
+92  | D548900330|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      18679|             0|              0|              0|            0|             0|           0|
+93  | D548900330|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      16000|             0|              0|              0|            0|             0|           0|
+94  | D548900330|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       2150|             0|              0|              0|            0|             0|           0|
+95  | D548900331|        150363.05|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3467|          2412|       83624.04|              0|            0|             0|    58189.82|
+96  | D548900331|        150363.05|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       3291|          2912|       95833.92|              0|            0|             0|    58189.82|
+97  | D548900332|          3091.98|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        132|          1412|        1863.84|              0|            0|             0|           0|
+98  | D548900332|          3091.98|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         65|          1228|          798.2|              0|            0|             0|           0|
+99  | D548900332|          3091.98|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         37|          1162|         429.94|              0|            0|             0|           0|
+100 | D548900333|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         53|             0|              0|              0|            0|             0|           0|
+101 | D548900333|                0|PTCWS LIMITED  |           |              0|        POLICE| BOILED RICE A|       1500|             0|              0|              0|            0|             0|           0|
+102 | D548900333|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|       2421|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:14-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+103 | D548900334|            60711|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       2450|          2478|          60711|              0|            0|             0|           0|
+104 | D548900335|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|       2400|             0|              0|              0|            0|             0|           0|
+105 | D548900335|                0|KWCCS LIMITED  |           |              0|           PDS|RAW RICE A HUL|       3515|             0|              0|              0|            0|             0|           0|
+106 | D548900335|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|        850|             0|              0|              0|            0|             0|           0|
+107 | D548900336|         55847.15|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1000|          2412|          24120|              0|            0|             0|      9345.7|
+108 | D548900336|         55847.15|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1250|          2912|          36400|              0|            0|             0|      9345.7|
+109 | D548900337|        255867.48|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|      10250|          2478|         253995|              0|            0|             0|           0|
+110 | D548900337|        255867.48|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        141|          1328|        1872.48|              0|            0|             0|           0|
+111 | D548900338|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       4450|             0|              0|              0|            0|             0|           0|
+112 | D548900338|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      21500|             0|              0|              0|            0|             0|           0|
+113 | D548900338|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       2695|             0|              0|              0|            0|             0|           0|
+114 | D548900338|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      24469|             0|              0|              0|            0|             0|           0|
+115 | D548900339|        203359.04|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       4230|          2412|       102027.6|              0|            0|             0|    76889.12|
+116 | D548900339|        203359.04|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       4800|          2912|         139776|              0|            0|             0|    76889.12|
+117 | D548900340|          4306.86|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        184|          1412|        2598.08|              0|            0|             0|           0|
+118 | D548900340|          4306.86|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         53|          1162|         615.86|              0|            0|             0|           0|
+119 | D548900340|          4306.86|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         89|          1228|        1092.92|              0|            0|             0|           0|
+120 | D548900341|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        886|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:14-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+121 | D548900341|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         78|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:15-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+122 | D548900342|           104500|OFFICE OF DIGP |194068     |          12500|          BULK|         SUGAR|        500|          2500|          12500|              0|            0|             0|           0|
+123 | D548900342|           104500|OFFICE OF DIGP |194068     |          12500|          BULK|    RAW RICE A|       1000|           100|           1000|              0|            0|             0|           0|
+124 | D548900342|           104500|OFFICE OF DIGP |194068     |          12500|          BULK| BOILED RICE A|       1000|           100|           1000|              0|            0|             0|           0|
+125 | D548900342|           104500|OFFICE OF DIGP |194068     |          12500|          BULK|         WHEAT|      12000|           750|          90000|              0|            0|             0|           0|
+126 | D548900343|            10316|TUCS  LTD      |163677     |          10316|           PDS|      KEROSENE|        800|         12895|          10316|              0|            0|             0|           0|
+127 | D548900344|            59472|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       2400|          2478|          59472|              0|            0|             0|           0|
+128 | D548900345|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       3850|             0|              0|              0|            0|             0|           0|
+129 | D548900345|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|       2500|             0|              0|              0|            0|             0|           0|
+130 | D548900345|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|        850|             0|              0|              0|            0|             0|           0|
+131 | D548900346|          56709.5|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1250|          2912|          36400|              0|            0|             0|       10033|
+132 | D548900346|          56709.5|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1050|          2412|          25326|              0|            0|             0|       10033|
+133 | D548900347|        198714.12|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7950|          2478|         197001|              0|            0|             0|           0|
+134 | D548900347|        198714.12|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        129|          1328|        1713.12|              0|            0|             0|           0|
+135 | D548900348|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      24962|             0|              0|              0|            0|             0|           0|
+136 | D548900348|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      22000|             0|              0|              0|            0|             0|           0|
+137 | D548900348|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       2353|             0|              0|              0|            0|             0|           0|
+138 | D548900348|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       6100|             0|              0|              0|            0|             0|           0|
+139 | D548900349|        168133.15|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       4300|          2412|         103716|              0|            0|             0|     77917.7|
+140 | D548900349|        168133.15|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       3550|          2912|         103376|              0|            0|             0|     77917.7|
+141 | D548900350|          1151.78|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|         50|          1412|            706|              0|            0|             0|           0|
+142 | D548900350|          1151.78|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         13|          1162|         151.06|              0|            0|             0|           0|
+143 | D548900350|          1151.78|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         24|          1228|         294.72|              0|            0|             0|           0|
+144 | D548900351|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        275|             0|              0|              0|            0|             0|           0|
+145 | D548900351|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         17|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:16-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+146 | D548900352|         31756.46|KWCCS LIMITED  |           |              0|           AAY|         SUGAR|          1|          1328|          13.28|              0|            0|             0|           0|
+147 | D548900352|         31756.46|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       1281|          2478|       31743.18|              0|            0|             0|           0|
+148 | D548900353|                0|KWCCS LIMITED  |           |              0|           AAY|    RAW RICE A|        415|             0|              0|              0|            0|             0|           0|
+149 | D548900353|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|        281|             0|              0|              0|            0|             0|           0|
+150 | D548900353|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|        500|             0|              0|              0|            0|             0|           0|
+151 | D548900353|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|        300|             0|              0|              0|            0|             0|           0|
+152 | D548900354|            35562|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        600|          2912|          17472|              0|            0|             0|      1919.7|
+153 | D548900354|            35562|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        750|          2412|          18090|              0|            0|             0|      1919.7|
+154 | D548900355|         14183.24|KWCCS LIMITED  |           |              0|        POLICE|         SUGAR|        303|          1228|        3720.84|              0|            0|             0|           0|
+155 | D548900355|         14183.24|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        164|          1162|        1905.68|              0|            0|             0|           0|
+156 | D548900355|         14183.24|KWCCS LIMITED  |           |              0|        POLICE|    TOOR DHALL|        606|          1412|        8556.72|              0|            0|             0|           0|
+157 | D548900356|                0|KWCCS LIMITED  |           |              0|        POLICE|         WHEAT|        250|             0|              0|              0|            0|             0|           0|
+158 | D548900356|                0|KWCCS LIMITED  |           |              0|        POLICE| BOILED RICE A|       1000|             0|              0|              0|            0|             0|           0|
+159 | D548900356|                0|KWCCS LIMITED  |           |              0|        POLICE|    RAW RICE A|       1245|             0|              0|              0|            0|             0|           0|
+160 | D548900357|            40887|ICF            |026784     |          40887|           PDS|         SUGAR|       1650|          2478|          40887|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:16-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+161 | D548900358|                0|ICF            |           |              0|           PDS|         WHEAT|        500|             0|              0|              0|            0|             0|           0|
+162 | D548900358|                0|ICF            |           |              0|           PDS|    RAW RICE A|       1600|             0|              0|              0|            0|             0|           0|
+163 | D548900358|                0|ICF            |           |              0|           PDS| BOILED RICE A|       2000|             0|              0|              0|            0|             0|           0|
+164 | D548900359|            11174|ICF            |026785     |          11174|       SPL PDS|    TOOR DHALL|        300|          2912|           8736|              0|            0|             0|       12008|
+165 | D548900359|            11174|ICF            |026785     |          11174|       SPL PDS|PALMOLIEN POUC|        350|          2412|           8442|              0|            0|             0|       12008|
+166 | D548900360|            20632|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|       1600|         12895|          20632|              0|            0|             0|           0|
+167 | D548900361|           3868.5|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|        300|         12895|         3868.5|              0|            0|             0|           0|
+168 | D548900362|        253645.76|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|         67|          1328|         889.76|              0|            0|             0|           0|
+169 | D548900362|        253645.76|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|      10200|          2478|         252756|              0|            0|             0|           0|
+170 | D548900363|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       1333|             0|              0|              0|            0|             0|           0|
+171 | D548900363|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      25702|             0|              0|              0|            0|             0|           0|
+172 | D548900363|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       5600|             0|              0|              0|            0|             0|           0|
+173 | D548900363|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      21500|             0|              0|              0|            0|             0|           0|
+174 | D548900364|        184168.55|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       3450|          2912|         100464|              0|            0|             0|     76685.3|
+175 | D548900364|        184168.55|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       5060|          2412|       122047.2|              0|            0|             0|     76685.3|
+176 | D548900365|          1812.02|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|         78|          1412|        1101.36|              0|            0|             0|           0|
+177 | D548900365|          1812.02|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         38|          1228|         466.64|              0|            0|             0|           0|
+178 | D548900365|          1812.02|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         21|          1162|         244.02|              0|            0|             0|           0|
+179 | D548900366|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         34|             0|              0|              0|            0|             0|           0|
+180 | D548900366|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        365|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:17-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+181 | D548900367|              750|MERCY HOME     |441853     |            500|          BULK| BOILED RICE A|        250|           100|            250|              0|            0|             0|           0|
+182 | D548900367|              750|MERCY HOME     |441853     |            500|          BULK|         SUGAR|         20|          2500|            500|              0|            0|             0|           0|
+183 | D548900368|          27010.2|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       1090|          2478|        27010.2|              0|            0|             0|           0|
+184 | D548900369|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|        500|             0|              0|              0|            0|             0|           0|
+185 | D548900369|                0|KWCCS LIMITED  |           |              0|           AAY| BOILED RICE A|       1495|             0|              0|              0|            0|             0|           0|
+186 | D548900369|                0|KWCCS LIMITED  |           |              0|           AAY|    RAW RICE A|       1082|             0|              0|              0|            0|             0|           0|
+187 | D548900370|         20053.57|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        300|          2912|           8736|              0|            0|             0|     4861.66|
+188 | D548900370|         20053.57|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        570|          2412|        13748.4|              0|            0|             0|     4861.66|
+189 | D548900371|                0|KWCCS LIMITED  |           |              0|           OAP| BOILED RICE A|          5|             0|              0|              0|            0|             0|           0|
+190 | D548900372|            900.2|KWCCS LIMITED  |           |              0|        POLICE|    TOOR DHALL|         39|          1412|         550.68|              0|            0|             0|           0|
+191 | D548900372|            900.2|KWCCS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         10|          1162|          116.2|              0|            0|             0|           0|
+192 | D548900372|            900.2|KWCCS LIMITED  |           |              0|        POLICE|         SUGAR|         19|          1228|         233.32|              0|            0|             0|           0|
+193 | D548900373|                0|KWCCS LIMITED  |           |              0|        POLICE|    RAW RICE A|        195|             0|              0|              0|            0|             0|           0|
+194 | D548900373|                0|KWCCS LIMITED  |           |              0|        POLICE|         WHEAT|         12|             0|              0|              0|            0|             0|           0|
+195 | D548900374|        125998.24|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       5000|          2478|         123900|              0|            0|             0|           0|
+196 | D548900374|        125998.24|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        158|          1328|        2098.24|              0|            0|             0|           0|
+197 | D548900375|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      22500|             0|              0|              0|            0|             0|           0|
+198 | D548900375|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       3284|             0|              0|              0|            0|             0|           0|
+199 | D548900375|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       2850|             0|              0|              0|            0|             0|           0|
+200 | D548900375|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      30784|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:17-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+201 | D548900376|        106098.08|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2690|          2412|        64882.8|              0|            0|             0|    89377.44|
+202 | D548900376|        106098.08|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       2950|          2912|          85904|              0|            0|             0|    89377.44|
+203 | D548900377|          1322.32|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|         57|          1412|         804.84|              0|            0|             0|           0|
+204 | D548900377|          1322.32|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         27|          1228|         331.56|              0|            0|             0|           0|
+205 | D548900377|          1322.32|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         16|          1162|         185.92|              0|            0|             0|           0|
+206 | D548900378|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         27|             0|              0|              0|            0|             0|           0|
+207 | D548900378|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        285|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:18-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+208 | D548900379|         16118.75|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|       1250|         12895|       16118.75|              0|            0|             0|           0|
+209 | D548900380|         182920.9|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|         50|          1328|            664|              0|            0|             0|           0|
+210 | D548900380|         182920.9|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7355|          2478|       182256.9|              0|            0|             0|           0|
+211 | D548900381|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      37000|             0|              0|              0|            0|             0|           0|
+212 | D548900381|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|        905|             0|              0|              0|            0|             0|           0|
+213 | D548900381|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      54542|             0|              0|              0|            0|             0|           0|
+214 | D548900381|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       4757|             0|              0|              0|            0|             0|           0|
+215 | D548900382|         45306.11|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2843|          2412|       68573.16|              0|            0|             0|   146066.26|
+216 | D548900382|         45306.11|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1709|          2912|       49766.08|              0|            0|             0|   146066.26|
+217 | D548900383|           185.32|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|          2|          1162|          23.24|              0|            0|             0|           0|
+218 | D548900383|           185.32|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|          4|          1228|          49.12|              0|            0|             0|           0|
+219 | D548900383|           185.32|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|          8|          1412|         112.96|              0|            0|             0|           0|
+220 | D548900384|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|          2|             0|              0|              0|            0|             0|           0|
+221 | D548900384|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|         25|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:20-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+222 | D548900385|             2579|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|        200|         12895|           2579|              0|            0|             0|           0|
+223 | D548900386|            86730|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       3500|          2478|          86730|              0|            0|             0|           0|
+224 | D548900387|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      35500|             0|              0|              0|            0|             0|           0|
+225 | D548900387|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      52013|             0|              0|              0|            0|             0|           0|
+226 | D548900387|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|        500|             0|              0|              0|            0|             0|           0|
+227 | D548900388|             1162|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        100|          1162|           1162|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:21-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+228 | D548900389|          16763.5|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|       1300|         12895|        16763.5|              0|            0|             0|           0|
+229 | D548900390|             2740|ANANDAM KALLIKU|432056     |           1665|          BULK| BOILED RICE A|        500|           100|            500|              0|            0|             0|           0|
+230 | D548900390|             2740|ANANDAM KALLIKU|432056     |           1665|          BULK|         WHEAT|        102|           750|            765|              0|            0|             0|           0|
+231 | D548900390|             2740|ANANDAM KALLIKU|432056     |           1665|          BULK|         SUGAR|         43|          2500|           1075|              0|            0|             0|           0|
+232 | D548900390|             2740|ANANDAM KALLIKU|432056     |           1665|          BULK|    RAW RICE A|        400|           100|            400|              0|            0|             0|           0|
+233 | D548900391|           195762|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7900|          2478|         195762|              0|            0|             0|           0|
+234 | D548900392|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      18751|             0|              0|              0|            0|             0|           0|
+235 | D548900392|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       3650|             0|              0|              0|            0|             0|           0|
+236 | D548900392|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      13000|             0|              0|              0|            0|             0|           0|
+237 | D548900393|         34098.71|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        500|          2912|          14560|              0|            0|             0|    50166.58|
+238 | D548900393|         34098.71|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1850|          2412|          44622|              0|            0|             0|    50166.58|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:22-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+239 | D548900394|              275|YWCA NAVA JEEVA|016111     |            225|          BULK|         SUGAR|          9|          2500|            225|              0|            0|             0|           0|
+240 | D548900394|              275|YWCA NAVA JEEVA|016111     |            225|          BULK|    RAW RICE A|         50|           100|             50|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:22-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+241 | D548900395|            10316|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|        800|         12895|          10316|              0|            0|             0|           0|
+242 | D548900396|             1143|ANBAGAM REHABIL|203194     |            693|          BULK|         SUGAR|         18|          2500|            450|              0|            0|             0|           0|
+243 | D548900396|             1143|ANBAGAM REHABIL|203194     |            693|          BULK|         WHEAT|         42|           750|            315|              0|            0|             0|           0|
+244 | D548900396|             1143|ANBAGAM REHABIL|203194     |            693|          BULK| BOILED RICE A|        378|           100|            378|              0|            0|             0|           0|
+245 | D548900397|           111510|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       4500|          2478|         111510|              0|            0|             0|           0|
+246 | D548900398|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       2700|             0|              0|              0|            0|             0|           0|
+247 | D548900398|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      14500|             0|              0|              0|            0|             0|           0|
+248 | D548900398|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       9500|             0|              0|              0|            0|             0|           0|
+249 | D548900399|         55652.73|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       2700|          2912|          78624|              0|            0|             0|   176190.54|
+250 | D548900399|         55652.73|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2700|          2412|          65124|              0|            0|             0|   176190.54|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:23-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+251 | D548900400|           6447.5|PTCWS LIMITED  |           |              0|           PDS|      KEROSENE|        500|         12895|         6447.5|              0|            0|             0|           0|
+252 | D548900401|              828|INDIAN COUNCIL |530746     |            378|          BULK|         SUGAR|         18|          2500|            450|              0|            0|             0|           0|
+253 | D548900401|              828|INDIAN COUNCIL |530746     |            378|          BULK|    RAW RICE A|        378|           100|            378|              0|            0|             0|           0|
+254 | D548900402|           109032|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       4400|          2478|         109032|              0|            0|             0|           0|
+255 | D548900403|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       8500|             0|              0|              0|            0|             0|           0|
+256 | D548900403|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      12000|             0|              0|              0|            0|             0|           0|
+257 | D548900403|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       2100|             0|              0|              0|            0|             0|           0|
+258 | D548900404|           106257|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       2300|          2912|          66976|              0|            0|             0|       32390|
+259 | D548900404|           106257|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2300|          2412|          55476|              0|            0|             0|       32390|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:24-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+260 | D548900405|           195762|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7900|          2478|         195762|              0|            0|             0|           0|
+261 | D548900406|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       6050|             0|              0|              0|            0|             0|           0|
+262 | D548900406|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      26000|             0|              0|              0|            0|             0|           0|
+263 | D548900406|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      17500|             0|              0|              0|            0|             0|           0|
+264 | D548900407|           267897|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       5650|          2412|         136278|              0|            0|             0|       68730|
+265 | D548900407|           267897|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5700|          2912|         165984|              0|            0|             0|       68730|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:25-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+266 | D548900408|           262668|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|      10600|          2478|         262668|              0|            0|             0|           0|
+267 | D548900409|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       6600|             0|              0|              0|            0|             0|           0|
+268 | D548900409|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      29500|             0|              0|              0|            0|             0|           0|
+269 | D548900409|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      20000|             0|              0|              0|            0|             0|           0|
+270 | D548900410|           309867|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       6500|          2412|         156780|              0|            0|             0|       78210|
+271 | D548900410|           309867|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       6600|          2912|         192192|              0|            0|             0|       78210|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:27-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+272 | D548900411|           242844|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       9800|          2478|         242844|              0|            0|             0|           0|
+273 | D548900412|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       5800|             0|              0|              0|            0|             0|           0|
+274 | D548900412|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      26000|             0|              0|              0|            0|             0|           0|
+275 | D548900412|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      18000|             0|              0|              0|            0|             0|           0|
+276 | D548900413|           268708|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       5700|          2412|         137484|              0|            0|             0|       69520|
+277 | D548900413|           268708|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5700|          2912|         165984|              0|            0|             0|       69520|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:28-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+278 | D548900414|            16500|CREDIT - GOVT A|           |              0|  CREDIT SALES|         SUGAR|        620|          2500|          15500|              0|            0|             0|           0|
+279 | D548900414|            16500|CREDIT - GOVT A|           |              0|  CREDIT SALES| BOILED RICE A|       1000|           100|           1000|              0|            0|             0|           0|
+280 | D548900415|           170000|OFFICE OF DIGP |007490     |          70000|          BULK| BOILED RICE A|       5000|           100|           5000|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:28-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+281 | D548900415|           170000|OFFICE OF DIGP |007490     |          70000|          BULK|         WHEAT|       8000|           750|          60000|              0|            0|             0|           0|
+282 | D548900415|           170000|OFFICE OF DIGP |007490     |          70000|          BULK|         SUGAR|       4000|          2500|         100000|              0|            0|             0|           0|
+283 | D548900415|           170000|OFFICE OF DIGP |007490     |          70000|          BULK|    RAW RICE A|       5000|           100|           5000|              0|            0|             0|           0|
+284 | D548900416|            34692|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       1400|          2478|          34692|              0|            0|             0|           0|
+285 | D548900417|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       6500|             0|              0|              0|            0|             0|           0|
+286 | D548900417|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|       1500|             0|              0|              0|            0|             0|           0|
+287 | D548900418|            31633|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|        800|          2412|          19296|              0|            0|             0|       10270|
+288 | D548900418|            31633|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        600|          2912|          17472|              0|            0|             0|       10270|
+289 | D548900419|           237888|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       9600|          2478|         237888|              0|            0|             0|           0|
+290 | D548900420|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       2050|             0|              0|              0|            0|             0|           0|
+291 | D548900420|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       5700|             0|              0|              0|            0|             0|           0|
+292 | D548900420|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      39500|             0|              0|              0|            0|             0|           0|
+293 | D548900421|         259995.5|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5500|          2912|         160160|              0|            0|             0|       65649|
+294 | D548900421|         259995.5|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       5500|          2412|         132660|              0|            0|             0|       65649|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:29-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+295 | D548900422|            29500|CREDIT- INSTITU|           |              0|  CREDIT SALES|    RAW RICE A|       8000|           100|           8000|              0|            0|             0|           0|
+296 | D548900422|            29500|CREDIT- INSTITU|           |              0|  CREDIT SALES|         SUGAR|        360|          2500|           9000|              0|            0|             0|           0|
+297 | D548900422|            29500|CREDIT- INSTITU|           |              0|  CREDIT SALES|         WHEAT|        600|           750|           4500|              0|            0|             0|           0|
+298 | D548900422|            29500|CREDIT- INSTITU|           |              0|  CREDIT SALES| BOILED RICE A|       8000|           100|           8000|              0|            0|             0|           0|
+299 | D548900423|            27258|ICF            |026786     |          27258|           PDS|         SUGAR|       1100|          2478|          27258|              0|            0|             0|           0|
+300 | D548900424|                0|ICF            |           |              0|           PDS|    RAW RICE A|       4500|             0|              0|              0|            0|             0|           0|
+301 | D548900424|                0|ICF            |           |              0|           PDS| BOILED RICE A|       3000|             0|              0|              0|            0|             0|           0|
+302 | D548900424|                0|ICF            |           |              0|           PDS|         WHEAT|       1000|             0|              0|              0|            0|             0|           0|
+303 | D548900425|            38829|ICF            |026787     |          38829|       SPL PDS|    TOOR DHALL|        750|          2912|          21840|              0|            0|             0|       11850|
+304 | D548900425|            38829|ICF            |026787     |          38829|       SPL PDS|PALMOLIEN POUC|        950|          2412|          22914|              0|            0|             0|       11850|
+305 | D548900426|            37170|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|       1500|          2478|          37170|              0|            0|             0|           0|
+306 | D548900427|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       6500|             0|              0|              0|            0|             0|           0|
+307 | D548900427|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|       1500|             0|              0|              0|            0|             0|           0|
+308 | D548900428|            33545|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1000|          2412|          24120|              0|            0|             0|       10270|
+309 | D548900428|            33545|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        500|          2912|          14560|              0|            0|             0|       10270|
+310 | D548900429|           178416|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7200|          2478|         178416|              0|            0|             0|           0|
+311 | D548900430|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       5200|             0|              0|              0|            0|             0|           0|
+312 | D548900430|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      22000|             0|              0|              0|            0|             0|           0|
+313 | D548900430|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      15000|             0|              0|              0|            0|             0|           0|
+314 | D548900431|           234558|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       4900|          2412|         118188|              0|            0|             0|       58460|
+315 | D548900431|           234558|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5000|          2912|         145600|              0|            0|             0|       58460|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:30-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+316 | D548900432|             1250|CREDIT - GOVT O|           |              0|  CREDIT SALES|         WHEAT|        100|           750|            750|              0|            0|             0|           0|
+317 | D548900432|             1250|CREDIT - GOVT O|           |              0|  CREDIT SALES|    RAW RICE A|        200|           100|            200|              0|            0|             0|           0|
+318 | D548900432|             1250|CREDIT - GOVT O|           |              0|  CREDIT SALES| BOILED RICE A|        300|           100|            300|              0|            0|             0|           0|
+319 | D548900433|              400|YWCA SAGOTHARI |016176     |            275|          BULK|         WHEAT|         30|           750|            225|              0|            0|             0|           0|
+320 | D548900433|              400|YWCA SAGOTHARI |016176     |            275|          BULK| BOILED RICE A|         50|           100|             50|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:30-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+321 | D548900433|              400|YWCA SAGOTHARI |016176     |            275|          BULK|         SUGAR|          5|          2500|            125|              0|            0|             0|           0|
+322 | D548900434|           389046|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|      15700|          2478|         389046|              0|            0|             0|           0|
+323 | D548900435|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       9300|             0|              0|              0|            0|             0|           0|
+324 | D548900435|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      43000|             0|              0|              0|            0|             0|           0|
+325 | D548900435|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      19500|             0|              0|              0|            0|             0|           0|
+326 | D548900436|           418637|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       8900|          2412|         214668|              0|            0|             0|       98750|
+327 | D548900436|           418637|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       8700|          2912|         253344|              0|            0|             0|       98750|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:31-05-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+328 | D548900437|            16900|OFFICER COMMAND|852941     |           6900|          BULK|         SUGAR|        400|          2500|          10000|              0|            0|             0|           0|
+329 | D548900437|            16900|OFFICER COMMAND|852941     |           6900|          BULK|         WHEAT|        900|           750|           6750|              0|            0|             0|           0|
+330 | D548900437|            16900|OFFICER COMMAND|852941     |           6900|          BULK| BOILED RICE A|        100|           100|            100|              0|            0|             0|           0|
+331 | D548900437|            16900|OFFICER COMMAND|852941     |           6900|          BULK|    RAW RICE A|         50|           100|             50|              0|            0|             0|           0|
+332 | D548900438|           123900|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       5000|          2478|         123900|              0|            0|             0|           0|
+333 | D548900439|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      23000|             0|              0|              0|            0|             0|           0|
+334 | D548900439|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       2600|             0|              0|              0|            0|             0|           0|
+335 | D548900440|           114930|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       2500|          2912|          72800|              0|            0|             0|       36340|
+336 | D548900440|           114930|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2500|          2412|          60300|              0|            0|             0|       36340|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:01-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+337 | D548900441|           132573|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       5350|          2478|         132573|              0|            0|             0|           0|
+338 | D548900442|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      20500|             0|              0|              0|            0|             0|           0|
+339 | D548900442|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       1700|             0|              0|              0|            0|             0|           0|
+340 | D548900443|            89785|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       2100|          2412|          50652|              0|            0|             0|       32390|
+341 | D548900443|            89785|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1900|          2912|          55328|              0|            0|             0|       32390|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:02-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+342 | D548900444|            91686|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       3700|          2478|          91686|              0|            0|             0|           0|
+343 | D548900445|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       4500|             0|              0|              0|            0|             0|           0|
+344 | D548900445|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|        450|             0|              0|              0|            0|             0|           0|
+345 | D548900445|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      22000|             0|              0|              0|            0|             0|           0|
+346 | D548900446|            57425|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1800|          2412|          43416|              0|            0|             0|       41870|
+347 | D548900446|            57425|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       1200|          2912|          34944|              0|            0|             0|       41870|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:03-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+348 | D548900447|           189567|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7650|          2478|         189567|              0|            0|             0|           0|
+349 | D548900448|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       1600|             0|              0|              0|            0|             0|           0|
+350 | D548900448|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      31600|             0|              0|              0|            0|             0|           0|
+351 | D548900448|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       9000|             0|              0|              0|            0|             0|           0|
+352 | D548900449|           121322|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       2700|          2912|          78624|              0|            0|             0|       64148|
+353 | D548900449|           121322|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3100|          2412|          74772|              0|            0|             0|       64148|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:04-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+354 | D548900450|             1975|CMS CHILDRENS H|441889     |           1125|          BULK|    RAW RICE A|        100|           100|            100|              0|            0|             0|           0|
+355 | D548900450|             1975|CMS CHILDRENS H|441889     |           1125|          BULK|         SUGAR|         34|          2500|            850|              0|            0|             0|           0|
+356 | D548900450|             1975|CMS CHILDRENS H|441889     |           1125|          BULK|         WHEAT|         70|           750|            525|              0|            0|             0|           0|
+357 | D548900450|             1975|CMS CHILDRENS H|441889     |           1125|          BULK| BOILED RICE A|        500|           100|            500|              0|            0|             0|           0|
+358 | D548900451|        280664.72|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|      11300|          2478|         280014|              0|            0|             0|           0|
+359 | D548900451|        280664.72|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|         49|          1328|         650.72|              0|            0|             0|           0|
+360 | D548900452|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|        730|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:04-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+361 | D548900452|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      29290|             0|              0|              0|            0|             0|           0|
+362 | D548900452|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       2200|             0|              0|              0|            0|             0|           0|
+363 | D548900452|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|      11500|             0|              0|              0|            0|             0|           0|
+364 | D548900453|         235846.4|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5200|          2912|         151424|              0|            0|             0|     65601.6|
+365 | D548900453|         235846.4|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       4860|          2412|       117223.2|              0|            0|             0|     65601.6|
+366 | D548900454|           845.56|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|         10|          1162|          116.2|              0|            0|             0|           0|
+367 | D548900454|           845.56|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|         36|          1412|         508.32|              0|            0|             0|           0|
+368 | D548900454|           845.56|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|         18|          1228|         221.04|              0|            0|             0|           0|
+369 | D548900455|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|         10|             0|              0|              0|            0|             0|           0|
+370 | D548900455|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|        180|             0|              0|              0|            0|             0|           0|
+
+                                  TAMILNADU CIVIL SUPPLIES CORPORATION                                  Report Date :   17-06-2019
+ 
+                                          Delivery Order Details
+ 
+Delivery Order Date:06-06-2019           Godown : ANNA NAGAR -I          Region :CHENNAI (NORTH)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+S.No|  D.O.No   |   Total(Rs)     |  IssuerName   |Cheque/DD  | Pay.Amount(Rs)|   Scheme    |   Commodity  |Net.Wt(Kgs)| Rate(Rs)     | ITEM          |  Previous     |Other        |  Current     |  Margin    |
+    |           |                 |               |           |               |             |              |           |              | Amount        |   Balance     |Amount       |  Balance     |  Amount    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+371 | D548900456|            12390|KWCCS LIMITED  |           |              0|           PDS|         SUGAR|        500|          2478|          12390|              0|            0|             0|           0|
+372 | D548900457|                0|KWCCS LIMITED  |           |              0|           PDS|         WHEAT|        500|             0|              0|              0|            0|             0|           0|
+373 | D548900457|                0|KWCCS LIMITED  |           |              0|           PDS|    RAW RICE A|       2000|             0|              0|              0|            0|             0|           0|
+374 | D548900457|                0|KWCCS LIMITED  |           |              0|           PDS| BOILED RICE A|       7000|             0|              0|              0|            0|             0|           0|
+375 | D548900458|            31570|KWCCS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|        500|          2912|          14560|              0|            0|             0|       14220|
+376 | D548900458|            31570|KWCCS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       1000|          2412|          24120|              0|            0|             0|       14220|
+377 | D548900459|        194704.96|PTCWS LIMITED  |           |              0|           PDS|         SUGAR|       7800|          2478|         193284|              0|            0|             0|           0|
+378 | D548900459|        194704.96|PTCWS LIMITED  |           |              0|           AAY|         SUGAR|        107|          1328|        1420.96|              0|            0|             0|           0|
+379 | D548900460|                0|PTCWS LIMITED  |           |              0|           AAY|    RAW RICE A|       1815|             0|              0|              0|            0|             0|           0|
+380 | D548900460|                0|PTCWS LIMITED  |           |              0|           PDS|    RAW RICE A|      18435|             0|              0|              0|            0|             0|           0|
+381 | D548900460|                0|PTCWS LIMITED  |           |              0|           PDS|         WHEAT|       1200|             0|              0|              0|            0|             0|           0|
+382 | D548900460|                0|PTCWS LIMITED  |           |              0|           PDS| BOILED RICE A|       8500|             0|              0|              0|            0|             0|           0|
+383 | D548900461|         240036.7|PTCWS LIMITED  |           |              0|       SPL PDS|    TOOR DHALL|       5950|          2912|         173264|              0|            0|             0|       45425|
+384 | D548900461|         240036.7|PTCWS LIMITED  |           |              0|       SPL PDS|PALMOLIEN POUC|       3710|          2412|        89485.2|              0|            0|             0|       45425|
+385 | D548900462|         36535.52|PTCWS LIMITED  |           |              0|        POLICE|         SUGAR|        771|          1228|        9467.88|              0|            0|             0|           0|
+386 | D548900462|         36535.52|PTCWS LIMITED  |           |              0|        POLICE|PALMOLIEN POUC|        452|          1162|        5252.24|              0|            0|             0|           0|
+387 | D548900462|         36535.52|PTCWS LIMITED  |           |              0|        POLICE|    TOOR DHALL|       1545|          1412|        21815.4|              0|            0|             0|           0|
+388 | D548900463|                0|PTCWS LIMITED  |           |              0|        POLICE| BOILED RICE A|       2000|             0|              0|              0|            0|             0|           0|
+389 | D548900463|                0|PTCWS LIMITED  |           |              0|        POLICE|         WHEAT|        749|             0|              0|              0|            0|             0|           0|
+390 | D548900463|                0|PTCWS LIMITED  |           |              0|        POLICE|    RAW RICE A|       2720|             0|              0|              0|            0|             0|           0|
+
+
