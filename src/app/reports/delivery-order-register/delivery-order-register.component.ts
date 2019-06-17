@@ -59,6 +59,12 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       this.deliveryReceiptRegData = res;
+      let sno = 0;
+      this.deliveryReceiptRegData.forEach(data => {
+        data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {

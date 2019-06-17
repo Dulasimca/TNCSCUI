@@ -29,6 +29,7 @@ export class CommodityReceiptComponent implements OnInit {
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
@@ -72,6 +73,7 @@ export class CommodityReceiptComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = { 
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
@@ -80,11 +82,18 @@ export class CommodityReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
       this.commodityReceiptData = res;
+      let sno = 0;
+      this.commodityReceiptData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.commodityReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     })
   }
   onDateSelect() {

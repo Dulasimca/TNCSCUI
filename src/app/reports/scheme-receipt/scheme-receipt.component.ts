@@ -82,6 +82,12 @@ export class SchemeReceiptComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.SCHEME_RECEIPT_REPORT, params).subscribe(res => {
       this.schemeReceiptData = res;
+      let sno = 0;
+      this.schemeReceiptData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.schemeReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {

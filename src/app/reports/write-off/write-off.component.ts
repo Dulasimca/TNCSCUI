@@ -59,6 +59,12 @@ export class WriteOffComponent implements OnInit {
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.WRITE_OFF_REPORT, params).subscribe(res => {
       this.writeoffData = res;
+      let sno = 0;
+      this.writeoffData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.writeoffData.length !== 0) {
         this.isActionDisabled = false;
       } else {

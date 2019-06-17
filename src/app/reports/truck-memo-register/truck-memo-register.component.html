@@ -9,6 +9,7 @@
     </p-header>
     <div class="ui-g">
       <div style="text-align: center">
+        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
           <div class="ui-g-7 dashboard">
               <div class="ui-g-5 ui-fluid" style="padding-top: 26px">
                 <span class="ui-float-label">
@@ -43,7 +44,8 @@
               </div>
             </div>
             <div class="ui-g-12">
-          <p-table [columns]="truckMemoRegCols" [value]="truckMemoRegData" [resizableColumns]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
+          <p-table [columns]="truckMemoRegCols" [value]="truckMemoRegData" [resizableColumns]="true" [loading]="loading"
+           [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">

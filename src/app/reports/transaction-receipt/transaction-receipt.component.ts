@@ -83,6 +83,12 @@ export class TransactionReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
       this.transactionReceiptData = res;
+      let sno = 0;
+      this.transactionReceiptData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.transactionReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {

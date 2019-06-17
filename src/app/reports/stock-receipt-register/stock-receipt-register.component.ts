@@ -27,6 +27,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
+  loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
     private authService: AuthService, private excelService: ExcelService,
@@ -56,14 +57,22 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       this.stockReceiptRegData = res;
+      let sno = 0;
+      this.stockReceiptRegData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     })
   }
 

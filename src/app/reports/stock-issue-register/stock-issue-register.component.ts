@@ -30,7 +30,7 @@ export class StockIssueRegisterComponent implements OnInit {
   startIndex: any = 0;
   recordRange: any = 500;
   position: any = 1;
-  loading: boolean;
+  loading: boolean = false;
   canFetch: boolean;
   totalRecords: number;
   
@@ -79,8 +79,11 @@ export class StockIssueRegisterComponent implements OnInit {
       this.restAPIService.post(PathConstants.STOCK_ISSUE_REGISTER_REPORT, params).subscribe(res => {
         if (res !== undefined && res.length !== 0) {
           this.loading = false;
+          let sno = 0;
           res.forEach(rec => {
+            sno += 1;
             this.record.push({
+              'SlNo': sno,
               'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/mm/yyyy'),
               'Lorryno': rec.Lorryno, 'To_Whom_Issued': rec.To_Whom_Issued, 'Stackno': rec.Stackno, 'Scheme': rec.Scheme,
               'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt

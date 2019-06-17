@@ -165,6 +165,7 @@ export class TableConstants {
     ];
 
     this.StockReceiptRegisterReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Ackno', "header": 'ACK.No' },
       { "field": 'TruckMemoNo', "header": 'Truck Memo No' },
       { "field": 'Lorryno', "header": 'Lorry No' },
@@ -177,6 +178,7 @@ export class TableConstants {
     ];
 
     this.StockIssueRegisterReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Issue_Memono', "header": 'Issue Memo No' },
       { "field": 'DNo', "header": 'Do No' },
       { "field": 'Issue_Date', "header": 'Date' },
@@ -190,6 +192,7 @@ export class TableConstants {
     ];
 
     this.TruckMemoRegisterReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Truck_Memono', "header": 'Truck Memo No' },
       { "field": 'Mono', "header": 'Mo.No' },
       { "field": 'Issue_Date', "header": 'Date' },
@@ -204,24 +207,25 @@ export class TableConstants {
 
     this.DeliveryMemoRegisterReport = [
       { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'deliveryOrderNo', "header": 'Delivery Order No'},
-      { "field": 'date', "header": 'Date' },
-      { "field": 'grandTotal', "header": 'Grand Total (Rs)'},
-      { "field": 'toWhomIssued', "header": 'To Whom Issued' },
-      { "field": 'cheque/ddNo', "header": 'Cheque/DD No'},
-      { "field": 'amount(Rs)', "header": 'Amount (Rs)' },
-      { "field": 'scheme', "header": 'Scheme' },
-      { "field": 'commodity', "header": 'Commodity' },
-      { "field": 'quantity', "header": 'Quantity(Kgs)' },
-      { "field": 'rate', "header": 'Rate' },
-      { "field": 'amount', "header": 'Amount' },
-      { "field": 'prevBalance', "header": 'Prev.Balance' },
-      { "field": 'otherAmount', "header": 'Other Amount' },
-      { "field": 'balance', "header": 'Balance' },
-      { "field": 'margin', "header": 'Margin' }
+      { "field": 'Dono', "header": 'Delivery Order No'},
+      { "field": 'DeliveryOrderDate', "header": 'Date' },
+      { "field": 'Totals', "header": 'Total (Rs)'},
+      { "field": 'To_Whom_Issued', "header": 'Issuer Name' },
+      { "field": 'Cheque_DD', "header": 'Cheque/DD'},
+      { "field": 'PaymentAmount', "header": 'Payment Amount (Rs)' },
+      { "field": 'Scheme', "header": 'Scheme' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'Netwt_Kgs', "header": 'Net.Wt(Kgs)' },
+      { "field": 'Rate_Rs', "header": 'Rate(Rs)' },
+      { "field": 'Itemamount', "header": 'Item Amount' },
+      { "field": 'PreviousAmount ', "header": 'Previous Balance' },
+      { "field": 'Adjusted', "header": 'Other Amount' },
+      { "field": 'Balance', "header": 'Current Balance' },
+      { "field": 'MarginAmount', "header": 'Margin Amount' }
     ];
 
     this.CommodityReceiptReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Scheme', "header": 'SCHEME'},
       { "field": 'Ackno', "header": 'Ack. No'},
@@ -237,6 +241,7 @@ export class TableConstants {
     ];
 
     this.SchemeReceiptReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Scheme', "header": 'SCHEME'},
       { "field": 'AckNo', "header": 'Ack. No'},
@@ -249,6 +254,7 @@ export class TableConstants {
     ];
 
     this.TransactionReceiptReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Commodity', "header": 'COMMODITY'},
       { "field": 'Date', "header": 'DATE'},
@@ -257,6 +263,7 @@ export class TableConstants {
     ];
 
     this.CommodityIssueMemoReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'scheme', "header": 'SCHEME'},
       { "field": 'AckNo', "header": 'I.MEMO NO'},
@@ -269,6 +276,7 @@ export class TableConstants {
     ];
 
     this.SchemeIssueMemoReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Scheme', "header": 'SCHEME'},
       { "field": 'Issue_Memono', "header": 'I.MEMO NO'},
@@ -279,6 +287,7 @@ export class TableConstants {
     ];
 
     this.WriteoffReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'Godownname', "header": 'GODOWN'},
       { "field": 'Date', "header": 'DATE'},
       { "field": 'Issue_Memono', "header": 'ISSUE NO'},
@@ -289,6 +298,7 @@ export class TableConstants {
     ];
 
     this.HullingDetailsReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'SRNo', "header": 'Ack. No'},
       { "field": 'SRDate', "header": 'Date'},
       { "field": 'ITDescription', "header": 'Commodity'},
@@ -298,6 +308,7 @@ export class TableConstants {
     ];
 
     this.TruckToRegionReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'truckMemo', "header": 'Truck Memo'},
       { "field": 'date', "header": 'Date'},
       { "field": 'godown', "header": 'Godown'},
@@ -310,6 +321,7 @@ export class TableConstants {
     ];
 
     this.TruckFromRegionReport = [
+      { "field": 'SlNo', "header": 'S.No'},
       { "field": 'AckNo', "header": 'Ack. No'},
       { "field": 'date', "header": 'Date'},
       { "field": 'type', "header": 'Type'},

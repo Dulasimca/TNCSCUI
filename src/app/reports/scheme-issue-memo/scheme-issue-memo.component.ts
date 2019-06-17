@@ -81,6 +81,12 @@ export class SchemeIssueMemoComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.SCHEME_ISSUE_MEMO_REPORT, params).subscribe(res => {
       this.schemeIssueMemoData = res;
+      let sno = 0;
+      this.schemeIssueMemoData.forEach(data => {
+        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.schemeIssueMemoData.length !== 0) {
         this.isActionDisabled = false;
       } else {
