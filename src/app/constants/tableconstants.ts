@@ -30,6 +30,7 @@ export class TableConstants {
   HullingDetailsReport: any;
   TruckToRegionReport: any;
   TruckFromRegionReport: any;
+  GunnyReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -317,6 +318,20 @@ export class TableConstants {
       { "field": 'commodity', "header": 'Commodity'},
       { "field": 'bags', "header": 'Bags'},
       { "field": 'quantity', "header": 'Quantity'}
+    ];
+
+    this.GunnyReport = [
+      { "field": 'AckNo', "header": 'Ack. No'},
+      { "field": 'date', "header": 'Date'},
+      { "field": 'commodity', "header": 'Commodity'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'quantity', "header": 'Quantity'},
+      { "field": 'StackNo', "header": 'Stack No'},
+      { "field": 'commodity', "header": 'Commodity'},
+      { "field": 'SYear', "header": 'S.YEAR'}
+
+
+
     ]
   }
 }
