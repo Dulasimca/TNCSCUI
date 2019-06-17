@@ -65,6 +65,7 @@ export class CommodityIssueMemoComponent implements OnInit {
           }
         })
       }
+      break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {

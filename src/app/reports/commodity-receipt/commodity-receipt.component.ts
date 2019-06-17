@@ -26,6 +26,7 @@ export class CommodityReceiptComponent implements OnInit {
   tr_cd: any;
   godownOptions: SelectItem[];
   transactionOptions: SelectItem[];
+  commodityOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
@@ -44,6 +45,7 @@ export class CommodityReceiptComponent implements OnInit {
   onSelect(item) {
     let godownSelection = [];
     let transactionSelection = [];
+    let commoditySelection = [];
     switch (item) {
       case 'gd':
     if (this.data !== undefined) {
@@ -64,6 +66,19 @@ export class CommodityReceiptComponent implements OnInit {
         }
         })
       }
+      break;
+      case 'cd':
+        if(this.commodityOptions === undefined){
+        this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          if (data !== undefined) {
+            data.forEach(y => {
+              commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+              this.commodityOptions = commoditySelection;
+            });
+          }
+        })
+      }
+      break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {

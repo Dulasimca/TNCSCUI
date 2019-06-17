@@ -62,6 +62,7 @@ export class SchemeReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
         }
+        break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.sc_cd !== undefined && this.sc_cd !== '') {

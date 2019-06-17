@@ -22,9 +22,12 @@
               <label class="float-input">Transaction Type</label>
             </span>
           </div>
-            <div class="ui-g-1" style="padding: 20px 0px 0px 0px;">
-              <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValue"></p-checkbox>
-              <label class="ui-g-10" style="font-size: small">Item Selection</label>
+          <div class="ui-g-2 ui-fluid" style="padding-top: 28px">
+              <span class="ui-float-label">
+                <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+                  (ngModelChange)="onResetTable()"></p-dropdown>
+                <label class="float-input">Commodity</label>
+              </span>
             </div>
           <div class="ui-g-2 no-left-pad no-right-pad">
             <label class="ui-g-7 dashboard">From</label>
