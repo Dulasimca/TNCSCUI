@@ -6,8 +6,9 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheme-issue-memo',
@@ -32,7 +33,8 @@ export class SchemeIssueMemoComponent implements OnInit {
   maxDate: Date;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
+    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -62,6 +64,7 @@ export class SchemeIssueMemoComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
         }
+        break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.sc_cd !== undefined && this.sc_cd !== '') {
@@ -81,6 +84,12 @@ export class SchemeIssueMemoComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.SCHEME_ISSUE_MEMO_REPORT, params).subscribe(res => {
       this.schemeIssueMemoData = res;
+      let sno = 0;
+      this.schemeIssueMemoData.forEach(data => {
+        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.schemeIssueMemoData.length !== 0) {
         this.isActionDisabled = false;
       } else {
@@ -88,8 +97,12 @@ export class SchemeIssueMemoComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
-    })
-  }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
+      }
+    })  }
 
   onResetTable() {
     this.schemeIssueMemoData = [];

@@ -48,7 +48,8 @@
         </div> 
         <!-- <div class="ui-g-2"></div> -->
      <div class="ui-g-12"> 
-        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
+        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="10"
+         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns">

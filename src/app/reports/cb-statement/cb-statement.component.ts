@@ -3,6 +3,8 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cb-statement',
@@ -20,7 +22,8 @@ export class CBStatementComponent implements OnInit {
   rowGroupMetadata: any;
   totalMetaData: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private tableConstants: TableConstants) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService, 
+    private tableConstants: TableConstants, private router: Router) { }
 
   ngOnInit() {
     this.rowGroupMetadata = {};
@@ -171,6 +174,10 @@ export class CBStatementComponent implements OnInit {
               this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
           }
         }
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.router.navigate(['pageNotFound']);
       }
     })
   }

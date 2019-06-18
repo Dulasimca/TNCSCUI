@@ -6,8 +6,9 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheme-receipt',
@@ -32,7 +33,8 @@ export class SchemeReceiptComponent implements OnInit {
   maxDate: Date;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
+     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -62,6 +64,7 @@ export class SchemeReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
         }
+        break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined && this.sc_cd !== undefined && this.sc_cd !== '') {
@@ -76,12 +79,18 @@ export class SchemeReceiptComponent implements OnInit {
     this.schemeReceiptData = [];
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      // 'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.g_cd,
       'TRCode': this.sc_cd
     };
     this.restAPIService.post(PathConstants.SCHEME_RECEIPT_REPORT, params).subscribe(res => {
       this.schemeReceiptData = res;
+      let sno = 0;
+      this.schemeReceiptData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
       if (res !== undefined && this.schemeReceiptData.length !== 0) {
         this.isActionDisabled = false;
       } else {
@@ -89,6 +98,11 @@ export class SchemeReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
+      }
     })
   }
 

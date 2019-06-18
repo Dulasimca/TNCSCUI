@@ -62,7 +62,7 @@
         </div>
         <div class="ui-g-12">
           <p-table [columns]="commodityIssueMemoCols" [value]="commodityIssueMemoData" [responsive]="true"
-            [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+            [scrollable]="true" [loading]="loading" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
             autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr>

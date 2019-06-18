@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-stockpurchase',
@@ -30,6 +31,7 @@ export class StockPurchaseComponent implements OnInit {
 
   onView() {
     this.isShowGrid = true;
+    saveAs("../../assets/Reports/Text/548SDOR.txt", "file.txt");
   }
 
   search(event) {
