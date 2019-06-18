@@ -1201,16 +1201,6 @@ ul
           float: right !important;
           padding-top: 20px;
         }
-        
-        /* @media screen and (max-width: 500px) {
-          .header a {
-            float: none;
-            display: flex;
-            text-align: left;
-          }
-          
-         
-        } */
 
         @media screen and (max-width: 707px){
           .header h1{

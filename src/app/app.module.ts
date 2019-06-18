@@ -82,6 +82,7 @@ import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
+import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 
 
 @NgModule({
@@ -131,7 +132,8 @@ import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-ent
     CustomerDetailsComponent,
     SocietyWiseCommodityAbstractComponent,
     GunnyGuGrComponent,
-    StackCardOpeningEntryComponent
+    StackCardOpeningEntryComponent,
+    OpeningBalanceComponent
   ],
   imports: [
     BrowserModule,
