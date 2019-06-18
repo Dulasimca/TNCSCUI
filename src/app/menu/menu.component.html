@@ -9,12 +9,17 @@
         <li class="dropdown men active" *ngFor="let menu of items">
           <a class="dropdown-toggle" data-toggle="dropdown">
             {{menu.label}} <b *ngIf="menu.items.length !== 0" class="caret"></b></a>
-          <ul class="dropdown-menu dropright">
+          <ul *ngIf="menu.items.length !== 0" class="dropdown-menu dropright">
             <li class="dropdown-submenu men" *ngFor="let child of menu.items">
-              <a class="dropdown-toggle" data-toggle="dropdown">{{child.label}}</a>
-              <ul class="dropdown-menu">
-                <li class="men" *ngFor="let x of child.items">
-                  <a [routerLink]="x.routerLink">{{x.label}}</a>
+              <a [ngClass]="(child.length !== 0) ? dropdown-toggle : none" data-toggle="(child.length !== 0) ? dropdown : none">{{child.label}}</a>
+              <ul *ngIf="child.items.length !== 0" class="dropdown-menu">
+                <li  class="men" *ngFor="let nestedChild of child.items">
+                  <a [ngClass]="(nestedChild.length !== 0) ? dropdown-toggle : none" data-toggle="(nestedChild.length !== 0) ? dropdown : none" [routerLink]="nestedChild.routerLink">{{nestedChild.label}}</a>
+                  <ul *ngIf="nestedChild.items.length !== 0" class="dropdown-menu">
+                    <li class="dropdown-submenu men" *ngFor="let x of child.items">
+                      <a [ngClass]="(x.length !== 0) ? dropdown-toggle : none" data-toggle="(x.length !== 0) ? dropdown : none"  [routerLink]="x.routerLink">{{x.label}}</a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
