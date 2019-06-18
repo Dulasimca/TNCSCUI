@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -12,9 +13,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
   yearOptions: SelectItem[];
   year: string;
 
-  constructor() { }
+  constructor(private tableConstants: TableConstants) { }
 
   ngOnInit() {
+    this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
   }
 
   onSelect(selectedItem) {

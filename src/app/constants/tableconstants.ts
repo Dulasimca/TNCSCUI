@@ -31,6 +31,8 @@ export class TableConstants {
   TruckToRegionReport: any;
   TruckFromRegionReport: any;
   GunnyReport: any;
+  StackCardOpeningEntryReport: any;
+  ReceiptHOPurchaseReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -166,7 +168,7 @@ export class TableConstants {
     ];
 
     this.StockReceiptRegisterReport = [
-      { "field": 'SlNo', "header": 'S.No'},
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'Ackno', "header": 'ACK.No' },
       { "field": 'TruckMemoNo', "header": 'Truck Memo No' },
       { "field": 'Lorryno', "header": 'Lorry No' },
@@ -179,7 +181,7 @@ export class TableConstants {
     ];
 
     this.StockIssueRegisterReport = [
-      { "field": 'SlNo', "header": 'S.No'},
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'Issue_Memono', "header": 'Issue Memo No' },
       { "field": 'DNo', "header": 'Do No' },
       { "field": 'Issue_Date', "header": 'Date' },
@@ -193,7 +195,7 @@ export class TableConstants {
     ];
 
     this.TruckMemoRegisterReport = [
-      { "field": 'SlNo', "header": 'S.No'},
+      { "field": 'SlNo', "header": 'S.No' },
       { "field": 'Truck_Memono', "header": 'Truck Memo No' },
       { "field": 'Mono', "header": 'Mo.No' },
       { "field": 'Issue_Date', "header": 'Date' },
@@ -207,12 +209,12 @@ export class TableConstants {
     ];
 
     this.DeliveryMemoRegisterReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Dono', "header": 'Delivery Order No'},
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Dono', "header": 'Delivery Order No' },
       { "field": 'DeliveryOrderDate', "header": 'Date' },
-      { "field": 'Totals', "header": 'Total (Rs)'},
+      { "field": 'Totals', "header": 'Total (Rs)' },
       { "field": 'To_Whom_Issued', "header": 'Issuer Name' },
-      { "field": 'Cheque_DD', "header": 'Cheque/DD'},
+      { "field": 'Cheque_DD', "header": 'Cheque/DD' },
       { "field": 'PaymentAmount', "header": 'Payment Amount (Rs)' },
       { "field": 'Scheme', "header": 'Scheme' },
       { "field": 'Commodity', "header": 'Commodity' },
@@ -226,124 +228,146 @@ export class TableConstants {
     ];
 
     this.CommodityReceiptReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'Scheme', "header": 'SCHEME'},
-      { "field": 'Ackno', "header": 'Ack. No'},
-      { "field": 'Date', "header": 'DATE'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Bags_No', "header": 'BAGS/NOS'},
-      { "field": 'Quantity', "header": 'QUANTITY'},
-      { "field": 'RecdFrom', "header": 'RECD FROM'},
-      { "field": 'Lorryno', "header": 'LORRY NO'},
-      { "field": 'TruckMemoNo', "header": 'T.MEMO.MC'},
-      { "field": 'Truckmemodate', "header": 'T.MEMO.DT'},
-      { "field": 'Orderno', "header": 'Order.No'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'Scheme', "header": 'SCHEME' },
+      { "field": 'Ackno', "header": 'Ack. No' },
+      { "field": 'Date', "header": 'DATE' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Bags_No', "header": 'BAGS/NOS' },
+      { "field": 'Quantity', "header": 'QUANTITY' },
+      { "field": 'RecdFrom', "header": 'RECD FROM' },
+      { "field": 'Lorryno', "header": 'LORRY NO' },
+      { "field": 'TruckMemoNo', "header": 'T.MEMO.MC' },
+      { "field": 'Truckmemodate', "header": 'T.MEMO.DT' },
+      { "field": 'Orderno', "header": 'Order.No' }
     ];
 
     this.SchemeReceiptReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'Scheme', "header": 'SCHEME'},
-      { "field": 'AckNo', "header": 'Ack. No'},
-      { "field": 'Date', "header": 'DATE'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Quantity', "header": 'QUANTITY'},
-      { "field": 'recdFrom', "header": 'RECD FROM'},
-      { "field": 'tMemoNo', "header": 'T.MEMO.NO'},
-      { "field": 'Lorryno', "header": 'LORRY NO'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'Scheme', "header": 'SCHEME' },
+      { "field": 'AckNo', "header": 'Ack. No' },
+      { "field": 'Date', "header": 'DATE' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Quantity', "header": 'QUANTITY' },
+      { "field": 'recdFrom', "header": 'RECD FROM' },
+      { "field": 'tMemoNo', "header": 'T.MEMO.NO' },
+      { "field": 'Lorryno', "header": 'LORRY NO' }
     ];
 
     this.TransactionReceiptReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Date', "header": 'DATE'},
-      { "field": 'Trans_action', "header": 'TRANSACTION'},
-      { "field": 'Quantity', "header": 'QUANTITY'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Date', "header": 'DATE' },
+      { "field": 'Trans_action', "header": 'TRANSACTION' },
+      { "field": 'Quantity', "header": 'QUANTITY' }
     ];
 
     this.CommodityIssueMemoReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'scheme', "header": 'SCHEME'},
-      { "field": 'AckNo', "header": 'I.MEMO NO'},
-      { "field": 'Date', "header": 'DATE'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Quantity', "header": 'QUANTITY'},
-      { "field": 'Issuedto', "header": 'ISSUED TO'},
-      { "field": 'Lorryno', "header": 'LORRY NO'},
-      { "field": 'LorryNo', "header": 'Stack No'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'scheme', "header": 'SCHEME' },
+      { "field": 'AckNo', "header": 'I.MEMO NO' },
+      { "field": 'Date', "header": 'DATE' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Quantity', "header": 'QUANTITY' },
+      { "field": 'Issuedto', "header": 'ISSUED TO' },
+      { "field": 'Lorryno', "header": 'LORRY NO' },
+      { "field": 'LorryNo', "header": 'Stack No' }
     ];
 
     this.SchemeIssueMemoReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'Scheme', "header": 'SCHEME'},
-      { "field": 'Issue_Memono', "header": 'I.MEMO NO'},
-      { "field": 'Issuedto', "header": 'DATE'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Quantity', "header": 'QUANTITY'},
-      { "field": 'Issuedto', "header": 'ISSUED TO'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'Scheme', "header": 'SCHEME' },
+      { "field": 'Issue_Memono', "header": 'I.MEMO NO' },
+      { "field": 'Issuedto', "header": 'DATE' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Quantity', "header": 'QUANTITY' },
+      { "field": 'Issuedto', "header": 'ISSUED TO' }
     ];
 
     this.WriteoffReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'Godownname', "header": 'GODOWN'},
-      { "field": 'Date', "header": 'DATE'},
-      { "field": 'Issue_Memono', "header": 'ISSUE NO'},
-      { "field": 'Commodity', "header": 'COMMODITY'},
-      { "field": 'Quantity', "header": 'QUANTITY'},
-      { "field": 'StackNo', "header": 'Stack No'},
-      { "field": 'Remarks', "header": 'REMARKS'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Godownname', "header": 'GODOWN' },
+      { "field": 'Date', "header": 'DATE' },
+      { "field": 'Issue_Memono', "header": 'ISSUE NO' },
+      { "field": 'Commodity', "header": 'COMMODITY' },
+      { "field": 'Quantity', "header": 'QUANTITY' },
+      { "field": 'StackNo', "header": 'Stack No' },
+      { "field": 'Remarks', "header": 'REMARKS' }
     ];
 
     this.HullingDetailsReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'SRNo', "header": 'Ack. No'},
-      { "field": 'SRDate', "header": 'Date'},
-      { "field": 'ITDescription', "header": 'Commodity'},
-      { "field": 'DepositorName', "header": 'Depositor'},
-      { "field": 'NoPacking', "header": 'Bags'},
-      { "field": 'Nkgs', "header": 'Quantity'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'SRNo', "header": 'Ack. No' },
+      { "field": 'SRDate', "header": 'Date' },
+      { "field": 'ITDescription', "header": 'Commodity' },
+      { "field": 'DepositorName', "header": 'Depositor' },
+      { "field": 'NoPacking', "header": 'Bags' },
+      { "field": 'Nkgs', "header": 'Quantity' }
     ];
 
     this.TruckToRegionReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'truckMemo', "header": 'Truck Memo'},
-      { "field": 'date', "header": 'Date'},
-      { "field": 'godown', "header": 'Godown'},
-      { "field": 'region', "header": 'Region'},
-      { "field": 'commodity', "header": 'Commodity'},
-      { "field": 'scheme', "header": 'Scheme'},
-      { "field": 'bags', "header": 'Bags'},
-      { "field": 'quantity', "header": 'Quantity'},
-      { "field": 'docnoL', "header": 'Docno./L'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'truckMemo', "header": 'Truck Memo' },
+      { "field": 'date', "header": 'Date' },
+      { "field": 'godown', "header": 'Godown' },
+      { "field": 'region', "header": 'Region' },
+      { "field": 'commodity', "header": 'Commodity' },
+      { "field": 'Scheme', "header": 'Scheme' },
+      { "field": 'bags', "header": 'Bags' },
+      { "field": 'quantity', "header": 'Quantity' },
+      { "field": 'docnoL', "header": 'Docno./L' }
     ];
 
     this.TruckFromRegionReport = [
-      { "field": 'SlNo', "header": 'S.No'},
-      { "field": 'AckNo', "header": 'Ack. No'},
-      { "field": 'date', "header": 'Date'},
-      { "field": 'type', "header": 'Type'},
-      { "field": 'depositor', "header": 'Depositor'},
-      { "field": 'commodity', "header": 'Commodity'},
-      { "field": 'bags', "header": 'Bags'},
-      { "field": 'quantity', "header": 'Quantity'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'AckNo', "header": 'Ack. No' },
+      { "field": 'Date', "header": 'Date' },
+      { "field": 'type', "header": 'Type' },
+      { "field": 'Depositor', "header": 'Depositor' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'bags', "header": 'Bags' },
+      { "field": 'Quantity', "header": 'Quantity' }
     ];
 
     this.GunnyReport = [
-      { "field": 'AckNo', "header": 'Ack. No'},
-      { "field": 'date', "header": 'Date'},
-      { "field": 'commodity', "header": 'Commodity'},
-      { "field": 'bags', "header": 'Bags'},
-      { "field": 'quantity', "header": 'Quantity'},
-      { "field": 'StackNo', "header": 'Stack No'},
-      { "field": 'commodity', "header": 'Commodity'},
-      { "field": 'SYear', "header": 'S.YEAR'}
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'AckNo', "header": 'Ack. No' },
+      { "field": 'Date', "header": 'Date' },
+      { "field": 'commodity', "header": 'Commodity' },
+      { "field": 'bags', "header": 'Bags' },
+      { "field": 'Quantity', "header": 'Quantity' },
+      { "field": 'StackNo', "header": 'Stack No' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'SYear', "header": 'S.YEAR' }
+    ];
 
 
+    this.StackCardOpeningEntryReport = [
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'Stackno', "header": 'Stack No' },
+      { "field": 'Opening_Bags', "header": 'Ope.Bags' },
+      { "field": 'Opening_Quantity', "header": 'Ope.Quantity' },
+      { "field": 'FromDate', "header": 'From_dt' },
+      { "field": 'FormationYear', "header": 'Formation Year' },
+      { "field": 'Status', "header": 'Status' },
+    ];
 
-    ]
+    this.ReceiptHOPurchaseReport = [
+      { "field": 'SlNo', "header": 'S.No' },
+      { "field": 'AckNo', "header": 'Ack. No' },
+      { "field": 'Commodity', "header": 'Commodity' },
+      { "field": 'Bags', "header": 'Bags' },
+      { "field": 'Quantity', "header": 'Quantity' },
+      { "field": 'Truckmen', "header": 'Truckmen' },
+      { "field": 'Orderno', "header": 'Order No' },
+      { "field": 'Lorryno', "header": 'Lorry No' },
+      { "field": 'Scheme', "header": 'Scheme' },
+    ];
+
   }
 }

@@ -33,7 +33,7 @@ export class ReceiptHOPurchaseComponent implements OnInit {
     ngOnInit() {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.isViewDisabled = this.isActionDisabled = true;
-      this.receiptHOPurchaseCols = this.tableConstants.CommodityReceiptReport;
+      this.receiptHOPurchaseCols = this.tableConstants.ReceiptHOPurchaseReport;
       this.data = this.roleBasedService.getInstance();
       this.maxDate = new Date();
     }
