@@ -42,6 +42,7 @@ import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
+import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 
 
 const routes: Routes = [
@@ -86,6 +87,7 @@ const routes: Routes = [
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny Report', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
+  { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

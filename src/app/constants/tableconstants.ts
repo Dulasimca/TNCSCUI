@@ -33,6 +33,8 @@ export class TableConstants {
   GunnyReport: any;
   StackCardOpeningEntryReport: any;
   ReceiptHOPurchaseReport: any;
+  StackWiseBreakupDetails: any;
+  SchemeWiseBreakupDetails: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -369,5 +371,17 @@ export class TableConstants {
       { "field": 'Scheme', "header": 'Scheme' },
     ];
 
+    this.StackWiseBreakupDetails = [
+      { "field": 'Stackno', "header": 'Stack No'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'Weight', "header": 'Weight'}
+    ];
+
+    this.SchemeWiseBreakupDetails = [
+      { "field": 'Stackno', "header": 'Stack No'},
+      { "field": 'bags', "header": 'Bags'},
+      { "field": 'Weight', "header": 'Weight'},
+      { "field": 'Scheme', "header": 'Scheme'}
+    ]
   }
 }
