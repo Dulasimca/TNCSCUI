@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem } from 'primeng/api';
+import { PathConstants } from 'src/app/constants/path.constants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -10,79 +12,83 @@ import { SelectItem } from 'primeng/api';
 })
 export class StockReceiptComponent implements OnInit {
   canShowMenu: boolean;
+  scheme_data: any;
   itemCol: any;
   itemData: any;
   regionName: any;
   godownName: any;
   data: any;
-  stockDate: Date;
   month: string;
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   year: string;
-  allotmentOrderNo: number;
-  allotmentOrderDate: Date;
+  OrderNo: number;
+  OrderDate: Date;
   roadSelected: boolean;
   railSelected: boolean;
   transactionOptions: SelectItem[];
-  tr_cd: string;
+  Trcode: string;
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
   dt_cd: string;
   dn_cd: string;
-  truckMemoNo: any;
-  date: Date;
+  TruckMemoNo: any;
+  TruckMemoDate: Date;
   manualDocNo: number;
   vehicleNo: any;
   from: any;
   schemeOptions: SelectItem[];
-  sc_cd: string;
+  Scheme: string;
   itemDescOptions: SelectItem[];
   wmtOptions: SelectItem[];
   wmt: string;
   moistureOptions: SelectItem[];
-  moisture: string;
+  Moisture: string;
   tareWt: number;
   stackBalance: number;
-  transporterName: string;
-  lorryBillNo: any;
+  TransporterName: string;
+  LWBillNo: any;
   no: any;
-  wayBillDate: Date;
-  kms: number;
-  freightAmount: number;
-  noOfPacking: any;
-  grossWt: number;
-  netWt: number;
-  item_cd: string;
+  LWBillDate: Date;
+  Kilometers: number;
+  FreightAmount: number;
+  GKgs: number;
+  Nkgs: number;
   godownNo: string;
   locationNo: any;
   packingTypeOptions: SelectItem[];
   p_cd: string;
-  warehouseDeposit: any;
-  wmtCharges: number;
-  handlingCharges: number;
-  unservicable: any;
-  servicableGunny: any;
-  gunnyWithPatches: any;
+  WHDNo: any;
+  WCharges: number;
+  HCharges: number;
+  GUnserviceable: any;
+  GServiceable: any;
+  GPatches: any;
   freightOptions: SelectItem[];
-  ft_cd: string;
-  v_cd: string;
+  FCode: string;
+  VCode: string;
   vehicleOptions: SelectItem[];
-  gunnyUtilized: any;
-  gunnyReleased: any;
+  Gunnyutilised: any;
+  GunnyReleased: any;
   mno: any;
-  stackNo: number;
+  TStockNo: number;
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
-  toStation: string;
-  fromStation: string;
-  rrNo: any;
-  loadingDate: Date;
-  wagonNo: any;
-  remarks: string;
+  TStation: string;
+  FStation: string;
+  RRNo: any;
+  LDate: Date;
+  WNo: any;
+  Remarks: string;
+  ICode: string;
+  IPCode: string;
+  NoPacking: any;
+  WTCode: string;
+  @ViewChild('tabs')
+  tabs: ElementRef;
 
 
-  constructor(private authService: AuthService, private roleBasedService: RoleBasedService) {
+  constructor(private authService: AuthService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) {
     if (this.data === undefined) {
       this.data = this.roleBasedService.getGodownAndRegion();
       setTimeout(() => {
@@ -93,8 +99,7 @@ export class StockReceiptComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    
-
+    this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCol = [
       { field: 'Stack No.', header: 'StackNo' },
       { field: 'Item Description', header: 'ItemDesc' },
@@ -118,6 +123,8 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSelect(selectedItem) {
+    let transactoinSelection = [];
+    let schemeSelection = [];
     let yearArr = [];
     const range = 3;
     switch(selectedItem) {
@@ -141,7 +148,33 @@ export class StockReceiptComponent implements OnInit {
         {'label': 'Aug', 'value': 8},{'label': 'Sep', 'value': 9},{'label': 'Oct', 'value': 10},
         {'label': 'Nov', 'value': 11},{'label': 'Dec', 'value': 12}];
         break;
+        case 'tr':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactoinSelection;
+              });
+            }
+          })
+        }
+        break;
+        case 'sc':
+            if (this.scheme_data !== undefined) {
+              this.scheme_data.forEach(y => {
+                schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+                this.schemeOptions = schemeSelection;
+              });
+            }
+            break;
   }
+}
+
+click(event) {
+  console.log(event);
+  console.log(this.tabs.nativeElement);
+  this.tabs.nativeElement.children[1].tabIndex + 1;
 }
 
   // ngAfterViewInit() {
