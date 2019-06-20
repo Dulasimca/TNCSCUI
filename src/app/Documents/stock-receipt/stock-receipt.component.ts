@@ -16,6 +16,7 @@ export class StockReceiptComponent implements OnInit {
   itemCol: any;
   itemData: any;
   regionName: any;
+  RCode: number;
   godownName: any;
   data: any;
   month: string;
@@ -24,8 +25,8 @@ export class StockReceiptComponent implements OnInit {
   year: string;
   OrderNo: number;
   OrderDate: Date;
-  roadSelected: boolean;
-  railSelected: boolean;
+  Flag1: boolean;
+  Flag2: boolean;
   transactionOptions: SelectItem[];
   Trcode: string;
   depositorTypeOptions: SelectItem[];

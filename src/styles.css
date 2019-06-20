@@ -132,7 +132,7 @@ a {
 }
 .header-main {
 	max-width: 320px;
-	margin: 0 auto;
+	margin: 50px auto;
 	position: relative;
 	z-index: 999;
 	padding: 4em 2em;

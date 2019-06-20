@@ -1,4 +1,5 @@
 export interface StockReceipt {
+    RCode: number;
     SRDate: Date;
     Trcode: string;
     OrderNo: number;
@@ -35,5 +36,13 @@ export interface StockReceipt {
     RRNo: any;
     WNo: any;
     Remarks: string;
+    Flag1: boolean;
+    Flag2: boolean;
     list: any[];
+    month: any;
+    year: number;
+    dt_cd: string;
+    dn_cd: string;
+    manualDocNo: any;
+    
 }
