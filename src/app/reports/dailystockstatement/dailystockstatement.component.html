@@ -15,7 +15,7 @@
         </div>
       </p-header>
       <div #dailyStockTable class="ui-g" style="text-align:left; display:grid">
-        <p-treeTable  [value]="dailyStockData" [columns]="dailyStockDataColumns" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords"
+        <p-treeTable  [value]="dailyStockData" [columns]="dailyStockDataColumns" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [loading]="loading" [totalRecords]="totalRecords"
           [paginator]="true" autoLayout="true" selectionMode="single" (onRowSelect)="onRowSelect($event)" [resizableColumns]="true" dataKey="Name" >
           <ng-template pTemplate="header" let-columns>
               <tr [ttRow]="rowNode">
