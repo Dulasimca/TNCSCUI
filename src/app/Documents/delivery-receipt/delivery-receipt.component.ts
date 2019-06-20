@@ -3,6 +3,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { PathConstants } from 'src/app/constants/path.constants';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -12,6 +13,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 export class DeliveryReceiptComponent implements OnInit {
   deliveryCols: any;
   deliveryData: any;
+  scheme_data: any[];
   itemCols: any;
   itemData: any;
   paymentCols: any;
@@ -20,42 +22,62 @@ export class DeliveryReceiptComponent implements OnInit {
   paymentBalData: any;
   itemSchemeCols: any;
   itemSchemeData: any;
-  deliveryOrderNo: number;
-  deliveryDate: Date;
-  transactionCdOptions: SelectItem[];
-  transactionCd: string;
-  indentNo: number;
-  permitDate: Date;
-  selectedItem: boolean;
-  orderPeriodMonth: Date;
-  orderPeriodYear: Date;
-  regionName: any;
-  issuingGodownName: any;
+  transactionOptions: SelectItem[];
+  yearOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
-  receivorType: string;
   partyNameOptions: SelectItem[];
-  partyName: string;
-  instructions: string;
+  monthOptions: SelectItem[];
   itemDescOptions: SelectItem[];
-  itemDesc: string;
   schemeOptions: SelectItem[];
-  scheme: string;
-  netWeight: number;
   rateInTermsOptions: SelectItem[];
-  rateInTerms: string;
-  rate: number;
-  total: number;
   marginSchemeOptions: SelectItem[];
-  marginScheme: string;
-  marginItemDescOptions: SelectItem[];
-  marginItemDesc: string;
-  marginNetWeight: number;
   marginRateInTermsOptions: SelectItem[];
-  marginRateInTerms: string;
-  marginRate: number;
-  marginAmount: number;
+  paymentOptions: Selection[];
+  selectedItem: boolean;
+  RegionName: any;
+  GodownName: any;
+  marginItemDescOptions: SelectItem[];
   canShowMenu: boolean;
-  constructor(private tableConstants: TableConstants,private restApiService: RestAPIService, private authService: AuthService) { }
+  DeliveryDate: Date;
+  DeliveryOrderNo: any;
+  Trcode: string;
+  IndentNo: number;
+  PermitDate: Date;
+  PMonth: string;
+  PYear: string;
+  RCode: string;
+  GCode: string;
+  PName: string;
+  RTCode: string;
+  Instructions: string;
+  Scheme: string;
+  MarginScheme: string;
+  ICode: string;
+  NKgs: any;
+  Rate: any;
+  RateTerm: string;
+  TotalAmount: any;
+  MarginNKgs: any;
+  MarginRate: any;
+  MarginAmount: any;
+  MarginRateInTerms: string;
+  GrandTotal: any;
+  Payment: string;
+  OcrNo: any;
+  PDate: Date;
+  PAmount: any;
+  OnBank: any;
+  PrevOrderNo: any;
+  PrevAmount: any;
+  OtherAmount: any;
+  Balance: any;
+  DueAmount: any;
+  PaidAmount: any;
+  BalanceAmount: any;
+  MarginItem: string;
+
+
+  constructor(private tableConstants: TableConstants,private restAPIService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -65,9 +87,64 @@ export class DeliveryReceiptComponent implements OnInit {
     this.paymentBalCols = this.tableConstants.DeliveryPaymentBalanceCols;
     this.itemSchemeCols  = this.tableConstants.DeliveryItemSchemeColumns;
   }
+
+  onSelect(selectedItem) {
+    let transactoinSelection = [];
+    let schemeSelection = [];
+    let yearArr = [];
+    const range = 3;
+    switch(selectedItem) {
+    case 'y':
+      const year = new Date().getFullYear();
+      for (let i = 0; i < range ; i ++) {
+        if (i === 0) {
+          yearArr.push({'label': (year - 1).toString(), 'value': year - 1});
+        } else if (i === 1) {
+          yearArr.push({'label': (year).toString(), 'value': year});
+        } else {
+          yearArr.push({'label': (year + 1).toString(), 'value': year + 1});
+        }
+      }
+      this.yearOptions = yearArr;
+      break;
+      case 'm':
+        this.monthOptions = [{'label': 'Jan', 'value': 1},
+        {'label': 'Feb', 'value': 2},{'label': 'Mar', 'value': 3},{'label': 'Apr', 'value': 4},
+        {'label': 'May', 'value': 5},{'label': 'Jun', 'value': 6},{'label': 'Jul', 'value': 7},
+        {'label': 'Aug', 'value': 8},{'label': 'Sep', 'value': 9},{'label': 'Oct', 'value': 10},
+        {'label': 'Nov', 'value': 11},{'label': 'Dec', 'value': 12}];
+        break;
+        case 'tr':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactoinSelection;
+              });
+              this.transactionOptions.unshift({ 'label': '-', 'value': '-' });
+            }
+          })
+        }
+        break;
+        case 'sc':
+            if (this.scheme_data !== undefined) {
+              this.scheme_data.forEach(y => {
+                schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+                this.schemeOptions = schemeSelection;
+              });
+            }
+            break;
+  }
+}
+
   onPayment() { }
 
   onEnter() { }
 
   onMarginCalculate() { }
+
+  onPrint() { }
+
+  onSave() { }
 }
