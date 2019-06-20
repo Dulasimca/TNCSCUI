@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { DatePipe } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
@@ -48,20 +48,20 @@ export class HomeComponent implements OnInit {
     let params = new HttpParams().set('Date', this.date);
     this.restApiService.get(PathConstants.DASHBOARD).subscribe(res => {
       if (res !== undefined) {
-        this.godownCount = res[0];
-        this.mrmCount = res[1];
-        this.aadsCount = res[2];
-        this.fciCount = res[3];
-        this.regionCount = res[4];
-        this.crsCount = res[5];
-        this.hullingAgencies = res[6];
-        this.suppliersCount = res[7];
-        this.schemeCount = res[8];
-        this.notifications = res[9];
+        this.godownCount = (res[0] !== undefined && res[0] !== '') ? res[0] : 0;
+        this.mrmCount = (res[1] !== undefined && res[1] !== '') ? res[1] : 0;
+        this.aadsCount = (res[2] !== undefined && res[2] !== '') ? res[2] : 0;
+        this.fciCount = (res[3] !== undefined && res[3] !== '') ? res[3] : 0;
+        this.regionCount = (res[4] !== undefined && res[4] !== '') ? res[4] : 0;
+        this.crsCount = (res[5] !== undefined && res[5] !== '') ? res[5] : 0;
+        this.hullingAgencies = (res[6] !== undefined && res[6] !== '') ? res[6] : 0;
+        this.suppliersCount = (res[7] !== undefined && res[7] !== '') ? res[7] : 0;
+        this.schemeCount = (res[8] !== undefined && res[8] !== '') ? res[8] : 0;
+        this.notifications = (res[9] !== undefined && res[9] !== '') ? res[9] : 0;
       } else {
         this.errMessage = 'Record not found';
       }
-    })
+    });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
     this.restApiService.getByParameters(PathConstants.CHART, params).subscribe((response: any[]) => {
       if (response !== undefined) {
@@ -225,32 +225,14 @@ export class HomeComponent implements OnInit {
     });
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
       if (data !== undefined) {
-        this.rawRicePB = data.Rice;
-        this.dhallPB = data.Dhall;
-        this.pOilPB = data.POil;
-        this.wheatPB = data.Wheat;
-        this.sugarPB = data.Sugar;
+        this.rawRicePB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
+        this.boiledRicePB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
+        this.dhallPB = (data.Dhall !== undefined && data.Dhall !== '') ? data.Dhall : 0;
+        this.pOilPB = (data.POil !== undefined && data.POil !== '') ? data.POil : 0;
+        this.wheatPB = (data.Wheat !== undefined && data.Wheat !== '') ? data.Wheat : 0;
+        this.sugarPB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
       }
-    })
-    this.checkUndefined();
-  }
-
-  checkUndefined() {
-    this.rawRicePB = (this.rawRicePB !== undefined && this.rawRicePB !== '') ? this.rawRicePB : 0;
-    this.sugarPB = (this.sugarPB !== undefined && this.sugarPB !== '') ? this.sugarPB : 0;
-    this.boiledRicePB = (this.boiledRicePB !== undefined && this.boiledRicePB !== '') ? this.boiledRicePB : 0;
-    this.wheatPB = (this.wheatPB !== undefined && this.wheatPB !== '') ? this.wheatPB : 0;
-    this.pOilPB = (this.pOilPB !== undefined && this.pOilPB !== '') ? this.pOilPB : 0;
-    this.dhallPB = (this.dhallPB !== undefined && this.dhallPB !== '') ? this.dhallPB : 0;
-    this.godownCount = (this.godownCount !== undefined && this.godownCount !== '') ? this.godownCount : 0;
-    this.crsCount = (this.crsCount !== undefined && this.crsCount !== '') ? this.crsCount : 0;
-    this.regionCount = (this.regionCount !== undefined && this.regionCount !== '') ? this.regionCount : 0;
-    this.mrmCount = (this.mrmCount !== undefined && this.mrmCount !== '') ? this.mrmCount : 0;
-    this.aadsCount = (this.aadsCount !== undefined && this.aadsCount !== '') ? this.aadsCount : 0;
-    this.schemeCount = (this.schemeCount !== undefined && this.schemeCount !== '') ? this.schemeCount : 0;
-    this.suppliersCount = (this.suppliersCount !== undefined && this.suppliersCount !== '') ? this.suppliersCount : 0;
-    this.fciCount = (this.fciCount !== undefined && this.fciCount !== '') ? this.fciCount : 0;
-    this.hullingAgencies = (this.hullingAgencies !== undefined && this.hullingAgencies !== '') ? this.hullingAgencies : 0;
+    });
   }
 
   onGridClicked(param) {

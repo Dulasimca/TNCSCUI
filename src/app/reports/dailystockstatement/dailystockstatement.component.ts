@@ -27,6 +27,7 @@ export class DailyStockStatementComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  totalRecords: number;
   @ViewChild('dailyStockTable') 
   dailyStockTable: ElementRef;
   selectedRow = 0;
@@ -40,6 +41,7 @@ export class DailyStockStatementComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     let tempArray = [];
     this.dailyStockDataColumns = this.tableConstants.DailyStockStatement;
+    this.loading = true;
     this.restApiService.get(PathConstants.DAILY_STOCK_STATEMENT_ITEM_MASTER).subscribe(itemCodes => {
       if (itemCodes !== undefined) {
         for (let c = 0; c < itemCodes.length; c++) {
@@ -127,10 +129,15 @@ export class DailyStockStatementComponent implements OnInit {
               tempArray.push({ 'data': this.treeData[i].data, 'children': this.treeData[i].children });
             }
             this.treeData = [];
+            setTimeout(() => {
+            this.loading = false;
+            this.totalRecords = tempArray.length;
             this.dailyStockData = tempArray;
-            this.filterArray=tempArray;
+            }, 1000);
+            this.filterArray = tempArray;
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
+              this.loading = false;
             this.router.navigate(['pageNotFound']);
             }
           })

@@ -132,7 +132,7 @@ a {
 }
 .header-main {
 	max-width: 320px;
-	margin: 0 auto;
+	margin: 50px auto;
 	position: relative;
 	z-index: 999;
 	padding: 4em 2em;
@@ -543,6 +543,14 @@ h3 a {
  .navbar{
    color: whitesmoke !important;
  }
+ .nav-link:hover {
+   background-color: #18c5a9;
+   color: whitesmoke;
+ }
+ .nav-link.active:hover {
+  background-color: #18c5a9;
+  color: whitesmoke;
+}
 
  .dropdown-menu li a{
    color: whitesmoke;
@@ -654,7 +662,7 @@ h3 a {
   cursor: pointer !important;
 }
 .content {
- min-height: 501px;
+ min-height: 650px;
 }
 
 .footer {
