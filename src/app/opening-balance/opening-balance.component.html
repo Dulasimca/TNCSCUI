@@ -28,9 +28,6 @@
                 <label class="ui-g-6 dashboard">Date</label>
                 <p-calendar class="ui-g-8 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"  [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
               </div>
-
-              
-            
               <div class="ui-g-2"></div>
               <div class="ui-g-2"></div>
             <div class="ui-g-2 ui-fluid" style="text-align: center">
@@ -82,7 +79,6 @@
                 <input id="float-input" pInputText autocomplete="off">
                 <label class="float-input">Excess</label>
               </span>
-            </div>
             </div>
     <div class="ui-g-5">
     <p-fieldset legend="Stackwise Details">
@@ -176,16 +172,15 @@
             </ng-template>
           </p-table>
         </div>
-    </p-panel>
-    <div>
-    <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+    <div class="ui-g-1 ui-fluid" style="padding-top: 26px;float: right">
                 <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
               </div>
-              <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+              <div class="ui-g-1 ui-fluid" style="padding-top: 26px;float: right">
                 <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
               </div>
-              <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+              <div class="ui-g-1 ui-fluid" style="padding-top: 26px;float: right">
                 <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
               </div>
-            </div>
+    </div>
+  </p-panel>
     </div>
