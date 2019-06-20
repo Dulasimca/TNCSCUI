@@ -27,6 +27,7 @@ export class DailyStockStatementComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  totalRecords: number;
   @ViewChild('dailyStockTable') 
   dailyStockTable: ElementRef;
   selectedRow = 0;
@@ -128,6 +129,7 @@ export class DailyStockStatementComponent implements OnInit {
             }
             this.treeData = [];
             setTimeout(() => {
+            this.totalRecords = tempArray.length;
             this.dailyStockData = tempArray;
             }, 1000);
             this.filterArray = tempArray;
