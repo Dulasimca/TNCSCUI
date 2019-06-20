@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
+import { SelectItem, MessageService } from 'primeng/api';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-truck-to-region',
@@ -19,23 +20,26 @@ export class TruckToRegionComponent implements OnInit {
   TruckToRegionData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
-  isActionDisabled: any;
-  data: any;
-  g_cd = '548';
   godownOptions: SelectItem[];
-  truckName: string;
-  canShowMenu: boolean;
+  g_cd: any;
+  data: any;
+  isViewDisabled: boolean;
+  isActionDisabled: boolean;
   maxDate: Date;
+  canShowMenu: boolean;
+  isShowErr: boolean;
+  loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.TruckToRegionCols = this.tableConstants.TruckToRegionReport;
     this.data = this.roleBasedService.getInstance();
-    console.log('data', this.data);
     this.maxDate = new Date();
   }
 
@@ -55,19 +59,34 @@ export class TruckToRegionComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
+    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
       this.TruckToRegionData = res;
-      if (res !== undefined && this.TruckToRegionData.length !== 0) {
+      let sno = 0;
+      this.TruckToRegionData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+      }
+      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
       }
     })
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+    this.onResetTable();
+    if (this.fromDate !== undefined && this.toDate !== undefined
+      && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
   }
@@ -81,6 +100,7 @@ export class TruckToRegionComponent implements OnInit {
       let selectedToYear = this.toDate.getFullYear();
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          this.isShowErr = true;
           this.fromDate = this.toDate = '';
         } else if (selectedFromDate >= selectedToDate) {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
@@ -88,6 +108,10 @@ export class TruckToRegionComponent implements OnInit {
         }
       return this.fromDate, this.toDate;
     }
+  }
+  onResetTable() {
+    this.TruckToRegionData = [];
+    this.isActionDisabled = true;
   }
 
   exportAsXLSX():void{
