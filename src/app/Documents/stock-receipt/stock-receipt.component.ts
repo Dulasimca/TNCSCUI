@@ -31,8 +31,8 @@ export class StockReceiptComponent implements OnInit {
   Trcode: string;
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
-  dt_cd: string;
-  dn_cd: string;
+  DtCode: string;
+  DnCode: string;
   TruckMemoNo: any;
   TruckMemoDate: Date;
   manualDocNo: number;
@@ -157,6 +157,7 @@ export class StockReceiptComponent implements OnInit {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 this.transactionOptions = transactoinSelection;
               });
+              this.transactionOptions.unshift({ 'label': '-', 'value': '-' });
             }
           })
         }
@@ -172,10 +173,16 @@ export class StockReceiptComponent implements OnInit {
   }
 }
 
-click(event) {
-  console.log(event);
-  console.log(this.tabs.nativeElement);
-  this.tabs.nativeElement.children[1].tabIndex + 1;
+onType(event) {
+  const trans = this.transactionOptions;
+  let value = event.value.toLowerCase();
+  if (value !== undefined && value !== ''){
+   this.transactionOptions = this.transactionOptions.filter(x => {
+     return x.label.toLowerCase().startsWith(value);
+   })
+  } else {
+    return trans;
+  }
 }
 
- }
+}

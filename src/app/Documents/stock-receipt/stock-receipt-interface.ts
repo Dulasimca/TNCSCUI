@@ -1,5 +1,6 @@
 export interface StockReceipt {
-    RCode: number;
+    RCode: string;
+    GCode: string;
     SRDate: Date;
     Trcode: string;
     OrderNo: number;
@@ -36,13 +37,22 @@ export interface StockReceipt {
     RRNo: any;
     WNo: any;
     Remarks: string;
-    Flag1: boolean;
-    Flag2: boolean;
     list: any[];
+    roadSelected: boolean;
+    railSelected: boolean;
     month: any;
     year: number;
-    dt_cd: string;
-    dn_cd: string;
+    DtCode: string;
+    DnCode: string;
     manualDocNo: any;
-    
+    vehicleNo: any;
+    from: any;
+    wmt: string;
+    tareWt: number;
+    stackBalance: number;
+    godownNo: any;
+    stockNo: any;
+    locationNo: any;
+    mno: any;
+
 }
