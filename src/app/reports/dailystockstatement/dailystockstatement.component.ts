@@ -127,8 +127,10 @@ export class DailyStockStatementComponent implements OnInit {
               tempArray.push({ 'data': this.treeData[i].data, 'children': this.treeData[i].children });
             }
             this.treeData = [];
+            setTimeout(() => {
             this.dailyStockData = tempArray;
-            this.filterArray=tempArray;
+            }, 1000);
+            this.filterArray = tempArray;
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
             this.router.navigate(['pageNotFound']);

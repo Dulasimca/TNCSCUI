@@ -12,36 +12,63 @@ import { AuthService } from '../shared-services/auth.service';
 export class RoleBasedService {
      instance?: any;
      scheme_data?: any;
-
+    loggedInRegion: any;
+    roleId: any;
+    gCode: any;
+    rCode: any;
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
     getInstance() {
-        let roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-        let gCode = this.authService.getUserAccessible().gCode;
-        let rCode = this.authService.getUserAccessible().rCode;
+        this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+        this.gCode = this.authService.getUserAccessible().gCode;
+        this.rCode = this.authService.getUserAccessible().rCode;
         let godownList;
         if (this.instance === undefined) {
             this.instance = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
                 res.forEach(x => {
-                    if (roleId === 1) {
+                    if (this.roleId === 1) {
                         godownList = x.list;
-                    } else if (roleId === 2) {
-                        if (x.Code === rCode) {
+                    } else if (this.roleId === 2) {
+                        if (x.Code === this.rCode) {
                             godownList = x.list;
                         }
                     } else {
-                        if (x.Code === rCode) {
+                        if (x.Code === this.rCode) {
                             godownList = x.list;
                         }
                     }
                     godownList.forEach(value => {
                         this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
                     });
-                });
+                 });
             });
         }
         return this.instance;
+    }
+
+    getGodownAndRegion() {
+        if(this.loggedInRegion === undefined) {
+            this.loggedInRegion = [];
+            if(this.roleId === 3) {
+            this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe(res => {
+                if(res !== undefined) {
+                    res.forEach(x => {
+                       if (x.Code === this.rCode) {
+                           this.loggedInRegion.push({'rName': x.Name});
+                       }
+                       let list = x.list;
+                      list.forEach(y => {
+                          if (y.GCode === this.gCode) {
+                             this.loggedInRegion({ 'gName': y.Name }); 
+                          }
+                      })
+                    })
+                }
+            });
+        }
+        }
+        return this.loggedInRegion;
     }
 
     getSchemeData() {
