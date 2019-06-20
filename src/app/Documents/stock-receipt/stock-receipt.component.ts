@@ -49,7 +49,7 @@ export class StockReceiptComponent implements OnInit {
   stackBalance: number;
   TransporterName: string;
   LWBillNo: any;
-  no: any;
+  stockNo: any;
   LWBillDate: Date;
   Kilometers: number;
   FreightAmount: number;
@@ -58,7 +58,6 @@ export class StockReceiptComponent implements OnInit {
   godownNo: string;
   locationNo: any;
   packingTypeOptions: SelectItem[];
-  p_cd: string;
   WHDNo: any;
   WCharges: number;
   HCharges: number;
@@ -90,12 +89,13 @@ export class StockReceiptComponent implements OnInit {
 
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) {
-    if (this.data === undefined) {
-      this.data = this.roleBasedService.getGodownAndRegion();
-      setTimeout(() => {
-       this.regionName = this.data.RName; this.godownName = this.data.GName;
-    },2000);
-    }
+    // if (this.data === undefined) {
+    //   this.data = this.roleBasedService.getGodownAndRegion();
+    //   setTimeout(() => {
+    //    this.regionName = this.data.RName; this.godownName = this.data.GName;
+    // },2000);
+    // }
+   
   }
 
   ngOnInit() {
@@ -178,7 +178,4 @@ click(event) {
   this.tabs.nativeElement.children[1].tabIndex + 1;
 }
 
-  // ngAfterViewInit() {
-  // }
-
-}
+ }
