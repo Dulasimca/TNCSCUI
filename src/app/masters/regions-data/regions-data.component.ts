@@ -57,7 +57,7 @@ export class RegionsDataComponent implements OnInit {
             }
           }]
     });
-    this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
+    // this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
   }
   onSearch(value) {
     this.data = this.filterArray;
