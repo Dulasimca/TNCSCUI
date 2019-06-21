@@ -23,8 +23,8 @@ export interface StockReceipt {
     IPCode: string;
     NoPacking: any;
     GKgs: number;
-    Nkgs: number;
+    NKgs: number;
     WTCode: string;
     Moisture: string;
-    stackBalance: number;
+    StackBalance: number;
 }

@@ -90,6 +90,7 @@ const routes: Routes = [
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transfer', component: TruckTransferComponent, canActivate: [AuthGuard] },
+  { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: 'pageNotFound', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
