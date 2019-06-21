@@ -709,7 +709,8 @@ h3 a {
     padding: 0px !important;
     font-family: Arial, Helvetica, sans-serif !important;
     display: inline-block;
-    min-height: 0px;
+    /* min-height: 0px; */
+    max-height: 90px;
     color: rgb(19, 119, 185) !important;
   }
   

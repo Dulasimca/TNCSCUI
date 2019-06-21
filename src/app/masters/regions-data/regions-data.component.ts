@@ -31,7 +31,7 @@ export class RegionsDataComponent implements OnInit {
   selectedrow: any;
 
   constructor(private restApiService: RestAPIService, private route: ActivatedRoute, private printService: PrintService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { 
-    // this.column = route.snapshot.params['column'].split('',);
+    //  this.column = route.snapshot.params['data'].split('',);
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class RegionsDataComponent implements OnInit {
             }
           }]
     });
-    // this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
+    this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
   }
   onSearch(value) {
     this.data = this.filterArray;

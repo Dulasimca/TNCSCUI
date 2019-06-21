@@ -84,6 +84,7 @@ import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component'
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
+import { TruckTransferComponent } from './truck-transfer/truck-transfer.component';
 
 
 @NgModule({
@@ -134,7 +135,8 @@ import { PrintService } from './print.service';
     SocietyWiseCommodityAbstractComponent,
     GunnyGuGrComponent,
     StackCardOpeningEntryComponent,
-    OpeningBalanceComponent
+    OpeningBalanceComponent,
+    TruckTransferComponent
   ],
   imports: [
     BrowserModule,
@@ -166,7 +168,6 @@ import { PrintService } from './print.service';
     ToastModule,
     InputTextModule,
     MatDatepickerModule,
-    // jqxDateTimeModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
