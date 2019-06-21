@@ -83,6 +83,7 @@ import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
+import { PrintService } from './print.service';
 
 
 @NgModule({
@@ -164,10 +165,11 @@ import { OpeningBalanceComponent } from './opening-balance/opening-balance.compo
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    // jqxDateTimeModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
-    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService],
+    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
