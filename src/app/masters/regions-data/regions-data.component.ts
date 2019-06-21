@@ -8,6 +8,8 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { PrintService } from 'src/app/print.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -28,7 +30,9 @@ export class RegionsDataComponent implements OnInit {
   filterArray: any;
   selectedrow: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private route: ActivatedRoute, private printService: PrintService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { 
+    //  this.column = route.snapshot.params['data'].split('',);
+  }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -53,6 +57,7 @@ export class RegionsDataComponent implements OnInit {
             }
           }]
     });
+    // this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
   }
   onSearch(value) {
     this.data = this.filterArray;
@@ -81,6 +86,8 @@ exportAsPDF() {
     doc.save('REGION_DATA.pdf');
  }
  print(){
-  window.print();
+   const column = this.column;
+   this.printService.printDocument(this.data,column);
+   window.print();
  }
 }

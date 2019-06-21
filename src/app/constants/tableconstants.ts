@@ -35,6 +35,7 @@ export class TableConstants {
   ReceiptHOPurchaseReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
+  TruckTransfer: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -315,25 +316,25 @@ export class TableConstants {
     this.TruckToRegionReport = [
       { "field": 'SlNo', "header": 'S.No' },
       { "field": 'truckMemo', "header": 'Truck Memo' },
-      { "field": 'date', "header": 'Date' },
-      { "field": 'godown', "header": 'Godown' },
-      { "field": 'region', "header": 'Region' },
-      { "field": 'commodity', "header": 'Commodity' },
-      { "field": 'Scheme', "header": 'Scheme' },
-      { "field": 'bags', "header": 'Bags' },
-      { "field": 'quantity', "header": 'Quantity' },
-      { "field": 'docnoL', "header": 'Docno./L' }
+      { "field": 'STDate', "header": 'Date' },
+      { "field": 'DepositorName', "header": 'Godown' },
+      { "field": 'RGNAME', "header": 'Region' },
+      { "field": 'ITDescription', "header": 'Commodity' },
+      { "field": 'SCName', "header": 'Scheme' },
+      { "field": 'NoPacking', "header": 'Bags' },
+      { "field": 'Nkgs', "header": 'Quantity' },
+      { "field": 'LNo', "header": 'Docno./L' }
     ];
 
     this.TruckFromRegionReport = [
       { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'AckNo', "header": 'Ack. No' },
-      { "field": 'Date', "header": 'Date' },
-      { "field": 'type', "header": 'Type' },
-      { "field": 'Depositor', "header": 'Depositor' },
-      { "field": 'Commodity', "header": 'Commodity' },
-      { "field": 'bags', "header": 'Bags' },
-      { "field": 'Quantity', "header": 'Quantity' }
+      { "field": 'SRNo', "header": 'Ack. No' },
+      { "field": 'SRDate', "header": 'Date' },
+      { "field": 'Tyname', "header": 'Type' },
+      { "field": 'TNCSName', "header": 'Depositor' },
+      { "field": 'ITDescription', "header": 'Commodity' },
+      { "field": 'NoPacking', "header": 'Bags' },
+      { "field": 'Nkgs', "header": 'Quantity' }
     ];
 
     this.GunnyReport = [
@@ -382,6 +383,17 @@ export class TableConstants {
       { "field": 'bags', "header": 'Bags'},
       { "field": 'Weight', "header": 'Weight'},
       { "field": 'Scheme', "header": 'Scheme'}
-    ]
+    ];
+
+    this.TruckTransfer = [
+      { "field": 'SlNo', "header": 'S.No'},
+      {"field": 'TruckMemoNo', "header": 'Truck Memo No'},
+      {"field": '', "header": 'Sender Date'},
+      {"field": '', "header": 'Region'},
+      {"field": '', "header": 'Godown Name'},
+      {"field": '', "header": 'No of Bags'},
+      {"field": 'Quantity', "header": 'Quantity'},
+
+    ];
   }
 }

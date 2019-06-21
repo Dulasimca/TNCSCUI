@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-truck-to-region',
   templateUrl: './truck-to-region.component.html',
   styleUrls: ['./truck-to-region.component.css']
+  
 })
 export class TruckToRegionComponent implements OnInit {
   TruckToRegionCols: any;
@@ -61,7 +62,7 @@ export class TruckToRegionComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
       this.TruckToRegionData = res;
       let sno = 0;
       this.TruckToRegionData.forEach(data => {
@@ -109,6 +110,67 @@ export class TruckToRegionComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
+  // validatedate(inputText)
+  // {
+  // var dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+  // // Match the date format through regular expression
+  // if(inputText.value.match(dateformat))
+  // {
+  // document.forms.text1.focus();
+  // //Test which seperator is used '/' or '-'
+  // var opera1 = inputText.value.split('/');
+  // var opera2 = inputText.value.split('-');
+  // lopera1 = opera1.length;
+  // lopera2 = opera2.length;
+  // // Extract the string into month, date and year
+  // if (lopera1>1)
+  // {
+  // var pdate = inputText.value.split('/');
+  // }
+  // else if (lopera2>1)
+  // {
+  // var pdate = inputText.value.split('-');
+  // }
+  // var dd = parseInt(pdate[0]);
+  // var mm  = parseInt(pdate[1]);
+  // var yy = parseInt(pdate[2]);
+  // // Create list of days of a month [assume there is no leap year by default]
+  // var ListofDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+  // if (mm==1 || mm>2)
+  // {
+  // if (dd>ListofDays[mm-1])
+  // {
+  // alert('Invalid date format!');
+  // return false;
+  // }
+  // }
+  // if (mm==2)
+  // {
+  // var lyear = false;
+  // if ( (!(yy % 4) && yy % 100) || !(yy % 400)) 
+  // {
+  // lyear = true;
+  // }
+  // if ((lyear==false) && (dd>=29))
+  // {
+  // alert('Invalid date format!');
+  // return false;
+  // }
+  // if ((lyear==true) && (dd>29))
+  // {
+  // alert('Invalid date format!');
+  // return false;
+  // }
+  // }
+  // }
+  // else
+  // {
+  // alert("Invalid date format!");
+  // document.form1.text1.focus();
+  // return false;
+  // }
+  // }
   onResetTable() {
     this.TruckToRegionData = [];
     this.isActionDisabled = true;
