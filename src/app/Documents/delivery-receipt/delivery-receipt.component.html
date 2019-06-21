@@ -31,32 +31,36 @@
                       </p-header>
                       <div class="ui-g">
                         <div class="ui-g-6 dashboard">
-                          <span class="ui-float-label" style="padding-right: 10px;">
-                            <input id="float-input" type="text" size="20" pInputText [(ngModel)]="deliveryOrderNo" autocomplete="off">
-                            <label class="float-input">No</label>
-                          </span>
+                            <label>No</label>
+                            <input type="text" size="20" pInputText [(ngModel)]="DeliveryOrderNo" autocomplete="off">
                         </div>
                         <div class="ui-g-6 dashboard">
-                          <p-calendar [(ngModel)]="deliveryDate" [showIcon]="true"></p-calendar>
+                          <label>Date</label>
+                          <p-calendar [(ngModel)]="DeliveryDate" [showIcon]="true"></p-calendar>
                         </div>
                       </div>
                     </p-card>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input" [options]="transactionCdOptions" [(ngModel)]="transactionCd"></p-dropdown>
+                        <p-dropdown #tr id="float-input" [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
+                        filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Transaction Code</label>
                     </span>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText [(ngModel)]="indentNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="IndentNo" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Indent No</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-right: 10px;">
                     <label>Permit Date</label>
-                    <p-calendar [(ngModel)]="permitDate" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="PermitDate" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 20px;">
                     <label class="ui-g-7">Only Rice</label>
@@ -73,10 +77,23 @@
                       </p-header>
                       <div class="ui-g">
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="orderPeriodMonth" [showIcon]="true"></p-calendar>
+                            <span class="ui-float-label">
+                                <p-dropdown #m id="float-input" [options]="monthOptions" [(ngModel)]="month"
+                                  (onClick)="onSelect('m')" filter="true">
+                                  <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                                  </ng-template>
+                                </p-dropdown>
+                                <label class="float-input">Month</label>
+                              </span>
                         </div>
                         <div class="ui-g-6">
-                          <p-calendar [(ngModel)]="orderPeriodYear" [showIcon]="true"></p-calendar>
+                            <span class="ui-float-label">
+                                <p-dropdown #y id="float-input" [options]="yearOptions" [(ngModel)]="year"
+                                  (onClick)="onSelect('y')">
+                                </p-dropdown>
+                                <label class="float-input">Year</label>
+                              </span>
                         </div>
                       </div>
                     </p-card>
@@ -84,25 +101,33 @@
                   <!-- <div class="dashboard"> -->
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText [(ngModel)]="regionName" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="RegionName" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Region Name</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText [(ngModel)]="issuingGodownName" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="GodownName" autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Issuing Godown Name</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input" [options]="receivorTypeOptions" [(ngModel)]="receivorType"></p-dropdown>
+                      <p-dropdown #rt id="float-input" [options]="receivorTypeOptions" [(ngModel)]="RTCode" (onClick)="onSelect('rt')" filter="true">
+                          <ng-template let-item pTemplate="selectedItem">
+                              <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                            </ng-template>
+                      </p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Receivor Type</label>
                     </span>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input" [options]="partyNameOptions" [(ngModel)]="partyName"></p-dropdown>
+                      <p-dropdown #pn id="float-input" [options]="partyNameOptions" [(ngModel)]="PName" (onClick)="onSelect('pn')" filter="true">
+                          <ng-template let-item pTemplate="selectedItem">
+                              <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                            </ng-template>
+                      </p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Party Name</label>
                     </span>
                   </div>
@@ -111,7 +136,7 @@
                 <div class="ui-g-12">
                   <div class="ui-g-10">
                       <label>Special Instructions If Any</label>
-                      <textarea [rows]="3" [cols]="110" [(ngModel)]="instructions" pInputTextarea></textarea>
+                      <textarea [rows]="3" [cols]="110" [(ngModel)]="Instructions" pInputTextarea></textarea>
                   </div>
                   <div class="ui-g-2">
                     <button pButton type="button" label="Payment Details" (click)="onPayment()"></button>
@@ -151,36 +176,51 @@
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-1" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Scheme</label>
-                    <p-dropdown [options]="schemeOptions" [(ngModel)]="scheme"></p-dropdown>
+                    <p-dropdown #sc [options]="schemeOptions" [(ngModel)]="Scheme"
+                        (onClick)="onSelect('sc')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;text-align: center">
                     <label style="padding-top: 10px;">Item Description</label>
-                    <p-dropdown [options]="itemDescOptions" [(ngModel)]="itemDesc"></p-dropdown>
+                    <p-dropdown #i_desc [options]="itemDescOptions" [(ngModel)]="ICode"
+                        (onClick)="onSelect('i_desc')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Net Wt</label>
                     <div>
                       <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
                     </div>
-                    <input pInputText [(ngModel)]="netWeight" />
+                    <input pInputText [(ngModel)]="NKgs" autocomplete="off"/>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Rate In Term Of</label>
-                    <p-dropdown [options]="rateInTermsOptions" [(ngModel)]="rateInTerms"></p-dropdown>
+                    <p-dropdown #rate [options]="rateInTermsOptions" [(ngModel)]="RateTerm"
+                        (onClick)="onSelect('rate')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Rate</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="rate" />
+                    <input pInputText [(ngModel)]="Rate" autocomplete="off"/>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Total</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="total" />
+                    <input pInputText [(ngModel)]="TotalAmount" autocomplete="off"/>
                   </div>
                   <div class="ui-g-1">
                     <div class="ui-g-12"></div>
@@ -215,36 +255,51 @@
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-1" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Scheme</label>
-                    <p-dropdown [options]="marginSchemeOptions" [(ngModel)]="marginScheme"></p-dropdown>
+                    <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
+                        (onClick)="onSelect('ms')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;text-align: center">
                     <label style="padding-top: 10px;">Item Description</label>
-                    <p-dropdown [options]="marginItemDescOptions" [(ngModel)]="marginItemDesc"></p-dropdown>
+                    <p-dropdown #margin_id [options]="marginItemDescOptions" [(ngModel)]="MarginItem"
+                    (onClick)="onSelect('margin_id')" filter="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Wt</label>
                     <div>
                       <label style="float:left">Kgs</label> <label style="float: right">Gms</label>
                     </div>
-                    <input pInputText [(ngModel)]="marginNetWeight" />
+                    <input pInputText [(ngModel)]="MarginNKgs" autocomplete="off"/>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px">
                     <label style="padding-top: 10px;">Rate In Term Of</label>
-                    <p-dropdown [options]="marginRateInTermsOptions" [(ngModel)]="marginRateInTerms"></p-dropdown>
+                    <p-dropdown #margin_rate [options]="marginRateInTermsOptions" [(ngModel)]="MarginRateInTerms"
+                    (onClick)="onSelect('margin_rate')" filter="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Rate</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="marginRate" />
+                    <input pInputText [(ngModel)]="MarginRate" autocomplete="off"/>
                   </div>
                   <div class="ui-g-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                     <label style="padding-top: 0px;">Margin Amount</label>
                     <div>
                       <label style="float:left">Rs</label> <label style="float: right">Ps</label>
                     </div>
-                    <input pInputText [(ngModel)]="marginAmount" />
+                    <input pInputText [(ngModel)]="MarginAmount" autocomplete="off" />
                   </div>
                   <div class="ui-g-1">
                     <div class="ui-g-12"></div>
@@ -280,7 +335,7 @@
                   <div class="ui-g-3 dashboard">
                     <span class="ui-float-label" style="padding-right: 0px">
                       <label style="padding-left: 5px">Grand Total</label>
-                      <input id="float-input" pInputText />
+                      <input id="float-input" [(ngModel)]="GrandTotal" pInputText autocomplete="off"/>
                     </span>
                   </div>
                 </div>
@@ -292,36 +347,41 @@
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-2" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <p-dropdown id="float-input"></p-dropdown>
+                        <p-dropdown #pay id="float-input" [options]="paymentOptions" [(ngModel)]="Payment"
+                        (onClick)="onSelect('pay')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
                       <label class="float-input" style="padding-top: 10px;">Payment Mode</label>
                     </span>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" [(ngModel)]="OcrNo" pInputText autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">CH/DD/PO/OCR No</label>
                     </span>
                   </div>
                   <div class="ui-g-2">
                     <div style="padding-right: 10px;padding-top: 20px;">
-                      <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                      <p-calendar [(ngModel)]="PDate" [showIcon]="true"></p-calendar>
                     </div>
                   </div>
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">Payable Amount</label>
                     </span>
                   </div>
                   <div class="ui-g-6" style="padding-left: 0px">
                     <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                      <input id="float-input" pInputText autocomplete="off">
+                      <input id="float-input" [(ngModel)]="OnBank" pInputText autocomplete="off">
                       <label class="float-input" style="padding-top: 10px;">On bank</label>
                     </span>
                   </div>
                   <div class="ui-g-1">
                     <div style="padding-right: 10px;padding-top: 20px;">
-                      <button pButton label="Enter"></button></div>
+                      <button pButton label="Enter" (click)="onEnter()"></button></div>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
@@ -360,11 +420,11 @@
                             </span>
                           </div>
                           <div class="ui-g-2">
-                            <p-calendar [(ngModel)]="date3" [showIcon]="true"></p-calendar>
+                            <p-calendar [(ngModel)]="PrevOrderNo" [showIcon]="true"></p-calendar>
                           </div>
                           <div class="ui-g-2">
                             <span class="ui-float-label">
-                              <input id="float-input" pInputText autocomplete="off">
+                              <input id="float-input" [(ngModel)]="PrevAmount" pInputText autocomplete="off">
                               <label class="float-input">Pre Amt Bal</label>
                             </span>
                           </div>
@@ -373,7 +433,7 @@
                                 Credit</b></label>
                           </div>
                           <div class="ui-g-2">
-                            <button pButton label="Enter"></button>
+                            <button pButton label="Enter" (click)="onEnter()"></button>
                           </div>
                         </div>
                         <div class="ui-g-12">
@@ -386,13 +446,13 @@
                           </div>
                           <div class="ui-g-2">
                             <span class="ui-float-label">
-                              <input id="float-input" pInputText autocomplete="off">
+                              <input id="float-input" [(ngModel)]="OtherAmount" pInputText autocomplete="off">
                               <label class="float-input">Other Amt</label>
                             </span>
                           </div>
                           <div class="ui-g-2">
                             <span class="ui-float-label">
-                              <input id="float-input" pInputText autocomplete="off">
+                              <input id="float-input" [(ngModel)]="Balance" pInputText autocomplete="off">
                               <label class="float-input">Balance</label>
                             </span>
                           </div>
@@ -416,19 +476,19 @@
                           <div class="ui-g-2"></div>
                           <div class="ui-g-8">
                             <span class="ui-float-label">
-                              <input id="float-input" pInputText autocomplete="off">
+                              <input id="float-input" [(ngModel)]="DueAmount" pInputText autocomplete="off">
                               <label class="float-input">Amt Due</label>
                             </span>
                           </div>
                           <div class="ui-g-12">
                             <div class="ui-g-6">
                               <span class="ui-float-label">
-                                <input id="float-input" pInputText autocomplete="off">
+                                <input id="float-input" [(ngModel)]="PaidAmount" pInputText autocomplete="off">
                                 <label class="float-input">Amt Paid</label>
                               </span></div>
                             <div class="ui-g-6">
                               <span class="ui-float-label">
-                                <input id="float-input" pInputText autocomplete="off">
+                                <input id="float-input" [(ngModel)]="BalanceAmount" pInputText autocomplete="off">
                                 <label class="float-input">Balance Amt</label>
                               </span></div>
                           </div>
@@ -470,10 +530,10 @@
             <div class="ui-g-10"></div>
             <div class="ui-g-2" style="float: right;">
               <div style="padding: 0px 10px 0px 0px; ">
-                <button class="ui-g-6 dashboard" style="margin-right: 2px" pButton type="button" label="Print"></button>
+                <button class="ui-g-6 dashboard" style="margin-right: 2px" pButton type="button" label="Print" (click)="onPrint()"></button>
               </div>
               <div style="padding: 0px">
-                <button class="ui-g-6 dashboard" pButton type="button" label="Save"></button> </div>
+                <button class="ui-g-6 dashboard" pButton type="button" label="Save" (click)="onSave()"></button> </div>
             </div>
           </div>
         </div>

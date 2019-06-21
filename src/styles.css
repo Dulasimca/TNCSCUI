@@ -483,7 +483,7 @@ h3 a {
 .ui-dialog.ui-widget .ui-dialog-titlebar {
   padding: .7em;
 }.pi {
-  font-size: larger;
+  font-size: unset;
 }
 
 .navbar-light .navbar-brand {
@@ -817,7 +817,6 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 .marquee{
   overflow: initial;
   overflow-y: hidden;
-  white-space: nowrap;
   height: 100%;
 }
 
@@ -915,6 +914,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   position: absolute;
   bottom: 0;
   width: 100%;
+  overflow-x: hidden;
 }
 
 .dashboard .colorbox {

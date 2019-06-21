@@ -31,8 +31,8 @@ export class StockReceiptComponent implements OnInit {
   Trcode: string;
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
-  dt_cd: string;
-  dn_cd: string;
+  DtCode: string;
+  DnCode: string;
   TruckMemoNo: any;
   TruckMemoDate: Date;
   manualDocNo: number;
@@ -95,7 +95,7 @@ export class StockReceiptComponent implements OnInit {
     //    this.regionName = this.data.RName; this.godownName = this.data.GName;
     // },2000);
     // }
-   
+
   }
 
   ngOnInit() {
@@ -128,28 +128,28 @@ export class StockReceiptComponent implements OnInit {
     let schemeSelection = [];
     let yearArr = [];
     const range = 3;
-    switch(selectedItem) {
-    case 'y':
-      const year = new Date().getFullYear();
-      for (let i = 0; i < range ; i ++) {
-        if (i === 0) {
-          yearArr.push({'label': (year - 1).toString(), 'value': year - 1});
-        } else if (i === 1) {
-          yearArr.push({'label': (year).toString(), 'value': year});
-        } else {
-          yearArr.push({'label': (year + 1).toString(), 'value': year + 1});
+    switch (selectedItem) {
+      case 'y':
+        const year = new Date().getFullYear();
+        for (let i = 0; i < range; i++) {
+          if (i === 0) {
+            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+          } else if (i === 1) {
+            yearArr.push({ 'label': (year).toString(), 'value': year });
+          } else {
+            yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
+          }
         }
-      }
-      this.yearOptions = yearArr;
-      break;
-      case 'm':
-        this.monthOptions = [{'label': 'Jan', 'value': 1},
-        {'label': 'Feb', 'value': 2},{'label': 'Mar', 'value': 3},{'label': 'Apr', 'value': 4},
-        {'label': 'May', 'value': 5},{'label': 'Jun', 'value': 6},{'label': 'Jul', 'value': 7},
-        {'label': 'Aug', 'value': 8},{'label': 'Sep', 'value': 9},{'label': 'Oct', 'value': 10},
-        {'label': 'Nov', 'value': 11},{'label': 'Dec', 'value': 12}];
+        this.yearOptions = yearArr;
         break;
-        case 'tr':
+      case 'm':
+        this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
+        { 'label': 'Feb', 'value': 2 }, { 'label': 'Mar', 'value': 3 }, { 'label': 'Apr', 'value': 4 },
+        { 'label': 'May', 'value': 5 }, { 'label': 'Jun', 'value': 6 }, { 'label': 'Jul', 'value': 7 },
+        { 'label': 'Aug', 'value': 8 }, { 'label': 'Sep', 'value': 9 }, { 'label': 'Oct', 'value': 10 },
+        { 'label': 'Nov', 'value': 11 }, { 'label': 'Dec', 'value': 12 }];
+        break;
+      case 'tr':
         if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
@@ -157,25 +157,19 @@ export class StockReceiptComponent implements OnInit {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 this.transactionOptions = transactoinSelection;
               });
+              this.transactionOptions.unshift({ 'label': '-', 'value': '-' });
             }
           })
         }
         break;
-        case 'sc':
-            if (this.scheme_data !== undefined) {
-              this.scheme_data.forEach(y => {
-                schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-                this.schemeOptions = schemeSelection;
-              });
-            }
-            break;
+      case 'sc':
+        if (this.scheme_data !== undefined) {
+          this.scheme_data.forEach(y => {
+            schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            this.schemeOptions = schemeSelection;
+          });
+        }
+        break;
+    }
   }
 }
-
-click(event) {
-  console.log(event);
-  console.log(this.tabs.nativeElement);
-  this.tabs.nativeElement.children[1].tabIndex + 1;
-}
-
- }
