@@ -85,6 +85,7 @@ import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-ent
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './truck-transit/truck-transit.component';
+import { DecimalDirective } from './directives/decimal.directive';
 
 
 @NgModule({
@@ -136,7 +137,8 @@ import { TruckTransitComponent } from './truck-transit/truck-transit.component';
     GunnyGuGrComponent,
     StackCardOpeningEntryComponent,
     OpeningBalanceComponent,
-    TruckTransitComponent
+    TruckTransitComponent,
+    DecimalDirective
   ],
   imports: [
     BrowserModule,

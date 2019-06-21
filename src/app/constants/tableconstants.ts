@@ -37,6 +37,7 @@ export class TableConstants {
   SchemeWiseBreakupDetails: any;
   TruckTransitSender: any;
   TruckTransitReceiver: any;
+  StockReceiptItemColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -405,6 +406,19 @@ export class TableConstants {
       {"field": 'NoPacking', "header": 'Bags Received'},
       {"field": 'Nkgs', "header": 'Received Quantity'},
       {"field": 'LorryNo', "header": 'Lorry No'}
+    ];
+
+    this.StockReceiptItemColumns = [
+      { field: 'Stack No.', header: 'StackNo' },
+      { field: 'Item Description', header: 'ItemDesc' },
+      { field: 'Packing Type', header: 'PackingType' },
+      { field: 'No. of packing', header: 'No Packing' },
+      { field: 'Wmt Type', header: 'WmtType' },
+      { field: 'Gross Wt', header: 'GrossWt' },
+      { field: 'Net Wt', header: 'NetWT' },
+      { field: 'Moisture', header: 'Moisture' },
+      { field: 'Scheme', header: 'Scheme' }
+
     ];
   }
 }
