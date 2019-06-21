@@ -43,7 +43,7 @@ import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
-import { TruckTransferComponent } from './truck-transfer/truck-transfer.component';
+import { TruckTransitComponent } from './truck-transit/truck-transit.component';
 
 
 const routes: Routes = [
@@ -89,7 +89,7 @@ const routes: Routes = [
   { path: 'Gunny Report', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
-  { path: 'Truck Transfer', component: TruckTransferComponent, canActivate: [AuthGuard] },
+  { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', component: PageNotFoundComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

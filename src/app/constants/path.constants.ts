@@ -33,5 +33,7 @@ export class PathConstants {
   public static readonly TRUCK_TO_REGION_REPORT = 'api/TruckToRegion/Get';
   public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
   public static readonly GUNNY_REPORT = '/api/GunnyReport/Get'; 
+  public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
+
 
 }
