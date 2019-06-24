@@ -8,18 +8,20 @@
       </div>
     </p-header>
       <div class="ui-g">
-        <div style="text-align: center">
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Godown</label>
-            </span>
+        <!-- <div style="text-align: center"> -->
+          <div class="ui-g-2 ui-fluid">
+            <!-- <span class="ui-float-label"> -->
+                <label>Godown</label>
+                <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" optionLabel="label" [showClear]="true"
+              (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()" placeholder="-select-"></p-dropdown>
+            <!-- </span> -->
           </div>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="schemeOptions" [(ngModel)]="sc_cd" (onClick)="onSelect('scheme')" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Scheme</label>
-            </span>
+          <div class="ui-g-2 ui-fluid">
+            <!-- <span class="ui-float-label"> -->
+                <label>Scheme</label>
+                <p-dropdown [options]="schemeOptions" [(ngModel)]="sc_cd" placeholder="-select-"
+               optionLabel="label" [showClear]="true" (onClick)="onSelect('scheme')" (ngModelChange)="onResetTable()"></p-dropdown>
+            <!-- </span> -->
           </div>
             <div class="ui-g-1 ui-fluid" style="padding-top: 22px">
               <p-checkbox class="ui-g-3" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
@@ -61,7 +63,7 @@
               </ng-template>
             </p-table>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
     </p-panel>
     </div>

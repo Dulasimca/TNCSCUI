@@ -54,6 +54,7 @@ export class CommodityIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+          this.godownOptions.unshift({ 'label': null, 'value': null });
         }
         break;
       case 'cd':
@@ -64,13 +65,15 @@ export class CommodityIssueMemoComponent implements OnInit {
               commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
               this.commodityOptions = commoditySelection;
             });
+            this.commodityOptions.unshift({ 'label': null, 'value': null });
           }
         })
       }
       break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !==  null
+       && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -81,8 +84,8 @@ export class CommodityIssueMemoComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd,
-      'TRCode': this.c_cd
+      'GCode': this.g_cd.value,
+      'TRCode': this.c_cd.value
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
       this.commodityIssueMemoData = res;
@@ -110,8 +113,8 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     // if ()
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' &&
-      this.g_cd !== undefined && this.c_cd !== undefined && this.c_cd !== '') {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !==  null
+    && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
       this.isViewDisabled = false;
     }
   }
