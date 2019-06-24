@@ -19,12 +19,10 @@ export class StockReceiptComponent implements OnInit {
   regionName: any;
   godownName: any;
   data: any;
-  packingTypes: any = [];
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
   transactionOptions: SelectItem[];
   stackOptions: SelectItem[];
-  packageWt: number;
   month: string;
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
@@ -55,23 +53,23 @@ export class StockReceiptComponent implements OnInit {
   OrderNo: number;
   OrderDate: Date;
   MTransport: string;
-  Trcode: string;
-  DepositorType: string;
-  DepositorCode: string;
+  Trcode: any;
+  DepositorType: any;
+  DepositorCode: any;
   TruckMemoNo: any;
   TruckMemoDate: Date;
   ManualDocNo: number;
   LNo: any;
   LFrom: any;
   //SR-Item Details
-  TStockNo: number;
-  Scheme: string;
-  ICode: string;
-  IPCode: string;
-  NoPacking: any;
+  TStockNo: any;
+  Scheme: any;
+  ICode: any;
+  IPCode: any;
+  NoPacking: number;
   GKgs: number;
   Nkgs: number;
-  WTCode: string;
+  WTCode: any;
   Moisture: string;
   stackBalance: number;
   //SR-Freight Details
@@ -124,6 +122,7 @@ export class StockReceiptComponent implements OnInit {
     let depositorNameList = [];
     let yearArr = [];
     let depositorTypeList = [];
+    let packingTypes: any = [];
     const range = 3;
     switch (selectedItem) {
       case 'y':
@@ -236,14 +235,14 @@ export class StockReceiptComponent implements OnInit {
         if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             res.Table.forEach(p => {
-              this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
-            this.packingTypeOptions = this.packingTypes;
+            this.packingTypeOptions = packingTypes;
           });
         } else {
-          if (this.IPCode !== undefined && this.IPCode !== '') {
-            this.packingTypes.forEach(wt => {
-              this.packageWt = (wt.value === this.IPCode) ? (wt.weight * 1) : 0;
+          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
+            packingTypes.forEach(wt => {
+              this.NoPacking = this.IPCode.weight;
             })
           }
         }

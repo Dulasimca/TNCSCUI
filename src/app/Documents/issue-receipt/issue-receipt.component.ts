@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -16,8 +17,10 @@ issueCols: any;
 itemCols: any;
 itemData: any;
 regionName: string;
-godownName: string;
+issuingGodownName: string;
 scheme_data: any;
+packingTypes: any = [];
+packageWt: number;
 monthOptions: SelectItem[];
 yearOptions: SelectItem[];
 transactionOptions: SelectItem[];
@@ -26,9 +29,15 @@ receiverNameOptions: SelectItem[];
 schemeOptions: SelectItem[];
 itemDescOptions: SelectItem[];
 packingTypeOptions: SelectItem[];
+stackOptions: SelectItem[];
 wmtOptions: SelectItem[];
 moistureOptions: SelectItem[];
 selectedValues: string;
+isReceivorNameDisabled: boolean;
+isReceivorTypeDisabled: boolean;
+locationNo: any;
+godownNo: any;
+TKgs: any;
 month: string;
 year: string;
 SINo: any;
@@ -38,28 +47,27 @@ GCode: any;
 canShowMenu: boolean;
 // StockNo: any;
 //Issue details
-Trcode: string;
+Trcode: any;
 DeliveryDate: Date;
 DeliveryOrderNo: any;
-RTCode: string;
-RNCode: string;
+RTCode: any;
+RNCode: any;
 WNo: any;
 TransporterCharges: any;
 VehicleNo: any;
 TransporterName: string;
 ManualDocNo: any;
 Remarks: string;
-Scheme: string;
-ICode: string;
-GodownNo: any;
-LocationNo: any;
-IPCode: string;
+//Issue item
+Scheme: any;
+ICode: any;
+TStockNo: any;
+IPCode: any;
 NoPacking: any;
 GKgs: any;
 NKgs: any;
-WTCode: string;
+WTCode: any;
 Moisture: string;
-TKgs: any;
 NewBale: any;
 SServiceable: any;
 SPatches: any;
@@ -77,6 +85,7 @@ CurrentDocQtv: any;
   }
 
   ngOnInit() {
+    this.scheme_data = this.roleBasedService.getSchemeData();
     this.issueCols = [ { field: 'Delivery Order No', header: 'DeliveryOrderNo' },
     {field: 'Issue Memo No', header: 'IssueMemoNo' },
     { field: 'Delivery Order', header: 'DeliveryOrder' },
@@ -115,6 +124,8 @@ CurrentDocQtv: any;
     let transactoinSelection = [];
     let schemeSelection = [];
     let yearArr = [];
+    let receivorTypeList = [];
+    let receivorNameList = [];
     const range = 3;
     switch(selectedItem) {
     case 'y':
@@ -145,20 +156,108 @@ CurrentDocQtv: any;
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 this.transactionOptions = transactoinSelection;
               });
-              this.transactionOptions.unshift({ 'label': '-', 'value': '-' });
+              this.isReceivorTypeDisabled = false;
             }
           })
         }
         break;
-        case 'sc':
-            if (this.scheme_data !== undefined) {
-              this.scheme_data.forEach(y => {
-                schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-                this.schemeOptions = schemeSelection;
+      case 'sc':
+        if (this.scheme_data !== undefined) {
+          this.scheme_data.forEach(y => {
+            schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            this.schemeOptions = schemeSelection;
+          });
+        }
+        break;
+        case 'rt':
+        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+          const params = new HttpParams().set('TRCode', this.Trcode).append('GCode', '002');
+          if (this.receiverTypeOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+              res.forEach(dt => {
+                receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+              });
+              this.receiverTypeOptions = receivorTypeList;
+              this.isReceivorNameDisabled = false;
+            });
+          }
+        }
+        break;
+      case 'rn':
+        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
+          this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+          const params = new HttpParams().set('TyCode', this.RNCode).append('TRType', this.Trcode.value);
+          if (this.receiverNameOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              res.forEach(dn => {
+                receivorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+              })
+              this.receiverNameOptions = receivorNameList;
+            });
+          }
+        }
+        break;
+        case 'i_desc':
+          let itemDesc = [];
+          if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+            const params = new HttpParams().set('SCode', this.Scheme.value);
+            if (this.itemDescOptions === undefined) {
+              this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                res.forEach(i => {
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                })
+                this.itemDescOptions = itemDesc;
               });
             }
-            break;
+          }
+          break;
+        case 'st_no':
+          let stackNo = [];
+          this.RCode = '001';
+          if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
+            const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
+            if (this.stackOptions === undefined) {
+              this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+                res.forEach(s => {
+                  stackNo.push({ 'label': s.StackNo, 'value': s.StackNo });
+                })
+                this.stackOptions = stackNo;
+              });
+            }
+            let stockNo = this.TStockNo.value;
+            this.godownNo = (stockNo !== null && stockNo !== undefined && stockNo !== '') ? stockNo.toString().split('/') : '';
+          }
+          break;
+          case 'pt':
+        if (this.packingTypeOptions === undefined) {
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+            res.Table.forEach(p => {
+              this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+            })
+            this.packingTypeOptions = this.packingTypes;
+          });
+        } else {
+          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
+            this.NoPacking = this.IPCode.weight;
+          }
+        }
+        break;
+      case 'wmt':
+        let weighment = [];
+        if (this.wmtOptions === undefined) {
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+            res.Table1.forEach(w => {
+              weighment.push({ 'label': w.WEType, 'value': w.WECode });
+            })
+            this.wmtOptions = weighment;
+          });
+        }
+        break;
   }
+}
+
+onView() {
+  console.log('tr', this.Trcode);
 }
 
 }
