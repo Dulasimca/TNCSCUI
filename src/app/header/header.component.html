@@ -1,9 +1,9 @@
 <div class="header">
   <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-    style="max-width: 130px; max-height: 90px" routerLink="/Home" />
+    style="max-width: 140px; max-height: 120px; padding-top: 20px;" routerLink="/Home" />
   <div class="main-header">
     <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1>
-    <h3 style="color: rgb(19, 119, 185) !important;text-align: center; padding-top: 20px">
+    <h3 style="color: rgb(19, 119, 185) !important;text-align: center;">
       Supply Chain Management-(SCM)
     </h3>
   </div>
@@ -26,13 +26,15 @@
           (click)="onLogOut()"></button>
       </div>
     </p-overlayPanel>
-    <div style="float: right">
-        <a id="displayTimer" onload="showTime()"></a>
-        <a>{{date}}</a>
-      <i class="fa fa-user-circle fa-2x inline-padding text-color" style="text-align: end !important"
+    <div style="float: right;text-align: end !important">
+        <i id="displayTimer" onload="showTime()"></i>
+        <i></i>
+        <i>{{date}}</i>
+      <i class="fa fa-user-circle fa-2x inline-padding text-color" 
         (click)="op.toggle($event)"></i>
-    </div>
-  <div class="ui-g-12 ui-md-4 header-right">
+  </div>
+  <div class="header-right" style="float: right"> 
+  <!-- <div class="ui-g-12 ui-md-4 header-right"> -->
     <a href="http://omnisurv-cloud.com/index" target="_blank">
       <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
     </a>
@@ -57,8 +59,51 @@
       <img style="width: 30px; height: 20px;padding-right: 0px" src="../../assets/layout/images/dashboard/G2G.png"
         title="G2G" />
     </a>
-
-    
-    
   </div>
 </div>
+
+
+<!-- <div class="p-grid">
+  <div class="p-col-2">
+      <div class="box"><img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
+        style="max-width: 130px; max-height: 90px" routerLink="/Home" /></div>
+  </div>
+  <div class="p-col-6">
+      <div class="box">
+        <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1><br>
+    <h3 style="color: rgb(19, 119, 185) !important;text-align: center;">
+      Supply Chain Management-(SCM)
+    </h3>
+      </div>
+  </div>
+  <div class="header-right" style="float: right">
+  <div class="p-col-4">
+      <div class="box">
+        <a href="http://omnisurv-cloud.com/index" target="_blank">
+          <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
+        </a>
+        <a href="https://bonton.aquilatrack.com" target="_blank">
+          <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking"></i>
+        </a>
+        <a href="http://180.179.49.72:8081">
+          <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
+        </a>
+        <a href=" http://180.179.49.72:82/bugs/" target="_blank">
+          <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
+        </a>
+        <a href=" http://tncsc-edpc.in" target="-blank">
+          <img style="width: 30px; height: 24px; padding-right: 0px" src="../../assets/layout/images/dashboard/PDS.png"
+            title="DPC" />
+        </a>
+        <a href="  http://fci.gov.in/" target="_blank">
+          <img style="width: 30px; height: 24px;padding-right: 0px" src="../../assets/layout/images/dashboard/FCI.png"
+            title="FCI" />
+        </a>
+        <a href="https://www.tnpds.gov.in/" target="_blank">
+          <img style="width: 30px; height: 20px;padding-right: 0px" src="../../assets/layout/images/dashboard/G2G.png"
+            title="G2G" />
+        </a>
+      </div>
+  </div>
+</div>
+</div> -->
