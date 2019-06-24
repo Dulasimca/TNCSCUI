@@ -35,7 +35,8 @@ export class TableConstants {
   ReceiptHOPurchaseReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
-  TruckTransfer: any;
+  TruckTransitSender: any;
+  TruckTransitReceiver: any;
   StockReceiptItemColumns: any;
 
   constructor() {
@@ -386,15 +387,25 @@ export class TableConstants {
       { "field": 'Scheme', "header": 'Scheme'}
     ];
 
-    this.TruckTransfer = [
+    this.TruckTransitSender = [
       { "field": 'SlNo', "header": 'S.No'},
-      {"field": 'TruckMemoNo', "header": 'Truck Memo No'},
-      {"field": '', "header": 'Sender Date'},
-      {"field": '', "header": 'Region'},
-      {"field": '', "header": 'Godown Name'},
-      {"field": '', "header": 'No of Bags'},
-      {"field": 'Quantity', "header": 'Quantity'},
-
+      {"field": 'STNo', "header": 'Truck Memo No'},
+      {"field": 'STDate', "header": 'Sender Date'},
+      {"field": 'Region', "header": 'Region'},
+      {"field": 'TNCSName', "header": 'Godown Name'},
+      {"field": 'NoPacking', "header": 'Bags'},
+      {"field": 'Nkgs', "header": 'Quantity'},
+      {"field": 'LorryNo', "header": 'Lorry No'}
+      // {"field": 'Transfertype', "header": 'INTERNAL/'}
+    ];
+    this.TruckTransitReceiver = [
+      {"field": 'STNo', "header": 'AckNo'},
+      {"field": 'STDate', "header": 'Receiver Date'},
+      {"field": 'Region', "header": 'Receiver Region'},
+      {"field": 'TNCSName', "header": 'Receiver Godown'},
+      {"field": 'NoPacking', "header": 'Bags Received'},
+      {"field": 'Nkgs', "header": 'Received Quantity'},
+      {"field": 'LorryNo', "header": 'Lorry No'}
     ];
 
     this.StockReceiptItemColumns = [

@@ -84,7 +84,7 @@ import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component'
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
-import { TruckTransferComponent } from './truck-transfer/truck-transfer.component';
+import { TruckTransitComponent } from './truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
 
 
@@ -137,7 +137,7 @@ import { DecimalDirective } from './directives/decimal.directive';
     GunnyGuGrComponent,
     StackCardOpeningEntryComponent,
     OpeningBalanceComponent,
-    TruckTransferComponent,
+    TruckTransitComponent,
     DecimalDirective
   ],
   imports: [

@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { TableConstants } from 'src/app/constants/tableconstants';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
+import { TableConstants } from '../constants/tableconstants';
 import { DatePipe } from '@angular/common';
-import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
+import { AuthService } from '../shared-services/auth.service';
+import { ExcelService } from '../shared-services/excel.service';
 import { Router } from '@angular/router';
+import { RestAPIService } from '../shared-services/restAPI.service';
+import { RoleBasedService } from '../common/role-based.service';
+import { MessageService, SelectItem } from 'primeng/api';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { PathConstants } from '../constants/path.constants';
 
 @Component({
-  selector: 'app-truck-to-region',
-  templateUrl: './truck-to-region.component.html',
-  styleUrls: ['./truck-to-region.component.css']
-  
+  selector: 'app-truck-transit',
+  templateUrl: './truck-transit.component.html',
+  styleUrls: ['./truck-transit.component.css']
 })
-export class TruckToRegionComponent implements OnInit {
-  TruckToRegionCols: any;
-  TruckToRegionData: any;
+export class TruckTransitComponent implements OnInit {
+  TruckTransitCols: any;
+  TruckTransitData: any;
+  TruckReceiverCols: any;
+  TruckReceiverData: any;
   fromDate: any;
   toDate: any;
-  godownOptions: SelectItem[];
-  g_cd: any;
+  transferOptions: SelectItem[];
+  t_cd: any;
   data: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
@@ -39,7 +40,8 @@ export class TruckToRegionComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.TruckToRegionCols = this.tableConstants.TruckToRegionReport;
+    this.TruckTransitCols = this.tableConstants.TruckTransitSender;
+    this.TruckReceiverCols = this.tableConstants.TruckTransitReceiver;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
@@ -47,13 +49,14 @@ export class TruckToRegionComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.t_cd !== '' && this.t_cd !== undefined) {
       this.isViewDisabled = false;
     }
     if(this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
+        options.push({'label':x.Transfertype});
+      // options.push({ 'label': x.GName, 'value': x.GCode });
+      this.transferOptions = options;
     });
   }
   }
@@ -61,11 +64,11 @@ export class TruckToRegionComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
-      this.TruckToRegionData = res;
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.t_cd);
+    this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
+      this.TruckTransitData = res;
       let sno = 0;
-      this.TruckToRegionData.forEach(data => {
+      this.TruckTransitData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
         sno += 1;
         data.SlNo = sno;
@@ -87,7 +90,7 @@ export class TruckToRegionComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.t_cd !== '' && this.t_cd !== undefined) {
       this.isViewDisabled = false;
     }
   }
@@ -110,13 +113,14 @@ export class TruckToRegionComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-
   onResetTable() {
-    this.TruckToRegionData = [];
+    this.TruckTransitData = [];
     this.isActionDisabled = true;
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.TruckToRegionData, 'Truck_To_Region',this.TruckToRegionCols);
+    this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit',this.TruckTransitCols);
+    this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit',this.TruckReceiverCols);
 }
 }
+ 

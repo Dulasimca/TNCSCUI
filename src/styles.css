@@ -929,8 +929,8 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 }
 
   .dashboard .colorbox.colorbox-notifications-header {
-    background-color: #82CDC0 !important;
-    min-height: 50px;
+    background-color: #C1E950 !important;
+    min-height: 47px;
     align-content: center;
     text-align: center;
     color: white;
@@ -1030,7 +1030,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   }
 
   .dashboard .colorbox .colorbox-name {
-    font-size: 18px;
+    font-size: 16px;
     display: inline-block;
     width: 100%;
     color: #09143e;
@@ -1196,8 +1196,8 @@ ul
           text-align: center;
           padding: 10px;
           text-decoration: none;
-          font-size: 18px; 
-          line-height: 25px;
+          font-size: 14px; 
+          line-height: 20px;
           border-radius: 4px;
         }
         
@@ -1208,7 +1208,7 @@ ul
         
         .header-right {
           float: right !important;
-          padding-top: 20px;
+          padding-top: 33px;
         }
 
         @media screen and (max-width: 707px){
