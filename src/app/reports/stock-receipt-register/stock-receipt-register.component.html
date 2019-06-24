@@ -35,14 +35,17 @@
       </div>
          <div class="ui-g-5" style="padding-left: 0px">
            <div class="ui-g-8 dashboard" style="float: right">
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
+          </div>
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
+            <button pButton type="button" label=Text (click)="onTextDownload()" [disabled]="isActionDisabled"></button>
           </div>
         </div>
         </div> 

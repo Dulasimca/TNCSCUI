@@ -1,6 +1,7 @@
 export interface StockReceipt {
     ReceivingCode: string;
     RCode: number;
+    ItemDetail: any[];
     //SR-Details
     SRNo: any;
     SRDate: Date;
@@ -27,4 +28,6 @@ export interface StockReceipt {
     WTCode: string;
     Moisture: string;
     StackBalance: number;
+    //SR-Freight Details
+    Remarks: string;
 }

@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-stock-receipt-register',
@@ -117,6 +119,10 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onExportExcel():void{
     this.excelService.exportAsExcelFile(this.stockReceiptRegData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockReceiptRegCols);
+}
+
+  onTextDownload() {
+    saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "file.txt");
 }
 
 }

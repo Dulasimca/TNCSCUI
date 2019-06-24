@@ -4,6 +4,8 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { HttpParams } from '@angular/common/http';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -13,14 +15,16 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 export class StockReceiptComponent implements OnInit {
   scheme_data: any;
   itemCol: any;
-  itemData: any;
+  itemData: any = [];
   regionName: any;
   godownName: any;
   data: any;
+  packingTypes: any = [];
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
   transactionOptions: SelectItem[];
   stackOptions: SelectItem[];
+  packageWt: number;
   month: string;
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
@@ -30,12 +34,16 @@ export class StockReceiptComponent implements OnInit {
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
   packingTypeOptions: SelectItem[];
+  isDepositorTypeDisabled: boolean = true;
+  isDepositorNameDisabled: boolean = true;
   locationNo: any;
+  stackYear: any;
   wmtOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
   vehicleOptions: SelectItem[];
   freightOptions: SelectItem[];
+  TransType: string;
   godownNo: any;
   canShowMenu: boolean;
   ReceivingCode: string;
@@ -91,9 +99,11 @@ export class StockReceiptComponent implements OnInit {
   Remarks: string;
   @ViewChild('tabs')
   tabs: ElementRef;
+  transactoinSelection: any = [];
 
 
-  constructor(private authService: AuthService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) {
+  constructor(private authService: AuthService, private tableConstants: TableConstants,
+    private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) {
     // if (this.data === undefined) {
     //   this.data = this.roleBasedService.getGodownAndRegion();
     //   setTimeout(() => {
@@ -106,32 +116,14 @@ export class StockReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
-    this.itemCol = [
-      { field: 'Stack No.', header: 'StackNo' },
-      { field: 'Item Description', header: 'ItemDesc' },
-      { field: 'Packing Type', header: 'PackingType' },
-      { field: 'No. of packing', header: 'No Packing' },
-      { field: 'Wmt Type', header: 'WmtType' },
-      { field: 'Gross Wt', header: 'GrossWt' },
-      { field: 'Net Wt', header: 'NetWT' },
-      { field: 'Moisture', header: 'Moisture' },
-      { field: 'Scheme', header: 'Scheme' }
-
-    ]
-    this.itemData = [
-      { 'Stack No.': '1', 'Item Description': 'A', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-      { 'Stack No.': '2', 'Item Description': 'B', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-      { 'Stack No.': '3', 'Item Description': 'C', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-      { 'Stack No.': '4', 'Item Description': 'D', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-      { 'Stack No.': '5', 'Item Description': 'E', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-      { 'Stack No.': '6', 'Item Description': 'F', 'Packing Type': '', 'No. of packing': '', 'Wmt Type': '', 'Gross Wt': '', 'Moisture': '', 'Scheme': '', 'Net Wt': '' },
-    ];
+    this.itemCol = this.tableConstants.StockReceiptItemColumns;
   }
 
   onSelect(selectedItem) {
-    let transactoinSelection = [];
     let schemeSelection = [];
+    let depositorNameList = [];
     let yearArr = [];
+    let depositorTypeList = [];
     const range = 3;
     switch (selectedItem) {
       case 'y':
@@ -159,12 +151,21 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
-                this.transactionOptions = transactoinSelection;
+                this.transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
+                this.transactionOptions = this.transactoinSelection.slice(0);
+                this.isDepositorTypeDisabled = false;
               });
-              this.transactionOptions.unshift({ 'label': '-', 'value': '-' });
             }
           })
+        } else {
+          if (this.Trcode !== undefined && this.Trcode !== '') {
+            this.isDepositorTypeDisabled = false;
+            this.transactoinSelection.forEach(y => {
+              if (y.value === this.Trcode) {
+                this.TransType = y.transType;
+              }
+            })
+          }
         }
         break;
       case 'sc':
@@ -175,6 +176,97 @@ export class StockReceiptComponent implements OnInit {
           });
         }
         break;
+      case 'dt':
+        if (this.Trcode !== undefined && this.Trcode !== '') {
+          const params = new HttpParams().set('TRCode', this.Trcode).append('GCode', '002');
+          if (this.depositorTypeOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+              res.forEach(dt => {
+                depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+              });
+              this.depositorTypeOptions = depositorTypeList;
+              this.isDepositorNameDisabled = false;
+            });
+          }
+        }
+        break;
+      case 'dn':
+        if (this.DepositorType !== undefined && this.DepositorType !== '') {
+          const params = new HttpParams().set('TyCode', this.DepositorType).append('TRType', this.TransType);
+          if (this.depositorNameOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              res.forEach(dn => {
+                depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+              })
+              this.depositorNameOptions = depositorNameList;
+            });
+          }
+        }
+        break;
+      case 'i_desc':
+        let itemDesc = [];
+        if (this.Scheme !== undefined && this.Scheme !== '') {
+          const params = new HttpParams().set('SCode', this.Scheme);
+          if (this.schemeOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              res.forEach(i => {
+                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+              })
+              this.itemDescOptions = itemDesc;
+            });
+          }
+        }
+        break;
+      case 'st_no':
+        let stackNo = [];
+        this.ReceivingCode = '001';
+        if (this.ReceivingCode !== undefined && this.ICode !== undefined && this.ICode !== '') {
+          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode);
+          if (this.stackOptions === undefined) {
+            this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+              res.forEach(s => {
+                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo });
+              })
+              this.stackOptions = stackNo;
+            });
+          }
+        }
+        break;
+      case 'pt':
+        if (this.packingTypeOptions === undefined) {
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+            res.Table.forEach(p => {
+              this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+            })
+            this.packingTypeOptions = this.packingTypes;
+          });
+        } else {
+          if (this.IPCode !== undefined && this.IPCode !== '') {
+            this.packingTypes.forEach(wt => {
+              this.packageWt = (wt.value === this.IPCode) ? (wt.weight * 1) : 0;
+            })
+          }
+        }
+        break;
+      case 'wmt':
+        let weighment = [];
+        if (this.wmtOptions === undefined) {
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+            res.Table1.forEach(w => {
+              weighment.push({ 'label': w.WEType, 'value': w.WECode });
+            })
+            this.wmtOptions = weighment;
+          });
+        }
+        break;
     }
+  }
+
+  onEnter() {
+    this.itemData.push({});
+  }
+
+  onSave() {
+
   }
 }
