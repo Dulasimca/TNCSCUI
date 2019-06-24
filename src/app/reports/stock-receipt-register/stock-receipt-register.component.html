@@ -8,7 +8,7 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <div style="text-align: center">
+      <div>
           <!-- <div class="ui-g-1"></div> -->
         <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-date"></p-toast>
         <!-- <div *ngIf="isShowErr" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -18,11 +18,12 @@
           </button> 
         </div> -->
         <div class="ui-g-7 dashboard">
-        <div class="ui-g-5 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Godown Name</label>
-            </span>
+        <div class="ui-g-5 ui-fluid">
+            <!-- <span class="ui-float-label"> -->
+                <label>Godown Name:</label>
+              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" optionLabel="label" [showClear]="true"
+               (click)="onSelect()" (ngModelChange)="onResetTable()" placeholder="-Select-"></p-dropdown>
+            <!-- </span> -->
           </div>
         <div class="ui-g-3">
           <label class="ui-g-7 dashboard">From Date:</label>
@@ -35,14 +36,17 @@
       </div>
          <div class="ui-g-5" style="padding-left: 0px">
            <div class="ui-g-8 dashboard" style="float: right">
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-4 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
+          </div>
+          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
+            <button pButton type="button" label=Text (click)="onTextDownload()" [disabled]="isActionDisabled"></button>
           </div>
         </div>
         </div> 

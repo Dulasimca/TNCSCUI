@@ -24,6 +24,7 @@ export class CommodityReceiptComponent implements OnInit {
   isActionDisabled: any;
   data: any;
   g_cd: any;
+  c_cd: any;
   tr_cd: any;
   godownOptions: SelectItem[];
   transactionOptions: SelectItem[];
@@ -83,7 +84,8 @@ export class CommodityReceiptComponent implements OnInit {
       break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.tr_cd.value !== undefined && this.tr_cd.value !== ''
+      && this.g_cd !== null && this.tr_cd !== null && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -94,8 +96,8 @@ export class CommodityReceiptComponent implements OnInit {
     const params = { 
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd,
-      'TRCode': this.tr_cd
+      'GCode': this.g_cd.value,
+      'TRCode': this.tr_cd.value
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
       this.commodityReceiptData = res;
@@ -120,8 +122,9 @@ export class CommodityReceiptComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined
-    && this.tr_cd !== undefined && this.tr_cd !== '') {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined
+    && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.g_cd !== null && this.tr_cd !== null
+     && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
       this.isViewDisabled = false;
     }
   }

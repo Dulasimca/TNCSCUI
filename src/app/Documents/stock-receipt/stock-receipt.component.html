@@ -40,8 +40,7 @@
                       <div class="ui-g-6">
                         <!-- <span class="ui-float-label" style="padding-right: 10px;"> -->
                         <label>No</label>
-                        <input type="text" size="15" pInputText [(ngModel)]="SRNo" autocomplete="off"
-                          [readOnly]="true">
+                        <input type="text" size="15" pInputText [(ngModel)]="SRNo" autocomplete="off" [readOnly]="true">
                         <!-- </span> -->
                       </div>
                       <div class="ui-g-6">
@@ -131,7 +130,7 @@
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;">
                       <p-dropdown #dt id="float-input" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
-                        (onClick)="onSelect('dt')" filter="true">
+                        (onClick)="onSelect('dt')" filter="true" [disabled]="isDepositorTypeDisabled">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -142,7 +141,7 @@
                   <div class="ui-g-2">
                     <span class="ui-float-label" style="padding-right: 10px;">
                       <p-dropdown #dn id="float-input" [options]="depositorNameOptions" [(ngModel)]="DepositorCode"
-                        (onClick)="onSelect('dn')" filter="true">
+                        (onClick)="onSelect('dn')" filter="true" [disabled]="isDepositorNameDisabled">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -184,28 +183,11 @@
                   </div>
                 </div>
               </div>
-              <a class="btn btn-primary continue" #btnNext id="btnNext">Next</a>
+              <!-- <a class="btn btn-primary continue" #btnNext id="btnNext">Next</a> -->
             </div>
 
             <div class="tab-pane" id="Items">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-                <div class="ui-g-6 ui-fluid" style="padding-top: 15px;">
-                  <div class="ui-g-4" style="float: right">
-                  <label>Label54</label>
-                  <input pInputText [(ngModel)]="stockYear" [readOnly]="true"/>
-                  </div>
-                </div>
-                <div class="ui-g-6 ui-fluid"><br>
-                  <span class="ui-float-label">
-                    <p-dropdown #st_no id="float-input" [options]="stackOptions" [(ngModel)]="TStockNo"
-                        (onClick)="onSelect('st_no')" filter="true">
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                        </ng-template>
-                      </p-dropdown>
-                    <label class="float-input">Stack No.</label>
-                  </span>
-                </div>
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
@@ -229,6 +211,24 @@
                       <label class="float-input">Item Description</label>
                     </span>
                   </div>
+                  <div class="ui-g-2 ui-fluid">
+                    <span class="ui-float-label">
+                      <p-dropdown #st_no id="float-input" [options]="stackOptions" [(ngModel)]="TStockNo"
+                        (onClick)="onSelect('st_no')" filter="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
+                      <label class="float-input">Stack No.</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-4 ui-fluid">
+                    <div class="ui-g-4">
+                      <label><b>Stack Year - {{stackNo}}</b></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12">
                   <div class="ui-g-2">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText [(ngModel)]="godownNo" [readOnly]="true">
@@ -298,12 +298,7 @@
                     </div>
                     <div class="ui-g-4 ui-fluid" style="padding-top: 38px">
                       <span class="ui-float-label">
-                        <p-dropdown #moisture id="float-input" [options]="moistureOptions" [(ngModel)]="Moisture"
-                          (onClick)="onSelect('moisture')" filter="true">
-                          <ng-template let-item pTemplate="selectedItem">
-                            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                          </ng-template>
-                        </p-dropdown>
+                      <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture" pInputText autocomplete="off">
                         <label class="float-input">Moisture</label>
                       </span>
                     </div>
@@ -355,8 +350,8 @@
                   </p-table>
                 </div>
               </div>
-              <a id="item_prev" #item_prev class="btn btn-primary back" #btnPrevious id="btnPrevious">Previous</a>
-              <a class="btn btn-primary continue" #btnNext id="btnNext">Next</a>
+              <!-- <a id="item_prev" #item_prev class="btn btn-primary back" #btnPrevious id="btnPrevious">Previous</a>
+              <a class="btn btn-primary continue" #btnNext id="btnNext">Next</a> -->
             </div>
 
             <div class="tab-pane" id="Freight">
@@ -364,35 +359,35 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="TransporterName" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="TransporterName" [disabled]="true" autocomplete="off">
                       <label class="float-input">Transporter Name</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="LWBillNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="LWBillNo" [disabled]="true" autocomplete="off">
                       <label class="float-input">Lorry Way Bill No</label>
                     </span>
                   </div>
                   <div class="ui-g-3 ui-fluid dashboard">
-                    <p-calendar class="ui-g-8" [(ngModel)]="LWBillDate" [showIcon]="true" placeholder="Way Bill Date">
+                    <p-calendar class="ui-g-8" [(ngModel)]="LWBillDate" [showIcon]="true" [disabled]="true" placeholder="Way Bill Date">
                     </p-calendar>
                     <div class="ui-g-4 ui-fluid">
                       <span class="ui-float-label">
-                        <input id="float-input" pInputText [(ngModel)]="Kilometers" autocomplete="off">
+                        <input id="float-input" pInputText [(ngModel)]="Kilometers" [disabled]="true" autocomplete="off">
                         <label class="float-input">Kms</label>
                       </span>
                     </div>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="FreightAmount" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="FreightAmount" [disabled]="true" autocomplete="off">
                       <label class="float-input">Freight Amt</label>
                     </span>
                   </div>
                   <div class="ui-g-3 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="WHDNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="WHDNo" [disabled]="true" autocomplete="off">
                       <label class="float-input">Ware House Deposit Receipt</label>
                     </span>
                   </div>
@@ -400,37 +395,37 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="WCharges" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="WCharges" [disabled]="true" autocomplete="off">
                       <label class="float-input">Wmt Charges</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="HCharges" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="HCharges" [disabled]="true" autocomplete="off">
                       <label class="float-input">Handling Charges</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="GUnserviceable" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="GUnserviceable" [disabled]="true" autocomplete="off">
                       <label class="float-input">Un Serviceable</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="GServiceable" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="GServiceable" [disabled]="true" autocomplete="off">
                       <label class="float-input">Serviceable Gunny</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="GPatches" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="GPatches" [disabled]="true" autocomplete="off">
                       <label class="float-input">Gunny With Patches</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <p-dropdown #fc id="float-input" [options]="freightOptions" [(ngModel)]="FCode"
+                      <p-dropdown #fc id="float-input" [options]="freightOptions" [disabled]="true" [(ngModel)]="FCode"
                         (onClick)="onSelect('fc')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -443,7 +438,7 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <p-dropdown #vc id="float-input" [options]="vehicleOptions" [(ngModel)]="VCode"
+                      <p-dropdown #vc id="float-input" [options]="vehicleOptions" [disabled]="true" [(ngModel)]="VCode"
                         (onClick)="onSelect('vc')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -454,25 +449,25 @@
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="Gunnyutilised" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="Gunnyutilised" [disabled]="true" autocomplete="off">
                       <label class="float-input">Gunny Utilised</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="GunnyReleased" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="GunnyReleased" [disabled]="true" autocomplete="off">
                       <label class="float-input">Gunny Released</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="mno" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="mno" [disabled]="true" autocomplete="off">
                       <label class="float-input">Issue/Truck M.no</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="TStockNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="TStockNo" [disabled]="true" autocomplete="off">
                       <label class="float-input">Stack Number</label>
                     </span>
                   </div>
@@ -481,7 +476,7 @@
                 <div class="ui-g-12 ui-fluid" style="border: 1px solid #b4b4b4">
                   <div class="ui-g-3 ui-fluid">
                     <span class="ui-float-label">
-                      <p-dropdown #fs id="float-input" [options]="fromStationOptions" [(ngModel)]="FStation"
+                      <p-dropdown #fs id="float-input" [options]="fromStationOptions" [disabled]="true" [(ngModel)]="FStation"
                         (onClick)="onSelect('fs')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -492,7 +487,7 @@
                   </div>
                   <div class="ui-g-3 ui-fluid">
                     <span class="ui-float-label">
-                      <p-dropdown #ts id="float-input" [options]="toStationOptions" [(ngModel)]="TStation"
+                      <p-dropdown #ts id="float-input" [options]="toStationOptions" [disabled]="true" [(ngModel)]="TStation"
                         (onClick)="onSelect('ts')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -503,16 +498,16 @@
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="RRNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="RRNo" [disabled]="true" autocomplete="off">
                       <label class="float-input">R.R.No</label>
                     </span>
                   </div>
                   <div class="ui-g-2 ui-fluid">
-                    <p-calendar [(ngModel)]="LDate" [showIcon]="true" placeholder="Loading Date"></p-calendar>
+                    <p-calendar [(ngModel)]="LDate" [showIcon]="true" [disabled]="true" placeholder="Loading Date"></p-calendar>
                   </div>
                   <div class="ui-g-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="WNo" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="WNo" [disabled]="true" autocomplete="off">
                       <label class="float-input">Wagon No</label>
                     </span>
                   </div>
@@ -527,8 +522,8 @@
                   </div>
                 </div>
               </div>
-              <a class="btn btn-primary back" #btnPrevious id="btnPrevious">Previous</a>
-              <a class="btn btn-primary continue" #btnNext id="btnNext">Save</a>
+              <!-- <a class="btn btn-primary back" #btnPrevious id="btnPrevious">Previous</a>
+              <a class="btn btn-primary continue" #btnNext id="btnNext">Save</a> -->
             </div>
           </div>
         </div>

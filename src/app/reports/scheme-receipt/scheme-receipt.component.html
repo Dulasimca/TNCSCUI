@@ -8,19 +8,21 @@
       </div>
     </p-header>
       <div class="ui-g">
-        <div style="text-align: center">
+        <!-- <div style="text-align: center"> -->
         <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Godown</label>
-            </span>
+          <div class="ui-g-2 ui-fluid">
+            <!-- <span class="ui-float-label"> -->
+                <label>Godown</label>
+                <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')" 
+                (ngModelChange)="onResetTable()" optionLabel="label" placeholder="-select-" [showClear]="true"></p-dropdown>
+            <!-- </span> -->
           </div>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="schemeOptions" [(ngModel)]="sc_cd" (onClick)="onSelect('scheme')" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Scheme</label>
-            </span>
+          <div class="ui-g-2 ui-fluid">
+            <!-- <span class="ui-float-label"> -->
+                <label >Scheme</label>
+                <p-dropdown [options]="schemeOptions" [(ngModel)]="sc_cd" (onClick)="onSelect('scheme')"
+                 (ngModelChange)="onResetTable()" optionLabel="label" placeholder="-select-" [showClear]="true"></p-dropdown>
+            <!-- </span> -->
           </div>
           <div class="ui-g-4 dashboard">
               <div class="ui-g-4">
@@ -34,7 +36,6 @@
                     dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
                 </div>
             </div>
-        <div class="ui-g-1"></div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
@@ -44,6 +45,9 @@
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
+          <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+              <button pButton type="button" label=Text (click)="onTextDownload()" [disabled]="isActionDisabled"></button>
+            </div>
           <div class="ui-g-12">
             <p-table [columns]="schemeReceiptCols" [value]="schemeReceiptData" [loading]="loading" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
@@ -62,7 +66,7 @@
               </ng-template>
             </p-table>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
     </p-panel>
     </div>

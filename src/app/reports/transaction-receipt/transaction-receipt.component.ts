@@ -28,7 +28,7 @@ export class TransactionReceiptComponent implements OnInit {
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
-  tr_cd: string;
+  tr_cd: any;
   transactionOptions: SelectItem[];
   loading: boolean = false;
 
@@ -70,7 +70,8 @@ export class TransactionReceiptComponent implements OnInit {
         break;
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
+      && this.g_cd.value !== '' && this.g_cd !== null && this.g_cd !== undefined 
+       && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -81,8 +82,8 @@ export class TransactionReceiptComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd,
-      'TRCode': this.tr_cd
+      'GCode': this.g_cd.value,
+      'TRCode': this.tr_cd.value
     }
     this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
       this.transactionReceiptData = res;
@@ -114,8 +115,9 @@ export class TransactionReceiptComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== ''
-      && this.g_cd !== undefined && this.tr_cd !== undefined && this.tr_cd !== '') {
+    if (this.fromDate !== undefined && this.toDate !== undefined
+       && this.g_cd.value !== '' && this.g_cd !== null && this.g_cd !== undefined 
+       && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
       this.isViewDisabled = false;
     }
   }

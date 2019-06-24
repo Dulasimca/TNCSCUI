@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-stock-receipt-register',
@@ -45,7 +47,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
     if (this.data !== undefined) {
@@ -59,7 +61,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       this.stockReceiptRegData = res;
       let sno = 0;
@@ -86,7 +88,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined) {
       this.isViewDisabled = false;
     }
   }
@@ -117,6 +119,10 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onExportExcel():void{
     this.excelService.exportAsExcelFile(this.stockReceiptRegData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockReceiptRegCols);
+}
+
+  onTextDownload() {
+    saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "file.txt");
 }
 
 }

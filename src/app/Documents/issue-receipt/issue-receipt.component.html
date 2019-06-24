@@ -28,11 +28,11 @@
                     <div class="ui-g">
                       <div class="ui-g-6 no-pad-top">
                         <label>No</label>
-                        <input type="text" size="20" pInputText autocomplete="off">
+                        <input type="text" size="20" pInputText [(ngModel)]="SINo" autocomplete="off">
                       </div>
                       <div class="ui-g-6 no-pad-top">
                         <label>Date</label>
-                        <p-calendar [(ngModel)]="IssueDate" [showIcon]="true"></p-calendar>
+                        <p-calendar [(ngModel)]="SIDate" [showIcon]="true"></p-calendar>
                       </div>
                     </div>
                   </p-card>

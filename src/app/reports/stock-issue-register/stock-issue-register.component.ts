@@ -55,7 +55,7 @@ export class StockIssueRegisterComponent implements OnInit {
     let options = [];
     this.canFetch = true;
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
     if (this.data !== undefined) {
@@ -71,7 +71,7 @@ export class StockIssueRegisterComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd,
+      'GCode': this.g_cd.value,
       'StartIndex': this.startIndex,
       'TotalRecord': this.recordRange,
       'Position': this.position
@@ -86,7 +86,7 @@ export class StockIssueRegisterComponent implements OnInit {
             sno += 1;
             this.record.push({
               'SlNo': sno,
-              'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/mm/yyyy'),
+              'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/MM/yyyy'),
               'Lorryno': rec.Lorryno, 'To_Whom_Issued': rec.To_Whom_Issued, 'Stackno': rec.Stackno, 'Scheme': rec.Scheme,
               'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt
             });
@@ -129,7 +129,7 @@ export class StockIssueRegisterComponent implements OnInit {
     this.onResetTable();
     this.canFetch = true;
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
   }

@@ -8,15 +8,15 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <div style="text-align: center">
+      <!-- <div style="text-align: center"> -->
         <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
           <div class="ui-g-7 dashboard">
               <div class="ui-g-5 ui-fluid" style="padding-top: 26px">
-                <span class="ui-float-label">
-                  <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
-                    (ngModelChange)="onResetTable()"></p-dropdown>
-                  <label class="float-input">Godown Name</label>
-                </span>
+                <!-- <span class="ui-float-label"> -->
+                    <label>Godown Name</label>
+                    <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
+                    (ngModelChange)="onResetTable()" optionLabel="label" placeholder="-select-" [showClear]="true"></p-dropdown>
+                <!-- </span> -->
               </div>
               <div class="ui-g-3">
                 <label class="ui-g-7 dashboard">From Date:</label>
@@ -62,7 +62,7 @@
             </ng-template>
           </p-table>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </p-panel>
 </div>

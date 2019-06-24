@@ -9,6 +9,8 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-delivery-order-register',
@@ -46,7 +48,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
     if (this.data !== undefined) {
@@ -60,7 +62,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       this.deliveryReceiptRegData = res;
       let sno = 0;
@@ -75,6 +77,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         this.loading = false;
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;
@@ -91,7 +94,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -118,4 +121,8 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
 }
+
+  onTextDownload() {
+    saveAs("../../assets/Reports/Text/548SDOR.txt", "file.txt");
+  }
 }

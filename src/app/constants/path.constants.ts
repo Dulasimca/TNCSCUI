@@ -33,6 +33,11 @@ export class PathConstants {
   public static readonly TRUCK_TO_REGION_REPORT = 'api/TruckToRegion/Get';
   public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
   public static readonly GUNNY_REPORT = '/api/GunnyReport/Get'; 
+  public static readonly DEPOSITOR_TYPE_MASTER = '/api/TypeMaster/Get';
+  public static readonly DEPOSITOR_NAME_MASTER = '/api/DepositorDetails/Get';
+  public static readonly COMMODITY_FOR_SCHEME = '/api/CommodityForScheme/Get ';
+  public static readonly STACK_DETAILS = '/api/StackDetails/Get';
+  public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
 
 
