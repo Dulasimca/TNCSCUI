@@ -9,6 +9,8 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-delivery-order-register',
@@ -43,7 +45,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.maxDate = new Date();
   }
 
-  onSelect() {
+  onSelect(event) {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd !== '' && this.g_cd !== undefined) {
@@ -75,6 +77,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         this.loading = false;
         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
+      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;
@@ -118,4 +121,8 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
 }
+
+  onTextDownload() {
+    saveAs("../../assets/Reports/Text/548SDOR.txt", "file.txt");
+  }
 }
