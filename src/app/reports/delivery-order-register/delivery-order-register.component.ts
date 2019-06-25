@@ -123,6 +123,6 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 }
 
 onPrint() {
-    saveAs("../../assets/Reports/Text/548SDOR.txt", "file.txt");
+    saveAs("../../assets/Reports/Text/548SDOR.txt", "548SDOR.txt");
   }
 }

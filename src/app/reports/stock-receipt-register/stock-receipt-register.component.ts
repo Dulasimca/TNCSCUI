@@ -122,7 +122,7 @@ export class StockReceiptRegisterComponent implements OnInit {
 }
 
 onPrint() {
-    saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "file.txt");
+    saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "548STOCKRECEIPTREG.txt");
 }
 
 }
