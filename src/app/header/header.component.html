@@ -1,6 +1,6 @@
-<div class="header">
+<!-- <div class="header">
   <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-    style="max-width: 140px; max-height: 120px; padding-top: 20px;" routerLink="/Home" />
+    style="max-width: 100px; max-height: 100px;padding-top: 10px;" routerLink="/Home" />
   <div class="main-header">
     <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1>
     <h3 style="color: rgb(19, 119, 185) !important;text-align: center;">
@@ -27,15 +27,15 @@
       </div>
     </p-overlayPanel>
     <div style="float: right;text-align: end !important">
-        <i id="displayTimer" onload="showTime()"></i>
-        <i></i>
-        <i>{{date}}</i>
+       <i id="displayTimer" onload="showTime()"></i>
+        <a></a>
+        <i style="padding-left: 5px">{{date}}</i>
       <i class="fa fa-user-circle fa-2x inline-padding text-color" 
         (click)="op.toggle($event)"></i>
-  </div>
-  <div class="header-right" style="float: right"> 
-  <!-- <div class="ui-g-12 ui-md-4 header-right"> -->
-    <a href="http://omnisurv-cloud.com/index" target="_blank">
+  </div><a></a>
+  <div class="header-right" style="float: right">  -->
+<!-- <div class="ui-g-12 ui-md-4 header-right"> -->
+<!-- <a href="http://omnisurv-cloud.com/index" target="_blank">
       <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
     </a>
     <a href="https://bonton.aquilatrack.com" target="_blank">
@@ -48,62 +48,85 @@
       <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
     </a>
     <a href=" http://tncsc-edpc.in" target="-blank">
-      <img style="width: 30px; height: 24px; padding-right: 0px" src="../../assets/layout/images/dashboard/PDS.png"
+      <img style="width: 30px; height: 27px;" src="../../assets/layout/images/dashboard/PDS.png"
         title="DPC" />
     </a>
     <a href="  http://fci.gov.in/" target="_blank">
-      <img style="width: 30px; height: 24px;padding-right: 0px" src="../../assets/layout/images/dashboard/FCI.png"
+      <img style="width: 30px; height: 27px;" src="../../assets/layout/images/dashboard/FCI.png"
         title="FCI" />
     </a>
     <a href="https://www.tnpds.gov.in/" target="_blank">
-      <img style="width: 30px; height: 20px;padding-right: 0px" src="../../assets/layout/images/dashboard/G2G.png"
+      <img style="width: 30px; height: 25px;padding-top: 2px" src="../../assets/layout/images/dashboard/G2G.png"
         title="G2G" />
     </a>
   </div>
-</div>
+</div> -->
 
-
-<!-- <div class="p-grid">
-  <div class="p-col-2">
-      <div class="box"><img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-        style="max-width: 130px; max-height: 90px" routerLink="/Home" /></div>
+<div>
+  <div class="ui-g-12 ui-md-1 ui-fluid">
+    <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
+      style="max-width: 110px; max-height: 70px;width: 80px;padding-right: initial" routerLink="/Home" />
   </div>
-  <div class="p-col-6">
-      <div class="box">
-        <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1><br>
-    <h3 style="color: rgb(19, 119, 185) !important;text-align: center;">
+
+  <div class="ui-g-12 ui-md-5" style="padding-top:20px;">
+    <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1>
+    <h3 style="color: rgb(19, 119, 185) !important; text-align: center">
       Supply Chain Management-(SCM)
     </h3>
-      </div>
   </div>
-  <div class="header-right" style="float: right">
-  <div class="p-col-4">
-      <div class="box">
-        <a href="http://omnisurv-cloud.com/index" target="_blank">
-          <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
-        </a>
-        <a href="https://bonton.aquilatrack.com" target="_blank">
-          <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking"></i>
-        </a>
-        <a href="http://180.179.49.72:8081">
-          <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
-        </a>
-        <a href=" http://180.179.49.72:82/bugs/" target="_blank">
-          <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
-        </a>
-        <a href=" http://tncsc-edpc.in" target="-blank">
-          <img style="width: 30px; height: 24px; padding-right: 0px" src="../../assets/layout/images/dashboard/PDS.png"
-            title="DPC" />
-        </a>
-        <a href="  http://fci.gov.in/" target="_blank">
-          <img style="width: 30px; height: 24px;padding-right: 0px" src="../../assets/layout/images/dashboard/FCI.png"
-            title="FCI" />
-        </a>
-        <a href="https://www.tnpds.gov.in/" target="_blank">
-          <img style="width: 30px; height: 20px;padding-right: 0px" src="../../assets/layout/images/dashboard/G2G.png"
-            title="G2G" />
-        </a>
+  <div class="ui-g-12 ui-md-6">
+    <div style="float: right;text-align: end !important">
+      <i id="displayTimer" onload="showTime()"></i>
+      <i style="padding-left: 20px;padding-right: 20px;">{{date}}</i>
+      <i class="fa fa-user-circle fa-2x inline-padding text-color" (click)="op.toggle($event)"></i>
+    </div>
+    <div class="head" style="padding-top: 50px">
+      <a href="http://omnisurv-cloud.com/index" target="_blank">
+        <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
+      </a>
+      <a href="https://bonton.aquilatrack.com" target="_blank">
+        <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking"></i>
+      </a>
+      <a href="http://180.179.49.72:8081">
+        <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
+      </a>
+      <a href=" http://180.179.49.72:82/bugs/" target="_blank">
+        <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
+      </a>
+      <a>
+        <img href=" http://tncsc-edpc.in" target="-blank" style="width: 30px; height: 29px;padding-top: 3px"
+          src="../../assets/layout/images/dashboard/PDS.png" title="DPC" />
+      </a>
+      <a>
+        <img href="http://fci.gov.in/" target="_blank" style="width: 30px; height: 29px;padding-top: 3px"
+          src="../../assets/layout/images/dashboard/FCI.png" title="FCI" />
+      </a>
+      
+        <img href="https://www.tnpds.gov.in/" target="_blank" style="width: 32px; height: 25px;"
+          src="../../assets/layout/images/dashboard/G2G.png" title="G2G" />
+      
+    </div>
+    <!-- <div class="ui-g-12 ui-md-2"> -->
+    <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [style]="{width: '350px'}">
+      <div class="overlay-content" style="text-align: center">
+        <div>
+          <label style="color: blue"><b>FS</b></label>
+        </div>
+        <div>
+          <label>CHENNAI-NORTH</label>
+        </div>
+        <div>
+          <label>GN00789</label>
+        </div>
       </div>
+      <div class="overlay-footer">
+        <button class="dashboard" pButton type="button" label="Change Password?" style="float: left"
+          (click)="onForgetPswd()"></button>
+        <button class="dashboard" pButton type="button" label="Logout" icon="fa fa-sign-out" style="float:right"
+          (click)="onLogOut()"></button>
+      </div>
+    </p-overlayPanel>
+
   </div>
+  <!-- </div> -->
 </div>
-</div> -->
