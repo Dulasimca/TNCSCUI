@@ -122,7 +122,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
 }
 
-  onTextDownload() {
+onPrint() {
     saveAs("../../assets/Reports/Text/548SDOR.txt", "file.txt");
   }
 }

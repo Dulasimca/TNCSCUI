@@ -121,7 +121,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.stockReceiptRegData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockReceiptRegCols);
 }
 
-  onTextDownload() {
+onPrint() {
     saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "file.txt");
 }
 
