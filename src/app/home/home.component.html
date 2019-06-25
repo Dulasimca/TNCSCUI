@@ -201,7 +201,15 @@
         </div>
       </div>
     </div>
-  
+
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active"><a href="#">Closiing Balance</a></li>
+      <li><a href="#">Liftment</a></li>
+      <li><a href="#">Off-Take</a></li>
+    </ul>
+
+
+
     <div class="ui-g-12 card" *ngIf="riceData">
       <highcharts-chart [Highcharts]="Highcharts" [options]="riceData" style="height: 400px; display: block;">
       </highcharts-chart>

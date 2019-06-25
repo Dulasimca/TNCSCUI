@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 
 @Component({
@@ -121,8 +122,12 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.stockReceiptRegData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockReceiptRegCols);
 }
 
-  onTextDownload() {
-    saveAs("../../assets/Reports/Text/548STOCKRECEIPTREG.txt", "file.txt");
+onPrint() {
+  const todayDate = new Date();
+  const pipeDate = this.datePipe.transform(todayDate, 'ddMMyyyy');
+  const path = "../../assets/Reports/"+pipeDate+"/";
+  const filename = this.g_cd.value+GolbalVariable.StockReceiptRegFilename+".txt";
+  saveAs(path + filename, filename);
 }
 
 }
