@@ -10,6 +10,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 
 @Component({
@@ -123,6 +124,10 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 }
 
 onPrint() {
-    saveAs("../../assets/Reports/24062019/548SDOR.txt", "548SDOR.txt");
+  const todayDate = new Date();
+  const pipeDate = this.datePipe.transform(todayDate, 'ddMMyyyy');
+  const path = "../../assets/Reports/"+pipeDate+"/";
+  const filename = this.g_cd.value+GolbalVariable.StockDORegFilename+".txt";
+    saveAs(path + filename, filename);
   }
 }
