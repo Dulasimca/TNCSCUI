@@ -71,7 +71,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       'UserName': this.username.user,
       'GCode': this.g_cd.value
     }
-    this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       this.deliveryReceiptRegData = res;
       let sno = 0;
       this.deliveryReceiptRegData.forEach(data => {
