@@ -14,7 +14,10 @@
             <!-- <span class="ui-float-label"> -->
                 <label>Godown</label>
                 <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"
-              optionLabel="label" [showClear]="true" (ngModelChange)="onResetTable()" placeholder="-select-"></p-dropdown>
+               (ngModelChange)="onResetTable()"filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+               <ng-template let-item pTemplate="selectedItem">
+                 <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+               </ng-template></p-dropdown>
             <!-- </span> -->
           </div>
           <div class="ui-g-4 dashboard">
@@ -41,7 +44,7 @@
           </div>
           <div class="ui-g-12">
             <p-table [columns]="writeoffCols" [value]="writeoffData" [responsive]="true" [loading]="loading"
-             [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+             [scrollable]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">

@@ -21,8 +21,11 @@
         <div class="ui-g-5 ui-fluid">
             <!-- <span class="ui-float-label"> -->
                 <label>Godown Name:</label>
-              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" optionLabel="label" [showClear]="true"
-               (click)="onSelect()" (ngModelChange)="onResetTable()" placeholder="-Select-"></p-dropdown>
+              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
+               (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+               <ng-template let-item pTemplate="selectedItem">
+                 <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+               </ng-template></p-dropdown>
             <!-- </span> -->
           </div>
         <div class="ui-g-3">
@@ -49,7 +52,7 @@
         </div> 
         <!-- <div class="ui-g-2"></div> -->
      <div class="ui-g-12"> 
-        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="10"
+        <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="0"
          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr>

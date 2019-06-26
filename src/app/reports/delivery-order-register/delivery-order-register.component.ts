@@ -33,6 +33,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   deliveryName: string;
   canShowMenu: boolean;
   loading: boolean;
+  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -44,6 +45,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
@@ -63,7 +65,12 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = {
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'UserName': this.username.user,
+      'GCode': this.g_cd.value
+    }
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       this.deliveryReceiptRegData = res;
       let sno = 0;
@@ -111,7 +118,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
           this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
+        } else if (selectedFromDate > selectedToDate) {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
@@ -124,10 +131,8 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 }
 
 onPrint() {
-  const todayDate = new Date();
-  const pipeDate = this.datePipe.transform(todayDate, 'ddMMyyyy');
-  const path = "../../assets/Reports/"+pipeDate+"/";
-  const filename = this.g_cd.value+GolbalVariable.StockDORegFilename+".txt";
-    saveAs(path + filename, filename);
+  const path = "../../assets/Reports/" + this.username.user + "/";
+  const filename = this.g_cd.value + GolbalVariable.StockDORegFilename + ".txt";
+  saveAs(path + filename, filename);
   }
 }

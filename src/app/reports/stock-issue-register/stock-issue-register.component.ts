@@ -9,6 +9,8 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-stock-issue-register',
@@ -18,6 +20,7 @@ import { Router } from '@angular/router';
 export class StockIssueRegisterComponent implements OnInit {
   stockIssueRegCols: any;
   stockIssueRegData: any = [];
+  username: any;
   fromDate: any;
   toDate: any;
   isViewDisabled: any;
@@ -49,6 +52,7 @@ export class StockIssueRegisterComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.stockIssueRegData = [];
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
@@ -145,7 +149,7 @@ export class StockIssueRegisterComponent implements OnInit {
       if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
         this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
         this.fromDate = this.toDate = '';
-      } else if (selectedFromDate >= selectedToDate) {
+      } else if (selectedFromDate > selectedToDate) {
         this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }
@@ -155,5 +159,11 @@ export class StockIssueRegisterComponent implements OnInit {
 
   onExportExcel(): void {
     this.excelService.exportAsExcelFile(this.stockIssueRegData, 'STOCK_ISSUE_REGISTER_REPORT', this.stockIssueRegCols);
+  }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.g_cd.value + GolbalVariable.StockIssueRegFilename + ".txt";
+    saveAs(path + filename, filename);
   }
 }

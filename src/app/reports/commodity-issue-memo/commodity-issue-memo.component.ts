@@ -65,6 +65,7 @@ export class CommodityIssueMemoComponent implements OnInit {
               commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
               this.commodityOptions = commoditySelection;
             });
+
             this.commodityOptions.unshift({ 'label': null, 'value': null });
           }
         })
@@ -112,7 +113,6 @@ export class CommodityIssueMemoComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    // if ()
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !==  null
     && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
       this.isViewDisabled = false;
@@ -130,7 +130,7 @@ export class CommodityIssueMemoComponent implements OnInit {
       if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
         this.fromDate = this.toDate = '';
-      } else if (selectedFromDate >= selectedToDate) {
+      } else if (selectedFromDate > selectedToDate) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }

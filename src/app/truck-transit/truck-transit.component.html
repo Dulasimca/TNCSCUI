@@ -12,7 +12,11 @@
         <!-- <div class="ui-g-1"></div> -->
           <div class="ui-g-12 ui-md-3" style="padding-top: 28px">
             <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="transferOptions" [(ngModel)]="t_cd" (onClick)="onSelect()">
+              <p-dropdown id="float-input" [options]="transferOptions" [(ngModel)]="t_cd" (onClick)="onSelect()"
+               filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                </ng-template>
               </p-dropdown>
               <label class="float-input">Transfer Type</label>
             </span>
@@ -54,7 +58,7 @@
         <div class="ui-g-6">
           <p-fieldset legend="SENDER">
             <p-table [columns]="TruckTransitCols" [value]="TruckTransitData" [responsive]="true" [scrollable]="true"
-              [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+              [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
               autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr>

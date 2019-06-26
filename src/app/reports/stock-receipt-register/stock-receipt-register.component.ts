@@ -32,6 +32,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
+  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -43,6 +44,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
@@ -106,7 +108,7 @@ export class StockReceiptRegisterComponent implements OnInit {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
           this.isShowErr = true;
           this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
+        } else if (selectedFromDate > selectedToDate) {
           this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
@@ -123,10 +125,8 @@ export class StockReceiptRegisterComponent implements OnInit {
 }
 
 onPrint() {
-  const todayDate = new Date();
-  const pipeDate = this.datePipe.transform(todayDate, 'ddMMyyyy');
-  const path = "../../assets/Reports/"+pipeDate+"/";
-  const filename = this.g_cd.value+GolbalVariable.StockReceiptRegFilename+".txt";
+  const path = "../../assets/Reports/" + this.username.user + "/";
+  const filename = this.g_cd.value + GolbalVariable.StockReceiptRegFilename + ".txt";
   saveAs(path + filename, filename);
 }
 

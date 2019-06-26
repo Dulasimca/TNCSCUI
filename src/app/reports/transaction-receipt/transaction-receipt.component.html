@@ -14,7 +14,10 @@
           <!-- <span class="ui-float-label"> -->
               <label>Godown</label>
               <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')"
-              (ngModelChange)="onResetTable()" optionLabel="label" placeholder="-select-" [showClear]="true"></p-dropdown>
+              (ngModelChange)="onResetTable()"filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+              </ng-template></p-dropdown>
           <!-- </span> -->
         </div>
         <div class="ui-g-2 ui-fluid">
@@ -22,7 +25,10 @@
               <label>Transaction</label>
               <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd"
               (onClick)="onSelect('transaction')" (ngModelChange)="onResetTable()"
-               optionLabel="label" placeholder="-select-" [showClear]="true"></p-dropdown>
+              filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+              </ng-template></p-dropdown>
           <!-- </span> -->
         </div>
         <div class="ui-g-4 dashboard">
@@ -48,7 +54,7 @@
           <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
         </div>
         <div class="ui-g-12">
-          <p-table [columns]="transactionReceiptCols" [value]="transactionReceiptData" [rows]="10"
+          <p-table [columns]="transactionReceiptCols" [value]="transactionReceiptData" [rows]="20"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
             autoLayout="true">
             <ng-template pTemplate="header" let-columns>

@@ -133,7 +133,7 @@ export class TransactionReceiptComponent implements OnInit {
       if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
         this.fromDate = this.toDate = '';
-      } else if (selectedFromDate >= selectedToDate) {
+      } else if (selectedFromDate > selectedToDate) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }
