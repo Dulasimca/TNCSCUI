@@ -47,7 +47,7 @@ export class TruckToRegionComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
     if(this.data !== undefined) {
@@ -61,7 +61,7 @@ export class TruckToRegionComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
       this.TruckToRegionData = res;
       let sno = 0;
@@ -70,12 +70,12 @@ export class TruckToRegionComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
+      if (res !== undefined && this.TruckToRegionData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      this.loading = false;
+      // this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;
@@ -85,9 +85,8 @@ export class TruckToRegionComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined) {
+      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -100,17 +99,15 @@ export class TruckToRegionComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.isShowErr = true;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
           this.fromDate = this.toDate = '';
         } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
       return this.fromDate, this.toDate;
     }
   }
-
   onResetTable() {
     this.TruckToRegionData = [];
     this.isActionDisabled = true;

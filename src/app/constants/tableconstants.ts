@@ -317,7 +317,7 @@ export class TableConstants {
 
     this.TruckToRegionReport = [
       { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'truckMemo', "header": 'Truck Memo' },
+      { "field": 'TruckMemo', "header": 'Truck Memo' },
       { "field": 'STDate', "header": 'Date' },
       { "field": 'DepositorName', "header": 'Godown' },
       { "field": 'RGNAME', "header": 'Region' },
@@ -393,19 +393,16 @@ export class TableConstants {
       {"field": 'STDate', "header": 'Sender Date'},
       {"field": 'Region', "header": 'Region'},
       {"field": 'TNCSName', "header": 'Godown Name'},
+      {"field": 'LNo', "header": 'Lorry No'},
       {"field": 'NoPacking', "header": 'Bags'},
       {"field": 'Nkgs', "header": 'Quantity'},
-      {"field": 'LorryNo', "header": 'Lorry No'}
-      // {"field": 'Transfertype', "header": 'INTERNAL/'}
-    ];
-    this.TruckTransitReceiver = [
       {"field": 'STNo', "header": 'AckNo'},
       {"field": 'STDate', "header": 'Receiver Date'},
       {"field": 'Region', "header": 'Receiver Region'},
       {"field": 'TNCSName', "header": 'Receiver Godown'},
       {"field": 'NoPacking', "header": 'Bags Received'},
       {"field": 'Nkgs', "header": 'Received Quantity'},
-      {"field": 'LorryNo', "header": 'Lorry No'}
+      // {"field": 'Transfertype', "header": 'INTERNAL/'}
     ];
 
     this.StockReceiptItemColumns = [
