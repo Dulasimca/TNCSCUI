@@ -6,6 +6,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -16,6 +17,7 @@ export class StockReceiptComponent implements OnInit {
   scheme_data: any;
   itemCol: any;
   itemData: any = [];
+  entryList: any = [];
   regionName: any;
   godownName: any;
   data: any;
@@ -24,10 +26,10 @@ export class StockReceiptComponent implements OnInit {
   depositorNameOptions: SelectItem[];
   transactionOptions: SelectItem[];
   stackOptions: SelectItem[];
-  month: string;
+  month: any;
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
-  year: string;
+  year: any;
   tareWt: number;
   moistureOptions: SelectItem[];
   itemDescOptions: SelectItem[];
@@ -48,6 +50,7 @@ export class StockReceiptComponent implements OnInit {
   godownNo: any;
   OrderNo: number;
   OrderDate: Date;
+  StackBalance: number;
   canShowMenu: boolean;
   ReceivingCode: string;
   RCode: number;
@@ -74,7 +77,6 @@ export class StockReceiptComponent implements OnInit {
   NKgs: number;
   WTCode: any;
   Moisture: number;
-  StackBalance: number;
   //SR-Freight Details
   TransporterName: string;
   LWBillNo: any;
@@ -104,7 +106,8 @@ export class StockReceiptComponent implements OnInit {
 
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
-    private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) {
+    private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
+    private datepipe: DatePipe) {
     // if (this.data === undefined) {
     //   this.data = this.roleBasedService.getGodownAndRegion();
     //   setTimeout(() => {
@@ -117,6 +120,7 @@ export class StockReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
+    this.data = this.roleBasedService.getInstance();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
   }
 
@@ -142,11 +146,11 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions = yearArr;
         break;
       case 'm':
-        this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
-        { 'label': 'Feb', 'value': 2 }, { 'label': 'Mar', 'value': 3 }, { 'label': 'Apr', 'value': 4 },
-        { 'label': 'May', 'value': 5 }, { 'label': 'Jun', 'value': 6 }, { 'label': 'Jul', 'value': 7 },
-        { 'label': 'Aug', 'value': 8 }, { 'label': 'Sep', 'value': 9 }, { 'label': 'Oct', 'value': 10 },
-        { 'label': 'Nov', 'value': 11 }, { 'label': 'Dec', 'value': 12 }];
+        this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
+        { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
+        { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
+        { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
+        { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -270,13 +274,20 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onEnter() {
-    this.itemData.push({'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
-  'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
-'WTCode': this.WTCode.label, 'Moisture': this.Moisture});
+    this.itemData.push({
+      'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
+      'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
+      'WTCode': this.WTCode.label, 'Moisture': this.Moisture
+    });
+    this.entryList.push({
+      'TStockNo': this.TStockNo.value, 'Scheme': this.Scheme.value, 'ICode': this.ICode.value,
+      'IPCode': this.IPCode.value, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
+      'WTCode': this.WTCode.value, 'Moisture': this.Moisture
+    });
   }
 
   onSave() {
-    this.PAllotment = this.month + '/' + this.year;
+    this.PAllotment = this.month.value + '/' + this.year.label;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
@@ -284,5 +295,31 @@ export class StockReceiptComponent implements OnInit {
         this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
       }
     }
+    const params = {
+      'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
+      'PAllotment': this.PAllotment,
+      'MTransport': this.MTransport,
+      'Trcode': this.Trcode.value,
+      'DepositorType': this.DepositorType.value,
+      'DepositorCode': this.DepositorCode.value,
+      'TruckMemoNo': this.TruckMemoNo,
+      'TruckMemoDate': this.datepipe.transform(this.TruckMemoDate, 'MM/dd/yyyy'),
+      'ManualDocNo': this.ManualDocNo,
+      'LNo': this.LNo,
+      'LFrom': this.LFrom,
+      'TStockNo': this.TStockNo.value,
+      'Scheme': this.Scheme.value,
+      'ICode': this.ICode.value,
+      'IPCode': this.IPCode.value,
+      'NoPacking': this.NoPacking,
+      'GKgs': this.GKgs,
+      'NKgs': this.NKgs,
+      'WTCode': this.WTCode.value,
+      'Moisture': this.Moisture,
+      'ItemList': this.entryList
+    }
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+      console.log('res', res);
+    }); 
   }
 }

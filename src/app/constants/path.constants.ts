@@ -41,6 +41,6 @@ export class PathConstants {
   public static readonly STACK_DETAILS = '/api/StackDetails/Get';
   public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
-
+  public static readonly STOCK_RECEIPT_DOCUMENTS = '/api/StockReceipt/Post'; 
 
 }
