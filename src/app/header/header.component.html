@@ -33,9 +33,8 @@
       <i class="fa fa-user-circle fa-2x inline-padding text-color" 
         (click)="op.toggle($event)"></i>
   </div><a></a>
-  <div class="header-right" style="float: right">  -->
-<!-- <div class="ui-g-12 ui-md-4 header-right"> -->
-<!-- <a href="http://omnisurv-cloud.com/index" target="_blank">
+  <div class="header-right" style="float: right"> 
+<a href="http://omnisurv-cloud.com/index" target="_blank">
       <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
     </a>
     <a href="https://bonton.aquilatrack.com" target="_blank">
@@ -63,24 +62,24 @@
 </div> -->
 
 <div>
-  <div class="ui-g-12 ui-md-1 ui-fluid">
+  <div class="ui-g-12 ui-md-1" style="padding: inherit">
     <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-      style="max-width: 110px; max-height: 70px;width: 80px;padding-right: initial" routerLink="/Home" />
+      style="max-width: 100px; max-height: 64px;width: 100px;padding-right: initial" routerLink="/Home" />
   </div>
 
-  <div class="ui-g-12 ui-md-5" style="padding-top:20px;">
-    <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1>
+  <div class="ui-g-12 ui-md-5" style="padding: inherit">
+    <h1 style="color: rgb(19, 119, 185) !important;padding-top: 10px;">Tamilnadu Civil Supplies Corporation</h1>
     <h3 style="color: rgb(19, 119, 185) !important; text-align: center">
       Supply Chain Management-(SCM)
     </h3>
   </div>
-  <div class="ui-g-12 ui-md-6">
+  <div class="ui-g-12 ui-md-6" style="padding: inherit">
     <div style="float: right;text-align: end !important">
-      <i id="displayTimer" onload="showTime()"></i>
-      <i style="padding-left: 20px;padding-right: 20px;">{{date}}</i>
+      <!-- <i id="displayTimer" onload="showTime()"></i>
+      <i style="padding-left: 20px;padding-right: 20px;">{{date}}</i> -->
       <i class="fa fa-user-circle fa-2x inline-padding text-color" (click)="op.toggle($event)"></i>
     </div>
-    <div class="head" style="padding-top: 50px">
+    <div class="head" style="padding-top: 35px;float: right">
       <a href="http://omnisurv-cloud.com/index" target="_blank">
         <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
       </a>
@@ -106,7 +105,6 @@
           src="../../assets/layout/images/dashboard/G2G.png" title="G2G" />
       
     </div>
-    <!-- <div class="ui-g-12 ui-md-2"> -->
     <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [style]="{width: '350px'}">
       <div class="overlay-content" style="text-align: center">
         <div>
@@ -128,5 +126,4 @@
     </p-overlayPanel>
 
   </div>
-  <!-- </div> -->
 </div>
