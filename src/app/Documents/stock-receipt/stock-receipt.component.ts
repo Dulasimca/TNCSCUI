@@ -61,7 +61,7 @@ export class StockReceiptComponent implements OnInit {
   DepositorCode: any;
   TruckMemoNo: any;
   TruckMemoDate: Date;
-  ManualDocNo: number;
+  ManualDocNo: any;
   LNo: any;
   LFrom: any;
   //SR-Item Details
@@ -73,7 +73,7 @@ export class StockReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: any;
-  Moisture: string;
+  Moisture: number;
   StackBalance: number;
   //SR-Freight Details
   TransporterName: string;
