@@ -19,6 +19,7 @@ export class StockReceiptComponent implements OnInit {
   regionName: any;
   godownName: any;
   data: any;
+  selectedValues: string[] = [];
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
   transactionOptions: SelectItem[];
@@ -36,6 +37,8 @@ export class StockReceiptComponent implements OnInit {
   isDepositorNameDisabled: boolean = true;
   locationNo: any;
   stackYear: any;
+  isStackNoEnabled: boolean = true;
+  isItemDescEnabled: boolean = true;
   wmtOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
@@ -68,7 +71,7 @@ export class StockReceiptComponent implements OnInit {
   IPCode: any;
   NoPacking: number;
   GKgs: number;
-  Nkgs: number;
+  NKgs: number;
   WTCode: any;
   Moisture: string;
   StackBalance: number;
@@ -169,6 +172,7 @@ export class StockReceiptComponent implements OnInit {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
           });
+          this.isItemDescEnabled = false;
         }
         break;
       case 'dt':
@@ -202,13 +206,14 @@ export class StockReceiptComponent implements OnInit {
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
           const params = new HttpParams().set('SCode', this.Scheme.value);
-          if (this.schemeOptions === undefined) {
+          if (this.itemDescOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               res.forEach(i => {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
               this.itemDescOptions = itemDesc;
             });
+            this.isStackNoEnabled = false;
           }
         }
         break;
@@ -220,10 +225,15 @@ export class StockReceiptComponent implements OnInit {
           if (this.stackOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               res.forEach(s => {
-                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo });
+                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
               })
               this.stackOptions = stackNo;
             });
+          } else {
+            if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null){
+              this.stackYear = this.TStockNo.stack_yr;
+              // this.godownNo = this.TStockNo.toString().startsWith('/');
+            }
           }
         }
         break;
@@ -237,9 +247,11 @@ export class StockReceiptComponent implements OnInit {
           });
         } else {
           if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-            packingTypes.forEach(wt => {
               this.NoPacking = this.IPCode.weight;
-            })
+              this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+              this.tareWt = this.GKgs - this.NKgs;
+          } else {
+            this.NoPacking = this.GKgs = this.NKgs = 0;
           }
         }
         break;
@@ -258,10 +270,19 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onEnter() {
-    this.itemData.push({});
+    this.itemData.push({'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
+  'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
+'WTCode': this.WTCode.label, 'Moisture': this.Moisture});
   }
 
   onSave() {
-
+    this.PAllotment = this.month + '/' + this.year;
+    if (this.selectedValues.length !== 0) {
+      if (this.selectedValues.length === 2) {
+        this.MTransport = 'UPCountry';
+      } else if (this.selectedValues.length === 1) {
+        this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
+      }
+    }
   }
 }

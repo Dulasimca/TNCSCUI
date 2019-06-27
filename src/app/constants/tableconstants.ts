@@ -409,16 +409,15 @@ export class TableConstants {
     ];
 
     this.StockReceiptItemColumns = [
-      { field: 'Stack No.', header: 'StackNo' },
-      { field: 'Item Description', header: 'ItemDesc' },
-      { field: 'Packing Type', header: 'PackingType' },
-      { field: 'No. of packing', header: 'No Packing' },
-      { field: 'Wmt Type', header: 'WmtType' },
-      { field: 'Gross Wt', header: 'GrossWt' },
-      { field: 'Net Wt', header: 'NetWT' },
+      { field: 'TStockNo', header: 'Stack No.' },
+      { field: 'ICode', header: 'Item Description' },
+      { field: 'IPCode', header: 'Packing Type' },
+      { field: 'NoPacking', header: 'No. of packing' },
+      { field: 'WTCode', header: 'Wmt Type' },
+      { field: 'GKgs', header: 'Gross Wt' },
+      { field: 'NKgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
       { field: 'Scheme', header: 'Scheme' }
-
     ];
     
   }
