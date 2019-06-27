@@ -89,7 +89,7 @@
                 <div class="ui-g-12 ui-md-3 ui-fluid">
                   <label class=" label-fontsize-large" style="padding-left: 10px">Allotment/Release Order Date</label><br>
                   <div class="ui-g-12 ui-fluid" style="padding-top: 15px">
-                    <p-calendar class="ui-g-8" [(ngModel)]="OrderDate" [showIcon]="true" placeholder="Date">
+                    <p-calendar class="ui-g-8" [(ngModel)]="OrderDate" [showIcon]="true">
                     </p-calendar>
                   </div>
                 </div>
@@ -110,11 +110,11 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="ui-g-12 ui-md-3 ui-fluid label-fontsize">Road</label>
-                    <p-radioButton class="ui-g-1" name="groupname" value="road" [(ngModel)]="roadSelected">
-                    </p-radioButton>
+                    <p-checkbox class="ui-g-1" name="groupname" value="road" [(ngModel)]="selectedValues">
+                    </p-checkbox>
                     <label class="ui-g-12 ui-md-6 label-fontsize" style="padding-left: 30px">RailHead</label>
-                    <p-radioButton class="ui-g-12 ui-md-1" name="groupname" value="rail" [(ngModel)]="railSelected">
-                    </p-radioButton>
+                    <p-checkbox class="ui-g-12 ui-md-1" name="groupname" value="rail" [(ngModel)]="selectedValues">
+                    </p-checkbox>
                   </div>
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <!-- <span class="ui-float-label" style="padding-right: 10px;"> -->
@@ -160,8 +160,9 @@
                       <label class="float-input">Truck Memo No</label>
                     </span>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
-                    <p-calendar [(ngModel)]="TruckMemoDate" [showIcon]="true" placeholder="Date"></p-calendar>
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -18px;">
+                    <label class="label-fontsize">Truck Memo Date</label>
+                    <p-calendar [(ngModel)]="TruckMemoDate" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
@@ -190,7 +191,7 @@
 
             <div class="tab-pane" id="Items">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-                <div class="ui-g-12 ui-fluid">
+                <div class="ui-g-12 ui-md-12 ui-fluid">
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <!-- <span class="ui-float-label"> -->
                         <label class="label-fontsize">Scheme</label>
@@ -206,7 +207,8 @@
                     <!-- <span class="ui-float-label"> -->
                         <label class="label-fontsize">Item Description</label>
                         <p-dropdown #i_desc id="float-input" [options]="itemDescOptions" [(ngModel)]="ICode"
-                        (onClick)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                        (onClick)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true" 
+                        placeholder="-select-" [disabled]="isItemDescEnabled">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -217,7 +219,8 @@
                     <!-- <span class="ui-float-label"> -->
                         <label class="label-fontsize">Stack No.</label>
                         <p-dropdown #st_no id="float-input" [options]="stackOptions" [(ngModel)]="TStockNo"
-                        (onClick)="onSelect('st_no')" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                        (onClick)="onSelect('st_no')" filter="true" optionLabel="label"
+                         [showClear]="true" placeholder="-select-" [disabled]="isStackNoEnabled">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -225,8 +228,8 @@
                     <!-- </span> -->
                   </div>
                   <div class="ui-g-12 ui-md-4 ui-fluid" style="padding-top: 22px;">
-                    <div class="ui-g-12 ui-md-4">
-                      <label class="label-fontsize-large"><b>Stack Year - {{stackNo}}</b></label>
+                    <div class="ui-g-12 ui-md-6">
+                      <label class="label-fontsize-large"><b>Stack Year - <b>{{stackYear}}</b></b></label>
                     </div>
                   </div>
                 </div>
@@ -305,7 +308,7 @@
                       </span>
                     </div>
                     <div class="ui-g-12 ui-md-3 ui-fluid" style="padding-top: 36px;">
-                      <button pButton type="button" label="Enter"></button>
+                      <button pButton type="button" label="Enter" (click)="onEnter()"></button>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
@@ -320,14 +323,14 @@
                       <input id="float-input" type="text" size="20" [(ngModel)]="tareWt" pInputText autocomplete="off">
                     </span>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 36px;">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 44px;">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText [(ngModel)]="stackBalance" autocomplete="off">
                       <label class="float-input">Stack Balance</label>
                     </span>
                   </div>
                 </div>
-                <div class="ui-g-12 ui-fluid" style="border: 1px solid #b4b4b4">
+                <div class="ui-g-12 ui-fluid">
                   <p-table [columns]="itemCol" [value]="itemData" [responsive]="true" [scrollable]="true"
                     scrollHeight="160px">
                     <ng-template pTemplate="colgroup" let-columns>
@@ -539,6 +542,9 @@
             <button pButton type="button" label=Next [disabled]="isNextDisabled"></button>
           </div>
         </div> -->
+        <div class="ui-g-1 ui-fluid">
+            <button pButton type="button" label=Save (click)="onSave()"></button> 
+          </div>
       </div>
     </div>
   </p-panel>
