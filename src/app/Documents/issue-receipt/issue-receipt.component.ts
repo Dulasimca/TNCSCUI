@@ -171,7 +171,7 @@ CurrentDocQtv: any;
         break;
         case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
-          const params = new HttpParams().set('TRCode', this.Trcode).append('GCode', '002');
+          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
           if (this.receiverTypeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
@@ -186,7 +186,7 @@ CurrentDocQtv: any;
       case 'rn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', this.RNCode).append('TRType', this.Trcode.value);
+          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.value);
           if (this.receiverNameOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(dn => {

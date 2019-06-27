@@ -43,6 +43,8 @@ export class StockReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   TransType: string;
   godownNo: any;
+  OrderNo: number;
+  OrderDate: Date;
   canShowMenu: boolean;
   ReceivingCode: string;
   RCode: number;
@@ -50,8 +52,6 @@ export class StockReceiptComponent implements OnInit {
   SRNo: any;
   SRDate: Date;
   PAllotment: any;
-  OrderNo: number;
-  OrderDate: Date;
   MTransport: string;
   Trcode: any;
   DepositorType: any;
@@ -71,7 +71,7 @@ export class StockReceiptComponent implements OnInit {
   Nkgs: number;
   WTCode: any;
   Moisture: string;
-  stackBalance: number;
+  StackBalance: number;
   //SR-Freight Details
   TransporterName: string;
   LWBillNo: any;
@@ -157,13 +157,9 @@ export class StockReceiptComponent implements OnInit {
             }
           })
         } else {
-          if (this.Trcode !== undefined && this.Trcode !== '') {
+          if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
             this.isDepositorTypeDisabled = false;
-            this.transactoinSelection.forEach(y => {
-              if (y.value === this.Trcode) {
-                this.TransType = y.transType;
-              }
-            })
+                this.TransType = this.Trcode.transType;
           }
         }
         break;
@@ -176,8 +172,8 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dt':
-        if (this.Trcode !== undefined && this.Trcode !== '') {
-          const params = new HttpParams().set('TRCode', this.Trcode).append('GCode', '002');
+        if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
+          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
           if (this.depositorTypeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
@@ -190,8 +186,8 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dn':
-        if (this.DepositorType !== undefined && this.DepositorType !== '') {
-          const params = new HttpParams().set('TyCode', this.DepositorType).append('TRType', this.TransType);
+        if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
+          const params = new HttpParams().set('TyCode', this.DepositorType.value).append('TRType', this.TransType);
           if (this.depositorNameOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(dn => {
@@ -204,8 +200,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'i_desc':
         let itemDesc = [];
-        if (this.Scheme !== undefined && this.Scheme !== '') {
-          const params = new HttpParams().set('SCode', this.Scheme);
+        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+          const params = new HttpParams().set('SCode', this.Scheme.value);
           if (this.schemeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               res.forEach(i => {
@@ -219,8 +215,8 @@ export class StockReceiptComponent implements OnInit {
       case 'st_no':
         let stackNo = [];
         this.ReceivingCode = '001';
-        if (this.ReceivingCode !== undefined && this.ICode !== undefined && this.ICode !== '') {
-          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode);
+        if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
+          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
           if (this.stackOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               res.forEach(s => {

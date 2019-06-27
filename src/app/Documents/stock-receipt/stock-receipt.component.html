@@ -70,7 +70,7 @@
                     <!-- <span class="ui-float-label"> -->
                         <label class="label-fontsize">Year</label>
                         <p-dropdown #y id="float-input" [options]="yearOptions" [(ngModel)]="year"
-                        (onClick)="onSelect('y')">
+                        (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" placeholder="-select-">
                       </p-dropdown>
                     <!-- </span> -->
                   </div>
@@ -120,7 +120,7 @@
                     <!-- <span class="ui-float-label" style="padding-right: 10px;"> -->
                         <label class="label-fontsize">Transaction Code</label>
                         <p-dropdown [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                        filter="true">
+                        filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>

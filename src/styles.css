@@ -944,7 +944,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
     min-height: 47px;
     align-content: center;
     text-align: center;
-    color: white;
+    color: #095f1d;
     font-size: 22px;
     padding: 10px;
   }
@@ -1142,8 +1142,19 @@ ul
     .myTable td:nth-child(1) {
       width: 60px !important;
   }
-  
-  
+
+  .tabs-line .nav-link {
+    transition: all .25s;
+    border-width: 0;
+    border-bottom: 1px solid #18c5a9;
+    color: #18c5a9;
+  }
+  .tabs-line-success .nav-link.active, .tabs-line-success .nav-link:hover {
+    color: whitesmoke;
+    border-bottom-color: #18c5a9;
+    background-color: #18c5a9;
+  }
+
     /*##(large)###*/
    @media screen and (min-width: 1024px){
     /*Style*/
