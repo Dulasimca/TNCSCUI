@@ -18,12 +18,10 @@ import { PathConstants } from '../constants/path.constants';
 export class TruckTransitComponent implements OnInit {
   TruckTransitCols: any;
   TruckTransitData: any;
-  TruckReceiverCols: any;
-  TruckReceiverData: any;
   fromDate: any;
   toDate: any;
-  transferOptions: SelectItem[];
-  t_cd: any;
+  godownOptions: SelectItem[];
+  g_cd: any;
   data: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
@@ -40,8 +38,7 @@ export class TruckTransitComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.TruckTransitCols = this.tableConstants.TruckTransitSender;
-    this.TruckReceiverCols = this.tableConstants.TruckTransitReceiver;
+    this.TruckTransitCols = this.tableConstants.TruckTransit;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
@@ -49,14 +46,14 @@ export class TruckTransitComponent implements OnInit {
   onSelect() {
     let options = [];
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.t_cd !== '' && this.t_cd !== undefined) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
     if(this.data !== undefined) {
       this.data.forEach(x => {
-        options.push({'label':x.Transfertype});
-      // options.push({ 'label': x.GName, 'value': x.GCode });
-      this.transferOptions = options;
+        // options.push({'label':x.Transfertype});
+      options.push({ 'label': x.GName, 'value': x.GCode });
+      this.godownOptions = options;
     });
   }
   }
@@ -64,7 +61,7 @@ export class TruckTransitComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.t_cd);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
       this.TruckTransitData = res;
       let sno = 0;
@@ -73,10 +70,10 @@ export class TruckTransitComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
+      if (res !== undefined && this.TruckTransitData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
@@ -88,9 +85,9 @@ export class TruckTransitComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    // this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.t_cd !== '' && this.t_cd !== undefined) {
+      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -103,11 +100,11 @@ export class TruckTransitComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
         if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.isShowErr = true;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+          // this.isShowErr = true;
           this.fromDate = this.toDate = '';
         } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-date', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
         }
       return this.fromDate, this.toDate;
@@ -120,7 +117,6 @@ export class TruckTransitComponent implements OnInit {
 
   exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit',this.TruckTransitCols);
-    this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit',this.TruckReceiverCols);
 }
 }
  

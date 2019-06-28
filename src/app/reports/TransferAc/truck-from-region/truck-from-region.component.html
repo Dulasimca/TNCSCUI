@@ -46,7 +46,7 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
+            <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">

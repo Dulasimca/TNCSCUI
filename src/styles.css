@@ -1368,3 +1368,19 @@ ul
           border-right: 0;
           border-top: 0;
         }
+          .nav-tabs .nav-link{
+            padding: 5px !important;
+          }
+
+          .ui-toast .ui-toast-message-content {
+            padding: .5em 1em;
+            background-color: crimson;
+            color: white;
+          }
+
+          .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
+            border: 0px solid #2399e5;
+            color: #FFFFFF;
+            background: #2399e5;
+            transition: background-color 0.2s;
+        }

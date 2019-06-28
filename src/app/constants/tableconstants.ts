@@ -35,8 +35,7 @@ export class TableConstants {
   ReceiptHOPurchaseReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
-  TruckTransitSender: any;
-  TruckTransitReceiver: any;
+  TruckTransit: any;
   StockReceiptItemColumns: any;
   StockIssueMemoIssueDetailsColumns: any;
   StockIssueMemoItemDetailsColumns: any;
@@ -389,7 +388,7 @@ export class TableConstants {
       { "field": 'Scheme', "header": 'Scheme'}
     ];
 
-    this.TruckTransitSender = [
+    this.TruckTransit = [
       { "field": 'SlNo', "header": 'S.No'},
       {"field": 'STNo', "header": 'Truck Memo No'},
       {"field": 'STDate', "header": 'Sender Date'},
