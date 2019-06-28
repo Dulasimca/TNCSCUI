@@ -9,21 +9,23 @@
     </p-header>
       <div class="ui-g">
         <div style="text-align: center">
-          <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-date"></p-toast>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 28px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"></p-dropdown>
-              <label class="float-input">Godown</label>
-            </span>
+          <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+          <div class="ui-g-2 ui-fluid">
+            <label>Godown Name:</label>
+              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
+               (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+               <ng-template let-item pTemplate="selectedItem">
+                 <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+               </ng-template></p-dropdown>
           </div>
           <div class="ui-g-3" style="padding-top: 15px">
-          <div class="ui-g-8 ui-fluid">
+          <div class="ui-g-7 ui-fluid">
             <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-8">Other Than Godown</label>
+            <label class="ui-g-8" style="font-size: 15px">Other Than Godown</label>
           </div>
           <div class="ui-g-4 ui-fluid">
             <p-checkbox class="ui-g-2" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-10">Rail Head</label>
+            <label class="ui-g-12" style="font-size: 15px">Rail Head</label>
           </div>
         </div>
           <div class="ui-g-2" style="padding-left: 40px">
@@ -44,7 +46,7 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"  [loading]="loading">
+            <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">

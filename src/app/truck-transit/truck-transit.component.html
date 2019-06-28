@@ -42,21 +42,8 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
       </div><br>
-      <div class="ui-g ui-fluid">
-        <!-- <div class="ui-g-6 ui-fluid">
-  </div>
-  <div class="ui-g-6 ui-fluid">
-      </div>   -->
-        <!-- <div class="p-grid p-align-start vertical-container">
-          <div class="p-col">
-              <div class="box">4</div>
-          </div>
-          <div class="p-col">
-              <div class="box">4</div>
-          </div>
-      </div> -->
-        <div class="ui-g-6">
-          <p-fieldset legend="SENDER">
+        <div class="ui-g-12 ui-fluid">
+          <p-fieldset legend="SENDER/RECEIVER">
             <p-table [columns]="TruckTransitCols" [value]="TruckTransitData" [responsive]="true" [scrollable]="true"
               [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
               autoLayout="true" [loading]="loading">
@@ -77,29 +64,6 @@
             </p-table>
           </p-fieldset>
         </div>
-        <div class="ui-g-6">
-          <p-fieldset legend="RECEIVER">
-            <p-table [columns]="TruckReceiverCols" [value]="TruckTransitData" [responsive]="true" [scrollable]="true"
-              [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-              autoLayout="true" [loading]="loading">
-              <ng-template pTemplate="header" let-columns>
-                <tr>
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </p-fieldset>
-        </div>
-      </div>
     </div>
   </p-panel>
 </div>

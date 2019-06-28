@@ -9,13 +9,15 @@
     </p-header>
       <div class="ui-g">
         <div style="text-align: center">
-          <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-date"></p-toast>
+          <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
           <div class="ui-g-1"></div>
-          <div class="ui-g-2 ui-fluid" style="padding-top: 28px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"></p-dropdown>
-              <label class="float-input">Godown</label>
-            </span>
+          <div class="ui-g-2 ui-fluid">
+            <label>Godown Name:</label>
+              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
+               (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+               <ng-template let-item pTemplate="selectedItem">
+                 <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+               </ng-template></p-dropdown>
           </div>
           <div class="ui-g-3">
           <div class="ui-g-6" style="padding-left: 40px">
@@ -63,7 +65,7 @@
               <div class="ui-g-2"></div>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="TruckToRegionCols" [value]="TruckToRegionData" [responsive]="true" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+            <p-table [columns]="TruckToRegionCols" [value]="TruckToRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns">
