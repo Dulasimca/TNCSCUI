@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
       }
     });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
+    if(this.CBRiceData === undefined &&  this.CBWheatAndSugarData === undefined && this.CBDhallAndOilData === undefined) {
     this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
@@ -228,6 +229,8 @@ export class HomeComponent implements OnInit {
         };
       }
     });
+  }
+  if (this.ReceiptDhallAndOilData === undefined && this.ReceiptRiceData === undefined && this.ReceiptWheatAndSugarData === undefined) {
     this.restApiService.getByParameters(PathConstants.CHART_RECEIPT, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
@@ -388,6 +391,8 @@ export class HomeComponent implements OnInit {
         };
       }
     });
+  }
+  if ( this.IssueDhallAndOilData === undefined && this.IssueRiceData === undefined && this.IssueWheatAndSugarData === undefined) {
     this.restApiService.getByParameters(PathConstants.CHART_ISSUE, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
@@ -548,6 +553,7 @@ export class HomeComponent implements OnInit {
         };
       }
     });
+  }
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
       if (data !== undefined) {
         this.rawRicePB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
