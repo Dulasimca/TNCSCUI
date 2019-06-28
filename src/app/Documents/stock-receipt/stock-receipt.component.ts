@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./stock-receipt.component.css']
 })
 export class StockReceiptComponent implements OnInit {
+  index: number = 0;
   scheme_data: any;
   itemCol: any;
   itemData: any = [];
@@ -166,7 +167,7 @@ export class StockReceiptComponent implements OnInit {
         } else {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
             this.isDepositorTypeDisabled = false;
-                this.TransType = this.Trcode.transType;
+            this.TransType = this.Trcode.transType;
           }
         }
         break;
@@ -234,7 +235,7 @@ export class StockReceiptComponent implements OnInit {
               this.stackOptions = stackNo;
             });
           } else {
-            if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null){
+            if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
               this.stackYear = this.TStockNo.stack_yr;
               // this.godownNo = this.TStockNo.toString().startsWith('/');
             }
@@ -251,9 +252,9 @@ export class StockReceiptComponent implements OnInit {
           });
         } else {
           if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-              this.NoPacking = this.IPCode.weight;
-              this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-              this.tareWt = this.GKgs - this.NKgs;
+            this.NoPacking = this.IPCode.weight;
+            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+            this.tareWt = this.GKgs - this.NKgs;
           } else {
             this.NoPacking = this.GKgs = this.NKgs = 0;
           }
@@ -297,7 +298,7 @@ export class StockReceiptComponent implements OnInit {
     }
     const params = {
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
-      'PAllotment': this.PAllotment,
+      'Pallotment': this.PAllotment,
       'MTransport': this.MTransport,
       'Trcode': this.Trcode.value,
       'DepositorType': this.DepositorType.value,
@@ -320,6 +321,14 @@ export class StockReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
       console.log('res', res);
-    }); 
+    });
+  }
+
+  openNext() {
+    this.index = (this.index === 2) ? 0 : this.index + 1;
+  }
+
+  openPrev() {
+    this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 }

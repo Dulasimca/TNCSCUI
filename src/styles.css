@@ -568,67 +568,9 @@ h3 a {
   background-color: #18c5a9;
   color: whitesmoke;
 }
-.custom-nav-item {
-  flex: 1 1 auto;
-  text-align: center;
-}
-/* i .flex-tab .custom-nav-link.active
-{
-  background-color: #0da73c;
-  color: whitesmoke;
-  border-color: #188037;
-} */
-
-.custom-tabs-line-success .custom-nav-item.active, .custom-tabs-line-success .custom-nav-item:hover {
-  color: whitesmoke;
-  background-color: #0da73c;
-  border-bottom-color: #188037;
-}
-.custom-tabs-line.custom-tabs-line-2x .custom-nav-link {
-  border-bottom-width: 2px;
-}
-.custom-nav-tabs .custom-nav-item {
-  border: 1px solid transparent;
-  border-top-left-radius: .25rem;
-  border-top-right-radius: .25rem;
-}
-.custom-nav-link.active {
-  color: whitesmoke;
-  background-color: #0da73c;
-  border-color: #188037;
-}
-
-.custom-tabs-line .custom-nav-link {
-  transition: all .25s;
-  border-width: 0;
-  border-bottom: 1px solid transparent;
-}
-.custom-nav-tabs .custom-nav-link {
-  padding: .7rem 1rem;
-}
-/* .flex-tab:hover {
-  background-color: #0da73c;
-  color: whitesmoke;
-  border-color: #188037;
-} */
-.custom-nav-bar .flex-tab .active {
-  background-color: #0da73c;
-  color: whitesmoke;
-  border-color: #188037;
-}
-/* .tabs-line-success .nav-link.active, .tabs-line-success .nav-link:hover {
-  background-color: #0da73c;
-  color: whitesmoke;
-  border-color: #188037;
-}
-.tabs-line .nav-link {
-  transition: all .25s;
-  border-width: 0;
-  border-bottom: 1px solid transparent;
-  border-color: #188037;
-} */
  .nav-item li {
   padding: 5px;
+  border-radius: 5px;
 }
 
  .dropdown-menu li a{
@@ -1223,6 +1165,7 @@ ul
     color: whitesmoke;
     border-bottom-color: #18c5a9;
     background-color: #18c5a9;
+    border-radius: 5px;
   }
 
     /*##(large)###*/
@@ -1385,6 +1328,50 @@ ul
 
           }
 
+          .ui-tabview .ui-tabview-nav > li.ui-state-active {
+            background: #ffffff;
+            font-weight: normal;
+            color: whitesmoke;
+          }
+          .ui-tabview-selected {
+            background-color: #18c5a9 !important;
+            color: whitesmoke !important;
+            border: 2px solid #18c5a9;
+        }
+        .ui-tabview .ui-tabview-nav > li.ui-state-default {
+          background: white;
+          color: #18c5a9;
+          border: 2px solid #18c5a9;
+
+      }
+         .ui-tabview .ui-tabview-nav li {
+          list-style: none;
+          /* float: left; */
+          position: relative;
+          /* margin: 0 .125em 1.2em 0 !important; */
+          margin-right: 3px;
+          padding: 0;
+          white-space: nowrap;
+          border-bottom: 1px solid #18c5a9;
+         }
+         .ui-tabview.ui-tabview-top>.ui-tabview-nav {
+          padding: .2em .2em 0 .7em;
+        }
+        .ui-tabview .ui-tabview-panel {
+          border-width: 0;
+          /* padding: 1em; */
+          padding: .5em 1em 1em;
+          background: 0;
+        }
+        .ui-tabview.ui-tabview-top>.ui-tabview-nav li {
+          /* border-bottom: 0; */
+          border-left: 0;
+          /* top: 1px; */
+          top: 1px;
+          width: 33%;
+          border-right: 0;
+          border-top: 0;
+        }
           .nav-tabs .nav-link{
             padding: 5px !important;
           }

@@ -23,6 +23,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FieldsetModule} from 'primeng/fieldset';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {TabViewModule} from 'primeng/tabview';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -170,6 +171,7 @@ import { DecimalDirective } from './directives/decimal.directive';
     ToastModule,
     InputTextModule,
     MatDatepickerModule,
+    TabViewModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
