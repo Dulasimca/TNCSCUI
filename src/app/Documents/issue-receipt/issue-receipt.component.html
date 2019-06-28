@@ -1,7 +1,12 @@
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
-  <div class="ibox-body">
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-12 ui-md-4 dashboard">STOCK ISSUE MEMO SLIP</div>
+      </div>
+    </p-header><div class="ibox-body">
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
@@ -17,7 +22,7 @@
 
           <div class="tab-content">
             <div class="tab-pane show active" id="Issue">
-              <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+              <div class="ui-g-12 ui-md-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12 ui-md-3 ui-fluid">
                   <p-card>
                     <p-header>
@@ -25,7 +30,7 @@
                         STOCK ISSUE MEMO
                       </div>
                     </p-header>
-                    <div class="ui-g">
+                    <div class="ui-g ui-md-12">
                       <div class="ui-g-12 ui-md-6 no-pad-top">
                         <label>No</label>
                         <input type="text" size="20" pInputText [(ngModel)]="SINo" autocomplete="off">
@@ -55,12 +60,12 @@
                       <label class="float-input">Delivery Order No</label>
                     </span><br><br>
                     <label class="label-fontsize">Delivery Date</label>
-                    <p-calendar [(ngModel)]="DeliveryDate" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="DeliveryOrderDate" [showIcon]="true"></p-calendar>
 
                   </div>
                 </div>
                 <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 60px">
-                  <button pButton type="button" label="Enter" (click)="onEnter()"></button>
+                  <button pButton type="button" label="Enter" (click)="onIssueDetailsEnter()"></button>
                 </div>
 
                 <div class="ui-g-10 ui-md-6 ui-fluid">
@@ -147,7 +152,7 @@
                         </div>
                       </div>
                       <p-footer>
-                        <div style="text-align: center">
+                        <div class="label-fontsize-large" style="text-align: center">
                           To Which Issue Relates
                         </div>
                       </p-footer>
@@ -195,17 +200,6 @@
                     </span>
                   </div>
                   <div class="ui-g-1"></div>
-                  <div class="ui-g-12 ui-md-4 ui-fluid" style="padding-top: 50px">
-                    <div class="ui-g-4 ui-fluid">
-                      <button pButton type="button" label="View" (click)="onView()"></button>
-                    </div>
-                    <div class="ui-g-4 ui-fluid">
-                      <button pButton type="button" label="Modify" (click)="onModify()"></button>
-                    </div>
-                    <div class="ui-g-4 ui-fluid">
-                      <button pButton type="button" label="Cancel" (click)="onCancel()"></button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -250,7 +244,7 @@
                     <!-- </span> -->
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-top: 28px">
-                    <label class="label-fontsize-large"><b>Stack year - {{sYear}}</b></label>
+                    <label class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
@@ -322,19 +316,13 @@
                     <!-- </span> -->
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-top: 22px">
-                    <!-- <span class="ui-float-label"> -->
-                    <label class="label-fontsize">Moisture</label>
-                    <p-dropdown #moisture [options]="moistureOptions" [(ngModel)]="Moisture"
-                      (onClick)="onSelect('moisture')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
-                      <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                      </ng-template>
-                    </p-dropdown>
-                    <!-- </span> -->
+                     <span class="ui-float-label">
+                      <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture" pInputText autocomplete="off">
+                      <label class="float-input">Moisture</label>
+                     </span> 
                   </div>
                   <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 44px">
-                    <button pButton type="button" label="Enter" (click)="onEnter()"></button>
+                    <button pButton type="button" label="Enter" (click)="onItemDetailsEnter()"></button>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-left: 40px">
                     <p-header>
@@ -433,7 +421,11 @@
           </div>
         </div>
         <div class="col-md-1"></div>
+        <div class="ui-g-1 ui-fluid">
+          <button pButton type="button" label=Save (click)="onSave()"></button> 
+        </div>
       </div>
     </div>
   </div>
+  </p-panel>
 </div>
