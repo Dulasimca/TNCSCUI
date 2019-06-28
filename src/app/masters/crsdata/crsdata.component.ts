@@ -8,6 +8,7 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-crsdata',
@@ -22,19 +23,22 @@ export class CRSDataComponent implements OnInit {
   items: any;
   canShowMenu: boolean;
   filterArray: any;
+  loading: boolean = false;
   
-    constructor(private restApiService:RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+    constructor(private restApiService:RestAPIService, private authService: AuthService, private messageService: MessageService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
     ngOnInit() {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.column = this.tableConstants.CrsData;
       this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
+        this.loading = true;
         if(response!==undefined){
+         
           this.data = response;
           this.filterArray = response;
         }else 
         {
-          return this.errMessage;
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
        this.items = [
         {

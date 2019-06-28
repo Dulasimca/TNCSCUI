@@ -21,6 +21,7 @@ export class HullingAgenciesComponent implements OnInit {
   items: any;
   canShowMenu: boolean;
   filterArray: any;
+  loading: boolean = false;
   
   constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
   
@@ -30,6 +31,7 @@ export class HullingAgenciesComponent implements OnInit {
       this.column = this.tableConstants.HullingAgenciesData;
       this.restApiService.get(PathConstants.HULLING_AGENCIES).subscribe((response: any[]) => {
         if(response!==undefined){
+          this.loading = true;
           this.data = response;
           this.filterArray = response;
         }else 
