@@ -63,7 +63,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'Quantity'">
+                  <span style="float: right !important">
+                    {{rowData[col.field]}}
+                  </span>
+                </div>
+                <div *ngIf="col.field !== 'Quantity'">
+                  {{rowData[col.field]}}
+                </div>
               </td>
             </tr>
           </ng-template>

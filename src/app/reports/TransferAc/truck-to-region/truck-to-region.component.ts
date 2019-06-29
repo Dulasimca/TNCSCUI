@@ -75,7 +75,6 @@ export class TruckToRegionComponent implements OnInit {
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      // this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;

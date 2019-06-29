@@ -65,7 +65,8 @@ export class TruckFromRegionComponent implements OnInit {
       this.TruckFromRegionData = res;
       let sno = 0;
       this.TruckFromRegionData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
@@ -74,7 +75,6 @@ export class TruckFromRegionComponent implements OnInit {
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      // this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;
