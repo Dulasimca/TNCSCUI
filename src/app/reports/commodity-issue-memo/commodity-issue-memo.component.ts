@@ -54,7 +54,6 @@ export class CommodityIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ 'label': null, 'value': null });
         }
         break;
       case 'cd':
@@ -65,8 +64,6 @@ export class CommodityIssueMemoComponent implements OnInit {
               commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
               this.commodityOptions = commoditySelection;
             });
-
-            this.commodityOptions.unshift({ 'label': null, 'value': null });
           }
         })
       }
@@ -127,12 +124,11 @@ export class CommodityIssueMemoComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-        this.fromDate = this.toDate = '';
-      } else if (selectedFromDate > selectedToDate) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-        this.fromDate = this.toDate = '';
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }

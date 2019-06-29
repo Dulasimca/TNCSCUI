@@ -80,7 +80,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.schemeReceiptData = [];
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      // 'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.g_cd.value,
       'TRCode': this.sc_cd.value
     };
@@ -129,12 +129,11 @@ export class SchemeReceiptComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-        this.fromDate = this.toDate = '';
-      } else if (selectedFromDate > selectedToDate) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-        this.fromDate = this.toDate = '';
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
