@@ -104,6 +104,7 @@ export class CommodityReceiptComponent implements OnInit {
       let sno = 0;
       this.commodityReceiptData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
         sno += 1;
         data.SlNo = sno;
       })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-transaction-receipt',
   templateUrl: './transaction-receipt.component.html',
-  styleUrls: ['./transaction-receipt.component.css']
+  styleUrls: ['./transaction-receipt.component.css'],
+  encapsulation : ViewEncapsulation.None
 })
 export class TransactionReceiptComponent implements OnInit {
   transactionReceiptCols: any;
@@ -90,6 +91,7 @@ export class TransactionReceiptComponent implements OnInit {
       let sno = 0;
       this.transactionReceiptData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
@@ -142,5 +144,9 @@ export class TransactionReceiptComponent implements OnInit {
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.transactionReceiptData, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
+  }
+
+  public setAlignment (value) {
+    return (value !== '') ? 'right' : 'left';
   }
 }

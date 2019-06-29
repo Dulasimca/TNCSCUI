@@ -263,12 +263,12 @@ export class TableConstants {
     ];
 
     this.TransactionReceiptReport = [
-      { "field": 'SlNo', "header": 'S.No' },
-      { "field": 'Godownname', "header": 'GODOWN' },
-      { "field": 'Commodity', "header": 'COMMODITY' },
-      { "field": 'Date', "header": 'DATE' },
-      { "field": 'Trans_action', "header": 'TRANSACTION' },
-      { "field": 'Quantity', "header": 'QUANTITY' }
+      { field: 'SlNo', header: 'S.No', width: '20px !important' },
+      { field: 'Godownname', header: 'GODOWN' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Date', header: 'DATE' },
+      { field: 'Trans_action', header: 'TRANSACTION' },
+      { field: 'Quantity', header: 'QUANTITY', type: 'number : 1.2', align: 'right' }
     ];
 
     this.CommodityIssueMemoReport = [
