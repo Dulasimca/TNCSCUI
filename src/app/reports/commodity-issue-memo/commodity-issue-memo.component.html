@@ -8,10 +8,8 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <!-- <div style="text-align: center"> -->
       <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
       <div class="ui-g-2 ui-fluid">
-        <!-- <span class="ui-float-label"> -->
         <label>Godown</label>
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
           (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">

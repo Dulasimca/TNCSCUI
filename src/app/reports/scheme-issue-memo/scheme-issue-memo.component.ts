@@ -56,7 +56,6 @@ export class SchemeIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ 'label': null, 'value': null });
         }
         break;
       case 'scheme':
@@ -93,7 +92,7 @@ export class SchemeIssueMemoComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && this.schemeIssueMemoData.length !== 0) {
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.loading = false;

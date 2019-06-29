@@ -69,7 +69,7 @@ export class TruckFromRegionComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && this.TruckFromRegionData.length !== 0) {
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });

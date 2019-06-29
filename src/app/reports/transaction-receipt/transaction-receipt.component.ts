@@ -95,7 +95,7 @@ export class TransactionReceiptComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && this.transactionReceiptData.length !== 0) {
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.loading = false;
