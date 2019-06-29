@@ -10,7 +10,7 @@
       <div class="ui-g">
         <div style="text-align: center">
           <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-          <div class="ui-g-2 ui-fluid">
+          <div class="ui-g-12 ui-md-2 ui-fluid">
             <label>Godown Name:</label>
               <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
                (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
@@ -18,23 +18,21 @@
                  <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                </ng-template></p-dropdown>
           </div>
-          <div class="ui-g-3" style="padding-top: 15px">
-          <div class="ui-g-7 ui-fluid">
-            <p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-8" style="font-size: 15px">Other Than Godown</label>
+          <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 30px">
+            <p-checkbox name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
+            <label style="font-size: 15px">Other Than Godown</label>
           </div>
-          <div class="ui-g-4 ui-fluid">
-            <p-checkbox class="ui-g-2" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-12" style="font-size: 15px">Rail Head</label>
+          <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 30px">
+            <p-checkbox name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
+            <label style="font-size: 15px">Rail Head</label>
           </div>
-        </div>
-          <div class="ui-g-2" style="padding-left: 40px">
-            <label class="ui-g-7 dashboard">From</label>
-            <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"  [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          <div class="ui-g-12 ui-md-2 ui-fluid">
+            <label>From</label>
+            <p-calendar [(ngModel)]="fromDate" [showIcon]="true"  [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
-          <div class="ui-g-2">
-            <label class="ui-g-7 dashboard">To</label>
-            <p-calendar class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          <div class="ui-g-12 ui-md-2 ui-fluid">
+            <label>To</label>
+            <p-calendar [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>

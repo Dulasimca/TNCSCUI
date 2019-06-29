@@ -89,13 +89,13 @@ h1 {
 	-moz-background-size:cover; 
     background-attachment: inherit;
     position: relative;
-    height: max-content;
+    height: 95.6vh;
   /* width: 100%; */
 }
 
 .bg-layer {
     background: rgba(0, 0, 0, 0.7);
-  height: 94.5vh;
+  height: 95.6vh;
   min-height: fit-content
 }
 /*-- //slide --*/
@@ -683,7 +683,7 @@ h3 a {
   cursor: pointer !important;
 }
 .content {
- min-height: 545px;
+ min-height: 554px;
 }
 
 .footer {
@@ -1099,7 +1099,7 @@ ul
 	}
 	li
 	{
-    padding:10px;
+    padding:2px;
     
   }
 
