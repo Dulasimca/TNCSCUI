@@ -42,7 +42,7 @@
           <div class="ui-g-12">
             <p-table [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
-                <tr>
+                <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
                     {{col.header}}
                   </th>

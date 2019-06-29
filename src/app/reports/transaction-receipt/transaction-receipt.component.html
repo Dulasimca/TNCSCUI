@@ -58,7 +58,7 @@
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
             autoLayout="true">
             <ng-template pTemplate="header" let-columns>
-              <tr>
+              <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
                   {{col.header}}
                 </th>
@@ -72,7 +72,7 @@
                         {{rowData[col.field]}}
                       </span>
                   </div>
-                  <div *ngIf="col.field !== 'Quantity' && col.field !== 'SlNo'">
+                  <div *ngIf="col.field !== 'Quantity'">
                       {{rowData[col.field]}}
                   </div>
                 </td>

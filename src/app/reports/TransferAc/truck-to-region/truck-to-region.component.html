@@ -67,7 +67,7 @@
           <div class="ui-g-12">
             <p-table [columns]="TruckToRegionCols" [value]="TruckToRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
-                <tr>
+                <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
                     {{col.header}}
                   </th>

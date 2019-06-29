@@ -89,7 +89,8 @@ export class CommodityIssueMemoComponent implements OnInit {
       this.commodityIssueMemoData = res;
       let sno = 0;
       this.commodityIssueMemoData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+        data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
