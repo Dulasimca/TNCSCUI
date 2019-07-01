@@ -841,6 +841,7 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   overflow: initial;
   overflow-y: hidden;
   height: 100%;
+  color: 3f3f3f;
 }
 
 .input-group {
@@ -1386,7 +1387,8 @@ ul
           .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
             border: 0px solid #2399e5;
             color: #FFFFFF;
-            background: #2399e5;
+            /* background: #2399e5; */
+            background:  linear-gradient(98deg, #64b9fc, #2196f3);
             transition: background-color 0.2s;
         }
         .fontfamily{
@@ -1405,3 +1407,91 @@ ul
         .nav-fill .nav-item{
           flex: 1 1;
         }
+        .ui-overlaypanel{
+          margin-top: -5px;
+          margin-right: 0px;
+          margin-left: -8px;
+        }
+        /* overlay */
+        .crd {
+          padding-top: 20px;
+          margin: 0px 0px 0px 0px;
+          background-color: rgba(214, 224, 226, 0.2);
+          border-top-width: 0;
+          border-bottom-width: 2px;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          border-radius: 3px;
+          -webkit-box-shadow: none;
+          -moz-box-shadow: none;
+          box-shadow: none;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+      }
+      .crd.hovercard {
+          position: relative;
+          padding-top: 0;
+          overflow: hidden;
+          text-align: center;
+          background-color: rgba(214, 224, 226, 0.2);
+          width: fit-content;
+      }
+      
+      .crd.hovercard .crdheader {
+          background: url("http://lorempixel.com/850/280/nature/4/");
+          background-size: cover;
+          height: 135px;
+      }
+      
+      .crd.hovercard .avatar {
+          position: relative;
+          top: -50px;
+          margin-bottom: -50px;
+      }
+      
+      .crd.hovercard .avatar img {
+          width: 100px;
+          height: 100px;
+          max-width: 100px;
+          max-height: 100px;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+          border: 5px solid rgba(255,255,255,0.5);
+      }
+      
+      .crd.hovercard .info {
+          /* padding: 4px 8px 10px; */
+      }
+      
+      .crd.hovercard .info .title {
+          margin-bottom: 4px;
+          font-size: 24px;
+          line-height: 1;
+          color: #262626;
+          vertical-align: middle;
+      }
+      
+      .crd.hovercard .info .desc {
+          overflow: hidden;
+          font-size: 12px;
+          line-height: 20px;
+          color: #737373;
+          text-overflow: ellipsis;
+      }
+      
+      .crd.hovercard .bottom {
+          padding: 0 20px;
+          margin: 0px;
+      }
+      
+      /* .btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  } */
+      .ui-widget-content{
+          border: 4px solid #D5D5D5;
+      }
+      .crd.hovercard.bottom.overlay-footer button.btnn{
+        background: linear-gradient(98deg, #64b9fc, #2196f3);
+        font-size: 11px;
+        padding: .7em 0em;
+      }

@@ -66,7 +66,6 @@
     <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
       style="max-width: 100px; max-height: 64px;width: 100px;padding-right: initial" routerLink="/Home" />
   </div>
-
   <div class="ui-g-12 ui-md-5" style="padding: inherit">
     <h1 style="color: rgb(19, 119, 185) !important;padding-top: 10px;">Tamilnadu Civil Supplies Corporation</h1>
     <h3 style="color: rgb(19, 119, 185) !important; text-align: center">
@@ -100,30 +99,39 @@
         <img href="http://fci.gov.in/" target="_blank" style="width: 30px; height: 29px;padding-top: 3px"
           src="../../assets/layout/images/dashboard/FCI.png" title="FCI" />
       </a>
-      
-        <img href="https://www.tnpds.gov.in/" target="_blank" style="width: 32px; height: 25px;"
-          src="../../assets/layout/images/dashboard/G2G.png" title="G2G" />
-      
+      <img href="https://www.tnpds.gov.in/" target="_blank" style="width: 32px; height: 25px;"
+        src="../../assets/layout/images/dashboard/G2G.png" title="G2G" />
     </div>
-    <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [style]="{width: '350px'}">
-      <div class="overlay-content" style="text-align: center">
-        <div>
-          <label style="color: blue"><b>FS</b></label>
+    <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
+      <div class="overlay-content" style="text-align: center;">
+        <div class="crd hovercard">
+          <div class="crdheader"></div>
+          <div class="avatar">
+            <img alt="" src="../../assets/layout/images/dashboard/govt_emblem.png">
+          </div>
+          <div class="info">
+            <!-- <div class="title">
+              <a target="_blank" href="">TNCSC</a>
+            </div> -->
+            <div class="desc" style="color: blue">FS</div>
+            <div class="desc">CHENNAI-NORTH</div>
+            <div class="desc">GN00789</div>
+            <br>
+            <div class="title">
+              <a style="font-size: 14px" (click)="onForgetPswd()">Change Password?</a>
+            </div>
+          </div>
+
+          <div class="bottom">
+            <div class="overlay-footer">
+              <!-- <button class="ui-g-12 ui-md-8" pButton type="button" label="Change Password?" style="float: left" (click)="onForgetPswd()"></button> -->
+              <button class="btnn" pButton type="button" label="Logout" icon="fa fa-sign-out" style="float:right"
+                (click)="onLogOut()"></button>
+                    <!-- <button class="btn" type="button" (click)="onSignIn()">Sign In</button> -->
+            </div>
+          </div>
         </div>
-        <div>
-          <label>CHENNAI-NORTH</label>
-        </div>
-        <div>
-          <label>GN00789</label>
-        </div>
-      </div>
-      <div class="overlay-footer">
-        <button class="dashboard" pButton type="button" label="Change Password?" style="float: left"
-          (click)="onForgetPswd()"></button>
-        <button class="dashboard" pButton type="button" label="Logout" icon="fa fa-sign-out" style="float:right"
-          (click)="onLogOut()"></button>
       </div>
     </p-overlayPanel>
-
   </div>
 </div>

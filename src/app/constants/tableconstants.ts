@@ -257,8 +257,8 @@ export class TableConstants {
       { field: 'Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Quantity', header: 'QUANTITY' },
-      { field: 'recdFrom', header: 'RECD FROM' },
-      { field: 'tMemoNo', header: 'T.MEMO.NO' },
+      { field: 'RecdFrom', header: 'RECD FROM' },
+      { field: 'TruckMemoNo', header: 'T.MEMO.NO' },
       { field: 'Lorryno', header: 'LORRY NO' }
     ];
 
