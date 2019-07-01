@@ -67,8 +67,8 @@ export class TableConstants {
       { field: 'RegionName', header: 'Region' },
       { field: 'GodownName', header: 'Godown Name' },
       { field: 'Issuername', header: 'Shop Name' },
-      { field: '', header: 'Shop Code (TNCSC)' },
-      //{ field: '', header: 'Shop Code (CCS)'}
+      { field: 'IssuerCode', header: 'Shop Code (TNCSC)' },
+      { field: 'AcsCode', header: 'AcsCode'}
     ]
     this.MrmData = [
       { field: 'SlNo', header: 'S.No' },
