@@ -31,10 +31,10 @@ export class CRSDataComponent implements OnInit {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
       this.column = this.tableConstants.CrsData;
       this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
-        this.loading = true;
         if(response!==undefined){
-         
+        this.loading = true;
           this.data = response;
+          this.loading = false;
           this.filterArray = response;
         }else 
         {

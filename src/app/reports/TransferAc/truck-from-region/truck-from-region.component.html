@@ -55,11 +55,6 @@
               <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
                   <td *ngFor="let col of columns">
-                      <div *ngIf="col.field === 'NoPacking' || col.field === 'Nkgs'">
-                          <span style="float: right !important">
-                            {{rowData[col.field]}}
-                          </span>
-                        </div>
                         <div *ngIf="col.field !== 'NoPacking' || col.field !== 'Nkgs'">
                           {{rowData[col.field]}}
                         </div>

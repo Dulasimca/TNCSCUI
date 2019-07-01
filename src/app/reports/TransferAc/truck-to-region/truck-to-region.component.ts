@@ -60,13 +60,14 @@ export class TruckToRegionComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
-    this.loading = true;
+    // this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
       this.TruckToRegionData = res;
       let sno = 0;
       this.TruckToRegionData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })

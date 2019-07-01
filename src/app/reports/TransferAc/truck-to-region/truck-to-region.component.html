@@ -70,8 +70,10 @@
               <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
                   <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                  </td>
+                    <div *ngIf="col.field !== 'NoPacking' || col.field !== 'Nkgs'">
+                      {{rowData[col.field]}}
+                    </div>
+              </td>
                 </tr>
               </ng-template>
             </p-table>

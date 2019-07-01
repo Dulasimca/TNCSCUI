@@ -318,7 +318,7 @@ export class TableConstants {
 
     this.TruckToRegionReport = [
       { field: 'SlNo', header: 'S.No' },
-      { field: 'TruckMemo', header: 'Truck Memo' },
+      { field: 'STNo', header: 'Truck Memo' },
       { field: 'STDate', header: 'Date' },
       { field: 'DepositorName', header: 'Godown' },
       { field: 'RGNAME', header: 'Region' },

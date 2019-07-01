@@ -32,7 +32,7 @@ export class PathConstants {
   public static readonly HULLING_DETAILS_REPORT = '/api/HullingDetails/Get';
   public static readonly TRANSACTION_MASTER = '/api/TransactionMaster';
   public static readonly ITEM_MASTER = '/api/ItemMaster';
-  public static readonly TRUCK_TO_REGION_REPORT = 'api/TruckToRegion/Get';
+  public static readonly TRUCK_TO_REGION_REPORT = '/api/TruckToRegion/Get';
   public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
   public static readonly GUNNY_REPORT = '/api/GunnyReport/Get'; 
   public static readonly DEPOSITOR_TYPE_MASTER = '/api/TypeMaster/Get';
