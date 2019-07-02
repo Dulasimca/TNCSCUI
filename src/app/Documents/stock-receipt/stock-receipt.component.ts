@@ -109,13 +109,6 @@ export class StockReceiptComponent implements OnInit {
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe) {
-    // if (this.data === undefined) {
-    //   this.data = this.roleBasedService.getGodownAndRegion();
-    //   setTimeout(() => {
-    //    this.regionName = this.data.RName; this.godownName = this.data.GName;
-    // },2000);
-    // }
-
   }
 
   ngOnInit() {
@@ -123,6 +116,10 @@ export class StockReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.data = this.roleBasedService.getInstance();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
+    setTimeout(() => {
+      this.regionName = this.data.rgData[0].RName;
+      this.godownName = this.data.rgData[1].GName;
+    },1200);
   }
 
   onSelect(selectedItem) {
@@ -291,6 +288,10 @@ export class StockReceiptComponent implements OnInit {
     const params = {
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'Pallotment': this.PAllotment,
+      'OrderNo': this.OrderNo,
+      'OrderDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
+      'ReceivingCode': this.ReceivingCode,
+      'RCode': this.RCode,
       'MTransport': this.MTransport,
       'Trcode': this.Trcode.value,
       'DepositorType': this.DepositorType.value,

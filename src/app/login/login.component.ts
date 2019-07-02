@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.godownCode = (this.roleId !== undefined && this.roleId !== 1) ? credentials[0].GodownCode : 0;
-        this.regionCode = (this.roleId !== undefined && this.roleId !== 1) ? credentials[0].RegionCode : 0;
+        this.regionCode = (this.roleId !== undefined && this.roleId !== 1) ? credentials[0].Regioncode : 0;
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);

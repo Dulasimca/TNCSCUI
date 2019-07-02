@@ -10,12 +10,13 @@ import { AuthService } from '../shared-services/auth.service';
 })
 
 export class RoleBasedService {
-     instance?: any;
-     scheme_data?: any;
+    instance?: any;
+    scheme_data?: any;
     loggedInRegion: any;
     roleId: any;
     gCode: any;
     rCode: any;
+    rgData: any;
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
     getInstance() {
@@ -25,50 +26,41 @@ export class RoleBasedService {
         let godownList;
         if (this.instance === undefined) {
             this.instance = [];
+            this.rgData = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
-                res.forEach(x => {
-                    if (this.roleId === 1) {
-                        godownList = x.list;
-                    } else if (this.roleId === 2) {
-                        if (x.Code === this.rCode) {
-                            godownList = x.list;
-                        }
-                    } else {
-                        if (x.Code === this.rCode) {
-                            godownList = x.list;
-                        }
-                    }
-                    godownList.forEach(value => {
-                        this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
-                    });
-                 });
-            });
-        }
-        return this.instance;
-    }
-
-    getGodownAndRegion() {
-        if(this.loggedInRegion === undefined) {
-            this.loggedInRegion = [];
-            if(this.roleId === 3) {
-            this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe(res => {
-                if(res !== undefined) {
                     res.forEach(x => {
-                       if (x.Code === this.rCode) {
-                           this.loggedInRegion.push({'rName': x.Name});
-                       }
-                       let list = x.list;
-                      list.forEach(y => {
-                          if (y.GCode === this.gCode) {
-                             this.loggedInRegion({ 'gName': y.Name }); 
-                          }
-                      })
-                    })
+                        if (this.roleId === 1) {
+                            godownList = x.list;
+                        } else if (this.roleId === 2) {
+                            if (x.Code === this.rCode) {
+                                godownList = x.list;
+                            }
+                        } else {
+                            if (x.Code === this.rCode) {
+                                godownList = x.list;
+                            }
+                        }
+                        godownList.forEach(value => {
+                            this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
+                        });
+                    });
+                if (this.roleId === 3) {
+                    res.filter(value => {
+                        if (value.Code === this.rCode) {
+                            this.rgData.push({ 'RName': value.Name, 'RCode': value.Code });
+                        }
+                    });
+                    godownList.filter(value => {
+                        if (value.GCode === this.gCode) {
+                            this.rgData.push({ 'GName': value.Name, 'GCode': value.GCode });
+                        }
+                    });
                 }
             });
         }
-        }
-        return this.loggedInRegion;
+        let godownData = this.instance;
+        let rgData = this.rgData;
+        return { godownData, rgData };
     }
 
     getSchemeData() {
@@ -77,7 +69,7 @@ export class RoleBasedService {
             this.restApiService.get(PathConstants.SCHEMES).subscribe((res: any) => {
                 if (res !== undefined) {
                     res.forEach(value => {
-                        this.scheme_data.push({ 'SName': value.Name, 'SCode': value.SCCode});
+                        this.scheme_data.push({ 'SName': value.Name, 'SCode': value.SCCode });
                     })
                 }
             });
