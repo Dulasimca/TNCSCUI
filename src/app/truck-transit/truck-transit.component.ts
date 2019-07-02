@@ -9,6 +9,7 @@ import { RoleBasedService } from '../common/role-based.service';
 import { MessageService, SelectItem } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from '../constants/path.constants';
+import { TransferState } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-truck-transit',
@@ -21,8 +22,11 @@ export class TruckTransitComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
+  transferOptions: SelectItem[];
   g_cd: any;
+  tr_cd: any;
   data: any;
+  transferData: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   maxDate: Date;
@@ -31,7 +35,7 @@ export class TruckTransitComponent implements OnInit {
   loading: boolean = false;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -40,6 +44,7 @@ export class TruckTransitComponent implements OnInit {
     this.isViewDisabled = this.isActionDisabled = true;
     this.TruckTransitCols = this.tableConstants.TruckTransit;
     this.data = this.roleBasedService.getInstance();
+    // this.transferData = this.roleBasedService.onTransfer();
     this.maxDate = new Date();
   }
 
@@ -49,13 +54,37 @@ export class TruckTransitComponent implements OnInit {
       && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
-    if(this.data !== undefined) {
+    if (this.data !== undefined) {
       this.data.forEach(x => {
-        // options.push({'label':x.Transfertype});
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
+  
+  onTransfer() {
+  let transfers = [];
+  const params = {
+          'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+          'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+          'GCode': this.g_cd.value
+        }
+  if(this.transferOptions === undefined){
+    this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
+    res.forEach(y => {
+      transfers.push({ 'label': y.Transfertype, 'value': y.RGCODE });
+      this.transferOptions = transfers;
+      // console.log("filter",_.uniq(transfers));
+    });
+    // let unique_array = Array.from(new Set(transfers))
+    //     return unique_array;
+  })
+}
+if (this.fromDate !== undefined && this.toDate !== undefined
+  && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null && this.tr_cd.value !== '' && 
+  this.tr_cd.value !== undefined && this.tr_cd !== null) {
+  this.isViewDisabled = false;
+}
   }
 
   onView() {
@@ -66,20 +95,21 @@ export class TruckTransitComponent implements OnInit {
       this.TruckTransitData = res;
       let sno = 0;
       this.TruckTransitData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
+        this.loading = false;
       })
-      if (res !== undefined && this.TruckTransitData.length !== 0) {
+      if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -87,7 +117,8 @@ export class TruckTransitComponent implements OnInit {
     this.checkValidDateSelection();
     // this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
+      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null && this.tr_cd.value !== undefined
+      && this.tr_cd.value !== '' && this.tr_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -99,14 +130,14 @@ export class TruckTransitComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          // this.isShowErr = true;
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
-        }
+      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
+        // this.isShowErr = true;
+        this.fromDate = this.toDate = '';
+      } else if (selectedFromDate >= selectedToDate) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
+      }
       return this.fromDate, this.toDate;
     }
   }
@@ -115,8 +146,7 @@ export class TruckTransitComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit',this.TruckTransitCols);
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.TruckTransitData, 'Truck_Transit', this.TruckTransitCols);
+  }
 }
-}
- 
