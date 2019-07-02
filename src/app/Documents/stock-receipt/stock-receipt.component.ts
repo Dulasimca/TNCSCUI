@@ -49,7 +49,7 @@ export class StockReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   TransType: string;
   godownNo: any;
-  OrderNo: number;
+  OrderNo: any;
   OrderDate: Date;
   StackBalance: number;
   canShowMenu: boolean;
@@ -183,7 +183,6 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
-          if (this.depositorTypeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
                 depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
@@ -192,19 +191,16 @@ export class StockReceiptComponent implements OnInit {
               this.isDepositorNameDisabled = false;
             });
           }
-        }
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
           const params = new HttpParams().set('TyCode', this.DepositorType.value).append('TRType', this.TransType);
-          if (this.depositorNameOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(dn => {
                 depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
               })
               this.depositorNameOptions = depositorNameList;
             });
-          }
         }
         break;
       case 'i_desc':
