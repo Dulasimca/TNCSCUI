@@ -207,7 +207,6 @@ export class StockReceiptComponent implements OnInit {
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
           const params = new HttpParams().set('SCode', this.Scheme.value);
-          if (this.itemDescOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               res.forEach(i => {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
@@ -216,14 +215,12 @@ export class StockReceiptComponent implements OnInit {
             });
             this.isStackNoEnabled = false;
           }
-        }
         break;
       case 'st_no':
         let stackNo = [];
         this.ReceivingCode = '001';
         if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
           const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
-          if (this.stackOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               res.forEach(s => {
                 stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
@@ -235,7 +232,6 @@ export class StockReceiptComponent implements OnInit {
               this.stackYear = this.TStockNo.stack_yr;
               // this.godownNo = this.TStockNo.toString().startsWith('/');
             }
-          }
         }
         break;
       case 'pt':
