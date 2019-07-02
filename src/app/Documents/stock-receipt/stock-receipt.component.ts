@@ -119,6 +119,8 @@ export class StockReceiptComponent implements OnInit {
     setTimeout(() => {
       this.regionName = this.data.rgData[0].RName;
       this.godownName = this.data.rgData[1].GName;
+      this.ReceivingCode = this.data.rgData[1].GCode;
+      this.RCode = this.data.rgData[0].RCode;
     },1200);
   }
 
@@ -215,7 +217,6 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'st_no':
         let stackNo = [];
-        this.ReceivingCode = '001';
         if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
           const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
