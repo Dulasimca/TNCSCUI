@@ -14,7 +14,7 @@
             </div>
         </div>
       </p-header>
-      <div #dailyStockTable class="ui-g" style="text-align:left; display:grid">
+      <div #dailyStockTable class="ui-g ui-md-12" style="text-align:left; display:grid">
         <p-treeTable  [value]="dailyStockData" [columns]="dailyStockDataColumns" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [loading]="loading" [totalRecords]="totalRecords"
           [paginator]="true" autoLayout="true" selectionMode="single" (onRowSelect)="onRowSelect($event)" [resizableColumns]="true" dataKey="Name" >
           <ng-template pTemplate="header" let-columns>
@@ -28,7 +28,12 @@
             <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
               <td *ngFor="let col of columns; let i = index">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
+                <div *ngIf="col.field !== 'Name'">
+                   <span style="float: right"> {{rowData[col.field]}} </span>
+                  </div>
+                  <div *ngIf="col.field === 'Name'">
                     {{rowData[col.field]}}
+                  </div>
               </td>
             </tr>
           </ng-template>

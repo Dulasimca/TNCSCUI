@@ -46,8 +46,8 @@ export class GunnyGuGrComponent implements OnInit {
       && this.g_cd !== '' && this.g_cd !== undefined) {
       this.isViewDisabled = false;
     }
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
+    if (this.data.godownData !== undefined) {
+      this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });

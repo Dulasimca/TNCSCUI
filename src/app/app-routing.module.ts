@@ -86,7 +86,7 @@ const routes: Routes = [
   { path: 'Receipt RO Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
-  { path: 'Gunny Report', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
+  { path: 'Gunny_GUGR', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },

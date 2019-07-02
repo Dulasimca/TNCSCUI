@@ -49,7 +49,7 @@ export class StockReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   TransType: string;
   godownNo: any;
-  OrderNo: number;
+  OrderNo: any;
   OrderDate: Date;
   StackBalance: number;
   canShowMenu: boolean;
@@ -109,13 +109,6 @@ export class StockReceiptComponent implements OnInit {
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe) {
-    // if (this.data === undefined) {
-    //   this.data = this.roleBasedService.getGodownAndRegion();
-    //   setTimeout(() => {
-    //    this.regionName = this.data.RName; this.godownName = this.data.GName;
-    // },2000);
-    // }
-
   }
 
   ngOnInit() {
@@ -123,6 +116,12 @@ export class StockReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.data = this.roleBasedService.getInstance();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
+    setTimeout(() => {
+      this.regionName = this.data.rgData[0].RName;
+      this.godownName = this.data.rgData[1].GName;
+      this.ReceivingCode = this.data.rgData[1].GCode;
+      this.RCode = this.data.rgData[0].RCode;
+    },1200);
   }
 
   onSelect(selectedItem) {
@@ -183,7 +182,6 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
-          if (this.depositorTypeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
                 depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
@@ -192,26 +190,22 @@ export class StockReceiptComponent implements OnInit {
               this.isDepositorNameDisabled = false;
             });
           }
-        }
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
           const params = new HttpParams().set('TyCode', this.DepositorType.value).append('TRType', this.TransType);
-          if (this.depositorNameOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(dn => {
                 depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
               })
               this.depositorNameOptions = depositorNameList;
             });
-          }
         }
         break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
           const params = new HttpParams().set('SCode', this.Scheme.value);
-          if (this.itemDescOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               res.forEach(i => {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
@@ -220,14 +214,11 @@ export class StockReceiptComponent implements OnInit {
             });
             this.isStackNoEnabled = false;
           }
-        }
         break;
       case 'st_no':
         let stackNo = [];
-        this.ReceivingCode = '001';
         if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
           const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
-          if (this.stackOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               res.forEach(s => {
                 stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
@@ -239,7 +230,6 @@ export class StockReceiptComponent implements OnInit {
               this.stackYear = this.TStockNo.stack_yr;
               // this.godownNo = this.TStockNo.toString().startsWith('/');
             }
-          }
         }
         break;
       case 'pt':
@@ -299,6 +289,10 @@ export class StockReceiptComponent implements OnInit {
     const params = {
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'Pallotment': this.PAllotment,
+      'OrderNo': this.OrderNo,
+      'OrderDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
+      'ReceivingCode': this.ReceivingCode,
+      'RCode': this.RCode,
       'MTransport': this.MTransport,
       'Trcode': this.Trcode.value,
       'DepositorType': this.DepositorType.value,
