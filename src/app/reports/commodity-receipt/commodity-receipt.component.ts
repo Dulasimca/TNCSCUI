@@ -51,8 +51,8 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'gd':
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
+    if (this.data.godownData !== undefined) {
+      this.data.godownData.forEach(x => {
           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
           this.godownOptions = godownSelection;
         });

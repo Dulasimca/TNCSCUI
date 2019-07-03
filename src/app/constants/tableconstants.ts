@@ -1,3 +1,5 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 export class TableConstants {
   DailyStockStatement: any;
   GodownMasterData: any;
@@ -47,6 +49,14 @@ export class TableConstants {
   ReceiptROPurchaseReport: any;
   ReceiptHOPurchaseReport: any;
   ReceiptRONOPurchaseReport: any;
+  DoDemandDraft: any;
+  DoMarginAmount: any;
+  SchemeAbstractReceipt: any;
+  SchemeAbstractIssueAll: any;
+  SchemeAbstractIssueCRS: any;
+  SchemeAbstractIssueCoOp: any;
+  SchemeAbstractTruck: any;
+  QtyReceiptIssueCommodity: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -548,7 +558,89 @@ export class TableConstants {
       { field: 'TruckMen', header: 'TRUCKMEN' },
       { field: 'Orderno', header: 'Order.No' },
       { field: 'Lorryno', header: 'LORRY NO' },
-      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Scheme', header: 'Scheme' }
     ];
+
+    this.DoDemandDraft = [
+      { field: '', header: 'SOCIETY'},
+      { field: '', header: 'DONO'},
+      { field: '', header: 'DO DATE'},
+      { field: '', header: 'DD.NO'},
+      { field: '', header: 'DD DATE'},
+      { field: '', header: 'BANK'},
+      { field: '', header: 'AMOUNT'},
+      { field: '', header: 'CEREAL'},
+      { field: '', header: 'NON-CEREAL'}
+    ];
+
+    this.DoMarginAmount = [
+      { field: '', header: 'SOCIETY'},
+      { field: '', header: 'DONO'},
+      { field: '', header: 'DO DATE'},
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Scheme', header: 'SCHEME' },
+      { field: '', header: 'NET WEIGHT'},
+      { field: '', header: 'RATE'},
+      { field: '', header: 'AMOUNT'}
+    ];
+
+    this.SchemeAbstractReceipt = [
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: '', header: 'GODOWN'},
+      { field: '', header: 'PType'},
+      { field: '', header: 'AAY'},
+      { field: '', header: 'BULK'},
+      { field: '', header: 'EXCESS'},
+      { field: '', header: 'HULLING'},
+      { field: '', header: 'OTHERS'},
+      { field: '', header: 'PDS'}
+    ];
+
+    this.SchemeAbstractIssueCRS = [
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: '', header: 'GODOWN'},
+      { field: '', header: 'PType'},
+      { field: '', header: 'AAY'},
+      { field: '', header: 'OTHERS'},
+      { field: '', header: 'PDS'},
+      { field: '', header: 'POLICE'},
+      { field: '', header: 'SPL PDS'},
+      { field: '', header: 'TOTAL'}
+    ];
+
+    this.SchemeAbstractIssueAll = [
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: '', header: 'GODOWN'},
+      { field: '', header: 'PType'},
+      { field: '', header: 'AAY'},
+      { field: '', header: 'BULK'},
+      { field: '', header: 'OAP'},
+      { field: '', header: 'OTHERS'},
+      { field: '', header: 'PDS'},
+      { field: '', header: 'POLICE'}
+    ];
+
+    this.SchemeAbstractIssueCoOp = [
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: '', header: 'GODOWN'},
+      { field: '', header: 'PType'},
+      { field: '', header: 'AAY'},
+      { field: '', header: 'OAP'},
+      { field: '', header: 'PDS'},
+      { field: '', header: 'POLICE'},
+      { field: '', header: 'SPL PDS'},
+      { field: '', header: 'TOTAL'}
+    ];
+
+    this.SchemeAbstractTruck = [
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: '', header: 'GODOWN'},
+      { field: '', header: 'PType'},
+      { field: '', header: 'INTERNAL TRANSFER'},
+      { field: '', header: 'TRANSFER'},
+      { field: '', header: 'TOTAL'}
+    ];
+
+    this.QtyReceiptIssueCommodity = [];
   }
 }
