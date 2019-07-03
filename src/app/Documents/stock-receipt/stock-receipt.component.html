@@ -44,7 +44,7 @@
                       (onClick)="onSelect('m')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -60,7 +60,7 @@
                     Allotment/Release Order No
                   </div><br>
                   <div class="ui-g-12 ui-fluid" style="padding-left:15px">
-                      <input type="text" size="20" [(ngModel)]="OrderNo" pInputText autocomplete="off">
+                    <input type="text" size="20" [(ngModel)]="OrderNo" pInputText autocomplete="off">
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-3 ui-fluid">
@@ -99,7 +99,7 @@
                     <p-dropdown [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
                       filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -109,7 +109,7 @@
                       (onClick)="onSelect('dt')" filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -119,7 +119,7 @@
                       (onClick)="onSelect('dn')" filter="true" [disabled]="isDepositorNameDisabled" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -170,9 +170,9 @@
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" [options]="schemeOptions" [(ngModel)]="Scheme"
                       (onClick)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
+                      placeholder="-select-" [autoWidth]="false" [style]="{'width':'100%'}">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -182,7 +182,7 @@
                       (onClick)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-" [disabled]="isItemDescEnabled">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -192,48 +192,45 @@
                       (onClick)="onSelect('st_no')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-" [disabled]="isStackNoEnabled">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle; word-wrap: break-word">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-4 ui-fluid" style="padding-top: 22px;">
-                    <div class="ui-g-12 ui-md-6">
-                      <label class="label-fontsize-large"><b>Stack Year - <b>{{stackYear}}</b></b></label>
-                    </div>
+                  <div class="ui-g-12 ui-md-1">
+                    <!-- <span class="ui-float-label"> -->
+                    <label class="label-fontsize">Godown No</label>
+                    <input id="float-input" pInputText [(ngModel)]="godownNo" [readOnly]="true">
+                    <!-- </span> -->
                   </div>
-                </div>
-                <div class="ui-g-12">
-                  <div class="ui-g-12 ui-md-2">
-                    <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="godownNo" [readOnly]="true">
-                      <label class="float-input">Godown No</label>
-                    </span>
+                  <div class="ui-g-12 ui-md-1" style="margin-top: -10px">
+                    <!-- <span class="ui-float-label"> -->
+                    <label class="label-fontsize">Location+Formation No.</label>
+                    <input id="float-input" pInputText [(ngModel)]="locationNo" [readOnly]="true">
+                    <!-- </span> -->
                   </div>
-                  <div class="ui-g-12 ui-md-2">
-                    <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="locationNo" [readOnly]="true">
-                      <label class="float-input">Location+Formation No.</label>
-                    </span>
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 22px;">
+                    <label class="ui-g-12 ui-md-10 label-fontsize-large"><b>Stack Year -
+                        <b>{{stackYear}}</b></b></label>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -18px">
+                  <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Packing Type</label>
                     <p-dropdown #pt id="float-input" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                       (onClick)="onSelect('pt')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 10px">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText [(ngModel)]="NoPacking" autocomplete="off">
                       <label class="float-input">No.of Packing</label>
                     </span>
                   </div>
-                </div>
-                <div class="ui-g-12 ui-fluid">
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -25px">
                     <p-header>
                       <div class="dashboard label-fontsize-large" style="text-align: center">
                         Gross Wt
@@ -245,7 +242,7 @@
                       <input id="float-input" type="text" [(ngModel)]="GKgs" size="20" pInputText autocomplete="off">
                     </span>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -25px">
                     <p-header>
                       <div class="dashboard label-fontsize-large" style="text-align: center">
                         Net Wt
@@ -257,29 +254,29 @@
                       <input id="float-input" type="text" size="20" [(ngModel)]="NKgs" pInputText autocomplete="off">
                     </span>
                   </div>
-                  <div class="ui-g-12 ui-md-4 ui-fluid">
-                    <div class="ui-g-12 ui-md-4 ui-fluid" style="padding-top: 18px;">
-                      <label class="label-fontsize">WmtType</label>
-                      <p-dropdown #wmt id="float-input" [options]="wmtOptions" [(ngModel)]="WTCode"
-                        (onClick)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true"
-                        placeholder="-select-">
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                        </ng-template>
-                      </p-dropdown>
-                    </div>
-                    <div class="ui-g-12 ui-md-4 ui-fluid" style="padding-top: 36px;">
-                      <span class="ui-float-label">
-                        <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture"
-                          pInputText autocomplete="off">
-                        <label class="float-input">Moisture</label>
-                      </span>
-                    </div>
-                    <div class="ui-g-12 ui-md-3 ui-fluid" style="padding-top: 36px;">
-                      <button pButton type="button" label="Enter" (click)="onEnter()"></button>
-                    </div>
+                  <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
+                    <label class="label-fontsize">WmtType</label>
+                    <p-dropdown #wmt id="float-input" [options]="wmtOptions" [(ngModel)]="WTCode"
+                      (onClick)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true"
+                      placeholder="-select-">
+                      <ng-template let-item pTemplate="selectedItem">
+                        <span style="vertical-align:middle">{{item.label}}</span>
+                      </ng-template>
+                    </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
+                    <span class="ui-float-label">
+                      <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture" pInputText
+                        autocomplete="off">
+                      <label class="float-input">Moisture</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
+                    <button pButton type="button" label="Enter" (click)="onEnter()"></button>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -20px">
                     <p-header>
                       <div class="dashboard label-fontsize-large" style="text-align: center">
                         Tare Wt
@@ -291,7 +288,7 @@
                       <input id="float-input" type="text" size="20" [(ngModel)]="tareWt" pInputText autocomplete="off">
                     </span>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 44px;">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 16px;">
                     <span class="ui-float-label">
                       <input id="float-input" pInputText [(ngModel)]="stackBalance" autocomplete="off">
                       <label class="float-input">Stack Balance</label>
@@ -299,8 +296,7 @@
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
-                  <p-table [columns]="itemCol" [value]="itemData" [responsive]="true" [scrollable]="true"
-                    scrollHeight="160px">
+                  <p-table [columns]="itemCol" [value]="itemData" [responsive]="true" autoLayout="true">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
@@ -317,6 +313,7 @@
                       <tr>
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
+                          <i *ngIf="rowdata?.icon" class="pi pi-trash" aria-hidden="true"></i>
                         </td>
                       </tr>
                     </ng-template>
@@ -410,7 +407,7 @@
                       (onClick)="onSelect('fc')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -422,7 +419,7 @@
                       (onClick)="onSelect('vc')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -461,7 +458,7 @@
                       [(ngModel)]="FStation" (onClick)="onSelect('fs')" filter="true" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -471,7 +468,7 @@
                       [(ngModel)]="TStation" (onClick)="onSelect('ts')" filter="true" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
                     </p-dropdown>
                   </div>
@@ -508,12 +505,15 @@
               </div>
             </p-tabPanel>
           </p-tabView>
-          <div class="ui-g-10"></div>
+          <div class="ui-g-9"></div>
           <div class="ui-g-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
-            </div>
+            <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
+          </div>
           <div class="ui-g-1 ui-fluid">
             <button style="margin-top:5px" pButton type="button" label=Save (click)="onSave()"></button>
+          </div>
+          <div class="ui-g-1 ui-fluid">
+            <button style="margin-top:5px" pButton type="button" label=Print (click)="onPrint()"></button>
           </div>
         </div>
       </div>
@@ -521,3 +521,9 @@
     <div class="col-md-1"></div>
   </p-panel>
 </div>
+<p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75%', height: '50%', left: '120px'}">
+    <div class="ui-g-12 ui-md-6">
+        <label class="ui-g-6 label-fontsize-large">Date</label>
+        <p-calendar class="ui-g-12 dashboard" [showIcon]="true" [(ngModel)]="viewDate"></p-calendar>
+    </div>
+</p-dialog>

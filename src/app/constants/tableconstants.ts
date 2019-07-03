@@ -422,7 +422,8 @@ export class TableConstants {
       { field: 'GKgs', header: 'Gross Wt' },
       { field: 'NKgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
-      { field: 'Scheme', header: 'Scheme' }
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'icon', header: 'Action'}
     ];
 
     this.StockIssueMemoIssueDetailsColumns = [ 
