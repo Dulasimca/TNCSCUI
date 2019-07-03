@@ -52,6 +52,7 @@ export class StockReceiptComponent implements OnInit {
   OrderNo: any;
   OrderDate: Date;
   StackBalance: number;
+  viewPane: boolean;
   canShowMenu: boolean;
   ReceivingCode: string;
   RCode: number;
@@ -101,8 +102,6 @@ export class StockReceiptComponent implements OnInit {
   LDate: Date;
   WNo: any;
   Remarks: string;
-  @ViewChild('tabs')
-  tabs: ElementRef;
   transactoinSelection: any = [];
 
 
@@ -312,7 +311,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onView() {
-    
+    this.viewPane = true;
   }
 
   openNext() {
