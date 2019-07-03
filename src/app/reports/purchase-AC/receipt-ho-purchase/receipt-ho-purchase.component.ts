@@ -7,6 +7,8 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-receipt-ho-purchase',
@@ -25,9 +27,11 @@ export class ReceiptHOPurchaseComponent implements OnInit {
   godownOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
+  username: any;
+  loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-     private authService: AuthService, private excelService: ExcelService, 
+     private authService: AuthService, private excelService: ExcelService, private router: Router, 
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
     ngOnInit() {
@@ -36,33 +40,51 @@ export class ReceiptHOPurchaseComponent implements OnInit {
       this.receiptHOPurchaseCols = this.tableConstants.ReceiptHOPurchaseReport;
       this.data = this.roleBasedService.getInstance();
       this.maxDate = new Date();
+      this.username = JSON.parse(this.authService.getCredentials());
     }
   
     onSelect() {
       let godownSelection = [];
-      if (this.data !== undefined) {
-        this.data.forEach(x => {
+      if (this.data.godownData !== undefined) {
+        this.data.godownData.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
         }
       if (this.fromDate !== undefined && this.toDate !== undefined
-        && this.g_cd !== '' && this.g_cd !== undefined) {
+        && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
         this.isViewDisabled = false;
       }
     }
   
     onView() {
       this.checkValidDateSelection();
-      const params = { 
-        
+      this.loading = true;
+      const params =  {
+        'GCode': this.g_cd.value,
+        'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+        'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+        'UserName': this.username.user,
       }
-      this.restAPIService.post('', params).subscribe(res => {
+      this.restAPIService.post(PathConstants.RECEIPT_REGION_HO_PURCHASE, params).subscribe(res => {
         this.receiptHOPurchaseData = res;
+        let sno = 0;
+      this.receiptHOPurchaseData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Quantity = (data.Quantity * 1).toFixed(3);
+        sno += 1;
+        data.SlNo = sno;
+      })
         if (res !== undefined && this.receiptHOPurchaseData.length !== 0) {
           this.isActionDisabled = false;
         } else {
           this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        }
+        this.loading = false;
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
         }
       })
     }
@@ -70,7 +92,8 @@ export class ReceiptHOPurchaseComponent implements OnInit {
     onDateSelect() {
       this.checkValidDateSelection();
       this.onResetTable();
-      if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
+      if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' 
+      && this.g_cd.value !== undefined && this.g_cd !== null) {
         this.isViewDisabled = false;
       }
     }
@@ -83,12 +106,11 @@ export class ReceiptHOPurchaseComponent implements OnInit {
         let selectedToMonth = this.toDate.getMonth();
         let selectedFromYear = this.fromDate.getFullYear();
         let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+            this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+            this.fromDate = this.toDate = '';
         }
         return this.fromDate, this.toDate;
       }

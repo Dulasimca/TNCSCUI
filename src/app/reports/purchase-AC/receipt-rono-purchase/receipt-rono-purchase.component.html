@@ -7,40 +7,44 @@
         <div class="ui-g-4 dashboard">RECEIPT -HO PURCHASE</div>
       </div>
     </p-header>
-      <div class="ui-g">
-        <div style="text-align: center">
+      <div class="ui-g ui-md-12">
         <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-          <div class="ui-g-3 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Godown</label>
-            </span>
+          <div class="ui-g-6 ui-md-2">
+            <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+            <p-dropdown  class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')"
+              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
           </div>
-          <div class="ui-g-2">
-            <label class="ui-g-7 dashboard">From</label>
+          <div class="ui-g-6 ui-md-2">
+            <label class="ui-g-7 dashboard label-fontsize">From</label>
             <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
-          <div class="ui-g-2">
-            <label class="ui-g-7 dashboard">To</label>
+          <div class="ui-g-6 ui-md-2">
+            <label class="ui-g-7 dashboard label-fontsize">To</label>
             <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
-          <div class="ui-g-1">
-              <span class="ui-float-label" style="padding-top: 20px;">
-                <input id="float-input" pInputText [(ngModel)]="no" autocomplete="off">
+          <div class="ui-g-6 ui-md-2">
+              <span class="ui-float-label" style="padding-top: 13px;">
+                <input id="float-input" pInputText [(ngModel)]="orderNo" autocomplete="off">
                 <label class="float-input" style="padding-top: 10px;">Enter No</label>
               </span>
             </div>
-          <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
-          <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
+          <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-12">
-            <p-table [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData" [scrollable]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
+          <div class="ui-g-12 uiu-md-12">
+            <p-table [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData"
+             [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+              [paginator]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
@@ -57,7 +61,6 @@
               </ng-template>
             </p-table>
           </div>
-        </div>
       </div>
     </p-panel>
     </div>
