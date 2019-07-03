@@ -39,6 +39,12 @@ export class TableConstants {
   StockReceiptItemColumns: any;
   StockIssueMemoIssueDetailsColumns: any;
   StockIssueMemoItemDetailsColumns: any;
+  DoAllScheme: any;
+  DoSPLPDS: any;
+  DoOAP: any;
+  DoAAN: any;
+  DoOtherScheme: any;
+  DoSocietyAbstract: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -434,6 +440,81 @@ export class TableConstants {
       { field: 'NKgs', header:'Net WT' },
       { field: 'Moisture', header:'Moisture' },
       { field: 'Scheme', header:'Scheme' },
+    ];
+
+    this.DoAllScheme = [
+      { field: '', header: 'Do.No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Type' },
+      { field: '', header: 'Co_op' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Amount' },
+      { field: '', header: 'C/NC' },
+    ];
+
+    this.DoSPLPDS = [
+      { field: '', header: 'Do.No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Type' },
+      { field: '', header: 'Co_op' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Amount' },
+      { field: '', header: 'C/NC' },
+    ];
+    
+    this.DoOAP = [
+      { field: '', header: 'Do.No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Type' },
+      { field: '', header: 'Co_op' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Amount' },
+      { field: '', header: 'C/NC' },
+    ];
+
+    this.DoAAN = [
+      { field: '', header: 'Do.No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Type' },
+      { field: '', header: 'Co_op' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Amount' },
+      { field: '', header: 'C/NC' },
+    ];
+
+    this.DoOtherScheme = [
+      { field: '', header: 'Do.No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Type' },
+      { field: '', header: 'Co_op' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Amount' },
+      { field: '', header: 'C/NC' },
+    ];
+
+    this.DoSocietyAbstract = [
+      { field: '', header: 'DO.NO' },
+      { field: '', header: 'SOCIETY' },
+      { field: '', header: 'TODATE' },
+      { field: '', header: 'DUE' },
+      { field: '', header: 'PAID' },
+      { field: '', header: 'AdvanceCollection' },
+      { field: '', header: 'DEBIT' },
     ];
   }
 }
