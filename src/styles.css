@@ -1464,9 +1464,9 @@ ul
           border: 5px solid rgba(255,255,255,0.5);
       }
       
-      .crd.hovercard .info {
-          /* padding: 4px 8px 10px; */
-      }
+      /* .crd.hovercard .info {
+          padding: 4px 8px 10px;
+      } */
       
       .crd.hovercard .info .title {
           margin-bottom: 4px;

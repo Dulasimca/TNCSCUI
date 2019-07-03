@@ -24,6 +24,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FieldsetModule} from 'primeng/fieldset';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
+import {InputSwitchModule} from 'primeng/inputswitch';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -87,6 +89,12 @@ import { OpeningBalanceComponent } from './opening-balance/opening-balance.compo
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
+import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
+import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
+import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
+import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
+import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
+import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
 
 
 @NgModule({
@@ -139,7 +147,13 @@ import { DecimalDirective } from './directives/decimal.directive';
     StackCardOpeningEntryComponent,
     OpeningBalanceComponent,
     TruckTransitComponent,
-    DecimalDirective
+    DecimalDirective,
+    AllSchemeComponent,
+    SPLPDSComponent,
+    OapComponent,
+    AanComponent,
+    OtherSchemeComponent,
+    SocietyAbstractComponent
   ],
   imports: [
     BrowserModule,
@@ -171,7 +185,8 @@ import { DecimalDirective } from './directives/decimal.directive';
     ToastModule,
     InputTextModule,
     MatDatepickerModule,
-    TabViewModule
+    TabViewModule,
+    InputSwitchModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],

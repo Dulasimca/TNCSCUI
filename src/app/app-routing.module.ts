@@ -44,6 +44,12 @@ import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component'
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './truck-transit/truck-transit.component';
+import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
+import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
+import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
+import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
+import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
+import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
 
 
 const routes: Routes = [
@@ -90,6 +96,12 @@ const routes: Routes = [
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
+  { path: 'DO All Scheme', component: AllSchemeComponent },
+  { path: 'DO SPLPDS', component: SPLPDSComponent },
+  { path: 'DO OAP', component: OapComponent },
+  { path: 'DO AAN', component: AanComponent },
+  { path: 'DO Other Scheme', component: OtherSchemeComponent },
+  { path: 'DO Society Abstract', component: SocietyAbstractComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
