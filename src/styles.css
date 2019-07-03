@@ -507,6 +507,9 @@ h3 a {
   color: whitesmoke;
 }
 
+.dropdown-none {
+  display: none !important;
+}
 .dropdown-submenu {
   position: relative;
 }

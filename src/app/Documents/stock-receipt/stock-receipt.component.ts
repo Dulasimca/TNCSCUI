@@ -219,17 +219,20 @@ export class StockReceiptComponent implements OnInit {
         let stackNo = [];
         if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
           const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
-            this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-              res.forEach(s => {
-                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
-              })
-              this.stackOptions = stackNo;
-            });
-          } else {
-            if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
-              this.stackYear = this.TStockNo.stack_yr;
-              // this.godownNo = this.TStockNo.toString().startsWith('/');
-            }
+          this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+            res.forEach(s => {
+              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
+            })
+            this.stackOptions = stackNo;
+          });
+          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+            this.stackYear = this.TStockNo.stack_yr;
+            let index;
+            index = this.TStockNo.value.toString().indexOf('/', 1);
+            const totalLength = this.TStockNo.value.length;
+            this.godownNo = this.TStockNo.value.toString().slice(0, index);
+            this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+          }
         }
         break;
       case 'pt':
@@ -305,8 +308,11 @@ export class StockReceiptComponent implements OnInit {
       'ItemList': this.entryList
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
-      console.log('res', res);
     });
+  }
+
+  onView() {
+    
   }
 
   openNext() {
