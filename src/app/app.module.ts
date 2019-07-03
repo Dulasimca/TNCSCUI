@@ -78,7 +78,7 @@ import { TruckToRegionComponent } from './reports/TransferAc/truck-to-region/tru
 import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region/truck-from-region.component';
 import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
 import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
-import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
+import { ReceiptRONOPurchaseComponent } from './reports/purchase-AC/receipt-rono-purchase/receipt-rono-purchase.component';
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
@@ -132,7 +132,7 @@ import { DecimalDirective } from './directives/decimal.directive';
     TruckFromRegionComponent,
     ReceiptHOPurchaseComponent,
     ReceiptROPurchaseComponent,
-    ReceiptHONumberPurchaseComponent,
+    ReceiptRONOPurchaseComponent,
     CustomerDetailsComponent,
     SocietyWiseCommodityAbstractComponent,
     GunnyGuGrComponent,

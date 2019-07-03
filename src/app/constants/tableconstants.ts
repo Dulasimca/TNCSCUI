@@ -32,13 +32,15 @@ export class TableConstants {
   TruckFromRegionReport: any;
   GunnyReport: any;
   StackCardOpeningEntryReport: any;
-  ReceiptHOPurchaseReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
   TruckTransit: any;
   StockReceiptItemColumns: any;
   StockIssueMemoIssueDetailsColumns: any;
   StockIssueMemoItemDetailsColumns: any;
+  ReceiptROPurchaseReport: any;
+  ReceiptHOPurchaseReport: any;
+  ReceiptRONOPurchaseReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -342,14 +344,13 @@ export class TableConstants {
 
     this.GunnyReport = [
       { field: 'SlNo', header: 'S.No' },
-      { field: 'AckNo', header: 'Ack. No' },
-      { field: 'Date', header: 'Date' },
-      { field: 'commodity', header: 'Commodity' },
-      { field: 'bags', header: 'Bags' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'StackNo', header: 'Stack No' },
-      { field: 'Commodity', header: 'Commodity' },
-      { field: 'SYear', header: 'S.YEAR' }
+      { field: 'Ackno', header: 'ACK. NO' },
+      { field: 'Date', header: 'DATE' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
+      { field: 'stackno', header: 'STACK NO' },
+      { field: 'Year', header: 'S.YEAR' }
     ];
 
 
@@ -363,17 +364,7 @@ export class TableConstants {
       { field: 'Status', header: 'Status' },
     ];
 
-    this.ReceiptHOPurchaseReport = [
-      { field: 'SlNo', header: 'S.No' },
-      { field: 'AckNo', header: 'Ack. No' },
-      { field: 'Commodity', header: 'Commodity' },
-      { field: 'Bags', header: 'Bags' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'Truckmen', header: 'Truckmen' },
-      { field: 'Orderno', header: 'Order No' },
-      { field: 'Lorryno', header: 'Lorry No' },
-      { field: 'Scheme', header: 'Scheme' },
-    ];
+    
 
     this.StackWiseBreakupDetails = [
       { field: 'Stackno', header: 'Stack No'},
@@ -434,6 +425,46 @@ export class TableConstants {
       { field: 'NKgs', header:'Net WT' },
       { field: 'Moisture', header:'Moisture' },
       { field: 'Scheme', header:'Scheme' },
+    ];
+    this.ReceiptROPurchaseReport = [
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Ackno', header: 'ACK.NO' },
+      { field: 'Date', header: 'DATE' },
+      { field: 'Type', header: 'TYPE '},
+      { field: 'Depositor', header: 'DEPOSITOR' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
+      { field: 'TruckMen', header: 'TRUCKMEN' },
+      { field: 'Orderno', header: 'Order.No' },
+      { field: 'Lorryno', header: 'LORRY NO' },
+    ];
+    this.ReceiptHOPurchaseReport = [
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Ackno', header: 'Ack. No' },
+      { field: 'Date', header: 'DATE' },
+      { field: 'Type', header: 'TYPE '},
+      { field: 'Depositor', header: 'DEPOSITOR' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'Bags', header: 'Bags' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'TruckMen', header: 'Truckmen' },
+      { field: 'Orderno', header: 'Order No' },
+      { field: 'Lorryno', header: 'Lorry No' },
+    ];
+    this.ReceiptRONOPurchaseReport = [
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Ackno', header: 'ACK.NO' },
+      { field: 'Date', header: 'DATE' },
+      { field: 'Type', header: 'TYPE '},
+      { field: 'Depositor', header: 'DEPOSITOR' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
+      { field: 'TruckMen', header: 'TRUCKMEN' },
+      { field: 'Orderno', header: 'Order.No' },
+      { field: 'Lorryno', header: 'LORRY NO' },
+      { field: 'Scheme', header: 'Scheme' },
     ];
   }
 }

@@ -302,15 +302,6 @@ export class StockReceiptComponent implements OnInit {
       'ManualDocNo': this.ManualDocNo,
       'LNo': this.LNo,
       'LFrom': this.LFrom,
-      'TStockNo': this.TStockNo.value,
-      'Scheme': this.Scheme.value,
-      'ICode': this.ICode.value,
-      'IPCode': this.IPCode.value,
-      'NoPacking': this.NoPacking,
-      'GKgs': this.GKgs,
-      'NKgs': this.NKgs,
-      'WTCode': this.WTCode.value,
-      'Moisture': this.Moisture,
       'ItemList': this.entryList
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {

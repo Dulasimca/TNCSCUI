@@ -36,7 +36,7 @@ import { HullingDetailsComponent } from './reports/hulling-details/hulling-detai
 import { TruckToRegionComponent } from './reports/TransferAc/truck-to-region/truck-to-region.component';
 import { TruckFromRegionComponent } from './reports/TransferAc/truck-from-region/truck-from-region.component';
 import { ReceiptHOPurchaseComponent } from './reports/purchase-AC/receipt-ho-purchase/receipt-ho-purchase.component';
-import { ReceiptHONumberPurchaseComponent } from './reports/purchase-AC/receipt-ho-number-purchase/receipt-ho-number-purchase.component';
+import { ReceiptRONOPurchaseComponent } from './reports/purchase-AC/receipt-rono-purchase/receipt-rono-purchase.component';
 import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-purchase/receipt-ro-purchase.component';
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
@@ -66,7 +66,7 @@ const routes: Routes = [
   { path: 'cbStatement', component: CBStatementComponent, canActivate: [AuthGuard] },
   { path: 'Stock Receipt', component: StockReceiptComponent, canActivate: [AuthGuard] },
   { path: 'Stock Issue Memo', component: IssueReceiptComponent, canActivate: [AuthGuard] },
-  { path: 'Delivery Receipt', component: DeliveryReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Delivery Order', component: DeliveryReceiptComponent, canActivate: [AuthGuard] },
   { path: 'Truck Memo', component: TruckReceiptComponent, canActivate: [AuthGuard] },
   { path: 'Stock Receipt Register', component: StockReceiptRegisterComponent, canActivate: [AuthGuard] },
   { path: 'Stock Issue Register', component: StockIssueRegisterComponent, canActivate: [AuthGuard] },
@@ -81,9 +81,9 @@ const routes: Routes = [
   { path: 'Hulling Details', component: HullingDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Truck to Region', component: TruckToRegionComponent, canActivate: [AuthGuard] },
   { path: 'Truck from Region', component: TruckFromRegionComponent, canActivate: [AuthGuard] },
-  { path: 'Receipt HO Purchase', component: ReceiptHOPurchaseComponent, canActivate: [AuthGuard] },
-  { path: 'Receipt HO NO Purchase', component: ReceiptHONumberPurchaseComponent, canActivate: [AuthGuard] },
-  { path: 'Receipt RO Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Ho Purchase', component: ReceiptHOPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Release Orderno', component: ReceiptRONOPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Regional Purchase', component: ReceiptROPurchaseComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny_GUGR', component: GunnyGuGrComponent, canActivate: [AuthGuard] },

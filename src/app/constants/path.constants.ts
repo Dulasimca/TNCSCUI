@@ -34,7 +34,7 @@ export class PathConstants {
   public static readonly ITEM_MASTER = '/api/ItemMaster';
   public static readonly TRUCK_TO_REGION_REPORT = '/api/TruckToRegion/Get';
   public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
-  public static readonly GUNNY_REPORT = '/api/GunnyReport/Get'; 
+  public static readonly GUNNY_REPORT = '/api/GUGR/Post'; 
   public static readonly DEPOSITOR_TYPE_MASTER = '/api/TypeMaster/Get';
   public static readonly DEPOSITOR_NAME_MASTER = '/api/DepositorDetails/Get';
   public static readonly COMMODITY_FOR_SCHEME = '/api/CommodityForScheme/Get ';
@@ -42,5 +42,7 @@ export class PathConstants {
   public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
   public static readonly STOCK_RECEIPT_DOCUMENTS = '/api/StockReceipt/Post'; 
-
+  public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
+  public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
+  public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';
 }

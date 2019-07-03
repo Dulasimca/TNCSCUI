@@ -11,7 +11,7 @@
             {{menu.label}} <b *ngIf="menu.items.length !== 0" class="caret"></b></a>
           <ul *ngIf="menu.items.length !== 0" class="dropdown-menu dropright">
             <li class="dropdown-submenu men" *ngFor="let child of menu.items">
-              <a [ngClass]="(child.length !== 0) ? dropdown-toggle : none" data-toggle="(child.length !== 0) ? dropdown : none">{{child.label}}</a>
+              <a [ngClass]="(child.length !== 0) ? dropdown-toggle : none" data-toggle="(child.length !== 0) ? dropdown : none" [routerLink]="child.routerLink">{{child.label}}</a>
               <ul *ngIf="child.items.length !== 0" class="dropdown-menu">
                 <li  class="men" *ngFor="let nestedChild of child.items">
                   <a [ngClass]="(nestedChild.length !== 0) ? dropdown-toggle : none" data-toggle="(nestedChild.length !== 0) ? dropdown : none" [routerLink]="nestedChild.routerLink">{{nestedChild.label}}</a>
