@@ -49,8 +49,8 @@ export class SocietyAbstractComponent implements OnInit {
       && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
-    if(this.data !== undefined) {
-      this.data.forEach(x => {
+    if(this.data.godownData !== undefined) {
+      this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });
@@ -113,6 +113,6 @@ export class SocietyAbstractComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.SocietyAbstractData, 'DO_OAP',this.SocietyAbstractCols);
+    this.excelService.exportAsExcelFile(this.SocietyAbstractData, 'DO_SOCEITY_ABSTRACT',this.SocietyAbstractCols);
 }
 }
