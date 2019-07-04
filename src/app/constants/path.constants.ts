@@ -41,7 +41,8 @@ export class PathConstants {
   public static readonly STACK_DETAILS = '/api/StackDetails/Get';
   public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
-  public static readonly STOCK_RECEIPT_DOCUMENTS = '/api/StockReceipt/Post'; 
+  public static readonly STOCK_RECEIPT_DOCUMENTS = '/api/StockReceipt/Post';
+  public static readonly STOCK_RECEIPT_VIEW_DOCUMENTS = '/api/StockReceipt/Get'; 
   public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
   public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
   public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';
