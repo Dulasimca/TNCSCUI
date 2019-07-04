@@ -24,6 +24,7 @@ export class StockReceiptComponent implements OnInit {
   regionName: any;
   godownName: any;
   data: any;
+  RowId: any;
   selectedValues: string[] = [];
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
@@ -33,9 +34,11 @@ export class StockReceiptComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   year: any;
+  disableOkButton: boolean = true;
+  isViewClicked: boolean = false;
   tareWt: number;
   maxDate: Date;
-  viewDate: Date;
+  viewDate: Date = new Date();
   moistureOptions: SelectItem[];
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
@@ -43,6 +46,15 @@ export class StockReceiptComponent implements OnInit {
   isDepositorTypeDisabled: boolean = true;
   isDepositorNameDisabled: boolean = true;
   locationNo: any;
+  transactoinSelection: any = [];
+  depositorType: string;
+  trCode: string;
+  wtCode: string;
+  iCode: string;
+  ipCode: string;
+  tStockCode: string;
+  depositorCode: string;
+  schemeCode: string;
   stackYear: any;
   isStackNoEnabled: boolean = true;
   isItemDescEnabled: boolean = true;
@@ -69,7 +81,7 @@ export class StockReceiptComponent implements OnInit {
   DepositorType: any;
   DepositorCode: any;
   TruckMemoNo: any;
-  TruckMemoDate: Date;
+  TruckMemoDate: any;
   ManualDocNo: any;
   LNo: any;
   LFrom: any;
@@ -106,9 +118,7 @@ export class StockReceiptComponent implements OnInit {
   LDate: Date;
   WNo: any;
   Remarks: string;
-  transactoinSelection: any = [];
-
-
+  
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe) {
@@ -185,6 +195,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dt':
+        this.isViewClicked = false;
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
@@ -241,7 +252,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
+        if (this.packingTypeOptions === undefined && !this.isViewClicked) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
@@ -260,7 +271,7 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'wmt':
         let weighment = [];
-        if (this.wmtOptions === undefined) {
+        if (this.wmtOptions === undefined && !this.isViewClicked) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
@@ -279,9 +290,11 @@ export class StockReceiptComponent implements OnInit {
       'WTCode': this.WTCode.label, 'Moisture': this.Moisture
     });
     this.entryList.push({
-      'TStockNo': this.TStockNo.value, 'Scheme': this.Scheme.value, 'ICode': this.ICode.value,
-      'IPCode': this.IPCode.value, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
-      'WTCode': this.WTCode.value, 'Moisture': this.Moisture
+      'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
+      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode, 
+      'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
+      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode , 'Moisture': this.Moisture
     });
   }
 
@@ -303,34 +316,84 @@ export class StockReceiptComponent implements OnInit {
       'OrderDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
       'ReceivingCode': this.ReceivingCode,
       'RCode': this.RCode,
-      'MTransport': this.MTransport,
-      'Trcode': this.Trcode.value,
-      'DepositorType': this.DepositorType.value,
-      'DepositorCode': this.DepositorCode.value,
+      'MTransport': (this.MTransport !== undefined) ? this.MTransport : '',
+      'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
+      'DepositorType': (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType,
+      'DepositorCode': (this.DepositorCode.value !== undefined) ? this.DepositorCode.value : this.depositorCode,
       'TruckMemoNo': this.TruckMemoNo,
       'TruckMemoDate': this.datepipe.transform(this.TruckMemoDate, 'MM/dd/yyyy'),
       'ManualDocNo': this.ManualDocNo,
-      'LNo': this.LNo,
-      'LFrom': this.LFrom,
+      'LNo': (this.LNo !== undefined) ? this.LNo : '',
+      'LFrom': (this.LFrom !== undefined) ? this.LFrom : '',
       'ItemList': this.entryList,
-      'Remarks': this.Remarks
+      'Remarks': (this.Remarks !== undefined) ? this.Remarks : ''
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
     });
   }
 
   onView() {
-    this.viewPane = true;
+    this.viewPane = this.isViewClicked = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
-    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+      res.forEach(data => {
+        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      })
       this.documentViewData = res;
     });
   }
 
+  onRowSelect(event) {
+    this.SRNo = event.data.SRNo;
+    this.disableOkButton = false;
+  }
+
   getDocBySRNo() {
+    this.viewPane = false;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
-    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe((res: any) => {
-      // this.documentViewData = res;
+    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+      if (res !== undefined && res.length !== 0) {
+      this.SRNo = res[0].SRNO;
+      this.SRDate = res[0].SRDate;
+      this.RowId = res[0].RowId;
+      this.OrderDate = new Date(res[0].OrderDate);
+      this.OrderNo = res[0].OrderNo;
+      this.TruckMemoDate = new Date(res[0].TruckMemoDate);
+      this.TruckMemoNo = res[0].TruckMemoNo;
+      this.LNo = res[0].LNo;
+      this.LFrom = res[0].LFrom;
+      this.month = res[0].Pallotment.slice(0, 1);
+      this.year = res[0].Pallotment.slice(3, 6);
+      this.transactionOptions = [{ 'label': res[0].TRName, 'value': res[0].Trcode }];
+      this.Trcode = res[0].TRName;
+      this.trCode = res[0].Trcode;
+      this.wmtOptions = [{ 'label': res[0].WEType, 'value': res[0].WTCode }];
+      this.WTCode = res[0].WEType;
+      this.wtCode = res[0].WTCode;
+      this.NoPacking = res[0].NoPacking;
+      this.GKgs = res[0].GKgs;
+      this.NKgs = res[0].Nkgs;
+      this.Moisture = res[0].Moisture;
+      this.itemDescOptions = [{ 'label': res[0].ITName, 'value': res[0].ICode }];
+      this.ICode = res[0].ITName;
+      this.iCode = res[0].ITCode;
+      this.packingTypeOptions = [{ 'label': res[0].PName, 'value': res[0].IPCode }];
+      this.IPCode = res[0].PName;
+      this.ipCode = res[0].IPCode;
+      this.schemeOptions = [{ 'label': res[0].SCName, 'value': res[0].Scheme }];
+      this.Scheme = res[0].SCName;
+      this.schemeCode = res[0].Scheme;
+      this.stackOptions = [{ 'label': res[0].TStockNo, 'value': res[0].TStockNo }];
+      this.TStockNo = res[0].TStockNo;
+      this.depositorTypeOptions = [{ 'label': res[0].DepositorType, 'value': res[0].IssuerType }];
+      this.DepositorType = res[0].DepositorType;
+      this.depositorType = res[0].IssuerType;
+      this.depositorNameOptions = [{ 'label': res[0].DepositorName, 'value': res[0].IssuingCode }];
+      this.DepositorCode = res[0].DepositorName;
+      this.depositorCode = res[0].IssuingCode;
+      this.PAllotment = res[0].Pallotment;
+      }
     });
   }
 
