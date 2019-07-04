@@ -58,6 +58,7 @@ import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs
 import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
+import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 
 
 const routes: Routes = [
@@ -104,20 +105,21 @@ const routes: Routes = [
   { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
-  { path: 'DO All Scheme', component: AllSchemeComponent },
-  { path: 'DO SPLPDS', component: SPLPDSComponent },
-  { path: 'DO OAP', component: OapComponent },
-  { path: 'DO AAN', component: AanComponent },
-  { path: 'DO Other Scheme', component: OtherSchemeComponent },
-  { path: 'DO Society Abstract', component: SocietyAbstractComponent },
-  { path: 'DO Demand Draft', component: DemandDraftComponent },
-  { path: 'Do Margin Amount', component: MarginAmountComponent },
+  { path: 'Do All Scheme', component: AllSchemeComponent },
+  { path: 'Do Splpds', component: SPLPDSComponent },
+  { path: 'Do OAP', component: OapComponent },
+  { path: 'Do Annapoorna', component: AanComponent },
+  { path: 'Do OtherSchemes', component: OtherSchemeComponent },
+  { path: 'Do Society Abstract', component: SocietyAbstractComponent },
+  { path: 'Demand Draft with Bankname', component: DemandDraftComponent },
+  { path: 'Do MArgin Amountdetails', component: MarginAmountComponent },
   { path: 'Scheme Abstract Receipt', component: ReceiptSchemeComponent },
-  { path: 'Scheme Abstract Issue', component: IssueSchemeComponent },
-  { path: 'Scheme Abstract Issue CRS', component: IssueSchemeCrsComponent },
-  { path: 'Scheme Abstract Issue CoOp', component: IssueSchemeCoOpComponent },
+  { path: 'Scheme Abstract Issues- All', component: IssueSchemeComponent },
+  { path: 'Scheme Abstract Issue- Only Crs', component: IssueSchemeCrsComponent },
+  { path: 'Scheme Abstract Issue- Only Coop', component: IssueSchemeCoOpComponent },
   { path: 'Scheme Abstract Truck', component: TruckMemoComponent },
-  { path: 'Qty Receipt/Issue Commodity', component: ReceiptIssueCommodityComponent },
+  { path: 'Qty A/c Receipt/Issue - Commodity', component: ReceiptIssueCommodityComponent },
+  { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

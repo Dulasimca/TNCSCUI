@@ -61,7 +61,7 @@
              <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
            </div>
           <!-- </div> -->
-          <div class="ui-g-12">
+          <div class="ui-g-12 dashboard">
             <p-table [columns]="TruckToRegionCols" [value]="TruckToRegionData" [rows]="20" [loading]="loading"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>

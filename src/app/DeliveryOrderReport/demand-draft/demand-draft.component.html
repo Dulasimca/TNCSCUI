@@ -11,61 +11,66 @@
       <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
       <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-2">
-        <label>Godown</label>
-              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" 
-            (onClick)="onSelect()" (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"
+            (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
+            placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-            </ng-template></p-dropdown>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <label>From</label>
-        <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate"
-          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <label>To</label>
-        <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate"
-          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
-      </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
-            <button pButton type="button" label="View Bank Order" (click)="onView()" [disabled]="isViewDisabled"></button>
-          </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
-            <button pButton type="button" label="View Do No Order" (click)="onViewNo()" [disabled]="isViewDisabled"></button>
-          </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
-            <button pButton type="button" label="View Do Date Order" (click)="onViewDate()" [disabled]="isViewDisabled"></button>
-          </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
-            <button pButton type="button" label="Print Date Order" (click)="onPrintDate()" [disabled]="isActionDisabled"></button>
-          </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 29px">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-          </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 29px">
-            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
-          </div>
-        <div class="ui-g-12 ui-fluid">
-            <p-table [columns]="DemandDraftCols" [value]="MarginAmountData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-              autoLayout="true" [loading]="loading">
-              <ng-template pTemplate="header" let-columns>
-                <tr style="text-align: center;">
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
         </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">From</label>
+          <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()"></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">To</label>
+          <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()"></p-calendar>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
+          <button pButton type="button" label="View Bank Order" (click)="onView()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
+          <button pButton type="button" label="View No Order" (click)="onViewNo()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
+          <button pButton type="button" label="View Date Order" (click)="onViewDate()"
+            [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
+          <button pButton type="button" label="Print Date Order" (click)="onPrintDate()"
+            [disabled]="isActionDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 25px">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 25px">
+          <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        </div>
+        <div class="ui-g-12 dashboard">
+          <p-table [columns]="DemandDraftCols" [value]="MarginAmountData" [rows]="20"
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+            [loading]="loading">
+            <ng-template pTemplate="header" let-columns>
+              <tr style="text-align: center;">
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
     </div>
-  </div>
   </p-panel>
 </div>

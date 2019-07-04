@@ -36,7 +36,7 @@
           <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
-        <div class="ui-g-12">
+        <div class="ui-g-12 dashboard">
           <p-table [columns]="deliveryReceiptRegCols" [value]="deliveryReceiptRegData" [loading]="loading"
            [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>

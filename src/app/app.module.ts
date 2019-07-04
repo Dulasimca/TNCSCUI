@@ -103,6 +103,7 @@ import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs
 import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
+import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 
 
 @NgModule({
@@ -169,7 +170,8 @@ import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodi
     IssueSchemeCrsComponent,
     IssueSchemeCoOpComponent,
     TruckMemoComponent,
-    ReceiptIssueCommodityComponent
+    ReceiptIssueCommodityComponent,
+    ReceiptIssueOtherItemsComponent
     
   ],
   imports: [

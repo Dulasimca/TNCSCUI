@@ -48,7 +48,7 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
       <br>
-        <div class="ui-g-12 ui-fluid">
+        <div class="ui-g-12 dashboard">
           <p-fieldset legend="SENDER/RECEIVER">
             <p-table [columns]="TruckTransitCols" [value]="TruckTransitData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
               autoLayout="true" [loading]="loading"  [totalRecords]="totalRecords">

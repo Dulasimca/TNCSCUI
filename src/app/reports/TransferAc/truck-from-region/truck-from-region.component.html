@@ -43,7 +43,7 @@
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-12">
+          <div class="ui-g-12 dashboard">
             <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
