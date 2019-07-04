@@ -47,6 +47,7 @@ export class TableConstants {
   ReceiptROPurchaseReport: any;
   ReceiptHOPurchaseReport: any;
   ReceiptRONOPurchaseReport: any;
+  StockReceiptDocumentViewCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -410,10 +411,10 @@ export class TableConstants {
       { field: 'NoPacking', header: 'No. of packing' },
       { field: 'WTCode', header: 'Wmt Type' },
       { field: 'GKgs', header: 'Gross Wt' },
-      { field: 'NKgs', header: 'Net WT' },
+      { field: 'Nkgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
       { field: 'Scheme', header: 'Scheme' },
-      { field: 'icon', header: 'Action'}
+      // { field: 'icon', header: 'Action'}
     ];
 
     this.StockIssueMemoIssueDetailsColumns = [ 
@@ -550,6 +551,15 @@ export class TableConstants {
       { field: 'Orderno', header: 'Order.No' },
       { field: 'Lorryno', header: 'LORRY NO' },
       { field: 'Scheme', header: 'Scheme' },
+    ];
+    this.StockReceiptDocumentViewCols = [
+      { field: 'SRNo', header: 'SR No.' },
+      { field: 'SRDate', header: 'SR Date' },
+      { field: 'OrderNo', header: 'Order No.' },
+      { field: 'OrderDate', header: 'Order Date' },
+      { field: 'TNCSName', header: 'TNCSName' },
+      { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'CreatedDate', header: 'Created Date' }
     ];
   }
 }

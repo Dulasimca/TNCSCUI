@@ -77,6 +77,7 @@ Gunnyutilised: any;
 GunnyReleased: any;
 NStackBalance: any;
 CurrentDocQtv: any;
+index: number = 0;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, 
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) { 
@@ -242,4 +243,12 @@ this.entryList.push({ 'TStockNo': this.TStockNo.value, 'ICode': this.ICode.value
 }
 
 onSave() { }
+
+openNext() {
+  this.index = (this.index === 2) ? 0 : this.index + 1;
+}
+
+openPrev() {
+  this.index = (this.index === 0) ? 2 : this.index - 1;
+}
 }

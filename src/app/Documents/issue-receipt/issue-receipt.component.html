@@ -6,11 +6,14 @@
       <div class="ui-g panel-header">
         <div class="ui-g-12 ui-md-4 dashboard">STOCK ISSUE MEMO SLIP</div>
       </div>
-    </p-header><div class="ibox-body">
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <div class="ibox-body">
+    </p-header>
+    <div class="ibox-body">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <p-tabView [activeIndex]="index">
+            <p-tabPanel header="Issue Details">
+              <!-- <div class="ibox-body">
           <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
             <li class="nav-item">
               <a class="nav-link active" href="#Issue" data-toggle="tab">Issue Details</a>
@@ -21,7 +24,7 @@
           </ul>
 
           <div class="tab-content">
-            <div class="tab-pane show active" id="Issue">
+            <div class="tab-pane show active" id="Issue"> -->
               <div class="ui-g-12 ui-md-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12 ui-md-3 ui-fluid">
                   <p-card>
@@ -201,10 +204,14 @@
                   </div>
                   <div class="ui-g-1"></div>
                 </div>
+                <div class="ui-g-2 ui-md-1">
+                  <button class="ui-g-6 ui-md-1 dashboard" style="float: right; margin-top: 5px" type="button" pButton
+                    label=Next (click)="openNext()"></button></div>
               </div>
-            </div>
-
-            <div class="tab-pane" id="Items">
+            </p-tabPanel>
+            <!-- </div> -->
+            <p-tabPanel header="Item Details">
+              <!-- <div class="tab-pane" id="Items"> -->
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-6 ui-md-2 ui-fluid">
@@ -316,10 +323,11 @@
                     <!-- </span> -->
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-top: 22px">
-                     <span class="ui-float-label">
-                      <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture" pInputText autocomplete="off">
+                    <span class="ui-float-label">
+                      <input id="float-input" type="number" [maxLength]="4" size="20" [(ngModel)]="Moisture" pInputText
+                        autocomplete="off">
                       <label class="float-input">Moisture</label>
-                     </span> 
+                    </span>
                   </div>
                   <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 44px">
                     <button pButton type="button" label="Enter" (click)="onItemDetailsEnter()"></button>
@@ -416,16 +424,21 @@
                     </span>
                   </div>
                 </div>
+                <div class="ui-g-2 ui-md-1">
+                  <button class="ui-g-6 ui-md-1 dashboard" style="float: right; margin-top: 5px" type="button" pButton
+                    label=Prev (click)="openPrev()"></button></div>
               </div>
-            </div>
-          </div>
+            </p-tabPanel>
+            </p-tabView>
+            <!-- </div> -->
+            <!-- </div> -->
         </div>
         <div class="col-md-1"></div>
         <div class="ui-g-1 ui-fluid">
-          <button pButton type="button" label=Save (click)="onSave()"></button> 
+          <button pButton type="button" label=Save (click)="onSave()"></button>
         </div>
       </div>
     </div>
-  </div>
+    <!-- </div> -->
   </p-panel>
 </div>

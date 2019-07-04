@@ -9,17 +9,20 @@
     </p-header>
     <div class="ui-g dashboard">
       <div class="ui-g-8">
-        <div class="ui-g-4 ui-fluid" style="padding-top: 26px">
-          <span class="ui-float-label">
-            <p-dropdown id="float-input" #godown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')"
-              (ngModelChange)="onResetTable()"></p-dropdown>
-            <label class="float-input">Godown</label>
-          </span>
+        <div class="ui-g-4 ui-fluid">
+          <label class="label-fontsize">Godown</label>
+          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('godown')"
+            (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
+            placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
         </div>
         <div class="ui-g-4 ui-fluid" style="padding-top: 26px">
           <span class="ui-float-label">
-            <p-dropdown id="float-input" #customer [options]="customerOptions" [(ngModel)]="c_cd" (onClick)="onSelect('customer')"
-              (ngModelChange)="onResetTable()"></p-dropdown>
+            <p-dropdown id="float-input" #customer [options]="customerOptions" [(ngModel)]="c_cd"
+              (onClick)="onSelect('customer')" (ngModelChange)="onResetTable()"></p-dropdown>
             <label class="float-input">Customer Type</label>
           </span>
         </div>
@@ -47,12 +50,12 @@
             dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
         <div id="abstract" class="ui-g-4 ui-fluid" style="padding-top: 26px">
-            <span class="ui-float-label">
-              <p-dropdown id="float-input" #abstract [options]="abstractOptions" [(ngModel)]="a_cd" (onClick)="onSelect('abstract')"
-                (ngModelChange)="onResetTable()"></p-dropdown>
-              <label class="float-input">Abstract/Breakup</label>
-            </span>
-          </div>
+          <span class="ui-float-label">
+            <p-dropdown id="float-input" #abstract [options]="abstractOptions" [(ngModel)]="a_cd"
+              (onClick)="onSelect('abstract')" (ngModelChange)="onResetTable()"></p-dropdown>
+            <label class="float-input">Abstract/Breakup</label>
+          </span>
+        </div>
       </div>
     </div>
 

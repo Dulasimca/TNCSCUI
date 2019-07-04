@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 
 @Component({
   selector: 'app-society-wise-commodity-abstract',
@@ -13,18 +14,29 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   showSchemeCommodityBreakup: boolean = false;
   showSchemeAbstract: boolean = false;
   abstractOptions: SelectItem[];
+  godownOptions: SelectItem[];
   a_cd: string;
+  g_cd: any;
+  data: { godownData: any; rgData: any; };
 
-  constructor() { }
+  constructor(private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
+    this.data = this.roleBasedService.getInstance();
   }
 
   onSelect(selectedItem) {
+    let godownSelection = [];
     switch (selectedItem) {
       case 'customer':
         break;
       case 'godown':
+          if (this.data.godownData !== undefined) {
+            this.data.godownData.forEach(x => {
+                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+                this.godownOptions = godownSelection;
+              });
+            }
         break;
       case 'abstract':
         this.abstractOptions = [{ 'label': 'Society Wise Commodity Breakup', 'value': 'society_c_a' },

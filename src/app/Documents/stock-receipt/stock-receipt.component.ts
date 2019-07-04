@@ -18,6 +18,8 @@ export class StockReceiptComponent implements OnInit {
   scheme_data: any;
   itemCol: any;
   itemData: any = [];
+  documentViewCol: any;
+  documentViewData: any = [];
   entryList: any = [];
   regionName: any;
   godownName: any;
@@ -32,6 +34,8 @@ export class StockReceiptComponent implements OnInit {
   yearOptions: SelectItem[];
   year: any;
   tareWt: number;
+  maxDate: Date;
+  viewDate: Date;
   moistureOptions: SelectItem[];
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
@@ -58,7 +62,7 @@ export class StockReceiptComponent implements OnInit {
   RCode: number;
   //SR-Details
   SRNo: any;
-  SRDate: Date;
+  SRDate: Date = new Date();
   PAllotment: any;
   MTransport: string;
   Trcode: any;
@@ -115,6 +119,8 @@ export class StockReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.data = this.roleBasedService.getInstance();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
+    this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
+    this.maxDate = new Date();
     setTimeout(() => {
       this.regionName = this.data.rgData[0].RName;
       this.godownName = this.data.rgData[1].GName;
@@ -269,12 +275,12 @@ export class StockReceiptComponent implements OnInit {
   onEnter() {
     this.itemData.push({
       'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
-      'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
+      'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
       'WTCode': this.WTCode.label, 'Moisture': this.Moisture
     });
     this.entryList.push({
       'TStockNo': this.TStockNo.value, 'Scheme': this.Scheme.value, 'ICode': this.ICode.value,
-      'IPCode': this.IPCode.value, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs,
+      'IPCode': this.IPCode.value, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
       'WTCode': this.WTCode.value, 'Moisture': this.Moisture
     });
   }
@@ -289,8 +295,10 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
+      'SRNo': (this.SRNo !== undefined ) ? this.SRNo : 0,
+      'RowId': 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
-      'Pallotment': this.PAllotment,
+      'PAllotment': this.PAllotment,
       'OrderNo': this.OrderNo,
       'OrderDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
       'ReceivingCode': this.ReceivingCode,
@@ -304,7 +312,8 @@ export class StockReceiptComponent implements OnInit {
       'ManualDocNo': this.ManualDocNo,
       'LNo': this.LNo,
       'LFrom': this.LFrom,
-      'ItemList': this.entryList
+      'ItemList': this.entryList,
+      'Remarks': this.Remarks
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
     });
@@ -312,6 +321,17 @@ export class StockReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe((res: any) => {
+      this.documentViewData = res;
+    });
+  }
+
+  getDocBySRNo() {
+    const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe((res: any) => {
+      // this.documentViewData = res;
+    });
   }
 
   openNext() {
