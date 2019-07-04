@@ -49,8 +49,8 @@ export class TruckFromRegionComponent implements OnInit {
       && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
-    if(this.data !== undefined) {
-      this.data.forEach(x => {
+    if(this.data.godownData !== undefined) {
+      this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });
@@ -97,13 +97,12 @@ export class TruckFromRegionComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-        if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-          this.fromDate = this.toDate = '';
-        } else if (selectedFromDate >= selectedToDate) {
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
-        }
+      }
       return this.fromDate, this.toDate;
     }
   }

@@ -50,8 +50,8 @@ export class TransactionReceiptComponent implements OnInit {
 
     switch (item) {
       case 'godown':
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
+        if (this.data.godownData !== undefined) {
+          this.data.godownData.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });

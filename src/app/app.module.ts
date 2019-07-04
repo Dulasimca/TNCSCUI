@@ -87,7 +87,7 @@ import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component'
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
-import { TruckTransitComponent } from './truck-transit/truck-transit.component';
+import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
 import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
@@ -95,6 +95,14 @@ import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
 import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
 import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
 import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
+import { DemandDraftComponent } from './DeliveryOrderReport/demand-draft/demand-draft.component';
+import { MarginAmountComponent } from './DeliveryOrderReport/margin-amount/margin-amount.component';
+import { ReceiptSchemeComponent } from './Quantity/receipt-scheme/receipt-scheme.component';
+import { IssueSchemeComponent } from './Quantity/IssueScheme/issue-scheme/issue-scheme.component';
+import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
+import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
+import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
+import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 
 
 @NgModule({
@@ -153,7 +161,16 @@ import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract
     OapComponent,
     AanComponent,
     OtherSchemeComponent,
-    SocietyAbstractComponent
+    SocietyAbstractComponent,
+    DemandDraftComponent,
+    MarginAmountComponent,
+    ReceiptSchemeComponent,
+    IssueSchemeComponent,
+    IssueSchemeCrsComponent,
+    IssueSchemeCoOpComponent,
+    TruckMemoComponent,
+    ReceiptIssueCommodityComponent
+    
   ],
   imports: [
     BrowserModule,

@@ -50,8 +50,8 @@ export class SchemeReceiptComponent implements OnInit {
     let schemeSelection = [];
     switch (item) {
       case 'godown':
-        if (this.godown_data !== undefined) {
-          this.godown_data.forEach(x => {
+        if (this.godown_data.godownData !== undefined) {
+          this.godown_data.godownData.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });

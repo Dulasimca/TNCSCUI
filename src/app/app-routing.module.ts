@@ -43,13 +43,21 @@ import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
-import { TruckTransitComponent } from './truck-transit/truck-transit.component';
+import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
 import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
 import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
 import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
 import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
 import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
+import { DemandDraftComponent } from './DeliveryOrderReport/demand-draft/demand-draft.component';
+import { MarginAmountComponent } from './DeliveryOrderReport/margin-amount/margin-amount.component';
+import { ReceiptSchemeComponent } from './Quantity/receipt-scheme/receipt-scheme.component';
+import { IssueSchemeComponent } from './Quantity/IssueScheme/issue-scheme/issue-scheme.component';
+import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
+import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
+import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
+import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 
 
 const routes: Routes = [
@@ -102,6 +110,14 @@ const routes: Routes = [
   { path: 'DO AAN', component: AanComponent },
   { path: 'DO Other Scheme', component: OtherSchemeComponent },
   { path: 'DO Society Abstract', component: SocietyAbstractComponent },
+  { path: 'DO Demand Draft', component: DemandDraftComponent },
+  { path: 'Do Margin Amount', component: MarginAmountComponent },
+  { path: 'Scheme Abstract Receipt', component: ReceiptSchemeComponent },
+  { path: 'Scheme Abstract Issue', component: IssueSchemeComponent },
+  { path: 'Scheme Abstract Issue CRS', component: IssueSchemeCrsComponent },
+  { path: 'Scheme Abstract Issue CoOp', component: IssueSchemeCoOpComponent },
+  { path: 'Scheme Abstract Truck', component: TruckMemoComponent },
+  { path: 'Qty Receipt/Issue Commodity', component: ReceiptIssueCommodityComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
