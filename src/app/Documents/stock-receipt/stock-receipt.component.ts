@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams } from '@angular/common/http';
@@ -11,6 +11,22 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-stock-receipt',
   templateUrl: './stock-receipt.component.html',
+  styles: [`
+        :host ::ng-deep button {
+            margin-right: .25em;
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-message {
+            color: #ffffff;
+            background: #FC466B;
+            background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+            background: linear-gradient(to right, #3F5EFB, #FC466B);
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-close-icon {
+            color: #ffffff;
+        }
+    `],
   styleUrls: ['./stock-receipt.component.css']
 })
 export class StockReceiptComponent implements OnInit {
@@ -121,7 +137,7 @@ export class StockReceiptComponent implements OnInit {
   
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe) {
+    private datepipe: DatePipe, private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -329,6 +345,13 @@ export class StockReceiptComponent implements OnInit {
       'Remarks': (this.Remarks !== undefined) ? this.Remarks : ''
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+      if (res !== undefined) {
+        if (res) {
+          this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+        } else {
+          this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
+        }
+      }
     });
   }
 

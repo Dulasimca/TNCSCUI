@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <div class="ibox-body">
+        <!-- <div class="ibox-body">
           <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success">
             <li class="nav-item">
               <a class="nav-link active" href="#Delivery" data-toggle="tab">Delivery Details</a>
@@ -16,10 +16,12 @@
             <li class="nav-item">
               <a class="nav-link" href="#Payment" data-toggle="tab">Payment Details</a>
             </li>
-          </ul>
+          </ul> -->
 
-          <div class="tab-content">
-            <div class="tab-pane show active" id="Delivery">
+          <p-tabView [activeIndex]="index">
+            <!-- <div class="tab-content"> -->
+            <!-- <div class="tab-pane show active" id="Delivery"> -->
+            <p-tabPanel header="Delivery Details">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12">
                   <div class="ui-g-4 ui-fluid" style="padding-right: 10px;">
@@ -169,9 +171,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            <!-- </div> -->
+            </p-tabPanel>
 
-            <div class="tab-pane" id="Items">
+            <!-- <div class="tab-pane" id="Items"> -->
+            <p-tabPanel header="Delivery Details">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-1" style="padding-left: 0px">
@@ -340,9 +344,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            <!-- </div> -->
+            </p-tabPanel>
 
-            <div class="tab-pane" id="Payment">
+            <!-- <div class="tab-pane" id="Payment"> -->
+            <p-tabPanel header="Delivery Details">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12" style="text-align: center">
                   <div class="ui-g-2" style="padding-left: 0px">
@@ -523,9 +529,10 @@
                 </div>
 
               </div>
-            </div>
-
-          </div>
+            <!-- </div> -->
+</p-tabPanel>
+          <!-- </div> -->
+          </p-tabView>
           <div class="ui-g-12">
             <div class="ui-g-10"></div>
             <div class="ui-g-2" style="float: right;">
@@ -536,7 +543,7 @@
                 <button class="ui-g-6 dashboard" pButton type="button" label="Save" (click)="onSave()"></button> </div>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
       <div class="col-md-1"></div>
     </div>
