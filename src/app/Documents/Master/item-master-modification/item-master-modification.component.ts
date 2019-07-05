@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared-services/auth.service';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-item-master-modification',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./item-master-modification.component.css']
 })
 export class ItemMasterModificationComponent implements OnInit {
+  ItemMasterCols: any;
+  ItemMasterData: any;
+  canShowMenu: Boolean;
 
-  constructor() { }
+  constructor(private tableConstants: TableConstants, private authService: AuthService,) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.ItemMasterCols = this.tableConstants.ItemMasterModification;
+
   }
 
 }

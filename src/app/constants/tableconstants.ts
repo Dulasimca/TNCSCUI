@@ -61,6 +61,12 @@ export class TableConstants {
   QtyIssueCommodity: any;
   QtyReceiptOtherItem: any;
   QtyIssueOtherItem: any;
+  SocietyMaster: any;
+  ShopWiseAllotmentMaster: any;
+  DepositorMaster: any;
+  SocietyMasterEntry: any;
+  ItemMasterModification: any;
+  GodownCustomerList: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -687,5 +693,43 @@ export class TableConstants {
     this.QtyReceiptOtherItem = [];
 
     this.QtyIssueOtherItem = [];
+
+    this.SocietyMaster = [
+      { field: '', header: 'SOCIETYNAME'},
+      { field: '', header: 'TYNAME'},
+      { field: '', header: 'EFLAG'},
+    ];
+
+    this.ShopWiseAllotmentMaster = [
+      { field: '', header: 'Name of the Institution'},
+      { field: '', header: 'Commodity'},
+      { field: '', header: 'Quantity Alloted'},
+      { field: '', header: 'Month'},
+      { field: '', header: 'Year'},
+      { field: '', header: 'Item Code'},
+    ];
+
+    this.DepositorMaster = [
+      { field: '', header: 'DEPOSITOR NAME'},
+      { field: '', header: 'DEPOSITOR Type'},
+      { field: '', header: 'STATUS'},
+      
+    ];
+
+    this.SocietyMasterEntry = [
+      { field: '', header: 'TYNAME'},
+      { field: '', header: 'SOCIETYNAME'},
+      { field: '', header: 'ISSUERNAME'},
+    ];
+
+    this.ItemMasterModification = [
+      { field: '', header: 'CODE'},
+      { field: '', header: 'ITEM NAME'},
+      { field: '', header: 'GROUP'},
+      { field: '', header: 'ACTIVE'},
+
+    ];
+
+    this.GodownCustomerList = [];
   }
 }

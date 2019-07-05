@@ -104,7 +104,6 @@ import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
-import { MasterComponent } from './Documents/master/master.component';
 import { SocietMasterComponent } from './Documents/Master/societ-master/societ-master.component';
 import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
@@ -182,7 +181,6 @@ import { CustomerListComponent } from './Documents/Master/customer-list/customer
     TruckMemoComponent,
     ReceiptIssueCommodityComponent,
     ReceiptIssueOtherItemsComponent,
-    MasterComponent,
     SocietMasterComponent,
     ShopWiseAllotmentComponent,
     OpeningBalanceDetailsComponent,
