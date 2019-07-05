@@ -35,6 +35,10 @@ export class HeaderComponent implements OnInit {
   onLogOut() {
    this.authService.logout();
  }
+
+ onForgetPswd(){
+   
+ }
 }
 // function showTime() {
 //   let todayDate = new Date();
@@ -60,3 +64,4 @@ export class HeaderComponent implements OnInit {
 
 //   setTimeout(showTime, 1000);
 // }
+

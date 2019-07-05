@@ -14,7 +14,7 @@
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
           filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+            <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>

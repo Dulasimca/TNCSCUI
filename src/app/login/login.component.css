@@ -1,0 +1,5 @@
+.form-control {
+    display: inline-flex;
+    width: 85%;
+    text-align: center;
+}

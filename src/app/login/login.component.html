@@ -15,73 +15,111 @@
         }
     </script>
     <style>
-    input[type=text]
-    {
-        border: 0px;
-        background-color: #f7f7f7;
-    }
-    input[type=text]:focus
-    {
-        border: 0px;
-        background-color: #f7f7f7;
-    }
+        input[type=text] {
+            border: 0px;
+            background-color: #f7f7f7;
+        }
+
+        input[type=text]:focus {
+            border: 0px;
+            background-color: #f7f7f7;
+        }
     </style>
 </head>
-<body >
+
+<body>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/monetization.js" type="text/javascript"></script>
     <script>
-(function(){
-	if(typeof _bsa !== 'undefined' && _bsa) {
-  		_bsa.init('flexbar', 'CKYI627U', 'placement:w3layoutscom');
-  	}
-})();
+        (function () {
+            if (typeof _bsa !== 'undefined' && _bsa) {
+                _bsa.init('flexbar', 'CKYI627U', 'placement:w3layoutscom');
+            }
+        })();
     </script>
     <script>
-(function(){
-if(typeof _bsa !== 'undefined' && _bsa) {
-	_bsa.init('fancybar', 'CKYDL2JN', 'placement:demo');
-}
-})();
+        (function () {
+            if (typeof _bsa !== 'undefined' && _bsa) {
+                _bsa.init('fancybar', 'CKYDL2JN', 'placement:demo');
+            }
+        })();
     </script>
     <script>
-(function(){
-	if(typeof _bsa !== 'undefined' && _bsa) {
-  		_bsa.init('stickybox', 'CKYI653J', 'placement:w3layoutscom');
-  	}
-})();
+        (function () {
+            if (typeof _bsa !== 'undefined' && _bsa) {
+                _bsa.init('stickybox', 'CKYI653J', 'placement:w3layoutscom');
+            }
+        })();
     </script>
-    <script>var vitag = vitag || {};vitag.gdprShowConsentTool=false;vitag.outStreamConfig = {type: "slider", position: "left" };</script>
+    <script>var vitag = vitag || {}; vitag.gdprShowConsentTool = false; vitag.outStreamConfig = { type: "slider", position: "left" };</script>
     <div class="w3layouts-main content">
         <div class="bg-layer">
             <h1 style="padding-top: 50px">Tamilnadu Civil Supplies Corporation</h1>
             <p-toast class="toast-error"></p-toast>
             <div class="header-main">
                 <div style="margin-top: -40px;text-align:center;">
-                        <img  src="../../assets/layout/images/login/tncsc-logo.png" alt="logo"
-                         routerLink="/login" style="width: 150px; height: 140px; margin: 0px; padding: 0px;"/>
+                    <img src="../../assets/layout/images/login/tncsc-logo.png" alt="logo" routerLink="/login"
+                        style="width: 150px; height: 140px; margin: 0px; padding: 0px;" />
                 </div>
                 <div class="header-left-bottom">
                     <form [formGroup]="loginForm" ngSubmit="OnSignIn()">
                         <div for="userName" class="icon1">
                             <span class="fa fa-user"></span>
-                            <input type="text" class="inputxt" formControlName="user" id="userName" [(ngModel)]="userName" placeholder="Username" required="">
+                            <input type="text" class="inputxt" formControlName="user" id="userName"
+                                [(ngModel)]="userName" placeholder="Username" required="">
                         </div>
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
-                            <input type="password" id="password" formControlName="pswd" [(ngModel)]="password" placeholder="Password" required="">
+                            <input type="password" id="password" formControlName="pswd" [(ngModel)]="password"
+                                placeholder="Password" required="">
                         </div>
                         <div class="login-check">
-                            <label class="checkbox"><input type="checkbox" name="checkbox" binary="true" [(ngModel)]="isChecked" (change)="toggleVisibility($event)"><i> </i> Keep me logged in</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox" binary="true"
+                                    [(ngModel)]="isChecked" (change)="toggleVisibility($event)"><i> </i> Keep me logged
+                                in</label>
                         </div>
                     </form>
-                        <div class="bottom">
-                            <button class="btn" type="button" (click)="onSignIn()">Sign In</button>
+                    <div class="bottom">
+                        <button class="btn" type="button" (click)="onSignIn()">Sign In</button>
+                    </div>
+                    <div class="links" style="text-align: center">
+                        <p> <a href="#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a> </p>
+
+                        <!-- <p><a href="#">Forgot Password?</a></p> -->
+                        <!-- <div class="clear"></div> -->
+                    </div>
+                    <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" style="padding-top: 205px">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="text-center">
+                                                    <p>If you have forgotten your password you can reset it here!</p>
+                                                    <div class="panel-body">
+                                                        <fieldset>
+                                                            <div class="form-group">
+                                                                <input class="form-control input-lg"
+                                                                    placeholder="E-mail" name="email" type="email">
+                                                            </div>
+                                                            <button class="btn" value="Send My Password"
+                                                                type="submit">Send My Password</button>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="ui-g-3 ui-md-3">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="links" style="text-align: center">
-                            <p><a href="#">Forgot Password?</a></p>
-                            <div class="clear"></div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,4 +127,4 @@ if(typeof _bsa !== 'undefined' && _bsa) {
 
     <div id="vli_adpixel8383" style="width: 0px; height: 0px; display: none;">
         <iframe id="vli_tracking_iframe" width="0" height="0" style="display: none;"></iframe></div>
-    </body>
+</body>

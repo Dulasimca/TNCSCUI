@@ -57,7 +57,10 @@ export class TableConstants {
   SchemeAbstractIssueCRS: any;
   SchemeAbstractIssueCoOp: any;
   SchemeAbstractTruck: any;
-  QtyReceiptIssueCommodity: any;
+  QtyReceiptCommodity: any;
+  QtyIssueCommodity: any;
+  QtyReceiptOtherItem: any;
+  QtyIssueOtherItem: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -652,6 +655,37 @@ export class TableConstants {
       { field: 'CreatedDate', header: 'Created Date' }
     ];
 
-    this.QtyReceiptIssueCommodity = [];
+    this.QtyReceiptCommodity = [
+      { field: '', header: 'SNo' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Opening' },
+      { field: '', header: 'PDS' },
+      { field: '', header: 'BPL/Prio.' },
+      { field: '', header: 'APL/Tideov.' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'MMS2GEN' },
+      { field: '', header: 'MMS2SC' },
+      { field: '', header: 'MMS2ST' },
+      { field: '', header: 'SplPds' },
+      { field: '', header: 'Cement' },
+      { field: '', header: 'HO' },
+      { field: '', header: 'Seizure' },
+      { field: '', header: 'Total' },
+      { field: '', header: 'PTNMGRNMP' },
+      { field: '', header: 'SGRY' },
+      { field: '', header: 'AnnaPoorna' },
+      { field: '', header: 'Total' },
+      { field: '', header: 'Free' },
+      { field: '', header: 'Balance' },
+      { field: '', header: 'PURCHASE' },
+      { field: '', header: 'Purchase' },
+      { field: '', header: 'Rice' }
+    ];
+
+    this.QtyIssueCommodity = [];
+
+    this.QtyReceiptOtherItem = [];
+
+    this.QtyIssueOtherItem = [];
   }
 }

@@ -7,48 +7,54 @@
         <div class="ui-g-4 dashboard">TRUCK TRANSIT DETAILS</div>
       </div>
     </p-header>
-    <div style="text-align: center">
       <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
       <div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-md-2">
+        <!-- <div class="ui-g-12 ui-md-2">
         <label>Godown</label>
               <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" 
             (onClick)="onSelect()" (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template></p-dropdown>
-      </div>
+      </div> -->
       <div class="ui-g-12 ui-md-2">
-        <label>From</label>
+        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
+          filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
         <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate"
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-12 ui-md-2">
-        <label>To</label>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
         <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate"
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-          <div class="ui-g-12 ui-md-3" style="padding-top: 28px">
-            <span class="ui-float-label">
+          <div class="ui-g-12 ui-md-3">
+        <label class="ui-g-7 label-fontsize dashboard">Transfer Type</label>
               <p-dropdown id="float-input" [options]="transferOptions" [(ngModel)]="tr_cd" (onClick)="onTransfer()" (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
                 <ng-template let-item pTemplate="selectedItems">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
               </p-dropdown>
-              <label class="float-input">Transfer Type</label>
-            </span>
           </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-md-1" style="padding-top: 23px;">
             <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
           </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-md-1" style="padding-top: 23px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
           </div>
-          <div class="ui-g-12 ui-md-1" style="padding-top: 26px;">
+          <div class="ui-g-3 ui-md-1" style="padding-top: 23px;">
             <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
           </div>
       <br>
-        <div class="ui-g-12 dashboard">
+        <div class="ui-g-12 dashboard" style="text-align: center">
           <p-fieldset legend="SENDER/RECEIVER">
             <p-table [columns]="TruckTransitCols" [value]="TruckTransitData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
               autoLayout="true" [loading]="loading"  [totalRecords]="totalRecords">
@@ -70,6 +76,5 @@
           </p-fieldset>
         </div>
     </div>
-  </div>
   </p-panel>
 </div>

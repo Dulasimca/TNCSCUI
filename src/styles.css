@@ -212,7 +212,7 @@ a {
     font-size: 17px;
     color: #000;
     display: inline-block;
-    width: 50%;
+    width: 100%;
     margin: 7px 0 0;
     letter-spacing: 1px;
     
@@ -1498,3 +1498,21 @@ ul
         font-size: 11px;
         padding: .7em 0em;
       }
+
+      .modal-backdrop{
+        position: relative !important;
+    }
+    .modal-footer {   
+      border-top: 0px;
+      padding: 0px 0px 0px 40px;
+      justify-content: space-around; 
+  }
+  .modal-body{
+    padding: 1rem 1rem 0px 1rem !important;
+  }
+  .modal{
+    background: rgba(0, 0, 0, 0.7);
+    /* background: linear-gradient(45deg, black, transparent); */
+  }
+  
+  

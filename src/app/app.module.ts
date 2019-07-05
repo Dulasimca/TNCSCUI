@@ -104,6 +104,16 @@ import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
+import { MasterComponent } from './Documents/master/master.component';
+import { SocietMasterComponent } from './Documents/Master/societ-master/societ-master.component';
+import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
+import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
+import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
+import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
+import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.component';
+import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
+import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
+import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 
 
 @NgModule({
@@ -171,7 +181,17 @@ import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-
     IssueSchemeCoOpComponent,
     TruckMemoComponent,
     ReceiptIssueCommodityComponent,
-    ReceiptIssueOtherItemsComponent
+    ReceiptIssueOtherItemsComponent,
+    MasterComponent,
+    SocietMasterComponent,
+    ShopWiseAllotmentComponent,
+    OpeningBalanceDetailsComponent,
+    DepositorCustomerMasterComponent,
+    EmployeeMasterComponent,
+    RateMasterComponent,
+    SocietMasterEntryComponent,
+    ItemMasterModificationComponent,
+    CustomerListComponent
     
   ],
   imports: [
