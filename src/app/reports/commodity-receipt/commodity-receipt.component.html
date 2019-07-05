@@ -21,12 +21,12 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Transaction Type</label>
-        <p-dropdown [options]="transactionOptions" [(ngModel)]="tr_cd" optionLabel="label" [showClear]="true"
+        <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd" [showClear]="true"
           (onClick)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-"></p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
           (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -44,20 +44,21 @@
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
-      </div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div>
+          <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        </div>
+      <div class="ui-g-12 dashboard">
       <div class="ui-g-10"></div>
-
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+      <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
       </div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+      <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Text (click)="onTextDownload()" [disabled]="isActionDisabled"></button>
       </div>
-      <div class="ui-g-12">
+    </div>
+      <div class="ui-g-12 dashboard">
         <p-table [columns]="commodityReceiptCols" [value]="commodityReceiptData" [loading]="loading"
           [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
           autoLayout="true">
