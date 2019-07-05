@@ -176,6 +176,7 @@ export class StockReceiptComponent implements OnInit {
           }
         }
         this.yearOptions = yearArr;
+        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
@@ -183,6 +184,7 @@ export class StockReceiptComponent implements OnInit {
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
         { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
+        this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -191,8 +193,8 @@ export class StockReceiptComponent implements OnInit {
               data.forEach(y => {
                 this.transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
                 this.transactionOptions = this.transactoinSelection.slice(0);
-                this.isDepositorTypeDisabled = false;
               });
+            this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
         } else {
@@ -208,7 +210,8 @@ export class StockReceiptComponent implements OnInit {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
           });
-          this.isItemDescEnabled = false;
+          this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
         }
         break;
       case 'dt':
@@ -220,7 +223,8 @@ export class StockReceiptComponent implements OnInit {
                 depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
               });
               this.depositorTypeOptions = depositorTypeList;
-              this.isDepositorNameDisabled = false;
+              this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
+              this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
         break;
@@ -232,6 +236,7 @@ export class StockReceiptComponent implements OnInit {
                 depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
               })
               this.depositorNameOptions = depositorNameList;
+              this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
         }
         break;
@@ -244,8 +249,9 @@ export class StockReceiptComponent implements OnInit {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
               this.itemDescOptions = itemDesc;
+              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
-            this.isStackNoEnabled = false;
+            this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
           }
         break;
       case 'st_no':
@@ -257,6 +263,7 @@ export class StockReceiptComponent implements OnInit {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
             })
             this.stackOptions = stackNo;
+            this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
           if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
@@ -275,6 +282,7 @@ export class StockReceiptComponent implements OnInit {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = packingTypes;
+            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         } else {
           if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
@@ -294,6 +302,7 @@ export class StockReceiptComponent implements OnInit {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
+            this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
