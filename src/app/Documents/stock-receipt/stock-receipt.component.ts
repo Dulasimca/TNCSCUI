@@ -54,6 +54,7 @@ export class StockReceiptComponent implements OnInit {
   isViewClicked: boolean = false;
   tareWt: number;
   maxDate: Date;
+  enableActions: boolean = true;
   viewDate: Date = new Date();
   moistureOptions: SelectItem[];
   itemDescOptions: SelectItem[];
@@ -373,7 +374,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   getDocBySRNo() {
-    this.viewPane = false;
+    this.viewPane = this.enableActions = false;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {

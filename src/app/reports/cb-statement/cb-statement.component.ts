@@ -21,6 +21,7 @@ export class CBStatementComponent implements OnInit {
   filteredItem: any;
   rowGroupMetadata: any;
   totalMetaData: any;
+  loading: boolean;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, 
     private tableConstants: TableConstants, private router: Router) { }
@@ -29,9 +30,9 @@ export class CBStatementComponent implements OnInit {
     this.rowGroupMetadata = {};
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
+    this.loading = true;
     this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
-      if ((response.Table !== undefined && response.Table !== null && response.Table.length !== 0) &&
-      (response.Table1 !== undefined && response.Table1 !== null && response.Table1.length !== 0)) {
+      if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
         this.cbData = response.Table;
         const data = response.Table.slice(0);
         let totalData = response.Table1;
@@ -79,86 +80,86 @@ export class CBStatementComponent implements OnInit {
           record.WHEAT = (record.WHEAT !== 0) ? record.WHEAT.toFixed(3) : record.WHEAT;
           record.SUGAR = (record.SUGAR !== 0) ? record.SUGAR.toFixed(3) : record.SUGAR;
         });
-        let reduceArr = [];
-        data.forEach(x => reduceArr.push(x.RGNAME));
-        var map = reduceArr.reduce(function (item, index) {
-          item[index] = (item[index] || 0) + 1;
-          return item;
-        }, {});
-        let count = 0;
-        let k = 0;
-        let ind;
-        let mapIndex = 0;
-        let totalBoiledRice;
-        let totalCement;
-        let totalKanadaDhall;
-        let totalToorDhall;
-        let totalPalmOil;
-        let totalRawRice;
-        let totalUridDhallTotal;
-        let totalSugar;
-        let totalWheat;
-        let findIndex = 0;
-        let grandTotal = 0;
-        while ((count > 0 || count === 0) && count < data.length - 1) {
-          let name = (data[count] !== undefined && data[count].RGNAME !== undefined) ? data[count].RGNAME : data[count + 1].RGNAME;
-          if (data[count].RGNAME === data[count + 1].RGNAME) { ind = map[name] + count; } else { ind = map[name] + count + 1; }
-          mapIndex = map[name];
-          if (data[findIndex] !== undefined && data[findIndex].RGNAME === name) {
-            let i = totalData.findIndex(item => item.RGNAME === data[findIndex].RGNAME);
-            totalBoiledRice = ((totalData[i].BOILED_RICE_A !== null && totalData[i].BOILED_RICE_A !== undefined) ?
-              totalData[i].BOILED_RICE_A * 1 : totalData[i].BOILED_RICE_A) + ((totalData[i].BOILED_RICE_A_HULLING !== null && totalData[i].BOILED_RICE_A_HULLING !== undefined) ?
-                totalData[i].BOILED_RICE_A_HULLING * 1 : totalData[i].BOILED_RICE_A_HULLING) + ((totalData[i].BOILED_RICE_COMMON !== null && totalData[i].BOILED_RICE_COMMON !== undefined) ?
-                  totalData[i].BOILED_RICE_COMMON * 1 : totalData[i].BOILED_RICE_COMMON) + ((totalData[i].BOILED_RICE_C_HULLING !== null && totalData[i].BOILED_RICE_C_HULLING !== undefined) ?
-                    totalData[i].BOILED_RICE_C_HULLING * 1 : totalData[i].BOILED_RICE_C_HULLING);
-            totalBoiledRice = (totalBoiledRice !== 0) ? totalBoiledRice.toFixed(3) : totalBoiledRice;
-            totalCement = ((totalData[i].CEMENT_IMPORTED !== null && totalData[i].CEMENT_IMPORTED !== undefined) ?
-              totalData[i].CEMENT_IMPORTED * 1 : totalData[i].CEMENT_IMPORTED) + ((totalData[i].CEMENT_REGULAR !== null && totalData[i].CEMENT_REGULAR !== undefined) ?
-                totalData[i].CEMENT_REGULAR * 1 : totalData[i].CEMENT_REGULAR);
-            totalCement = (totalCement !== 0) ? totalCement.toFixed(3) : totalCement;
-            totalKanadaDhall = ((totalData[i].Candian_Yellow_lentil_TD !== null && totalData[i].Candian_Yellow_lentil_TD !== undefined) ?
-              totalData[i].Candian_Yellow_lentil_TD * 1 : 0) + ((totalData[i].YELLOW_LENTAL_US !== null && totalData[i].YELLOW_LENTAL_US !== undefined) ?
-                totalData[i].YELLOW_LENTAL_US * 1 : 0);
-            totalKanadaDhall = (totalKanadaDhall !== 0) ? totalKanadaDhall.toFixed(3) : totalKanadaDhall;
-            totalToorDhall = ((totalData[i].TOOR_DHALL !== null && totalData[i].TOOR_DHALL !== undefined) ?
-              totalData[i].TOOR_DHALL * 1 : 0) + ((totalData[i].TUR_ARUSHA !== null && totalData[i].TUR_ARUSHA !== undefined) ?
-                totalData[i].TUR_ARUSHA * 1 : 0) + ((totalData[i].TUR_LEMON !== null && totalData[i].TUR_LEMON !== undefined) ?
-                  totalData[i].TUR_LEMON * 1 : 0) + ((totalData[i].LIARD_LENTIL_GREEN !== null && totalData[i].LIARD_LENTIL_GREEN !== undefined) ?
-                    totalData[i].LIARD_LENTIL_GREEN * 1 : 0);
-            totalToorDhall = (totalToorDhall !== 0) ? totalToorDhall.toFixed(3) : totalToorDhall;
-            totalPalmOil = ((totalData[i].PALMOLIEN_OIL !== null && totalData[i].PALMOLIEN_OIL !== undefined) ?
-              totalData[i].PALMOLIEN_OIL * 1 : 0) + ((totalData[i].PALMOLIEN_POUCH !== null && totalData[i].PALMOLIEN_POUCH !== undefined) ?
-                totalData[i].PALMOLIEN_POUCH * 1 : 0);
-            totalPalmOil = (totalPalmOil !== 0) ? totalPalmOil.toFixed(3) : totalPalmOil;
-            totalRawRice = ((totalData[i].RAW_RICE_A !== null && totalData[i].RAW_RICE_A !== undefined) ? (totalData[i].RAW_RICE_A * 1) : 0) +
-              ((totalData[i].RAW_RICE_A_HULLING !== null && totalData[i].RAW_RICE_A_HULLING !== undefined) ? (totalData[i].RAW_RICE_A_HULLING * 1) : 0) +
-              ((totalData[i].RAW_RICE_COM_HULLING !== null && totalData[i].RAW_RICE_COM_HULLING !== undefined) ? (totalData[i].RAW_RICE_COM_HULLING * 1) : 0) +
-              ((totalData[i].RAW_RICE_COMMON !== null && totalData[i].RAW_RICE_COMMON !== undefined) ? (totalData[i].RAW_RICE_COMMON * 1) : 0);
-            totalRawRice = (totalRawRice !== 0) ? totalRawRice.toFixed(3) : totalRawRice;
-            totalUridDhallTotal = ((totalData[i].URAD_FAQ !== null && totalData[i].URAD_FAQ !== undefined) ?
-              totalData[i].URAD_FAQ * 1 : 0) + ((totalData[i].URAD_SQ !== null && totalData[i].URAD_SQ !== undefined) ?
-                totalData[i].URAD_SQ * 1 : 0) + ((totalData[i].URID_DHALL !== null && totalData[i].URID_DHALL !== undefined) ?
-                  totalData[i].URID_DHALL * 1 : 0) + ((totalData[i].URID_DHALL_FAQ !== null && totalData[i].URID_DHALL_FAQ !== undefined) ?
-                    totalData[i].URID_DHALL_FAQ * 1 : 0) + ((totalData[i].URID_DHALL_SPLIT !== null && totalData[i].URID_DHALL_SPLIT !== undefined) ?
-                      totalData[i].URID_DHALL_SPLIT * 1 : 0) + ((totalData[i].URID_DHALL_SQ !== null && totalData[i].URID_DHALL_SQ !== undefined) ?
-                        totalData[i].URID_DHALL_SQ * 1 : 0);
-            totalUridDhallTotal = (totalUridDhallTotal !== 0) ? totalUridDhallTotal.toFixed(3) : totalUridDhallTotal;
-            totalSugar = ((totalData[i].SUGAR !== null && totalData[i].SUGAR !== undefined) ?
-              totalData[i].SUGAR * 1 : 0);
-            totalSugar = (totalSugar !== 0) ? totalSugar.toFixed(3) : totalSugar;
-            totalWheat = ((totalData[i].WHEAT !== null && totalData[i].WHEAT !== undefined) ?
-              totalData[i].WHEAT * 1 : 0);
-            totalWheat = (totalWheat !== 0) ? totalWheat.toFixed(3) : totalWheat;
-            findIndex += mapIndex;
-          } else {
-            var item = { 'TNCSName': 'TOTAL', 'boiledRice': totalBoiledRice, 'cement': totalCement, 'rawRice': totalRawRice,
-          'SUGAR': totalSugar, 'WHEAT': totalWheat, 'toorDhall': totalToorDhall, 'kanadaToorDhall': totalKanadaDhall,
-        'uridDhall': totalUridDhallTotal, 'palmoil': totalPalmOil };
-            this.cbData.splice(ind, 0, item);
-            count = ind + 1;
-            findIndex += 1;
-          }
-        }
+        // let reduceArr = [];
+        // data.forEach(x => reduceArr.push(x.RGNAME));
+        // var map = reduceArr.reduce(function (item, index) {
+        //   item[index] = (item[index] || 0) + 1;
+        //   return item;
+        // }, {});
+        // let count = 0;
+        // let k = 0;
+        // let ind;
+        // let mapIndex = 0;
+        // let totalBoiledRice;
+        // let totalCement;
+        // let totalKanadaDhall;
+        // let totalToorDhall;
+        // let totalPalmOil;
+        // let totalRawRice;
+        // let totalUridDhallTotal;
+        // let totalSugar;
+        // let totalWheat;
+        // let findIndex = 0;
+        // let grandTotal = 0;
+        // while ((count > 0 || count === 0) && count < data.length - 1) {
+        //   let name = (data[count] !== undefined && data[count].RGNAME !== undefined) ? data[count].RGNAME : data[count + 1].RGNAME;
+        //   if (data[count].RGNAME === data[count + 1].RGNAME) { ind = map[name] + count; } else { ind = map[name] + count + 1; }
+        //   mapIndex = map[name];
+        //   if (data[findIndex] !== undefined && data[findIndex].RGNAME === name) {
+        //     let i = totalData.findIndex(item => item.RGNAME === data[findIndex].RGNAME);
+        //     totalBoiledRice = ((totalData[i].BOILED_RICE_A !== null && totalData[i].BOILED_RICE_A !== undefined) ?
+        //       totalData[i].BOILED_RICE_A * 1 : totalData[i].BOILED_RICE_A) + ((totalData[i].BOILED_RICE_A_HULLING !== null && totalData[i].BOILED_RICE_A_HULLING !== undefined) ?
+        //         totalData[i].BOILED_RICE_A_HULLING * 1 : totalData[i].BOILED_RICE_A_HULLING) + ((totalData[i].BOILED_RICE_COMMON !== null && totalData[i].BOILED_RICE_COMMON !== undefined) ?
+        //           totalData[i].BOILED_RICE_COMMON * 1 : totalData[i].BOILED_RICE_COMMON) + ((totalData[i].BOILED_RICE_C_HULLING !== null && totalData[i].BOILED_RICE_C_HULLING !== undefined) ?
+        //             totalData[i].BOILED_RICE_C_HULLING * 1 : totalData[i].BOILED_RICE_C_HULLING);
+        //     totalBoiledRice = (totalBoiledRice !== 0) ? totalBoiledRice.toFixed(3) : totalBoiledRice;
+        //     totalCement = ((totalData[i].CEMENT_IMPORTED !== null && totalData[i].CEMENT_IMPORTED !== undefined) ?
+        //       totalData[i].CEMENT_IMPORTED * 1 : totalData[i].CEMENT_IMPORTED) + ((totalData[i].CEMENT_REGULAR !== null && totalData[i].CEMENT_REGULAR !== undefined) ?
+        //         totalData[i].CEMENT_REGULAR * 1 : totalData[i].CEMENT_REGULAR);
+        //     totalCement = (totalCement !== 0) ? totalCement.toFixed(3) : totalCement;
+        //     totalKanadaDhall = ((totalData[i].Candian_Yellow_lentil_TD !== null && totalData[i].Candian_Yellow_lentil_TD !== undefined) ?
+        //       totalData[i].Candian_Yellow_lentil_TD * 1 : 0) + ((totalData[i].YELLOW_LENTAL_US !== null && totalData[i].YELLOW_LENTAL_US !== undefined) ?
+        //         totalData[i].YELLOW_LENTAL_US * 1 : 0);
+        //     totalKanadaDhall = (totalKanadaDhall !== 0) ? totalKanadaDhall.toFixed(3) : totalKanadaDhall;
+        //     totalToorDhall = ((totalData[i].TOOR_DHALL !== null && totalData[i].TOOR_DHALL !== undefined) ?
+        //       totalData[i].TOOR_DHALL * 1 : 0) + ((totalData[i].TUR_ARUSHA !== null && totalData[i].TUR_ARUSHA !== undefined) ?
+        //         totalData[i].TUR_ARUSHA * 1 : 0) + ((totalData[i].TUR_LEMON !== null && totalData[i].TUR_LEMON !== undefined) ?
+        //           totalData[i].TUR_LEMON * 1 : 0) + ((totalData[i].LIARD_LENTIL_GREEN !== null && totalData[i].LIARD_LENTIL_GREEN !== undefined) ?
+        //             totalData[i].LIARD_LENTIL_GREEN * 1 : 0);
+        //     totalToorDhall = (totalToorDhall !== 0) ? totalToorDhall.toFixed(3) : totalToorDhall;
+        //     totalPalmOil = ((totalData[i].PALMOLIEN_OIL !== null && totalData[i].PALMOLIEN_OIL !== undefined) ?
+        //       totalData[i].PALMOLIEN_OIL * 1 : 0) + ((totalData[i].PALMOLIEN_POUCH !== null && totalData[i].PALMOLIEN_POUCH !== undefined) ?
+        //         totalData[i].PALMOLIEN_POUCH * 1 : 0);
+        //     totalPalmOil = (totalPalmOil !== 0) ? totalPalmOil.toFixed(3) : totalPalmOil;
+        //     totalRawRice = ((totalData[i].RAW_RICE_A !== null && totalData[i].RAW_RICE_A !== undefined) ? (totalData[i].RAW_RICE_A * 1) : 0) +
+        //       ((totalData[i].RAW_RICE_A_HULLING !== null && totalData[i].RAW_RICE_A_HULLING !== undefined) ? (totalData[i].RAW_RICE_A_HULLING * 1) : 0) +
+        //       ((totalData[i].RAW_RICE_COM_HULLING !== null && totalData[i].RAW_RICE_COM_HULLING !== undefined) ? (totalData[i].RAW_RICE_COM_HULLING * 1) : 0) +
+        //       ((totalData[i].RAW_RICE_COMMON !== null && totalData[i].RAW_RICE_COMMON !== undefined) ? (totalData[i].RAW_RICE_COMMON * 1) : 0);
+        //     totalRawRice = (totalRawRice !== 0) ? totalRawRice.toFixed(3) : totalRawRice;
+        //     totalUridDhallTotal = ((totalData[i].URAD_FAQ !== null && totalData[i].URAD_FAQ !== undefined) ?
+        //       totalData[i].URAD_FAQ * 1 : 0) + ((totalData[i].URAD_SQ !== null && totalData[i].URAD_SQ !== undefined) ?
+        //         totalData[i].URAD_SQ * 1 : 0) + ((totalData[i].URID_DHALL !== null && totalData[i].URID_DHALL !== undefined) ?
+        //           totalData[i].URID_DHALL * 1 : 0) + ((totalData[i].URID_DHALL_FAQ !== null && totalData[i].URID_DHALL_FAQ !== undefined) ?
+        //             totalData[i].URID_DHALL_FAQ * 1 : 0) + ((totalData[i].URID_DHALL_SPLIT !== null && totalData[i].URID_DHALL_SPLIT !== undefined) ?
+        //               totalData[i].URID_DHALL_SPLIT * 1 : 0) + ((totalData[i].URID_DHALL_SQ !== null && totalData[i].URID_DHALL_SQ !== undefined) ?
+        //                 totalData[i].URID_DHALL_SQ * 1 : 0);
+        //     totalUridDhallTotal = (totalUridDhallTotal !== 0) ? totalUridDhallTotal.toFixed(3) : totalUridDhallTotal;
+        //     totalSugar = ((totalData[i].SUGAR !== null && totalData[i].SUGAR !== undefined) ?
+        //       totalData[i].SUGAR * 1 : 0);
+        //     totalSugar = (totalSugar !== 0) ? totalSugar.toFixed(3) : totalSugar;
+        //     totalWheat = ((totalData[i].WHEAT !== null && totalData[i].WHEAT !== undefined) ?
+        //       totalData[i].WHEAT * 1 : 0);
+        //     totalWheat = (totalWheat !== 0) ? totalWheat.toFixed(3) : totalWheat;
+        //     findIndex += mapIndex;
+        //   } else {
+        //     var item = { 'TNCSName': 'TOTAL', 'boiledRice': totalBoiledRice, 'cement': totalCement, 'rawRice': totalRawRice,
+        //   'SUGAR': totalSugar, 'WHEAT': totalWheat, 'toorDhall': totalToorDhall, 'kanadaToorDhall': totalKanadaDhall,
+        // 'uridDhall': totalUridDhallTotal, 'palmoil': totalPalmOil };
+        //     this.cbData.splice(ind, 0, item);
+        //     count = ind + 1;
+        //     findIndex += 1;
+        //   }
+        // }
         for (let i = 0; i < this.cbData.length; i++) {
           let rowData = this.cbData[i];
           let RGNAME = rowData.RGNAME;
@@ -174,9 +175,13 @@ export class CBStatementComponent implements OnInit {
               this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
           }
         }
+        this.loading = false;
+      } else {
+        this.loading = false;
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.loading = false;
         this.router.navigate(['pageNotFound']);
       }
     })

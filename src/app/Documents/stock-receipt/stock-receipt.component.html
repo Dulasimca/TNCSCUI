@@ -68,7 +68,7 @@
                   <label class=" label-fontsize-large" style="padding-left: 10px">Allotment/Release Order
                     Date</label><br>
                   <div class="ui-g-12 ui-fluid" style="padding-top: 15px">
-                    <p-calendar class="ui-g-8" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true">
+                    <p-calendar class="ui-g-12" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true">
                     </p-calendar>
                   </div>
                 </div>
@@ -513,10 +513,10 @@
             <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button style="margin-top:5px" pButton type="button" label=Save (click)="onSave()"></button>
+            <button style="margin-top:5px" pButton type="button" [disabled]="enableActions" label=Save (click)="onSave()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button style="margin-top:5px" pButton type="button" label=Print (click)="onPrint()"></button>
+            <button style="margin-top:5px" pButton type="button" [disabled]="enableActions" label=Print (click)="onPrint()"></button>
           </div>
         </div>
       </div>
@@ -527,7 +527,7 @@
 <p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
     <div class="ui-g-12 ui-md-6">
         <label class="ui-g-6 label-fontsize-large">Date</label>
-        <p-calendar class="ui-g-12 dashboard" [showIcon]="true" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+        <p-calendar [showIcon]="true" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
     <div class="ui-g-12 ui-fluid">
         <p-table [columns]="documentViewCol" [value]="documentViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
