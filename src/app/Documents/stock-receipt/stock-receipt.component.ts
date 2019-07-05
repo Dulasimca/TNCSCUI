@@ -416,6 +416,9 @@ export class StockReceiptComponent implements OnInit {
       this.DepositorCode = res[0].DepositorName;
       this.depositorCode = res[0].IssuingCode;
       this.PAllotment = res[0].Pallotment;
+      this.LNo = res[0].LNo;
+      this.selectedValues = res[0].TransportMode;
+      this.ManualDocNo = res[0].Flag1;
       }
     });
   }

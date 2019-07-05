@@ -48,7 +48,7 @@
                     <!-- <span class="ui-float-label" style="padding-right: 10px;" style="padding-top: 20px;"> -->
                     <label style="padding-top: 10px;" class="label-fontsize">Transaction Code</label>
                     <p-dropdown [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                      filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                      filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -112,7 +112,7 @@
                     <!-- <span class="ui-float-label"> -->
                     <label class="label-fontsize">Receivor Type</label>
                     <p-dropdown [options]="receiverTypeOptions" [(ngModel)]="RTCode" (onClick)="onSelect('rt')"
-                      filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                      filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -122,7 +122,7 @@
                   <div class="ui-g-12 ui-md-3" style="margin-top: -18px">
                     <label class="label-fontsize">Receivor Name</label>
                     <p-dropdown [options]="receiverNameOptions" [(ngModel)]="RNCode" (onClick)="onSelect('rn')"
-                      filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                      filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -138,7 +138,7 @@
                           <label class="label-fontsize">Month</label>
                           <p-dropdown #m id="float-input" [options]="monthOptions" [(ngModel)]="month"
                             (onClick)="onSelect('m')" filter="true" optionLabel="label" [showClear]="true"
-                            placeholder="-select-">
+                           >
                             <ng-template let-item pTemplate="selectedItem">
                               <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                             </ng-template>
@@ -149,7 +149,7 @@
                           <!-- <span class="ui-float-label"> -->
                           <label class="label-fontsize">Year</label>
                           <p-dropdown #y id="float-input" [options]="yearOptions" [(ngModel)]="year"
-                            (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" placeholder="-select-">
+                            (onClick)="onSelect('y')" optionLabel="label" [showClear]="true">
                           </p-dropdown>
                           <!-- </span> -->
                         </div>
@@ -219,7 +219,7 @@
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" [options]="schemeOptions" [(ngModel)]="Scheme"
                       (onClick)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
+                     >
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -231,7 +231,7 @@
                     <label class="label-fontsize">Item Description</label>
                     <p-dropdown #i_desc id="float-input" [options]="itemDescOptions" [(ngModel)]="ICode"
                       (onClick)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
+                     >
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -243,7 +243,7 @@
                     <label class="label-fontsize">Stack No.</label>
                     <p-dropdown #st_no id="float-input" [options]="stackOptions" [(ngModel)]="TStockNo"
                       (onClick)="onSelect('st_no')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
+                     >
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -272,7 +272,7 @@
                     <label class="label-fontsize">Packing Type</label>
                     <p-dropdown #pt id="float-input" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                       (onClick)="onSelect('pt')" filter="true" optionLabel="label" [showClear]="true"
-                      placeholder="-select-">
+                     >
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -315,7 +315,7 @@
                     <!-- <span class="ui-float-label ui-fluid"> -->
                     <label class="label-fontsize">WmtType</label>
                     <p-dropdown #wmt [options]="wmtOptions" [(ngModel)]="WTCode" (onClick)="onSelect('wmt')"
-                      filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+                      filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
