@@ -131,7 +131,7 @@ const routes: Routes = [
   { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent },
   { path: 'Society Master', component: SocietMasterComponent },
   { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
-  { path: 'Openeing Balance Details', component: OpeningBalanceDetailsComponent },
+  { path: 'Opening Balance Details', component: OpeningBalanceDetailsComponent },
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
   { path: 'Employee Master', component: EmployeeMasterComponent },
   { path: 'Rate Master', component: RateMasterComponent },

@@ -17,7 +17,7 @@ export class SocietMasterComponent implements OnInit {
   isActionDisabled: boolean;
   canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private authService: AuthService,) { }
+  constructor(private tableConstants: TableConstants, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

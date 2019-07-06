@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared-services/auth.service';
 
 @Component({
   selector: 'app-opening-balance-details',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./opening-balance-details.component.css']
 })
 export class OpeningBalanceDetailsComponent implements OnInit {
+  OpeningBalanceDetailCols: any;
+  OpeningBalanceDetailData: any;
+  canShowMenu: boolean;
 
-  constructor() { }
+  constructor( private authService: AuthService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
   }
 
 }

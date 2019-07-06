@@ -9,7 +9,86 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-     
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Eepf No</label>
       </div>
-      </p-panel>
+      <div class="ui-g-12 ui-md-2">
+        <input id="input" type="text" size="30" pInputText [(ngModel)]="text">
       </div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Designation</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" filter="true"
+          optionLabel="label" [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-3"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Emp Name</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <input id="input" type="text" size="30" pInputText [(ngModel)]="text">
+      </div>
+      <div class="ui-g-3"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Ref No</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input id="input" type="text" size="30" pInputText [(ngModel)]="text">
+      </div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Ref Date</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar [(ngModel)]="RefDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>J or R Date</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-calendar [(ngModel)]="JRDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label>J or R Type</label>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <span class="ui-g-12 ui-md-5">
+          <p-radioButton name="group1" value="Option 1" label="Join" [(ngModel)]="val1" inputId="opt1">
+          </p-radioButton>
+        </span>
+        <span class="ui-g-12 ui-md-5">
+          <p-radioButton name="group1" value="Option 2" label="Relieve" [(ngModel)]="val1" inputId="opt1">
+          </p-radioButton>
+        </span>
+      </div>
+      <div class="ui-g-4"></div>
+<div class="ui-g-9"></div>
+<div class="ui-g-4 ui-md-1">
+    <button pButton type="button" label=Add (click)="onAdd()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1">
+    <button pButton type="button" label=View (click)="onViw()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1">
+    <button pButton type="button" label=Cancel (click)="cancel()"></button>
+  </div>
+    </div>
+  </p-panel>
+</div>
