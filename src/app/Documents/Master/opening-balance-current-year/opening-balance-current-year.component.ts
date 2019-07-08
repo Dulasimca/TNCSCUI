@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { PathConstants } from 'src/app/constants/path.constants';
 import { SelectItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-opening-balance-details',
-  templateUrl: './opening-balance-details.component.html',
-  styleUrls: ['./opening-balance-details.component.css']
+  selector: 'app-opening-balance-current-year',
+  templateUrl: './opening-balance-current-year.component.html',
+  styleUrls: ['./opening-balance-current-year.component.css']
 })
-export class OpeningBalanceDetailsComponent implements OnInit {
+export class OpeningBalanceCurrentYearComponent implements OnInit {
   OpeningBalanceDetailCols: any;
   OpeningBalanceDetailData: any;
   data: any;

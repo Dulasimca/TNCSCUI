@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">DETAILS OF OPENING BALANCE OF ALL STOCKS</div>
+        <div class="ui-g-4 dashboard">DETAILS OF OPENING BALANCE OF CURRENT YEAR SHORTAGE</div>
       </div>
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
@@ -88,6 +88,14 @@
           </div>
           <div class="ui-g-5"></div>
         </div>
+        <div class="ui-g-12 ">
+            <div class="ui-g-5"></div>
+             <div class="ui-g-12 ui-md-2 card">
+                <label class="ui-g-12 label-fontsize" style="text-align: center">Current Year Pv Shortages</label>
+            <input type="text" maxlength="6" [(ngModel)]="GKg" size="20" pInputText autocomplete="off">
+             </div>
+              <div class="ui-g-5"></div>
+            </div>
     </div>
   </p-panel>
 </div>
