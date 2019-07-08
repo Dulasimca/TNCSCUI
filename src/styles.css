@@ -1393,6 +1393,7 @@ ul
             /* background: #2399e5; */
             background:  linear-gradient(98deg, #64b9fc, #2196f3);
             transition: background-color 0.2s;
+            margin-right: 0px !important;
         }
         .fontfamily{
           font-family: sans-serif !important;
