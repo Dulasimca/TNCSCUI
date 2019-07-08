@@ -59,6 +59,15 @@ import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
+import { SocietMasterComponent } from './Documents/Master/societ-master/societ-master.component';
+import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
+import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
+import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
+import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
+import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.component';
+import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
+import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
+import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 
 
 const routes: Routes = [
@@ -120,6 +129,15 @@ const routes: Routes = [
   { path: 'Scheme Abstract Truck', component: TruckMemoComponent },
   { path: 'Qty A/c Receipt/Issue - Commodity', component: ReceiptIssueCommodityComponent },
   { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent },
+  { path: 'Society Master', component: SocietMasterComponent },
+  { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
+  { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent },
+  { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
+  { path: 'Employee Master', component: EmployeeMasterComponent },
+  { path: 'Rate Master', component: RateMasterComponent },
+  { path: 'Society Master Entry', component: SocietMasterEntryComponent },
+  { path: 'Item Master Modification', component: ItemMasterModificationComponent },
+  { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

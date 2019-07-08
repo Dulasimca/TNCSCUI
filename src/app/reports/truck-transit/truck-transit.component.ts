@@ -78,6 +78,9 @@ export class TruckTransitComponent implements OnInit {
       this.transferOptions = transfers;
       // console.log("filter",_.uniq(transfers));
     });
+    if (this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
+      this.transferOptions = this.tr_cd.value.toString().slice(0, transfers);
+    }
     // let unique_array = Array.from(new Set(transfers))
     //     return unique_array;
   })
@@ -140,13 +143,11 @@ if (this.fromDate !== undefined && this.toDate !== undefined
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-        // this.isShowErr = true;
-        this.fromDate = this.toDate = '';
-      } else if (selectedFromDate >= selectedToDate) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-        this.fromDate = this.toDate = '';
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }

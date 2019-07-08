@@ -57,7 +57,16 @@ export class TableConstants {
   SchemeAbstractIssueCRS: any;
   SchemeAbstractIssueCoOp: any;
   SchemeAbstractTruck: any;
-  QtyReceiptIssueCommodity: any;
+  QtyReceiptCommodity: any;
+  QtyIssueCommodity: any;
+  QtyReceiptOtherItem: any;
+  QtyIssueOtherItem: any;
+  SocietyMaster: any;
+  ShopWiseAllotmentMaster: any;
+  DepositorMaster: any;
+  SocietyMasterEntry: any;
+  ItemMasterModification: any;
+  GodownCustomerList: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -652,6 +661,75 @@ export class TableConstants {
       { field: 'CreatedDate', header: 'Created Date' }
     ];
 
-    this.QtyReceiptIssueCommodity = [];
+    this.QtyReceiptCommodity = [
+      { field: '', header: 'SNo' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Opening' },
+      { field: '', header: 'PDS' },
+      { field: '', header: 'BPL/Prio.' },
+      { field: '', header: 'APL/Tideov.' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'MMS2GEN' },
+      { field: '', header: 'MMS2SC' },
+      { field: '', header: 'MMS2ST' },
+      { field: '', header: 'SplPds' },
+      { field: '', header: 'Cement' },
+      { field: '', header: 'HO' },
+      { field: '', header: 'Seizure' },
+      { field: '', header: 'Total' },
+      { field: '', header: 'PTNMGRNMP' },
+      { field: '', header: 'SGRY' },
+      { field: '', header: 'AnnaPoorna' },
+      { field: '', header: 'Total' },
+      { field: '', header: 'Free' },
+      { field: '', header: 'Balance' },
+      { field: '', header: 'PURCHASE' },
+      { field: '', header: 'Purchase' },
+      { field: '', header: 'Rice' }
+    ];
+
+    this.QtyIssueCommodity = [];
+
+    this.QtyReceiptOtherItem = [];
+
+    this.QtyIssueOtherItem = [];
+
+    this.SocietyMaster = [
+      { field: '', header: 'SOCIETYNAME'},
+      { field: '', header: 'TYNAME'},
+      { field: '', header: 'EFLAG'},
+    ];
+
+    this.ShopWiseAllotmentMaster = [
+      { field: '', header: 'Name of the Institution'},
+      { field: '', header: 'Commodity'},
+      { field: '', header: 'Quantity Alloted'},
+      { field: '', header: 'Month'},
+      { field: '', header: 'Year'},
+      { field: '', header: 'Item Code'},
+    ];
+
+    this.DepositorMaster = [
+      { field: '', header: 'DEPOSITOR NAME'},
+      { field: '', header: 'DEPOSITOR Type'},
+      { field: '', header: 'STATUS'},
+      
+    ];
+
+    this.SocietyMasterEntry = [
+      { field: '', header: 'TYNAME'},
+      { field: '', header: 'SOCIETYNAME'},
+      { field: '', header: 'ISSUERNAME'},
+    ];
+
+    this.ItemMasterModification = [
+      { field: '', header: 'CODE'},
+      { field: '', header: 'ITEM NAME'},
+      { field: '', header: 'GROUP'},
+      { field: '', header: 'ACTIVE'},
+
+    ];
+
+    this.GodownCustomerList = [];
   }
 }

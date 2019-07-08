@@ -8,52 +8,39 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <div>
-          <!-- <div class="ui-g-1"></div> -->
-        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-date"></p-toast>
-        <!-- <div *ngIf="isShowErr" class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Invalid Date!</strong> Please select date range within a month.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> 
-        </div> -->
-        <div class="ui-g-7 dashboard">
-        <div class="ui-g-5 ui-fluid">
-            <!-- <span class="ui-float-label"> -->
-                <label>Godown Name</label>
-              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
-               (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
-               <ng-template let-item pTemplate="selectedItem">
-                 <span style="vertical-align:middle">{{item.label}}</span>
-               </ng-template></p-dropdown>
-            <!-- </span> -->
-          </div>
-        <div class="ui-g-3">
-          <label class="ui-g-7 dashboard">From Date:</label>
-          <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true"  [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
-        </div>
-        <div class="ui-g-3">
-          <label class="ui-g-7 dashboard">To Date:</label>
-          <p-calendar class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
-        </div>
+      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-date"></p-toast>
+      <div class="ui-g-12 ui-md-3">
+        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
+          (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+          [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
       </div>
-         <div class="ui-g-5" style="padding-left: 0px">
-           <div class="ui-g-8 dashboard" style="float: right">
-          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
-          </div>
-          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-          </div>
-          <div class="ui-g-3 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
-          </div>
-        </div>
-        </div> 
-        <!-- <div class="ui-g-2"></div> -->
-     <div class="ui-g-12 dashboard"> 
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+      </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+      </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+      </div>
+      <div class="ui-g-12 dashboard">
         <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="20"
-         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -70,7 +57,6 @@
           </ng-template>
         </p-table>
       </div>
-       </div> 
     </div>
-  </p-panel>
+</p-panel>
 </div>

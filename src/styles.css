@@ -212,7 +212,7 @@ a {
     font-size: 17px;
     color: #000;
     display: inline-block;
-    width: 50%;
+    width: 100%;
     margin: 7px 0 0;
     letter-spacing: 1px;
     
@@ -1465,12 +1465,10 @@ ul
           border: 5px solid rgba(255,255,255,0.5);
       }
       
-      .crd.hovercard .info {
-          /* padding: 4px 8px 10px; */
-      }
-      /* [_nghost-ani-c2] button {
-        margin-right: 0 !important;
+      /* .crd.hovercard .info {
+          padding: 4px 8px 10px;
       } */
+      
       .crd.hovercard .info .title {
           margin-bottom: 4px;
           font-size: 24px;
@@ -1493,11 +1491,29 @@ ul
       }
       
       /* .btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  } */
-      .ui-widget-content{
+      /* .ui-widget-content{
           border: 4px solid #D5D5D5;
-      }
+      } */
       .crd.hovercard.bottom.overlay-footer button.btnn{
         background: linear-gradient(98deg, #64b9fc, #2196f3);
         font-size: 11px;
         padding: .7em 0em;
       }
+
+      .modal-backdrop{
+        position: relative !important;
+    }
+    .modal-footer {   
+      border-top: 0px;
+      padding: 0px 0px 0px 40px;
+      justify-content: space-around; 
+  }
+  .modal-body{
+    padding: 1rem 1rem 0px 1rem !important;
+  }
+  .modal{
+    background: rgba(0, 0, 0, 0.7);
+    /* background: linear-gradient(45deg, black, transparent); */
+  }
+  
+  
