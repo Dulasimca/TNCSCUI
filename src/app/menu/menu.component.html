@@ -11,10 +11,13 @@
             {{menu.label}} <b *ngIf="menu.items.length !== 0" class="caret"></b></a>
           <ul *ngIf="menu.items.length !== 0" class="dropdown-menu dropright">
             <li class="dropdown-submenu men" *ngFor="let child of menu.items">
-              <a [ngClass]="(child.items.length !== 0) ? dropdown-toggle : dropdown-none" data-toggle="(child.items.length !== 0) ? dropdown : dropdown-none" [routerLink]="child.routerLink">{{child.label}}</a>
+              <a *ngIf="child.routerLink !== ''" [ngClass]="(child.items.length !== 0) ? dropdown-toggle : dropdown-none" data-toggle="(child.items.length !== 0) ? dropdown : dropdown-none" [routerLink]="child.routerLink">{{child.label}}</a>
+              <a *ngIf="child.routerLink === ''" >{{child.label}}</a>
               <ul *ngIf="child.items.length !== 0" class="dropdown-menu">
                 <li  class="men" *ngFor="let nestedChild of child.items">
-                  <a [ngClass]="(nestedChild.items.length !== 0) ? dropdown-toggle : dropdown-none" data-toggle="(nestedChild.items.length !== 0) ? dropdown : dropdown-none" [routerLink]="nestedChild.routerLink">{{nestedChild.label}}</a>
+                  <a *ngIf="nestedChild.routerLink !== ''" [ngClass]="(nestedChild.items.length !== 0) ? dropdown-toggle : dropdown-none" data-toggle="(nestedChild.items.length !== 0) ? dropdown : dropdown-none" [routerLink]="nestedChild.routerLink" >{{nestedChild.label}}</a>
+                   <a *ngIf="nestedChild.routerLink === ''">{{nestedChild.label}}
+                  </a> 
                   <ul *ngIf="nestedChild.items.length !== 0" class="dropdown-menu">
                     <li class="dropdown-submenu men" *ngFor="let x of child.items">
                       <a [ngClass]="(x.items.length !== 0) ? dropdown-toggle : dropdown-none" data-toggle="(x.items.length !== 0) ? dropdown : dropdown-none"  [routerLink]="x.routerLink">{{x.label}}</a>
