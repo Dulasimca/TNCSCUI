@@ -92,19 +92,18 @@
         <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
       </a>
       <a href=" http://tncsc-edpc.in" target="-blank">
-        <img style="width: 30px; height: 29px;padding-top: 3px"
-          src="../../assets/layout/images/dashboard/PDS.png" title="DPC" />
+        <img style="width: 30px; height: 29px;padding-top: 3px" src="../../assets/layout/images/dashboard/PDS.png"
+          title="DPC" />
       </a>
       <a href="http://fci.gov.in/" target="_blank">
-        <img style="width: 30px; height: 29px;padding-top: 3px"
-          src="../../assets/layout/images/dashboard/FCI.png" title="FCI" />
+        <img style="width: 30px; height: 29px;padding-top: 3px" src="../../assets/layout/images/dashboard/FCI.png"
+          title="FCI" />
       </a>
       <a href="https://www.tnpds.gov.in" target="_blank">
-      <img style="width: 32px; height: 25px;"
-        src="../../assets/layout/images/dashboard/G2G.png" title="G2G" /></a>
+        <img style="width: 32px; height: 25px;" src="../../assets/layout/images/dashboard/G2G.png" title="G2G" /></a>
     </div>
     <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
-      <div class="overlay-content" style="text-align: center;">
+      <div class="overlay-content" style="text-align: center;margin: 0px; border: 1px solid #006400">
         <div class="crd hovercard">
           <div class="crdheader">
             <img alt="" src="../../assets/layout/images/dashboard/profileBackground-bg.jpg">
@@ -121,8 +120,10 @@
             <div class="desc">GN00789</div>
             <br>
             <div class="title">
-              <a style="font-size: 14px" (click)="onForgetPswd()">Change Password?</a>
+              <a href="#" data-target="#pwdModal" data-toggle="modal" style="font-size: 14px">Change Password?</a>
             </div>
+
+
           </div>
 
           <div class="bottom">
@@ -130,11 +131,53 @@
               <!-- <button class="ui-g-12 ui-md-8" pButton type="button" label="Change Password?" style="float: left" (click)="onForgetPswd()"></button> -->
               <button class="btnn" pButton type="button" label="Logout" icon="fa fa-sign-out"
                 (click)="onLogOut()"></button>
-                    <!-- <button class="btn" type="button" (click)="onSignIn()">Sign In</button> -->
+              <!-- <button class="btn" type="button" (click)="onSignIn()">Sign In</button> -->
             </div>
           </div>
         </div>
       </div>
     </p-overlayPanel>
+    <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" style="padding-top: 160px">
+        <div>
+          <i style="float: right; color: aliceblue" class="fas fa-times-circle"></i>
+        </div>
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="text-center">
+                    <p>Password not secured? You can change it here!</p>
+                    <div class="panel-body">
+                      <fieldset>
+                        <div class="form-group" style="margin: 0px !important">
+                          <div for="password" class="icon2">
+                            <input class="form-control input-lg" type="password" placeholder="Old Password" name="pswd"
+                              autocomplete="off">
+                          </div>
+                          <div for="password" class="icon2">
+                            <input class="form-control input-lg" type="password" placeholder="New Password" name="pswd"
+                              autocomplete="off">
+                          </div>
+                          <div for="password" class="icon2">
+                            <input class="form-control input-lg" type="password" placeholder="Confirm Password"
+                              name="pswd" autocomplete="off">
+                          </div>
+                        </div>
+                        <div class="header-left-bottom">
+                          <button class="btn" style="width: 20%" value="Change My Password"
+                            type="submit">Submit</button>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

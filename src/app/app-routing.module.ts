@@ -68,6 +68,8 @@ import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.
 import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
 import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
+import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
+import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
 
 
 const routes: Routes = [
@@ -132,9 +134,11 @@ const routes: Routes = [
   { path: 'Society Master', component: SocietMasterComponent },
   { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent },
+  { path: 'Opening Balance Year Shortage Master', component: OpeningBalanceCurrentYearComponent }, 
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
   { path: 'Employee Master', component: EmployeeMasterComponent },
   { path: 'Rate Master', component: RateMasterComponent },
+  { path: 'User Master', component: UserMasterComponent },
   { path: 'Society Master Entry', component: SocietMasterEntryComponent },
   { path: 'Item Master Modification', component: ItemMasterModificationComponent },
   { path: 'Godown Customer List', component: CustomerListComponent },

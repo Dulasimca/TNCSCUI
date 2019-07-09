@@ -113,6 +113,8 @@ import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.
 import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
 import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
+import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
+import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
 
 
 @NgModule({
@@ -189,7 +191,9 @@ import { CustomerListComponent } from './Documents/Master/customer-list/customer
     RateMasterComponent,
     SocietMasterEntryComponent,
     ItemMasterModificationComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    UserMasterComponent,
+    OpeningBalanceCurrentYearComponent
     
   ],
   imports: [

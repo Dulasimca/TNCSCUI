@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">USER MASTER</div>
+      </div>
+    </p-header>
+    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <div class="ui-g ui-fluid">
+            <div class="header-left-bottom">
+                    <form [formGroup]="UserForm" ngSubmit="OnSignUp()">
+                        <div for="userName" class="icon2">
+                            <span class="fa fa-user"></span>
+                            <input type="text" class="inputxt" formControlName="user" id="userName"
+                                [(ngModel)]="userName" placeholder="Username" required="">
+                        </div>
+                        <span class="ui-float-label">
+                                <input id="float-input" type="text" size="30" pInputText> 
+                                <label for="float-input">Username</label>
+                            </span>
+                        <div for="password" class="icon1">
+                            <span class="fa fa-lock"></span>
+                            <input type="password" id="password" formControlName="pswd" [(ngModel)]="password"
+                                placeholder="Password" required="">
+                        </div>
+                        </form>
+                        </div>
+    </div>
+  </p-panel>
+</div>

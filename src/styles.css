@@ -1516,4 +1516,9 @@ ul
     /* background: linear-gradient(45deg, black, transparent); */
   }
   
+  .icon2{
+    margin: 0px;
+    padding: .6em 1em;
+    background: rgba(255, 255, 255, 0.94);
+  }
   
