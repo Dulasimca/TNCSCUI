@@ -1,4 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { HEADER_OFFSET } from '@angular/core/src/render3/interfaces/view';
 
 export class TableConstants {
   DailyStockStatement: any;
@@ -67,6 +68,7 @@ export class TableConstants {
   SocietyMasterEntry: any;
   ItemMasterModification: any;
   GodownCustomerList: any;
+  OpeningBalanceMasterEntry: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -729,6 +731,16 @@ export class TableConstants {
       { field: '', header: 'ACTIVE'},
 
     ];
+
+    this.OpeningBalanceMasterEntry = [
+      { field: 'GodownName', header: 'GODOWN NAME' },
+      { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
+      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
+      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
+      { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
+      { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
+      { field: 'CumulitiveShortage', header: 'CUMULITIVE SHORTAGE'}
+    ]
 
     this.GodownCustomerList = [];
   }

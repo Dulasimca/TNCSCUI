@@ -46,4 +46,6 @@ export class PathConstants {
   public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
   public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
   public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';
+  public static readonly OPENING_BALANCE_MASTER_POST = '/api/OpeningBalanceMaster/Post';
+  public static readonly OPENING_BALANCE_MASTER_GET = '/api/OpeningBalanceMaster/Get';
 }
