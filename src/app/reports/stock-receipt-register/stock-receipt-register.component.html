@@ -42,19 +42,28 @@
         <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
-            <tr style="text-align: center;">
-              <th *ngFor="let col of columns">
-                {{col.header}}
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
-              <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
-              </td>
-            </tr>
-          </ng-template>
+              <tr style="text-align: center;">
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns">
+                    <div
+                      *ngIf="col.field === 'NetWt' || col.field === 'NoPacking'">
+                      <div style="text-align: end !important">
+                        {{rowData[col.field]}}
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="col.field !== 'NetWt' && col.field !== 'NoPacking'">
+                      {{rowData[col.field]}}
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
         </p-table>
       </div>
     </div>

@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">RECEIPTS - GODOWN (INTERNAL-REGIONAL TRANSFER)</div>
+        <div class="ui-g-4 dashboard">Receipts - Godown (Internal - Regional Transfer)</div>
       </div>
     </p-header>
       <div class="ui-g">
@@ -45,22 +45,29 @@
           </div>
           <div class="ui-g-12 dashboard">
             <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
-              <ng-template pTemplate="header" let-columns>
-                <tr style="text-align: center;">
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                        <div *ngIf="col.field !== 'NoPacking' || col.field !== 'Nkgs'">
-                          {{rowData[col.field]}}
-                        </div>
-                  </td>
-                </tr>
-              </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr style="text-align: center;">
+                      <th *ngFor="let col of columns">
+                        {{col.header}}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns">
+                          <div
+                            *ngIf="col.field === 'NoPacking' || col.field === 'Nkgs'">
+                            <div style="text-align: end !important">
+                              {{rowData[col.field]}}
+                            </div>
+                          </div>
+                          <div
+                            *ngIf="col.field !== 'NoPacking' && col.field !== 'Nkgs'">
+                            {{rowData[col.field]}}
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
             </p-table>
           </div>
         </div>

@@ -75,6 +75,7 @@ export class TruckMemoRegisterComponent implements OnInit {
       let sno = 0;
       this.truckMemoRegData.forEach(data => {
         data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+        data.NetWt = (data.NetWt * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
