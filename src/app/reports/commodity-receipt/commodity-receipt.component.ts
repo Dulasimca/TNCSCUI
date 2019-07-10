@@ -105,6 +105,7 @@ export class CommodityReceiptComponent implements OnInit {
       this.commodityReceiptData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
         data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
+        data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
@@ -153,6 +154,6 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.commodityReceiptData, 'Truck_Memo', this.commodityReceiptCols);
+    this.excelService.exportAsExcelFile(this.commodityReceiptData, 'Commodity_Receipt', this.commodityReceiptCols);
   }
 }

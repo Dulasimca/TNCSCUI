@@ -113,6 +113,6 @@ export class HullingDetailsComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.hullingDetailsData, 'Write_Off', this.hullingDetailsCols);
+    this.excelService.exportAsExcelFile(this.hullingDetailsData, 'Hulling_Details', this.hullingDetailsCols);
   }
 }

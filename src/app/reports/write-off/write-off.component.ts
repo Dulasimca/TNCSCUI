@@ -64,6 +64,7 @@ export class WriteOffComponent implements OnInit {
       let sno = 0;
       this.writeoffData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })

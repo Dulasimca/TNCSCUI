@@ -9,24 +9,49 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-            <div class="header-left-bottom">
-                    <form [formGroup]="UserForm" ngSubmit="OnSignUp()">
-                        <div for="userName" class="icon2">
-                            <span class="fa fa-user"></span>
-                            <input type="text" class="inputxt" formControlName="user" id="userName"
-                                [(ngModel)]="userName" placeholder="Username" required="">
-                        </div>
-                        <span class="ui-float-label">
-                                <input id="float-input" type="text" size="30" pInputText> 
-                                <label for="float-input">Username</label>
-                            </span>
-                        <div for="password" class="icon1">
-                            <span class="fa fa-lock"></span>
-                            <input type="password" id="password" formControlName="pswd" [(ngModel)]="password"
-                                placeholder="Password" required="">
-                        </div>
-                        </form>
-                        </div>
-    </div>
-  </p-panel>
+
+      <input type="text" name="username" required>
+
+
+      <form #form="ngForm" (ngSubmit)="logForm(form.value)">
+        <div class="jumbotron">
+          <div class="container">
+            <div class="ui-g-2">
+              <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText autocomplete="off" name="username" required>
+                <label for="float-input">Username</label>
+              </span>
+            </div>
+
+            <div class="ui-g-2">
+              <span class="ui-float-label">
+                <input type="text" name="username" required>
+                <label for="float-input">Password</label>
+              </span>
+            </div>
+            <div class="ui-g-2">
+              <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText autocomplete="off">
+                <label for="float-input">Employee Id</label>
+              </span>
+            </div>
+
+            <div class="ui-g-2">
+              <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText autocomplete="off">
+                <label for="float-input">Email</label>
+              </span>
+            </div>
+            <div class="ui-g-2">
+              <span class="ui-float-label">
+                <input id="float-input" type="number" size="30" pInputText autocomplete="off">
+                <label for="float-input">Phone Number</label>
+              </span>
+            </div>
+          </div>
+          <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+</p-panel>
 </div>

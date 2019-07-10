@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">RECEIPT - HULLING DETAILS</div>
+        <div class="ui-g-4 dashboard">Receipt - Hulling Details</div>
       </div>
     </p-header>
     <div class="ui-g">
@@ -51,11 +51,11 @@
               <tr>
                 <td *ngFor="let col of columns">
                     <div *ngIf="col.field === 'NoPacking' || col.field === 'Nkgs'">
-                        <span style="float: right !important">
+                        <div style="text-align: end !important">
                           {{rowData[col.field]}}
-                        </span>
+                        </div>
                       </div>
-                      <div *ngIf="col.field !== 'NoPacking' || col.field !== 'Nkgs'">
+                      <div *ngIf="col.field !== 'NoPacking' && col.field !== 'Nkgs'">
                         {{rowData[col.field]}}
                       </div>
                 </td>

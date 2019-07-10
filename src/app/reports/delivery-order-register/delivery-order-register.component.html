@@ -39,7 +39,7 @@
         <div class="ui-g-12 dashboard">
           <p-table [columns]="deliveryReceiptRegCols" [value]="deliveryReceiptRegData" [loading]="loading"
            [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
-            <ng-template pTemplate="header" let-columns>
+           <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
                   {{col.header}}
@@ -47,12 +47,19 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
-                </td>
-              </tr>
-            </ng-template>
+                <tr>
+                  <td *ngFor="let col of columns">
+                    <div *ngIf="col.field === 'Totals' || col.field === 'Cheque_DD' || col.field === 'PaymentAmount' || col.field === 'Netwt_Kgs' || col.field === 'Rate_Rs' || col.field === 'Itemamount' || col.field === 'PreviousAmount' || col.field === 'Adjusted' || col.field === 'Balance' || col.field === 'MarginAmount'">
+                      <div style="text-align: end !important">
+                        {{rowData[col.field]}}
+                      </div>
+                    </div>
+                    <div *ngIf="col.field !== 'Totals' && col.field !== 'Cheque_DD' && col.field !== 'PaymentAmount' && col.field !== 'Netwt_Kgs' && col.field !== 'Rate_Rs' && col.field !== 'Itemamount' && col.field !== 'PreviousAmount' && col.field !== 'Adjusted' && col.field !== 'Balance' && col.field !== 'MarginAmount'">
+                      {{rowData[col.field]}}
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
           </p-table>
         </div>
       <!-- </div> -->
