@@ -21,6 +21,8 @@ itemData: any = [];
 entryList: any = [];
 regionName: string;
 issuingGodownName: string;
+data: any;
+maxDate: Date;
 scheme_data: any;
 stackYear: any;
 packingTypes: any = [];
@@ -51,6 +53,7 @@ month: string;
 year: string;
 SINo: any;
 SIDate: Date;
+IssuingCode: any;
 RCode: any;
 GCode: any;
 StackBalance: any;
@@ -96,6 +99,14 @@ index: number = 0;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
+    this.data = this.roleBasedService.getInstance();
+    this.maxDate = new Date();
+    setTimeout(() => {
+      this.regionName = this.data.rgData[0].RName;
+      this.issuingGodownName = this.data.rgData[1].GName;
+      this.IssuingCode = this.data.rgData[1].GCode;
+      this.RCode = this.data.rgData[0].RCode;
+    },1200);
   }
   onSelect(selectedItem) {
     let transactoinSelection = [];
@@ -117,6 +128,7 @@ index: number = 0;
         }
       }
       this.yearOptions = yearArr;
+      this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
       break;
       case 'm':
         this.monthOptions = [{'label': 'Jan', 'value': '01'},
@@ -124,6 +136,7 @@ index: number = 0;
         {'label': 'May', 'value': '05'},{'label': 'Jun', 'value': '06'},{'label': 'Jul', 'value': '07'},
         {'label': 'Aug', 'value': '08'},{'label': 'Sep', 'value': '09'},{'label': 'Oct', 'value': '10'},
         {'label': 'Nov', 'value': '11'},{'label': 'Dec', 'value': '12'}];
+        this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
         case 'tr':
         if (this.transactionOptions === undefined) {
@@ -134,6 +147,7 @@ index: number = 0;
                 this.transactionOptions = transactoinSelection;
               });
               this.isReceivorTypeDisabled = false;
+              this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
         }
@@ -144,78 +158,86 @@ index: number = 0;
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
           });
+          this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
         case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
-          if (this.receiverTypeOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
                 receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
               });
               this.receiverTypeOptions = receivorTypeList;
               this.isReceivorNameDisabled = false;
+              this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
-          }
         }
         break;
       case 'rn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
           const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType);
-          if (this.receiverNameOptions === undefined) {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(dn => {
                 receivorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
               })
               this.receiverNameOptions = receivorNameList;
+              this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
-          }
         }
         break;
         case 'i_desc':
           let itemDesc = [];
           if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
             const params = new HttpParams().set('SCode', this.Scheme.value);
-            if (this.itemDescOptions === undefined) {
               this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
                 res.forEach(i => {
                   itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
                 })
                 this.itemDescOptions = itemDesc;
-              });
-            }
+            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
           }
-          break;
-        case 'st_no':
-          let stackNo = [];
-          this.RCode = '001';
-          if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-            const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
-            if (this.stackOptions === undefined) {
-              this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-                res.forEach(s => {
-                  stackNo.push({ 'label': s.StackNo, 'value': s.StackNo });
-                })
-                this.stackOptions = stackNo;
-              });
-            }
-            let stockNo = this.TStockNo.value;
-            this.godownNo = (stockNo !== null && stockNo !== undefined && stockNo !== '') ? stockNo.toString().split('/') : '';
+        break;
+      case 'st_no':
+        let stackNo = [];
+        this.RCode = '001';
+        if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
+          const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
+          this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+            res.forEach(s => {
+              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
+            })
+            this.stackOptions = stackNo;
+            this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
+          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+            this.stackYear = this.TStockNo.stack_yr;
+            let index;
+            index = this.TStockNo.value.toString().indexOf('/', 1);
+            const totalLength = this.TStockNo.value.length;
+            this.godownNo = this.TStockNo.value.toString().slice(0, index);
+            this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
           }
-          break;
-          case 'pt':
+        }
+        break;
+      case 'pt':
         if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             res.Table.forEach(p => {
               this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = this.packingTypes;
+            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         } else {
           if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
             this.NoPacking = this.IPCode.weight;
+            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+            this.TKgs = this.GKgs - this.NKgs;
+          } else {
+            this.NoPacking = this.GKgs = this.NKgs = 0;
           }
         }
         break;
@@ -227,6 +249,7 @@ index: number = 0;
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
+            this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -234,8 +257,11 @@ index: number = 0;
 }
 
 onIssueDetailsEnter() { 
-  this.issueData.push({'SINo': this.SINo, 'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
-'DeliveryOrderNo': this.DeliveryOrderNo, 'DeliveryOrderDate': this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy')});
+ this.issueData.push({'SINo': (this.SINo !== undefined) ? this.SINo : '', 'SIDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
+'DeliveryOrderNo': this.DeliveryOrderNo, 'DeliveryOrderDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy')});
+  if(this.issueData.length !== 0) {
+     this.SIDate = this.DeliveryOrderDate = this.DeliveryOrderNo = null;
+  }
  }
 
 onItemDetailsEnter() {
@@ -247,9 +273,17 @@ this.entryList.push({ 'TStockNo': this.TStockNo.value, 'ICode': this.ICode.value
  'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs, 'WTCode': this.WTCode.value, 'Moisture': this.Moisture,
  'Scheme': this.Scheme.value
 });
+if (this.itemData.length !== 0) {
+  this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
+  this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
+}
 }
 
-onSave() { }
+onSave() {
+  const params = {
+    
+  }
+ }
 
 openNext() {
   this.index = (this.index === 2) ? 0 : this.index + 1;

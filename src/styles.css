@@ -456,6 +456,9 @@ h3 a {
   letter-spacing: 1px;
   font-family: sans-serif;
 }
+.ui-card-body {
+  padding: 0em !important;
+}
 .no-pad-top {
   padding-top: 0px !important;
 }

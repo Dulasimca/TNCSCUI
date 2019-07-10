@@ -29,7 +29,7 @@
                       </div>
                       <div class="ui-g-12 ui-md-6" style="margin-top: -20px">
                         <label class="label-fontsize">Date</label>
-                        <p-calendar [showIcon]="true" [maxDate]="maxDate" [(ngModel)]="SRDate"></p-calendar>
+                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="SRDate"></p-calendar>
                       </div>
                     </div>
                   </p-card>
@@ -67,7 +67,7 @@
                   <label class=" label-fontsize-large" style="padding-left: 10px">Allotment/Release Order
                     Date</label><br>
                   <div class="ui-g-12 ui-fluid" style="padding-top: 15px">
-                    <p-calendar class="ui-g-12" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true">
+                    <p-calendar class="ui-g-12" dateFormat="dd/mm/yy" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true">
                     </p-calendar>
                   </div>
                 </div>
@@ -138,7 +138,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -18px;">
                     <label class="label-fontsize">Truck Memo Date</label>
-                    <p-calendar [(ngModel)]="TruckMemoDate" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="TruckMemoDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
@@ -347,7 +347,7 @@
                   </div>
                   <div class="ui-g-6 ui-md-3 ui-fluid dashboard">
                     <p-calendar class="ui-g-8" [(ngModel)]="LWBillDate" [showIcon]="true" [disabled]="true"
-                      placeholder="Way Bill Date">
+                      placeholder="Way Bill Date" dateFormat="dd/mm/yy">
                     </p-calendar>
                     <div class="ui-g-6 ui-md-4 ui-fluid">
                       <span class="ui-float-label">
@@ -481,7 +481,8 @@
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
-                    <p-calendar [(ngModel)]="LDate" [showIcon]="true" [disabled]="true" placeholder="Loading Date">
+                    <p-calendar [(ngModel)]="LDate" [showIcon]="true" [disabled]="true"
+                    dateFormat="dd/mm/yy" placeholder="Loading Date">
                     </p-calendar>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
@@ -526,7 +527,7 @@
 <p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
     <div class="ui-g-12 ui-md-6">
         <label class="ui-g-6 label-fontsize-large">Date</label>
-        <p-calendar [showIcon]="true" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
     <div class="ui-g-12 ui-fluid">
         <p-table [columns]="documentViewCol" [value]="documentViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 

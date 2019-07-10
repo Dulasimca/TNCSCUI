@@ -206,6 +206,7 @@ export class TableConstants {
     this.StockReceiptRegisterReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.No' },
+      { field: 'Date', header: 'Date' },
       { field: 'TruckMemoNo', header: 'Truck Memo No' },
       { field: 'Lorryno', header: 'Lorry No' },
       { field: 'From_Whom_Received', header: 'From Whom Received' },
@@ -439,10 +440,10 @@ export class TableConstants {
     ];
 
     this.StockIssueMemoIssueDetailsColumns = [ 
-    {field: 'Issue Memo No', header: 'SINo' },
-    { field: 'Issue Memo Date', header: 'SIDate' },
-    { field: 'Delivery Order No', header: 'DeliveryOrderNo' },
-    { field: 'Delivery Order', header: 'DeliveryOrderDate' }];
+    {field: 'SINo', header: 'Issue Memo No' },
+    { field: 'SIDate', header: 'Issue Memo Date' },
+    { field: 'DeliveryOrderNo', header: 'Delivery Order No' },
+    { field: 'DeliveryOrderDate', header: 'Delivery Order' }];
 
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'TStockNo', header:'Stack No.' },
