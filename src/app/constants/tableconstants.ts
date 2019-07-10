@@ -442,8 +442,8 @@ export class TableConstants {
     this.StockIssueMemoIssueDetailsColumns = [ 
     {field: 'SINo', header: 'Issue Memo No' },
     { field: 'SIDate', header: 'Issue Memo Date' },
-    { field: 'DeliveryOrderNo', header: 'Delivery Order No' },
-    { field: 'DeliveryOrderDate', header: 'Delivery Order' }];
+    { field: 'DNo', header: 'Delivery Order No' },
+    { field: 'DDate', header: 'Delivery Order' }];
 
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'TStockNo', header:'Stack No.' },
@@ -452,7 +452,7 @@ export class TableConstants {
       { field: 'NoPacking', header:'No. of packing' },
       { field: 'WTCode', header:'Wmt Type' },
       { field: 'GKgs', header:'Gross Wt' },
-      { field: 'NKgs', header:'Net WT' },
+      { field: 'Nkgs', header:'Net WT' },
       { field: 'Moisture', header:'Moisture' },
       { field: 'Scheme', header:'Scheme' },
     ];

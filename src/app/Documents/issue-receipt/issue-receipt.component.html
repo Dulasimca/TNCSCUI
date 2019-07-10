@@ -163,11 +163,11 @@
                     </p-card>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
-                      <span><p-checkbox class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedValues">
-                      </p-checkbox>
-                      <label class="ui-g-10 label-fontsize-large">Issue/Regular
-                        Advance</label></span><br><br>
-                        <div>
+                    <div>
+                      <span class="ui-float-label">
+                          <input id="float-input" [(ngModel)]="RegularAdvance" pInputText autocomplete="off">
+                          <label class="float-input">Issue Regular/Advance</label>
+                        </span> <br>
                         <span class="ui-float-label">
                           <input id="float-input" [(ngModel)]="ManualDocNo" pInputText autocomplete="off">
                           <label class="float-input">Manual Document No</label>
@@ -444,3 +444,40 @@
     <!-- </div> -->
   </p-panel>
 </div>
+
+<p-dialog header="Stock-Issue-Memo" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+    <div class="ui-g-12 ui-md-6">
+        <label class="ui-g-6 label-fontsize-large">Date</label>
+        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-fluid">
+        <p-table [columns]="issueMemoDocCol" [value]="issueMemoDocData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:80px">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div class="ui-g-4 ui-md-10"></div>
+      <div class="ui-g-4 ui-md-1 no-right-pad">
+        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="getDocBySINo()"></button>
+      </div>
+      <div class="ui-g-4 ui-md-1 no-left-pad">
+          <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+        </div>
+</p-dialog>

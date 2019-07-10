@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
@@ -25,6 +25,9 @@ data: any;
 maxDate: Date;
 scheme_data: any;
 stackYear: any;
+issueMemoDocData: any = [];
+issueMemoDocCols: any;
+viewDate: Date;
 packingTypes: any = [];
 monthOptions: SelectItem[];
 yearOptions: SelectItem[];
@@ -36,9 +39,13 @@ itemDescOptions: SelectItem[];
 packingTypeOptions: SelectItem[];
 stackOptions: SelectItem[];
 wmtOptions: SelectItem[];
-selectedValues: string;
+disableOkButton: boolean = true;
+viewPane: boolean = false;
+isViewClicked: boolean = false;
 isReceivorNameDisabled: boolean;
 isReceivorTypeDisabled: boolean;
+rtCode: string;
+rnCode: string;
 locationNo: any;
 godownNo: any;
 trCode: string;
@@ -46,20 +53,25 @@ wtCode: string;
 iCode: string;
 ipCode: string;
 tStockCode: string;
-depositorCode: string;
 schemeCode: string;
 TKgs: any;
-month: string;
-year: string;
+month: any;
+year: any;
 SINo: any;
 SIDate: Date;
 IssuingCode: any;
 RCode: any;
 GCode: any;
 StackBalance: any;
+RegularAdvance: any;
+RowId: any;
+DDate: Date;
+SI_Date: Date;
+DNo: Date;
 canShowMenu: boolean;
 //Issue details
 Trcode: any;
+IRelates: any;
 DeliveryOrderDate: Date;
 DeliveryOrderNo: any;
 RTCode: any;
@@ -89,7 +101,7 @@ NStackBalance: any;
 CurrentDocQtv: any;
 index: number = 0;
 
-  constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, 
+  constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) { 
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
@@ -257,8 +269,12 @@ index: number = 0;
 }
 
 onIssueDetailsEnter() { 
+  this.DNo = this.DeliveryOrderNo;
+  this.DDate = this.DeliveryOrderDate;
+  this.SI_Date = this.SIDate;
  this.issueData.push({'SINo': (this.SINo !== undefined) ? this.SINo : '', 'SIDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
-'DeliveryOrderNo': this.DeliveryOrderNo, 'DeliveryOrderDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy')});
+'DNo': this.DeliveryOrderNo, 'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy'),
+'RCode': this.RCode, 'GodownCode': this.GCode});
   if(this.issueData.length !== 0) {
      this.SIDate = this.DeliveryOrderDate = this.DeliveryOrderNo = null;
   }
@@ -266,11 +282,11 @@ onIssueDetailsEnter() {
 
 onItemDetailsEnter() {
   this.itemData.push({ 'TStockNo': this.TStockNo.label, 'ICode': this.ICode.label, 'IPCode': this.IPCode.label,
- 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs, 'WTCode': this.WTCode.label, 'Moisture': this.Moisture,
+ 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs, 'WTCode': this.WTCode.label, 'Moisture': this.Moisture,
  'Scheme': this.Scheme.label
 });
 this.entryList.push({ 'TStockNo': this.TStockNo.value, 'ICode': this.ICode.value, 'IPCode': this.IPCode.value,
- 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'NKgs': this.NKgs, 'WTCode': this.WTCode.value, 'Moisture': this.Moisture,
+ 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs, 'WTCode': this.WTCode.value, 'Moisture': this.Moisture,
  'Scheme': this.Scheme.value
 });
 if (this.itemData.length !== 0) {
@@ -280,10 +296,118 @@ if (this.itemData.length !== 0) {
 }
 
 onSave() {
+  this.IRelates = this.month.value + '/' + this.year.label;
   const params = {
-    
+    'SINo': (this.SINo !== undefined || this.SINo !== null ) ? this.SINo : 0,
+    'RowId': 0,
+    'SIDate': (this.SIDate !== null) ? this.datepipe.transform(this.SIDate, 'MM/dd/yyyy') : this.datepipe.transform(this.SI_Date, 'MM/dd/yyyy'),
+    'IRelates': this.IRelates,
+    'DNo': (this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : this.DNo,
+    'DDate': (this.DeliveryOrderDate !== null) ? this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy') : 
+    this.datepipe.transform(this.DDate, 'MM/dd/yyyy'),
+    'WCCode': this.WNo,
+    'IssuingCode': this.IssuingCode,
+    'RCode': this.RCode,
+    'IssueRegularAdvance': this.RegularAdvance,
+    'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
+    'Receivorcode': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
+    'Issuetype': (this.RNCode.value !== undefined) ? this.RNCode.value : 0,
+    'TransporterName': this.TransporterName,
+    'TransportingCharge': this.TransporterCharges,
+    'ManualDocNo': this.ManualDocNo,
+    'LorryNo': (this.VehicleNo !== undefined) ? this.VehicleNo : '',
+    'NewBale': (this.NewBale !== undefined) ? this.NewBale : '',
+    'SoundServiceable': this.SServiceable,
+    'ServiceablePatches': this.SPatches,
+    'GunnyUtilised': this.Gunnyutilised,
+    'GunnyReleased': this.GunnyReleased,
+    'IssueItemList': this.entryList,
+    'SIDetailsList': this.issueData,
+    'Remarks': (this.Remarks !== undefined) ? this.Remarks : ''
   }
+  this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
+    if (res !== undefined) {
+      if (res) {
+        this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+      } else {
+        this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
+      }
+    }
+  });
  }
+
+ onView() {
+  this.viewPane = this.isViewClicked = true;
+  const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+  this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+    res.forEach(data => {
+      data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+      data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+    })
+    this.issueMemoDocData = res;
+  });
+}
+
+onRowSelect(event) {
+  this.SINo = event.data.SINo;
+  this.disableOkButton = false;
+}
+
+getDocBySINo() {
+  this.viewPane = false;
+  const params = new HttpParams().set('value', this.SINo).append('Type', '2');
+  this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+    if (res !== undefined && res.length !== 0) {
+    this.SINo = res[0].SINo;
+    this.SIDate = res[0].SIDate;
+    this.RowId = res[0].RowId;
+    this.DeliveryOrderDate = new Date(res[0].DDate);
+    this.DeliveryOrderNo = res[0].DNo;
+    this.TransporterName = res[0].TransporterName;
+    this.TransporterCharges = res[0].TransportingCharge;
+    this.NewBale = res[0].NewBale;
+    this.SServiceable = res[0].SoundServiceable;
+    this.SPatches = res[0].ServiceablePatches;
+    this.GunnyReleased = res[0].GunnyReleased;
+    this.Gunnyutilised = res[0].GunnyUtilised;
+    this.WNo = res[0].WCCode;
+    this.month = res[0].Pallotment.slice(0, 1);
+    this.year = res[0].Pallotment.slice(3, 6);
+    this.transactionOptions = [{ 'label': res[0].TRName, 'value': res[0].Trcode }];
+    this.Trcode = res[0].TRName;
+    this.trCode = res[0].Trcode;
+    this.wmtOptions = [{ 'label': res[0].WEType, 'value': res[0].WTCode }];
+    this.WTCode = res[0].WEType;
+    this.wtCode = res[0].WTCode;
+    this.NoPacking = res[0].NoPacking;
+    this.GKgs = res[0].GKgs;
+    this.NKgs = res[0].Nkgs;
+    this.Moisture = res[0].Moisture;
+    this.itemDescOptions = [{ 'label': res[0].ITName, 'value': res[0].ICode }];
+    this.ICode = res[0].ITName;
+    this.iCode = res[0].ITCode;
+    this.packingTypeOptions = [{ 'label': res[0].PName, 'value': res[0].IPCode }];
+    this.IPCode = res[0].PName;
+    this.ipCode = res[0].IPCode;
+    this.schemeOptions = [{ 'label': res[0].SCName, 'value': res[0].Scheme }];
+    this.Scheme = res[0].SCName;
+    this.schemeCode = res[0].Scheme;
+    this.stackOptions = [{ 'label': res[0].TStockNo, 'value': res[0].TStockNo }];
+    this.TStockNo = res[0].TStockNo;
+    this.receiverTypeOptions = [{ 'label': res[0].Issuetype, 'value': res[0].IssuerType }];
+    this.RTCode = res[0].Issuetype;
+    this.rtCode = res[0].IssuerType;
+    this.receiverNameOptions = [{ 'label': res[0].DepositorName, 'value': res[0].Receivorcode }];
+    this.RNCode = res[0].DepositorName;
+    this.rnCode = res[0].Receivorcode;
+    this.IRelates = res[0].IRelates;
+    this.VehicleNo = res[0].LorryNo;
+    this.RegularAdvance = res[0].IssueRegularAdvance;
+    this.ManualDocNo = res[0].Flag1;
+    }
+  });
+}
+
 
 openNext() {
   this.index = (this.index === 2) ? 0 : this.index + 1;
