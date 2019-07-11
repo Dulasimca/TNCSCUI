@@ -20,7 +20,6 @@ export class CommodityReceiptComponent implements OnInit {
   commodityReceiptData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -39,7 +38,7 @@ export class CommodityReceiptComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -83,11 +82,6 @@ export class CommodityReceiptComponent implements OnInit {
       }
       break;
     }
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.tr_cd.value !== undefined && this.tr_cd.value !== ''
-      && this.g_cd !== null && this.tr_cd !== null && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
 
   onView() {
@@ -124,11 +118,6 @@ export class CommodityReceiptComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined
-    && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.g_cd !== null && this.tr_cd !== null
-     && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {

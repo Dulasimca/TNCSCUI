@@ -23,7 +23,11 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd" [showClear]="true"
-          (onClick)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-"></p-dropdown>
+          (onClick)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-" filter="true" optionLabel="label">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
@@ -73,14 +77,18 @@
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
                   <td *ngFor="let col of columns">
-                    <div
-                      *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
+                    <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
                       <div style="text-align: end !important">
                         {{rowData[col.field]}}
                       </div>
                     </div>
+                    <div *ngIf="col.field === 'Date'">
+                      <div style="width: 90px !important">
+                        {{rowData[col.field]}}
+                      </div>
+                    </div>
                     <div
-                      *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity'">
+                      *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
                       {{rowData[col.field]}}
                     </div>
                   </td>
