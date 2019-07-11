@@ -11,6 +11,7 @@ import { SelectItem } from 'primeng/api';
 export class TruckReceiptComponent implements OnInit {
   itemCols: any;
   itemData: any;
+  index: number = 0;
   selectedValues: boolean;
   transactionOptions: SelectItem[];
   toRailHeadOptions: SelectItem[];
@@ -105,4 +106,11 @@ export class TruckReceiptComponent implements OnInit {
     ];
   }
 
+  openNext() {
+    this.index = (this.index === 2) ? 0 : this.index + 1;
+  }
+  
+  openPrev() {
+    this.index = (this.index === 0) ? 2 : this.index - 1;
+  }
 }

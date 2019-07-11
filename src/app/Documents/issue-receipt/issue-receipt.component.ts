@@ -61,7 +61,6 @@ SINo: any;
 SIDate: Date;
 IssuingCode: any;
 RCode: any;
-GCode: any;
 StackBalance: any;
 RegularAdvance: any;
 RowId: any;
@@ -214,7 +213,6 @@ index: number = 0;
         break;
       case 'st_no':
         let stackNo = [];
-        this.RCode = '001';
         if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
           const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
@@ -268,13 +266,17 @@ index: number = 0;
   }
 }
 
+onIssueTextChange(event) {
+
+}
+
 onIssueDetailsEnter() { 
   this.DNo = this.DeliveryOrderNo;
   this.DDate = this.DeliveryOrderDate;
   this.SI_Date = this.SIDate;
  this.issueData.push({'SINo': (this.SINo !== undefined) ? this.SINo : '', 'SIDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
 'DNo': this.DeliveryOrderNo, 'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy'),
-'RCode': this.RCode, 'GodownCode': this.GCode});
+'RCode': this.RCode, 'GodownCode': this.IssuingCode});
   if(this.issueData.length !== 0) {
      this.SIDate = this.DeliveryOrderDate = this.DeliveryOrderNo = null;
   }
