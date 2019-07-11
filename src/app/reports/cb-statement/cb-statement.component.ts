@@ -5,8 +5,8 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { groupBy, mergeMap, toArray } from 'rxjs/operators';
+import { of, Observable, from } from 'rxjs';
+import { groupBy, mergeMap, toArray, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cb-statement',
@@ -25,14 +25,14 @@ export class CBStatementComponent implements OnInit {
   totalMetaData: any;
   loading: boolean;
   record: any;
-  constructor(private restApiService: RestAPIService, private authService: AuthService, 
+  constructor(private restApiService: RestAPIService, private authService: AuthService,
     private tableConstants: TableConstants, private router: Router) { }
 
   ngOnInit() {
     this.rowGroupMetadata = {};
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
-    this.loading = true;
+    // this.loading = true;
     this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
       if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
         this.cbData = response.Table;
@@ -162,32 +162,40 @@ export class CBStatementComponent implements OnInit {
         //     findIndex += 1;
         //   }
         // }
-        let capacity = 0;
-        let setFlag = false;
-        let index = 0;
-        const arr: any[] = this.record;
-        this.record.forEach(x => {
-          arr.filter(y => {
-            if (x.RGNAME === y.RGNAME) {
-              setFlag = false;
-              capacity += y.TNCSCapacity;
-              // arr.splice(0, 1);
-              console.log('c', capacity);
-              index += 1;
-            } else {
-              if (!setFlag) {
-                // arr.splice(0, 1);
-              console.log('c', capacity);
-              console.log('ind', index);
-              arr.splice(0, index);
-                  var item = { 'TNCSName': 'TOTAL', 'TNCSCapacity': capacity };
-              this.cbData.splice(index, 0, item);
-              setFlag = true;
-              capacity = 0;
-              }
-            }
-          })
-        })
+        // let capacity = 0;
+        // let setFlag = false;
+        // let index = 0;
+        // let spliceIndex = 1;
+        // const arr: any[] = this.record;
+        // // this.record.forEach(x => {
+        // arr.filter(x => {
+        //   // if (index < arr.length) {
+        //     if (arr[index].RGNAME === arr[index + 1].RGNAME) {
+        //       setFlag = false;
+        //       capacity += arr[index].TNCSCapacity;
+        //       // arr.splice(0, 1);
+        //       console.log('c', capacity);
+        //       index += 1;
+        //     } else {
+        //       if (!setFlag) {
+        //         // arr.splice(0, 1);
+        //         console.log('c', capacity);
+        //         console.log('ind', index);
+        //         capacity += arr[index + 1].TNCSCapacity;
+        //         // arr.splice(0, index);
+        //         var item = { 'TNCSName': 'TOTAL', 'TNCSCapacity': capacity };
+        //         this.cbData.splice(index + spliceIndex, 0, item);
+        //         spliceIndex += 1;
+        //         index += 1;
+        //         setFlag = true;
+        //         capacity = 0;
+        //         console.log('index',index);
+        //         console.log('cb', this.cbData);
+        //       }
+        //     }
+        //   // }
+        // })
+        // })
         for (let i = 0; i < this.cbData.length; i++) {
           let rowData = this.cbData[i];
           let RGNAME = rowData.RGNAME;
@@ -203,14 +211,14 @@ export class CBStatementComponent implements OnInit {
               this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
           }
         }
-      //   var result = this.record.map(o => {
-      //     var k = Object.keys(o)[0];
-      //     return {
-      //         name: k,
-      //         value: o[k]
-      //     };
-      // });
-     
+        //   var result = this.record.map(o => {
+        //     var k = Object.keys(o)[0];
+        //     return {
+        //         name: k,
+        //         value: o[k]
+        //     };
+        // });
+
         this.loading = false;
       } else {
         this.loading = false;

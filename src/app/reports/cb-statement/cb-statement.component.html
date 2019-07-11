@@ -28,11 +28,11 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
-          <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
+           <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
             <td colspan="14">
               <span style="font-weight:bold">{{data.RGNAME}}</span>
             </td>
-          </tr>
+          </tr> 
           <tr [ngStyle]="{'background-color': getColor(data.TNCSName)}">
             <td *ngFor="let col of columns">
               <div *ngIf="col.field !== 'TNCSName'">
