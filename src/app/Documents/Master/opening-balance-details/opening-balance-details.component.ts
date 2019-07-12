@@ -25,6 +25,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   yearOptions: SelectItem[];
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
+  viewCommodityOptions: SelectItem[];
   canShowMenu: boolean;
   disableOkButton: boolean = true;
   BookBalanceBags: number;
@@ -64,24 +65,24 @@ export class OpeningBalanceDetailsComponent implements OnInit {
               this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
               this.rCode = this.rData[0].RCode;
               this.rName = this.rData[0].RName;
+              gList.filter(y => {
+                if (y.GCode === this.loggedInGCode) {
+                  this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
+                  this.godownName = this.gdata[0].GName;
+                  this.gCode = this.gdata[0].GCode;
+                }
+              })
             }
-            gList.filter(y => {
-              if (y.GCode === this.loggedInGCode) {
-                this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-                this.godownName = this.gdata[0].GName;
-                this.gCode = this.gdata[0].GCode;
-              }
-            })
           })
         } else if (this.roleId === '2') {
           this.data = res.filter(x => {
             if (x.Code === this.loggedInRCode) {
               gList = x.list;
               this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
-            }
-            gList.forEach(y => {
+              gList.forEach(y => {
                 this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
             })
+            }
           })
         } else {
           this.data = res.forEach(x => {
