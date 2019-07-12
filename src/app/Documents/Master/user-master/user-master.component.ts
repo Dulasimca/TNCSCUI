@@ -11,16 +11,19 @@ export class UserMasterComponent implements OnInit {
   username: any;
   user_data: any;
   canShowMenu: Boolean;
+  formUser = [];
 
   constructor(private authService: AuthService,) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.username = new FormControl('agustin', Validators.required);
-    this.user_data = new FormGroup({
-      username: new FormControl('agustin', Validators.required),
-   });
+  //   this.user_data = new FormGroup({
+  //  });
 
+  }
+  onSubmit(form) {
+    console.log('form values ', form);
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
   }
   
 }
