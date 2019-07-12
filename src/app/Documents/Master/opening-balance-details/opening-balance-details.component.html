@@ -99,7 +99,8 @@
             <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
           </div>
           <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="button" [disabled]="((!Year || !g_cd) || (!Year || !godownName))" label=View (click)="onView()"></button>
+            <button *ngIf="(roleId == '3')" pButton type="button" [disabled]="(!Year || !godownName)" label=View (click)="onView()"></button>
+            <button *ngIf="(roleId == '1' || roleId == '2')" pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
           </div>
           <div class="form-group ui-g-3 ui-md-1">
               <button pButton type="submit" [disabled]="!f.valid" label=Clear (click)="onClear()"></button>
