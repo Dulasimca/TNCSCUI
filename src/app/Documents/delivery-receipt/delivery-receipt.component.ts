@@ -13,6 +13,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 export class DeliveryReceiptComponent implements OnInit {
   deliveryCols: any;
   deliveryData: any;
+  index: number = 0;
   scheme_data: any[];
   itemCols: any;
   itemData: any;
@@ -136,6 +137,14 @@ export class DeliveryReceiptComponent implements OnInit {
             }
             break;
   }
+}
+
+openNext() {
+  this.index = (this.index === 2) ? 0 : this.index + 1;
+}
+
+openPrev() {
+  this.index = (this.index === 0) ? 2 : this.index - 1;
 }
 
   onPayment() { }

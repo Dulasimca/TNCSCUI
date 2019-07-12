@@ -457,8 +457,13 @@ h3 a {
   font-family: sans-serif;
 }
 .ui-card-body {
-  padding: 0em !important;
+  padding: .7em !important;
 }
+
+.ui-float-label {
+  font-size: smaller;
+}
+
 .no-pad-top {
   padding-top: 0px !important;
 }
