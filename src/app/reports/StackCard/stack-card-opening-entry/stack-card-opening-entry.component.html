@@ -1,0 +1,96 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Stack Card Closing Entry</div>
+      </div>
+    </p-header>
+    <div class="ui-g ui-fluid">
+      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+      <form  #f="ngForm" name="form">
+      <div class="ui-g-12">
+        <div class="ui-g-2"></div>
+        <div class="ui-g-12 ui-md-3">
+            <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+            <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
+              placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="form-group ui-g-12 ui-md-3">
+            <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
+            <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
+              placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        <!-- <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard" for="date">Date</label>
+          <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="Date" [maxDate]="maxDate" [showIcon]="true"
+            dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+        </div> -->
+        <div class="form-group ui-g-12 ui-md-2">
+            <label class="ui-g-7 label-fontsize dashboard">From</label>
+            <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate"
+              dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect($event)"></p-calendar>
+          </div>
+        <div class="ui-g-2"></div>
+      </div>
+
+      <div class="ui-g-12 cardBox">
+        <div class="ui-g-6 ui-md-2 ui-fluid">
+          <label class="ui-g-12 label-fontsize dashboard">Location</label>
+          <input type="text" name="Location" [(ngModel)]="Location" maxlength="3" pInputText autocomplete="off">
+        </div>
+        <!-- <div class="ui-g-3 ui-md-1">
+              <label class="ui-g-12 label-fontsize dashboard">Stack No</label>
+              <input type="text" size="20" [(ngModel)]="stackNo" maxlength="20" pInputText autocomplete="off">
+            </div> -->
+        <div class="ui-g-6 ui-md-2 ui-fluid">
+          <label class="ui-g-12 label-fontsize dashboard" for="Formation">Formation No</label>
+          <input type="text" name="Formation" [(ngModel)]="Formation" maxlength="4" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-12 label-fontsize dashboard" for="StackNo">Stack No</label>
+          <input type="text" name="StackNo" [(ngModel)]="StackNo" maxlength="7" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-12 ui-md-3 carded" style="margin-top: 12px">
+          <a>Sample Location No G1 OR G1/23 OR 23</a><br>
+          <a>Sample Formation No 1 OR 28 OR 523</a>
+        </div>
+        <div class="ui-g-6 ui-md-1 ui-fluid">
+          <label class="ui-g-12 label-fontsize dashboard" for="Bags">Bags</label>
+          <input type="text" name="Bags" [(ngModel)]="Bags" maxlength="3" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-6 ui-md-2 ui-fluid">
+          <label class="ui-g-12 label-fontsize dashboard" for="Weights">Weight(Kgs)</label>
+          <input type="text" name="Weights" [(ngModel)]="Weights" maxlength="5" pInputText autocomplete="off">
+        </div>
+      </div>
+      <div class="ui-g-12 dashboard">
+        <div class="ui-g-3 ui-md-1" style="font-size: smaller; color: grey">
+          <a>Unit in Kgs</a>
+        </div>
+        <div class="ui-g-3 ui-md-2" style="font-size: smaller; color: grey">
+          <a>Wt. Of Oil in KiloLitres</a>
+        </div>
+        <div class="ui-g-7"></div>
+        <div class="ui-g-1 ui-fluid">
+          <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-1 ui-fluid">
+          <button pButton type="button" label=View (click)="onView()" [disabled]="!Date"></button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </p-panel>
+</div>

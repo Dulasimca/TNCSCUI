@@ -1,0 +1,100 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Receipt Entry</div>
+      </div>
+    </p-header>
+    <div class="ui-g ui-fluid">
+      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+      <div class="ui-g-12">
+        <div class="ui-g-1"></div>
+
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Receipt Date</label>
+          <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
+            dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Receipt No</label>
+          <input type="number" size="20" [(ngModel)]="ReceiptNo" maxlength="20" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-1 ui-fluid" style="padding-top: 24px">
+          <button pButton type="button" label=OK (click)="onEnter()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span class="ui-float-label">
+            <textarea rows="3" cols="85" pInputTextarea></textarea>
+            <label class="float-input">Details</label>
+          </span>
+        </div>
+      </div>
+      <div class="cardBox">
+      <div class="ui-g-12">
+          <div class="ui-g-2"></div>
+          <div class="ui-g-3 ui-md-1">
+            <label class="ui-g-12 label-fontsize dashboard">CA/DD/CH</label>
+            <input type="text" size="20" [(ngModel)]="CheDd" maxlength="20" pInputText autocomplete="off">
+          </div>
+          <div class="ui-g-3 ui-md-2">
+            <label class="ui-g-7 label-fontsize dashboard">CHE/DD. No.</label>
+            <!-- <input type="number" [(ngModel)]="CheNo" maxlength="4" pInputText autocomplete="off"> -->
+            <input type="text" pInputText pKeyFilter="num" maxlength="4" autocomplete="off">
+          </div>
+          <div class="ui-g-3 ui-md-2">
+            <label class="ui-g-7 label-fontsize dashboard">CHE/DD Date</label>
+            <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
+              dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          </div>
+          <div class="ui-g-3 ui-g-2" style="padding-top: 26px">
+            <p-checkbox name="group1" value="society" label="Select Society" [(ngModel)]="selectedCities" inputId="ny">
+            </p-checkbox>
+          </div>
+      </div>
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-g-7 label-fontsize dashboard">Bank</label>
+            <input type="text" size="20" [(ngModel)]="Bank" maxlength="20" pInputText autocomplete="off">
+          </div>
+          <div class="ui-g-12 ui-md-4">
+            <label class="ui-g-7 label-fontsize dashboard">Received from</label>
+            <input type="text" size="20" [(ngModel)]="RecdFrom" maxlength="20" pInputText autocomplete="off">
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <label class="ui-g-12 label-fontsize dashboard">CA/CH/DD Amt</label>
+            <input type="number" size="20" [(ngModel)]="CheAmount" maxlength="20" pInputText autocomplete="off">
+          </div>
+          <div class="ui-g-1 ui-fluid" style="padding-top: 24px">
+            <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="isViewDisabled"></button>
+          </div>
+        </div>
+      <div class="ui-g-12">
+        <p-table [columns]="stackReceiptCols" [value]="stackReceiptData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Amount'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field !== 'NoPacking'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>

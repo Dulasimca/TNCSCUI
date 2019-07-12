@@ -37,7 +37,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   selectedRow: any;
   msgs: any;
 
-  constructor( private authService: AuthService, private roleBasedService: RoleBasedService, 
+  constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -47,46 +47,46 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       this.godownName = this.data.rgData[1].GName;
       this.gCode = this.data.rgData[1].GCode;
       this.rCode = this.data.rgData[0].RCode;
-    },1200);
+    }, 1200);
     let commoditySelection = [];
-    if(this.commodityOptions === undefined){
+    if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
           data.forEach(y => {
             commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
             this.commodityOptions = commoditySelection;
           });
-      this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-    }
+          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        }
       })
     }
   }
 
   onSelect() {
-          let yearArr = [];
-          const range = 3;
-        const year = new Date().getFullYear();
-        for (let i = 0; i < range; i++) {
-          if (i === 0) {
-            yearArr.push({ 'label': (year).toString(), 'value': year });
-          } else if (i === 1) {
-            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
-          } else {
-            yearArr.push({ 'label': (year - 2).toString(), 'value': year -2 });
-          }
-        }
-        this.yearOptions = yearArr;
-        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+    let yearArr = [];
+    const range = 3;
+    const year = new Date().getFullYear();
+    for (let i = 0; i < range; i++) {
+      if (i === 0) {
+        yearArr.push({ 'label': (year).toString(), 'value': year });
+      } else if (i === 1) {
+        yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+      } else {
+        yearArr.push({ 'label': (year - 2).toString(), 'value': year - 2 });
+      }
+    }
+    this.yearOptions = yearArr;
+    this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
   }
 
   onChange(e) {
-    if(this.commodityOptions !== undefined) {
+    if (this.commodityOptions !== undefined) {
       const selectedItem = e.value;
       if (selectedItem !== null) {
-      this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
-      if (this.openingBalanceData.length === 0) {
-      this.messageService.add({key: 't-err', severity:'warn', summary: 'Warn Message', detail:'No record for selected item, Please try another!'});
-      }
+        this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
+        if (this.openingBalanceData.length === 0) {
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record for selected item, Please try another!' });
+        }
       } else {
         console.log(this.opening_balance)
         this.openingBalanceData = this.opening_balance;
@@ -101,7 +101,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   showSelectedData() {
     this.viewPane = false;
-    this.commodityOptions = [{'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
+    this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
     this.c_cd = this.selectedRow.ITDescription;
     this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
@@ -112,7 +112,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onView() {
-    const params = new HttpParams().set('ObDate','04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.gCode);
+    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.gCode);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       console.log(res);
       this.viewPane = true;
@@ -137,9 +137,9 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
       } else {
-        this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
       }
     })
   }
