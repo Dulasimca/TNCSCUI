@@ -54,13 +54,14 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="number" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
+            <input type="number" maxlength="11" name="BookBalanceBags" (input)="calculateBagS()"
+             [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
             oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" required>
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
             <input type="number" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;"
-             name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight"  (ngModelChange)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+             name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight"  (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
@@ -71,14 +72,17 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="number" maxlength="6" name="PhysicalBalanceBags"
+            <input type="number" maxlength="6" name="PhysicalBalanceBags" (input)="calculateBagS()"
             oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
             [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
+            <div *ngIf="validationErr">
+                <div class="error-Msg">Please enter bags less than BookBalance Bags!</div>
+              </div>
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
             <input type="number" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;"
-             name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (ngModelChange)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+             name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
              <div *ngIf="showErr">
                <div class="error-Msg">Please enter weight less than BookBalance Weight!</div>
              </div>
@@ -86,7 +90,7 @@
         </div>
         <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
           <label class="ui-g label-fontsize" for="CummlitiveShortage">Cumulitive Shortage</label>
-          <input class="ui-g-6" type="number" name="CummlitiveShortage" [(ngModel)]="CumulitiveShortage" pInputText autocomplete="off" [readonly]="true">
+          <input class="ui-g-6" type="number" name="CummlitiveShortage" [(ngModel)]="CumulitiveShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
         </div>
         <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 53px">
           <button pButton type="button" label=Excel (click)="exportAsXLSX()"></button>

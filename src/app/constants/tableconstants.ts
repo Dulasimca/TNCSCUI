@@ -736,10 +736,10 @@ export class TableConstants {
     this.OpeningBalanceMasterEntry = [
       { field: 'GodownName', header: 'GODOWN NAME' },
       { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
-      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
-      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
       { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
+      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
+      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
       { field: 'CumulitiveShortage', header: 'CUMULITIVE SHORTAGE'}
     ]
 

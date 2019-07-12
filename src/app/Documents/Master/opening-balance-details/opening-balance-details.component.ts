@@ -28,10 +28,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   viewCommodityOptions: SelectItem[];
   canShowMenu: boolean;
   disableOkButton: boolean = true;
-  BookBalanceBags: number;
+  BookBalanceBags: any;
   BookBalanceWeight: number;
   CumulitiveShortage: number;
-  PhysicalBalanceBags: number;
+  PhysicalBalanceBags: any;
   PhysicalBalanceWeight: number;
   rCode: any;
   gCode: any;
@@ -46,6 +46,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   loggedInGCode: any;
   loggedInRCode: any;
   rName: any;
+  validationErr: boolean = false;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
@@ -122,6 +123,17 @@ export class OpeningBalanceDetailsComponent implements OnInit {
    
   }
 
+  calculateBagS() {
+    if (this.BookBalanceBags !== undefined && this.PhysicalBalanceBags !== undefined) {
+      if (this.BookBalanceBags < this.PhysicalBalanceBags) {
+        this.validationErr = true;
+        this.PhysicalBalanceBags = null;
+      } else {
+          this.validationErr = false;
+      }
+    }
+  }
+
   onSelect(selectedItem) {
     let godownSelection = [];
     switch (selectedItem) {
@@ -182,10 +194,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.c_cd = this.selectedRow.ITDescription;
     this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
+    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight.toFixed(3);
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
-    this.CumulitiveShortage = this.selectedRow.CumulitiveShortage;
+    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight.toFixed(3);
+    this.CumulitiveShortage = this.selectedRow.CumulitiveShortage.toFixed(3);
   }
 
   onView() {
@@ -196,7 +208,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.viewPane = true;
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
         this.openingBalanceData = res;
-        this.openingBalanceData.forEach(x => x.GodownName = this.godownName);
+        this.openingBalanceData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
