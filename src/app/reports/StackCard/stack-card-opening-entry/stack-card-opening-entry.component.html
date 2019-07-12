@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Stack Card Closing Entry</div>
+        <div class="ui-g-4 dashboard">Stack Card Opening Entry</div>
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
@@ -13,24 +13,25 @@
       <div class="ui-g-12">
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
-            <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-            <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
-              placeholder="-select-">
+            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
+             <input *ngIf="roleId == '3'" type="text" name="GodownName" size="20" pInputText autocomplete="off" required
+              [(ngModel)]="godownName" [readOnly]="true"> 
+              <p-dropdown name="godownName"
+              [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
             </p-dropdown>
         </div>
         <div class="form-group ui-g-12 ui-md-3">
-            <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-            <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
-              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
-              placeholder="-select-">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
+            <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
+          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
+             filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
           </div>
         <!-- <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="date">Date</label>

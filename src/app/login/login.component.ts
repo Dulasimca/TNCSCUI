@@ -8,6 +8,7 @@ import { PathConstants } from '../constants/path.constants';
 import { HttpParams } from '@angular/common/http';
 import { LoginService } from './login.service';
 import { MessageService } from 'primeng/api';
+import { RoleBasedService } from '../common/role-based.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   isChecked: boolean;
   @Output() loggingIn = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private roleBasedService: RoleBasedService,
     private restApiService: RestAPIService, private loginService: LoginService, private messageService: MessageService) {
 
   }
@@ -57,8 +58,8 @@ export class LoginComponent implements OnInit {
       if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd.toLowerCase()) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
-        this.godownCode = (this.roleId !== undefined && this.roleId !== 1) ? credentials[0].GodownCode : 0;
-        this.regionCode = (this.roleId !== undefined && this.roleId !== 1) ? credentials[0].Regioncode : 0;
+        this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
+        this.regionCode = (credentials[0].Regioncode !== '' && credentials[0].Regioncode !== undefined) ? credentials[0].Regioncode : 0;
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);

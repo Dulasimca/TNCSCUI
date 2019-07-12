@@ -7,7 +7,9 @@
         <div class="ui-g-12 ui-md-4 dashboard">Details Of Opening Balance Of All Stocks</div>
       </div>
     </p-header>
-    <p-toast class="ui-toast-message-success" position="top-center" key="t-err"></p-toast>
+    <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
+    <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
+    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
     <div class="ui-g ui-md-12 ui-fluid">
       <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
       <form  #f="ngForm" name="form">
@@ -15,12 +17,19 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
-            <input type="text" name="GodownName" size="20" pInputText autocomplete="off" required
-              [(ngModel)]="godownName" [readOnly]="true">
+             <input *ngIf="roleId == '3'" type="text" name="GodownName" size="20" pInputText autocomplete="off" required
+              [(ngModel)]="godownName" [readOnly]="true"> 
+              <p-dropdown *ngIf="(roleId == '1' || roleId == '2')" name="godownName"
+              [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
           </div>
         <div class="form-group ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd"
+          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
              filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
@@ -30,7 +39,7 @@
         <div class="form-group ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
           <p-dropdown #y id="float-input" [options]="yearOptions" name="year"
-           [(ngModel)]="Year" (onClick)="onSelect()" optionLabel="label" [showClear]="true" required>
+           [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
         <div class="ui-g-2"></div>
@@ -45,11 +54,13 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="number" maxlength="6" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off" required>
+            <input type="number" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" required>
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
-            <input type="number" maxlength="6" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" size="20" pInputText autocomplete="off" required appDecimalDigit>
+            <input type="number" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;"
+             name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight"  (ngModelChange)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
@@ -60,16 +71,22 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="number" maxlength="6" name="PhysicalBalanceBags" [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
+            <input type="number" maxlength="6" name="PhysicalBalanceBags"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
+            [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
-            <input type="number" maxlength="6" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" size="20" pInputText autocomplete="off" required appDecimalDigit>
+            <input type="number" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;"
+             name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (ngModelChange)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+             <div *ngIf="showErr">
+               <div class="error-Msg">Please enter weight less than BookBalance Weight!</div>
+             </div>
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
           <label class="ui-g label-fontsize" for="CummlitiveShortage">Cumulitive Shortage</label>
-          <input class="ui-g-6" type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;" name="CummlitiveShortage" [(ngModel)]="CumulitiveShortage" pInputText autocomplete="off" required>
+          <input class="ui-g-6" type="number" name="CummlitiveShortage" [(ngModel)]="CumulitiveShortage" pInputText autocomplete="off" [readonly]="true">
         </div>
         <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 53px">
           <button pButton type="button" label=Excel (click)="exportAsXLSX()"></button>
@@ -82,8 +99,12 @@
             <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
           </div>
           <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="button" [disabled]="!Year" label=View (click)="onView()"></button>
+            <button *ngIf="(roleId == '3')" pButton type="button" [disabled]="(!Year || !godownName)" label=View (click)="onView()"></button>
+            <button *ngIf="(roleId == '1' || roleId == '2')" pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
           </div>
+          <div class="form-group ui-g-3 ui-md-1">
+              <button pButton type="submit" [disabled]="!f.valid" label=Clear (click)="onClear()"></button>
+            </div>
           <div class="ui-g-5"></div>
         </div>
       </form>
@@ -91,11 +112,11 @@
   </div>
   </p-panel>
 </div>
-<p-dialog header="Stock-Receipt" [contentStyle]="{'overflow':'visible'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Opening Balance" [contentStyle]="{'overflow':'visible'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
   <div class="ui-g-12 ui-md-6">
       <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
-      <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
+      <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
        (onChange)="onChange($event)" filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
@@ -103,8 +124,8 @@
           </p-dropdown>
   </div>
   <div class="ui-g-12 ui-fluid">
-      <p-table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-       selectionMode="single" [responsive]="true" autoLayout="true"  [paginator]="true" (onRowSelect)="onRowSelect($event)"> 
+      <p-table #table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+       selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)"> 
         <ng-template pTemplate="colgroup" let-columns>
           <colgroup>
             <col *ngFor="let col of columns" style="width:80px">

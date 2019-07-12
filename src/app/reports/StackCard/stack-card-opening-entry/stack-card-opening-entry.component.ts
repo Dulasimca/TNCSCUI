@@ -32,7 +32,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   commodityCd: any;
   disableOkButton: boolean = true;
   selectedRow: any;
-  godownOption: SelectItem[];
+  godownOptions: SelectItem[];
   commodityOption: SelectItem[];
   Weights: number;
   Bags: number;
@@ -70,18 +70,19 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   }
 
-  // onSelect(item) {
-  //   let godownSelection = [];
-  //   let commoditySelection = [];
-
-  //   switch (item) {
-  //     case 'gd':
-  //       if (this.data.godownData !== undefined) {
-  //         this.data.godownData.forEach(x => {
-  //           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-  //           this.godownOption = godownSelection;
-  //         });
-  //       }
+  onSelect(item) {
+    let godownSelection = [];
+    switch (item) {
+      case 'gd':
+        if (this.data.godownData === undefined) {
+          this.data.godownData.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        }
+      }
+    }
   //       break;
   //     case 'cd':
   //       if(this.commodityOption === undefined){
@@ -133,18 +134,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.StackNo = this.selectedRow.StackNo;
     this.Bags = this.selectedRow.Bags;
     this.Weights = this.selectedRow.Weights;
-  }
-
-  onView() {
-    const params = new HttpParams().set('obDate', '04' + '/' + '/' + this.Year.value).append('GCode', this.gCode);
-    this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
-      console.log(res);
-      this.viewPane = true;
-      this.stackOpeningCols = this.tableConstants.OpeningBalanceMasterEntry;
-      this.stackOpeningData = res;
-      this.stackOpeningData.forEach(x => x.GodownName = this.godownName);
-      this.Opening_Balance = this.stackOpeningData.slice(0);
-    })
   }
 
   onSave() {
