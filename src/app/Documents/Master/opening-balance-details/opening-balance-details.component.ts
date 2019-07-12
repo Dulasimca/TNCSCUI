@@ -37,7 +37,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   viewPane: boolean;
   selectedRow: any;
   msgs: any;
-  roleId: number;
+  roleId: any;
+  allowSelect: boolean;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
@@ -45,8 +46,9 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.roleId = this.authService.getUserAccessible().roleId;
     setTimeout(() => {
+      this.allowSelect = (this.roleId != 3) ? true : false;
       this.godownName = this.data.rgData[1].GName;
       this.gCode = this.data.rgData[1].GCode;
       this.rCode = this.data.rgData[0].RCode;
