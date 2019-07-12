@@ -1389,10 +1389,26 @@ ul
             padding: 5px !important;
           }
 
-          .ui-toast .ui-toast-message-content {
+          .ui-toast .ui-toast-message-error {
             padding: .5em 1em;
             background-color: crimson;
             color: white;
+          }
+          .ui-toast .ui-toast-message-success {
+            padding: .5em 1em;
+            background-color: rgb(120, 221, 120);
+            color: white;
+          }
+
+          .ui-toast .ui-toast-message-warn {
+            padding: .5em 1em;
+            background-color: rgb(247, 250, 98);
+            color: white;
+          }
+
+          .error-Msg{
+            color: rgb(240, 36, 36);
+            font-size: 14px;
           }
 
           .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
