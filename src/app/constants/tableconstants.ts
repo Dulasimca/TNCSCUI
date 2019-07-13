@@ -35,6 +35,8 @@ export class TableConstants {
   TruckFromRegionReport: any;
   GunnyReport: any;
   StackCardOpeningEntryReport: any;
+  StackCardClosingEntryReport: any;
+  StackReceiptEntryReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
   TruckTransit: any;
@@ -744,5 +746,17 @@ export class TableConstants {
     ]
 
     this.GodownCustomerList = [];
+
+    this.StackCardClosingEntryReport = [];
+
+    this.StackReceiptEntryReport = [
+      { field: 'Id', header: 'ID' },
+      { field: '', header: 'CHE/DD'},
+      { field: '', header: 'CHE/DD No'},
+      { field: '', header: 'Date'},
+      { field: '', header: 'AMOUNT'},
+      { field: '', header: 'BANK'},
+      { field: '', header: 'TO WHOM'},
+    ];
   }
 }

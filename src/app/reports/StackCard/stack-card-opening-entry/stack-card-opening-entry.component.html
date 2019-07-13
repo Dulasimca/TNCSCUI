@@ -1,0 +1,148 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Stack Card Opening Entry</div>
+      </div>
+    </p-header>
+    <div class="ui-g ui-fluid">
+      <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
+      <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
+      <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+      <form #f="ngForm" name="form">
+        <div class="ui-g-12">
+          <div class="ui-g-2"></div>
+          <div class="ui-g-12 ui-md-3">
+            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
+            <input *ngIf="roleId == '3'" type="text" name="GodownName" size="20" pInputText autocomplete="off" required
+              [(ngModel)]="godownName" [readOnly]="true">
+            <p-dropdown *ngIf="(roleId == '1' || roleId == '2')" name="godownName" [options]="godownOptions"
+              [(ngModel)]="g_cd" (onClick)="onSelect('gd')" filter="true"
+              optionLabel="label" [showClear]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="form-group ui-g-12 ui-md-3">
+            <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
+            <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()" filter="true"
+              optionLabel="label" [showClear]="true" name="CommodityName" required>
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="form-group ui-g-12 ui-md-2">
+            <label class="ui-g-7 label-fontsize dashboard" for="SRDate">Date</label>
+            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="SRDate" [(ngModel)]="SRDate"></p-calendar>
+          </div>
+          <div class="ui-g-2"></div>
+        </div>
+        <div class="ui-g-12 cardBox">
+          <div class="form-group ui-g-6 ui-md-2 ui-fluid">
+            <label class="ui-g-12 label-fontsize dashboard">Location</label>
+            <input type="text" maxlength="3" name="Location" (input)="calculateStackNo()" [(ngModel)]="Location" size="20" pInputText
+              autocomplete="off" required appDecimalDigit>
+          </div>
+          <!-- <div class="ui-g-3 ui-md-1">
+              <label class="ui-g-12 label-fontsize dashboard">Stack No</label>
+              <input type="text" size="20" [(ngModel)]="stackNo" maxlength="20" pInputText autocomplete="off">
+            </div> -->
+          <div class="form-group ui-g-6 ui-md-2 ui-fluid">
+            <label class="ui-g-12 label-fontsize dashboard" for="Formation">Formation No</label>
+            <input type="text" maxlength="4" name="Formation" (input)="calculateStackNo()" [(ngModel)]="Formation" size="20" pInputText
+              autocomplete="off" required appDecimalDigit>
+          </div>
+          <div class="form-group ui-g-12 ui-md-2">
+            <label class="ui-g-12 label-fontsize dashboard" for="StackNo">Stack No</label>
+            <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="7"
+              pInputText autocomplete="off" appDecimalDigit>
+          </div>
+          <div class="ui-g-12 ui-md-3 carded" style="margin-top: 12px">
+            <a>Sample Location No G1 OR G1/23 OR 23</a><br>
+            <a>Sample Formation No 1 OR 28 OR 523</a>
+          </div>
+          <div class="form-group ui-g-6 ui-md-1 ui-fluid">
+            <label class="ui-g-12 label-fontsize dashboard" for="Bags">Bags</label>
+            <input type="text" maxlength="5" name="Bags" [(ngModel)]="Bags" pInputText autocomplete="off" required
+              appDecimalDigit>
+          </div>
+          <div class="form-group ui-g-6 ui-md-2 ui-fluid">
+            <label class="ui-g-12 label-fontsize dashboard" for="Weights">Weight(Kgs)</label>
+            <input type="text" name="Weights" [(ngModel)]="Weights" maxlength="5" pInputText autocomplete="off" required
+              appDecimalDigit>
+          </div>
+        </div>
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-3 ui-md-1" style="font-size: smaller; color: grey">
+            <a>Unit in Kgs</a>
+          </div>
+          <div class="ui-g-3 ui-md-2" style="font-size: smaller; color: grey">
+            <a>Wt. Of Oil in KiloLitres</a>
+          </div>
+          <div class="ui-g-6"></div>
+          <div class="form-group ui-g-3 ui-md-1">
+            <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
+          </div>
+          <div class="form-group ui-g-3 ui-md-1">
+            <button *ngIf="(roleId == '3')" pButton type="button" [disabled]="(!SRDate || !godownName)" label=View
+              (click)="onView()"></button>
+            <button *ngIf="(roleId == '1' || roleId == '2')" pButton type="button" [disabled]="(!SRDate || !g_cd)"
+              label=View (click)="onView()"></button>
+          </div>
+          <div class="form-group ui-g-3 ui-md-1">
+            <button pButton type="submit" [disabled]="!f.valid" label=Clear (click)="onClear()"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-panel>
+</div>
+<p-dialog header="Stack Opening Balance" [contentStyle]="{'overflow':'visible'}" [modal]="true" [maximizable]="true"
+  [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+  <div class="ui-g-12 ui-md-6">
+    <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
+    <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
+      (onChange)="onChange($event)" filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
+      <ng-template let-item pTemplate="selectedItem">
+        <span style="vertical-align:middle">{{item.label}}</span>
+      </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+    <p-table #table [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="20"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+      [paginator]="true" (onRowSelect)="onRowSelect($event)">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="ui-g-4 ui-md-10"></div>
+  <div class="ui-g-4 ui-md-1 no-right-pad">
+    <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+      (click)="showSelectedData()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1 no-left-pad">
+    <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
+  </div>
+</p-dialog>

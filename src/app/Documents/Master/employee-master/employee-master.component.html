@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!-- <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
   <p-panel>
@@ -91,4 +91,109 @@
   </div>
     </div>
   </p-panel>
+</div> -->
+
+
+
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Employee Master</div>
+      </div>
+    </p-header>
+    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <div class="header-main">
+      <div>
+        <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="username" size="30" pInputText [(ngModel)]="formUser.username" username="eepf"
+              #username="ngModel" autocomplete="off" required>
+            <label for="userName">Eepf No</label>
+          </div>
+          <!-- <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="empname" size="30" pInputText [(ngModel)]="formUser.empname" name="empname"
+              #empname="ngModel" autocomplete="off" required>
+            <label for="empName">Employee Name</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="ref" size="30" pInputText [(ngModel)]="formUser.ref" name="ref"
+              #ref="ngModel" autocomplete="off" required>
+            <label for="refNo">Reference No</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
+              #phone="ngModel" autocomplete="off" required>
+            <label for="phone">Phone number</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="empId" size="30" pInputText [(ngModel)]="formUser.empId" name="empId"
+              #empId="ngModel" autocomplete="off" required>
+            <label for="empId">Employee Id</label>
+          </div> -->
+          <div class="bottom" style="padding-left: 85px">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
+              label=Submit [disabled]="!templateForm.form.valid"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-panel>
 </div>
+
+
+
+<!-- <app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">User Master</div>
+      </div>
+    </p-header>
+    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 offset-md-2">
+                <h3>Angular 7 Template-Driven Form Validation</h3>
+                <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+                    <div class="ui-float-label" style="margin-bottom: 20px">
+                      <input class="icon2" type="username" size="30" pInputText [(ngModel)]="formUser.username" name="username"
+                        #username="ngModel" autocomplete="off" required>
+                      <label for="userName">Username</label>
+                    </div>
+                    <div class="ui-float-label" style="margin-bottom: 20px">
+                      <input class="icon2" type="password" size="30" pInputText [(ngModel)]="formUser.password" name="password"
+                        #password="ngModel" autocomplete="off" required>
+                      <label for="password">Password</label>
+                    </div>
+                    <div class="ui-float-label" style="margin-bottom: 20px">
+                      <input class="icon2" type="email" size="30" pInputText [(ngModel)]="formUser.email" name="email"
+                        #email="ngModel" autocomplete="off" required>
+                      <label for="email">Email</label>
+                    </div>
+                    <div class="ui-float-label" style="margin-bottom: 20px">
+                      <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
+                        #phone="ngModel" autocomplete="off" required>
+                      <label for="phone">Phone number</label>
+                    </div>
+                    <div class="ui-float-label" style="margin-bottom: 20px">
+                      <input class="icon2" type="empId" size="30" pInputText [(ngModel)]="formUser.empId" name="empId"
+                        #empId="ngModel" autocomplete="off" required>
+                      <label for="empId">Employee Id</label>
+                    </div>
+                    <div class="bottom" style="padding-left: 85px">
+                      <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
+                        label=Submit [disabled]="!templateForm.form.valid"></button>
+                    </div>
+                  </form>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </p-panel>
+                    </div> -->

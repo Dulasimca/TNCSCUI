@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
   styleUrls: ['./employee-master.component.css']
 })
 export class EmployeeMasterComponent implements OnInit {
+  employeeUser: [];
   canShowMenu: Boolean;
 
   constructor(private authService: AuthService,) { }
@@ -14,6 +15,10 @@ export class EmployeeMasterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
+  }
+  onSubmit(form) {
+    console.log('form values ', form);
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
   }
 
 }

@@ -41,7 +41,7 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { StackCardOpeningEntryComponent } from './reports/stack-card-opening-entry/stack-card-opening-entry.component';
+import { StackCardOpeningEntryComponent } from './reports/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
@@ -70,6 +70,9 @@ import { ItemMasterModificationComponent } from './Documents/Master/item-master-
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
 import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
+import { StackCardClosingComponent } from './reports/StackCard/stack-card-closing/stack-card-closing.component';
+import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
+import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 
 
 const routes: Routes = [
@@ -142,6 +145,10 @@ const routes: Routes = [
   { path: 'Society Master Entry', component: SocietMasterEntryComponent },
   { path: 'Item Master Modification', component: ItemMasterModificationComponent },
   { path: 'Godown Customer List', component: CustomerListComponent },
+  { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
+  { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },
+  { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
+  { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
