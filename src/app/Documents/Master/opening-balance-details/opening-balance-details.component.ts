@@ -6,6 +6,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-opening-balance-details',
@@ -48,7 +49,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   rName: any;
   validationErr: boolean = false;
 
-  constructor(private authService: AuthService, private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
+  constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
+     private restApiService: RestAPIService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -248,4 +250,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.onClear();
   }
 
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.openingBalanceData, 'Commodity_Receipt', this.openingBalanceCols);
+  }
 }
