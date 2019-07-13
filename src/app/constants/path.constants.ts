@@ -50,6 +50,6 @@ export class PathConstants {
   public static readonly OPENING_BALANCE_MASTER_GET = '/api/OpeningBalanceMaster/Get';
   public static readonly STOCK_ISSUE_MEMO_DOCUMENTS = '/api/StockIssueMemo/Post';
   public static readonly STOCK_ISSUE_VIEW_DOCUMENTS = '/api/StockIssueMemo/Get';
-  public static readonly STACK_OPENING_ENTRY_REPORT_POST = 'api/StackOpeningEntry/Post';
-  public static readonly STACK_OPENING_ENTRY_REPORT_GET = 'api/StackOpeningEntry/Get';
+  public static readonly STACK_OPENING_ENTRY_REPORT_POST = '/api/StackOpeningEntry/Post';
+  public static readonly STACK_OPENING_ENTRY_REPORT_GET = '/api/StackOpeningEntry/Get';
 }
