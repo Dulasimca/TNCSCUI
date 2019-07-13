@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../shared-services/auth.service';
 import { DatePipe } from '@angular/common';
+import { RoleBasedService } from '../common/role-based.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,9 @@ import { DatePipe } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   isValidUser: boolean;
-  loggedUsername: string;
+  username: any;
+  godownName: string;
+  regionName: string;
   timeString: string;
   duration = 120;
   hours: any;
@@ -22,18 +25,23 @@ export class HeaderComponent implements OnInit {
   interval: number;
   date: any;
   seconds: any;
-  constructor(private loginService: LoginService, private authService: AuthService, private datePipe: DatePipe) { }
+  data: any;
+  constructor(private roleBasedService: RoleBasedService, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
-    // showTime();
-    // const currentDate = new Date();
-    // this.date = this.datePipe.transform(currentDate, 'dd-MM-yyyy');
-    // this.isValidUser = (this.loginService.getUsername() !== undefined && this.loginService.getUsername() !== '') ? true : false;
-    // this.loggedUsername = this.loginService.getUsername();
+    this.username = JSON.parse(this.authService.getCredentials());
+    this.data = this.roleBasedService.getInstance();
   }
   
   onLogOut() {
    this.authService.logout();
+ }
+
+ onViewUserinfo(event, panel) {
+   panel.toggle(event);
+  this.username = this.username.user;
+  this.godownName = this.data.rgData[1].GName;
+  this.regionName = this.data.rgData[0].RName;
  }
 
  onForgetPswd(){

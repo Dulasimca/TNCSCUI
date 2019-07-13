@@ -1,66 +1,3 @@
-<!-- <div class="header">
-  <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
-    style="max-width: 100px; max-height: 100px;padding-top: 10px;" routerLink="/Home" />
-  <div class="main-header">
-    <h1 style="color: rgb(19, 119, 185) !important;">Tamilnadu Civil Supplies Corporation</h1>
-    <h3 style="color: rgb(19, 119, 185) !important;text-align: center;">
-      Supply Chain Management-(SCM)
-    </h3>
-  </div>
-  <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [style]="{width: '350px'}">
-      <div class="overlay-content" style="text-align: center">
-        <div>
-          <label style="color: blue"><b>FS</b></label>
-        </div>
-        <div>
-          <label>CHENNAI-NORTH</label>
-        </div>
-        <div>
-          <label>GN00789</label>
-        </div>
-      </div>
-      <div class="overlay-footer">
-        <button class="dashboard" pButton type="button" label="Change Password?" style="float: left"
-          (click)="onForgetPswd()"></button>
-        <button class="dashboard" pButton type="button" label="Logout" icon="fa fa-sign-out" style="float:right"
-          (click)="onLogOut()"></button>
-      </div>
-    </p-overlayPanel>
-    <div style="float: right;text-align: end !important">
-       <i id="displayTimer" onload="showTime()"></i>
-        <a></a>
-        <i style="padding-left: 5px">{{date}}</i>
-      <i class="fa fa-user-circle fa-2x inline-padding text-color" 
-        (click)="op.toggle($event)"></i>
-  </div><a></a>
-  <div class="header-right" style="float: right"> 
-<a href="http://omnisurv-cloud.com/index" target="_blank">
-      <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"></i>
-    </a>
-    <a href="https://bonton.aquilatrack.com" target="_blank">
-      <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking"></i>
-    </a>
-    <a href="http://180.179.49.72:8081">
-      <i class="fa fa-book fa-2x header-accounts" title="Account Details"></i>
-    </a>
-    <a href=" http://180.179.49.72:82/bugs/" target="_blank">
-      <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs"></i>
-    </a>
-    <a href=" http://tncsc-edpc.in" target="-blank">
-      <img style="width: 30px; height: 27px;" src="../../assets/layout/images/dashboard/PDS.png"
-        title="DPC" />
-    </a>
-    <a href="  http://fci.gov.in/" target="_blank">
-      <img style="width: 30px; height: 27px;" src="../../assets/layout/images/dashboard/FCI.png"
-        title="FCI" />
-    </a>
-    <a href="https://www.tnpds.gov.in/" target="_blank">
-      <img style="width: 30px; height: 25px;padding-top: 2px" src="../../assets/layout/images/dashboard/G2G.png"
-        title="G2G" />
-    </a>
-  </div>
-</div> -->
-
 <div>
   <div class="ui-g-12 ui-md-1" style="padding: inherit">
     <img href="#default" class="logo" src="../../assets/layout/images/dashboard/tncsc-logo.png" alt="logo"
@@ -74,9 +11,7 @@
   </div>
   <div class="ui-g-12 ui-md-6" style="padding: inherit">
     <div style="float: right;text-align: end !important">
-      <!-- <i id="displayTimer" onload="showTime()"></i>
-      <i style="padding-left: 20px;padding-right: 20px;">{{date}}</i> -->
-      <i class="fa fa-user-circle fa-2x inline-padding text-color" (click)="op.toggle($event)"></i>
+      <i class="fa fa-user-circle fa-2x inline-padding text-color" (click)="onViewUserinfo($event, op)"></i>
     </div>
     <div class="head" style="padding-top: 35px;float: right">
       <a href="http://omnisurv-cloud.com/index" target="_blank">
@@ -112,12 +47,9 @@
             <img alt="" src="../../assets/layout/images/dashboard/govt_emblem.png">
           </div>
           <div class="info">
-            <!-- <div class="title">
-              <a target="_blank" href="">TNCSC</a>
-            </div> -->
-            <div class="desc" style="color: blue">FS</div>
-            <div class="desc">CHENNAI-NORTH</div>
-            <div class="desc">GN00789</div>
+            <div class="desc" style="color: blue">{{username}}</div>
+            <div class="desc">{{regionName}}</div>
+            <div class="desc">{{godownName}}</div>
             <br>
             <div class="title">
               <a href="#" data-target="#pwdModal" data-toggle="modal" style="font-size: 14px">Change Password?</a>
