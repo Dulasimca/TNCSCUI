@@ -23,6 +23,7 @@ export class DeliveryReceiptComponent implements OnInit {
   paymentBalData: any;
   itemSchemeCols: any;
   itemSchemeData: any;
+  maxDate: Date = new Date();
   transactionOptions: SelectItem[];
   yearOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
@@ -39,11 +40,11 @@ export class DeliveryReceiptComponent implements OnInit {
   GodownName: any;
   marginItemDescOptions: SelectItem[];
   canShowMenu: boolean;
-  DeliveryDate: Date;
+  DeliveryDate: Date = new Date();
   DeliveryOrderNo: any;
   Trcode: string;
   IndentNo: number;
-  PermitDate: Date;
+  PermitDate: Date = new Date();
   PMonth: string;
   PYear: string;
   RCode: string;
