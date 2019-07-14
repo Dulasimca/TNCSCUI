@@ -24,7 +24,6 @@ export class TruckToRegionComponent implements OnInit {
   godownOptions: SelectItem[];
   g_cd: any;
   data: any;
-  isViewDisabled: boolean;
   isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
@@ -38,7 +37,7 @@ export class TruckToRegionComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.TruckToRegionCols = this.tableConstants.TruckToRegionReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -46,10 +45,6 @@ export class TruckToRegionComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if(this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
@@ -85,10 +80,7 @@ export class TruckToRegionComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable();
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {

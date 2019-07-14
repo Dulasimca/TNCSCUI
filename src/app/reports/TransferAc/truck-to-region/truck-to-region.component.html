@@ -51,7 +51,7 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-4"></div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !g_cd || !selectedValues"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

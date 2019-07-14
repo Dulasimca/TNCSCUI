@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
+        this.roleBasedService.getInstance();
       } else {
         this.clearFields();
         this.messageService.add({severity:'error', summary:'Error!', detail:'Validation Failed!'});

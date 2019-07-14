@@ -26,7 +26,6 @@ export class StockReceiptRegisterComponent implements OnInit {
   godownOptions: SelectItem[];
   g_cd: any;
   data: any;
-  isViewDisabled: boolean;
   isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
@@ -40,7 +39,7 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -49,10 +48,6 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
@@ -96,10 +91,6 @@ export class StockReceiptRegisterComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined) {
-      this.isViewDisabled = false;
-    }
   }
 
   checkValidDateSelection() {

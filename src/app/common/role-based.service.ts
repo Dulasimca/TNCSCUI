@@ -56,11 +56,12 @@ export class RoleBasedService {
                         }
                     });
                 }
+                let godownData = this.instance;
+                let rgData = this.rgData;
+                return { godownData, rgData };
             });
         }
-        let godownData = this.instance;
-        let rgData = this.rgData;
-        return { godownData, rgData };
+     
     }
 
     getSchemeData() {

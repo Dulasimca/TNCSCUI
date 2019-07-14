@@ -56,7 +56,7 @@
           <label class="ui-g-10 dashboard">Issued to Depositor</label>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+          <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !c_cd || !fromDate || !toDate)"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

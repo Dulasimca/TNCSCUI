@@ -40,7 +40,6 @@ export class CommodityReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
-    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
@@ -50,11 +49,12 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'gd':
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-          godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-          this.godownOptions = godownSelection;
-        });
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              this.godownOptions = godownSelection;
+            });
       }
         break;
       case 'tr':

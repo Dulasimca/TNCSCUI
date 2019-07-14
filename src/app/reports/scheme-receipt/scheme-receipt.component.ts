@@ -40,7 +40,6 @@ export class SchemeReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.schemeReceiptCols = this.tableConstants.SchemeReceiptReport;
-    this.godown_data = this.roleBasedService.getInstance();
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.maxDate = new Date();
   }
@@ -50,8 +49,9 @@ export class SchemeReceiptComponent implements OnInit {
     let schemeSelection = [];
     switch (item) {
       case 'godown':
-        if (this.godown_data.godownData !== undefined) {
-          this.godown_data.godownData.forEach(x => {
+        this.godown_data = this.roleBasedService.instance;
+        if (this.godown_data !== undefined) {
+          this.godown_data.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });

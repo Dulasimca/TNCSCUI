@@ -35,7 +35,7 @@
             <p-calendar [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
-            <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+            <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !g_cd || !selectedValues"></button>
           </div>
           <div class="ui-g-1 ui-fluid" style="padding-top: 26px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

@@ -27,7 +27,6 @@ export class TruckTransitComponent implements OnInit {
   tr_cd: any;
   data: any;
   transferData: any;
-  isViewDisabled: boolean;
   isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
@@ -42,7 +41,7 @@ export class TruckTransitComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.TruckTransitCols = this.tableConstants.TruckTransit;
     this.data = this.roleBasedService.getInstance();
     // this.transferData = this.roleBasedService.onTransfer();
@@ -51,10 +50,6 @@ export class TruckTransitComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
         options.push({ 'label': x.GName, 'value': x.GCode });
@@ -84,11 +79,6 @@ export class TruckTransitComponent implements OnInit {
     // let unique_array = Array.from(new Set(transfers))
     //     return unique_array;
   })
-}
-if (this.fromDate !== undefined && this.toDate !== undefined
-  && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null && this.tr_cd.value !== '' && 
-  this.tr_cd.value !== undefined && this.tr_cd !== null) {
-  this.isViewDisabled = false;
 }
   }
 
@@ -129,11 +119,6 @@ if (this.fromDate !== undefined && this.toDate !== undefined
   onDateSelect() {
     this.checkValidDateSelection();
     // this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null && this.tr_cd.value !== undefined
-      && this.tr_cd.value !== '' && this.tr_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {

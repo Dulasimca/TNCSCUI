@@ -67,6 +67,7 @@ export class TableConstants {
   SocietyMaster: any;
   ShopWiseAllotmentMaster: any;
   DepositorMaster: any;
+  TruckMemoItemDetails: any;
   SocietyMasterEntry: any;
   ItemMasterModification: any;
   GodownCustomerList: any;
@@ -757,6 +758,18 @@ export class TableConstants {
       { field: '', header: 'AMOUNT'},
       { field: '', header: 'BANK'},
       { field: '', header: 'TO WHOM'},
+    ];
+
+    this.TruckMemoItemDetails = [
+      { header: 'Stack No.', field:'StackNo' },
+      { header: 'Item Description', field:'ItemDesc' },
+      { header: 'Packing Type', field:'PackingType' },
+      { header: 'No. of packing', field:'No Packing' },
+      { header: 'Wmt Type', field:'WmtType' },
+      { header: 'Gross Wt', field:'GrossWt' },
+      { header: 'Net Wt', field:'NetWT' },
+      { header: 'Moisture', field:'Moisture' },
+      { header: 'Scheme', field:'Scheme' }
     ];
   }
 }

@@ -20,7 +20,6 @@ export class HullingDetailsComponent implements OnInit {
   hullingDetailsData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -37,7 +36,7 @@ export class HullingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.hullingDetailsCols = this.tableConstants.HullingDetailsReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -45,10 +44,6 @@ export class HullingDetailsComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
         options.push({ 'label': x.GName, 'value': x.GCode });
@@ -88,10 +83,7 @@ export class HullingDetailsComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined && 
-      this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable();
   }
 
   checkValidDateSelection() {

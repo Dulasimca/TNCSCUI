@@ -22,7 +22,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   constructor(private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
-    this.data = this.roleBasedService.getInstance();
+    // this.data = this.roleBasedService.getInstance();
   }
 
   onSelect(selectedItem) {

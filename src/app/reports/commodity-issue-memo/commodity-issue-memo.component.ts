@@ -20,7 +20,6 @@ export class CommodityIssueMemoComponent implements OnInit {
   commodityIssueMemoData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -37,9 +36,8 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
-    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
@@ -49,11 +47,12 @@ export class CommodityIssueMemoComponent implements OnInit {
 
     switch (item) {
       case 'gd':
-        if (this.data.godownData !== undefined) {
-          this.data.godownData.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
-          });
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              this.godownOptions = godownSelection;
+            });
         }
         break;
       case 'cd':
@@ -68,11 +67,6 @@ export class CommodityIssueMemoComponent implements OnInit {
         })
       }
       break;
-    }
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !==  null
-       && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-      this.isViewDisabled = false;
     }
   }
 
@@ -111,10 +105,6 @@ export class CommodityIssueMemoComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !==  null
-    && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
 
   checkValidDateSelection() {

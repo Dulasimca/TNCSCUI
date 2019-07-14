@@ -41,7 +41,6 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
     this.schemeIssueMemoCols = this.tableConstants.SchemeIssueMemoReport;
-    this.godown_data = this.roleBasedService.getInstance();
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.maxDate = new Date();
   }
@@ -51,8 +50,9 @@ export class SchemeIssueMemoComponent implements OnInit {
     let schemeSelection = [];
     switch (item) {
       case 'godown':
-        if (this.godown_data.godownData !== undefined) {
-          this.godown_data.godownData.forEach(x => {
+        this.godown_data = this.roleBasedService.instance;
+        if (this.godown_data !== undefined) {
+          this.godown_data.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
@@ -69,7 +69,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null
-       && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
+      && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -102,10 +102,11 @@ export class SchemeIssueMemoComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onResetTable() {
     this.schemeIssueMemoData = [];
@@ -116,7 +117,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null
-    && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
+      && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -130,16 +131,16 @@ export class SchemeIssueMemoComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.schemeIssueMemoData, 'SCHEME_ISSUE_MEMO_REPORT',this.schemeIssueMemoCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.schemeIssueMemoData, 'SCHEME_ISSUE_MEMO_REPORT', this.schemeIssueMemoCols);
+  }
 }

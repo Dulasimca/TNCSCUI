@@ -23,7 +23,6 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   deliveryReceiptRegData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   godownOptions: SelectItem[];
   data: any;
@@ -41,24 +40,20 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
-    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
     let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
-    if (this.data.godownData !== undefined) {
-    this.data.godownData.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
+    this.data = this.roleBasedService.instance;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
   }
   }
 
@@ -101,10 +96,6 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
 
   checkValidDateSelection() {

@@ -20,7 +20,6 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   receiptHOPurchaseData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -37,7 +36,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
 
     ngOnInit() {
       this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-      this.isViewDisabled = this.isActionDisabled = true;
+      this.isActionDisabled = true;
       this.receiptHOPurchaseCols = this.tableConstants.ReceiptRONOPurchaseReport;
       this.data = this.roleBasedService.getInstance();
       this.username = JSON.parse(this.authService.getCredentials());
@@ -52,10 +51,6 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
             this.godownOptions = godownSelection;
           });
         }
-      if (this.fromDate !== undefined && this.toDate !== undefined
-        && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-        this.isViewDisabled = false;
-      }
     }
   
     onView() {
@@ -92,9 +87,6 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     onDateSelect() {
       this.checkValidDateSelection();
       this.onResetTable();
-      if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd !== '' && this.g_cd !== undefined) {
-        this.isViewDisabled = false;
-      }
     }
 
     checkValidDateSelection() {

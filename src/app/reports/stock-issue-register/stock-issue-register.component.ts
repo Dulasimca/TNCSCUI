@@ -23,7 +23,6 @@ export class StockIssueRegisterComponent implements OnInit {
   username: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   record: any = [];
@@ -47,7 +46,7 @@ export class StockIssueRegisterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.canFetch = true;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -58,10 +57,6 @@ export class StockIssueRegisterComponent implements OnInit {
   onSelect() {
     let options = [];
     this.canFetch = true;
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
@@ -133,10 +128,6 @@ export class StockIssueRegisterComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     this.canFetch = true;
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
 
   checkValidDateSelection() {

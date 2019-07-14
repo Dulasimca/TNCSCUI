@@ -21,7 +21,6 @@ export class TransactionReceiptComponent implements OnInit {
   transactionReceiptData: any;
   fromDate: any;
   toDate: any;
-  isViewDisabled: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -38,7 +37,7 @@ export class TransactionReceiptComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.isActionDisabled = true;
     this.transactionReceiptCols = this.tableConstants.TransactionReceiptReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -69,11 +68,6 @@ export class TransactionReceiptComponent implements OnInit {
           })
         }
         break;
-    }
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd !== null && this.g_cd !== undefined 
-       && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
-      this.isViewDisabled = false;
     }
   }
 
@@ -117,11 +111,7 @@ export class TransactionReceiptComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-       && this.g_cd.value !== '' && this.g_cd !== null && this.g_cd !== undefined 
-       && this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable();
   }
 
   checkValidDateSelection() {
