@@ -118,6 +118,7 @@ import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-b
 import { StackCardClosingComponent } from './reports/StackCard/stack-card-closing/stack-card-closing.component';
 import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
+import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 
 
 @NgModule({
@@ -199,7 +200,8 @@ import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue
     OpeningBalanceCurrentYearComponent,
     StackCardClosingComponent,
     StackReceiptEntryComponent,
-    DuplicateIssueMemoComponent
+    DuplicateIssueMemoComponent,
+    StockstatementreportComponent
     
   ],
   imports: [

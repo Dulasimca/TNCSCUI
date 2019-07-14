@@ -73,6 +73,7 @@ import { UserMasterComponent } from './Documents/Master/user-master/user-master.
 import { StackCardClosingComponent } from './reports/StackCard/stack-card-closing/stack-card-closing.component';
 import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
+import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 
 
 const routes: Routes = [
@@ -149,6 +150,7 @@ const routes: Routes = [
   { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },
   { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
+  { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
