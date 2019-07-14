@@ -174,7 +174,7 @@ index: number = 0;
         break;
         case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
+          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.IssuingCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
                 receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });

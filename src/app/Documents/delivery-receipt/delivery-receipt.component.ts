@@ -4,6 +4,8 @@ import { SelectItem } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpParams } from '@angular/common/http';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -42,27 +44,28 @@ export class DeliveryReceiptComponent implements OnInit {
   canShowMenu: boolean;
   DeliveryDate: Date = new Date();
   DeliveryOrderNo: any;
-  Trcode: string;
+  Trcode: any;
   IndentNo: number;
   PermitDate: Date = new Date();
   PMonth: string;
   PYear: string;
   RCode: string;
   GCode: string;
-  PName: string;
-  RTCode: string;
+  PName: any;
+  RTCode: any;
   Instructions: string;
-  Scheme: string;
-  MarginScheme: string;
-  ICode: string;
+  Scheme: any;
+  MarginScheme: any;
+  ICode: any;
+  MICode: any;
   NKgs: any;
   Rate: any;
-  RateTerm: string;
+  RateTerm: any;
   TotalAmount: any;
   MarginNKgs: any;
   MarginRate: any;
   MarginAmount: any;
-  MarginRateInTerms: string;
+  MarginRateInTerms: any;
   GrandTotal: any;
   Payment: string;
   OcrNo: any;
@@ -79,10 +82,12 @@ export class DeliveryReceiptComponent implements OnInit {
   MarginItem: string;
 
 
-  constructor(private tableConstants: TableConstants,private restAPIService: RestAPIService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
+    private restAPIService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.scheme_data = this.roleBasedService.getSchemeData();
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
@@ -93,6 +98,8 @@ export class DeliveryReceiptComponent implements OnInit {
   onSelect(selectedItem) {
     let transactoinSelection = [];
     let schemeSelection = [];
+    let receivorTypeList = [];
+    let partyNameList = [];
     let yearArr = [];
     const range = 3;
     switch(selectedItem) {
@@ -137,6 +144,45 @@ export class DeliveryReceiptComponent implements OnInit {
               });
             }
             break;
+            case 'rt':
+              if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+                const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.GCode);
+                  this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+                    res.forEach(dt => {
+                      receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+                    });
+                    this.receivorTypeOptions = receivorTypeList;
+                    // this.isReceivorNameDisabled = false;
+                    this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+                  });
+              }
+              break;
+            case 'pn':
+              if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
+                this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+                const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType);
+                  this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+                    res.forEach(dn => {
+                      partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+                    })
+                    this.partyNameOptions = partyNameList;
+                    this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+                  });
+              }
+              break;
+              case 'i_desc':
+                let itemDesc = [];
+                if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+                  const params = new HttpParams().set('SCode', this.Scheme.value);
+                    this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                      res.forEach(i => {
+                        itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                      })
+                      this.itemDescOptions = itemDesc;
+                  this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+                });
+                }
+              break;
   }
 }
 

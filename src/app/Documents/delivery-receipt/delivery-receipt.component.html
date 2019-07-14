@@ -179,7 +179,7 @@
                       <div>
                         <label class="label-fontsize" for="Nkgs" style="float:left">Kgs</label> <label class="label-fontsize" style="float: right">Gms</label>
                       </div>
-                      <input name="Nkgs" pInputText [(ngModel)]="NKgs" autocomplete="off" />
+                      <input name="Nkgs" pInputText [(ngModel)]="NKgs" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding-left: 0px; margin-top: -5px">
                       <label class="label-fontsize" for="rate">Rate In Term Of</label>
@@ -195,14 +195,14 @@
                       <div>
                         <label class="label-fontsize" for="Raters" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="Raters" pInputText [(ngModel)]="Rate" autocomplete="off" />
+                      <input name="Raters" pInputText [(ngModel)]="Rate" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="total" style="padding-top: 0px;">Total</label>
                       <div>
                         <label class="label-fontsize" for="total" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="total" pInputText [(ngModel)]="TotalAmount" autocomplete="off" />
+                      <input name="total" pInputText [(ngModel)]="TotalAmount" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-1">
                       <div class="ui-g-12"></div>
@@ -247,7 +247,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;text-align: center">
                       <label class="label-fontsize" for="marginItem" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #margin_id name="marginItem" [options]="marginItemDescOptions"
-                        [(ngModel)]="MarginItem" (onClick)="onSelect('margin_id')" filter="true">
+                        [(ngModel)]="MICode" (onClick)="onSelect('i_desc')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -258,7 +258,7 @@
                       <div>
                         <label class="label-fontsize" for="marginWt" style="float:left">Kgs</label> <label class="label-fontsize" style="float: right">Gms</label>
                       </div>
-                      <input name="marginWt" pInputText [(ngModel)]="MarginNKgs" autocomplete="off" />
+                      <input name="marginWt" pInputText [(ngModel)]="MarginNKgs" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding-left: 0px; margin-top: -5px">
                       <label class="label-fontsize" for="marginRate">Rate In Term Of</label>
@@ -274,14 +274,14 @@
                       <div>
                         <label class="label-fontsize" for="mRate" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="mRate" pInputText [(ngModel)]="MarginRate" autocomplete="off" />
+                      <input name="mRate" pInputText [(ngModel)]="MarginRate" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="mAmnt" style="padding-top: 0px;">Margin Amount</label>
                       <div>
                         <label class="label-fontsize" for="mAmnt" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="mAmnt" pInputText [(ngModel)]="MarginAmount" autocomplete="off" />
+                      <input name="mAmnt" pInputText [(ngModel)]="MarginAmount" autocomplete="off" appDecimalDigit/>
                     </div>
                     <div class="ui-g-1">
                       <div class="ui-g-12"></div>
@@ -318,7 +318,7 @@
                       <span class="ui-float-label" style="padding-right: 0px">
                         <label for="grandTotal" style="padding-left: 5px">Grand Total</label>
                         <input name="grandTotal" id="float-input" [(ngModel)]="GrandTotal" pInputText
-                          autocomplete="off" />
+                          autocomplete="off" appDecimalDigit/>
                       </span>
                     </div>
                   </div>
@@ -354,12 +354,12 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <div style="padding-right: 10px;padding-top: 20px;">
-                        <p-calendar name="Pdate" [(ngModel)]="PDate" [showIcon]="true"></p-calendar>
+                        <p-calendar name="Pdate" [(ngModel)]="PDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
                       </div>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="payAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off">
+                        <input name="payAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off" appDecimalDigit>
                         <label for="payAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
@@ -414,7 +414,7 @@
                             <div class="ui-g-6 ui-md-2">
                               <span class="ui-float-label">
                                 <input name="PrvAmnt" id="float-input" [(ngModel)]="PrevAmount" pInputText
-                                  autocomplete="off">
+                                  autocomplete="off" appDecimalDigit>
                                 <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                               </span>
                             </div>
@@ -437,14 +437,14 @@
                             <div class="ui-g-6 ui-md-2">
                               <span class="ui-float-label">
                                 <input name="otherAmnt" id="float-input" [(ngModel)]="OtherAmount" pInputText
-                                  autocomplete="off">
+                                  autocomplete="off" appDecimalDigit>
                                 <label for="otherAmnt" class="float-input">Other Amt</label>
                               </span>
                             </div>
                             <div class="ui-g-2">
                               <span class="ui-float-label">
                                 <input name="balance" id="float-input" [(ngModel)]="Balance" pInputText
-                                  autocomplete="off">
+                                  autocomplete="off" appDecimalDigit>
                                 <label for="balance" class="float-input">Balance</label>
                               </span>
                             </div>
@@ -470,7 +470,7 @@
                             <div class="ui-g-8">
                               <span class="ui-float-label">
                                 <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" pInputText
-                                  autocomplete="off">
+                                  autocomplete="off" appDecimalDigit>
                                 <label for="dueAmnt" class="float-input">Amt Due</label>
                               </span>
                             </div>
@@ -478,13 +478,13 @@
                               <div class="ui-g-6">
                                 <span class="ui-float-label">
                                   <input name="paidAmnt" id="float-input" [(ngModel)]="PaidAmount" pInputText
-                                    autocomplete="off">
+                                    autocomplete="off" appDecimalDigit>
                                   <label for="paidAmnt" class="float-input">Amt Paid</label>
                                 </span></div>
                               <div class="ui-g-6">
                                 <span class="ui-float-label">
                                   <input name="balAmnt" id="float-input" [(ngModel)]="BalanceAmount" pInputText
-                                    autocomplete="off">
+                                    autocomplete="off" appDecimalDigit>
                                   <label for="balAmnt" class="float-input">Balance Amt</label>
                                 </span></div>
                             </div>
