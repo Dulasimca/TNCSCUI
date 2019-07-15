@@ -177,7 +177,7 @@ export class TableConstants {
     ]
 
     this.DeliveryItemColumns = [
-      { field: 'itemDesc', header: 'Item Desc' },
+      { field: 'itemDesc', header: 'IT Description' },
       { field: 'netWeight', header: 'Net Weight' },
       { field: 'unitMeasure', header: 'Unit Measure' },
       { field: 'scheme', header: 'Scheme' },
@@ -776,18 +776,18 @@ export class TableConstants {
       { header: 'Scheme', field:'Scheme' }
     ];
     this.StockStatementReport = [
-      { field: 'SlNo', header: 'S.No', width: '40px' },
-      { field: 'Name', header: 'Commodity' },
-      { field: 'OpeningBalance', header: 'OB', align: 'right' },
-      { field: 'Receipt', header: 'Receipt' },
-      { field: 'Total', header: 'Total Receipt' },
-      { field: 'IssueSales', header: 'Sales' },
-      { field: 'IssueOthers', header: 'Other Issue' },
-      { field: 'TotalIssue', header: 'Total Issue' },
-      { field: 'ClosingBalance', header: 'Closing Balance' },
-      { field: 'CSBalance', header: 'Cummilative Shortage' },
-      { field: 'Shortage', header: 'Current CS' },
-      { field: 'PhycialBalance', header: 'Physical Balance' },
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Commodity', field: 'ITDescription' },
+      { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      { header: 'Receipt', field: 'TotalReceipt' },
+      { header: 'Total (OB + Receipt)', field: 'Receipt' },
+      { header: 'Sales', field: 'IssueSales', },
+      { header: 'Other Issue', field: 'IssueOthers' },
+      { header: 'Total Issue', field: 'TotalIssue' },
+      { header: 'Closing Balance', field: 'ClosingBalance' },
+      { header: 'Cummilative Shortage', field: 'CSBalance' },
+      { header: 'Current CS', field: 'Shortage' },
+      { header: 'Physical Balance', field: 'PhycialBalance' },
     ]
 
   }

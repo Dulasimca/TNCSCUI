@@ -45,7 +45,7 @@
           <div class="form-group ui-g-6 ui-md-2 ui-fluid">
             <label class="ui-g-12 label-fontsize dashboard">Location</label>
             <input type="text" maxlength="3" name="Location" (input)="calculateStackNo()" [(ngModel)]="Location" size="20" pInputText
-              autocomplete="off" required appDecimalDigit>
+              autocomplete="off" required>
           </div>
           <!-- <div class="ui-g-3 ui-md-1">
               <label class="ui-g-12 label-fontsize dashboard">Stack No</label>
@@ -54,12 +54,12 @@
           <div class="form-group ui-g-6 ui-md-2 ui-fluid">
             <label class="ui-g-12 label-fontsize dashboard" for="Formation">Formation No</label>
             <input type="text" maxlength="4" name="Formation" (input)="calculateStackNo()" [(ngModel)]="Formation" size="20" pInputText
-              autocomplete="off" required appDecimalDigit>
+              autocomplete="off" required>
           </div>
           <div class="form-group ui-g-12 ui-md-2">
             <label class="ui-g-12 label-fontsize dashboard" for="StackNo">Stack No</label>
             <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="7"
-              pInputText autocomplete="off" appDecimalDigit>
+              pInputText autocomplete="off">
           </div>
           <div class="ui-g-12 ui-md-3 carded" style="margin-top: 12px">
             <a>Sample Location No G1 OR G1/23 OR 23</a><br>
