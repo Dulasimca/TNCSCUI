@@ -48,7 +48,6 @@ export class StockIssueRegisterComponent implements OnInit {
     this.canFetch = true;
     this.isActionDisabled = true;
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
-    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.stockIssueRegData = [];
     this.username = JSON.parse(this.authService.getCredentials());
@@ -57,8 +56,9 @@ export class StockIssueRegisterComponent implements OnInit {
   onSelect() {
     let options = [];
     this.canFetch = true;
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
+    this.data = this.roleBasedService;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });

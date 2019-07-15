@@ -17,12 +17,11 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   godownOptions: SelectItem[];
   a_cd: string;
   g_cd: any;
-  data: { godownData: any; rgData: any; };
+  data: any; 
 
   constructor(private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
-    // this.data = this.roleBasedService.getInstance();
   }
 
   onSelect(selectedItem) {
@@ -31,8 +30,9 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
       case 'customer':
         break;
       case 'godown':
-          if (this.data.godownData !== undefined) {
-            this.data.godownData.forEach(x => {
+        this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
                 godownSelection.push({ 'label': x.GName, 'value': x.GCode });
                 this.godownOptions = godownSelection;
               });

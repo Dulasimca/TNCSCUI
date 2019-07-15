@@ -39,14 +39,14 @@ export class TruckToRegionComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.TruckToRegionCols = this.tableConstants.TruckToRegionReport;
-    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
   onSelect() {
     let options = [];
-    if(this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
+    this.data = this.roleBasedService;
+    if(this.data !== undefined) {
+      this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
       this.godownOptions = options;
     });

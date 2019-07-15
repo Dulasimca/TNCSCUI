@@ -24,7 +24,6 @@ export class RoleBasedService {
         this.gCode = this.authService.getUserAccessible().gCode;
         this.rCode = this.authService.getUserAccessible().rCode;
         let godownList;
-        if (this.instance === undefined) {
             this.instance = [];
             this.rgData = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
@@ -40,9 +39,9 @@ export class RoleBasedService {
                                 godownList = x.list;
                             }
                         }
-                        godownList.forEach(value => {
-                            this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
-                        });
+                    });
+                    godownList.forEach(value => {
+                        this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
                     });
                 if (this.roleId === 3) {
                     res.filter(value => {
@@ -60,7 +59,6 @@ export class RoleBasedService {
                 let rgData = this.rgData;
                 return { godownData, rgData };
             });
-        }
      
     }
 

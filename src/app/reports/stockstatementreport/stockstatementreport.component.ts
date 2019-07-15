@@ -6,6 +6,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -16,32 +17,30 @@ export class StockstatementreportComponent implements OnInit {
   canShowMenu: boolean;
   stockDataColumns: any;
   stockData: any;
-  commodityOptions: SelectItem[];
-  c_cd: string;
+  godownOptions: SelectItem[];
+  g_cd: string;
   maxDate: Date = new Date();
   loading: boolean;
   fromDate: any;
   toDate: any;
   username: any;
+  data: any;
 
-  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
+  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockDataColumns = this.tableConstants.StockStatementReport;
     this.username = JSON.parse(this.authService.getCredentials());
-    let commoditySelection = [];
-    if(this.commodityOptions === undefined){
-      this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-        if (data !== undefined) {
-          data.forEach(y => {
-            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-            this.commodityOptions = commoditySelection;
-          });
-        }
-      })
-    }
+    let options = [];
+    this.data = this.roleBasedService;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
+      options.push({ 'label': x.GName, 'value': x.GCode });
+      this.godownOptions = options;
+    });
+  }
   }
 
   onView() {
