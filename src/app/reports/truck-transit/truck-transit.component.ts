@@ -50,12 +50,13 @@ export class TruckTransitComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
+    this.data = this.roleBasedService.instance;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
         options.push({ 'label': x.GName, 'value': x.GCode });
         this.godownOptions = options;
       });
-    }
+  }
   }
   
   onTransfer() {
@@ -70,12 +71,13 @@ export class TruckTransitComponent implements OnInit {
       this.response = res;
     res.forEach(y => {
       transfers.push({ 'label': y.Transfertype, 'value': y.RGCODE });
+      // this.transferOptions = [{'label': 'TRANSFER', 'value': 'RGCODE'},{'label': 'INTERNAL TRANSFER', 'value': 'Transfertype'}]
       this.transferOptions = transfers;
       // console.log("filter",_.uniq(transfers));
     });
-    if (this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
-      this.transferOptions = this.tr_cd.value.toString().slice(0, transfers);
-    }
+    // if (this.tr_cd.value !== undefined && this.tr_cd.value !== '' && this.tr_cd !== null) {
+    //   this.transferOptions = this.tr_cd.value.toString().slice(0, transfers);
+    // }
     // let unique_array = Array.from(new Set(transfers))
     //     return unique_array;
   })

@@ -1,0 +1,60 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Transaction Status</div>
+      </div>
+    </p-header>
+    <!-- <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast> -->
+    <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
+    <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
+    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12 dashboard">
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g label-fontsize dashboard" for="SRDate">Transaction Date</label>
+          <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="SRDate" [(ngModel)]="SRDate">
+          </p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
+            (onClick)="onSelect('godown')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+            [showClear]="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6" style="padding-top: 13px">
+          <div class="ui-g-12 ui-md-12">
+            <p-checkbox name="group1" value="Receipt" label="Receipt" [(ngModel)]="selectedItem" inputId="Receipt">
+            </p-checkbox>
+          </div>
+          <div class="ui-g-12 ui-md-12">
+            <p-checkbox name="group1" value="Issue" label="Issue" [(ngModel)]="selectedItem" inputId="Issue">
+            </p-checkbox>
+          </div>
+          <div class="ui-g-12 ui-md-12">
+            <p-checkbox name="group1" value="Truck Memo" label="Truck Memo" [(ngModel)]="selectedItem"
+              inputId="TruckMemo"></p-checkbox>
+          </div>
+          <div class="ui-g-12 ui-md-12 dashboard">
+            <div class="ui-g-12 ui-md-5">
+              <p-checkbox name="group1" value="CB Statement" label="CB Statement" [(ngModel)]="selectedItem"
+                inputId="cbStatement"></p-checkbox>
+            </div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <button pButton type="submit" label=Save (click)="onSave()"></button>
+            </div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <button pButton type="button" label=View (click)="onView()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+</div>

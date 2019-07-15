@@ -41,7 +41,7 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { StackCardOpeningEntryComponent } from './reports/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
+import { StackCardOpeningEntryComponent } from './Documents/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
@@ -74,6 +74,7 @@ import { StackCardClosingComponent } from './reports/StackCard/stack-card-closin
 import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
+import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 
 
 const routes: Routes = [
@@ -151,6 +152,7 @@ const routes: Routes = [
   { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
+  { path :'Transaction Status', component: TransactionStatusComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -73,6 +73,7 @@ export class TableConstants {
   GodownCustomerList: any;
   OpeningBalanceMasterEntry: any;
   StockStatementReport: any;
+  TransactionStatus: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -102,7 +103,7 @@ export class TableConstants {
       { field: 'GodownName', header: 'Godown Name' },
       { field: 'Issuername', header: 'Shop Name' },
       { field: 'IssuerCode', header: 'Shop Code (TNCSC)' },
-      { field: 'AcsCode', header: 'AcsCode'}
+      { field: 'AcsCode', header: 'AcsCode' }
     ]
     this.MrmData = [
       { field: 'SlNo', header: 'S.No' },
@@ -397,36 +398,36 @@ export class TableConstants {
       { field: 'Status', header: 'Status' },
     ];
 
-    
+
 
     this.StackWiseBreakupDetails = [
-      { field: 'Stackno', header: 'Stack No'},
-      { field: 'bags', header: 'Bags'},
-      { field: 'Weight', header: 'Weight'}
+      { field: 'Stackno', header: 'Stack No' },
+      { field: 'bags', header: 'Bags' },
+      { field: 'Weight', header: 'Weight' }
     ];
 
     this.SchemeWiseBreakupDetails = [
-      { field: 'Stackno', header: 'Stack No'},
-      { field: 'bags', header: 'Bags'},
-      { field: 'Weight', header: 'Weight'},
-      { field: 'Scheme', header: 'Scheme'}
+      { field: 'Stackno', header: 'Stack No' },
+      { field: 'bags', header: 'Bags' },
+      { field: 'Weight', header: 'Weight' },
+      { field: 'Scheme', header: 'Scheme' }
     ];
 
     this.TruckTransit = [
-      { field: 'SlNo', header: 'S.No'},
-      {field: 'STNo', header: 'Truck Memo No'},
-      {field: 'STDate', header: 'Sender Date'},
-      {field: 'Region', header: 'Region'},
-      {field: 'TNCSName', header: 'Godown Name'},
-      {field: 'LNo', header: 'Lorry No'},
-      {field: 'NoPacking', header: 'Bags'},
-      {field: 'Nkgs', header: 'Quantity'},
-      {field: 'STNo', header: 'AckNo'},
-      {field: 'STDate', header: 'Receiver Date'},
-      {field: 'Region', header: 'Receiver Region'},
-      {field: 'TNCSName', header: 'Receiver Godown'},
-      {field: 'NoPacking', header: 'Bags Received'},
-      {field: 'Nkgs', header: 'Received Quantity'},
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'STNo', header: 'Truck Memo No' },
+      { field: 'STDate', header: 'Sender Date' },
+      { field: 'Region', header: 'Region' },
+      { field: 'TNCSName', header: 'Godown Name' },
+      { field: 'LNo', header: 'Lorry No' },
+      { field: 'NoPacking', header: 'Bags' },
+      { field: 'Nkgs', header: 'Quantity' },
+      { field: 'STNo', header: 'AckNo' },
+      { field: 'STDate', header: 'Receiver Date' },
+      { field: 'Region', header: 'Receiver Region' },
+      { field: 'TNCSName', header: 'Receiver Godown' },
+      { field: 'NoPacking', header: 'Bags Received' },
+      { field: 'Nkgs', header: 'Received Quantity' },
       // {field: 'Transfertype', header: 'INTERNAL/'}
     ];
 
@@ -443,22 +444,22 @@ export class TableConstants {
       // { field: 'icon', header: 'Action'}
     ];
 
-    this.StockIssueMemoIssueDetailsColumns = [ 
-    {field: 'SINo', header: 'Issue Memo No' },
-    { field: 'SIDate', header: 'Issue Memo Date' },
-    { field: 'DNo', header: 'Delivery Order No' },
-    { field: 'DDate', header: 'Delivery Order' }];
+    this.StockIssueMemoIssueDetailsColumns = [
+      { field: 'SINo', header: 'Issue Memo No' },
+      { field: 'SIDate', header: 'Issue Memo Date' },
+      { field: 'DNo', header: 'Delivery Order No' },
+      { field: 'DDate', header: 'Delivery Order' }];
 
     this.StockIssueMemoItemDetailsColumns = [
-      { field: 'TStockNo', header:'Stack No.' },
-      { field: 'ICode', header:'Item Description' },
-      { field: 'IPCode', header:'Packing Type' },
-      { field: 'NoPacking', header:'No. of packing' },
-      { field: 'WTCode', header:'Wmt Type' },
-      { field: 'GKgs', header:'Gross Wt' },
-      { field: 'Nkgs', header:'Net WT' },
-      { field: 'Moisture', header:'Moisture' },
-      { field: 'Scheme', header:'Scheme' },
+      { field: 'TStockNo', header: 'Stack No.' },
+      { field: 'ICode', header: 'Item Description' },
+      { field: 'IPCode', header: 'Packing Type' },
+      { field: 'NoPacking', header: 'No. of packing' },
+      { field: 'WTCode', header: 'Wmt Type' },
+      { field: 'GKgs', header: 'Gross Wt' },
+      { field: 'Nkgs', header: 'Net WT' },
+      { field: 'Moisture', header: 'Moisture' },
+      { field: 'Scheme', header: 'Scheme' },
     ];
 
     this.DoAllScheme = [
@@ -486,7 +487,7 @@ export class TableConstants {
       { field: '', header: 'Amount' },
       { field: '', header: 'C/NC' }
     ];
-    
+
     this.DoOAP = [
       { field: '', header: 'Do.No' },
       { field: '', header: 'Date' },
@@ -540,7 +541,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
       { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE '},
+      { field: 'Type', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Bags', header: 'BAGS' },
@@ -554,7 +555,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'Ack. No' },
       { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE '},
+      { field: 'Type', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'Bags', header: 'Bags' },
@@ -563,12 +564,12 @@ export class TableConstants {
       { field: 'Orderno', header: 'Order No' },
       { field: 'Lorryno', header: 'Lorry No' },
     ];
-    
+
     this.ReceiptRONOPurchaseReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
       { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE '},
+      { field: 'Type', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Bags', header: 'BAGS' },
@@ -580,83 +581,83 @@ export class TableConstants {
     ];
 
     this.DoDemandDraft = [
-      { field: '', header: 'SOCIETY'},
-      { field: '', header: 'DONO'},
-      { field: '', header: 'DO DATE'},
-      { field: '', header: 'DD.NO'},
-      { field: '', header: 'DD DATE'},
-      { field: '', header: 'BANK'},
-      { field: '', header: 'AMOUNT'},
-      { field: '', header: 'CEREAL'},
-      { field: '', header: 'NON-CEREAL'}
+      { field: '', header: 'SOCIETY' },
+      { field: '', header: 'DONO' },
+      { field: '', header: 'DO DATE' },
+      { field: '', header: 'DD.NO' },
+      { field: '', header: 'DD DATE' },
+      { field: '', header: 'BANK' },
+      { field: '', header: 'AMOUNT' },
+      { field: '', header: 'CEREAL' },
+      { field: '', header: 'NON-CEREAL' }
     ];
 
     this.DoMarginAmount = [
-      { field: '', header: 'SOCIETY'},
-      { field: '', header: 'DONO'},
-      { field: '', header: 'DO DATE'},
+      { field: '', header: 'SOCIETY' },
+      { field: '', header: 'DONO' },
+      { field: '', header: 'DO DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Scheme', header: 'SCHEME' },
-      { field: '', header: 'NET WEIGHT'},
-      { field: '', header: 'RATE'},
-      { field: '', header: 'AMOUNT'}
+      { field: '', header: 'NET WEIGHT' },
+      { field: '', header: 'RATE' },
+      { field: '', header: 'AMOUNT' }
     ];
 
     this.SchemeAbstractReceipt = [
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN'},
-      { field: '', header: 'PType'},
-      { field: '', header: 'AAY'},
-      { field: '', header: 'BULK'},
-      { field: '', header: 'EXCESS'},
-      { field: '', header: 'HULLING'},
-      { field: '', header: 'OTHERS'},
-      { field: '', header: 'PDS'}
+      { field: '', header: 'GODOWN' },
+      { field: '', header: 'PType' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'BULK' },
+      { field: '', header: 'EXCESS' },
+      { field: '', header: 'HULLING' },
+      { field: '', header: 'OTHERS' },
+      { field: '', header: 'PDS' }
     ];
 
     this.SchemeAbstractIssueCRS = [
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN'},
-      { field: '', header: 'PType'},
-      { field: '', header: 'AAY'},
-      { field: '', header: 'OTHERS'},
-      { field: '', header: 'PDS'},
-      { field: '', header: 'POLICE'},
-      { field: '', header: 'SPL PDS'},
-      { field: '', header: 'TOTAL'}
+      { field: '', header: 'GODOWN' },
+      { field: '', header: 'PType' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'OTHERS' },
+      { field: '', header: 'PDS' },
+      { field: '', header: 'POLICE' },
+      { field: '', header: 'SPL PDS' },
+      { field: '', header: 'TOTAL' }
     ];
 
     this.SchemeAbstractIssueAll = [
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN'},
-      { field: '', header: 'PType'},
-      { field: '', header: 'AAY'},
-      { field: '', header: 'BULK'},
-      { field: '', header: 'OAP'},
-      { field: '', header: 'OTHERS'},
-      { field: '', header: 'PDS'},
-      { field: '', header: 'POLICE'}
+      { field: '', header: 'GODOWN' },
+      { field: '', header: 'PType' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'BULK' },
+      { field: '', header: 'OAP' },
+      { field: '', header: 'OTHERS' },
+      { field: '', header: 'PDS' },
+      { field: '', header: 'POLICE' }
     ];
 
     this.SchemeAbstractIssueCoOp = [
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN'},
-      { field: '', header: 'PType'},
-      { field: '', header: 'AAY'},
-      { field: '', header: 'OAP'},
-      { field: '', header: 'PDS'},
-      { field: '', header: 'POLICE'},
-      { field: '', header: 'SPL PDS'},
-      { field: '', header: 'TOTAL'}
+      { field: '', header: 'GODOWN' },
+      { field: '', header: 'PType' },
+      { field: '', header: 'AAY' },
+      { field: '', header: 'OAP' },
+      { field: '', header: 'PDS' },
+      { field: '', header: 'POLICE' },
+      { field: '', header: 'SPL PDS' },
+      { field: '', header: 'TOTAL' }
     ];
 
     this.SchemeAbstractTruck = [
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN'},
-      { field: '', header: 'PType'},
-      { field: '', header: 'INTERNAL TRANSFER'},
-      { field: '', header: 'TRANSFER'},
-      { field: '', header: 'TOTAL'}
+      { field: '', header: 'GODOWN' },
+      { field: '', header: 'PType' },
+      { field: '', header: 'INTERNAL TRANSFER' },
+      { field: '', header: 'TRANSFER' },
+      { field: '', header: 'TOTAL' }
     ];
     this.StockReceiptDocumentViewCols = [
       { field: 'SRNo', header: 'SR No.' },
@@ -702,49 +703,49 @@ export class TableConstants {
     this.QtyIssueOtherItem = [];
 
     this.SocietyMaster = [
-      { field: '', header: 'SOCIETYNAME'},
-      { field: '', header: 'TYNAME'},
-      { field: '', header: 'EFLAG'},
+      { field: '', header: 'SOCIETYNAME' },
+      { field: '', header: 'TYNAME' },
+      { field: '', header: 'EFLAG' },
     ];
 
     this.ShopWiseAllotmentMaster = [
-      { field: '', header: 'Name of the Institution'},
-      { field: '', header: 'Commodity'},
-      { field: '', header: 'Quantity Alloted'},
-      { field: '', header: 'Month'},
-      { field: '', header: 'Year'},
-      { field: '', header: 'Item Code'},
+      { field: '', header: 'Name of the Institution' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Quantity Alloted' },
+      { field: '', header: 'Month' },
+      { field: '', header: 'Year' },
+      { field: '', header: 'Item Code' },
     ];
 
     this.DepositorMaster = [
-      { field: '', header: 'DEPOSITOR NAME'},
-      { field: '', header: 'DEPOSITOR Type'},
-      { field: '', header: 'STATUS'},
-      
+      { field: '', header: 'DEPOSITOR NAME' },
+      { field: '', header: 'DEPOSITOR Type' },
+      { field: '', header: 'STATUS' },
+
     ];
 
     this.SocietyMasterEntry = [
-      { field: '', header: 'TYNAME'},
-      { field: '', header: 'SOCIETYNAME'},
-      { field: '', header: 'ISSUERNAME'},
+      { field: '', header: 'TYNAME' },
+      { field: '', header: 'SOCIETYNAME' },
+      { field: '', header: 'ISSUERNAME' },
     ];
 
     this.ItemMasterModification = [
-      { field: '', header: 'CODE'},
-      { field: '', header: 'ITEM NAME'},
-      { field: '', header: 'GROUP'},
-      { field: '', header: 'ACTIVE'},
+      { field: '', header: 'CODE' },
+      { field: '', header: 'ITEM NAME' },
+      { field: '', header: 'GROUP' },
+      { field: '', header: 'ACTIVE' },
 
     ];
 
     this.OpeningBalanceMasterEntry = [
       { field: 'GodownName', header: 'GODOWN NAME' },
-      { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
-      { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
-      { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
-      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
-      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
-      { field: 'CumulitiveShortage', header: 'CUMULITIVE SHORTAGE'}
+      { field: 'ITDescription', header: 'ITEM DESCRIPTION' },
+      { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS' },
+      { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT' },
+      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS' },
+      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT' },
+      { field: 'CumulitiveShortage', header: 'CUMULITIVE SHORTAGE' }
     ]
 
     this.GodownCustomerList = [];
@@ -753,24 +754,24 @@ export class TableConstants {
 
     this.StackReceiptEntryReport = [
       { field: 'Id', header: 'ID' },
-      { field: '', header: 'CHE/DD'},
-      { field: '', header: 'CHE/DD No'},
-      { field: '', header: 'Date'},
-      { field: '', header: 'AMOUNT'},
-      { field: '', header: 'BANK'},
-      { field: '', header: 'TO WHOM'},
+      { field: '', header: 'CHE/DD' },
+      { field: '', header: 'CHE/DD No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'AMOUNT' },
+      { field: '', header: 'BANK' },
+      { field: '', header: 'TO WHOM' },
     ];
 
     this.TruckMemoItemDetails = [
-      { header: 'Stack No.', field:'StackNo' },
-      { header: 'Item Description', field:'ItemDesc' },
-      { header: 'Packing Type', field:'PackingType' },
-      { header: 'No. of packing', field:'No Packing' },
-      { header: 'Wmt Type', field:'WmtType' },
-      { header: 'Gross Wt', field:'GrossWt' },
-      { header: 'Net Wt', field:'NetWT' },
-      { header: 'Moisture', field:'Moisture' },
-      { header: 'Scheme', field:'Scheme' }
+      { header: 'Stack No.', field: 'StackNo' },
+      { header: 'Item Description', field: 'ItemDesc' },
+      { header: 'Packing Type', field: 'PackingType' },
+      { header: 'No. of packing', field: 'No Packing' },
+      { header: 'Wmt Type', field: 'WmtType' },
+      { header: 'Gross Wt', field: 'GrossWt' },
+      { header: 'Net Wt', field: 'NetWT' },
+      { header: 'Moisture', field: 'Moisture' },
+      { header: 'Scheme', field: 'Scheme' }
     ];
     this.StockStatementReport = [
       { field: 'SlNo', header: 'S.No', width: '40px' },
@@ -785,7 +786,17 @@ export class TableConstants {
       { field: 'CSBalance', header: 'Cummilative Shortage' },
       { field: 'Shortage', header: 'Current CS' },
       { field: 'PhycialBalance', header: 'Physical Balance' },
-    ]
-
+    ];
+    this.TransactionStatus = [
+      { field: 'Docdate', header: 'Document Date'},
+      { field: 'Receipt', header: 'Receipt'},
+      { field: 'Issues', header: 'Issues'},
+      { field: 'Transfer', header: 'Transfer'},
+      { field: 'CB', header: 'CB'},
+      { field: 'Approvaldate', header: 'Approval Date'},
+      { field: 'lastupdated', header: 'Last Updated'},
+      { field: 'remarks', header: 'Remarks'},
+      { field: 'userid ', header: 'User Id'},
+    ];
   }
 }
