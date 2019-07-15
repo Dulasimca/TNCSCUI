@@ -159,7 +159,7 @@ export class TableConstants {
       { field: 'SUGAR', header: 'SUGAR' },
       { field: 'WHEAT', header: 'WHEAT' },
       { field: 'toorDhall', header: 'TOOR DHALL' },
-      { field: 'kanadaToorDhall', header: 'Kanada TOOR Dhall' },
+      { field: 'kanadaToorDhall', header: 'CYL TOOR Dhall' },
       { field: 'totalDhall', header: 'Dhall Total' },
       { field: 'uridDhall', header: 'URID Dhall' },
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
@@ -167,9 +167,13 @@ export class TableConstants {
     ]
 
     this.DeliveryDocumentcolumns = [
-      { field: 'deliveryOrder', header: 'Delivery Order' },
-      { field: 'transCode', header: 'Transaction Code' },
-
+      { field: 'DoNo', header: 'Delivery Order' },
+      { field: 'DDate', header: 'Delivery Date' },
+      { field: 'Society', header: 'Society' },
+      { field: 'Due', header: 'Due' },
+      { field: 'Paid', header: 'Paid' },
+      { field: 'AdvCollection', header: 'Advance Collection' },
+      { field: 'Debit', header: 'Debit' },
     ]
 
     this.DeliveryItemColumns = [
@@ -738,7 +742,6 @@ export class TableConstants {
     ];
 
     this.OpeningBalanceMasterEntry = [
-      { field: 'GodownName', header: 'GODOWN NAME' },
       { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
       { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
