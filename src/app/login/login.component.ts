@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     let username = new HttpParams().append('userName', this.userName);
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
       if (credentials !== undefined) {
-      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd.toLowerCase()) {
+      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
         this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
-        // this.roleBasedService.getInstance();
       } else {
         this.clearFields();
         this.messageService.add({severity:'error', summary:'Error!', detail:'Validation Failed!'});

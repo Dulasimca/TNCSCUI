@@ -93,6 +93,12 @@ export class DeliveryReceiptComponent implements OnInit {
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
     this.paymentBalCols = this.tableConstants.DeliveryPaymentBalanceCols;
     this.itemSchemeCols  = this.tableConstants.DeliveryItemSchemeColumns;
+     setTimeout(()=> {
+      this.GodownName = this.roleBasedService.rgData[1].GName;
+      this.RegionName = this.roleBasedService.rgData[0].RName;
+      this.GCode = this.roleBasedService.gCode;
+      this.RCode = this.roleBasedService.rCode;
+     },300);
   }
 
   onSelect(selectedItem) {
