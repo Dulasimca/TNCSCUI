@@ -20,7 +20,7 @@ import 'jspdf-autotable';
 export class StockstatementreportComponent implements OnInit {
   canShowMenu: boolean;
   stockDataColumns: any;
-  stockData: any;
+  stockData: any = [];
   godownOptions: SelectItem[];
   g_cd: any;
   maxDate: Date = new Date();
@@ -33,7 +33,7 @@ export class StockstatementreportComponent implements OnInit {
   items: any;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
-    private authService: AuthService, private datePipe: DatePipe, private router: Router,
+    private authService: AuthService, private datePipe: DatePipe,
      private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -76,34 +76,30 @@ export class StockstatementreportComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) { 
-        this.stockData = res;
         let sno = 0;
-      this.stockData.forEach(data => {
-        data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
-        data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
-        data.TotalIssue = (data.TotalIssue * 1).toFixed(3);
-        // ---Future purpose---
-        // data.IssueOthers = (data.IssueOthers * 1).toFixed(3);
-        // data.IssueSales = (data.IssueSales * 1).toFixed(3);
-        data.Receipt = (data.Receipt * 1).toFixed(3);
-        data.TotalReceipt = (data.TotalReceipt * 1).toFixed(3);
-        data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
-        data.CSBalance = (data.CSBalance * 1).toFixed(3);
-        data.Shortage = (data.Shortage * 1).toFixed(3);
-        data.Receipt = ((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3);
-        data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        res.forEach(data => {
+          sno += 1;
+          this.stockData.push({ 
+        'SlNo': sno, 'ITDescription': data.ITDescription,
+        'OpeningBalance': (data.OpeningBalance * 1).toFixed(3),
+        'Receipt': (data.TotalReceipt * 1).toFixed(3),
+        'TotalReceipt': (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3)),
+        'TotalIssue': ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3),
+        'ClosingBalance': (data.ClosingBalance * 1).toFixed(3),
+        'CSBalance': (data.CSBalance * 1).toFixed(3),
+        'Shortage': (data.Shortage * 1).toFixed(3),
+        'PhycialBalance': (data.PhycialBalance * 1).toFixed(3),
+        })
       this.loading = false;
+        });
       } else{
         this.loading = false;
-        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Record Not Found!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
       this.loading = false;
-      this.router.navigate(['pageNotFound']);
+      this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
   }
@@ -134,7 +130,7 @@ export class StockstatementreportComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.stockData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockDataColumns);
+    this.excelService.exportAsExcelFile(this.stockData, 'STOCK_STATEMENT_REPORT',this.stockDataColumns);
 }
 exportAsPDF() {
   var doc = new jsPDF('p','pt','a4');
@@ -143,11 +139,28 @@ exportAsPDF() {
   // doc.addImage(img, 'PNG', 150, 10, 40, 20);
   var col = this.stockDataColumns;
   var rows = [];
-  this.data.forEach(element => {
-     var temp = [element.SlNo,element.DepositorName];
+  this.stockData.forEach(element => {
+     var temp = [element.SlNo,element.OpeningBalance,element.CSBalance,
+    element.ClosingBalance,element.ITDescription,element.PhycialBalance,
+  element.Shortage,element.TotalIssue,element.TotalReceipt,element.Receipt];
         rows.push(temp);
   });
     doc.autoTable(col,rows);
-    doc.save('FCI_DATA.pdf');
+    doc.save('STOCK_STATEMENT_REPORT.pdf');
 }
 }
+
+// export interface StockStatementList {
+//   SlNo: number;
+//   ITDescription: string;
+//   OpeningBalance: any;
+//   TotalReceipt: any;
+//   Receipt: any;
+//   TotalIssue: any;
+//   ClosingBalance: any;
+//   CSBalance: any;
+//   Shortage: any;
+//   PhycialBalance: any;
+//   IssueSales: any;
+//   IssueOthers: any;
+// }
