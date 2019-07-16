@@ -16,9 +16,10 @@
       <div class="form-group ui-g-12 dashboard">
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
+            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
               <p-dropdown name="godownName"
               [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
+               filter="true" optionLabel="label" [showClear]="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
