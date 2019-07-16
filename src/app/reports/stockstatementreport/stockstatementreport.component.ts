@@ -82,8 +82,9 @@ export class StockstatementreportComponent implements OnInit {
         data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
         data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
         data.TotalIssue = (data.TotalIssue * 1).toFixed(3);
-        data.IssueOthers = (data.IssueOthers * 1).toFixed(3);
-        data.IssueSales = (data.IssueSales * 1).toFixed(3);
+        // ---Future purpose---
+        // data.IssueOthers = (data.IssueOthers * 1).toFixed(3);
+        // data.IssueSales = (data.IssueSales * 1).toFixed(3);
         data.Receipt = (data.Receipt * 1).toFixed(3);
         data.TotalReceipt = (data.TotalReceipt * 1).toFixed(3);
         data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);

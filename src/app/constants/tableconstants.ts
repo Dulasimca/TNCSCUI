@@ -781,8 +781,9 @@ export class TableConstants {
       { header: 'OB', field: 'OpeningBalance', align: 'right' },
       { header: 'Receipt', field: 'TotalReceipt' },
       { header: 'Total (OB + Receipt)', field: 'Receipt' },
-      { header: 'Sales', field: 'IssueSales', },
-      { header: 'Other Issue', field: 'IssueOthers' },
+      // --Future purpose--
+      // { header: 'Sales', field: 'IssueSales', },
+      // { header: 'Other Issue', field: 'IssueOthers' },
       { header: 'Total Issue', field: 'TotalIssue' },
       { header: 'Closing Balance', field: 'ClosingBalance' },
       { header: 'Cumulative Shortage', field: 'CSBalance' },
