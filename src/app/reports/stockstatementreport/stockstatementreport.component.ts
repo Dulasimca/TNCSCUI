@@ -9,6 +9,8 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -28,6 +30,7 @@ export class StockstatementreportComponent implements OnInit {
   username: any;
   rCode: any;
   data: any;
+  items: any;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private router: Router,
@@ -38,6 +41,16 @@ export class StockstatementreportComponent implements OnInit {
     this.stockDataColumns = this.tableConstants.StockStatementReport;
     this.username = JSON.parse(this.authService.getCredentials());
     this.data = this.roleBasedService;
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.exportAsXLSX();
+      }},
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+         this.exportAsPDF();
+        }
+      }]
   }
 
   onSelect() {
@@ -119,8 +132,21 @@ export class StockstatementreportComponent implements OnInit {
     this.stockData = [];
   }
 
-  onExportExcel():void{
+  exportAsXLSX():void{
     this.excelService.exportAsExcelFile(this.stockData, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockDataColumns);
 }
-
+exportAsPDF() {
+  var doc = new jsPDF('p','pt','a4');
+  doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+  // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+  // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+  var col = this.stockDataColumns;
+  var rows = [];
+  this.data.forEach(element => {
+     var temp = [element.SlNo,element.DepositorName];
+        rows.push(temp);
+  });
+    doc.autoTable(col,rows);
+    doc.save('FCI_DATA.pdf');
+}
 }
