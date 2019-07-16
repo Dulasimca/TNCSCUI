@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit {
             }
           },
           chart: {
-            type: (this.cbRice === 'line') ? 'line' : 'column'
+            type: 'column'
           },
           credits: {
             enabled: false
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit {
             }
           },
           chart: {
-            type: (this.cbDhall === 'line') ? 'line' : 'column'
+            type: 'column'
           },
           credits: {
             enabled: false
