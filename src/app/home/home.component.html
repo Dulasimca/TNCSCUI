@@ -226,12 +226,16 @@
               <div class="tab-content">
                 <div class="col-md-12 tab-pane show active" id="CB">
                     <div class="ui-g-12 card" *ngIf="CBRiceData">
+                        <p-radioButton name="groupname" value="line" label="Line" [(ngModel)]="cbRice" (onClick)="onSelectType()"></p-radioButton>
+                        <p-radioButton name="groupname" value="bar" label="Bar" [(ngModel)]="cbRice" (onClick)="onSelectType()"></p-radioButton>
                       <highcharts-chart [Highcharts]="Highcharts" [options]="CBRiceData"
                         style="height: 400px; display: block;">
                       </highcharts-chart>
                     </div>
                     <div class="ui-g-12 card" *ngIf="CBDhallAndOilData">
-                      <highcharts-chart [Highcharts]="Highcharts" [options]="CBDhallAndOilData"
+                        <p-radioButton name="groupname" value="line" label="Line" [(ngModel)]="cbDhall" (onClick)="onSelectType()"></p-radioButton>
+                        <p-radioButton name="groupname" value="bar" label="Bar" [(ngModel)]="cbDhall" (onClick)="onSelectType()"></p-radioButton>
+                        <highcharts-chart [Highcharts]="Highcharts" [options]="CBDhallAndOilData"
                         style="height: 400px; display: block;">
                       </highcharts-chart>
                     </div>

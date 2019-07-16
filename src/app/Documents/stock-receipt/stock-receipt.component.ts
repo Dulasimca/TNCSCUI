@@ -217,7 +217,7 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         this.isViewClicked = false;
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', '002');
+          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.ReceivingCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               res.forEach(dt => {
                 depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });

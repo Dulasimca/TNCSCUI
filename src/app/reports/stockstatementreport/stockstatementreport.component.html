@@ -14,11 +14,11 @@
             </div>
         </div>
       </p-header>
+    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
       <div class="ui-g-12 ui-md-3">
-          <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-          <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="c_cd"
-            (onClick)="onSelect('commodity')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
-            [showClear]="true" placeholder="-select-">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
+             (ngModelChange)="onResetTable()" filter="true" placeholder="-select-" (onClick)="onSelect()" optionLabel="label" [showClear]="true">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -35,32 +35,35 @@
             dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-4 ui-md-2" style="margin-top: 15px">
-            <button class="ui-g-6 dashboard" pButton label=View (click)="onView()" [disabled]="(!c_cd || !fromDate || !toDate)"></button>
+            <button class="ui-g-6 dashboard" pButton label=View (click)="onView()" [disabled]="(!g_cd || !fromDate || !toDate)"></button>
         </div>
-      <div #stockTable class="ui-g ui-md-12" style="text-align:left; display:grid">
-        <p-treeTable  [value]="stockData" [columns]="stockDataColumns" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [loading]="loading" [totalRecords]="totalRecords"
-          [paginator]="true" autoLayout="true" selectionMode="single" (onRowSelect)="onRowSelect($event)" [resizableColumns]="true" dataKey="Name" >
-          <ng-template pTemplate="header" let-columns>
-              <tr [ttRow]="rowNode" style="text-align: center;">
-            <th *ngFor="let col of columns" ttResizableColumn>
-              {{col.header}}
-            </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns" let-rowIndex="rowIndex">
-            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
-              <td *ngFor="let col of columns; let i = index">
-                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i==0"></p-treeTableToggler>
-                <div *ngIf="col.field !== 'Name'">
-                   <span style="float: right"> {{rowData[col.field]}} </span>
-                  </div>
-                  <div *ngIf="col.field === 'Name'">
-                    {{rowData[col.field]}}
-                  </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-treeTable>
-      </div>
+        <div class="ui-g ui-md-12 dashboard">
+            <p-table [columns]="stockDataColumns" [value]="stockData" [rows]="20"
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
+              <ng-template pTemplate="header" let-columns>
+                  <tr style="text-align: center;">
+                    <th *ngFor="let col of columns">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns">
+                        <div
+                          *ngIf="col.field !== 'ITDescription'">
+                          <div style="text-align: end !important">
+                            {{rowData[col.field]}}
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="col.field === 'ITDescription'">
+                          {{rowData[col.field]}}
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+            </p-table>
+          </div>
     </p-panel>
   </div>

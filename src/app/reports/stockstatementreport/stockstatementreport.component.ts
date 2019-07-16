@@ -6,6 +6,9 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -16,46 +19,76 @@ export class StockstatementreportComponent implements OnInit {
   canShowMenu: boolean;
   stockDataColumns: any;
   stockData: any;
-  commodityOptions: SelectItem[];
-  c_cd: string;
+  godownOptions: SelectItem[];
+  g_cd: any;
   maxDate: Date = new Date();
   loading: boolean;
   fromDate: any;
   toDate: any;
   username: any;
+  rCode: any;
+  data: any;
 
-  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
-    private authService: AuthService, private datePipe: DatePipe, private excelService: ExcelService, private messageService: MessageService) { }
+  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
+    private authService: AuthService, private datePipe: DatePipe, private router: Router,
+     private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockDataColumns = this.tableConstants.StockStatementReport;
     this.username = JSON.parse(this.authService.getCredentials());
-    let commoditySelection = [];
-    if(this.commodityOptions === undefined){
-      this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-        if (data !== undefined) {
-          data.forEach(y => {
-            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-            this.commodityOptions = commoditySelection;
-          });
-        }
-      })
-    }
+    this.data = this.roleBasedService;
+  }
+
+  onSelect() {
+    let options = [];
+    if (this.data.instance !== undefined) {
+      this.data.instance.forEach(x => {
+      options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
+      this.godownOptions = options;
+    });
+  }
   }
 
   onView() {
     this.checkValidDateSelection();
+    this.rCode = this.data.rCode;
     this.loading = true;
-    this.restApiService.get(PathConstants.STOCK_STATEMENT_REPORT).subscribe(res => {
-      if (res !== undefined) {
+    const params = {
+      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.g_cd.value,
+      'RCode': this.g_cd.rcode,
+      'UserName': this.username.user
+    }
+    this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
+      if (res !== undefined) { 
+        this.stockData = res;
         let sno = 0;
       this.stockData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
+        data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
+        data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
+        data.TotalIssue = (data.TotalIssue * 1).toFixed(3);
+        data.IssueOthers = (data.IssueOthers * 1).toFixed(3);
+        data.IssueSales = (data.IssueSales * 1).toFixed(3);
+        data.Receipt = (data.Receipt * 1).toFixed(3);
+        data.TotalReceipt = (data.TotalReceipt * 1).toFixed(3);
+        data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+        data.CSBalance = (data.CSBalance * 1).toFixed(3);
+        data.Shortage = (data.Shortage * 1).toFixed(3);
+        data.Receipt = ((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3);
+        data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
+      this.loading = false;
+      } else{
+        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+      this.loading = false;
+      this.router.navigate(['pageNotFound']);
       }
     });
   }
@@ -73,9 +106,8 @@ export class StockstatementreportComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+      if ((selectedFromDate > selectedToDate && selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear) ||
+       (selectedFromMonth != selectedToMonth) || (selectedToYear != selectedFromYear)) {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
       }

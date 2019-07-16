@@ -24,12 +24,12 @@ export class RoleBasedService {
         this.gCode = this.authService.getUserAccessible().gCode;
         this.rCode = this.authService.getUserAccessible().rCode;
         let godownList;
-        if (this.instance === undefined) {
             this.instance = [];
             this.rgData = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
                     res.forEach(x => {
                         if (this.roleId === 1) {
+                            // this.instance.push({})
                             godownList = x.list;
                         } else if (this.roleId === 2) {
                             if (x.Code === this.rCode) {
@@ -37,30 +37,23 @@ export class RoleBasedService {
                             }
                         } else {
                             if (x.Code === this.rCode) {
-                                godownList = x.list;
+                                if (x.Code === this.rCode) {
+                                    godownList = x.list.filter(y => {
+                                        return y.GCode === this.gCode;
+                                    });
+                                }
+                                // res.filter(value => {
+                                //     if (value.Code === this.rCode) {
+                                //         this.rgData.push({ 'RName': value.Name, 'RCode': value.Code });
+                                //     }
+                                // });
                             }
                         }
-                        godownList.forEach(value => {
-                            this.instance.push({ 'GName': value.Name, 'GCode': value.GCode });
-                        });
                     });
-                if (this.roleId === 3) {
-                    res.filter(value => {
-                        if (value.Code === this.rCode) {
-                            this.rgData.push({ 'RName': value.Name, 'RCode': value.Code });
-                        }
+                    godownList.forEach(value => {
+                        this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                     });
-                    godownList.filter(value => {
-                        if (value.GCode === this.gCode) {
-                            this.rgData.push({ 'GName': value.Name, 'GCode': value.GCode });
-                        }
-                    });
-                }
-                let godownData = this.instance;
-                let rgData = this.rgData;
-                return { godownData, rgData };
             });
-        }
      
     }
 

@@ -41,7 +41,7 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { StackCardOpeningEntryComponent } from './Documents/stack-card-opening-entry/stack-card-opening-entry.component';
+import { StackCardOpeningEntryComponent } from './reports/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
@@ -118,7 +118,6 @@ const routes: Routes = [
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny_GUGR', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
-  { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'Do All Scheme', component: AllSchemeComponent },

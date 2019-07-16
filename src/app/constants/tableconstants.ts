@@ -160,7 +160,7 @@ export class TableConstants {
       { field: 'SUGAR', header: 'SUGAR' },
       { field: 'WHEAT', header: 'WHEAT' },
       { field: 'toorDhall', header: 'TOOR DHALL' },
-      { field: 'kanadaToorDhall', header: 'Kanada TOOR Dhall' },
+      { field: 'kanadaToorDhall', header: 'CYL TOOR Dhall' },
       { field: 'totalDhall', header: 'Dhall Total' },
       { field: 'uridDhall', header: 'URID Dhall' },
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
@@ -168,13 +168,17 @@ export class TableConstants {
     ]
 
     this.DeliveryDocumentcolumns = [
-      { field: 'deliveryOrder', header: 'Delivery Order' },
-      { field: 'transCode', header: 'Transaction Code' },
-
+      { field: 'DoNo', header: 'Delivery Order' },
+      { field: 'DDate', header: 'Delivery Date' },
+      { field: 'Society', header: 'Society' },
+      { field: 'Due', header: 'Due' },
+      { field: 'Paid', header: 'Paid' },
+      { field: 'AdvCollection', header: 'Advance Collection' },
+      { field: 'Debit', header: 'Debit' },
     ]
 
     this.DeliveryItemColumns = [
-      { field: 'itemDesc', header: 'Item Desc' },
+      { field: 'itemDesc', header: 'IT Description' },
       { field: 'netWeight', header: 'Net Weight' },
       { field: 'unitMeasure', header: 'Unit Measure' },
       { field: 'scheme', header: 'Scheme' },
@@ -428,7 +432,7 @@ export class TableConstants {
       { field: 'TNCSName', header: 'Receiver Godown' },
       { field: 'NoPacking', header: 'Bags Received' },
       { field: 'Nkgs', header: 'Received Quantity' },
-      // {field: 'Transfertype', header: 'INTERNAL/'}
+      {field: 'Transfertype', header: 'INTERNAL/'}
     ];
 
     this.StockReceiptItemColumns = [
@@ -787,6 +791,21 @@ export class TableConstants {
       { field: 'Shortage', header: 'Current CS' },
       { field: 'PhycialBalance', header: 'Physical Balance' },
     ];
+   
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
+      // { header: 'Commodity', field: 'ITDescription' },
+      // { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      // { header: 'Receipt', field: 'TotalReceipt' },
+      // { header: 'Total (OB + Receipt)', field: 'Receipt' },
+      // { header: 'Sales', field: 'IssueSales', },
+      // { header: 'Other Issue', field: 'IssueOthers' },
+      // { header: 'Total Issue', field: 'TotalIssue' },
+      // { header: 'Closing Balance', field: 'ClosingBalance' },
+      // { header: 'Cummilative Shortage', field: 'CSBalance' },
+      // { header: 'Current CS', field: 'Shortage' },
+      // { header: 'Physical Balance', field: 'PhycialBalance' },
+    // ]
+   
     this.TransactionStatus = [
       { field: 'Docdate', header: 'Document Date'},
       { field: 'Receipt', header: 'Receipt'},
@@ -798,5 +817,6 @@ export class TableConstants {
       { field: 'remarks', header: 'Remarks'},
       { field: 'userid ', header: 'User Id'},
     ];
+
   }
 }

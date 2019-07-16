@@ -33,6 +33,7 @@ export class SchemeIssueMemoComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean = false;
+  data: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
