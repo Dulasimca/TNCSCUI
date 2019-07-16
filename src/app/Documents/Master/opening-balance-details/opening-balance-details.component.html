@@ -16,12 +16,9 @@
       <div class="form-group ui-g-12 dashboard">
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
-            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
-             <input *ngIf="roleId == '3'" type="text" name="GodownName" size="20" pInputText autocomplete="off" required
-              [(ngModel)]="godownName" [readOnly]="true"> 
-              <p-dropdown *ngIf="(roleId == '1' || roleId == '2')" name="godownName"
-              [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
+            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
+              <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+               filter="true" optionLabel="label" [showClear]="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -89,22 +86,21 @@
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
-          <label class="ui-g label-fontsize" for="CummlitiveShortage">Cumulitive Shortage</label>
-          <input class="ui-g-6" type="number" name="CummlitiveShortage" [(ngModel)]="CumulitiveShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
+          <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulitive Shortage</label>
+          <input class="ui-g-6" type="number" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
         </div> 
         <div class="ui-g-2"></div>
       </div>
       <div class="form-group ui-g-12 dashboard">
-        <div class="ui-g-5"></div>
+        <div class="ui-g-3 ui-md-5"></div>
           <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
+            <button pButton type="submit" [disabled]="(!BookBalanceBags || !BookBalanceWeight || !PhysicalBalanceBags || !PhysicalBalanceWeight || !g_cd || !c_cd || !Year || !CumulativeShortage)" label=Save (click)="onSave()"></button>
           </div>
           <div class="form-group ui-g-3 ui-md-1">
-            <button *ngIf="(roleId == '3')" pButton type="button" [disabled]="(!Year || !godownName)" label=View (click)="onView()"></button>
-            <button *ngIf="(roleId == '1' || roleId == '2')" pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
+            <button pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
           </div>
           <div class="form-group ui-g-3 ui-md-1">
-              <button pButton type="submit" [disabled]="!f.valid" label=Clear (click)="onClear()"></button>
+              <button pButton type="submit" [disabled]="(!BookBalanceBags || !BookBalanceWeight || !PhysicalBalanceBags || !PhysicalBalanceWeight || !g_cd || !c_cd || !Year || !CumulativeShortage)" label=Clear (click)="onClear()"></button>
             </div>
               <!-- <div class="ui-g-5"></div> -->
         </div>
@@ -152,8 +148,8 @@
     <div class="ui-g-4 ui-md-1 no-right-pad">
       <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="showSelectedData()"></button>
     </div>
-    <div class="ui-g-3 ui-md-1">
-        <button pButton type="button" [disabled]="disableOkButton" label=Excel (click)="exportAsXLSX()"></button>
+    <div class="ui-g-4 ui-md-1">
+        <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!openingBalanceData" label=Excel (click)="exportAsXLSX()"></button>
       </div>
     <div class="ui-g-4 ui-md-1 no-left-pad">
         <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>

@@ -20,7 +20,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   data: any;
   c_cd: any;
   commodityCd: any;
-  godownName: any;
+  // godownName: any;
   Year: any;
   commoditySelection: any[] = [];
   yearOptions: SelectItem[];
@@ -29,9 +29,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   viewCommodityOptions: SelectItem[];
   canShowMenu: boolean;
   disableOkButton: boolean = true;
+  isViewed: boolean = false;
   BookBalanceBags: any;
   BookBalanceWeight: number;
-  CumulitiveShortage: number;
+  CumulativeShortage: number;
   PhysicalBalanceBags: any;
   PhysicalBalanceWeight: number;
   rCode: any;
@@ -50,53 +51,11 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   validationErr: boolean = false;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
-     private restApiService: RestAPIService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
+     private excelService: ExcelService, private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.roleId = this.authService.getUserAccessible().roleId;
-    this.loggedInGCode = this.authService.getUserAccessible().gCode;
-    this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
-      let gList;
-      if(res !== undefined) {
-        if (this.roleId === '3') {
-          this.data = res.filter(x => {
-            if (x.Code === this.loggedInRCode) {
-              gList = x.list;
-              this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
-              this.rCode = this.rData[0].RCode;
-              this.rName = this.rData[0].RName;
-              gList.filter(y => {
-                if (y.GCode === this.loggedInGCode) {
-                  this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-                  this.godownName = this.gdata[0].GName;
-                  this.gCode = this.gdata[0].GCode;
-                }
-              })
-            }
-          })
-        } else if (this.roleId === '2') {
-          this.data = res.filter(x => {
-            if (x.Code === this.loggedInRCode) {
-              gList = x.list;
-              this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
-              gList.forEach(y => {
-                this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-            })
-            }
-          })
-        } else {
-          this.data = res.forEach(x => {
-          gList = x.list;
-          gList.forEach(y => {
-            this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-        })
-          });
-        }
-      }
-    });
+    this.gdata = this.roleBasedService;
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -114,13 +73,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     if (this.BookBalanceWeight  !== undefined && this.PhysicalBalanceWeight !== undefined) {
       if (this.BookBalanceWeight < this.PhysicalBalanceWeight) {
         this.showErr = true;
-        this.PhysicalBalanceWeight = this.CumulitiveShortage = null;
+        this.PhysicalBalanceWeight = this.CumulativeShortage = null;
       } else {
         this.showErr = false;
-        this.CumulitiveShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
+        this.CumulativeShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
       }
     } else {
-      this.CumulitiveShortage = 0;
+      this.CumulativeShortage = 0;
     }
    
   }
@@ -140,8 +99,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     let godownSelection = [];
     switch (selectedItem) {
       case 'gd':
-        if (this.gdata !== undefined) {
-          this.gdata.forEach(x => {
+        if (this.gdata.instance !== undefined) {
+          this.gdata.instance.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
@@ -171,7 +130,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       if (selectedItem !== null) {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
-          this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record not found!' });
         }
       } else {
         this.openingBalanceData = this.opening_balance;
@@ -192,14 +151,14 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   showSelectedData() {
     this.viewPane = false;
+    this.isViewed = true;
     this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
     this.c_cd = this.selectedRow.ITDescription;
-    this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight.toFixed(3);
+    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight.toFixed(3);
-    this.CumulitiveShortage = this.selectedRow.CumulitiveShortage.toFixed(3);
+    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
+    this.CumulativeShortage = this.selectedRow.CumulativeShortage;
   }
 
   onView() {
@@ -208,20 +167,30 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
+        let sno = 0;
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
-        this.openingBalanceData = res;
-        this.openingBalanceData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
+        res.forEach(x => {
+          sno += 1;
+          this.openingBalanceData.push({
+            'SlNo': sno, 'ITDescription': x.ITDescription,
+            'BookBalanceBags': x.BookBalanceBags, 
+            'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
+            'PhysicalBalanceBags': x.PhysicalBalanceBags,
+            'PhysicalBalanceWeight': (x.PhysicalBalanceWeight * 1).toFixed(3),
+            'CumulativeShortage': (x.CumulitiveShortage * 1).toFixed(3),
+          })
+        });
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
-        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     })
   }
 
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-    this.c_cd = this.commodityCd = this.CumulitiveShortage = this.Year = this.g_cd = null;
+    this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
   }
 
   onSave() {
@@ -233,7 +202,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'BookBalanceWeight': this.BookBalanceWeight,
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
       'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
-      'CumulitiveShortage': this.CumulitiveShortage,
+      'CumulativeShortage': this.CumulativeShortage,
       'RegionCode': this.rCode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
@@ -251,6 +220,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.openingBalanceData, 'Commodity_Receipt', this.openingBalanceCols);
+    this.excelService.exportAsExcelFile(this.openingBalanceData, 'OPENING_BALANCE_DETAILS', this.openingBalanceCols);
   }
 }
