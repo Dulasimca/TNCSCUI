@@ -85,7 +85,7 @@ export class TableConstants {
       { field: 'IssueOthers', header: 'Other Issue' },
       { field: 'TotalIssue', header: 'Total Issue' },
       { field: 'ClosingBalance', header: 'Closing Balance' },
-      { field: 'CSBalance', header: 'Cummilative Shortage' },
+      { field: 'CSBalance', header: 'Cumulative Shortage' },
       { field: 'Shortage', header: 'Current CS' },
       { field: 'PhycialBalance', header: 'Physical Balance' },
     ]
@@ -785,7 +785,7 @@ export class TableConstants {
       { header: 'Other Issue', field: 'IssueOthers' },
       { header: 'Total Issue', field: 'TotalIssue' },
       { header: 'Closing Balance', field: 'ClosingBalance' },
-      { header: 'Cummilative Shortage', field: 'CSBalance' },
+      { header: 'Cumulative Shortage', field: 'CSBalance' },
       { header: 'Current CS', field: 'Shortage' },
       { header: 'Physical Balance', field: 'PhycialBalance' },
     ]
