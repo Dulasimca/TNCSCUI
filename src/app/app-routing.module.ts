@@ -74,6 +74,7 @@ import { StackCardClosingComponent } from './reports/StackCard/stack-card-closin
 import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
+import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 
 
 const routes: Routes = [
@@ -117,7 +118,6 @@ const routes: Routes = [
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny_GUGR', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
-  { path: 'Stack Card Opening Entry Report', component: StackCardOpeningEntryComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'Do All Scheme', component: AllSchemeComponent },
@@ -151,6 +151,7 @@ const routes: Routes = [
   { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
+  { path :'Transaction Status', component: TransactionStatusComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -73,6 +73,7 @@ export class TableConstants {
   GodownCustomerList: any;
   OpeningBalanceMasterEntry: any;
   StockStatementReport: any;
+  TransactionStatus: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -790,7 +791,19 @@ export class TableConstants {
       { header: 'Cumulative Shortage', field: 'CSBalance' },
       { header: 'Current CS', field: 'Shortage' },
       { header: 'Physical Balance', field: 'PhycialBalance' },
-    ]
+    ];
+
+    this.TransactionStatus = [
+      { field: 'Docdate', header: 'Document Date'},
+      { field: 'Receipt', header: 'Receipt'},
+      { field: 'Issues', header: 'Issues'},
+      { field: 'Transfer', header: 'Transfer'},
+      { field: 'CB', header: 'CB'},
+      { field: 'Approvaldate', header: 'Approval Date'},
+      { field: 'lastupdated', header: 'Last Updated'},
+      { field: 'remarks', header: 'Remarks'},
+      { field: 'userid ', header: 'User Id'},
+    ];
 
   }
 }

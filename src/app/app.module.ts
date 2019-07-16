@@ -119,6 +119,7 @@ import { StackCardClosingComponent } from './reports/StackCard/stack-card-closin
 import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
+import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 
 
 @NgModule({
@@ -201,7 +202,8 @@ import { StockstatementreportComponent } from './reports/stockstatementreport/st
     StackCardClosingComponent,
     StackReceiptEntryComponent,
     DuplicateIssueMemoComponent,
-    StockstatementreportComponent
+    StockstatementreportComponent,
+    TransactionStatusComponent
     
   ],
   imports: [
