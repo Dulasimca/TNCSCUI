@@ -71,10 +71,166 @@ export class HomeComponent implements OnInit {
       }
     });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
-    if(this.CBRiceData === undefined &&  this.CBWheatAndSugarData === undefined && this.CBDhallAndOilData === undefined) {
-    this.onSelectType();
-  }
-  if (this.ReceiptDhallAndOilData === undefined && this.ReceiptRiceData === undefined && this.ReceiptWheatAndSugarData === undefined) {
+    this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
+      if (response !== undefined) {
+        this.chartLabels = response[1];
+        this.CBRiceData = {
+          title: {
+            text: 'Rice chart - CB'
+          },
+          series: [{ data: response[2], name: 'BOILED COMMON', color: '#00ff00' },
+          { data: response[3], name: 'BOILED GRADEA', color: '#00cc00' },
+          { data: response[4], name: 'RAW COMMON', color: '#ffff1a' },
+          { data: response[5], name: 'RAW GRADEA', color: '#ffcc00' }],
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                enabled: true
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
+            }
+          },
+          chart: {
+            type: (this.cbRice === 'line') ? 'line' : 'column'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            categories: this.chartLabels
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Quantity in Mts (thousands)',
+              align: 'high'
+            },
+            stackLabels: {
+              enabled: true,
+              style: {
+                overflow: 'justify'
+              }
+            }
+          },
+          legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 5,
+            floating: false,
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+          },
+        };
+        this.CBDhallAndOilData = {
+          title: {
+            text: 'Dhall & Oil chart - CB'
+          },
+          series: [{ data: response[6], name: 'DHALL', color: '#00ff00' },
+          { data: response[7], name: 'PAMOLIEN OIL', color: '#00cc00' },
+          { data: response[8], name: 'PAMOLIEN POUCH', color: '#ffff1a' }],
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                enabled: true
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
+            }
+          },
+          chart: {
+            type: (this.cbDhall === 'line') ? 'line' : 'column'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            categories: this.chartLabels
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Quantity in Mts (thousands)',
+              align: 'high'
+            },
+
+            stackLabels: {
+              enabled: true,
+              style: {
+                overflow: 'justify'
+              }
+            }
+          },
+          legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 5,
+            floating: false,
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+          },
+        };
+        this.CBWheatAndSugarData = {
+          title: {
+            text: 'Wheat & Sugar chart - CB'
+          },
+          series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
+          { data: response[10], name: 'SUGAR', color: '#FFA824' }],
+          plotOptions: {
+            line: {
+              dataLabels: {
+                enabled: true
+              },
+              enableMouseTracking: false
+            }
+          },
+          chart: {
+            type: "line"
+          },
+          xAxis: {
+            categories: this.chartLabels
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Quantity in Mts (thousands)',
+              align: 'high'
+            },
+            stackLabels: {
+              enabled: true,
+              style: {
+                overflow: 'justify'
+              }
+            },
+          },
+          legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 5,
+            floating: false,
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+          },
+          credits: {
+            enabled: false
+          },
+        };
+      }
+    });
     this.restApiService.getByParameters(PathConstants.CHART_RECEIPT, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
@@ -235,8 +391,6 @@ export class HomeComponent implements OnInit {
         };
       }
     });
-  }
-  if ( this.IssueDhallAndOilData === undefined && this.IssueRiceData === undefined && this.IssueWheatAndSugarData === undefined) {
     this.restApiService.getByParameters(PathConstants.CHART_ISSUE, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
@@ -397,7 +551,6 @@ export class HomeComponent implements OnInit {
         };
       }
     });
-  }
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
       if (data !== undefined) {
         this.rawRicePB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
@@ -408,175 +561,6 @@ export class HomeComponent implements OnInit {
         this.sugarPB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
       }
     });
-  }
-
-  onSelectType() {
-    let params = new HttpParams().set('Date', this.date);
-    // switch(id) {
-    // case 'CB-Rice':
-        this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
-          if (response !== undefined) {
-            this.chartLabels = response[1];
-            this.CBRiceData = {
-              title: {
-                text: 'Rice chart - CB'
-              },
-              series: [{ data: response[2], name: 'BOILED COMMON', color: '#00ff00' },
-              { data: response[3], name: 'BOILED GRADEA', color: '#00cc00' },
-              { data: response[4], name: 'RAW COMMON', color: '#ffff1a' },
-              { data: response[5], name: 'RAW GRADEA', color: '#ffcc00' }],
-              plotOptions: {
-                bar: {
-                  dataLabels: {
-                    enabled: true
-                  }
-                },
-                series: {
-                  stacking: 'normal',
-                  pointWidth: '25',
-                  pointPadding: 0,
-                  borderWidth: 0
-                }
-              },
-              chart: {
-                type: (this.cbRice === 'line') ? 'line' : 'column'
-              },
-              credits: {
-                enabled: false
-              },
-              xAxis: {
-                categories: this.chartLabels
-              },
-              yAxis: {
-                min: 0,
-                title: {
-                  text: 'Total Quantity in Mts (thousands)',
-                  align: 'high'
-                },
-                stackLabels: {
-                  enabled: true,
-                  style: {
-                    overflow: 'justify'
-                  }
-                }
-              },
-              legend: {
-                align: 'right',
-                x: -30,
-                verticalAlign: 'top',
-                y: 5,
-                floating: false,
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-              },
-            };
-            this.CBDhallAndOilData = {
-              title: {
-                text: 'Dhall & Oil chart - CB'
-              },
-              series: [{ data: response[6], name: 'DHALL', color: '#00ff00' },
-              { data: response[7], name: 'PAMOLIEN OIL', color: '#00cc00' },
-              { data: response[8], name: 'PAMOLIEN POUCH', color: '#ffff1a' }],
-              plotOptions: {
-                bar: {
-                  dataLabels: {
-                    enabled: true
-                  }
-                },
-                series: {
-                  stacking: 'normal',
-                  pointWidth: '25',
-                  pointPadding: 0,
-                  borderWidth: 0
-                }
-              },
-              chart: {
-                type: (this.cbDhall === 'line') ? 'line' : 'column'
-              },
-              credits: {
-                enabled: false
-              },
-              xAxis: {
-                categories: this.chartLabels
-              },
-              yAxis: {
-                min: 0,
-                title: {
-                  text: 'Total Quantity in Mts (thousands)',
-                  align: 'high'
-                },
-    
-                stackLabels: {
-                  enabled: true,
-                  style: {
-                    overflow: 'justify'
-                  }
-                }
-              },
-              legend: {
-                align: 'right',
-                x: -30,
-                verticalAlign: 'top',
-                y: 5,
-                floating: false,
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-              },
-            };
-            this.CBWheatAndSugarData = {
-              title: {
-                text: 'Wheat & Sugar chart - CB'
-              },
-              series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
-              { data: response[10], name: 'SUGAR', color: '#FFA824' }],
-              plotOptions: {
-                line: {
-                  dataLabels: {
-                    enabled: true
-                  },
-                  enableMouseTracking: false
-                }
-              },
-              chart: {
-                type: "line"
-              },
-              xAxis: {
-                categories: this.chartLabels
-              },
-              yAxis: {
-                min: 0,
-                title: {
-                  text: 'Total Quantity in Mts (thousands)',
-                  align: 'high'
-                },
-                stackLabels: {
-                  enabled: true,
-                  style: {
-                    overflow: 'justify'
-                  }
-                },
-              },
-              legend: {
-                align: 'right',
-                x: -30,
-                verticalAlign: 'top',
-                y: 5,
-                floating: false,
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-              },
-              credits: {
-                enabled: false
-              },
-            };
-          }
-        });
-    //   break;
-    // }
-
   }
 
   onGridClicked(param) {

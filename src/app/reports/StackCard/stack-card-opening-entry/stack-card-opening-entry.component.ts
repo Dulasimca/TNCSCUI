@@ -113,7 +113,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     }
   }
 
-  calculateStackNo() {
+  calculateStackNo(event) {
     if (this.Location !== undefined && this.Formation !== undefined) {
       this.StackNo = this.Location.valueOf() + this.Formation.valueOf();
       this.Bags = 0;

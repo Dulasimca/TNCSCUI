@@ -23,23 +23,30 @@ export class RoleBasedService {
         this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
         this.gCode = this.authService.getUserAccessible().gCode;
         this.rCode = this.authService.getUserAccessible().rCode;
-        let godownList;
+        let godownList = [];
             this.instance = [];
             this.rgData = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
                     res.forEach(x => {
                         if (this.roleId === 1) {
-                            // this.instance.push({})
                             godownList = x.list;
+                            godownList.forEach(value => {
+                                this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                            });
                         } else if (this.roleId === 2) {
                             if (x.Code === this.rCode) {
                                 godownList = x.list;
+                                godownList.forEach(value => {
+                                    this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                                });
                             }
                         } else {
-                            if (x.Code === this.rCode) {
                                 if (x.Code === this.rCode) {
                                     godownList = x.list.filter(y => {
                                         return y.GCode === this.gCode;
+                                    });
+                                    godownList.forEach(value => {
+                                        this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                                     });
                                 }
                                 // res.filter(value => {
@@ -47,12 +54,9 @@ export class RoleBasedService {
                                 //         this.rgData.push({ 'RName': value.Name, 'RCode': value.Code });
                                 //     }
                                 // });
-                            }
                         }
                     });
-                    godownList.forEach(value => {
-                        this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
-                    });
+                   
             });
      
     }
