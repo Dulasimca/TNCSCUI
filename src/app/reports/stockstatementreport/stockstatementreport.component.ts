@@ -62,7 +62,7 @@ export class StockstatementreportComponent implements OnInit {
       'UserName': this.username.user
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
-      if (res !== undefined) { 
+      if (res !== undefined && res.length !== 0) { 
         this.stockData = res;
         let sno = 0;
       this.stockData.forEach(data => {
@@ -83,7 +83,8 @@ export class StockstatementreportComponent implements OnInit {
       })
       this.loading = false;
       } else{
-        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.loading = false;
+        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
