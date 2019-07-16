@@ -20,7 +20,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   data: any;
   c_cd: any;
   commodityCd: any;
-  godownName: any;
+  // godownName: any;
   Year: any;
   commoditySelection: any[] = [];
   yearOptions: SelectItem[];
@@ -29,9 +29,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   viewCommodityOptions: SelectItem[];
   canShowMenu: boolean;
   disableOkButton: boolean = true;
+  isViewed: boolean = false;
   BookBalanceBags: any;
   BookBalanceWeight: number;
-  CumulitiveShortage: number;
+  CumulativeShortage: number;
   PhysicalBalanceBags: any;
   PhysicalBalanceWeight: number;
   rCode: any;
@@ -71,7 +72,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
               gList.filter(y => {
                 if (y.GCode === this.loggedInGCode) {
                   this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-                  this.godownName = this.gdata[0].GName;
+                  this.g_cd = this.gdata[0].GName;
                   this.gCode = this.gdata[0].GCode;
                 }
               })
@@ -114,13 +115,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     if (this.BookBalanceWeight  !== undefined && this.PhysicalBalanceWeight !== undefined) {
       if (this.BookBalanceWeight < this.PhysicalBalanceWeight) {
         this.showErr = true;
-        this.PhysicalBalanceWeight = this.CumulitiveShortage = null;
+        this.PhysicalBalanceWeight = this.CumulativeShortage = null;
       } else {
         this.showErr = false;
-        this.CumulitiveShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
+        this.CumulativeShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
       }
     } else {
-      this.CumulitiveShortage = 0;
+      this.CumulativeShortage = 0;
     }
    
   }
@@ -192,14 +193,14 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   showSelectedData() {
     this.viewPane = false;
+    this.isViewed = true;
     this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
     this.c_cd = this.selectedRow.ITDescription;
-    this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight.toFixed(3);
+    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight.toFixed(3);
-    this.CumulitiveShortage = this.selectedRow.CumulitiveShortage.toFixed(3);
+    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
+    this.CumulativeShortage = this.selectedRow.CumulitiveShortage;
   }
 
   onView() {
@@ -208,9 +209,19 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
+        let sno = 0;
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
-        this.openingBalanceData = res;
-        this.openingBalanceData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
+        res.forEach(x => {
+          sno += 1;
+          this.openingBalanceData.push({
+            'SlNo': sno, 'ITDescription': x.ITDescription,
+            'BookBalanceBags': x.BookBalanceBags, 
+            'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
+            'PhysicalBalanceBags': x.PhysicalBalanceBags,
+            'PhysicalBalanceWeight': (x.PhysicalBalanceWeight * 1).toFixed(3),
+            'CumulativeShortage': (x.CumulitiveShortage * 1).toFixed(3),
+          })
+        });
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
@@ -221,7 +232,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-    this.c_cd = this.commodityCd = this.CumulitiveShortage = this.Year = this.g_cd = null;
+    this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
   }
 
   onSave() {
@@ -233,7 +244,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'BookBalanceWeight': this.BookBalanceWeight,
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
       'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
-      'CumulitiveShortage': this.CumulitiveShortage,
+      'CumulativeShortage': this.CumulativeShortage,
       'RegionCode': this.rCode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
@@ -251,6 +262,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.openingBalanceData, 'Commodity_Receipt', this.openingBalanceCols);
+    this.excelService.exportAsExcelFile(this.openingBalanceData, 'OPENING_BALANCE_DETAILS', this.openingBalanceCols);
   }
 }

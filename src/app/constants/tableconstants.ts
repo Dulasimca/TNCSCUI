@@ -742,12 +742,13 @@ export class TableConstants {
     ];
 
     this.OpeningBalanceMasterEntry = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
       { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
-      { field: 'CumulitiveShortage', header: 'CUMULITIVE SHORTAGE'}
+      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE'}
     ]
 
     this.GodownCustomerList = [];
