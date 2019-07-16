@@ -72,7 +72,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
               gList.filter(y => {
                 if (y.GCode === this.loggedInGCode) {
                   this.gdata.push({'GName': y.Name, 'GCode': y.GCode})
-                  this.g_cd = this.gdata[0].GName;
                   this.gCode = this.gdata[0].GCode;
                 }
               })
@@ -172,7 +171,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       if (selectedItem !== null) {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
-          this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'Record not found!' });
         }
       } else {
         this.openingBalanceData = this.opening_balance;
@@ -225,7 +224,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
-        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     })
   }
