@@ -39,6 +39,7 @@ export class TransactionReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.transactionReceiptCols = this.tableConstants.TransactionReceiptReport;
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
@@ -47,7 +48,7 @@ export class TransactionReceiptComponent implements OnInit {
     let transactoinSelection = [];
     switch (item) {
       case 'godown':
-        this.data = this.roleBasedService;
+        this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });

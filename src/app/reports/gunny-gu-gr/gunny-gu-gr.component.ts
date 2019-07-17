@@ -39,6 +39,7 @@ export class GunnyGuGrComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.GunnyRepCols = this.tableConstants.GunnyReport;
+    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }

@@ -42,12 +42,13 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.isActionDisabled = true;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.maxDate = new Date();
+    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
     let options = [];
-    this.data = this.roleBasedService;
+    this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });

@@ -40,6 +40,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.data = this.roleBasedService.getInstance();
     this.isActionDisabled = true;
     this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.maxDate = new Date();

@@ -43,6 +43,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.isViewDisabled = this.isActionDisabled = true;
     this.schemeIssueMemoCols = this.tableConstants.SchemeIssueMemoReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 

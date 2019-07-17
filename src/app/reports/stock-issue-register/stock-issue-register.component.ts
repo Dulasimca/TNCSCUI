@@ -50,13 +50,14 @@ export class StockIssueRegisterComponent implements OnInit {
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
     this.maxDate = new Date();
     this.stockIssueRegData = [];
+    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
     let options = [];
     this.canFetch = true;
-    this.data = this.roleBasedService;
+    this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });

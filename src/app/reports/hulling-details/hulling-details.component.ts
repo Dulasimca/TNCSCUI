@@ -38,6 +38,7 @@ export class HullingDetailsComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.hullingDetailsCols = this.tableConstants.HullingDetailsReport;
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 

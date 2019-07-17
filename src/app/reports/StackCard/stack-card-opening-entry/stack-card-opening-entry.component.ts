@@ -20,9 +20,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   data: any;
   Opening_Balance: any = []
   godownName: any;
-  Location: number;
+  Location: any;
   Formation: number;
-  StackNo: number;
+  StackNo: any;
   Year: any;
   SRDate: any;
   g_cd: any;
@@ -113,11 +113,17 @@ export class StackCardOpeningEntryComponent implements OnInit {
     }
   }
 
-  calculateStackNo(event) {
+  calculateStackNo() {
     if (this.Location !== undefined && this.Formation !== undefined) {
-      this.StackNo = this.Location.valueOf() + this.Formation.valueOf();
+      this.StackNo = this.Location + this.Formation.valueOf();
       this.Bags = 0;
       this.Weights = 0;
+    }
+  }
+
+    validateLocation(value) {
+      if (value.length === 1 && value === '/') {
+        this.Location = '';
     }
 
   }

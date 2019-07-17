@@ -41,6 +41,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.isViewDisabled = this.isActionDisabled = true;
     this.schemeReceiptCols = this.tableConstants.SchemeReceiptReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
+    this.godown_data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 

@@ -55,6 +55,7 @@ export class StockstatementreportComponent implements OnInit {
 
   onSelect() {
     let options = [];
+    this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });

@@ -38,6 +38,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 

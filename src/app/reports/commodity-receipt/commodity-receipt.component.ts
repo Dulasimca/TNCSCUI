@@ -40,6 +40,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
