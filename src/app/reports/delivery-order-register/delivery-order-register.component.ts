@@ -118,7 +118,16 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.deliveryReceiptRegData, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
+    var delivery_data = [];
+    this.deliveryReceiptRegData.forEach(data => {
+      delivery_data.push({SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
+      Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
+      PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
+      Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
+      PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
+    })
+    })
+    this.excelService.exportAsExcelFile(delivery_data, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
 }
 
 onPrint() {
