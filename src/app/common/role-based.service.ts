@@ -31,13 +31,13 @@ export class RoleBasedService {
                         if (this.roleId === 1) {
                             godownList = x.list;
                             godownList.forEach(value => {
-                                this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                                this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                             });
                         } else if (this.roleId === 2) {
                             if (x.Code === this.rCode) {
                                 godownList = x.list;
                                 godownList.forEach(value => {
-                                    this.instance.push({ 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                                    this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                                 });
                             }
                         } else {
