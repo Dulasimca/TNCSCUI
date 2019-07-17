@@ -31,10 +31,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   disableOkButton: boolean = true;
   isViewed: boolean = false;
   BookBalanceBags: any;
-  BookBalanceWeight: number;
-  CumulativeShortage: number;
+  BookBalanceWeight: any;
+  CumulativeShortage: any;
   PhysicalBalanceBags: any;
-  PhysicalBalanceWeight: number;
+  PhysicalBalanceWeight: any;
   rCode: any;
   viewPane: boolean;
   selectedRow: any;
