@@ -37,7 +37,7 @@
             <button class="ui-g-6 dashboard" pButton label=View (click)="onView()" [disabled]="(!g_cd || !fromDate || !toDate)"></button>
         </div>
         <div class="ui-g-12 ui-md-12 dashboard">
-            <p-table [columns]="stockDataColumns" [value]="stockData" [rows]="20"
+            <p-table [columns]="stockDataColumns" [value]="stockData" [rows]="50"
               [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                   <tr style="text-align: center;">

@@ -77,21 +77,21 @@ export class StockstatementreportComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) { 
+        this.stockData = res;
         let sno = 0;
-        res.forEach(data => {
+        this.stockData.forEach(data => {
           sno += 1;
-          this.stockData.push({ 
-        'SlNo': sno, 'ITDescription': data.ITDescription,
-        'OpeningBalance': (data.OpeningBalance * 1).toFixed(3),
-        'Receipt': (data.TotalReceipt * 1).toFixed(3),
-        'TotalReceipt': (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3)),
-        'TotalIssue': ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3),
-        'ClosingBalance': (data.ClosingBalance * 1).toFixed(3),
-        'CSBalance': (data.CSBalance * 1).toFixed(3),
-        'Shortage': (data.Shortage * 1).toFixed(3),
-        'PhycialBalance': (data.PhycialBalance * 1).toFixed(3),
-        })
-      this.loading = false;
+        data.SlNo = sno;
+        data.ITDescription = data.ITDescription;
+        data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
+        data.Receipt = (data.TotalReceipt * 1).toFixed(3);
+        data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
+        data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
+        data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+        data.CSBalance = (data.CSBalance * 1).toFixed(3);
+        data.Shortage = (data.Shortage * 1).toFixed(3);
+        data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
+        this.loading = false;
         });
       } else{
         this.loading = false;
@@ -131,7 +131,14 @@ export class StockstatementreportComponent implements OnInit {
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.stockData, 'STOCK_STATEMENT_REPORT',this.stockDataColumns);
+    var data = [];
+    this.stockData.forEach(element => {
+      data.push({SlNo: element.SlNo, OpeningBalance: element.OpeningBalance, CSBalance: element.CSBalance,
+        ClosingBalance: element.ClosingBalance, ITDescription: element.ITDescription,
+        PhycialBalance: element.PhycialBalance,Shortage: element.Shortage,
+        TotalIssue: element.TotalIssue, TotalReceipt: element.TotalReceipt, Receipt: element.Receipt});
+   });
+    this.excelService.exportAsExcelFile(data, 'STOCK_STATEMENT_REPORT',this.stockDataColumns);
 }
 exportAsPDF() {
   var doc = new jsPDF('p','pt','a4');
@@ -150,18 +157,3 @@ exportAsPDF() {
     doc.save('STOCK_STATEMENT_REPORT.pdf');
 }
 }
-
-// export interface StockStatementList {
-//   SlNo: number;
-//   ITDescription: string;
-//   OpeningBalance: any;
-//   TotalReceipt: any;
-//   Receipt: any;
-//   TotalIssue: any;
-//   ClosingBalance: any;
-//   CSBalance: any;
-//   Shortage: any;
-//   PhycialBalance: any;
-//   IssueSales: any;
-//   IssueOthers: any;
-// }
