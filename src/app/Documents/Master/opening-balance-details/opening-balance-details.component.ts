@@ -36,7 +36,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   PhysicalBalanceBags: any;
   PhysicalBalanceWeight: number;
   rCode: any;
-  gCode: any;
   viewPane: boolean;
   selectedRow: any;
   msgs: any;
@@ -45,8 +44,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   showErr: boolean = false;
   rData: any = [];
   gdata: any = [];
-  loggedInGCode: any;
-  loggedInRCode: any;
   rName: any;
   validationErr: boolean = false;
 
@@ -101,7 +98,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       case 'gd':
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
             this.godownOptions = godownSelection;
           });
           this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -163,7 +160,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   onView() {
     this.openingBalanceData = [];
-    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
+    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
@@ -195,7 +192,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   onSave() {
     const params = {
-      'GodownCode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
+      'GodownCode': this.g_cd.value,
       'CommodityCode': (this.c_cd.value !== null && this.c_cd.value !== undefined) ? this.c_cd.value : this.commodityCd,
       'ObDate': this.Year.value,
       'BookBalanceBags': this.BookBalanceBags,
@@ -203,7 +200,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
       'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
       'CumulitiveShortage': this.CumulativeShortage,
-      'RegionCode': this.rCode
+      'RegionCode': (this.rCode !== undefined) ? this.rCode : this.g_cd.rcode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
