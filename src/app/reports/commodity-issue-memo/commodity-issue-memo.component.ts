@@ -138,6 +138,6 @@ export class CommodityIssueMemoComponent implements OnInit {
         Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
         Lorryno: data.Lorryno, Stackno: data.Stackno})
     });
-    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
+    this.excelService.exportAsExcelFile(commodity_issue_data, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 }
