@@ -202,7 +202,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'BookBalanceWeight': this.BookBalanceWeight,
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
       'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
-      'CumulativeShortage': this.CumulativeShortage,
+      'CumulitiveShortage': this.CumulativeShortage,
       'RegionCode': this.rCode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {

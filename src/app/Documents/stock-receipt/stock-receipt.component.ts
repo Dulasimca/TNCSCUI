@@ -135,7 +135,8 @@ export class StockReceiptComponent implements OnInit {
   LDate: Date;
   WNo: any;
   Remarks: string;
-  
+  username: any;
+
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe, private messageService: MessageService) {
@@ -148,11 +149,12 @@ export class StockReceiptComponent implements OnInit {
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
     setTimeout(() => {
-      this.regionName = this.data.rgData[0].RName;
-      this.godownName = this.data.rgData[1].GName;
-      this.ReceivingCode = this.data.rgData[1].GCode;
-      this.RCode = this.data.rgData[0].RCode;
+      this.regionName = this.data[0].RName;
+      this.godownName = this.data[0].GName;
+      this.ReceivingCode = this.data[0].GCode;
+      this.RCode = this.data[0].RCode;
     },1200);
   }
 
@@ -320,7 +322,10 @@ export class StockReceiptComponent implements OnInit {
        'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode, 
       'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
-      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode , 'Moisture': this.Moisture
+      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode ,
+       'Moisture': this.Moisture,  'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
+       'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
+       'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode
     });
   }
 
@@ -352,7 +357,11 @@ export class StockReceiptComponent implements OnInit {
       'LNo': (this.LNo !== undefined) ? this.LNo : '',
       'LFrom': (this.LFrom !== undefined) ? this.LFrom : '',
       'ItemList': this.entryList,
-      'Remarks': (this.Remarks !== undefined) ? this.Remarks : ''
+      'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
+      'GodownName': this.godownName,
+      'TransactionType': (this.DepositorType.label !== undefined) ? this.DepositorType.label : this.DepositorType,
+      'DepositorName': (this.DepositorCode.label !== undefined) ? this.DepositorCode.label : this.DepositorCode,
+      'UserID': this.username.user
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
       if (res !== undefined) {
