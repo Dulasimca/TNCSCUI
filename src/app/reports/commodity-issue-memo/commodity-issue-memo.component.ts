@@ -132,6 +132,12 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
+    var commodity_issue_data = [];
+    this.commodityIssueMemoData.forEach(data => {
+      commodity_issue_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
+        Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
+        Lorryno: data.Lorryno, Stackno: data.Stackno})
+    });
     this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 }
