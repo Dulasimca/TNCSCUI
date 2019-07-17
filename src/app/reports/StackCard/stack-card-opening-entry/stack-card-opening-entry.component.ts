@@ -121,11 +121,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
     }
   }
 
-    validateLocation(value) {
-      if (value.length === 1 && value === '/') {
+    validateLocation(event,value) {
+      if (value.length === 1 && value === "/") {
+        event.preventDefault();
         this.Location = '';
-    }
-
+      }
   }
 
   onSelect(selectedItem) {

@@ -106,6 +106,11 @@ export class HullingDetailsComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.hullingDetailsData, 'Hulling_Details', this.hullingDetailsCols);
+    var hulling_data = [];
+    this.hullingDetailsData.forEach(data => {
+      hulling_data.push({SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, ITDescription: data.ITDescription,
+        DepositorName: data.DepositorName, NoPacking: data.NoPacking, Nkgs: data.Nkgs})
+    })
+    this.excelService.exportAsExcelFile(hulling_data, 'HULLING_DETAILS_REPORT', this.hullingDetailsCols);
   }
 }

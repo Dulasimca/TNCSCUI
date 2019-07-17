@@ -116,7 +116,12 @@ export class GunnyGuGrComponent implements OnInit {
   }
 
   onExportExcel():void{
-    this.excelService.exportAsExcelFile(this.GunnyRepData, 'GUNNY_REPORT',this.GunnyRepCols);
+    var gunny_data = [];
+    this.GunnyRepData.forEach(data => {
+      gunny_data.push({SlNo: data.SlNo, Ackno: data.Ackno, Bags: data.Bags, Commodity: data.Commodity, stackno: data.stackno,
+      Date: data.Date, Year: data.Year})
+    });
+    this.excelService.exportAsExcelFile(gunny_data, 'GUNNY_REPORT',this.GunnyRepCols);
 }
 
 }

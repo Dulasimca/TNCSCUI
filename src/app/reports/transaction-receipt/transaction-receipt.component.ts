@@ -133,7 +133,11 @@ export class TransactionReceiptComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.transactionReceiptData, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
+    var transaction_receipt_data = [];
+    this.transactionReceiptData.forEach(data => {
+      transaction_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Commodity: data.Commodity, Date: data.Date, Trans_action: data.Trans_action, Quantity: data.Quantity})
+    })
+    this.excelService.exportAsExcelFile(transaction_receipt_data, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
   }
 
   public setAlignment (value) {

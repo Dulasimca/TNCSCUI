@@ -144,6 +144,12 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.commodityReceiptData, 'Commodity_Receipt', this.commodityReceiptCols);
+    var commodity_receipt_data = [];
+    this.commodityReceiptData.forEach(data => {
+      commodity_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
+      Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
+    Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno})
+    })
+    this.excelService.exportAsExcelFile(commodity_receipt_data, 'COMMODITY_RECEIPT_REPORT', this.commodityReceiptCols);
   }
 }

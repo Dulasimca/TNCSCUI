@@ -176,7 +176,7 @@ onRowSelect(i) {
         tempArray.push(y.data);
       })
     })
-    this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement', this.dailyStockDataColumns);
+    this.excelService.exportAsExcelFile(tempArray,'DAILY_STOCK_STATEMENT_REPORT', this.dailyStockDataColumns);
   }
   exportAsPDF() {
     var doc = new jsPDF('landscape','pt','a4');
