@@ -133,7 +133,7 @@ export class DailyStockStatementComponent implements OnInit {
             this.loading = false;
             this.totalRecords = tempArray.length;
             this.dailyStockData = tempArray;
-            }, 1300);
+            }, 1700);
             this.filterArray = tempArray;
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
