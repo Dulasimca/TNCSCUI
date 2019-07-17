@@ -781,8 +781,8 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Commodity', field: 'ITDescription' },
       { header: 'OB', field: 'OpeningBalance', align: 'right' },
-      { header: 'Receipt', field: 'TotalReceipt' },
-      { header: 'Total (OB + Receipt)', field: 'Receipt' },
+      { header: 'Receipt', field: 'Receipt' },
+      { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
       // --Future purpose--
       // { header: 'Sales', field: 'IssueSales', },
       // { header: 'Other Issue', field: 'IssueOthers' },
