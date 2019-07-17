@@ -39,8 +39,8 @@ export class StockstatementreportComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockDataColumns = this.tableConstants.StockStatementReport;
+    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
-    this.data = this.roleBasedService;
     this.items = [
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
@@ -55,8 +55,8 @@ export class StockstatementreportComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.data.instance !== undefined) {
-      this.data.instance.forEach(x => {
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
       this.godownOptions = options;
     });

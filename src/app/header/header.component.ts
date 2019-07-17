@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
+    // this.data = this.roleBasedService.getInstance();
   }
   
   onLogOut() {
@@ -34,12 +35,12 @@ export class HeaderComponent implements OnInit {
  onViewUserinfo(event, panel) {
    panel.toggle(event);
   this.username = JSON.parse(this.authService.getCredentials()).user;
-  if(this.roleBasedService.instance !== undefined) {
-   this.roleBasedService.instance.forEach(x => {
-    this.godownName = x.GName;
-    this.regionName = x.RName;
-   });
-  }
+  // if(this.data !== undefined) {
+  //  this.data.forEach(x => {
+  //   this.godownName = x.GName;
+  //   this.regionName = x.RName;
+  //  });
+  // }
  }
 
  onForgetPswd(){

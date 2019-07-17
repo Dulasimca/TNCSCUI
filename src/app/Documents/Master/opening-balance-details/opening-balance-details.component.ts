@@ -55,7 +55,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.gdata = this.roleBasedService;
+    this.gdata = this.roleBasedService.getInstance();
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -99,8 +99,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     let godownSelection = [];
     switch (selectedItem) {
       case 'gd':
-        if (this.gdata.instance !== undefined) {
-          this.gdata.instance.forEach(x => {
+        if (this.gdata !== undefined) {
+          this.gdata.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
