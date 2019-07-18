@@ -60,12 +60,12 @@
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                   <tr>
                     <td *ngFor="let col of columns">
-                      <div *ngIf="col.field === 'Quantity'">
+                      <div *ngIf="col.field === 'NoPacking' || col.field === Nkgs">
                           <div style="text-align: end !important">
                           {{rowData[col.field]}}
                           </div>
                       </div>
-                      <div *ngIf="col.field !== 'Quantity'">
+                      <div *ngIf="col.field !== 'NoPacking' && col.field !== Nkgs">
                         {{rowData[col.field]}}
                       </div>
                     </td>

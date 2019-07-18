@@ -81,10 +81,11 @@ export class TruckTransitComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.onTransfer();
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
-    // this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
-    // this.TruckTransitData = res;
+    this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
+    this.TruckTransitData = res;
     let sno = 0;
     if (this.response.length !== 0) {
       this.response.filter(value => {
@@ -106,12 +107,12 @@ export class TruckTransitComponent implements OnInit {
     } else {
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
     }
-    // }, (err: HttpErrorResponse) => {
-    //   if (err.status === 0) {
-    //     this.loading = false;
-    //     this.router.navigate(['pageNotFound']);
-    //   }
-    // })
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
+      }
+    })
   }
   onDateSelect() {
     this.checkValidDateSelection();
@@ -126,10 +127,10 @@ export class TruckTransitComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-        this.fromDate = this.toDate = '';
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
