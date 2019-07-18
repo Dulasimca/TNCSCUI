@@ -50,13 +50,14 @@ export class StockIssueRegisterComponent implements OnInit {
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
     this.maxDate = new Date();
     this.stockIssueRegData = [];
+    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect() {
     let options = [];
     this.canFetch = true;
-    this.data = this.roleBasedService;
+    this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
       options.push({ 'label': x.GName, 'value': x.GCode });
@@ -149,7 +150,13 @@ export class StockIssueRegisterComponent implements OnInit {
   }
 
   onExportExcel(): void {
-    this.excelService.exportAsExcelFile(this.stockIssueRegData, 'STOCK_ISSUE_REGISTER_REPORT', this.stockIssueRegCols);
+    var stock_issue_data = [];
+    this.stockIssueRegData.forEach(data => {
+      stock_issue_data.push({SlNo: data.SlNo, Issue_Memono: data.Issue_Memono, DNo: data.DNo, Issue_Date: data.Issue_Date,
+      Lorryno: data.Lorryno, To_Whom_Issued: data.To_Whom_Issued, Stackno: data.Stackno, Scheme: data.Scheme, Commodity: data.Commodity,
+    NoPacking: data.NoPacking, NetWt: data.NetWt })
+    })
+    this.excelService.exportAsExcelFile(stock_issue_data, 'STOCK_ISSUE_REGISTER_REPORT', this.stockIssueRegCols);
   }
 
   onPrint() {

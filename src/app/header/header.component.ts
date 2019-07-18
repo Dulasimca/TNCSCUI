@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../login/login.service';
-import { Observable, interval } from 'rxjs';
-import { Pipe, PipeTransform } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { AuthService } from '../shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from '../common/role-based.service';
@@ -29,8 +25,7 @@ export class HeaderComponent implements OnInit {
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
-    this.username = JSON.parse(this.authService.getCredentials());
-    this.data = this.roleBasedService.getInstance();
+    // this.data = this.roleBasedService.getInstance();
   }
   
   onLogOut() {
@@ -39,9 +34,13 @@ export class HeaderComponent implements OnInit {
 
  onViewUserinfo(event, panel) {
    panel.toggle(event);
-  this.username = this.username.user;
-  this.godownName = this.data.rgData[1].GName;
-  this.regionName = this.data.rgData[0].RName;
+  this.username = JSON.parse(this.authService.getCredentials()).user;
+  // if(this.data !== undefined) {
+  //  this.data.forEach(x => {
+  //   this.godownName = x.GName;
+  //   this.regionName = x.RName;
+  //  });
+  // }
  }
 
  onForgetPswd(){

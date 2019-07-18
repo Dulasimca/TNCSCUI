@@ -39,7 +39,8 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
       this.isActionDisabled = true;
       this.receiptHOPurchaseCols = this.tableConstants.ReceiptRONOPurchaseReport;
       this.username = JSON.parse(this.authService.getCredentials());
-      this.maxDate = new Date();
+    this.data = this.roleBasedService.getInstance();
+    this.maxDate = new Date();
     }
   
     onSelect() {

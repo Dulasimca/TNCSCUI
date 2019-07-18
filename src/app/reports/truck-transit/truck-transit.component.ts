@@ -45,6 +45,7 @@ export class TruckTransitComponent implements OnInit {
     this.isActionDisabled = true;
     this.TruckTransitCols = this.tableConstants.TruckTransit;
     // this.transferData = this.roleBasedService.onTransfer();
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 

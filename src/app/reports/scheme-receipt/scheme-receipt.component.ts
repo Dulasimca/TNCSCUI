@@ -41,6 +41,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.isViewDisabled = this.isActionDisabled = true;
     this.schemeReceiptCols = this.tableConstants.SchemeReceiptReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
+    this.godown_data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
@@ -141,6 +142,11 @@ export class SchemeReceiptComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.schemeReceiptData, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
+    var scheme_receipt_data = [];
+    this.schemeReceiptData.forEach(data => {
+      scheme_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, AckNo: data.AckNo, Commodity: data.Commodity,
+      Date: data.Date, Quantity: data.Quantity, RecdFrom: data.RecdFrom, TruckMemoNo: data.TruckMemoNo, Lorryno: data.Lorryno})
+    })
+    this.excelService.exportAsExcelFile(scheme_receipt_data, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
   }
 }

@@ -133,7 +133,7 @@ export class DailyStockStatementComponent implements OnInit {
             this.loading = false;
             this.totalRecords = tempArray.length;
             this.dailyStockData = tempArray;
-            }, 1300);
+            }, 1700);
             this.filterArray = tempArray;
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
@@ -176,7 +176,7 @@ onRowSelect(i) {
         tempArray.push(y.data);
       })
     })
-    this.excelService.exportAsExcelFile(tempArray,'DailyStocksStatement', this.dailyStockDataColumns);
+    this.excelService.exportAsExcelFile(tempArray,'DAILY_STOCK_STATEMENT_REPORT', this.dailyStockDataColumns);
   }
   exportAsPDF() {
     var doc = new jsPDF('landscape','pt','a4');

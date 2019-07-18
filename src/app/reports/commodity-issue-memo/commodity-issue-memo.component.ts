@@ -38,6 +38,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
@@ -131,6 +132,12 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.commodityIssueMemoData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
+    var commodity_issue_data = [];
+    this.commodityIssueMemoData.forEach(data => {
+      commodity_issue_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
+        Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
+        Lorryno: data.Lorryno, Stackno: data.Stackno})
+    });
+    this.excelService.exportAsExcelFile(commodity_issue_data, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 }
