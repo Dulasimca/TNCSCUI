@@ -23,83 +23,31 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Location: any;
   Formation: number;
   StackNo: any;
-  Year: any;
-  SRDate: any;
+  Date: Date = new Date();
   g_cd: any;
   c_cd: any;
-  gCode: any;
-  rCode: any;
   commodityCd: any;
   disableOkButton: boolean = true;
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
   commoditySelection: any[] = [];
-  Weights: number;
-  Bags: number;
+  Weights: number = 0;
+  Bags: number = 0;
   canShowMenu: boolean;
-  yearOptions: SelectItem[];
-  year: string;
   maxDate: Date;
-  viewPane: boolean;
-  rData: any = [];
   gdata: any = [];
-  viewDate: Date = new Date();
-  roleId: any;
-  rName: any;
-  loggedInGCode: any;
-  loggedInRCode: any;
   isActionDisabled: any;
   isViewDisabled: any;
+  allowInput: boolean = true;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private datepipe: DatePipe, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
-    this.roleId = this.authService.getUserAccessible().roleId;
-    this.loggedInGCode = this.authService.getUserAccessible().gCode;
-    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.gdata = this.roleBasedService.getInstance();
     this.maxDate = new Date();
-    this.restAPIService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
-      let gList;
-      if (res !== undefined) {
-        if (this.roleId === '3') {
-          this.data = res.filter(x => {
-            if (x.Code === this.loggedInRCode) {
-              gList = x.list;
-              this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
-              this.rCode = this.rData[0].RCode;
-              this.rName = this.rData[0].RName;
-              gList.filter(y => {
-                if (y.GCode === this.loggedInGCode) {
-                  this.gdata.push({ 'GName': y.Name, 'GCode': y.GCode })
-                  this.godownName = this.gdata[0].GName;
-                  this.gCode = this.gdata[0].GCode;
-                }
-              })
-            }
-          })
-        } else if (this.roleId === '2') {
-          this.data = res.filter(x => {
-            if (x.Code === this.loggedInRCode) {
-              gList = x.list;
-              this.rData.push({ 'RName': x.Name, 'RCode': x.Code })
-              gList.forEach(y => {
-                this.gdata.push({ 'GName': y.Name, 'GCode': y.GCode })
-              })
-            }
-          })
-        } else {
-          this.data = res.forEach(x => {
-            gList = x.list;
-            gList.forEach(y => {
-              this.gdata.push({ 'GName': y.Name, 'GCode': y.GCode })
-            })
-          });
-        }
-      }
-    });
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -107,37 +55,41 @@ export class StackCardOpeningEntryComponent implements OnInit {
             this.commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
             this.commodityOptions = this.commoditySelection;
           });
-          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.commodityOptions.unshift({ 'label': '-select-', 'value': null });
         }
       })
     }
+  
   }
 
   calculateStackNo() {
     if (this.Location !== undefined && this.Formation !== undefined) {
-      this.StackNo = this.Location + this.Formation.valueOf();
-      this.Bags = 0;
-      this.Weights = 0;
+      this.StackNo = this.Location + "/" + this.Formation.valueOf();
     }
   }
 
-    validateLocation(event,value) {
-      if (value.length === 1 && value === "/") {
-        event.preventDefault();
-        this.Location = '';
-      }
+  checkDate(value) {
+    const date = new Date(value);
+    const selectedDate = date.getDate();
+    const selectedMonth = date.getMonth() + 1;
+    if (selectedDate === 1 && selectedMonth === 4) {
+      this.allowInput = false;
+    } else {
+      this.allowInput = true;
+    }
   }
 
   onSelect(selectedItem) {
     let godownSelection = [];
     switch (selectedItem) {
       case 'gd':
+        this.messageService.clear();
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
             this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
     }
   }
@@ -148,7 +100,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (selectedItem !== null) {
         this.stackOpeningData = this.stackOpeningData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.stackOpeningData.length === 0) {
-          this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'No matching commodity found!' });
         }
       } else {
         this.stackOpeningData = this.Opening_Balance;
@@ -164,56 +116,64 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onRowSelect(event) {
     this.disableOkButton = false;
-    this.selectedRow = event.SRDate;
+    this.selectedRow = event.data;
   }
 
   showSelectedData() {
-    this.viewPane = false;
-    this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
-    this.c_cd = this.selectedRow.ITDescription;
-    this.SRDate = this.selectedRow.SRDate;
-    this.commodityCd = this.selectedRow.CommodityCode;
-    this.Location = this.selectedRow.Location;
-    this.Formation = this.selectedRow.Formation;
+    this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
+    this.c_cd = this.selectedRow.CommodityName;
     this.StackNo = this.selectedRow.StackNo;
-    this.Bags = this.selectedRow.Bags;
-    this.Weights = this.selectedRow.Weights;
+    let index;
+    index = this.StackNo.toString().indexOf('/', 1);
+    const totalLength = this.StackNo.toString().length;
+    const trimmedValue = this.StackNo.toString().slice(0, index + 1);
+    // this.Location = this.StackNo.toString().slice(0, index);
+    const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
+    let nextIndex = nextValue.toString().indexOf('/', 1);
+    const locNo = nextValue.toString().slice(0, nextIndex);
+    this.Location = trimmedValue + locNo;
+    this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
+    this.Bags = this.selectedRow.StackBalanceBags;
+    this.Weights = this.selectedRow.StackBalanceWeight;
   }
 
   onView() {
     this.stackOpeningData = [];
-    this.viewPane = true;
-    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
+    const params = new HttpParams().set('OBDate', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
         this.stackOpeningData = res;
-        this.stackOpeningData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
-        this.SRDate = this.datepipe.transform(this.SRDate, 'dd-MM-yyyy');
+        let sno = 0;
+        this.stackOpeningData.forEach(x =>{ 
+          sno += 1;
+          x.SlNo = sno;
+          x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
+        });
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
-        this.viewPane = false;
-        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     })
   }
 
   onClear() {
-    this.Location = this.Formation = this.StackNo = this.Bags =
-      this.c_cd = this.commodityCd = this.Weights = this.Year = this.g_cd = null;
+    this.Location = this.Formation = this.StackNo = this.c_cd = this.commodityCd = this.Date = null;
+      this.Bags = this.Weights = 0;
   }
 
   onSave() {
     const params = {
-      'GodownCode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
-      'CommodityCode': (this.c_cd.value !== null && this.c_cd.value !== undefined) ? this.c_cd.value : this.commodityCd,
-      'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
+      'GodownCode': this.g_cd.value,
+      'CommodityCode': this.c_cd.value,
+      'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
       'Location': this.Location,
       'Formation': this.Formation,
       'StackNo': this.StackNo,
       'Bags': this.Bags,
-      'Weights': this.Weights
+      'Weights': this.Weights,
+      'RegionCode': this.g_cd.rcode,
+      'clstackdate': new Date()
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
       if (res) {

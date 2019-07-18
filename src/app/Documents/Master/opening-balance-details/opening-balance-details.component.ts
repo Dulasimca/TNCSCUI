@@ -20,7 +20,6 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   data: any;
   c_cd: any;
   commodityCd: any;
-  // godownName: any;
   Year: any;
   commoditySelection: any[] = [];
   yearOptions: SelectItem[];
@@ -35,16 +34,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   CumulativeShortage: any;
   PhysicalBalanceBags: any;
   PhysicalBalanceWeight: any;
-  rCode: any;
   viewPane: boolean;
   selectedRow: any;
   msgs: any;
   g_cd: any;
   roleId: any;
   showErr: boolean = false;
-  rData: any = [];
   gdata: any = [];
-  rName: any;
   validationErr: boolean = false;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
@@ -200,7 +196,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
       'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
       'CumulitiveShortage': this.CumulativeShortage,
-      'RegionCode': (this.rCode !== undefined) ? this.rCode : this.g_cd.rcode
+      'RegionCode': this.g_cd.rcode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {

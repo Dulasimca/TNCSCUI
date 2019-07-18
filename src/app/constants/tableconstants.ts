@@ -394,12 +394,13 @@ export class TableConstants {
 
     this.StackCardOpeningEntryReport = [
       { field: 'SlNo', header: 'S.No' },
-      { field: 'Stackno', header: 'Stack No' },
-      { field: 'Opening_Bags', header: 'Ope.Bags' },
-      { field: 'Opening_Quantity', header: 'Ope.Quantity' },
-      { field: 'FromDate', header: 'From_dt' },
-      { field: 'FormationYear', header: 'Formation Year' },
-      { field: 'Status', header: 'Status' },
+      { field: 'CommodityName', header: 'Commodity'},
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'StackBalanceBags', header: 'Bags' },
+      { field: 'StackBalanceWeight', header: 'Weight' },
+      { field: 'ObStackDate', header: 'From Date' },
+      { field: 'CurYear', header: 'Formation Year' },
+      { field: 'Flag1', header: 'Status' },
     ];
 
     
