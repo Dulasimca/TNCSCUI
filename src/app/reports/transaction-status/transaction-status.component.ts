@@ -99,7 +99,7 @@ export class TransactionStatusComponent implements OnInit {
   onView() {
     this.TransactionStatusData = [];
     // this.viewPane = true;
-    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
+    const params = new HttpParams().set('Docdate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Gcode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
