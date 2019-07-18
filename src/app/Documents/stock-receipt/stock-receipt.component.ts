@@ -7,6 +7,8 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -136,6 +138,7 @@ export class StockReceiptComponent implements OnInit {
   WNo: any;
   Remarks: string;
   username: any;
+  UnLoadingSlip: any;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -155,7 +158,7 @@ export class StockReceiptComponent implements OnInit {
       this.godownName = this.data[0].GName;
       this.ReceivingCode = this.data[0].GCode;
       this.RCode = this.data[0].RCode;
-    },1200);
+    }, 1200);
   }
 
   onSelect(selectedItem) {
@@ -196,7 +199,7 @@ export class StockReceiptComponent implements OnInit {
                 this.transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
                 this.transactionOptions = this.transactoinSelection.slice(0);
               });
-            this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
         } else {
@@ -220,41 +223,41 @@ export class StockReceiptComponent implements OnInit {
         this.isViewClicked = false;
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.ReceivingCode);
-            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-              res.forEach(dt => {
-                depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
-              });
-              this.depositorTypeOptions = depositorTypeList;
-              this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
-              this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+            res.forEach(dt => {
+              depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
-          }
+            this.depositorTypeOptions = depositorTypeList;
+            this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
+            this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
+        }
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
           const params = new HttpParams().set('TyCode', this.DepositorType.value).append('TRType', this.TransType);
-            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-              res.forEach(dn => {
-                depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
-              })
-              this.depositorNameOptions = depositorNameList;
-              this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            });
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+            res.forEach(dn => {
+              depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+            })
+            this.depositorNameOptions = depositorNameList;
+            this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
         }
         break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
           const params = new HttpParams().set('SCode', this.Scheme.value);
-            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-              res.forEach(i => {
-                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-              })
-              this.itemDescOptions = itemDesc;
-              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            });
-            this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
-          }
+          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+            res.forEach(i => {
+              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+            })
+            this.itemDescOptions = itemDesc;
+            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
+          this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
+        }
         break;
       case 'st_no':
         let stackNo = [];
@@ -319,13 +322,14 @@ export class StockReceiptComponent implements OnInit {
     });
     this.entryList.push({
       'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
-       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
-      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode, 
+      'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
+      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
-      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode ,
-       'Moisture': this.Moisture,  'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
-       'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
-       'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode
+      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
+      'Moisture': this.Moisture,
+      'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
+      'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
+      'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode
     });
   }
 
@@ -339,8 +343,8 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
-      'SRNo': (this.SRNo !== undefined ) ? this.SRNo : 0,
-      'RowId': 0,
+      'SRNo': (this.SRNo !== undefined) ? this.SRNo : 0,
+      'RowId': (this.RowId !== undefined) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'PAllotment': this.PAllotment,
       'OrderNo': this.OrderNo,
@@ -361,14 +365,16 @@ export class StockReceiptComponent implements OnInit {
       'GodownName': this.godownName,
       'TransactionType': (this.DepositorType.label !== undefined) ? this.DepositorType.label : this.DepositorType,
       'DepositorName': (this.DepositorCode.label !== undefined) ? this.DepositorCode.label : this.DepositorCode,
-      'UserID': this.username.user
+      'UserID': this.username.user,
+      'RegionName': this.regionName,
+      'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
-          this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
-          this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
       }
     });
@@ -396,50 +402,57 @@ export class StockReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
-      this.SRNo = res[0].SRNO;
-      this.SRDate = res[0].SRDate;
-      this.RowId = res[0].RowId;
-      this.OrderDate = new Date(res[0].OrderDate);
-      this.OrderNo = res[0].OrderNo;
-      this.TruckMemoDate = new Date(res[0].TruckMemoDate);
-      this.TruckMemoNo = res[0].TruckMemoNo;
-      this.LNo = res[0].LNo;
-      this.LFrom = res[0].LFrom;
-      this.month = res[0].Pallotment.slice(0, 1);
-      this.year = res[0].Pallotment.slice(3, 6);
-      this.transactionOptions = [{ 'label': res[0].TRName, 'value': res[0].Trcode }];
-      this.Trcode = res[0].TRName;
-      this.trCode = res[0].Trcode;
-      this.wmtOptions = [{ 'label': res[0].WEType, 'value': res[0].WTCode }];
-      this.WTCode = res[0].WEType;
-      this.wtCode = res[0].WTCode;
-      this.NoPacking = res[0].NoPacking;
-      this.GKgs = res[0].GKgs;
-      this.NKgs = res[0].Nkgs;
-      this.Moisture = res[0].Moisture;
-      this.itemDescOptions = [{ 'label': res[0].ITName, 'value': res[0].ICode }];
-      this.ICode = res[0].ITName;
-      this.iCode = res[0].ITCode;
-      this.packingTypeOptions = [{ 'label': res[0].PName, 'value': res[0].IPCode }];
-      this.IPCode = res[0].PName;
-      this.ipCode = res[0].IPCode;
-      this.schemeOptions = [{ 'label': res[0].SCName, 'value': res[0].Scheme }];
-      this.Scheme = res[0].SCName;
-      this.schemeCode = res[0].Scheme;
-      this.stackOptions = [{ 'label': res[0].TStockNo, 'value': res[0].TStockNo }];
-      this.TStockNo = res[0].TStockNo;
-      this.depositorTypeOptions = [{ 'label': res[0].DepositorType, 'value': res[0].IssuerType }];
-      this.DepositorType = res[0].DepositorType;
-      this.depositorType = res[0].IssuerType;
-      this.depositorNameOptions = [{ 'label': res[0].DepositorName, 'value': res[0].IssuingCode }];
-      this.DepositorCode = res[0].DepositorName;
-      this.depositorCode = res[0].IssuingCode;
-      this.PAllotment = res[0].Pallotment;
-      this.LNo = res[0].LNo;
-      this.selectedValues = res[0].TransportMode;
-      this.ManualDocNo = res[0].Flag1;
+        this.SRNo = res[0].SRNO;
+        this.SRDate = res[0].SRDate;
+        this.RowId = res[0].RowId;
+        this.OrderDate = new Date(res[0].OrderDate);
+        this.OrderNo = res[0].OrderNo;
+        this.TruckMemoDate = new Date(res[0].TruckMemoDate);
+        this.TruckMemoNo = res[0].TruckMemoNo;
+        this.LNo = res[0].LNo;
+        this.LFrom = res[0].LFrom;
+        this.month = res[0].Pallotment.slice(0, 1);
+        this.year = res[0].Pallotment.slice(3, 6);
+        this.transactionOptions = [{ 'label': res[0].TRName, 'value': res[0].Trcode }];
+        this.Trcode = res[0].TRName;
+        this.trCode = res[0].Trcode;
+        this.wmtOptions = [{ 'label': res[0].WEType, 'value': res[0].WTCode }];
+        this.WTCode = res[0].WEType;
+        this.wtCode = res[0].WTCode;
+        this.NoPacking = res[0].NoPacking;
+        this.GKgs = res[0].GKgs;
+        this.NKgs = res[0].Nkgs;
+        this.Moisture = res[0].Moisture;
+        this.itemDescOptions = [{ 'label': res[0].ITName, 'value': res[0].ICode }];
+        this.ICode = res[0].ITName;
+        this.iCode = res[0].ITCode;
+        this.packingTypeOptions = [{ 'label': res[0].PName, 'value': res[0].IPCode }];
+        this.IPCode = res[0].PName;
+        this.ipCode = res[0].IPCode;
+        this.schemeOptions = [{ 'label': res[0].SCName, 'value': res[0].Scheme }];
+        this.Scheme = res[0].SCName;
+        this.schemeCode = res[0].Scheme;
+        this.stackOptions = [{ 'label': res[0].TStockNo, 'value': res[0].TStockNo }];
+        this.TStockNo = res[0].TStockNo;
+        this.depositorTypeOptions = [{ 'label': res[0].DepositorType, 'value': res[0].IssuerType }];
+        this.DepositorType = res[0].DepositorType;
+        this.depositorType = res[0].IssuerType;
+        this.depositorNameOptions = [{ 'label': res[0].DepositorName, 'value': res[0].IssuingCode }];
+        this.DepositorCode = res[0].DepositorName;
+        this.depositorCode = res[0].IssuingCode;
+        this.PAllotment = res[0].Pallotment;
+        this.LNo = res[0].LNo;
+        this.selectedValues = res[0].TransportMode;
+        this.ManualDocNo = res[0].Flag1;
+        this.UnLoadingSlip = res[0].UnLoadingSlip;
       }
     });
+  }
+
+  onPrint() {
+  const path = "../../assets/Reports/";
+  const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
+  saveAs(path + filename, filename);
   }
 
   openNext() {
