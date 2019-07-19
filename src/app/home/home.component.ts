@@ -40,17 +40,25 @@ export class HomeComponent implements OnInit {
   IssueDhallAndOilData: any;
   IssueWheatAndSugarData: any;
   chartLabels: any[];
-  rawRicePB: any;
-  boiledRicePB: any;
-  dhallPB: any;
-  pOilPB: any;
-  wheatPB: any;
-  sugarPB: any;
+  rawRiceCB: any;
+  boiledRiceCB: any;
+  dhallCB: any;
+  pOilCB: any;
+  wheatCB: any;
+  sugarCB: any;
+  rawRicePB: number = 0;
+  boiledRicePB: number = 0;
+  dhallPB: number = 0;
+  pOilPB: number = 0;
+  wheatPB: number = 0;
+  sugarPB: number = 0;
   selectedCBRiceType: string;
+  receiptQuantity: any;
+  issueQuantity: any;
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
-    private router: Router) {}
+    private router: Router) { }
 
-    ngOnInit() {
+  ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -233,6 +241,7 @@ export class HomeComponent implements OnInit {
     });
     this.restApiService.getByParameters(PathConstants.CHART_RECEIPT, params).subscribe((response: any[]) => {
       if (response !== undefined) {
+        this.receiptQuantity = response;
         this.chartLabels = response[1];
         this.ReceiptRiceData = {
           title: {
@@ -394,6 +403,7 @@ export class HomeComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.CHART_ISSUE, params).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.chartLabels = response[1];
+        this.issueQuantity = response;
         this.IssueRiceData = {
           title: {
             text: 'Rice chart - Issue'
@@ -553,12 +563,18 @@ export class HomeComponent implements OnInit {
     });
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
       if (data !== undefined) {
-        this.rawRicePB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
-        this.boiledRicePB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
-        this.dhallPB = (data.Dhall !== undefined && data.Dhall !== '') ? data.Dhall : 0;
-        this.pOilPB = (data.POil !== undefined && data.POil !== '') ? data.POil : 0;
-        this.wheatPB = (data.Wheat !== undefined && data.Wheat !== '') ? data.Wheat : 0;
-        this.sugarPB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
+        this.rawRiceCB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
+        this.rawRicePB = this.rawRiceCB;
+        this.boiledRiceCB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
+        this.boiledRicePB = this.boiledRiceCB;
+        this.dhallCB = (data.Dhall !== undefined && data.Dhall !== '') ? data.Dhall : 0;
+        this.dhallPB = this.dhallCB;
+        this.pOilCB = (data.POil !== undefined && data.POil !== '') ? data.POil : 0;
+        this.pOilPB = this.pOilCB;
+        this.wheatCB = (data.Wheat !== undefined && data.Wheat !== '') ? data.Wheat : 0;
+        this.wheatPB = this.wheatCB;
+        this.sugarCB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
+        this.sugarPB = this.sugarCB;
       }
     });
   }
@@ -596,5 +612,78 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['Daily Stock Statement']);
     }
 
+  }
+
+  calculateQuantity(id) {
+    switch (id) {
+      case 'CB':
+        this.rawRicePB = this.rawRiceCB;
+        this.boiledRicePB = this.boiledRiceCB;
+        this.dhallPB = this.dhallCB;
+        this.wheatPB = this.wheatCB;
+        this.pOilPB = this.pOilCB;
+        this.sugarPB = this.sugarCB;
+        break;
+      case 'R':
+        this.boiledRicePB = this.rawRicePB = this.dhallPB = this.wheatPB = this.pOilPB = this.sugarPB = 0;
+        this.receiptQuantity[2].forEach(bc => {
+          this.boiledRicePB += (bc * 1);
+        })
+        this.receiptQuantity[3].forEach(bg => {
+          this.boiledRicePB += (bg * 1);
+        })
+        this.receiptQuantity[4].forEach(rc => {
+          this.rawRicePB += (rc * 1);
+        })
+        this.receiptQuantity[5].forEach(rg => {
+          this.rawRicePB += (rg * 1);
+        })
+        this.receiptQuantity[6].forEach(d => {
+          this.dhallPB += (d * 1);
+        })
+        this.receiptQuantity[7].forEach(po => {
+          this.boiledRicePB += (po * 1);
+        })
+        this.receiptQuantity[8].forEach(pp => {
+          this.boiledRicePB += (pp * 1);
+        })
+        this.receiptQuantity[9].forEach(w => {
+          this.boiledRicePB += (w * 1);
+        })
+        this.receiptQuantity[10].forEach(s => {
+          this.boiledRicePB += (s * 1);
+        })
+        break;
+      case 'I':
+        this.boiledRicePB = this.rawRicePB = this.dhallPB = this.wheatPB = this.pOilPB = this.sugarPB = 0;
+        this.issueQuantity[2].forEach(bc => {
+          this.boiledRicePB += (bc * 1);
+        })
+        this.issueQuantity[3].forEach(bg => {
+          this.boiledRicePB += (bg * 1);
+        })
+        this.issueQuantity[4].forEach(rc => {
+          this.rawRicePB += (rc * 1);
+        })
+        this.issueQuantity[5].forEach(rg => {
+          this.rawRicePB += (rg * 1);
+        })
+        this.issueQuantity[6].forEach(d => {
+          this.dhallPB += (d * 1);
+        })
+        this.issueQuantity[7].forEach(po => {
+          this.boiledRicePB += (po * 1);
+        })
+        this.issueQuantity[8].forEach(pp => {
+          this.boiledRicePB += (pp * 1);
+        })
+        this.issueQuantity[9].forEach(w => {
+          this.boiledRicePB += (w * 1);
+        })
+        this.issueQuantity[10].forEach(s => {
+          this.boiledRicePB += (s * 1);
+        })
+        break;
+    }
   }
 }
