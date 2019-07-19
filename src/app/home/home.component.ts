@@ -113,7 +113,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -166,7 +165,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -211,7 +209,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -274,7 +271,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -327,7 +323,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -372,7 +367,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -435,7 +429,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -488,7 +481,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
@@ -533,7 +525,6 @@ export class HomeComponent implements OnInit {
             categories: this.chartLabels
           },
           yAxis: {
-            min: 0,
             title: {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
