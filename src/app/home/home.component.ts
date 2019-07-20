@@ -633,16 +633,16 @@ export class HomeComponent implements OnInit {
           this.dhallPB += (d * 1);
         })
         this.receiptQuantity[7].forEach(po => {
-          this.boiledRicePB += (po * 1);
+          this.pOilPB += (po * 1);
         })
         this.receiptQuantity[8].forEach(pp => {
-          this.boiledRicePB += (pp * 1);
+          this.pOilPB += (pp * 1);
         })
         this.receiptQuantity[9].forEach(w => {
-          this.boiledRicePB += (w * 1);
+          this.wheatPB += (w * 1);
         })
         this.receiptQuantity[10].forEach(s => {
-          this.boiledRicePB += (s * 1);
+          this.sugarPB += (s * 1);
         })
         break;
       case 'I':
@@ -663,16 +663,16 @@ export class HomeComponent implements OnInit {
           this.dhallPB += (d * 1);
         })
         this.issueQuantity[7].forEach(po => {
-          this.boiledRicePB += (po * 1);
+          this.pOilPB += (po * 1);
         })
         this.issueQuantity[8].forEach(pp => {
-          this.boiledRicePB += (pp * 1);
+          this.pOilPB += (pp * 1);
         })
         this.issueQuantity[9].forEach(w => {
-          this.boiledRicePB += (w * 1);
+          this.wheatPB += (w * 1);
         })
         this.issueQuantity[10].forEach(s => {
-          this.boiledRicePB += (s * 1);
+          this.sugarPB += (s * 1);
         })
         break;
     }
