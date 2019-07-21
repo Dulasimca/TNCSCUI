@@ -133,10 +133,12 @@ export class StockstatementreportComponent implements OnInit {
   exportAsXLSX():void{
     var stock_statement_data = [];
     this.stockData.forEach(data => {
-      stock_statement_data.push({SlNo: data.SlNo, OpeningBalance: data.OpeningBalance, CSBalance: data.CSBalance,
-        ClosingBalance: data.ClosingBalance, ITDescription: data.ITDescription,
-        PhycialBalance: data.PhycialBalance,Shortage: data.Shortage,
-        TotalIssue: data.TotalIssue, TotalReceipt: data.TotalReceipt, Receipt: data.Receipt});
+      stock_statement_data.push({SlNo: data.SlNo, ITDescription: data.ITDescription,
+        OpeningBalance: data.OpeningBalance, Receipt: data.Receipt,
+         TotalReceipt: data.TotalReceipt,  TotalIssue: data.TotalIssue,
+        ClosingBalance: data.ClosingBalance, CSBalance: data.CSBalance,
+        Shortage: data.Shortage, PhycialBalance: data.PhycialBalance
+        });
    });
     this.excelService.exportAsExcelFile(stock_statement_data, 'STOCK_STATEMENT_REPORT',this.stockDataColumns);
 }

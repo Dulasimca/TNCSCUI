@@ -141,7 +141,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/rice.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">RAW RICE(CB in Mts)</span>
+                <span class="colorbox-PB-name">RAW RICE(Mts)</span>
                 <span class="colorbox-PB-count">{{rawRicePB | number}}</span>
               </div>
             </div>
@@ -152,7 +152,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/rice.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">BOILED RICE(CB in Mts)</span>
+                <span class="colorbox-PB-name">BOILED RICE(Mts)</span>
                 <span class="colorbox-PB-count">{{boiledRicePB | number}}</span>
               </div>
             </div>
@@ -163,7 +163,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/red-dal.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">DHALL(CB in Mts)</span>
+                <span class="colorbox-PB-name">DHALL(Mts)</span>
                 <span class="colorbox-PB-count">{{dhallPB | number}}</span>
               </div>
             </div>
@@ -175,7 +175,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/palmoil.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">P-OIL(CB in No's)</span>
+                <span class="colorbox-PB-name">P-OIL(Mts)</span>
                 <span class="colorbox-PB-count">{{pOilPB | number}}</span>
               </div>
             </div>
@@ -187,7 +187,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/wheat.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">WHEAT(CB in Mts)</span>
+                <span class="colorbox-PB-name">WHEAT(Mts)</span>
                 <span class="colorbox-PB-count">{{wheatPB | number}}</span>
               </div>
             </div>
@@ -198,7 +198,7 @@
                 <img class="PB-img" src="../../assets/layout/images/dashboard/sugar-cubes.png" style="height: 50px;" />
               </div>
               <div class="ui-g-8 colorbox">
-                <span class="colorbox-PB-name">SUGAR(CB in Mts)</span>
+                <span class="colorbox-PB-name">SUGAR(Mts)</span>
                 <span class="colorbox-PB-count">{{sugarPB | number}}</span>
               </div>
             </div>
@@ -213,13 +213,13 @@
             <div class="ibox-body">
               <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success fontfamily">
                 <li class="nav-item">
-                  <a class="nav-link active" href="#CB" data-toggle="tab">Closing Balance</a>
+                  <a class="nav-link active" href="#CB" data-toggle="tab" (click)="calculateQuantity('CB')">Closing Balance</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#Receipt" data-toggle="tab">Receipt</a>
+                  <a class="nav-link" href="#Receipt" data-toggle="tab" (click)="calculateQuantity('R')">Receipt</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#Issue" data-toggle="tab">Issue</a>
+                  <a class="nav-link" href="#Issue" data-toggle="tab" (click)="calculateQuantity('I')">Issue</a>
                 </li>
               </ul>
 
