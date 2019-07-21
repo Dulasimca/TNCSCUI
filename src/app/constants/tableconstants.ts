@@ -800,10 +800,10 @@ export class TableConstants {
       { field: 'Issues', header: 'Issues'},
       { field: 'Transfer', header: 'Transfer'},
       { field: 'CB', header: 'CB'},
-      { field: 'Approvaldate', header: 'Approval Date'},
-      { field: 'lastupdated', header: 'Last Updated'},
+      // { field: 'Approvaldate', header: 'Approval Date'},
+      // { field: 'lastupdated', header: 'Last Updated'},
       { field: 'remarks', header: 'Remarks'},
-      { field: 'userid ', header: 'User Id'},
+      { field: 'userid', header: 'User Id'},
     ];
 
   }

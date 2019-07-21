@@ -31,6 +31,7 @@ export class TransactionStatusComponent implements OnInit {
   CB: boolean;
   Transaction_Status: any;
   maxDate: Date;
+  loading: boolean;
   viewPane: boolean;
   selectedRow: any;
   viewDate: Date = new Date();
@@ -75,51 +76,29 @@ export class TransactionStatusComponent implements OnInit {
     this.userid = this.userid; 
   }
 
-  // onView(){
-  //   this.TransactionStatusData = [];
-  //   // this.viewPane = true;
-  //   const params = new HttpParams().set('SRDate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
-  //   this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS, params).subscribe((res: any) => {
-  //     if (res !== undefined && res !== null && res.length !== 0) {
-  //       this.viewPane = true;
-  //       let sno = 0;
-  //       this.TransactionStatusCols = this.tableConstants.TransactionStatus;
-  //       this.TransactionStatusData = res;
-  //       this.TransactionStatusData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
-  //       this.SRDate = this.datepipe.transform(this.SRDate, 'dd-MM-yyyy');
-  //       this.Transaction_Status = this.TransactionStatusData.slice(0);
-  //     } else {
-  //       this.viewPane = false;
-  //       this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
-  //     }
-  //   })
-  // }
-
-
   onView() {
     this.TransactionStatusData = [];
-    // this.viewPane = true;
-    const params = new HttpParams().set('Docdate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Gcode', (this.gCode !== undefined) ? this.gCode : this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS, params).subscribe((res: any) => {
+    this.loading = true;
+    const params = new HttpParams().set('Docdate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Gcode', this.g_cd.value);
+    this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
-        // let sno = 0;
+        // let srno = 0;
         this.TransactionStatusCols = this.tableConstants.TransactionStatus;
         res.forEach(x => {
-          // sno += 1;
+          // srno += 1;
           this.TransactionStatusData.push({
-            'Receipt': x.Receipt,
-            'Issues': x.Issues,
-            'Transfer': x.Transfer,
-            'CB': x.CB,
-            'Docdate': x.Docdate,
-            'remarks': x.remarks,
-            'userid': x.userid,
+            'Receipt' : x.Receipt,
+            'Issues' : x.Issues,
+            'Transfer' : x.Transfer,
+            'CB' : x.CB,
+            'Docdate' : x.Docdate,
+            'remarks' : x.remarks,
+            'userid' : x.userid
           })
         });
-        this.TransactionStatusData.forEach(x => x.GodownName = (this.godownName !== undefined) ? this.godownName : this.g_cd.label);
-        this.Docdate = this.datepipe.transform(this.Docdate, 'dd-MM-yyyy');
         this.Transaction_Status = this.TransactionStatusData.slice(0);
+        this.loading = false;
       } else {
         this.viewPane = false;
         this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
@@ -142,7 +121,7 @@ export class TransactionStatusComponent implements OnInit {
       'remarks': (this.remarks !== undefined && this.remarks !== null) ? this.remarks : 'No Remarks',
       'userid': this.userid.user,
     };
-    this.restAPIService.post(PathConstants.TRANSACTION_STATUS, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
       } else {

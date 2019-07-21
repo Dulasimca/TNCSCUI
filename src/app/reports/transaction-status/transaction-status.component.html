@@ -49,7 +49,7 @@
         <div class="ui-g-5"></div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button pButton type="submit" label=Save
-            [disabled]="((Docdate == null) || (g_cd == null) || (Receipt == null) || (Issues == null) || (Transfer == null) || (CB == null))"
+            [disabled]="((Docdate == null) || (g_cd == null) || (Receipt == null) && (Issues == null) && (Transfer == null) && (CB == null))"
             (click)="onSave()"></button>
         </div>
         <div class="ui-g-3  ui-md-1 ui-fluid">
