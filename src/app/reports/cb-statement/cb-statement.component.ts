@@ -77,7 +77,7 @@ export class CBStatementComponent implements OnInit {
               record.AMMA_CEMENT * 1 : 0);
           record.cement = (cementTotal !== 0) ? cementTotal.toFixed(3) : cementTotal;
           let totalRice = boiledRiceTotal + rawRiceTotal;
-          let totalDhall = toorDhallTotal + uridDhallTotal;
+          let totalDhall = toorDhallTotal + kanadaToorDhallTotal;
           record.totalRice = (totalRice !== 0) ? totalRice.toFixed(3) : totalRice;
           record.totalDhall = (totalDhall !== 0) ? totalDhall.toFixed(3) : totalDhall;
           record.WHEAT = (record.WHEAT !== 0) ? record.WHEAT.toFixed(3) : record.WHEAT;
