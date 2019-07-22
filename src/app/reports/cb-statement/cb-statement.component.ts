@@ -82,11 +82,12 @@ export class CBStatementComponent implements OnInit {
           record.palmoil = (record.palmoil * 1);
           let cementTotal = ((record.CEMENT_IMPORTED !== null && record.CEMENT_IMPORTED !== undefined) ?
             record.CEMENT_IMPORTED * 1 : 0) + ((record.CEMENT_REGULAR !== null && record.CEMENT_REGULAR !== undefined) ?
-              record.CEMENT_REGULAR * 1 : 0);
+              record.CEMENT_REGULAR * 1 : 0) + ((record.AMMA_CEMENT !== null && record.AMMA_CEMENT !== undefined) ?
+              record.AMMA_CEMENT * 1 : 0);
           record.cement = (cementTotal !== 0) ? cementTotal.toFixed(3) : cementTotal;
           record.cement = (record.cement * 1);
           let totalRice = boiledRiceTotal + rawRiceTotal;
-          let totalDhall = toorDhallTotal + uridDhallTotal;
+          let totalDhall = toorDhallTotal + kanadaToorDhallTotal;
           record.totalRice = (totalRice !== 0) ? totalRice.toFixed(3) : totalRice;
           record.totalRice = (record.totalRice * 1);
           record.totalDhall = (totalDhall !== 0) ? totalDhall.toFixed(3) : totalDhall;
