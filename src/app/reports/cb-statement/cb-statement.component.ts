@@ -36,11 +36,10 @@ export class CBStatementComponent implements OnInit {
     this.rowGroupMetadata = {};
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
-    // this.loading = true;
+    this.loading = true;
     this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
       if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
         this.cbData = response.Table;
-        // this.record = response.Table.slice(0);
         this.cbData.forEach(record => {
           let boiledRiceTotal: number = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
             ((record.BOILED_RICE_A_HULLING !== null && record.BOILED_RICE_A_HULLING !== undefined) ? (record.BOILED_RICE_A_HULLING * 1) : 0) +
