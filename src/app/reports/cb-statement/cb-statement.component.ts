@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
