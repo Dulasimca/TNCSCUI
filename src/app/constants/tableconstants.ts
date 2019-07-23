@@ -74,6 +74,7 @@ export class TableConstants {
   OpeningBalanceMasterEntry: any;
   StockStatementReport: any;
   TransactionStatus: any;
+  OpeningBalanceCurYearEntry: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -751,6 +752,17 @@ export class TableConstants {
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
       { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE'}
+    ];
+
+    this.OpeningBalanceCurYearEntry = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'ITDescription', header: 'ITEM DESCRIPTION'},
+      { field: 'BookBalanceBags', header: 'BOOK BALANCE BAGS'},
+      { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT'},
+      { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS'},
+      { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT'},
+      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE'},
+      { field: 'CurYear', header: 'CURRENT YEAR Pv SHORTAGE'}
     ]
 
     this.GodownCustomerList = [];

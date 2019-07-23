@@ -13,17 +13,17 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
-          <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-            filter="true" optionLabel="label" [showClear]="true" required>
+            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+             filter="true" optionLabel="label" [showClear]="true" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
           </p-dropdown>
         </div>
         <div class="form-group ui-g-12 ui-md-3">
-          <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()" filter="true"
-            optionLabel="label" [showClear]="true" name="CommodityName" required>
+          <label class="ui-g-7 label-fontsize dashboard" for="Commodity">Commodity</label>
+          <p-dropdown [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
+             filter="true" optionLabel="label" [showClear]="true" name="Commodity" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -31,8 +31,8 @@
         </div>
         <div class="form-group ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
-          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" [(ngModel)]="Year"
-            (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
+          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" (onchange)="onChange()"
+           [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
         <div class="ui-g-2"></div>
@@ -47,11 +47,11 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="number" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off">
+            <input type="number" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20" [readonly]="true" pInputText autocomplete="off">
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
-            <input type="number" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" size="20" pInputText autocomplete="off">
+            <input type="number" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" size="20" [readonly]="true" pInputText autocomplete="off">
           </div>
         </div>
         <div class="ui-g-12 ui-md-3 dashboard" style="text-align: center">
@@ -62,16 +62,16 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="number" maxlength="6" name="PhysicalBalanceBags" [ngModel]="PhysicalBalanceBags" size="20" pInputText autocomplete="off">
+            <input type="number" maxlength="6" name="PhysicalBalanceBags" [ngModel]="PhysicalBalanceBags" size="20" [readonly]="true" pInputText autocomplete="off">
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
-            <input type="number" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" size="20" pInputText autocomplete="off">
+            <input type="number" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" size="20" [readonly]="true" pInputText autocomplete="off">
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
           <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulitive Shortage</label>
-          <input class="ui-g-6" type="number" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText
+          <input class="ui-g-6" type="number" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" [readonly]="true" pInputText
             autocomplete="off">
         </div>
         <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 53px">
@@ -83,18 +83,18 @@
         <div class="ui-g-5"></div>
         <div class="ui-g-12 ui-md-2 card">
           <label class="ui-g-12 label-fontsize" for="CurYear" style="text-align: center">Current Year Pv Shortages</label>
-          <input type="number" (input)="CurrYear" value="CurrYear" name="CurYear" [(ngModel)]="CurYear" pInputText autocomplete="off" appDecimalDigit>
+          <input type="number" value="WriteOff" name="WriteOff" [(ngModel)]="WriteOff" (input)="onView()" pInputText autocomplete="off" appDecimalDigit>
         </div>
         <div class="ui-g-5"></div>
       </div>
       <div class="ui-g-12 dashboard">
         <div class="ui-g-5"></div>
         <div class="form-group ui-g-3 ui-md-1">
-          <button pButton type="submit" label=Save
-            (click)="onSave()"></button>
+          <button pButton type="submit" label=Save (click)="onSave()"></button>
         </div>
         <div class="form-group ui-g-3 ui-md-1">
-          <button pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
+          <button class="ui-g-10 dashboard" pButton label=View (click)="showSelectedData()"></button>
+          <!-- <button pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button> -->
         </div>
         <div class="ui-g-5"></div>
       </div>
@@ -103,15 +103,15 @@
 </div>
 <p-dialog header="Opening Balance Current Year Shortage" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
   [maximizable]="true" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-  <div class="ui-g-12 ui-md-6">
+  <!-- <div class="ui-g-12 ui-md-6">
     <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
     <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
-      (onChange)="onChange($event)" filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
+      (onChange)="onChange($event)" filter="true" optionLabel="label" [showClear]="true" name="Commodity" required>
       <ng-template let-item pTemplate="selectedItem">
         <span style="vertical-align:middle">{{item.label}}</span>
       </ng-template>
     </p-dropdown>
-  </div>
+  </div> -->
   <div class="ui-g-12 ui-fluid">
     <p-table #table [columns]="OpeningBalanceDetailCols" [value]="OpeningBalanceDetailData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
