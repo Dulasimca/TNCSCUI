@@ -47,7 +47,7 @@
             <img alt="" src="../../assets/layout/images/dashboard/govt_emblem.png">
           </div>
           <div class="info">
-            <div class="desc" style="color: blue">{{username}}</div>
+            <div class="desc" style="color: blue">{{userName}}</div>
             <div class="desc">{{regionName}}</div>
             <div class="desc">{{godownName}}</div>
             <br>
@@ -83,24 +83,30 @@
                     <p>Password not secured? You can change it here!</p>
                     <div class="panel-body">
                       <fieldset>
+                          <div class="header-left-bottom">
+                          <form [formGroup]="ChangeForm" ngSubmit="onForgetPswd()">
                         <div class="form-group" style="margin: 0px !important">
-                          <div for="password" class="icon2">
-                            <input class="form-control input-lg" type="password" placeholder="Old Password" name="pswd"
-                              autocomplete="off">
+                          <div for="Username" class="icon2">
+                            <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
+                            <input type="text" class="inputxt" formControlName="user" id="userName" [(ngModel)]="userName" placeholder="Username" required="">
+                          </div>
+                          <div for="OldPassword" class="icon2">
+                            <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText pKeyFilter="alphanum" autocomplete="off"> -->
+                            <input type="password" id="OldPassword" formControlName="pswd" [(ngModel)]="OldPassword"
+                                placeholder="Old Password" required="">
                           </div>
                           <div for="password" class="icon2">
-                            <input class="form-control input-lg" type="password" placeholder="New Password" name="pswd"
-                              autocomplete="off">
+                            <!-- <input class="form-control input-lg" type="password" placeholder="New Password" minlength="6" name="password" autocomplete="off"> -->
+                            <input type="password" id="NewPassword" formControlName="Newpswd" [(ngModel)]="NewPassword"
+                            placeholder="New Password" required="">
                           </div>
-                          <div for="password" class="icon2">
-                            <input class="form-control input-lg" type="password" placeholder="Confirm Password"
-                              name="pswd" autocomplete="off">
-                          </div>
-                        </div>
-                        <div class="header-left-bottom">
+                        
                           <button class="btn" style="width: 20%" value="Change My Password"
-                            type="submit">Submit</button>
+                            type="submit" (click)="onNew()" >Submit</button>
                         </div>
+                        </form>
+                      </div>
+
                       </fieldset>
                     </div>
                   </div>

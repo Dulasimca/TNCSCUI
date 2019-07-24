@@ -9,8 +9,8 @@ import { map, catchError, retry, tap } from 'rxjs/operators';
 })
 
 export class RestAPIService {
-    BASEURL = 'http://180.179.49.72:8084';
-  // BASEURL = 'http://localhost:55922';
+  //  BASEURL = 'http://180.179.49.72:8084';
+  BASEURL = 'http://localhost:55922';
   public HttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -37,8 +37,8 @@ export class RestAPIService {
    return this.httpClient.get(this.BASEURL + url, { params: params });
   }
 
-  put(url, params): Observable<any> {
-   return this.httpClient.put(this.BASEURL + url, { params: params });
+  put(url, obj): Observable<any> {
+   return this.httpClient.put(this.BASEURL + url, obj);
   }
   handleError(error) {
     let errorMessage = 'err occurred';
