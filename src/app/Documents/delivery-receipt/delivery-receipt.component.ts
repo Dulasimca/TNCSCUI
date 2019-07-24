@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -44,18 +45,21 @@ export class DeliveryReceiptComponent implements OnInit {
   GodownName: any;
   marginItemDescOptions: SelectItem[];
   canShowMenu: boolean;
+  rowId: any;
+  UnLoadingSlip: any;
   DeliveryDate: Date = new Date();
   DeliveryOrderNo: any;
   Trcode: any;
   IndentNo: number;
+  OrderPeriod: any;
   PermitDate: Date = new Date();
-  PMonth: string;
-  PYear: string;
+  PMonth: any;
+  PYear: any;
   RCode: string;
   GCode: string;
   PName: any;
   RTCode: any;
-  Instructions: string;
+  Remarks: string;
   Scheme: any;
   MarginScheme: any;
   ICode: any;
@@ -85,7 +89,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService) { }
+    private restAPIService: RestAPIService, private authService: AuthService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -258,5 +262,27 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onPrint() { }
 
-  onSave() { }
+  onSave() {
+    this.OrderPeriod = this.PMonth.value + '/' + this.PYear.label;
+    const params = {
+      'Dono': this.DeliveryOrderNo,
+      'RowId': (this.rowId !== undefined) ? this.rowId : 0,
+      'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
+      'TransactionCode': this.Trcode.value,
+      'IndentNo': this.IndentNo,
+      'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
+      'OrderPeriod': this.OrderPeriod,
+      'ReceivorCode': this.PName.value,
+      'IssuerCode': this.GCode,
+      'IssuerType': this.RTCode.value,
+      'GrandTotal': this.GrandTotal,
+      'Regioncode': this.RCode,
+      'Remarks': this.Remarks,
+      'deliverytype': '',
+      'GodownName': this.GodownName,
+      'TransactionName': this.Trcode.label,
+      'RegionName': this.RegionName,
+      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip
+    };
+   }
 }

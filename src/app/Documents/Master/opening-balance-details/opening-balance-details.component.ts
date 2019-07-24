@@ -147,6 +147,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.isViewed = true;
     this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
     this.c_cd = this.selectedRow.ITDescription;
+    this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
     this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
@@ -165,7 +166,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         res.forEach(x => {
           sno += 1;
           this.openingBalanceData.push({
-            'SlNo': sno, 'ITDescription': x.ITDescription,
+            'SlNo': sno, 'ITDescription': x.ITDescription, 'CommodityCode': x.CommodityCode,
             'BookBalanceBags': x.BookBalanceBags, 
             'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
             'PhysicalBalanceBags': x.PhysicalBalanceBags,

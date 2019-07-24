@@ -57,8 +57,8 @@
                   <div class="ui-g-12">
                           <div class="ui-g-6 ui-md-2">
                             <span class="ui-float-label">
-                              <p-dropdown #m name="month" id="float-input" [options]="monthOptions" [(ngModel)]="month"
-                                (onClick)="onSelect('m')" filter="true">
+                              <p-dropdown #m name="month" id="float-input" [options]="monthOptions" [(ngModel)]="PMonth"
+                                (onClick)="onSelect('m')" filter="true" optionLabel="label">
                                 <ng-template let-item pTemplate="selectedItem">
                                   <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -68,8 +68,8 @@
                           </div>
                           <div class="ui-g-6 ui-md-2">
                             <span class="ui-float-label">
-                              <p-dropdown #y name="year" id="float-input" [options]="yearOptions" [(ngModel)]="year"
-                                (onClick)="onSelect('y')">
+                              <p-dropdown #y name="year" id="float-input" [options]="yearOptions" [(ngModel)]="PYear"
+                                (onClick)="onSelect('y')" optionLabel="label">
                               </p-dropdown>
                               <label for="year" class="float-input">Year</label>
                             </span>

@@ -452,7 +452,8 @@ export class StockReceiptComponent implements OnInit {
   onPrint() {
   const path = "../../assets/Reports/";
   const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
-  saveAs(path + filename, filename);
+ // saveAs(path + filename, filename);
+    
   }
 
   openNext() {
