@@ -99,6 +99,8 @@ GunnyReleased: any;
 NStackBalance: any;
 CurrentDocQtv: any;
 index: number = 0;
+UserID :any;
+Loadingslip : any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) { 
@@ -111,12 +113,13 @@ index: number = 0;
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
     this.data = this.roleBasedService.getInstance();
+    this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
     setTimeout(() => {
-      this.regionName = this.data.rgData[0].RName;
-      this.issuingGodownName = this.data.rgData[1].GName;
-      this.IssuingCode = this.data.rgData[1].GCode;
-      this.RCode = this.data.rgData[0].RCode;
+      this.regionName = this.data[0].RName;
+      this.issuingGodownName = this.data[0].GName;
+      this.IssuingCode = this.data[0].GCode;
+      this.RCode = this.data[0].RCode;
     },1200);
   }
   onSelect(selectedItem) {
@@ -274,22 +277,42 @@ onIssueDetailsEnter() {
   this.DNo = this.DeliveryOrderNo;
   this.DDate = this.DeliveryOrderDate;
   this.SI_Date = this.SIDate;
- this.issueData.push({'SINo': (this.SINo !== undefined) ? this.SINo : '', 'SIDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
-'DNo': this.DeliveryOrderNo, 'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy'),
-'RCode': this.RCode, 'GodownCode': this.IssuingCode});
+ this.issueData.push({
+    'SINo': (this.SINo !== undefined) ? this.SINo : '', 
+    'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
+    'DNo': this.DeliveryOrderNo, 
+    'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
+    'RCode': this.RCode, 'GodownCode': this.IssuingCode});
   if(this.issueData.length !== 0) {
      this.SIDate = this.DeliveryOrderDate = this.DeliveryOrderNo = null;
   }
  }
 
 onItemDetailsEnter() {
-  this.itemData.push({ 'TStockNo': this.TStockNo.label, 'ICode': this.ICode.label, 'IPCode': this.IPCode.label,
- 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs, 'WTCode': this.WTCode.label, 'Moisture': this.Moisture,
- 'Scheme': this.Scheme.label
+  this.itemData.push({ 
+    'TStockNo': this.TStockNo.label, 
+    'ICode': this.ICode.label, 
+    'IPCode': this.IPCode.label,
+    'NoPacking': this.NoPacking, 
+    'GKgs': this.GKgs, 
+    'Nkgs': this.NKgs, 
+    'WTCode': this.WTCode.label, 
+    'Moisture': this.Moisture,
+    'Scheme': this.Scheme.label
 });
-this.entryList.push({ 'TStockNo': this.TStockNo.value, 'ICode': this.ICode.value, 'IPCode': this.IPCode.value,
- 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs, 'WTCode': this.WTCode.value, 'Moisture': this.Moisture,
- 'Scheme': this.Scheme.value
+this.entryList.push({ 
+  'TStockNo': this.TStockNo.value, 
+  'ICode': this.ICode.value, 
+  'IPCode': this.IPCode.value,
+  'NoPacking': this.NoPacking, 
+  'GKgs': this.GKgs, 
+  'Nkgs': this.NKgs, 
+  'WTCode': this.WTCode.value, 
+  'Moisture': this.Moisture,
+  'Scheme': this.Scheme.value,
+  'CommodityName' : this.ICode.label,
+  'SchemeName' : this.Scheme.label,
+  'PackingName' : this.IPCode.label
 });
 if (this.itemData.length !== 0) {
   this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
@@ -300,9 +323,9 @@ if (this.itemData.length !== 0) {
 onSave() {
   this.IRelates = this.month.value + '/' + this.year.label;
   const params = {
-    'SINo': (this.SINo !== undefined || this.SINo !== null ) ? this.SINo : 0,
+    'SINo': (this.SINo !== undefined && this.SINo !== null ) ? this.SINo : 0,
     'RowId': 0,
-    'SIDate': (this.SIDate !== null) ? this.datepipe.transform(this.SIDate, 'MM/dd/yyyy') : this.datepipe.transform(this.SI_Date, 'MM/dd/yyyy'),
+    'SIDate': (this.SIDate !== null) ? this.SIDate : this.datepipe.transform(this.SI_Date, 'MM/dd/yyyy'),
     'IRelates': this.IRelates,
     'DNo': (this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : this.DNo,
     'DDate': (this.DeliveryOrderDate !== null) ? this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy') : 
@@ -312,11 +335,11 @@ onSave() {
     'RCode': this.RCode,
     'IssueRegularAdvance': this.RegularAdvance,
     'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
-    'Receivorcode': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
-    'Issuetype': (this.RNCode.value !== undefined) ? this.RNCode.value : 0,
+    'Receivorcode':  (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
+    'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
     'TransporterName': this.TransporterName,
     'TransportingCharge': this.TransporterCharges,
-    'ManualDocNo': this.ManualDocNo,
+    'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo===null) ? "" : this.ManualDocNo,
     'LorryNo': (this.VehicleNo !== undefined) ? this.VehicleNo : '',
     'NewBale': (this.NewBale !== undefined) ? this.NewBale : '',
     'SoundServiceable': this.SServiceable,
@@ -325,7 +348,14 @@ onSave() {
     'GunnyReleased': this.GunnyReleased,
     'IssueItemList': this.entryList,
     'SIDetailsList': this.issueData,
-    'Remarks': (this.Remarks !== undefined) ? this.Remarks : ''
+    'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
+    'GodownName':this.issuingGodownName,
+    'RegionName': this.regionName,
+    'TransactionType':this.Trcode.label,
+    'ReceiverName': this.RNCode.label,
+    'UserID': this.UserID.user,
+    'Loadingslip': (this.SINo === undefined || this.SINo===null) ? 'N' : this.Loadingslip,
+    'IssueMemo ' :'F'
   }
   this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
     if (res !== undefined) {
