@@ -20,7 +20,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   g_cd: any;
   c_cd: any;
   Year: any;
-  RowId: any;
+  Rowid: any;
   WriteOff: any;
   BookBalanceBags: any;
   BookBalanceWeight: any;
@@ -62,7 +62,6 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   }
   onSelect(selectedItem) {
     let godownSelection = [];
-    let commoditySelection = [];
     switch (selectedItem) {
       case 'gd':
         if (this.gdata !== undefined) {
@@ -88,91 +87,50 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
-    if (this.Year !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    // if (this.Year !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd.value !== null && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
+    //   this.isViewDisabled = false;
+    // }
   }
 
   onChange() {
-    if (this.commodityOptions !== undefined) {
-        this.OpeningBalanceDetailData = this.OpeningBalanceDetailData.filter(x => { return x.ITDescription === this.commodityCd.label });
-        if (this.OpeningBalanceDetailData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record not found!' });
+    if (this.commodityOptions !== undefined && this.godownOptions !== undefined && this.yearOptions !== undefined) {
+    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
+    this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
+      if (this.commodityOptions !== undefined && this.commodityOptions.length !== 0) {
+        this.OpeningBalanceDetailData = res.filter((x: { ITDescription: any; }) => { return x.ITDescription === this.commodityCd.label });
+        if(this.OpeningBalanceDetailData !== undefined && this.OpeningBalanceDetailData !== 0 )
+        {      
+        this.BookBalanceBags = this.OpeningBalanceDetailData[0].BookBalanceBags;
+        this.BookBalanceWeight = this.OpeningBalanceDetailData[0].BookBalanceWeight;
+        this.PhysicalBalanceBags = this.OpeningBalanceDetailData[0].PhysicalBalanceBags;
+        this.PhysicalBalanceWeight = this.OpeningBalanceDetailData[0].PhysicalBalanceWeight;
+        this.CumulativeShortage = this.OpeningBalanceDetailData[0].CumulitiveShortage;
+        this.WriteOff = this.OpeningBalanceDetailData[0].WriteOff;
+        this.Rowid = this.OpeningBalanceDetailData[0].Rowid;
         }
-      } else {
-        this.OpeningBalanceDetailData = this.opening_balance;
       }
-  }
+    });
+    }
+}
 
-  onCommodityClicked() {
+onCommodityClicked() {
     if (this.commodityOptions !== undefined && this.commodityOptions.length <= 1) {
       this.commodityOptions = this.commoditySelection;
     }
   }
-
+  
   onRowSelect(event) {
     this.disableOkButton = false;
     this.selectedRow = event.data;
   }
 
-  showSelectedData() {
-    this.viewPane = false;
-    this.isViewed = true;
-    this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
-    this.c_cd = this.selectedRow.ITDescription;
-    this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
-    this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
-    this.CumulativeShortage = this.selectedRow.CumulativeShortage;
-    this.WriteOff = this.selectedRow.WriteOff;
-  }
 
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-      this.c_cd = this.commodityCd = this.g_cd = this.CumulativeShortage = this.CurYear = this.Year = null;
+      this.c_cd = this.commodityCd = this.g_cd = this.CumulativeShortage = this.WriteOff = this.Year = null;
   }
 
-  onView() {
-    this.OpeningBalanceDetailData = [];
-    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null) {
-        
-        let result= res.filter(x => { return x.ITDescription === this.selectedRow.ITDescriptionl });
-        if (result !== undefined && result !== null)
-        {
-         // this.c_cd = this.selectedRow.ITDescription;
-          this.BookBalanceBags = result.BookBalanceBags;
-          this.BookBalanceWeight = result.BookBalanceWeight;
-          this.PhysicalBalanceBags = result.PhysicalBalanceBags;
-          this.PhysicalBalanceWeight = result.PhysicalBalanceWeight;
-          this.CumulativeShortage = result.CumulativeShortage;
-          this.CurYear = result.CurYear;
-        }
-        // res.forEach(x => {
-        //   // sno += 1;
-        //     this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
-        //     this.c_cd = this.selectedRow.ITDescription;
-        //     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-        //     this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
-        //     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-        //     this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
-        //     this.CumulativeShortage = this.selectedRow.CumulativeShortage;
-        //     this.CurYear = this.selectedRow.CurYear;
-        // });
-      }
-
-        
-        // this.opening_balance = this.OpeningBalanceDetailData.slice(0);
-       else {
-        this.viewPane = false;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
-      }
-    });
-    
-  }
-
+  
 
   // onView() {
   //   this.OpeningBalanceDetailData = [];
@@ -204,20 +162,15 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   // }
 
   onSave() {
-    // const params = {
-    //   'RowId': this.RowId,
-    //   'WriteOff': this.WriteOff,
-    // };
-    const params = new HttpParams().set('Rowid', this.RowId.value).append('WriteOff', this.WriteOff.value);
-
+    const params = {
+      'Rowid': this.Rowid,
+      'WriteOff': this.WriteOff,
+    };
+    // const params = new HttpParams().set('RowId', this.Rowid).append('WriteOff', this.WriteOff);
     this.restAPIService.put(PathConstants.OPENING_BALANCE_MASTER_PUT, params).subscribe(res => {
       if (res) {
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     })

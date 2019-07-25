@@ -37,8 +37,8 @@ export class RestAPIService {
    return this.httpClient.get(this.BASEURL + url, { params: params });
   }
 
-  put(url, params): Observable<any> {
-   return this.httpClient.put(this.BASEURL + url, { params: params });
+  put(url, obj): Observable<any> {
+   return this.httpClient.put(this.BASEURL + url, obj);
   }
   handleError(error) {
     let errorMessage = 'err occurred';

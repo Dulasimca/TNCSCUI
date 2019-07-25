@@ -14,6 +14,17 @@ export class ExcelService {
 
   public exportAsExcelFile(json: any[], excelFileName: string, headers: any[]): void{
     const Worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    // let headerRow = Worksheet.addRow();
+    // // Cell Style : Fill and Border
+    // headerRow.eachCell((cell, number) => {
+    //   cell.fill = {
+    //     type: 'pattern',
+    //     pattern: 'solid',
+    //     fgColor: { argb: 'FFFFFF00' },
+    //     bgColor: { argb: 'FF0000FF' }
+    //   }
+    //   cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    // })
     var range = XLSX.utils.decode_range(Worksheet['!ref']);
     for (var C = range.s.r; C <= range.e.r; ++C){
       var keys = XLSX.utils.encode_col(C) + "1";

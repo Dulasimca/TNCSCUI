@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from '../common/role-based.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { RestAPIService } from '../shared-services/restAPI.service';
+import { PathConstants } from '../constants/path.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +16,10 @@ import { RoleBasedService } from '../common/role-based.service';
 })
 export class HeaderComponent implements OnInit {
   isValidUser: boolean;
-  username: any;
+  ChangeForm: FormGroup;
+  userName: any;
+  OldPassword: any;
+  NewPassword: any;
   godownName: string;
   regionName: string;
   timeString: string;
@@ -22,10 +31,15 @@ export class HeaderComponent implements OnInit {
   date: any;
   seconds: any;
   data: any;
-  constructor(private roleBasedService: RoleBasedService, private authService: AuthService, private datePipe: DatePipe) { }
+  constructor(private roleBasedService: RoleBasedService, private router: Router, private restApiService: RestAPIService, private messageService: MessageService , private fb: FormBuilder, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     // this.data = this.roleBasedService.getInstance();
+    this.ChangeForm = this.fb.group({
+      user: ['', Validators.required],
+      pswd: ['', Validators.required],
+      Newpswd: ['', Validators.required]
+    })
   }
   
   onLogOut() {
@@ -34,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
  onViewUserinfo(event, panel) {
    panel.toggle(event);
-  this.username = JSON.parse(this.authService.getCredentials()).user;
+  this.userName = JSON.parse(this.authService.getCredentials()).user;
   // if(this.data !== undefined) {
   //  this.data.forEach(x => {
   //   this.godownName = x.GName;
@@ -44,8 +58,67 @@ export class HeaderComponent implements OnInit {
  }
 
  onForgetPswd(){
-   
+   if(this.ChangeForm.invalid){
+    this.messageService.add({severity: 'error', summary: 'Error!', detail: 'Please enter valid details'});
+    return;
+  } else {
+    let username = new HttpParams().append('userName', this.userName);
+    this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(res => {
+      if(res !== undefined) {
+        if(this.userName.toLowerCase() === res[0].userName.toLowerCase() && this.OldPassword === res[0].Pwd && this.OldPassword !== this.NewPassword) {
+          this.router.navigate(['Home']);
+          this.setUsername(this.userName);
+          this.setOldPassword(this.OldPassword);
+          this.setNewPassword(this.NewPassword);
+          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password Changed Successfully!'});
+        } else {
+          this.onClear();
+          this.messageService.add({severity: 'error', summary: 'Error!', detail: 'Validation Failed'})
+        }
+      }
+    })
+  }
  }
+
+onNew() {
+  const params = {
+    'UserId' : this.userName,
+    'OldPassword': this.OldPassword,
+    'NewPassword': this.NewPassword
+  };
+  this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
+    if(res) {
+      this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password Changed Successfully!'});
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+    }
+  })
+  this.onClear();
+}
+
+onClear(){
+  this.userName = this.OldPassword = this.NewPassword = '';
+}
+
+setUsername(username) {
+  this.userName = username;
+}
+getUsername(){
+  return this.userName;
+}
+setOldPassword(OldPassword) {
+  this.OldPassword = OldPassword;
+}
+getOldPassword(){
+  return this.OldPassword;
+}
+setNewPassword(NewPassword) {
+  this.NewPassword = NewPassword;
+}
+getNewPassword(){
+  return this.NewPassword;
+}
+
 }
 // function showTime() {
 //   let todayDate = new Date();
