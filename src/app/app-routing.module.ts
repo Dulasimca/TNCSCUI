@@ -41,7 +41,6 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { StackCardOpeningEntryComponent } from './reports/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
@@ -70,11 +69,12 @@ import { ItemMasterModificationComponent } from './Documents/Master/item-master-
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
 import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
-import { StackCardClosingComponent } from './reports/StackCard/stack-card-closing/stack-card-closing.component';
-import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
-import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
+import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
+import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
+import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
+import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 
 
 const routes: Routes = [
@@ -138,7 +138,7 @@ const routes: Routes = [
   { path: 'Society Master', component: SocietMasterComponent },
   { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent },
-  { path: 'Opening Balance Year Shortage Master', component: OpeningBalanceCurrentYearComponent }, 
+  { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent }, 
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
   { path: 'Employee Master', component: EmployeeMasterComponent },
   { path: 'Rate Master', component: RateMasterComponent },

@@ -13,7 +13,7 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')"
           (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -23,7 +23,7 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd" [showClear]="true"
-          (onClick)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-" filter="true" optionLabel="label">
+          (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-" filter="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -31,7 +31,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')" (keydown.enter)="onSelect('cd')"
           (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
