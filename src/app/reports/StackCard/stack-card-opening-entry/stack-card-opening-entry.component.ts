@@ -133,7 +133,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.selectedRow !== undefined) {
       this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
       this.c_cd = this.selectedRow.CommodityName;
-      this.StackNo = this.selectedRow.StackNo;
+      this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
       const totalLength = this.StackNo.toString().length;
