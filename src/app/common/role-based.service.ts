@@ -17,7 +17,29 @@ export class RoleBasedService {
     gCode: any;
     rCode: any;
     rgData: any;
+    regionsData: any = [];
+    godownsList: any = [];
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
+
+    getGodowns() {
+        let godowns;
+        this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
+            res.forEach(x => {
+                godowns = x.list;
+                godowns.forEach(data => { this.godownsList.push({'GName': data.Name, 'GCode': data.GCode, 'RCode': data.Code }) });
+            });
+        })
+        return this.godownsList;
+    }
+
+    getRegions() {
+        this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
+            res.forEach(x => {
+                this.regionsData.push({'RName': x.Name, 'RCode': x.Code});
+            });
+        })
+        return this.regionsData;
+    }
 
     getInstance() {
         this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
@@ -49,11 +71,6 @@ export class RoleBasedService {
                                         this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                                     });
                                 }
-                                // res.filter(value => {
-                                //     if (value.Code === this.rCode) {
-                                //         this.rgData.push({ 'RName': value.Name, 'RCode': value.Code });
-                                //     }
-                                // });
                         }
                     });
                    

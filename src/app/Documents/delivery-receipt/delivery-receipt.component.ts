@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./delivery-receipt.component.css']
 })
 export class DeliveryReceiptComponent implements OnInit {
+  data: any;
   deliveryCols: any;
   deliveryData: any = [];
   deliveryItemEntryData: any = [];
@@ -94,16 +95,17 @@ export class DeliveryReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
+    this.data = this.roleBasedService.getInstance();
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
     this.paymentBalCols = this.tableConstants.DeliveryPaymentBalanceCols;
     this.itemSchemeCols = this.tableConstants.DeliveryItemSchemeColumns;
     setTimeout(() => {
-      this.GodownName = this.roleBasedService.rgData[1].GName;
-      this.RegionName = this.roleBasedService.rgData[0].RName;
-      this.GCode = this.roleBasedService.gCode;
-      this.RCode = this.roleBasedService.rCode;
+      this.GodownName = this.data[0].GName;
+      this.RegionName = this.data[0].RName;
+      this.GCode = this.data[0].GCode;
+      this.RCode = this.data[0].RCode;
     }, 300);
   }
 
@@ -257,6 +259,15 @@ export class DeliveryReceiptComponent implements OnInit {
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
         }
         break;
+    }
+  }
+
+  calculateTotal() {
+   if (this.NKgs !== undefined && this.Rate !== undefined) {
+      this.TotalAmount = (this.NKgs * 1) + (this.Rate * 1);
+    }
+    if (this.MarginNKgs !== undefined && this.MarginRate !== undefined) {
+      this.MarginAmount = (this.MarginNKgs * 1) + (this.MarginRate * 1);
     }
   }
 
