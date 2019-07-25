@@ -87,79 +87,43 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
-    // if (this.Year !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd.value !== null && this.c_cd.value !== undefined && this.c_cd.value !== '' && this.c_cd !== null) {
-    //   this.isViewDisabled = false;
-    // }
   }
 
   onChange() {
     if (this.commodityOptions !== undefined && this.godownOptions !== undefined && this.yearOptions !== undefined) {
-    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
-      if (this.commodityOptions !== undefined && this.commodityOptions.length !== 0) {
-        this.OpeningBalanceDetailData = res.filter((x: { ITDescription: any; }) => { return x.ITDescription === this.commodityCd.label });
-        if(this.OpeningBalanceDetailData !== undefined && this.OpeningBalanceDetailData !== 0 )
-        {      
-        this.BookBalanceBags = this.OpeningBalanceDetailData[0].BookBalanceBags;
-        this.BookBalanceWeight = this.OpeningBalanceDetailData[0].BookBalanceWeight;
-        this.PhysicalBalanceBags = this.OpeningBalanceDetailData[0].PhysicalBalanceBags;
-        this.PhysicalBalanceWeight = this.OpeningBalanceDetailData[0].PhysicalBalanceWeight;
-        this.CumulativeShortage = this.OpeningBalanceDetailData[0].CumulitiveShortage;
-        this.WriteOff = this.OpeningBalanceDetailData[0].WriteOff;
-        this.Rowid = this.OpeningBalanceDetailData[0].Rowid;
+      const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
+      this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
+        if (this.commodityOptions !== undefined && this.commodityOptions.length !== 0) {
+          this.OpeningBalanceDetailData = res.filter((x: { ITDescription: any; }) => { return x.ITDescription === this.commodityCd.label });
+          if (this.OpeningBalanceDetailData !== undefined && this.OpeningBalanceDetailData !== 0) {
+            this.BookBalanceBags = this.OpeningBalanceDetailData[0].BookBalanceBags;
+            this.BookBalanceWeight = this.OpeningBalanceDetailData[0].BookBalanceWeight;
+            this.PhysicalBalanceBags = this.OpeningBalanceDetailData[0].PhysicalBalanceBags;
+            this.PhysicalBalanceWeight = this.OpeningBalanceDetailData[0].PhysicalBalanceWeight;
+            this.CumulativeShortage = this.OpeningBalanceDetailData[0].CumulitiveShortage;
+            this.WriteOff = this.OpeningBalanceDetailData[0].WriteOff;
+            this.Rowid = this.OpeningBalanceDetailData[0].Rowid;
+          }
         }
-      }
-    });
+      });
     }
-}
+  }
 
-onCommodityClicked() {
+  onCommodityClicked() {
     if (this.commodityOptions !== undefined && this.commodityOptions.length <= 1) {
       this.commodityOptions = this.commoditySelection;
     }
   }
-  
+
   onRowSelect(event) {
     this.disableOkButton = false;
     this.selectedRow = event.data;
   }
 
-
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
       this.c_cd = this.commodityCd = this.g_cd = this.CumulativeShortage = this.WriteOff = this.Year = null;
   }
-
-  
-
-  // onView() {
-  //   this.OpeningBalanceDetailData = [];
-  //   const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
-  //   this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
-  //     if (res !== undefined && res !== null && res.length !== 0) {
-  //       this.viewPane = true;
-  //       let sno = 0;
-  //       res.forEach(x => {
-  //         sno += 1;
-  //         this.OpeningBalanceDetailData.push({
-  //           'SlNo': sno, 'ITDescription': x.ITDescription,
-  //           'BookBalanceBags': x.BookBalanceBags,
-  //           'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
-  //           'PhysicalBalanceBags': x.PhysicalBalanceBags,
-  //           'PhysicalBalanceWeight': (x.PhysicalBalanceWeight * 1).toFixed(3),
-  //           'CumulativeShortage': (x.CumulitiveShortage * 1).toFixed(3),
-  //           'CurYear': x.CurYear,
-  //           'RowId': x.RowId,
-  //           'WriteOff': x.WriteOff
-  //         })
-  //       });
-  //       this.opening_balance = this.OpeningBalanceDetailData.slice(0);
-  //     } else {
-  //       this.viewPane = false;
-  //       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
-  //     }
-  //   })
-  // }
 
   onSave() {
     const params = {

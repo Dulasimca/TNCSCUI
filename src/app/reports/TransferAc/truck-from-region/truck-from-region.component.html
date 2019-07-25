@@ -12,7 +12,7 @@
           <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
           <div class="ui-g-12 ui-md-2 ui-fluid">
             <label>Godown Name:</label>
-              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()"
+              <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()" (keydown.enter)="onSelect()"
                (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
                <ng-template let-item pTemplate="selectedItem">
                  <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
