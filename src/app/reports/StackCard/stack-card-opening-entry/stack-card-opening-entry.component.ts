@@ -27,7 +27,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
   g_cd: any;
   c_cd: any;
   commodityCd: any;
-  disableOkButton: boolean = true;
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -64,7 +63,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   calculateStackNo() {
     if (this.Location !== undefined && this.Formation !== undefined) {
-      this.StackNo = this.Location + "/" + this.Formation.valueOf();
+      this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation.valueOf();
     }
   }
 
@@ -76,6 +75,21 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.allowInput = false;
     } else {
       this.allowInput = true;
+    }
+  }
+
+  keyPress(event) {
+    if(event.target.value.length === 1 && event.keyCode === 191) {
+      this.Location = '';
+      return false;
+    } else if ((event.target.value.length  > 1) && event.keyCode !== 8) {
+      // this.Location += '/';
+      let index = event.target.value.indexOf('/');
+      if(index >= 1) {
+        return false;
+      } else { return true; }
+    } else {
+      return event.which > 90;  
     }
   }
 
@@ -114,27 +128,24 @@ export class StackCardOpeningEntryComponent implements OnInit {
     }
   }
 
-  onRowSelect(event) {
-    this.disableOkButton = false;
-    this.selectedRow = event.data;
-  }
-
-  showSelectedData() {
-    this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
-    this.c_cd = this.selectedRow.CommodityName;
-    this.StackNo = this.selectedRow.StackNo;
-    let index;
-    index = this.StackNo.toString().indexOf('/', 1);
-    const totalLength = this.StackNo.toString().length;
-    const trimmedValue = this.StackNo.toString().slice(0, index + 1);
-    // this.Location = this.StackNo.toString().slice(0, index);
-    const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
-    let nextIndex = nextValue.toString().indexOf('/', 1);
-    const locNo = nextValue.toString().slice(0, nextIndex);
-    this.Location = trimmedValue + locNo;
-    this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
-    this.Bags = this.selectedRow.StackBalanceBags;
-    this.Weights = this.selectedRow.StackBalanceWeight;
+  onRowSelect(event, data) {
+    this.selectedRow = data;
+    if (this.selectedRow !== undefined) {
+      this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
+      this.c_cd = this.selectedRow.CommodityName;
+      this.StackNo = this.selectedRow.StackNo;
+      let index;
+      index = this.StackNo.toString().indexOf('/', 1);
+      const totalLength = this.StackNo.toString().length;
+      const trimmedValue = this.StackNo.toString().slice(0, index + 1);
+      const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
+      let nextIndex = nextValue.toString().indexOf('/', 1);
+      const locNo = nextValue.toString().slice(0, nextIndex);
+      this.Location = trimmedValue + locNo;
+      this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
+      this.Bags = this.selectedRow.StackBalanceBags;
+      this.Weights = this.selectedRow.StackBalanceWeight;
+    }
   }
 
   onView() {

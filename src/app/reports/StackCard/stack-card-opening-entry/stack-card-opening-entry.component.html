@@ -43,23 +43,24 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard">Location</label>
-            <input type="text" maxlength="5"
-              oninput="this.value = this.value.replace(/^\S{2}\d{2}[/]\d{2}/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-              name="Location" (input)="calculateStackNo" [(ngModel)]="Location" size="20" pInputText
+            <input type="text" minlength="2" maxlength="5"
+            oninput="this.value = this.value.replace(/[^a-zA-Z0-9][/]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+             name="Location" (input)="calculateStackNo()" 
+             [(ngModel)]="Location" size="20" pInputText (keyup)="keyPress($event)"
               style="text-transform: uppercase !important" autocomplete="off" required>
             <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23</div>
           </div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard" for="Formation">Formation No</label>
-            <input type="text" maxlength="4" name="Formation"
+            <input type="text" minlength="1" maxlength="3" name="Formation"
               oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-              onKeyDown="if(this.value.length==4 && event.keyCode!=8) return false;" (input)="calculateStackNo()"
+              (input)="calculateStackNo()"
               [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
             <div class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 1 OR 28 OR 523</div>
           </div>
           <div class="form-group ui-g-12 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard" for="StackNo">Stack No</label>
-            <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="7"
+            <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="10"
               pInputText autocomplete="off">
           </div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
@@ -106,7 +107,7 @@
       <div class="ui-g-12 ui-md-12 dashboard">
         <p-table #table [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-          [paginator]="true" (onRowSelect)="onRowSelect($event)">
+          [paginator]="true">
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">
@@ -120,7 +121,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
+            <tr [pSelectableRow]="rowData"  (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>
