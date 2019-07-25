@@ -12,7 +12,7 @@
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')"
             (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
             placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
@@ -22,7 +22,7 @@
         </div>
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')" (keydown.enter)="onSelect('cd')"
             (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
             placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">

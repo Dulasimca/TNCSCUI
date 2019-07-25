@@ -13,7 +13,7 @@
         <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
-            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (onChange)="onChange()"
+            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')" (onChange)="onChange()"
              filter="true" optionLabel="label" [showClear]="true" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
@@ -31,7 +31,7 @@
         </div>
         <div class="form-group ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="Year">Year</label>
-          <p-dropdown #y id="float-input" [options]="yearOptions" name="Year" (onChange)="onChange()"
+          <p-dropdown #y id="float-input" [options]="yearOptions" name="Year" (keydown.enter)="onSelect('y')" (onChange)="onChange()"
            [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
