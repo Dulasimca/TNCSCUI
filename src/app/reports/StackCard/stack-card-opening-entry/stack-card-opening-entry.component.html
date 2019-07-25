@@ -16,7 +16,7 @@
           <div class="ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
             <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              filter="true" optionLabel="label" [showClear]="true">
+              filter="true" optionLabel="label" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -25,7 +25,7 @@
           <div class="form-group ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
             <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()" filter="true"
-              optionLabel="label" [showClear]="true" name="CommodityName" required>
+              optionLabel="label" name="CommodityName" [readonly]="nonEditable" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -33,8 +33,8 @@
           </div>
           <div class="form-group ui-g-12 ui-md-2 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="Date">Date</label>
-            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (click)="checkDate(Date)"
-              [maxDate]="maxDate" name="Date" [(ngModel)]="Date"></p-calendar>
+            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
+              [maxDate]="maxDate" name="Date" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
           </div>
 
           <div class="ui-g-2"></div>
@@ -43,16 +43,16 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard">Location</label>
-            <input type="text" minlength="2" maxlength="5"
+            <input type="text" minlength="2" maxlength="7"
             oninput="this.value = this.value.replace(/[^a-zA-Z0-9][/]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-             name="Location" (input)="calculateStackNo()" 
+             name="Location" (input)="calculateStackNo()" [readonly]="nonEditable"
              [(ngModel)]="Location" size="20" pInputText (keyup)="keyPress($event)"
               style="text-transform: uppercase !important" autocomplete="off" required>
             <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23</div>
           </div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard" for="Formation">Formation No</label>
-            <input type="text" minlength="1" maxlength="3" name="Formation"
+            <input type="text" minlength="1" maxlength="5" name="Formation" [readonly]="nonEditable"
               oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
               (input)="calculateStackNo()"
               [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
@@ -60,8 +60,8 @@
           </div>
           <div class="form-group ui-g-12 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard" for="StackNo">Stack No</label>
-            <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="10"
-              pInputText autocomplete="off">
+            <input type="text" name="StackNo" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="12"
+            [readonly]="true"  pInputText autocomplete="off">
           </div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard" for="Bags">Bags</label>
@@ -75,6 +75,10 @@
               [readonly]="allowInput" required appDecimalDigit>
           </div>
           <div class="ui-g-12 ui-md-1"></div>
+          <div *ngIf="nonEditable" style="border: 1.2px solid #44a3ec !important; box-shadow: 5px 2px 2px #c4c6c7;" class="ui-g-6 ui-md-2 no-pad-top">
+            <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
+            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" [(ngModel)]="ClosingDate"></p-calendar>
+          </div>
         </div>
         <div class="ui-g-12 dashboard">
           <div class="ui-g-12 ui-md-4"></div>
@@ -85,16 +89,16 @@
             <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
           </div>
           <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="submit" [disabled]="!f.valid" label=Clear (click)="onClear()"></button>
+            <button pButton type="submit" [disabled]="(!f.valid || nonEditable)" label=Clear (click)="onClear()"></button>
           </div>
-          <div class="ui-g-12 ui-md-5"></div>
         </div>
       </form>
 
       <!-- <p-dialog header="Stack Opening Balance" [contentStyle]="{'overflow':'visible'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}"> -->
-      <!-- <div class="ui-g-12 ui-md-12 no-pad-top"> -->
-      <!-- <div class="ui-g-12 ui-md-3 no-pad-top">
+  [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}"> 
+ style="border: .2px solid #d9d9d9"-->
+       <div class="ui-g-12 ui-md-12 no-pad-top"> 
+       <div class="ui-g-12 ui-md-3 no-left-pad">
         <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
         <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
           (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true" optionLabel="label"
@@ -103,7 +107,7 @@
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
-      </div> -->
+      </div> 
       <div class="ui-g-12 ui-md-12 dashboard">
         <p-table #table [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -121,7 +125,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData"  (dblclick)="onRowSelect($event, rowData)">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>
@@ -130,11 +134,12 @@
         </p-table>
       </div>
     </div>
-  </p-panel>
+</div>
+</p-panel>
 </div>
 <!-- <div class="ui-g-4 ui-md-10"></div>
       <div class="ui-g-4 ui-md-1 no-right-pad">
-        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+        <button class="ui-g-10 dashboard" pButton label=OK [readonly]="disableOkButton"
           (click)="showSelectedData()"></button>
       </div> -->
 

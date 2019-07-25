@@ -17,6 +17,9 @@ import { DatePipe } from '@angular/common';
 export class StackCardOpeningEntryComponent implements OnInit {
   stackOpeningCols: any;
   stackOpeningData: any = [];
+  nonEditable: boolean = false;
+  RowId: any;
+  ClosingDate: Date;
   data: any;
   Opening_Balance: any = []
   godownName: any;
@@ -69,6 +72,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   checkDate(value) {
     const date = new Date(value);
+    this.stackOpeningData = [];
+    this.nonEditable = false;
     const selectedDate = date.getDate();
     const selectedMonth = date.getMonth() + 1;
     if (selectedDate === 1 && selectedMonth === 4) {
@@ -112,7 +117,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.commodityOptions !== undefined) {
       const selectedItem = e.value;
       if (selectedItem !== null) {
-        this.stackOpeningData = this.stackOpeningData.filter(x => { return x.ITDescription === selectedItem.label });
+        this.stackOpeningData = this.stackOpeningData.filter(x => { return x.CommodityName === selectedItem.label });
         if (this.stackOpeningData.length === 0) {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'No matching commodity found!' });
         }
@@ -130,7 +135,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onRowSelect(event, data) {
     this.selectedRow = data;
+    this.ClosingDate = null;
     if (this.selectedRow !== undefined) {
+      if (this.selectedRow.Flag1 === 'A') {
+      this.nonEditable = true;
+      this.RowId = this.selectedRow.RowId;
       this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
       this.c_cd = this.selectedRow.CommodityName;
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
@@ -145,7 +154,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
       this.Bags = this.selectedRow.StackBalanceBags;
       this.Weights = this.selectedRow.StackBalanceWeight;
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Card already closed!' });
     }
+  } 
   }
 
   onView() {
@@ -174,6 +186,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onSave() {
+    if (!this.nonEditable) {
     const params = {
       'GodownCode': this.g_cd.value,
       'CommodityCode': this.c_cd.value,
@@ -198,6 +211,23 @@ export class StackCardOpeningEntryComponent implements OnInit {
       }
     })
     this.onClear();
+  } else {
+    const closingParams = {
+      'ClosedDate': this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'), 
+      'RowId': this.RowId };
+    this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
+      if (res) {
+        this.onView();
+        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Card closed!' });
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+      }
+    })
   }
+}
 
 }
