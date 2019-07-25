@@ -80,32 +80,32 @@
               <div class="panel panel-default">
                 <div class="panel-body">
                   <div class="text-center">
-                    <p>Password not secured? You can change it here!</p>
+                    <p style="color: dimgray">Password not secured? You can change it here!</p>
                     <div class="panel-body">
                       <fieldset>
-                          <div class="header-left-bottom">
-                          <form [formGroup]="ChangeForm" ngSubmit="onForgetPswd()">
-                        <div class="form-group" style="margin: 0px !important">
-                          <div for="Username" class="icon2">
-                            <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
-                            <input type="text" class="inputxt" formControlName="user" id="userName" [(ngModel)]="userName" placeholder="Username" required="">
-                          </div>
-                          <div for="OldPassword" class="icon2">
-                            <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText pKeyFilter="alphanum" autocomplete="off"> -->
-                            <input type="password" id="OldPassword" formControlName="pswd" [(ngModel)]="OldPassword"
+                        <form [formGroup]="ChangeForm" ngSubmit="onForgetPswd()">
+                          <div class="form-group" style="margin: 0px !important">
+                            <div for="Username" class="icon2">
+                              <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
+                              <input type="text" class="form-control input-lg" formControlName="user" id="userName"
+                                [(ngModel)]="userName" placeholder="Username" required="">
+                            </div>
+                            <div for="OldPassword" class="icon2">
+                              <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText pKeyFilter="alphanum" autocomplete="off"> -->
+                              <input type="password" class="form-control input-lg" id="OldPassword" formControlName="pswd" [(ngModel)]="OldPassword"
                                 placeholder="Old Password" required="">
+                            </div>
+                            <div for="password" class="icon2">
+                              <!-- <input class="form-control input-lg" type="password" placeholder="New Password" minlength="6" name="password" autocomplete="off"> -->
+                              <input type="password" class="form-control input-lg" id="NewPassword" formControlName="Newpswd"
+                                [(ngModel)]="NewPassword" placeholder="New Password" required="">
+                            </div>
+                            <div class="header-left-bottom">
+                              <button class="btn" style="width: 20%; margin: 10px;" value="Change My Password"
+                                type="submit" (click)="onNew()">Submit</button>
+                            </div>
                           </div>
-                          <div for="password" class="icon2">
-                            <!-- <input class="form-control input-lg" type="password" placeholder="New Password" minlength="6" name="password" autocomplete="off"> -->
-                            <input type="password" id="NewPassword" formControlName="Newpswd" [(ngModel)]="NewPassword"
-                            placeholder="New Password" required="">
-                          </div>
-                        
-                          <button class="btn" style="width: 20%" value="Change My Password"
-                            type="submit" (click)="onNew()" >Submit</button>
-                        </div>
                         </form>
-                      </div>
 
                       </fieldset>
                     </div>

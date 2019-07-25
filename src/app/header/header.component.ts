@@ -70,9 +70,11 @@ export class HeaderComponent implements OnInit {
           this.setUsername(this.userName);
           this.setOldPassword(this.OldPassword);
           this.setNewPassword(this.NewPassword);
+          if(this.NewPassword){
           this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password Changed Successfully!'});
+          }
         } else {
-          this.onClear();
+          // this.onClear();
           this.messageService.add({severity: 'error', summary: 'Error!', detail: 'Validation Failed'})
         }
       }
