@@ -88,17 +88,18 @@
                             <div for="Username" class="icon2">
                               <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
                               <input type="text" class="form-control input-lg" formControlName="user" id="userName"
-                                [(ngModel)]="userName" placeholder="Username" required="">
+                                [(ngModel)]="userName" placeholder="Username" filter="true" required>
                             </div>
                             <div for="OldPassword" class="icon2">
                               <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText pKeyFilter="alphanum" autocomplete="off"> -->
-                              <input type="password" class="form-control input-lg" id="OldPassword" formControlName="pswd" [(ngModel)]="OldPassword"
-                                placeholder="Old Password" required="">
+                              <input type="password" class="form-control input-lg" id="OldPassword"
+                                formControlName="pswd" [(ngModel)]="OldPassword" placeholder="Old Password">
                             </div>
                             <div for="password" class="icon2">
                               <!-- <input class="form-control input-lg" type="password" placeholder="New Password" minlength="6" name="password" autocomplete="off"> -->
-                              <input type="password" class="form-control input-lg" id="NewPassword" formControlName="Newpswd"
-                                [(ngModel)]="NewPassword" placeholder="New Password" required="">
+                              <input type="password" class="form-control input-lg" id="NewPassword"
+                                formControlName="Newpswd" [(ngModel)]="NewPassword" placeholder="New Password"
+                                minlength="4" required>
                             </div>
                             <div class="header-left-bottom">
                               <button class="btn" style="width: 20%; margin: 10px;" value="Change My Password"
@@ -106,7 +107,6 @@
                             </div>
                           </div>
                         </form>
-
                       </fieldset>
                     </div>
                   </div>

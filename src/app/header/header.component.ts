@@ -70,12 +70,6 @@ export class HeaderComponent implements OnInit {
           this.setUsername(this.userName);
           this.setOldPassword(this.OldPassword);
           this.setNewPassword(this.NewPassword);
-          if(this.NewPassword){
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password Changed Successfully!'});
-          }
-        } else {
-          // this.onClear();
-          this.messageService.add({severity: 'error', summary: 'Error!', detail: 'Validation Failed'})
         }
       }
     })
@@ -89,8 +83,9 @@ onNew() {
     'NewPassword': this.NewPassword
   };
   this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
-    if(res) {
-      this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password Changed Successfully!'});
+    if (res) {
+      this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
+      // this.router.navigate(['Home']);
     } else {
       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
     }
