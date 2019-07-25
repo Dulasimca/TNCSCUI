@@ -6,6 +6,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -13,11 +14,16 @@ import { HttpParams } from '@angular/common/http';
   styleUrls: ['./truck-receipt.component.css']
 })
 export class TruckReceiptComponent implements OnInit {
+  data: any;
+  regions: any;
+  godowns: any;
   itemCols: any;
   itemData: any = [];
   enteredItemDetails: any = [];
   index: number = 0;
-  selectedValues: boolean;
+  selectedValues: string[];
+  isRailSelected: boolean = false;
+  disableRailHead: boolean = true;
   transactionOptions: SelectItem[];
   toRailHeadOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
@@ -28,22 +34,25 @@ export class TruckReceiptComponent implements OnInit {
   itemDescOptions: SelectItem[];
   packingTypeOptions: SelectItem[];
   wmtOptions: SelectItem[];
-  moistureOptions: SelectItem[];
   freightOptions: SelectItem[];
   vehicleOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
   stackYear: any;
+  receivorNameList: any = [];
   scheme_data: any;
   godownName: string;
   regionName: string;
   canShowMenu: boolean;
+  RowId: any;
+  MTransport: any;
   TKgs: number;
-  TruckNo: any;
+  STNo: any;
+  STDate: Date;
   Trcode: any;
   OrderNo: any;
   OrderDate: Date;
-  ROrderNo: any;
+  RNo: any;
   RDate: Date;
   LorryNo: any;
   RHCode: any;
@@ -88,8 +97,8 @@ export class TruckReceiptComponent implements OnInit {
   RailFreightAmt: any;
   Remarks: string;
 
-  constructor(private roleBasedService: RoleBasedService, private authService: AuthService, 
-    private restAPIService: RestAPIService, private tableConstants: TableConstants) { 
+  constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
+    private restAPIService: RestAPIService, private tableConstants: TableConstants, private datepipe: DatePipe) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -97,28 +106,29 @@ export class TruckReceiptComponent implements OnInit {
   ngOnInit() {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCols = this.tableConstants.TruckMemoItemDetails;
+    this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.godowns = this.roleBasedService.getGodowns();
+    setTimeout(() => {
+      this.regionName = this.data[0].RName;
+      this.godownName = this.data[0].GName;
+      this.GCode = this.data[0].GCode;
+      this.RCode = this.data[0].RCode;
+    }, 1200);
   }
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
     let schemeSelection = [];
     let receivorTypeList = [];
-    let receivorNameList = [];
     let packingTypes = [];
-    switch(selectedItem) {
-        case 'tr':
-        if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
-                this.transactionOptions = transactoinSelection;
-              });
-              // this.isReceivorTypeDisabled = false;
-              this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          })
-        }
+    switch (selectedItem) {
+      case 'tr':
+        transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': 'I' },
+          { 'label': 'Internal Transfer', 'value': 'TR021', 'transType': 'I' });
+        this.transactionOptions = transactoinSelection;
+        this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.isRailSelected = (this.Trcode.value === 'TR021') ? true : false;
         break;
       case 'sc':
         if (this.scheme_data !== undefined) {
@@ -129,44 +139,72 @@ export class TruckReceiptComponent implements OnInit {
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
-        case 'rt':
+      case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.GCode);
-            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-              res.forEach(dt => {
-                receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
-              });
-              this.receivorTypeOptions = receivorTypeList;
-              // this.isReceivorNameDisabled = false;
-              this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+            res.forEach(rt => {
+              if (this.Trcode.label === 'Transfer') {
+                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+              } else {
+                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+              }
             });
+            this.receivorTypeOptions = receivorTypeList;
+            // this.isReceivorNameDisabled = false;
+            this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
         }
         break;
       case 'rn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType);
-            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-              res.forEach(dn => {
-                receivorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+          if (this.RTCode.value === 'TY008') {
+            if (this.godowns !== undefined) {
+              this.godowns.forEach(g => {
+                this.receivorNameList.push({ 'label': g.GName, 'value': g.GCode, 'rcode': g.RCode });
               })
-              this.receivorNameOptions = receivorNameList;
-              this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              if (this.RRCode !== undefined) {
+             this.receivorNameList = this.receivorNameList.filter(x => {
+                return x.rcode === this.RRCode.value
+              });
+            }
+              this.receivorNameOptions = this.receivorNameList;
+            }
+          } else {
+            const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              res.forEach(rn => {
+                this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
+              })
+              this.receivorNameOptions = this.receivorNameList;
             });
+          }
+          // this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
-        case 'i_desc':
-          let itemDesc = [];
-          if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
-            const params = new HttpParams().set('SCode', this.Scheme.value);
-              this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-                res.forEach(i => {
-                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                })
-                this.itemDescOptions = itemDesc;
+      case 'rr':
+        let regionsData = [];
+        if (this.regions !== undefined && this.receivorRegionOptions === undefined) {
+          this.regions.forEach(r => {
+            regionsData.push({ 'label': r.RName, 'value': r.RCode });
+          })
+          this.receivorRegionOptions = regionsData;
+          this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
+        }
+        break;
+      case 'i_desc':
+        let itemDesc = [];
+        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+          const params = new HttpParams().set('SCode', this.Scheme.value);
+          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+            res.forEach(i => {
+              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+            })
+            this.itemDescOptions = itemDesc;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-          }
+        }
         break;
       case 'st_no':
         let stackNo = [];
@@ -220,14 +258,52 @@ export class TruckReceiptComponent implements OnInit {
           });
         }
         break;
+    }
+  }
+
+  onSelectTransportMode() {
+    if (this.selectedValues.length !== 0) {
+      if (this.selectedValues.length === 1) {
+        this.disableRailHead = (this.selectedValues[0] === 'Rail') ? false : true;
+      } else if (this.selectedValues.length === 2) {
+        this.disableRailHead = false;
       }
     }
+  }
 
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
-  
+
   openPrev() {
     this.index = (this.index === 0) ? 2 : this.index - 1;
+  }
+
+  onSave() {
+    if (this.selectedValues.length !== 0) {
+      if (this.selectedValues.length === 2) {
+        this.MTransport = 'UPCountry';
+      } else if (this.selectedValues.length === 1) {
+        this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
+      }
+    }
+    const params = {
+      'STNo': (this.STNo !== undefined) ? this.STNo : 0,
+      'RowId': (this.RowId !== undefined) ? this.RowId : 0,
+      'STDate': this.datepipe.transform(this.STDate, 'MM/dd/yyyy'),
+      'TrCode': this.Trcode.value,
+      'MNo': this.OrderNo,
+      'MDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
+      'RNo': this.RNo,
+      'RDate': this.datepipe.transform(this.RDate, 'MM/dd/yyyy'),
+      'LorryNo': this.LorryNo,
+      'ReceivingCode': this.RNCode.value,
+      'IssuingCode': this.GCode,
+      'RCode': this.RCode,
+      'GunnyUtilised': this.Gunnyutilised,
+      'GunnyReleased': this.GunnyReleased,
+
+
+    };
   }
 }

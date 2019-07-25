@@ -150,9 +150,10 @@ exportAsPDF() {
   var col = this.stockDataColumns;
   var rows = [];
   this.stockData.forEach(element => {
-     var temp = [element.SlNo,element.OpeningBalance,element.CSBalance,
-    element.ClosingBalance,element.ITDescription,element.PhycialBalance,
-  element.Shortage,element.TotalIssue,element.TotalReceipt,element.Receipt];
+     var temp = [element.SlNo, element.ITDescription, element.OpeningBalance, element.Receipt,
+      element.TotalReceipt,  element.TotalIssue,  element.ClosingBalance, element.CSBalance,
+      element.Shortage, element.PhycialBalance
+     ];
         rows.push(temp);
   });
     doc.autoTable(col,rows);
