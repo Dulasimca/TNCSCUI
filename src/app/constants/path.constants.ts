@@ -57,4 +57,5 @@ export class PathConstants {
   public static readonly STACK_OPENING_ENTRY_REPORT_GET = '/api/StackOpeningEntry/Get';
   public static readonly STOCK_STATEMENT_REPORT = '/api/StockStatement/Post';
   public static readonly CHANGE_PASSWORD_POST = '/api/Users/Post';
+  public static readonly STACK_OPENING_ENTRY_REPORT_PUT = '/api/StackOpeningEntry/Put';
 }
