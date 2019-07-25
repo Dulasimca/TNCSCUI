@@ -335,7 +335,7 @@ onSave() {
     'RCode': this.RCode,
     'IssueRegularAdvance': this.RegularAdvance,
     'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
-    'Receivorcode':  (this.RNCode.value !== undefined) ? this.RNCode.value : 0,
+    'Receivorcode':  (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
     'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
     'TransporterName': this.TransporterName,
     'TransportingCharge': this.TransporterCharges,
