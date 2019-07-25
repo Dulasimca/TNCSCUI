@@ -84,7 +84,6 @@ import { ReceiptRONOPurchaseComponent } from './reports/purchase-AC/receipt-rono
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { StackCardOpeningEntryComponent } from './reports/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
@@ -115,11 +114,12 @@ import { ItemMasterModificationComponent } from './Documents/Master/item-master-
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
 import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
-import { StackCardClosingComponent } from './reports/StackCard/stack-card-closing/stack-card-closing.component';
-import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-entry/stack-receipt-entry.component';
-import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
+import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
+import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
+import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
+import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 
 
 @NgModule({
