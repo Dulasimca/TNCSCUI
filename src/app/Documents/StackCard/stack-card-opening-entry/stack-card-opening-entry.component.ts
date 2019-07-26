@@ -22,9 +22,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   data: any;
   Opening_Balance: any = []
   godownName: any;
-  Location: any;
-  Formation: number;
-  StackNo: any;
+  Location: string;
+  Formation: any;
+  StackNo: string;
   Date: Date = new Date();
   g_cd: any;
   c_cd: any;
@@ -41,6 +41,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   isActionDisabled: any;
   isViewDisabled: any;
   allowInput: boolean = true;
+  isSlash:boolean=false;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private datepipe: DatePipe, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -66,6 +67,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   calculateStackNo() {
     if (this.Location !== undefined && this.Formation !== undefined) {
       this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation.valueOf();
+      this.StackNo =this.StackNo.replace("//","/");
     }
   }
 
@@ -83,18 +85,34 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   keyPress(event) {
-    if(event.target.value.length === 1 && event.keyCode === 191) {
-      this.Location = '';
+    let nValue:string;
+    let newValue:string;
+     nValue=this.Location;
+     if((event.keyCode>=32 && event.keyCode <=46)|| (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
+    {
       return false;
-    } else if ((event.target.value.length  > 1) && event.keyCode !== 8) {
-      // this.Location += '/';
-      let index = event.target.value.indexOf('/');
-      if(index >= 1) {
-        return false;
-      } else { return true; }
-    } else {
-      return event.which > 90;  
     }
+     else if(event.target.value.length == 0 && event.keyCode == 47) {
+      return false;
+    } 
+    else if ((event.target.value.length  >= 1) && event.keyCode == 47) 
+    {
+      let index =this.Location.indexOf('/');
+      if(index<0)
+      {
+        this.isSlash=false;
+      }
+     if(event.keyCode == 47 && !this.isSlash)
+     {
+      this.isSlash=true;
+      return true;
+     }
+     else { return false; }
+    } 
+    else{
+      return true;
+    }
+    
   }
 
   onSelect(selectedItem) {
@@ -230,3 +248,20 @@ export class StackCardOpeningEntryComponent implements OnInit {
 }
 
 }
+
+function allnumeric(inputtxt)
+   {
+      var numbers = /^[0-9]+$/;
+      if(inputtxt.target.value.match(numbers))
+      {
+      alert('Your Registration number has accepted....');
+      //document.form1.text1.focus();
+      return true;
+      }
+      else
+      {
+      alert('Please input numeric characters only');
+      //document.form1.text1.focus();
+      return false;
+      }
+   } 

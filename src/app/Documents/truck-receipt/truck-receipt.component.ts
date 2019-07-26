@@ -21,6 +21,7 @@ export class TruckReceiptComponent implements OnInit {
   itemData: any = [];
   enteredItemDetails: any = [];
   index: number = 0;
+  maxDate: Date = new Date();
   selectedValues: string[];
   isRailSelected: boolean = false;
   disableRailHead: boolean = true;
@@ -36,8 +37,6 @@ export class TruckReceiptComponent implements OnInit {
   wmtOptions: SelectItem[];
   freightOptions: SelectItem[];
   vehicleOptions: SelectItem[];
-  fromStationOptions: SelectItem[];
-  toStationOptions: SelectItem[];
   stackYear: any;
   receivorNameList: any = [];
   scheme_data: any;
@@ -73,7 +72,7 @@ export class TruckReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: string;
-  Moisture: number;
+  Moisture: string;
   StackBalance: number;
   CurrentDocQtv: any;
   NetStackBalance: any;
@@ -119,6 +118,7 @@ export class TruckReceiptComponent implements OnInit {
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
+    let railHeads = [];
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
@@ -157,6 +157,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
+        this.receivorNameList = [];
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
           if (this.RTCode.value === 'TY008') {
@@ -177,7 +178,7 @@ export class TruckReceiptComponent implements OnInit {
               res.forEach(rn => {
                 this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
               })
-              this.receivorNameOptions = this.receivorNameList;
+            this.receivorNameOptions = this.receivorNameList;
             });
           }
           // this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -193,6 +194,15 @@ export class TruckReceiptComponent implements OnInit {
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
         }
         break;
+        case 'rh':
+            const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              res.forEach(rh => {
+                railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
+              })
+            this.toRailHeadOptions = railHeads;
+            });
+          break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
@@ -209,7 +219,7 @@ export class TruckReceiptComponent implements OnInit {
       case 'st_no':
         let stackNo = [];
         if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-          const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
+          const params = new HttpParams().set('GCode', this.GCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
@@ -258,6 +268,14 @@ export class TruckReceiptComponent implements OnInit {
           });
         }
         break;
+        case 'fc':
+          this.freightOptions = [{ 'label': 'PAID', 'value': 'PAID' },
+        { 'label': 'PAY', 'value': 'PAY' }];
+          break;
+        case 'vc':
+            this.vehicleOptions = [{ label: 'CASUAL', value: 'CASUAL'}, { label: 'CONTRACT', value: 'CONTRACT' },
+          { label: 'GOVT', value: 'GOVT'}];
+          break;
     }
   }
 
@@ -268,6 +286,25 @@ export class TruckReceiptComponent implements OnInit {
       } else if (this.selectedValues.length === 2) {
         this.disableRailHead = false;
       }
+    }
+  }
+
+  numberValidation(event) {
+      if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64) 
+      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)) {
+        return false;
+      } else {
+        return true;
+      }
+  }
+
+  onCalculateKgs() {
+    if (this.NoPacking !== undefined && this.NoPacking !== null
+       && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+        this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+        this.TKgs = this.GKgs - this.NKgs;
+    } else {
+      this.GKgs = this.NKgs = this.TKgs = 0;
     }
   }
 
