@@ -21,6 +21,7 @@ export class TruckReceiptComponent implements OnInit {
   itemData: any = [];
   enteredItemDetails: any = [];
   index: number = 0;
+  maxDate: Date = new Date();
   selectedValues: string[];
   isRailSelected: boolean = false;
   disableRailHead: boolean = true;
@@ -73,7 +74,7 @@ export class TruckReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: string;
-  Moisture: number;
+  Moisture: string;
   StackBalance: number;
   CurrentDocQtv: any;
   NetStackBalance: any;
@@ -220,7 +221,7 @@ export class TruckReceiptComponent implements OnInit {
       case 'st_no':
         let stackNo = [];
         if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-          const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
+          const params = new HttpParams().set('GCode', this.GCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
@@ -279,6 +280,25 @@ export class TruckReceiptComponent implements OnInit {
       } else if (this.selectedValues.length === 2) {
         this.disableRailHead = false;
       }
+    }
+  }
+
+  numberValidation(event) {
+      if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64) 
+      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)) {
+        return false;
+      } else {
+        return true;
+      }
+  }
+
+  onCalculateKgs() {
+    if (this.NoPacking !== undefined && this.NoPacking !== null
+       && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+        this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+        this.TKgs = this.GKgs - this.NKgs;
+    } else {
+      this.GKgs = this.NKgs = this.TKgs = 0;
     }
   }
 

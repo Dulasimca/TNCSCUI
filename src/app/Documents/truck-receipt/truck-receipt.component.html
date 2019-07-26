@@ -217,7 +217,7 @@
                         <div class="ui-g-6 ui-md-2">
                             <label for="NoPacking" class="label-fontsize">No.of Packing</label>
                             <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking" pInputText autocomplete="off"
-                              required>
+                             (input)="onCalculateKgs()" required>
                         </div>
                         <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
                       <p-header>
@@ -260,7 +260,7 @@
                       </div>
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
-                    <div class="ui-g-6 ui-md-2 ui-fluid">
+                    <div class="ui-g-6 ui-md-3 ui-fluid">
                       <span class="ui-float-label ui-fluid">
                         <p-dropdown #wmt name="WmtType" id="float-input" [options]="wmtOptions" [(ngModel)]="WTCode"
                           (onClick)="onSelect('wmt')" filter="true" optionLabel="label" required>
@@ -273,8 +273,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid">
                       <span class="ui-float-label">
-                        <input id="float-input" type="number" maxLength="5" size="20" [(ngModel)]="Moisture" pInputText
-                          autocomplete="off">
+                        <input id="float-input" type="number" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
+                          (keypress)="numberValidation($event)"  autocomplete="off">
                         <label class="float-input">Moisture</label>
                       </span>
                     </div>
