@@ -16,7 +16,6 @@ export class RoleBasedService {
     roleId: any;
     gCode: any;
     rCode: any;
-    rgData: any;
     regionsData: any = [];
     godownsList: any = [];
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
@@ -47,7 +46,6 @@ export class RoleBasedService {
         this.rCode = this.authService.getUserAccessible().rCode;
         let godownList = [];
             this.instance = [];
-            this.rgData = [];
             this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
                     res.forEach(x => {
                         if (this.roleId === 1) {
@@ -76,7 +74,6 @@ export class RoleBasedService {
                    
             });
             return this.instance;
-     
     }
 
     getSchemeData() {

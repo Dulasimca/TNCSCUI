@@ -55,6 +55,10 @@ export class HomeComponent implements OnInit {
   selectedCBRiceType: string;
   receiptQuantity: any;
   issueQuantity: any;
+  isCBClicked: boolean = true;
+  isReceiptClicked: boolean = false;
+  isIssueClicked: boolean = false;
+
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
     private router: Router) { }
 
@@ -600,7 +604,13 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['schemes']);
         break;
       case 'PB':
-        this.router.navigate(['Daily Stock Statement']);
+        if (this.isCBClicked) {
+        this.router.navigate(['cbStatement']);
+        } else if (this.isReceiptClicked) {
+          // this.router.navigate(['']);
+        } else {
+          // this.router.navigate(['']);
+        }
     }
 
   }
@@ -608,6 +618,8 @@ export class HomeComponent implements OnInit {
   calculateQuantity(id) {
     switch (id) {
       case 'CB':
+        this.isCBClicked = true;
+        this.isReceiptClicked = this.isIssueClicked = false;
         this.rawRicePB = this.rawRiceCB;
         this.boiledRicePB = this.boiledRiceCB;
         this.dhallPB = this.dhallCB;
@@ -616,6 +628,8 @@ export class HomeComponent implements OnInit {
         this.sugarPB = this.sugarCB;
         break;
       case 'R':
+        this.isReceiptClicked = true;
+        this.isCBClicked = this.isIssueClicked = false;
         this.boiledRicePB = this.rawRicePB = this.dhallPB = this.wheatPB = this.pOilPB = this.sugarPB = 0;
         this.receiptQuantity[2].forEach(bc => {
           this.boiledRicePB += (bc * 1);
@@ -646,6 +660,8 @@ export class HomeComponent implements OnInit {
         })
         break;
       case 'I':
+        this.isIssueClicked = true;
+        this.isCBClicked = this.isReceiptClicked = false;
         this.boiledRicePB = this.rawRicePB = this.dhallPB = this.wheatPB = this.pOilPB = this.sugarPB = 0;
         this.issueQuantity[2].forEach(bc => {
           this.boiledRicePB += (bc * 1);

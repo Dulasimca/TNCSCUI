@@ -77,7 +77,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <p-dropdown #rail name="RHCode" id="float-input" [options]="toRailHeadOptions" [disabled]="disableRailHead"
-                          [(ngModel)]="RHCode" (onClick)="onSelect('rail')" filter="true" optionLabel="label" required>
+                          [(ngModel)]="RHCode" (onClick)="onSelect('rh')" filter="true" optionLabel="label" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>

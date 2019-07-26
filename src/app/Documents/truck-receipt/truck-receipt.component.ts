@@ -119,6 +119,7 @@ export class TruckReceiptComponent implements OnInit {
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
+    let railHeads = [];
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
@@ -194,6 +195,15 @@ export class TruckReceiptComponent implements OnInit {
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
         }
         break;
+        case 'rh':
+            const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              res.forEach(rh => {
+                railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
+              })
+            this.toRailHeadOptions = railHeads;
+            });
+          break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {

@@ -9,12 +9,12 @@ import { map, catchError, retry, tap } from 'rxjs/operators';
 })
 
 export class RestAPIService {
-     BASEURL = 'http://localhost:8084';
+     BASEURL = 'http://180.179.49.72:8084';
    //BASEURL = 'http://localhost:55922';
   public HttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Access-Control-Allow-Origin': 'http://localhost:55922',
+      'Access-Control-Allow-Origin': 'http://180.179.49.72:8084',
     })
   };
   querParams = new HttpParams();
