@@ -217,7 +217,7 @@ Loadingslip : any;
       case 'st_no':
         let stackNo = [];
         if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-          const params = new HttpParams().set('GCode', this.RCode).append('ITCode', this.ICode.value);
+          const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
