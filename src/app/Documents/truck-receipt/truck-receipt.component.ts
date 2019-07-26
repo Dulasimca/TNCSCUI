@@ -157,6 +157,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
+        this.receivorNameList = [];
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
           if (this.RTCode.value === 'TY008') {
@@ -177,7 +178,7 @@ export class TruckReceiptComponent implements OnInit {
               res.forEach(rn => {
                 this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
               })
-              this.receivorNameOptions = this.receivorNameList;
+            this.receivorNameOptions = this.receivorNameList;
             });
           }
           // this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
