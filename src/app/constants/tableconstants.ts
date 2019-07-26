@@ -95,6 +95,7 @@ export class TableConstants {
     this.GodownMasterData = [
       { field: 'serialNo', header: 'S.No' },
       { field: 'Name', header: 'Region Name' },
+      { field: 'Code', header: 'Code' },
       { field: 'Capacity', header: 'Capacity' },
       { field: 'Carpet', header: 'Carpet' }
     ]
@@ -120,6 +121,7 @@ export class TableConstants {
     ]
     this.SupplierData = [
       { field: 'SlNo', header: 'S.No' },
+      { field: 'DepositorCode', header: 'Depositor Code' },
       { field: 'DepositorName', header: 'Depositor Name' }
     ]
     this.RegionData = [

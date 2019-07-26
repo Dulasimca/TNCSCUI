@@ -22,7 +22,7 @@ export class TransactionStatusComponent implements OnInit {
   // Docdate: any;
   godownName: SelectItem[];
   disableOkButton: boolean = true;
-  Docdate: any;
+  Docdate: Date;
   userid: any;
   remarks: any;
   Receipt: boolean;
@@ -67,43 +67,29 @@ export class TransactionStatusComponent implements OnInit {
   showSelectedData() {
     this.viewPane = false;
     this.Docdate = this.selectedRow.DocdDate;
-    // this.Docdate = this.Docdate
     this.Receipt = this.selectedRow.Receipt;
     this.Issues = this.selectedRow.Issues;
     this.Transfer = this.selectedRow.Transfer;
     this.CB = this.selectedRow.CB;
     this.remarks = this.selectedRow.remarks;
-    this.userid = this.userid; 
+    this.userid = this.userid;
   }
 
   onView() {
-    this.TransactionStatusData = [];
-    this.loading = true;
-    const params = new HttpParams().set('Docdate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Gcode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
-        // let srno = 0;
-        this.TransactionStatusCols = this.tableConstants.TransactionStatus;
-        res.forEach(x => {
-          // srno += 1;
-          this.TransactionStatusData.push({
-            'Receipt' : x.Receipt,
-            'Issues' : x.Issues,
-            'Transfer' : x.Transfer,
-            'CB' : x.CB,
-            'Docdate' : x.Docdate,
-            'remarks' : x.remarks,
-            'userid' : x.userid
-          })
-        });
-        this.Transaction_Status = this.TransactionStatusData.slice(0);
-        this.loading = false;
-      } else {
-        this.viewPane = false;
-        this.messageService.add({ key: 't-warn', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
-      }
-    })
+    if (this.godownOptions !== undefined) {
+      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy')).append('Gcode', this.g_cd.value);
+      this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
+        this.TransactionStatusData = res;
+        if (this.TransactionStatusData !== undefined) {
+          this.Receipt = this.TransactionStatusData[0].Receipt,
+            this.Issues = this.TransactionStatusData[0].Issues,
+            this.Transfer = this.TransactionStatusData[0].Transfer,
+            this.CB = this.TransactionStatusData[0].CB,
+            this.remarks = this.TransactionStatusData[0].remarks,
+            this.userid = this.TransactionStatusData[0].userid
+        }
+      });
+    }
   }
 
   onClear() {

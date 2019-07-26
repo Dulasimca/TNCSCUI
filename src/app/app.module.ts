@@ -120,6 +120,7 @@ import { StackReceiptEntryComponent } from './reports/StackCard/stack-receipt-en
 import { DuplicateIssueMemoComponent } from './reports/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
+import { DailyDocumentsComponent } from './Documents/daily-documents/daily-documents.component';
 
 
 @NgModule({
@@ -203,7 +204,8 @@ import { TransactionStatusComponent } from './reports/transaction-status/transac
     StackReceiptEntryComponent,
     DuplicateIssueMemoComponent,
     StockstatementreportComponent,
-    TransactionStatusComponent
+    TransactionStatusComponent,
+    DailyDocumentsComponent
     
   ],
   imports: [

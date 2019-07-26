@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit {
  onViewUserinfo(event, panel) {
    panel.toggle(event);
   this.userName = JSON.parse(this.authService.getCredentials()).user;
+  this.OldPassword = JSON.parse(this.authService.getCredentials().Password)
   // if(this.data !== undefined) {
   //  this.data.forEach(x => {
   //   this.godownName = x.GName;
@@ -85,12 +86,13 @@ onNew() {
   this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
     if (res) {
       this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
-      // this.router.navigate(['Home']);
+      this.router.navigate(['login']);
     } else {
       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
     }
   })
   this.onClear();
+  this.router.navigate(['login']);
 }
 
 onClear(){
