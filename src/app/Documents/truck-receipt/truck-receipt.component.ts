@@ -27,6 +27,8 @@ export class TruckReceiptComponent implements OnInit {
   disableRailHead: boolean = true;
   transactionOptions: SelectItem[];
   toRailHeadOptions: SelectItem[];
+  toStationOptions: SelectItem[];
+  fromStationOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
   receivorNameOptions: SelectItem[];
   receivorRegionOptions: SelectItem[];
@@ -118,7 +120,8 @@ export class TruckReceiptComponent implements OnInit {
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
-    let railHeads = [];
+    let railHeads = []; let fromStation = [];
+    let toStation = [];
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
@@ -181,7 +184,7 @@ export class TruckReceiptComponent implements OnInit {
             this.receivorNameOptions = this.receivorNameList;
             });
           }
-          // this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+           this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rr':
@@ -195,14 +198,41 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
         case 'rh':
+          if(this.toRailHeadOptions === undefined) {
             const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               res.forEach(rh => {
                 railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
               })
             this.toRailHeadOptions = railHeads;
-            });
+            this.toRailHeadOptions.unshift({ label: '-select-', value: null });
+          });
+          }
           break;
+          case 'fs':
+              if(this.fromStationOptions === undefined) {
+                const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+                this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+                  res.forEach(fs => {
+                    fromStation.push({ 'label': fs.RYName, 'value': fs.RYCode });
+                  })
+                this.fromStationOptions = fromStation;
+                this.fromStationOptions.unshift({ label: '-select-', value: null });
+                });
+              }
+            break;
+            case'ts':
+            if(this.toStationOptions === undefined) {
+              const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+              this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+                res.forEach(ts => {
+                  toStation.push({ 'label': ts.RYName, 'value': ts.RYCode });
+                })
+              this.toStationOptions = toStation;
+              this.toStationOptions.unshift({ label: '-select-', value: null });
+            });
+            }
+            break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
@@ -269,12 +299,11 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
         case 'fc':
-          this.freightOptions = [{ 'label': 'PAID', 'value': 'PAID' },
-        { 'label': 'PAY', 'value': 'PAY' }];
+          this.freightOptions = [ {label: '-select-', value: null}, {label: 'PAID', value: 'PAID' }, {label: 'PAY', value: 'PAY' }];
           break;
         case 'vc':
-            this.vehicleOptions = [{ label: 'CASUAL', value: 'CASUAL'}, { label: 'CONTRACT', value: 'CONTRACT' },
-          { label: 'GOVT', value: 'GOVT'}];
+            this.vehicleOptions = [{ label: '-select-', value: null}, { label: 'CASUAL', value: 'CASUAL'},
+             { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT'}];
           break;
     }
   }
