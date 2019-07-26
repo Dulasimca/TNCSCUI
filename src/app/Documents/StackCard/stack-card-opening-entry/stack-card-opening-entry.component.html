@@ -43,8 +43,9 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard">Location</label>
-            <input type="text" name="Location" (input)="calculateStackNo()" [readonly]="nonEditable"
-             [(ngModel)]="Location" size="20" pInputText pattern="[a-z]{1,15}"
+            <input type="text" minlength="1" maxlength="7"
+              name="Location" (input)="calculateStackNo()" [readonly]="nonEditable"
+             [(ngModel)]="Location" size="20" pInputText (keypress)="keyPress($event)"
               style="text-transform: uppercase !important" autocomplete="off" required>
             <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23</div>
           </div>
