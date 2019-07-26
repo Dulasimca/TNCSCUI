@@ -19,23 +19,21 @@
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="DoNo">Delivery Order No</label>
                       <input name="DoNo" type="text" size="20" pInputText [(ngModel)]="DeliveryOrderNo"
-                        autocomplete="off">
+                       [readonly]="true" autocomplete="off">
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="DoDate">Delivery Order Date</label>
                       <p-calendar class="label-fontsize-large" name="DoDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="DeliveryDate"
                         [showIcon]="true"></p-calendar>
                     </div>
-                    <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <p-dropdown #tr name="Trcode" id="float-input" [options]="transactionOptions"
+                    <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
+                      <label for="Trcode" class="label-fontsize" style="padding-top: 10px;">Transaction Code</label>
+                      <p-dropdown #tr name="Trcode" [options]="transactionOptions"
                           [(ngModel)]="Trcode" (onClick)="onSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
                         </p-dropdown>
-                        <label for="Trcode" class="float-input" style="padding-top: 10px;">Transaction Code</label>
-                      </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
@@ -55,24 +53,20 @@
                     </div>
                   </div>
                   <div class="ui-g-12">
-                          <div class="ui-g-6 ui-md-2">
-                            <span class="ui-float-label">
-                              <p-dropdown #m name="month" id="float-input" [options]="monthOptions" [(ngModel)]="PMonth"
+                          <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                            <label for="month" class="label-fontsize">Month</label>
+                            <p-dropdown #m name="month" id="float-input" [options]="monthOptions" [(ngModel)]="PMonth"
                                 (onClick)="onSelect('m')" filter="true" optionLabel="label">
                                 <ng-template let-item pTemplate="selectedItem">
                                   <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
                               </p-dropdown>
-                              <label for="month" class="float-input">Month</label>
-                            </span>
                           </div>
-                          <div class="ui-g-6 ui-md-2">
-                            <span class="ui-float-label">
-                              <p-dropdown #y name="year" id="float-input" [options]="yearOptions" [(ngModel)]="PYear"
+                          <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                            <label for="year" class="label-fontsize">Year</label>
+                            <p-dropdown #y name="year" id="float-input" [options]="yearOptions" [(ngModel)]="PYear"
                                 (onClick)="onSelect('y')" optionLabel="label">
                               </p-dropdown>
-                              <label for="year" class="float-input">Year</label>
-                            </span>
                           </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
@@ -86,27 +80,23 @@
                         <label for="GName" class="float-input">Issuing Godown Name</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
-                      <span class="ui-float-label">
-                        <p-dropdown #rt name="Rtcode" id="float-input" [options]="receivorTypeOptions"
+                    <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                      <label for="Rtcode" class="label-fontsize">Receivor Type</label>
+                      <p-dropdown #rt name="Rtcode" [options]="receivorTypeOptions"
                           [(ngModel)]="RTCode" (onClick)="onSelect('rt')" filter="true" optionLabel="label" [showClear]="true" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
                         </p-dropdown>
-                        <label for="Rtcode" class="float-input">Receivor Type</label>
-                      </span>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
-                      <span class="ui-float-label">
-                        <p-dropdown #pn name="Pname" id="float-input" [options]="partyNameOptions" [(ngModel)]="PName"
+                    <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                      <label for="Pname" class="label-fontsize">Party Name</label>
+                      <p-dropdown #pn name="Pname" [options]="partyNameOptions" [(ngModel)]="PName"
                           (onClick)="onSelect('pn')" filter="true" optionLabel="label" [showClear]="true" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
                         </p-dropdown>
-                        <label for="Pname" class="float-input">Party Name</label>
-                      </span>
                     </div>
                   </div>
                   <div class="ui-g-12">
@@ -263,7 +253,7 @@
                       <input name="marginWt" pInputText [(ngModel)]="MarginNKgs" (input)="calculateTotal()"
                       autocomplete="off" appDecimalDigit/>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: -5px">
+                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="marginRate">Rate In Term Of</label>
                       <p-dropdown #margin_rate name="marginRate" [options]="marginRateInTermsOptions"
                         [(ngModel)]="MarginRateInTerms" (onClick)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true" required>
@@ -526,17 +516,15 @@
                 </div>
               </p-tabPanel>
             </p-tabView>
-            <div class="ui-g-12">
-              <div class="ui-g-10"></div>
-              <div class="ui-g-2" style="float: right;">
-                <div style="padding: 0px 10px 0px 0px; ">
-                  <button class="ui-g-6 dashboard" style="margin-right: 2px" pButton type="button" label="Print"
-                    (click)="onPrint()"></button>
-                </div>
-                <div style="padding: 0px">
-                  <button class="ui-g-6 dashboard" pButton type="button" [disabled]="!f.valid" label="Save" (click)="onSave()"></button>
-                </div>
-              </div>
+            <div class="ui-g-3 ui-md-9"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid">
+              <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
+            </div>
+            <div class="ui-g-3 ui-md-1 ui-fluid">
+              <button style="margin-top:5px" pButton type="button" label=Save (click)="onSave()"></button>
+            </div>
+            <div class="ui-g-3 ui-md-1 ui-fluid">
+              <button style="margin-top:5px" pButton type="button" label=Print (click)="onPrint()"></button>
             </div>
           </form>
         </div>

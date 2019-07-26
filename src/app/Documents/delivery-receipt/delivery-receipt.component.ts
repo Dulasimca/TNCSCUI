@@ -40,7 +40,7 @@ export class DeliveryReceiptComponent implements OnInit {
   rateInTermsOptions: SelectItem[];
   marginSchemeOptions: SelectItem[];
   marginRateInTermsOptions: SelectItem[];
-  paymentOptions: Selection[];
+  paymentOptions: SelectItem[];
   selectedItem: boolean;
   RegionName: any;
   GodownName: any;
@@ -160,7 +160,6 @@ export class DeliveryReceiptComponent implements OnInit {
             this.marginSchemeOptions = schemeSelection;
           });
           this.marginSchemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          // this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rt':
@@ -200,7 +199,6 @@ export class DeliveryReceiptComponent implements OnInit {
             this.itemDescOptions = itemDesc;
             this.marginItemDescOptions = itemDesc;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            // this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -214,10 +212,17 @@ export class DeliveryReceiptComponent implements OnInit {
             this.rateInTermsOptions = weighment;
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             this.marginRateInTermsOptions = weighment;
-            // this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
+        case 'pay':
+          if (this.paymentOptions === undefined) {
+            this.paymentOptions = [{ 'label': '-select-', 'value': null},
+              { label: 'Adjustment', value: 'A'},{ label: 'Cash', value: 'C'},
+            { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
+            { label: 'PayOrder', value: 'PO'}];
+          }
+          break;
     }
   }
 
