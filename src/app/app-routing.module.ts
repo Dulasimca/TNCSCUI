@@ -75,6 +75,7 @@ import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card
 import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
 import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
+import { DailyDocumentsComponent } from './Documents/daily-documents/daily-documents.component';
 
 
 const routes: Routes = [
@@ -152,6 +153,7 @@ const routes: Routes = [
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
   { path :'Transaction Status', component: TransactionStatusComponent },
+  { path: 'Daily Documents', component: DailyDocumentsComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

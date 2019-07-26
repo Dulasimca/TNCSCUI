@@ -116,6 +116,7 @@ import { UserMasterComponent } from './Documents/Master/user-master/user-master.
 import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
+import { DailyDocumentsComponent } from './Documents/daily-documents/daily-documents.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
 import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
@@ -203,7 +204,8 @@ import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-iss
     StackReceiptEntryComponent,
     DuplicateIssueMemoComponent,
     StockstatementreportComponent,
-    TransactionStatusComponent
+    TransactionStatusComponent,
+    DailyDocumentsComponent
     
   ],
   imports: [
