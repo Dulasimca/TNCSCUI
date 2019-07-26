@@ -37,8 +37,6 @@ export class TruckReceiptComponent implements OnInit {
   wmtOptions: SelectItem[];
   freightOptions: SelectItem[];
   vehicleOptions: SelectItem[];
-  fromStationOptions: SelectItem[];
-  toStationOptions: SelectItem[];
   stackYear: any;
   receivorNameList: any = [];
   scheme_data: any;
@@ -270,6 +268,14 @@ export class TruckReceiptComponent implements OnInit {
           });
         }
         break;
+        case 'fc':
+          this.freightOptions = [{ 'label': 'PAID', 'value': 'PAID' },
+        { 'label': 'PAY', 'value': 'PAY' }];
+          break;
+        case 'vc':
+            this.vehicleOptions = [{ label: 'CASUAL', value: 'CASUAL'}, { label: 'CONTRACT', value: 'CONTRACT' },
+          { label: 'GOVT', value: 'GOVT'}];
+          break;
     }
   }
 
