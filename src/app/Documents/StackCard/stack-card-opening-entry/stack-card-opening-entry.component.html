@@ -43,10 +43,9 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard">Location</label>
-            <input type="text" minlength="2" maxlength="7"
-            oninput="this.value = this.value.replace(/[^a-zA-Z0-9][/]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-             name="Location" (input)="calculateStackNo()" [readonly]="nonEditable"
-             [(ngModel)]="Location" size="20" pInputText (keyup)="keyPress($event)"
+            <input type="text" minlength="1" maxlength="7"
+              name="Location" (input)="calculateStackNo()" [readonly]="nonEditable"
+             [(ngModel)]="Location" size="20" pInputText (keypress)="keyPress($event)"
               style="text-transform: uppercase !important" autocomplete="off" required>
             <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23</div>
           </div>
