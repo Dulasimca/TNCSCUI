@@ -27,7 +27,7 @@ scheme_data: any;
 stackYear: any;
 issueMemoDocData: any = [];
 issueMemoDocCols: any;
-viewDate: Date;
+viewDate: Date = new Date();
 packingTypes: any = [];
 monthOptions: SelectItem[];
 yearOptions: SelectItem[];
@@ -39,7 +39,6 @@ itemDescOptions: SelectItem[];
 packingTypeOptions: SelectItem[];
 stackOptions: SelectItem[];
 wmtOptions: SelectItem[];
-disableOkButton: boolean = true;
 viewPane: boolean = false;
 isViewClicked: boolean = false;
 isReceivorNameDisabled: boolean;
@@ -112,6 +111,7 @@ Loadingslip : any;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
+    this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
     this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
@@ -361,6 +361,7 @@ onSave() {
     if (res !== undefined) {
       if (res) {
         this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+        this.onClear();
       } else {
         this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
       }
@@ -373,8 +374,8 @@ onSave() {
   const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
   this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
     res.forEach(data => {
-      data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
-      data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      data.SIDate = this.datepipe.transform(data.SIDate, 'dd-MM-yyyy');
+      data.DDate = this.datepipe.transform(data.DDate, 'dd-MM-yyyy');
     })
     this.issueMemoDocData = res;
   });
@@ -382,7 +383,6 @@ onSave() {
 
 onRowSelect(event) {
   this.SINo = event.data.SINo;
-  this.disableOkButton = false;
 }
 
 getDocBySINo() {
@@ -390,8 +390,10 @@ getDocBySINo() {
   const params = new HttpParams().set('value', this.SINo).append('Type', '2');
   this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
     if (res !== undefined && res.length !== 0) {
+    // this.issuingGodownName = res[0].IssuerName,
+    // this.IssuingCode = res[0].IssuingCode,
     this.SINo = res[0].SINo;
-    this.SIDate = res[0].SIDate;
+    this.SIDate = new Date(res[0].SIDate);
     this.RowId = res[0].RowId;
     this.DeliveryOrderDate = new Date(res[0].DDate);
     this.DeliveryOrderNo = res[0].DNo;
@@ -438,6 +440,14 @@ getDocBySINo() {
     this.ManualDocNo = res[0].Flag1;
     }
   });
+}
+
+onClear() {
+  this.itemData = this.issueData = this.entryList = [];
+  this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode
+   = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
+   this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = this.NewBale =
+   this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = null;
 }
 
 

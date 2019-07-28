@@ -75,6 +75,7 @@ export class TableConstants {
   StockStatementReport: any;
   TransactionStatus: any;
   OpeningBalanceCurYearEntry: any;
+  StockIssueMemoViewBySINOCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -450,6 +451,15 @@ export class TableConstants {
       { field: 'Moisture', header: 'Moisture' },
       { field: 'Scheme', header: 'Scheme' },
       // { field: 'icon', header: 'Action'}
+    ];
+
+    this.StockIssueMemoViewBySINOCols = [
+      {field: 'SINo', header: 'Issue Memo No' },
+    { field: 'SIDate', header: 'Issue Memo Date' },
+    { field: 'DNo', header: 'Delivery Order No' },
+    { field: 'DDate', header: 'Delivery Order' },
+    { field: 'IssuerName', header: 'Issuer Name'},
+    { field: 'ReceivorName', header: 'Receivor Name'},
     ];
 
     this.StockIssueMemoIssueDetailsColumns = [ 

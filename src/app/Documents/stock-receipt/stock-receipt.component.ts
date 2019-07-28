@@ -314,7 +314,13 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
+  deleteRow(index) {
+    this.itemData.splice(index, 1);
+  }
+
   onEnter() {
+    this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
+    = this.GKgs = this.NKgs = this.WTCode = this.tareWt = null;
     this.itemData.push({
       'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
       'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,

@@ -48,7 +48,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 20px;">
                       <label for="rice" class="ui-g-7 label-fontsize-large">Only Rice</label>
-                      <p-checkbox name="rice" class="ui-g-1" name="groupname" value="val1" [(ngModel)]="selectedItem">
+                      <p-checkbox name="rice" class="ui-g-1" name="groupname" value="Rice" [(ngModel)]="selectedItem" binary="true" (click)="onCheckedRice()">
                       </p-checkbox>
                     </div>
                   </div>

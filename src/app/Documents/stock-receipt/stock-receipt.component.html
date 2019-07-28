@@ -312,8 +312,8 @@
                         </th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowIndex)">
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
                           <i *ngIf="rowdata?.icon" class="pi pi-trash" aria-hidden="true"></i>
@@ -525,7 +525,7 @@
   </p-panel>
 </div>
 <p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-12 ui-md-2">
         <label class="ui-g-6 label-fontsize-large">Date</label>
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>

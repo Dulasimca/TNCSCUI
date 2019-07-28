@@ -276,6 +276,13 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
+  onCheckedRice() {
+    if (this.selectedItem) {
+      // this.
+      console.log(this.selectedItem);
+    }
+  }
+
   onPrint() { }
 
   onSave() {
