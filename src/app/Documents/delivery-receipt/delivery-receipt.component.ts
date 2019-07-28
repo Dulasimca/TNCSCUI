@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, ConfirmationService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -90,7 +90,8 @@ export class DeliveryReceiptComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, private datepipe: DatePipe) { }
+    private restAPIService: RestAPIService, private authService: AuthService, 
+    private datepipe: DatePipe,  private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -235,6 +236,71 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onPayment() { }
+
+  deleteRow(id, index) {
+    switch(id) {
+      case 'delivery':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deliveryData.splice(index, 1);
+            }
+        });
+        break;
+      case 'item':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemData.splice(index, 1);
+            }
+        });
+        break;
+        case 'scheme':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemSchemeData.splice(index, 1);
+            }
+        });
+        break;
+        case 'payment':
+            this.confirmationService.confirm({
+              message: 'Are you sure that you want to proceed?',
+                  header: 'Confirmation',
+                  icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                  this.paymentData.splice(index, 1);
+              }
+          });
+          break;
+          case 'prevBal':
+              this.confirmationService.confirm({
+                message: 'Are you sure that you want to proceed?',
+                    header: 'Confirmation',
+                    icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.paymentBalData.splice(index, 1);
+                }
+            });
+            break;
+      case 'view':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              //  this.documentViewData.splice(index, 1);
+            }
+        });
+        break;
+    }
+  }
 
   onEnter(id) {
     switch (id) {

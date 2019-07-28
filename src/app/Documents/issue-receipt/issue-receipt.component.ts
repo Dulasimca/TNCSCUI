@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem, MessageService } from 'primeng/api';
+import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
@@ -21,6 +21,7 @@ itemData: any = [];
 entryList: any = [];
 regionName: string;
 issuingGodownName: string;
+showMsg: any;
 data: any;
 maxDate: Date;
 scheme_data: any;
@@ -102,7 +103,8 @@ UserID :any;
 Loadingslip : any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
-    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) { 
+    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
+    private confirmationService: ConfirmationService) { 
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -269,10 +271,6 @@ Loadingslip : any;
   }
 }
 
-onIssueTextChange(event) {
-
-}
-
 onIssueDetailsEnter() { 
   this.DNo = this.DeliveryOrderNo;
   this.DDate = this.DeliveryOrderDate;
@@ -323,10 +321,32 @@ if (this.itemData.length !== 0) {
 deleteRow(id, index) {
   switch(id) {
   case 'issue':
-    this.issueData.splice(index, 1);
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.issueData.splice(index, 1);
+            this.showMsg = [{severity:'info', summary:'Deleted', detail:'Successfully deleted!'}];
+        },
+        reject: () => {
+            this.showMsg = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        }
+    });
     break;
   case 'item':
-    this.itemData.splice(index, 1);
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.itemData.splice(index, 1);
+            this.showMsg = [{severity:'info', summary:'Deleted', detail:'Successfully deleted!'}];
+        },
+        reject: () => {
+            this.showMsg = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        }
+    });
     break;
   }
 

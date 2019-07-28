@@ -7,7 +7,9 @@
         <div class="ui-g-12 ui-md-4 dashboard">Delivery Order Slip</div>
       </div>
     </p-header>
-    <div class="ibox-body">
+    <p-toast [style]="{marginTop: '80px'}" key="t-err" position="top-center"></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+     <div class="ibox-body">
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -125,8 +127,8 @@
                             </th>
                           </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns">
-                          <tr>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('delivery', rowIndex)">
                             <td *ngFor="let col of columns">
                               {{rowData[col.field]}}
                             </td>
@@ -217,8 +219,8 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rowData let-columns="columns">
-                        <tr>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -298,8 +300,8 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rowData let-columns="columns">
-                        <tr>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('scheme', rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -383,8 +385,8 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rowData let-columns="columns">
-                        <tr>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('payment', rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -500,8 +502,8 @@
                           </th>
                         </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rowData let-columns="columns">
-                        <tr>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('prevBal', rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -14,12 +14,16 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./truck-receipt.component.css']
 })
 export class TruckReceiptComponent implements OnInit {
+  viewPane: boolean = false;
+  viewDate: Date = new Date();
   data: any;
   regions: any;
   godowns: any;
   itemCols: any;
   itemData: any = [];
   enteredItemDetails: any = [];
+  truckMemoViewCol: any;
+  truckMemoViewData: any = [];
   index: number = 0;
   maxDate: Date = new Date();
   selectedValues: string[];
@@ -99,7 +103,8 @@ export class TruckReceiptComponent implements OnInit {
   Remarks: string;
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
-    private restAPIService: RestAPIService, private tableConstants: TableConstants, private datepipe: DatePipe) {
+    private restAPIService: RestAPIService, private tableConstants: TableConstants,
+     private datepipe: DatePipe,  private confirmationService: ConfirmationService) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -327,6 +332,31 @@ export class TruckReceiptComponent implements OnInit {
       }
   }
 
+  deleteRow(id, index) {
+    switch(id) {
+      case 'item':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemData.splice(index, 1);
+            }
+        });
+        break;
+      case 'view':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              //  this.documentViewData.splice(index, 1);
+            }
+        });
+        break;
+    }
+  }
+
   onCalculateKgs() {
     if (this.NoPacking !== undefined && this.NoPacking !== null
        && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
@@ -347,6 +377,18 @@ export class TruckReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.enteredItemDetails = [];
+  }
+
+  onView() {
+    this.viewPane = true;
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+      res.forEach(data => {
+        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      })
+      this.truckMemoViewData = res;
+    });
   }
 
   onSave() {

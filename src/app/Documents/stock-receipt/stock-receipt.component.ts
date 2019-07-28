@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem, MessageService } from 'primeng/api';
+import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams } from '@angular/common/http';
@@ -142,7 +142,7 @@ export class StockReceiptComponent implements OnInit {
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe, private messageService: MessageService) {
+    private datepipe: DatePipe, private messageService: MessageService,  private confirmationService: ConfirmationService) {
   }
 
   ngOnInit() {
@@ -317,10 +317,24 @@ export class StockReceiptComponent implements OnInit {
   deleteRow(id, index) {
     switch(id) {
       case 'item':
-        this.itemData.splice(index, 1);
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemData.splice(index, 1);
+            }
+        });
         break;
       case 'view':
-        this.documentViewData.splice(index, 1);
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.documentViewData.splice(index, 1);
+            }
+        });
         break;
     }
   }
