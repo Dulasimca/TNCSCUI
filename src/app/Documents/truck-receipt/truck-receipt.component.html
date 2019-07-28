@@ -267,7 +267,7 @@
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
                         <input id="float-input" type="number" minlength="1" maxlength="5" size="20"
-                          [(ngModel)]="Moisture" pInputText (keypress)="numberValidation($event)" autocomplete="off">
+                          [(ngModel)]="Moisture" pInputText autocomplete="off">
                         <label class="float-input">Moisture</label>
                       </span>
                     </div>
@@ -403,19 +403,12 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Fcode" class="label-fontsize" style="padding-top: 10px;">Freight Code</label>
                       <p-dropdown #fc name="Fcode" [options]="freightOptions" [(ngModel)]="FCode"
-                        (onClick)="onSelect('fc')" filter="true">
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle">{{item.label}}</span>
-                        </ng-template>
-                      </p-dropdown>
+                        (onClick)="onSelect('fc')"></p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Vcode" class="label-fontsize" style="padding-top: 10px;">Vehicle Code</label>
                       <p-dropdown #vc name="Vcode" [options]="vehicleOptions" [(ngModel)]="VCode"
-                        (onClick)="onSelect('vc')" filter="true">
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle">{{item.label}}</span>
-                        </ng-template>
+                        (onClick)="onSelect('vc')">
                       </p-dropdown>
                     </div>
                   </div>
@@ -423,7 +416,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Fstation" class="label-fontsize" style="padding-top: 10px;">From Station</label>
                       <p-dropdown #fs name="Fstation" [options]="fromStationOptions" [(ngModel)]="FStation"
-                        (onClick)="onSelect('fs')" filter="true">
+                        (onClick)="onSelect('fs')" filter="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -432,7 +425,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Tstation" class="label-fontsize" style="padding-top: 10px;">To Station</label>
                       <p-dropdown #ts name="Tstation" [options]="toStationOptions" [(ngModel)]="TStation"
-                        (onClick)="onSelect('ts')" filter="true">
+                        (onClick)="onSelect('ts')" filter="true"  optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

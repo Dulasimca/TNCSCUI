@@ -78,7 +78,7 @@ export class TruckReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: any;
-  Moisture: string;
+  Moisture: any;
   StackBalance: number;
   CurrentDocQtv: any;
   NetStackBalance: any;
@@ -94,8 +94,8 @@ export class TruckReceiptComponent implements OnInit {
   GunnyReleased: any;
   FCode: string;
   VCode: string;
-  FStation: string;
-  TStation: string;
+  FStation: any;
+  TStation: any;
   RRNo: any;
   LDate: Date;
   WNo: any;
@@ -422,8 +422,8 @@ export class TruckReceiptComponent implements OnInit {
       WHDNo: this.WHDNo,
       WCharges: this.WCharges,
       HCharges: this.HCharges,
-      FStation: this.FStation,
-      TStation: this.TStation,
+      FStation: this.FStation.value,
+      TStation: this.TStation.value,
       Remarks: this.Remarks,
       FCode: this.FCode,
       Vcode: this.VCode,
@@ -431,7 +431,7 @@ export class TruckReceiptComponent implements OnInit {
       LNo: this.LorryNo,
       Wno: this.WNo,
       RRNo: this.RRNo,
-      RailHead: this.RHCode.value,
+      RailHead: (this.RHCode !== undefined) ? this.RHCode.value : 0,
       RFreightAmount: this.RailFreightAmt,
       Rcode: this.RCode
     })
