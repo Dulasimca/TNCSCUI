@@ -15,9 +15,13 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
+  viewDate: Date = new Date();
+  viewPane: boolean = false;
   deliveryCols: any;
   deliveryData: any = [];
   deliveryItemEntryData: any = [];
+  deliveryViewCols: any;
+  deliveryViewData: any = [];
   index: number = 0;
   scheme_data: any[];
   itemCols: any;
@@ -236,6 +240,19 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onPayment() { }
+
+  onView() {
+    this.viewPane = true;
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+      res.forEach(data => {
+        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      })
+      this.deliveryViewData = res;
+    });
+  }
+
 
   deleteRow(id, index) {
     switch(id) {
