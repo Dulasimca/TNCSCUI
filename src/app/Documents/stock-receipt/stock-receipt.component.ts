@@ -113,7 +113,7 @@ export class StockReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: any;
-  Moisture: number;
+  Moisture: string;
   //SR-Freight Details
   TransporterName: string;
   LWBillNo: any;
@@ -337,6 +337,47 @@ export class StockReceiptComponent implements OnInit {
         });
         break;
     }
+  }
+
+  validateMoistureInput(event) {
+    var totalLength = event.target.value.length;
+    var value = (event.target.value * 1);
+    if((event.keyCode>=32 && event.keyCode <=45)|| (event.keyCode === 47) || (event.keyCode >= 58 && event.keyCode <= 64) || 
+    (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
+    {
+      return false;
+    }
+    //  else if(totalLength === 2) {
+    //    if (value > 25) {
+    //     let startValue =  this.Moisture.toString().slice(0, 1);
+    //     let endValue = this.Moisture.toString().slice(1, totalLength);
+    //     this.Moisture = startValue + '.' + endValue;
+    //    }
+    // } else if (totalLength > 2) {
+    //     let startValue: any =  this.Moisture.toString().slice(0, 2);
+    //     let slicedValue = (startValue  * 1);
+    //     startValue = (slicedValue > 25) ? this.Moisture.toString().slice(0, 1) : startValue;
+    //     let endValue = this.Moisture.toString().slice(1, totalLength);
+    //     this.Moisture = startValue + '.' + endValue;
+    // }
+    // else if ((event.target.value.length  >= 2) && event.keyCode == 46) 
+    // {
+    //   let index =this.Moisture.indexOf('.');
+    //   if(index<0)
+    //   {
+    //     this.isSlash=false;
+    //   }
+    //  if(event.keyCode == 46 && !)
+    //  {
+    //   this.isSlash=true;
+    //   return true;
+    //  }
+    //  else { return false; }
+    // } 
+    // else{
+    //   return true;
+    // }
+
   }
 
   onEnter() {

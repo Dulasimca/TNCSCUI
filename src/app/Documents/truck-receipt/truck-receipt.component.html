@@ -24,7 +24,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="TDate">Truck Date</label>
-                      <p-calendar name="TDate" [(ngModel)]="STDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="TDate" [(ngModel)]="STDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label for="Trcd" class="label-fontsize">Transaction Code</label>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="MDate">Movement Order Date</label>
-                      <p-calendar name="MDate" [(ngModel)]="OrderDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="MDate" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="road" class="ui-g-3" name="groupname" value="Road"
@@ -65,12 +65,12 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="RDate">Release Order Date</label>
-                      <p-calendar name="RDate" [(ngModel)]="RDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="RDate" [(ngModel)]="RDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="LNo" id="float-input" [(ngModel)]="LorryNo"
-                          oninput="this.value = this.value.replace(/[^a-zA-Z]{1,2}$/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          oninput="this.value = this.value.replace(/[^a-zA-Z]{2}\/[0-9]{2}\/[a-zA-Z]{2}\/[0-9]{4}$/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" pInputText
                           autocomplete="off" required>
                         <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>

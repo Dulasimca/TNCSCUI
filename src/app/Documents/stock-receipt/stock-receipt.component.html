@@ -271,7 +271,7 @@
                   <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
                     <span class="ui-float-label">
                       <input id="float-input" type="number" maxLength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off">
+                        autocomplete="off" (keyup)="validateMoistureInput($event)">
                       <label class="float-input">Moisture</label>
                     </span>
                   </div>

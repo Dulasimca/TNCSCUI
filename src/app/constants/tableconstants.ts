@@ -792,13 +792,13 @@ export class TableConstants {
     ];
 
     this.TruckMemoItemDetails = [
-      { header: 'Stack No.', field:'StackNo' },
-      { header: 'Item Description', field:'ItemDesc' },
+      { header: 'Stack No.', field:'TStockNo' },
+      { header: 'Item Description', field:'ITDescription' },
       { header: 'Packing Type', field:'PackingType' },
-      { header: 'No. of packing', field:'No Packing' },
+      { header: 'No. of packing', field:'NoPacking' },
       { header: 'Wmt Type', field:'WmtType' },
-      { header: 'Gross Wt', field:'GrossWt' },
-      { header: 'Net Wt', field:'NetWT' },
+      { header: 'Gross Wt', field:'GKgs' },
+      { header: 'Net Wt', field:'Nkgs' },
       { header: 'Moisture', field:'Moisture' },
       { header: 'Scheme', field:'Scheme' }
     ];

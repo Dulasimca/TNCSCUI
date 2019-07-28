@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem, ConfirmationService } from 'primeng/api';
+import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -17,11 +17,11 @@ export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
   viewDate: Date = new Date();
   data: any;
+  username: any;
   regions: any;
   godowns: any;
   itemCols: any;
   itemData: any = [];
-  enteredItemDetails: any = [];
   truckMemoViewCol: any;
   truckMemoViewData: any = [];
   index: number = 0;
@@ -77,7 +77,7 @@ export class TruckReceiptComponent implements OnInit {
   NoPacking: number;
   GKgs: number;
   NKgs: number;
-  WTCode: string;
+  WTCode: any;
   Moisture: string;
   StackBalance: number;
   CurrentDocQtv: any;
@@ -101,10 +101,13 @@ export class TruckReceiptComponent implements OnInit {
   WNo: any;
   RailFreightAmt: any;
   Remarks: string;
+  unLoadingSlip: any;
+  STTDetails: any = [];
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
-     private datepipe: DatePipe,  private confirmationService: ConfirmationService) {
+    private datepipe: DatePipe, private confirmationService: ConfirmationService,
+    private messageService: MessageService) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -115,6 +118,7 @@ export class TruckReceiptComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.godowns = this.roleBasedService.getGodowns();
+    this.username = JSON.parse(this.authService.getCredentials());
     setTimeout(() => {
       this.regionName = this.data[0].RName;
       this.godownName = this.data[0].GName;
@@ -174,10 +178,10 @@ export class TruckReceiptComponent implements OnInit {
                 this.receivorNameList.push({ 'label': g.GName, 'value': g.GCode, 'rcode': g.RCode });
               })
               if (this.RRCode !== undefined) {
-             this.receivorNameList = this.receivorNameList.filter(x => {
-                return x.rcode === this.RRCode.value
-              });
-            }
+                this.receivorNameList = this.receivorNameList.filter(x => {
+                  return x.rcode === this.RRCode.value
+                });
+              }
               this.receivorNameOptions = this.receivorNameList;
             }
           } else {
@@ -186,10 +190,10 @@ export class TruckReceiptComponent implements OnInit {
               res.forEach(rn => {
                 this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
               })
-            this.receivorNameOptions = this.receivorNameList;
+              this.receivorNameOptions = this.receivorNameList;
             });
           }
-           this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rr':
@@ -202,42 +206,42 @@ export class TruckReceiptComponent implements OnInit {
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
         }
         break;
-        case 'rh':
-          if(this.toRailHeadOptions === undefined) {
-            const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
-            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-              res.forEach(rh => {
-                railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
-              })
+      case 'rh':
+        if (this.toRailHeadOptions === undefined) {
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+            res.forEach(rh => {
+              railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
+            })
             this.toRailHeadOptions = railHeads;
             this.toRailHeadOptions.unshift({ label: '-select-', value: null });
           });
-          }
-          break;
-          case 'fs':
-              if(this.fromStationOptions === undefined) {
-                const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
-                this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-                  res.forEach(fs => {
-                    fromStation.push({ 'label': fs.RYName, 'value': fs.RYCode });
-                  })
-                this.fromStationOptions = fromStation;
-                this.fromStationOptions.unshift({ label: '-select-', value: null });
-                });
-              }
-            break;
-            case'ts':
-            if(this.toStationOptions === undefined) {
-              const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
-              this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-                res.forEach(ts => {
-                  toStation.push({ 'label': ts.RYName, 'value': ts.RYCode });
-                })
-              this.toStationOptions = toStation;
-              this.toStationOptions.unshift({ label: '-select-', value: null });
-            });
-            }
-            break;
+        }
+        break;
+      case 'fs':
+        if (this.fromStationOptions === undefined) {
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+            res.forEach(fs => {
+              fromStation.push({ 'label': fs.RYName, 'value': fs.RYCode });
+            })
+            this.fromStationOptions = fromStation;
+            this.fromStationOptions.unshift({ label: '-select-', value: null });
+          });
+        }
+        break;
+      case 'ts':
+        if (this.toStationOptions === undefined) {
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.Trcode.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+            res.forEach(ts => {
+              toStation.push({ 'label': ts.RYName, 'value': ts.RYCode });
+            })
+            this.toStationOptions = toStation;
+            this.toStationOptions.unshift({ label: '-select-', value: null });
+          });
+        }
+        break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
@@ -303,13 +307,13 @@ export class TruckReceiptComponent implements OnInit {
           });
         }
         break;
-        case 'fc':
-          this.freightOptions = [ {label: '-select-', value: null}, {label: 'PAID', value: 'PAID' }, {label: 'PAY', value: 'PAY' }];
-          break;
-        case 'vc':
-            this.vehicleOptions = [{ label: '-select-', value: null}, { label: 'CASUAL', value: 'CASUAL'},
-             { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT'}];
-          break;
+      case 'fc':
+        this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
+        break;
+      case 'vc':
+        this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },
+        { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT' }];
+        break;
     }
   }
 
@@ -324,34 +328,34 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   numberValidation(event) {
-      if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64) 
+    if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
       || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)) {
-        return false;
-      } else {
-        return true;
-      }
+      return false;
+    } else {
+      return true;
+    }
   }
 
   deleteRow(id, index) {
-    switch(id) {
+    switch (id) {
       case 'item':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.itemData.splice(index, 1);
-            }
+        this.confirmationService.confirm({
+          message: 'Are you sure that you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.itemData.splice(index, 1);
+          }
         });
         break;
       case 'view':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-              //  this.documentViewData.splice(index, 1);
-            }
+        this.confirmationService.confirm({
+          message: 'Are you sure that you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            //  this.documentViewData.splice(index, 1);
+          }
         });
         break;
     }
@@ -359,9 +363,9 @@ export class TruckReceiptComponent implements OnInit {
 
   onCalculateKgs() {
     if (this.NoPacking !== undefined && this.NoPacking !== null
-       && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
-        this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-        this.TKgs = this.GKgs - this.NKgs;
+      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+      this.TKgs = this.GKgs - this.NKgs;
     } else {
       this.GKgs = this.NKgs = this.TKgs = 0;
     }
@@ -376,7 +380,16 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onClear() {
-    this.itemData = this.enteredItemDetails = [];
+    this.itemData =  [];
+  }
+
+  onEnter() {
+    this.itemData.push({TStockNo: this.TStockNo.value, ITDescription: this.ICode.label,
+       PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
+       NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
+       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: this.Moisture, SchemeName: this.Scheme.label,
+       Scheme: this.Scheme.value, Rcode: this.RCode
+    })
   }
 
   onView() {
@@ -399,6 +412,29 @@ export class TruckReceiptComponent implements OnInit {
         this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
       }
     }
+    this.STTDetails.push({
+      TransportMode: this.MTransport,
+      TransporterName: this.TransporterName,
+      LWBillNo: this.LWBillNo,
+      LWBillDate: this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy'),
+      FreightAmount: this.FreightAmount,
+      Kilometers: this.Kilometers,
+      WHDNo: this.WHDNo,
+      WCharges: this.WCharges,
+      HCharges: this.HCharges,
+      FStation: this.FStation,
+      TStation: this.TStation,
+      Remarks: this.Remarks,
+      FCode: this.FCode,
+      Vcode: this.VCode,
+      LDate: this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
+      LNo: this.LorryNo,
+      Wno: this.WNo,
+      RRNo: this.RRNo,
+      RailHead: this.RHCode.value,
+      RFreightAmount: this.RailFreightAmt,
+      Rcode: this.RCode
+    })
     const params = {
       'STNo': (this.STNo !== undefined) ? this.STNo : 0,
       'RowId': (this.RowId !== undefined) ? this.RowId : 0,
@@ -414,8 +450,23 @@ export class TruckReceiptComponent implements OnInit {
       'RCode': this.RCode,
       'GunnyUtilised': this.Gunnyutilised,
       'GunnyReleased': this.GunnyReleased,
-
-
+      'GodownName': this.godownName,
+      'TransactionName': this.Trcode.label,
+      'ReceivingName': this.RTCode.label,
+      'RegionName': this.regionName,
+      'UnLoadingSlip': (this.STNo !== 0) ? this.unLoadingSlip : 'N',
+      'UserID': this.username.user,
+      'documentSTItemDetails': this.itemData,
+      'documentSTTDetails': this.STTDetails
     };
+    this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
+      if (res !== undefined) {
+        if (res) {
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        } else {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+        }
+      }
+    });
   }
 }
