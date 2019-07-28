@@ -320,6 +320,18 @@ if (this.itemData.length !== 0) {
 }
 }
 
+deleteRow(id, index) {
+  switch(id) {
+  case 'issue':
+    this.issueData.splice(index, 1);
+    break;
+  case 'item':
+    this.itemData.splice(index, 1);
+    break;
+  }
+
+}
+
 onSave() {
   this.IRelates = this.month.value + '/' + this.year.label;
   const params = {

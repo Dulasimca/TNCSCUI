@@ -345,6 +345,10 @@ export class TruckReceiptComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 
+  onClear() {
+    this.itemData = this.enteredItemDetails = [];
+  }
+
   onSave() {
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {

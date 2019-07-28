@@ -314,8 +314,15 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  deleteRow(index) {
-    this.itemData.splice(index, 1);
+  deleteRow(id, index) {
+    switch(id) {
+      case 'item':
+        this.itemData.splice(index, 1);
+        break;
+      case 'view':
+        this.documentViewData.splice(index, 1);
+        break;
+    }
   }
 
   onEnter() {
@@ -460,6 +467,11 @@ export class StockReceiptComponent implements OnInit {
   const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
  // saveAs(path + filename, filename);
     
+  }
+
+  onClear() {
+    this.itemData = this.entryList = [];
+
   }
 
   openNext() {

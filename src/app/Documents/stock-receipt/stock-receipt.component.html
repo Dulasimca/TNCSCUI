@@ -313,7 +313,7 @@
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowIndex)">
+                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
                           <i *ngIf="rowdata?.icon" class="pi pi-trash" aria-hidden="true"></i>
@@ -543,8 +543,8 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>

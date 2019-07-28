@@ -70,8 +70,8 @@
                         </th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('issue', rowIndex)">
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
                         </td>
@@ -324,7 +324,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
-                  <tr>
+                  <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
                     <td *ngFor="let col of columns">
                       {{rowData[col.field]}}
                     </td>
@@ -431,8 +431,8 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>
