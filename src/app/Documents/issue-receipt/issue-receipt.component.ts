@@ -18,12 +18,11 @@ issueData: any = [];
 issueCols: any;
 itemCols: any;
 itemData: any = [];
-entryList: any = [];
 regionName: string;
 issuingGodownName: string;
 showMsg: any;
 data: any;
-maxDate: Date;
+maxDate: Date = new Date();
 scheme_data: any;
 stackYear: any;
 issueMemoDocData: any = [];
@@ -58,20 +57,20 @@ TKgs: any;
 month: any;
 year: any;
 SINo: any;
-SIDate: Date;
+SIDate: Date = new Date();
 IssuingCode: any;
 RCode: any;
-StackBalance: any;
+StackBalance: any = 0;
 RegularAdvance: any;
 RowId: any;
-DDate: Date;
+DDate: Date = new Date();
 SI_Date: Date;
-DNo: Date;
+DNo: any;
 canShowMenu: boolean;
 //Issue details
 Trcode: any;
 IRelates: any;
-DeliveryOrderDate: Date;
+DeliveryOrderDate: Date = new Date();
 DeliveryOrderNo: any;
 RTCode: any;
 RNCode: any;
@@ -317,7 +316,7 @@ onIssueDetailsEnter() {
   this.DDate = this.DeliveryOrderDate;
   this.SI_Date = this.SIDate;
  this.issueData.push({
-    'SINo': (this.SINo !== undefined) ? this.SINo : '', 
+    'SINo': (this.SINo !== undefined) ? this.SINo : '-', 
     'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
     'DNo': this.DeliveryOrderNo, 
     'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
@@ -328,18 +327,7 @@ onIssueDetailsEnter() {
  }
 
 onItemDetailsEnter() {
-  this.itemData.push({ 
-    'TStockNo': this.TStockNo.label, 
-    'ICode': this.ICode.label, 
-    'IPCode': this.IPCode.label,
-    'NoPacking': this.NoPacking, 
-    'GKgs': this.GKgs, 
-    'Nkgs': this.NKgs, 
-    'WTCode': this.WTCode.label, 
-    'Moisture': this.Moisture,
-    'Scheme': this.Scheme.label
-});
-this.entryList.push({ 
+this.itemData.push({ 
   'TStockNo': this.TStockNo.value, 
   'ICode': this.ICode.value, 
   'IPCode': this.IPCode.value,
@@ -351,7 +339,8 @@ this.entryList.push({
   'Scheme': this.Scheme.value,
   'CommodityName' : this.ICode.label,
   'SchemeName' : this.Scheme.label,
-  'PackingName' : this.IPCode.label
+  'PackingName' : this.IPCode.label,
+  'WmtType': this.WTCode.label
 });
 if (this.itemData.length !== 0) {
   this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
@@ -419,7 +408,7 @@ onSave() {
     'ServiceablePatches': this.SPatches,
     'GunnyUtilised': this.Gunnyutilised,
     'GunnyReleased': this.GunnyReleased,
-    'IssueItemList': this.entryList,
+    'IssueItemList': this.itemData,
     'SIDetailsList': this.issueData,
     'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
     'GodownName':this.issuingGodownName,
@@ -516,7 +505,7 @@ getDocBySINo() {
 }
 
 onClear() {
-  this.itemData = this.issueData = this.entryList = [];
+  this.itemData = this.issueData = [];
   this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode
    = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
    this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = this.NewBale =

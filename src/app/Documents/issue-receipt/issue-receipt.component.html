@@ -143,7 +143,8 @@
                   </div>
                   <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                          <input id="float-input" [(ngModel)]="VehicleNo" pInputText autocomplete="off">
+                          <input id="float-input" [(ngModel)]="VehicleNo" pInputText autocomplete="off"
+                          oninput="this.value = this.value.replace(/^[A-Z]{2}([ \-])[0-9]{2}[ ,][A-Z0-9]{1,2}[A-Z]\1[0-9]{4}/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                           <label class="float-input">Vehicle Number</label>
                         </span>
                   </div>

@@ -204,7 +204,7 @@ export class StockReceiptComponent implements OnInit {
         } else {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
             this.isDepositorTypeDisabled = false;
-            this.TransType = this.Trcode.transType;
+            this.TransType = (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType;
           }
         }
         break;
@@ -221,7 +221,7 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         this.isViewClicked = false;
         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.ReceivingCode);
+          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.ReceivingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             res.forEach(dt => {
               depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
@@ -234,7 +234,7 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
-          const params = new HttpParams().set('TyCode', this.DepositorType.value).append('TRType', this.TransType);
+          const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorCode.value : this.depositorCode).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             res.forEach(dn => {
               depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
@@ -247,7 +247,7 @@ export class StockReceiptComponent implements OnInit {
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
-          const params = new HttpParams().set('SCode', this.Scheme.value);
+          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             res.forEach(i => {
               itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
@@ -261,7 +261,7 @@ export class StockReceiptComponent implements OnInit {
       case 'st_no':
         let stackNo = [];
         if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', this.ICode.value);
+          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
@@ -477,31 +477,33 @@ export class StockReceiptComponent implements OnInit {
         this.LFrom = res[0].LFrom;
         this.month = res[0].Pallotment.slice(0, 1);
         this.year = res[0].Pallotment.slice(3, 6);
-        this.transactionOptions = [{ 'label': res[0].TRName, 'value': res[0].Trcode }];
+        this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
-        this.wmtOptions = [{ 'label': res[0].WEType, 'value': res[0].WTCode }];
+        this.TransType = res[0].TransType,
+        this.wmtOptions = [{ label: res[0].WEType, value: res[0].WTCode }];
         this.WTCode = res[0].WEType;
         this.wtCode = res[0].WTCode;
         this.NoPacking = res[0].NoPacking;
         this.GKgs = res[0].GKgs;
         this.NKgs = res[0].Nkgs;
+        this.tareWt = (this.GKgs * 1) - (this.NKgs * 1),
         this.Moisture = res[0].Moisture;
-        this.itemDescOptions = [{ 'label': res[0].ITName, 'value': res[0].ICode }];
+        this.itemDescOptions = [{ label: res[0].ITName, value: res[0].ICode }];
         this.ICode = res[0].ITName;
         this.iCode = res[0].ITCode;
-        this.packingTypeOptions = [{ 'label': res[0].PName, 'value': res[0].IPCode }];
+        this.packingTypeOptions = [{ label: res[0].PName, value: res[0].IPCode }];
         this.IPCode = res[0].PName;
         this.ipCode = res[0].IPCode;
-        this.schemeOptions = [{ 'label': res[0].SCName, 'value': res[0].Scheme }];
+        this.schemeOptions = [{ label: res[0].SCName, value: res[0].Scheme }];
         this.Scheme = res[0].SCName;
         this.schemeCode = res[0].Scheme;
-        this.stackOptions = [{ 'label': res[0].TStockNo, 'value': res[0].TStockNo }];
+        this.stackOptions = [{ label: res[0].TStockNo, value: res[0].TStockNo }];
         this.TStockNo = res[0].TStockNo;
-        this.depositorTypeOptions = [{ 'label': res[0].DepositorType, 'value': res[0].IssuerType }];
+        this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
-        this.depositorNameOptions = [{ 'label': res[0].DepositorName, 'value': res[0].IssuingCode }];
+        this.depositorNameOptions = [{ label: res[0].DepositorName, value: res[0].IssuingCode }];
         this.DepositorCode = res[0].DepositorName;
         this.depositorCode = res[0].IssuingCode;
         this.PAllotment = res[0].Pallotment;
