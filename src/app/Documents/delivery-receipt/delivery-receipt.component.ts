@@ -15,11 +15,11 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
+  username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
   deliveryCols: any;
   deliveryData: any = [];
-  deliveryItemEntryData: any = [];
   deliveryViewCols: any;
   deliveryViewData: any = [];
   index: number = 0;
@@ -32,7 +32,6 @@ export class DeliveryReceiptComponent implements OnInit {
   paymentBalData: any;
   itemSchemeCols: any;
   itemSchemeData: any = [];
-  itemSchemeEntryData: any = [];
   maxDate: Date = new Date();
   transactionOptions: SelectItem[];
   yearOptions: SelectItem[];
@@ -89,9 +88,10 @@ export class DeliveryReceiptComponent implements OnInit {
   marginRateInTerms: any;
   GrandTotal: any;
   Payment: string;
-  OcrNo: any;
-  PDate: Date;
+  ChequeNo: any;
+  ChequeDate: Date = new Date();
   PAmount: any;
+  PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
   PrevAmount: any;
@@ -111,6 +111,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.data = this.roleBasedService.getInstance();
+    this.username = JSON.parse(this.authService.getCredentials());
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
@@ -344,28 +345,32 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Item':
         this.itemData.push({
           'itemDesc': this.ICode.label, 'netWeight': this.NKgs, 'unitMeasure': this.RateTerm.label,
-          'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount
-        });
-        this.deliveryItemEntryData.push({
+          'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount,
           'Itemcode': this.ICode.value, 'NetWeight': this.NKgs, 'Wtype': this.RateTerm.value,
           'Scheme': this.Scheme.value, 'Rate': this.Rate, 'Total': this.TotalAmount, 'RCode': this.RCode
         });
-        if (this.itemData.length !== 0 && this.deliveryItemEntryData.length !== 0) {
+        if (this.itemData.length !== 0) {
           this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
         }
         break;
       case 'MarginItem':
         this.itemSchemeData.push({
           'itemName': this.MICode.label, 'netWeight': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
-          'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount
+          'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount,
+          'ItemCode': this.MICode.value, 'MarginNkgs': this.MarginNKgs, 'MarginWtype': this.MarginRateInTerms.label,
+          'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
         });
-        this.itemSchemeEntryData.push({
-          'ItemCode': this.MICode.label, 'MarginNkgs': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
-          'SchemeCode': this.MarginScheme.label, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
-        });
-        if (this.itemSchemeData.length !== 0 && this.itemSchemeEntryData.length !== 0) {
+        if (this.itemSchemeData.length !== 0) {
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
         }
+        break;
+      case 'Payment':
+        this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
+          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
+          if (this.paymentData.length !== 0) {
+            this.Payment = this.PayableAt = this.ChequeNo = this.ChequeDate = this.OnBank = this.PAmount = null;
+          }
         break;
     }
   }
@@ -409,6 +414,10 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onPrint() { }
 
+  onClear() {
+    this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+  }
+
   onSave() {
     this.OrderPeriod = this.PMonth.value + '/' + this.PYear.label;
     const params = {
@@ -429,7 +438,11 @@ export class DeliveryReceiptComponent implements OnInit {
       'GodownName': this.GodownName,
       'TransactionName': this.Trcode.label,
       'RegionName': this.RegionName,
-      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip
+      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UserID': this.username.user,
+      'documentDeliveryItems': this.itemData,
+      'deliveryMarginDetails': this.itemSchemeData,
+      'deliveryPaymentDetails': this.paymentData
     };
    }
 }

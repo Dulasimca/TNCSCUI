@@ -200,10 +200,11 @@ export class TableConstants {
     ];
 
     this.DeliveryPaymentcolumns = [
-      { field: 'paymentMode', header: 'Payment Mode' },
-      { field: 'payOrderNumber', header: 'CH/DD/PayOrder No' },
-      { field: 'payOrderDate', header: 'CH/DD/PayOrder Date' },
-      { field: 'paymentAmount', header: 'Payment Amount' },
+      { field: 'PaymentMode', header: 'Payment Mode' },
+      { field: 'ChequeNo', header: 'CH/DD/PayOrder No' },
+      { field: 'ChDate', header: 'CH/DD/PayOrder Date' },
+      { field: 'PaymentAmount', header: 'Payment Amount' },
+      { field: 'payableat', header: 'Payable At' },
       { field: 'bank', header: 'Bank' },
     ]
 

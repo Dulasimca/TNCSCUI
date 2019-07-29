@@ -326,7 +326,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <p-dropdown #pay id="float-input" [options]="paymentOptions" [(ngModel)]="Payment"
-                          (onClick)="onSelect('pay')" filter="true" name="payment" optionLabel="label" [showClear]="true" required>
+                          (onClick)="onSelect('pay')" filter="true" name="payment" [showClear]="true" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
@@ -336,19 +336,25 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="ch/dd" id="float-input" [(ngModel)]="OcrNo" pInputText autocomplete="off">
+                        <input name="ch/dd" id="float-input" [(ngModel)]="ChequeNo" pInputText autocomplete="off">
                         <label for="ch/dd" class="float-input" style="padding-top: 10px;">CH/DD/PO/OCR No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <div style="padding-right: 10px;padding-top: 20px;">
-                        <p-calendar name="Pdate" [(ngModel)]="PDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                        <p-calendar name="Pdate" [(ngModel)]="ChequeDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
                       </div>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="payAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off" appDecimalDigit>
                         <label for="payAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
+                      </span>
+                    </div>
+                    <div class="ui-g-6 ui-md-2">
+                      <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
+                        <input name="payAt" type="text" id="float-input" [(ngModel)]="PayableAt" pInputText autocomplete="off">
+                        <label for="payAt" class="float-input" style="padding-top: 10px;">Payable At</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-3" style="padding-left: 0px">
@@ -359,7 +365,7 @@
                     </div>
                     <div class="ui-g-4 ui-md-1">
                       <div style="padding-right: 10px;padding-top: 20px;">
-                        <button pButton label="Enter" (click)="onEnter()"></button></div>
+                        <button pButton label="Enter" (click)="onEnter('Payment')"></button></div>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid  no-left-pad">
