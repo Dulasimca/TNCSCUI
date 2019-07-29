@@ -173,7 +173,7 @@
                       </div>
                       <input name="Nkgs" pInputText [(ngModel)]="NKgs" (input)="calculateTotal()" autocomplete="off" appDecimalDigit/>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: -5px">
+                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="rate">Rate In Term Of</label>
                       <p-dropdown #rate name="rate" [options]="rateInTermsOptions" [(ngModel)]="RateTerm"
                         (onClick)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true" required>
@@ -182,27 +182,22 @@
                         </ng-template>
                       </p-dropdown>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <div class="ui-g-6 ui-md-1" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="Raters" style="padding-top: 0px;">Rate</label>
                       <div>
                         <label class="label-fontsize" for="Raters" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="Raters" pInputText [(ngModel)]="Rate" autocomplete="off" (input)="calculateTotal()" appDecimalDigit/>
+                      <input class="ui-g-12" name="RateRs" pInputText [(ngModel)]="Rate" autocomplete="off" (input)="calculateTotal()" appDecimalDigit/>
                     </div>
-                    <div class="ui-g-6 ui-md-1" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="total" style="padding-top: 0px;">Total</label>
                       <div>
                         <label class="label-fontsize" for="total" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
-                      <input name="total" pInputText [(ngModel)]="TotalAmount" [readonly]="true"
-                      oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;"
-                      autocomplete="off"/>
+                      <input name="total" pInputText [(ngModel)]="TotalAmount" [readonly]="true" autocomplete="off"/>
                     </div>
-                    <div class="ui-g-1">
-                      <div class="ui-g-12"></div>
-                      <div class="ui-g-10" style="padding-top: 12px">
-                        <button pButton label="Enter" (click)="onEnter('Item1')"></button></div>
-                    </div>
+                    <div class="ui-g-1" style="margin-top: 25px">
+                        <button class="ui-g-12 dashboard" pButton label="Enter" (click)="onEnter('Item')"></button></div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid">
                     <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
@@ -264,7 +259,7 @@
                         </ng-template>
                       </p-dropdown>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <div class="ui-g-6 ui-md-1" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="mRate" style="padding-top: 0px;">Margin Rate</label>
                       <div>
                         <label class="label-fontsize" for="mRate" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
@@ -272,18 +267,15 @@
                       <input name="mRate" pInputText [(ngModel)]="MarginRate" (input)="calculateTotal()"
                       autocomplete="off"/>
                     </div>
-                    <div class="ui-g-6 ui-md-1" style="padding-left: 0px;padding-top: 0px;text-align: center">
+                    <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="mAmnt" style="padding-top: 0px;">Margin Amount</label>
                       <div>
                         <label class="label-fontsize" for="mAmnt" style="float:left">Rs</label> <label class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input name="mAmnt" pInputText [(ngModel)]="MarginAmount" [readonly]="true"  autocomplete="off"/>
                     </div>
-                    <div class="ui-g-1">
-                      <div class="ui-g-12"></div>
-                      <div class="ui-g-10" style="padding-top: 12px">
-                        <button pButton label="Enter" (click)="onEnter('Item2')"></button></div>
-                    </div>
+                    <div class="ui-g-1" style="margin-top: 25px">
+                      <button class="ui-g-12 dashboard" pButton label="Enter" (click)="onEnter('MarginItem')"></button></div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid">
                     <p-table [columns]="itemSchemeCols" [value]="itemSchemeData" [responsive]="true" [scrollable]="true"
@@ -313,7 +305,7 @@
                     <div class="ui-g-6 ui-md-3 dashboard">
                       <span class="ui-float-label" style="padding-right: 0px">
                         <label for="grandTotal" style="padding-left: 5px">Grand Total</label>
-                        <input name="grandTotal" id="float-input" [(ngModel)]="GrandTotal" pInputText
+                        <input name="grandTotal" id="float-input" [readonly]="true" [(ngModel)]="GrandTotal" pInputText
                           autocomplete="off" appDecimalDigit/>
                       </span>
                     </div>

@@ -210,7 +210,7 @@ export class DeliveryReceiptComponent implements OnInit {
         case 'wmt':
         let weighment = [];
         if (this.rateInTermsOptions === undefined || this.marginRateInTermsOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
@@ -321,7 +321,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onEnter(id) {
     switch (id) {
-      case 'Item1':
+      case 'Item':
         this.itemData.push({
           'itemDesc': this.ICode.label, 'netWeight': this.NKgs, 'unitMeasure': this.RateTerm.label,
           'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount
@@ -334,7 +334,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
         }
         break;
-      case 'Item2':
+      case 'MarginItem':
         this.itemSchemeData.push({
           'itemName': this.MICode.label, 'netWeight': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
           'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount

@@ -24,7 +24,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="TDate">Truck Date</label>
-                      <p-calendar name="TDate" [(ngModel)]="STDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="TDate" [(ngModel)]="STDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label for="Trcd" class="label-fontsize">Transaction Code</label>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="MDate">Movement Order Date</label>
-                      <p-calendar name="MDate" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="MDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="road" class="ui-g-3" name="groupname" value="Road"
@@ -65,7 +65,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="RDate">Release Order Date</label>
-                      <p-calendar name="RDate" [(ngModel)]="RDate" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="RDate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
@@ -267,9 +267,9 @@
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
                         <input id="float-input" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)"
+                        autocomplete="off" (keyup)="parseMoisture($event)" (input)=input(Moisture) name="Moisture"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
-                        <label for="moisture" class="float-input">Moisture</label>
+                        <label for="Moisture" class="float-input">Moisture</label>
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
@@ -351,7 +351,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="WBillDate">Way Bill Date</label>
-                      <p-calendar name="WBillDate" [(ngModel)]="LWBillDate" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
+                      <p-calendar name="WBillDate" [(ngModel)]="LWBillDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
@@ -453,7 +453,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="LDate">Loading Date</label>
-                      <p-calendar name="LDate" [(ngModel)]="LDate" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
+                      <p-calendar name="LDate" [(ngModel)]="LDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                     </div>
                   </div>
                   <div class="ui-g-12 no-pad-top">

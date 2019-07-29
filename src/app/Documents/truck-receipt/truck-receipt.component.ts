@@ -53,14 +53,14 @@ export class TruckReceiptComponent implements OnInit {
   MTransport: any;
   TKgs: number;
   STNo: any;
-  STDate: Date;
+  STDate: Date = new Date();
   Trcode: any;
   trCode: any;
   transType: any;
   OrderNo: any;
-  OrderDate: Date;
+  OrderDate: Date = new Date();
   RNo: any;
-  RDate: Date;
+  RDate: Date = new Date();
   LorryNo: any;
   RHCode: any;
   rhCode: any;
@@ -86,7 +86,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: number;
   WTCode: any;
   wtCode: any;
-  Moisture: any;
+  Moisture: string;
   StackBalance: number;
   CurrentDocQtv: any;
   NetStackBalance: any;
@@ -97,7 +97,7 @@ export class TruckReceiptComponent implements OnInit {
   WCharges: any;
   Kilometers: number;
   FreightAmount: number;
-  LWBillDate: Date;
+  LWBillDate: Date = new Date();
   Gunnyutilised: any;
   GunnyReleased: any;
   FCode: string;
@@ -107,7 +107,7 @@ export class TruckReceiptComponent implements OnInit {
   TStation: any;
   tStationCode: any;
   RRNo: any;
-  LDate: Date;
+  LDate: Date = new Date();
   WNo: any;
   RailFreightAmt: any;
   Remarks: string;
@@ -335,15 +335,6 @@ export class TruckReceiptComponent implements OnInit {
       } else if (this.selectedValues.length === 2) {
         this.disableRailHead = false;
       }
-    }
-  }
-
-  numberValidation(event) {
-    if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)) {
-      return false;
-    } else {
-      return true;
     }
   }
 

@@ -800,7 +800,7 @@ export class TableConstants {
       { header: 'Gross Wt', field:'GKgs' },
       { header: 'Net Wt', field:'Nkgs' },
       { header: 'Moisture', field:'Moisture' },
-      { header: 'Scheme', field:'Scheme' }
+      { header: 'Scheme', field:'SchemeName' }
     ];
     this.StockStatementReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
