@@ -361,6 +361,37 @@ export class TruckReceiptComponent implements OnInit {
     }
   }
 
+  parseMoisture(event) {
+    let totalLength = event.target.value.length;
+    let value = event.target.value;
+    let findDot = this.Moisture.toString().indexOf('.');
+    if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
+      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (findDot > 1)) {
+      return false;
+    } else if (totalLength === 1 && event.keyCode === 190) {
+      return true;
+    }
+    else if (totalLength > 2) {
+      if (findDot < 0) {
+        let checkValue: any = this.Moisture.toString().slice(0, 2);
+      checkValue = (checkValue * 1);
+      console.log(findDot);
+        if (checkValue > 25) {
+          let startValue = this.Moisture.toString().slice(0, 1);
+          let endValue = this.Moisture.toString().slice(1, totalLength);
+          this.Moisture = startValue + '.' + endValue;
+        } else {
+          let startValue = this.Moisture.toString().slice(0, 2);
+          let endValue = this.Moisture.toString().slice(2, totalLength);
+          this.Moisture = startValue + '.' + endValue;
+        }
+      } 
+    } else {
+      return true;
+    }
+  }
+
   onCalculateKgs() {
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
@@ -380,16 +411,21 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onClear() {
-    this.itemData =  [];
+    this.itemData = this.STTDetails =  [];
   }
 
   onEnter() {
     this.itemData.push({TStockNo: this.TStockNo.value, ITDescription: this.ICode.label,
        PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
        NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
-       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: this.Moisture, SchemeName: this.Scheme.label,
+       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
+       SchemeName: this.Scheme.label,
        Scheme: this.Scheme.value, Rcode: this.RCode
     })
+    if (this.itemData.length !== 0) {
+      this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
+      = this.GKgs = this.NKgs = this.Scheme = null;
+    }
   }
 
   onView() {
@@ -463,6 +499,7 @@ export class TruckReceiptComponent implements OnInit {
       if (res !== undefined) {
         if (res) {
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.onClear();
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }

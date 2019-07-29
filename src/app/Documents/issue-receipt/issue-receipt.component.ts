@@ -90,7 +90,7 @@ NoPacking: number;
 GKgs: number;
 NKgs: number;
 WTCode: any;
-Moisture: number;
+Moisture: string;
 NewBale: any = 0;
 SServiceable: any = 0;
 SPatches: any = 0;
@@ -268,6 +268,47 @@ Loadingslip : any;
           });
         }
         break;
+  }
+}
+
+parseMoisture(event) {
+  let totalLength = event.target.value.length;
+  let value = event.target.value;
+  let findDot = this.Moisture.toString().indexOf('.');
+  if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
+    || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+    || (findDot > 1)) {
+    return false;
+  } else if (totalLength === 1 && event.keyCode === 190) {
+    return true;
+  }
+  else if (totalLength > 2) {
+    if (findDot < 0) {
+      let checkValue: any = this.Moisture.toString().slice(0, 2);
+    checkValue = (checkValue * 1);
+    console.log(findDot);
+      if (checkValue > 25) {
+        let startValue = this.Moisture.toString().slice(0, 1);
+        let endValue = this.Moisture.toString().slice(1, totalLength);
+        this.Moisture = startValue + '.' + endValue;
+      } else {
+        let startValue = this.Moisture.toString().slice(0, 2);
+        let endValue = this.Moisture.toString().slice(2, totalLength);
+        this.Moisture = startValue + '.' + endValue;
+      }
+    } 
+  } else {
+    return true;
+  }
+}
+
+onCalculateKgs() {
+  if (this.NoPacking !== undefined && this.NoPacking !== null
+    && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+    this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+    this.TKgs = this.GKgs - this.NKgs;
+  } else {
+    this.GKgs = this.NKgs = this.TKgs = 0;
   }
 }
 

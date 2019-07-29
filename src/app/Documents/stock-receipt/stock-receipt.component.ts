@@ -38,7 +38,6 @@ export class StockReceiptComponent implements OnInit {
   itemData: any = [];
   documentViewCol: any;
   documentViewData: any = [];
-  entryList: any = [];
   regionName: any;
   godownName: any;
   data: any;
@@ -142,7 +141,7 @@ export class StockReceiptComponent implements OnInit {
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe, private messageService: MessageService,  private confirmationService: ConfirmationService) {
+    private datepipe: DatePipe, private messageService: MessageService, private confirmationService: ConfirmationService) {
   }
 
   ngOnInit() {
@@ -315,80 +314,73 @@ export class StockReceiptComponent implements OnInit {
   }
 
   deleteRow(id, index) {
-    switch(id) {
+    switch (id) {
       case 'item':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.itemData.splice(index, 1);
-            }
+        this.confirmationService.confirm({
+          message: 'Are you sure that you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.itemData.splice(index, 1);
+          }
         });
         break;
       case 'view':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.documentViewData.splice(index, 1);
-            }
+        this.confirmationService.confirm({
+          message: 'Are you sure that you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.documentViewData.splice(index, 1);
+          }
         });
         break;
     }
   }
 
-  validateMoistureInput(event) {
-    var totalLength = event.target.value.length;
-    var value = (event.target.value * 1);
-    if((event.keyCode>=32 && event.keyCode <=45)|| (event.keyCode === 47) || (event.keyCode >= 58 && event.keyCode <= 64) || 
-    (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
-    {
+  parseMoisture(event) {
+    let totalLength = event.target.value.length;
+    let value = event.target.value;
+    let findDot = this.Moisture.toString().indexOf('.');
+    if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
+      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (findDot > 1)) {
       return false;
+    } else if (totalLength === 1 && event.keyCode === 190) {
+      return true;
     }
-    //  else if(totalLength === 2) {
-    //    if (value > 25) {
-    //     let startValue =  this.Moisture.toString().slice(0, 1);
-    //     let endValue = this.Moisture.toString().slice(1, totalLength);
-    //     this.Moisture = startValue + '.' + endValue;
-    //    }
-    // } else if (totalLength > 2) {
-    //     let startValue: any =  this.Moisture.toString().slice(0, 2);
-    //     let slicedValue = (startValue  * 1);
-    //     startValue = (slicedValue > 25) ? this.Moisture.toString().slice(0, 1) : startValue;
-    //     let endValue = this.Moisture.toString().slice(1, totalLength);
-    //     this.Moisture = startValue + '.' + endValue;
-    // }
-    // else if ((event.target.value.length  >= 2) && event.keyCode == 46) 
-    // {
-    //   let index =this.Moisture.indexOf('.');
-    //   if(index<0)
-    //   {
-    //     this.isSlash=false;
-    //   }
-    //  if(event.keyCode == 46 && !)
-    //  {
-    //   this.isSlash=true;
-    //   return true;
-    //  }
-    //  else { return false; }
-    // } 
-    // else{
-    //   return true;
-    // }
+    else if (totalLength > 2) {
+      if (findDot < 0) {
+        let checkValue: any = this.Moisture.toString().slice(0, 2);
+      checkValue = (checkValue * 1);
+      console.log(findDot);
+        if (checkValue > 25) {
+          let startValue = this.Moisture.toString().slice(0, 1);
+          let endValue = this.Moisture.toString().slice(1, totalLength);
+          this.Moisture = startValue + '.' + endValue;
+        } else {
+          let startValue = this.Moisture.toString().slice(0, 2);
+          let endValue = this.Moisture.toString().slice(2, totalLength);
+          this.Moisture = startValue + '.' + endValue;
+        }
+      } 
+    } else {
+      return true;
+    }
+  }
 
+  onCalculateKgs() {
+    if (this.NoPacking !== undefined && this.NoPacking !== null
+      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+      this.tareWt = this.GKgs - this.NKgs;
+    } else {
+      this.GKgs = this.NKgs = this.tareWt = 0;
+    }
   }
 
   onEnter() {
-    this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
-    = this.GKgs = this.NKgs = this.WTCode = this.tareWt = null;
     this.itemData.push({
-      'TStockNo': this.TStockNo.label, 'Scheme': this.Scheme.label, 'ICode': this.ICode.label,
-      'IPCode': this.IPCode.label, 'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
-      'WTCode': this.WTCode.label, 'Moisture': this.Moisture
-    });
-    this.entryList.push({
       'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
@@ -399,6 +391,10 @@ export class StockReceiptComponent implements OnInit {
       'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
       'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode
     });
+    if (this.itemData.length !== 0) {
+      this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
+        = this.GKgs = this.NKgs = this.WTCode = this.tareWt = null;
+    }
   }
 
   onSave() {
@@ -428,7 +424,7 @@ export class StockReceiptComponent implements OnInit {
       'ManualDocNo': this.ManualDocNo,
       'LNo': (this.LNo !== undefined) ? this.LNo : '',
       'LFrom': (this.LFrom !== undefined) ? this.LFrom : '',
-      'ItemList': this.entryList,
+      'ItemList': this.itemData,
       'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
       'GodownName': this.godownName,
       'TransactionType': (this.DepositorType.label !== undefined) ? this.DepositorType.label : this.DepositorType,
@@ -518,15 +514,17 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onPrint() {
-  const path = "../../assets/Reports/";
-  const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
- // saveAs(path + filename, filename);
-    
+    const path = "../../assets/Reports/";
+    const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
+    // saveAs(path + filename, filename);
+
   }
 
   onClear() {
-    this.itemData = this.entryList = [];
-
+    this.itemData = [];
+    this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo =
+      this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType =
+      this.TruckMemoDate = this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
   }
 
   openNext() {

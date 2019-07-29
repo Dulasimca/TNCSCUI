@@ -139,7 +139,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -18px;">
                     <label class="label-fontsize">Truck Memo Date</label>
-                    <p-calendar [(ngModel)]="TruckMemoDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="TruckMemoDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
@@ -230,7 +230,7 @@
                 <div class="ui-g-12">
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 10px">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText maxlength="4" [(ngModel)]="NoPacking" autocomplete="off">
+                      <input id="float-input" pInputText maxlength="4" [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
                       <label class="float-input">No.of Packing</label>
                     </span>
                   </div>
@@ -270,8 +270,9 @@
                   </div>
                   <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
                     <span class="ui-float-label">
-                      <input id="float-input" type="number" maxLength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="validateMoistureInput($event)">
+                      <input id="float-input" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
+                        autocomplete="off" (keyup)="parseMoisture($event)"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                       <label class="float-input">Moisture</label>
                     </span>
                   </div>
