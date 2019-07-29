@@ -55,6 +55,8 @@ export class DeliveryReceiptComponent implements OnInit {
   DeliveryDate: Date = new Date();
   DeliveryOrderNo: any;
   Trcode: any;
+  trCode: any;
+  TransType: any;
   IndentNo: number;
   OrderPeriod: any;
   PermitDate: Date = new Date();
@@ -63,20 +65,28 @@ export class DeliveryReceiptComponent implements OnInit {
   RCode: string;
   GCode: string;
   PName: any;
+  pCode: any;
   RTCode: any;
+  rtCode: any;
   Remarks: string;
   Scheme: any;
+  schemeCode: any;
   MarginScheme: any;
+  marginSchemeCode: any;
   ICode: any;
+  iCode: any;
   MICode: any;
+  miCode: any;
   NKgs: any;
   Rate: any;
   RateTerm: any;
+  rateTerm: any;
   TotalAmount: any;
   MarginNKgs: any;
   MarginRate: any;
   MarginAmount: any;
   MarginRateInTerms: any;
+  marginRateInTerms: any;
   GrandTotal: any;
   Payment: string;
   OcrNo: any;
@@ -169,7 +179,7 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.GCode);
+          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             res.forEach(dt => {
               receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
@@ -183,7 +193,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'pn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType);
+          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
+          .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             res.forEach(dn => {
               partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
@@ -196,11 +207,20 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
-          const params = new HttpParams().set('SCode', this.Scheme.value);
+          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             res.forEach(i => {
-              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-            })
+              if (!this.selectedItem) {
+                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+              } else {
+                let filteredArr = res.filter(x => {
+                  return x.Allotmentgroup === 'Rice';
+                })
+                filteredArr.forEach(i => {
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                })
+              }
+            });
             this.itemDescOptions = itemDesc;
             this.marginItemDescOptions = itemDesc;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -350,19 +370,40 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
-  calculateTotal() {
-   if (this.NKgs !== undefined && this.Rate !== undefined) {
-      this.TotalAmount = (this.NKgs * 1) + (this.Rate * 1);
+  rateWithQtyCalculation(selectedWt, amnt, qty) {
+    let total: any = 0;
+    switch (selectedWt) {
+      case 'kgs':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'quintall':
+        total = ((qty / 100) * amnt).toFixed(2);
+        break;
+      case 'tons':
+        total = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'ltrs':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'nos':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'kltrs':
+        total = ((qty / 1000) * amnt).toFixed(2);
+        break;
     }
-    if (this.MarginNKgs !== undefined && this.MarginRate !== undefined) {
-      this.MarginAmount = (this.MarginNKgs * 1) + (this.MarginRate * 1);
-    }
+    return total;
   }
 
-  onCheckedRice() {
-    if (this.selectedItem) {
-      // this.
-      console.log(this.selectedItem);
+  calculateTotal() {
+   if (this.NKgs !== undefined && this.Rate !== undefined) {
+      this.TotalAmount = this.rateWithQtyCalculation(this.RateTerm, this.Rate, this.NKgs);
+    }
+    if (this.MarginNKgs !== undefined && this.MarginRate !== undefined) {
+      this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms, this.Rate, this.NKgs);
+    }
+    if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
+      this.GrandTotal = (this.TotalAmount * 1) - (this.MarginAmount * 1);
     }
   }
 

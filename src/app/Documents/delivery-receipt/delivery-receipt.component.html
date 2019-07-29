@@ -50,7 +50,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 20px;">
                       <label for="rice" class="ui-g-7 label-fontsize-large">Only Rice</label>
-                      <p-checkbox name="rice" class="ui-g-1" name="groupname" value="Rice" [(ngModel)]="selectedItem" binary="true" (click)="onCheckedRice()">
+                      <p-checkbox name="rice" class="ui-g-1" name="groupname" value="Rice" [(ngModel)]="selectedItem" binary="true">
                       </p-checkbox>
                     </div>
                   </div>
@@ -306,7 +306,7 @@
                       <span class="ui-float-label" style="padding-right: 0px">
                         <label for="grandTotal" style="padding-left: 5px">Grand Total</label>
                         <input name="grandTotal" id="float-input" [readonly]="true" [(ngModel)]="GrandTotal" pInputText
-                          autocomplete="off" appDecimalDigit/>
+                          autocomplete="off"/>
                       </span>
                     </div>
                   </div>
