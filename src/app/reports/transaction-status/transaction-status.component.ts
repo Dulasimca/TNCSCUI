@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -19,7 +19,6 @@ export class TransactionStatusComponent implements OnInit {
   g_cd: any;
   gCode: any;
   data: any;
-  // Docdate: any;
   godownName: SelectItem[];
   disableOkButton: boolean = true;
   Docdate: Date;
@@ -37,8 +36,9 @@ export class TransactionStatusComponent implements OnInit {
   viewDate: Date = new Date();
   godownOptions: SelectItem[];
   canShowMenu: boolean;
+  show: any;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants,private cd: ChangeDetectorRef , private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -89,14 +89,47 @@ export class TransactionStatusComponent implements OnInit {
             this.userid = this.TransactionStatusData[0].userid
         }
       });
-    }
+    } 
   }
 
   onClear() {
     this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = null;
   }
 
-  onSave() {
+  showTrue(value) {
+    this.show = value;
+    if (!this.Receipt) {
+      this.cd.detectChanges();
+      this.show = !value;
+    }
+  }
+
+// ShowTrue(selectedItem) {
+//   this.show = selectedItem;
+//   switch (selectedItem) {
+//    case 'Receipt':
+//   if(!this.Receipt){
+//     this.cd.detectChanges();
+//     this.show = !selectedItem;
+//   }
+//   break;
+// case 'Issue':
+//   if(!){
+//     this.cd.detectChanges();
+//     this.show = !selectedItem;
+//   }
+//   case 'Issue':
+//   if(!){
+//     this.cd.detectChanges();
+//     this.show = !selectedItem;
+//   }
+//   case 'Issue':
+//   if(!){
+//     this.cd.detectChanges();
+//     this.show = !selectedItem;
+//   }
+
+onSave() {
     const params = {
       'Gcode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
       'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),

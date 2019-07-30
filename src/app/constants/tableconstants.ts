@@ -75,6 +75,9 @@ export class TableConstants {
   StockStatementReport: any;
   TransactionStatus: any;
   OpeningBalanceCurYearEntry: any;
+  DailyDocumentTotalReport: any;
+  DailyDocumentReceipt: any;
+  DailyDocumentIssue: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -296,7 +299,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
-      { field: 'AckNo', header: 'Ack. No' },
+      { field: 'Ackno', header: 'Ack. No' },
       { field: 'Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Quantity', header: 'QUANTITY' },
@@ -820,5 +823,46 @@ export class TableConstants {
       { field: 'userid', header: 'User Id'},
     ];
 
+    this.DailyDocumentTotalReport = [
+      { field: '', header: 'No of Documents' },
+      { field: 'rcode', header: 'Region Code' },
+      { field: '', header: 'Region' },
+      { field: 'gCode', header: 'Godown Code' },
+      { field: '', header: 'Godown Name' }
+    ];
+
+    this.DailyDocumentReceipt = [
+      { field: '', header: 'Doc No' },
+      { field: '', header: 'Doc Date' },
+      { field: '', header: 'Transaction Type' },
+      { field: '', header: 'Stack No' },
+      { field: '', header: 'Commodity Name' },
+      { field: '', header: 'Packing type' },
+      { field: '', header: 'No Of Packing' },
+      { field: '', header: 'Gross Wt' },
+      { field: '', header: 'Net Wt' },
+      { field: '', header: 'Moisture' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Period Allotment' },
+      { field: '', header: 'Order No' },
+      { field: '', header: 'Order Date' },
+      { field: '', header: 'Received From' },
+      { field: '', header: 'Truck Memo No' },
+      { field: '', header: 'Truck Date' },
+    ];
+
+    this.DailyDocumentIssue = [
+      { field: '', header: 'Doc No' },
+      { field: '', header: 'Doc Date' },
+      { field: '', header: 'Stack No' },
+      { field: '', header: 'Transaction Type' },
+      { field: '', header: 'Commodity Name' },
+      { field: '', header: 'Packing type' },
+      { field: '', header: 'No of Packing/Bags' },
+      { field: '', header: 'Gross Wt' },
+      { field: '', header: 'Net Wt' },
+      { field: '', header: 'Scheme' },
+      { field: '', header: 'Issued To' },
+    ];
   }
 }

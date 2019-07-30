@@ -33,7 +33,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   loading: boolean = false;
   username: any;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -51,10 +51,10 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -83,8 +83,8 @@ export class StockReceiptRegisterComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -103,10 +103,10 @@ export class StockReceiptRegisterComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -116,20 +116,22 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  onExportExcel():void{
+  onExportExcel(): void {
     var stock_receipt_data = [];
     this.stockReceiptRegData.forEach(data => {
-      stock_receipt_data.push({SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, TruckMemoNo: data.TruckMemoNo,
-      Lorryno: data.Lorryno, From_Whom_Received: data.From_Whom_Received, Stackno: data.Stackno, Scheme: data.Scheme,
-    NoPacking: data.NoPacking, Commodity: data.Commodity, NetWt: data.NetWt})
+      stock_receipt_data.push({
+        SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, TruckMemoNo: data.TruckMemoNo,
+        Lorryno: data.Lorryno, From_Whom_Received: data.From_Whom_Received, Stackno: data.Stackno, Scheme: data.Scheme,
+        NoPacking: data.NoPacking, Commodity: data.Commodity, NetWt: data.NetWt
+      })
     })
-    this.excelService.exportAsExcelFile(stock_receipt_data, 'STOCK_RECEIPT_REGISTER_REPORT',this.stockReceiptRegCols);
-}
+    this.excelService.exportAsExcelFile(stock_receipt_data, 'STOCK_RECEIPT_REGISTER_REPORT', this.stockReceiptRegCols);
+  }
 
-onPrint() {
-  const path = "../../assets/Reports/" + this.username.user + "/";
-  const filename = this.g_cd.value + GolbalVariable.StockReceiptRegFilename + ".txt";
-  saveAs(path + filename, filename);
-}
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.g_cd.value + GolbalVariable.StockReceiptRegFilename + ".txt";
+    saveAs(path + filename, filename);
+  }
 
 }

@@ -33,7 +33,7 @@
       <div class="ui-g-12 dashboard" style="padding: 20px 0px 20px 0px">
         <div class="ui-g-2"></div>
         <div class="ui-g-3 ui-md-2">
-          <p-checkbox class="ui-g-2" name="Receipt" [(ngModel)]="Receipt"></p-checkbox>
+          <p-checkbox class="ui-g-2" name="Receipt" [(ngModel)]="Receipt" (ngModelChange)=showTrue($event)></p-checkbox>
           <label class="ui-g-8" for="Receipt">Receipt</label>
         </div>
         <div class="ui-g-3 ui-md-2">

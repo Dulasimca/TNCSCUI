@@ -121,6 +121,7 @@ import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card
 import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
 import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
+import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 
 
 @NgModule({
@@ -205,7 +206,8 @@ import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-iss
     DuplicateIssueMemoComponent,
     StockstatementreportComponent,
     TransactionStatusComponent,
-    DailyDocumentsComponent
+    DailyDocumentsComponent,
+    DailyDocumentIssueComponent
     
   ],
   imports: [

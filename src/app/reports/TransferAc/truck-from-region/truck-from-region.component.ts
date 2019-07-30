@@ -30,7 +30,7 @@ export class TruckFromRegionComponent implements OnInit {
   loading: boolean = false;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -45,12 +45,12 @@ export class TruckFromRegionComponent implements OnInit {
   onSelect() {
     let options = [];
     this.data = this.roleBasedService.instance;
-    if(this.data !== undefined) {
+    if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -73,8 +73,8 @@ export class TruckFromRegionComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -91,10 +91,10 @@ export class TruckFromRegionComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -104,7 +104,11 @@ export class TruckFromRegionComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.TruckFromRegionData, 'Truck_From_Region',this.TruckFromRegionCols);
-}
+  exportAsXLSX(): void {
+    var TruckFromRegion = [];
+    this.TruckFromRegionData.forEach(data => {
+      TruckFromRegion.push({ SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, Tyname: data.Tyname, TNCSName: data.TNCSName, ITDescription: data.ITDescription, NoPacking: data.NoPacking, Nkgs: data.Nkgs })
+    })
+    this.excelService.exportAsExcelFile(TruckFromRegion, 'Truck_From_Region', this.TruckFromRegionCols);
+  }
 }

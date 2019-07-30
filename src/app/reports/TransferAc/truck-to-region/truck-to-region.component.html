@@ -13,8 +13,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
-          (onClick)="onSelect('godown')" (keydown.enter)="onSelect('godown')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
-          [showClear]="true" placeholder="-select-">
+          (onClick)="onSelect('godown')" (keydown.enter)="onSelect('godown')" (ngModelChange)="onResetTable()"
+          filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -51,7 +51,8 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-4"></div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !g_cd || !selectedValues)"></button>
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!fromDate || !toDate || !g_cd || !selectedValues)"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

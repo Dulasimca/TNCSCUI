@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-truck-to-region',
   templateUrl: './truck-to-region.component.html',
   styleUrls: ['./truck-to-region.component.css']
-  
+
 })
 export class TruckToRegionComponent implements OnInit {
   TruckToRegionCols: any;
@@ -31,7 +31,7 @@ export class TruckToRegionComponent implements OnInit {
   loading: boolean = false;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -46,12 +46,12 @@ export class TruckToRegionComponent implements OnInit {
   onSelect() {
     let options = [];
     this.data = this.roleBasedService.instance;
-    if(this.data !== undefined) {
+    if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -74,8 +74,8 @@ export class TruckToRegionComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -92,10 +92,10 @@ export class TruckToRegionComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -105,7 +105,11 @@ export class TruckToRegionComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.TruckToRegionData, 'Truck_To_Region',this.TruckToRegionCols);
-}
+  onExportExcel(): void {
+    var TruckToRegion = [];
+    this.TruckToRegionData.forEach(data => {
+      TruckToRegion.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, DepositorName: data.DepositorName, RGNAME: data.RGNAME, ITDescription: data.ITDescription, SCName: data.SCName, NoPacking: data.NoPacking, Nkgs: data.Nkgs, LNo: data.LNo })
+    })
+    this.excelService.exportAsExcelFile(TruckToRegion, 'Truck_To_Region', this.TruckToRegionCols);
+  }
 }

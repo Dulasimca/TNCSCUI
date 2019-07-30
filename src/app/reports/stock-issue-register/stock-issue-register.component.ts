@@ -37,7 +37,7 @@ export class StockIssueRegisterComponent implements OnInit {
   loading: boolean = false;
   canFetch: boolean;
   totalRecords: number;
-  
+
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -60,10 +60,10 @@ export class StockIssueRegisterComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -100,8 +100,8 @@ export class StockIssueRegisterComponent implements OnInit {
             this.startIndex = this.recordRange;
             this.recordRange += this.recordRange;
             setTimeout(() => {
-            this.onView();
-          }, 500);
+              this.onView();
+            }, 500);
           } else {
             this.canFetch = false;
             this.isActionDisabled = false;
@@ -112,8 +112,8 @@ export class StockIssueRegisterComponent implements OnInit {
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0) {
-        this.loading = false;
-        this.router.navigate(['pageNotFound']);
+          this.loading = false;
+          this.router.navigate(['pageNotFound']);
         }
       })
     }
@@ -140,10 +140,10 @@ export class StockIssueRegisterComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -152,9 +152,11 @@ export class StockIssueRegisterComponent implements OnInit {
   onExportExcel(): void {
     var stock_issue_data = [];
     this.stockIssueRegData.forEach(data => {
-      stock_issue_data.push({SlNo: data.SlNo, Issue_Memono: data.Issue_Memono, DNo: data.DNo, Issue_Date: data.Issue_Date,
-      Lorryno: data.Lorryno, To_Whom_Issued: data.To_Whom_Issued, Stackno: data.Stackno, Scheme: data.Scheme, Commodity: data.Commodity,
-    NoPacking: data.NoPacking, NetWt: data.NetWt })
+      stock_issue_data.push({
+        SlNo: data.SlNo, Issue_Memono: data.Issue_Memono, DNo: data.DNo, Issue_Date: data.Issue_Date,
+        Lorryno: data.Lorryno, To_Whom_Issued: data.To_Whom_Issued, Stackno: data.Stackno, Scheme: data.Scheme, Commodity: data.Commodity,
+        NoPacking: data.NoPacking, NetWt: data.NetWt
+      })
     })
     this.excelService.exportAsExcelFile(stock_issue_data, 'STOCK_ISSUE_REGISTER_REPORT', this.stockIssueRegCols);
   }
