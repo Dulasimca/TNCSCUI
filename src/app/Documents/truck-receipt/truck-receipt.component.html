@@ -7,7 +7,8 @@
         <div class="ui-g-12 ui-md-4 dashboard">Truck Memo Slip</div>
       </div>
     </p-header>
-    <p-toast [style]="{marginTop: '80px'}" key="t-err" position="top-center"></p-toast>
+    <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
+    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -29,10 +30,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <label for="Trcd" class="label-fontsize">Transaction Code</label>
                       <p-dropdown #tr name="Trcd" id="float-input" [options]="transactionOptions" [(ngModel)]="Trcode"
-                        (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" filter="true" optionLabel="label" required>
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle">{{item.label}}</span>
-                        </ng-template>
+                        (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" optionLabel="label" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -7px">

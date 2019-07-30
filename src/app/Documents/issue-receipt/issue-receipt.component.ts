@@ -4,9 +4,11 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -428,6 +430,10 @@ onSave() {
         this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
       }
     }
+  },(err: HttpErrorResponse) => {
+    if (err.status === 0) {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+    }
   });
  }
 
@@ -519,5 +525,11 @@ openNext() {
 
 openPrev() {
   this.index = (this.index === 0) ? 2 : this.index - 1;
+}
+
+onPrint() {
+  const path = "../../assets/Reports/" + this.UserID.user + "/";
+  const filename = this.IssuingCode + GolbalVariable.StockIssueDocument + ".txt";
+  saveAs(path + filename, filename);
 }
 }

@@ -4,7 +4,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
@@ -13,22 +13,6 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-stock-receipt',
   templateUrl: './stock-receipt.component.html',
-  styles: [`
-        :host ::ng-deep button {
-            margin-right: .25em;
-        }
-
-        :host ::ng-deep .custom-toast .ui-toast-message {
-            color: #ffffff;
-            background: #FC466B;
-            background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
-            background: linear-gradient(to right, #3F5EFB, #FC466B);
-        }
-
-        :host ::ng-deep .custom-toast .ui-toast-close-icon {
-            color: #ffffff;
-        }
-    `],
   styleUrls: ['./stock-receipt.component.css']
 })
 export class StockReceiptComponent implements OnInit {
@@ -54,7 +38,7 @@ export class StockReceiptComponent implements OnInit {
   disableOkButton: boolean = true;
   isViewClicked: boolean = false;
   tareWt: number;
-  maxDate: Date;
+  maxDate: Date = new Date();
   enableActions: boolean = true;
   viewDate: Date = new Date();
   moistureOptions: SelectItem[];
@@ -84,12 +68,12 @@ export class StockReceiptComponent implements OnInit {
   TransType: string;
   godownNo: any;
   OrderNo: any;
-  OrderDate: Date;
+  OrderDate: Date = new Date();
   StackBalance: any = 0;
   viewPane: boolean;
   canShowMenu: boolean;
   ReceivingCode: string;
-  RCode: number;
+  RCode: any;
   //SR-Details
   SRNo: any;
   SRDate: Date = new Date();
@@ -99,7 +83,7 @@ export class StockReceiptComponent implements OnInit {
   DepositorType: any;
   DepositorCode: any;
   TruckMemoNo: any;
-  TruckMemoDate: any;
+  TruckMemoDate: Date = new Date();
   ManualDocNo: any;
   LNo: any;
   LFrom: any;
@@ -116,7 +100,7 @@ export class StockReceiptComponent implements OnInit {
   //SR-Freight Details
   TransporterName: string;
   LWBillNo: any;
-  LWBillDate: Date;
+  LWBillDate: Date = new Date();
   Kilometers: number;
   FreightAmount: number;
   WHDNo: any;
@@ -133,7 +117,7 @@ export class StockReceiptComponent implements OnInit {
   TStation: string;
   FStation: string;
   RRNo: any;
-  LDate: Date;
+  LDate: Date = new Date();
   WNo: any;
   Remarks: string;
   username: any;
@@ -254,7 +238,7 @@ export class StockReceiptComponent implements OnInit {
             this.itemDescOptions = itemDesc;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-          this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
+        //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
         }
         break;
       case 'st_no':
@@ -435,10 +419,14 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
+      }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
   }
@@ -515,10 +503,9 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    const path = "../../assets/Reports/";
+    const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
-    // saveAs(path + filename, filename);
-
+    saveAs(path + filename, filename);
   }
 
   onClear() {

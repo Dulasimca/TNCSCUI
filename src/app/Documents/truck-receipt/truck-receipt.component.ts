@@ -5,7 +5,7 @@ import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -194,17 +194,18 @@ export class TruckReceiptComponent implements OnInit {
                 });
               }
               this.receivorNameOptions = this.receivorNameList;
+              this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           } else {
             const params = new HttpParams().set('TyCode', rt_code).append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-              res.forEach(rn => {
-                this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
-              })
+                res.forEach(rn => {
+                  this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
+                })
               this.receivorNameOptions = this.receivorNameList;
+              this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
-          this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rr':
@@ -564,7 +565,7 @@ export class TruckReceiptComponent implements OnInit {
       'RNo': this.RNo,
       'RDate': this.datepipe.transform(this.RDate, 'MM/dd/yyyy'),
       'LNo': this.LorryNo,
-      'ReceivingCode': this.RTCode.value,
+      'ReceivingCode': this.RNCode.value,
       'IssuingCode': this.GCode,
       'RCode': this.RCode,
       'GunnyUtilised': this.Gunnyutilised,
@@ -587,6 +588,10 @@ export class TruckReceiptComponent implements OnInit {
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
+      }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
   }
