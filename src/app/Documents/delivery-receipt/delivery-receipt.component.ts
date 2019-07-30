@@ -232,8 +232,9 @@ export class DeliveryReceiptComponent implements OnInit {
         let weighment = [];
         if (this.rateInTermsOptions === undefined || this.marginRateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-            res.Table1.forEach(w => {
-              weighment.push({ 'label': w.WEType, 'value': w.WECode });
+            res.forEach(w => {
+              if (w.Basicweight !== 'GRAMS') {
+              weighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
             })
             this.rateInTermsOptions = weighment;
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -378,22 +379,22 @@ export class DeliveryReceiptComponent implements OnInit {
   rateWithQtyCalculation(selectedWt, amnt, qty) {
     let total: any = 0;
     switch (selectedWt) {
-      case 'kgs':
+      case 'KGS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'quintall':
+      case 'QUINTALL':
         total = ((qty / 100) * amnt).toFixed(2);
         break;
-      case 'tons':
+      case 'TONS':
         total = ((qty / 1000) * amnt).toFixed(2);
         break;
-      case 'ltrs':
+      case 'LTRS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'nos':
+      case 'NOS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'kltrs':
+      case 'KILOLTRS':
         total = ((qty / 1000) * amnt).toFixed(2);
         break;
     }

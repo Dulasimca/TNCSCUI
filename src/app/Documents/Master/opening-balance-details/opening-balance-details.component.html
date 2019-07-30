@@ -18,7 +18,7 @@
         <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
               <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-               filter="true" optionLabel="label" [showClear]="true" required>
+              (keydown.enter)="onSelect('gd')" filter="true" optionLabel="label" [showClear]="true" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -27,7 +27,7 @@
         <div class="form-group ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
           <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
-             filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
+          (keydown.enter)="onCommodityClicked()" filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
-          <p-dropdown #y id="float-input" [options]="yearOptions" name="year"
+          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" (keydown.enter)="onSelect('y')"
            [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
@@ -114,7 +114,7 @@
   <div class="ui-g-12 ui-md-6">
       <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
       <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
-       (onChange)="onChange($event)" filter="true" optionLabel="label" [showClear]="true" name="CommodityName" required>
+       (onChange)="onChange($event)" filter="true" (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
