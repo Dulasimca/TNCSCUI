@@ -111,7 +111,7 @@ export class TruckReceiptComponent implements OnInit {
   WNo: any;
   RailFreightAmt: any;
   Remarks: string;
-  unLoadingSlip: any;
+  IssueSlip: any;
   STTDetails: any = [];
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
@@ -426,7 +426,7 @@ export class TruckReceiptComponent implements OnInit {
     })
     if (this.itemData.length !== 0) {
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
-      = this.GKgs = this.NKgs = this.Scheme = null;
+      = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
     }
   }
 
@@ -551,9 +551,12 @@ export class TruckReceiptComponent implements OnInit {
       RFreightAmount: this.RailFreightAmt,
       Rcode: this.RCode
     })
+    this.RowId = (this.RowId !== undefined) ? this.RowId : 0;
+    this.STNo = (this.STNo !== undefined) ? this.STNo : 0;
+    this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
     const params = {
-      'STNo': (this.STNo !== undefined) ? this.STNo : 0,
-      'RowId': (this.RowId !== undefined) ? this.RowId : 0,
+      'STNo': this.STNo,
+      'RowId': this.RowId,
       'STDate': this.datepipe.transform(this.STDate, 'MM/dd/yyyy'),
       'TrCode': this.Trcode.value,
       'MNo': this.OrderNo,
@@ -569,8 +572,9 @@ export class TruckReceiptComponent implements OnInit {
       'GodownName': this.godownName,
       'TransactionName': this.Trcode.label,
       'ReceivingName': this.RTCode.label,
+      'ManualDocNo': this.ManualDocNo,
       'RegionName': this.regionName,
-      'UnLoadingSlip': (this.STNo !== 0) ? this.unLoadingSlip : 'N',
+      'IssueSlip': this.IssueSlip,
       'UserID': this.username.user,
       'documentSTItemDetails': this.itemData,
       'documentSTTDetails': this.STTDetails
