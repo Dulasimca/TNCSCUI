@@ -86,7 +86,7 @@ onNew() {
   this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
     if (res) {
       this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
-      this.router.navigate(['login']);
+      // this.router.navigate(['login']);
     } else {
       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
     }

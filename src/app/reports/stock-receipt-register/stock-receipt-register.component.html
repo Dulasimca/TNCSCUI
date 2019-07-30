@@ -36,7 +36,7 @@
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
       </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="stockReceiptRegCols" [value]="stockReceiptRegData" [rows]="20"

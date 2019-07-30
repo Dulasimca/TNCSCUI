@@ -23,6 +23,7 @@ export class WriteOffComponent implements OnInit {
   isActionDisabled: any;
   data: any;
   g_cd: any;
+  userid: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
@@ -37,6 +38,7 @@ export class WriteOffComponent implements OnInit {
     this.isActionDisabled = true;
     this.writeoffCols = this.tableConstants.WriteoffReport;
     this.data = this.roleBasedService.getInstance();
+    // this.userid = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 

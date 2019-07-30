@@ -60,5 +60,7 @@ export class PathConstants {
   public static readonly STOCK_STATEMENT_REPORT = '/api/StockStatement/Post';
   public static readonly CHANGE_PASSWORD_POST = '/api/Users/Post';
   public static readonly STACK_OPENING_ENTRY_REPORT_PUT = '/api/StackOpeningEntry/Put';
+  public static readonly DAILY_DOCUMENT_RECEIPT_POST = '/api/DailyReceipt/Post';
+  public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
   public static readonly BASIC_WEIGHT_MASTER = '/api/Basicweight';
 }

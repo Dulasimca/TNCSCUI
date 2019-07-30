@@ -40,7 +40,7 @@
         </div>
         <div class="ui-g-3  ui-md-1 ui-fluid" style="padding-top: 23px">
           <button pButton type="button" label=View [disabled]="((Docdate == null) || (g_cd == null))"
-            (click)="onTotal()"></button>
+            (click)="onView()"></button>
         </div>
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
@@ -63,7 +63,7 @@
         </p-table>
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
-        <p-table [columns]="DailyDocumentReceiptCols" [value]="DailyDocumentReceiptData" [rows]="20"
+        <p-table [columns]="DailyDocumentIssueCols" [value]="DailyDocumentIssueData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading" [totalRecords]="totalRecords">
           <ng-template pTemplate="header" let-columns>
