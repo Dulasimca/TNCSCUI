@@ -332,11 +332,10 @@ export class StockReceiptComponent implements OnInit {
     } else if (totalLength === 1 && event.keyCode === 190) {
       return true;
     }
-    else if (totalLength > 2) {
+    else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
         let checkValue: any = this.Moisture.toString().slice(0, 2);
       checkValue = (checkValue * 1);
-      console.log(findDot);
         if (checkValue > 25) {
           let startValue = this.Moisture.toString().slice(0, 1);
           let endValue = this.Moisture.toString().slice(1, totalLength);

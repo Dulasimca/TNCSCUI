@@ -283,7 +283,7 @@ parseMoisture(event) {
   } else if (totalLength === 1 && event.keyCode === 190) {
     return true;
   }
-  else if (totalLength > 2) {
+  else if (totalLength >= 2 && event.keyCode !== 8) {
     if (findDot < 0) {
       let checkValue: any = this.Moisture.toString().slice(0, 2);
     checkValue = (checkValue * 1);
