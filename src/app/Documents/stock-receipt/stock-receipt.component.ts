@@ -61,8 +61,8 @@ export class StockReceiptComponent implements OnInit {
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
   packingTypeOptions: SelectItem[];
-  isDepositorTypeDisabled: boolean = true;
-  isDepositorNameDisabled: boolean = true;
+ // isDepositorTypeDisabled: boolean = true;
+ // isDepositorNameDisabled: boolean = true;
   locationNo: any;
   transactoinSelection: any = [];
   depositorType: string;
@@ -85,7 +85,7 @@ export class StockReceiptComponent implements OnInit {
   godownNo: any;
   OrderNo: any;
   OrderDate: Date;
-  StackBalance: number;
+  StackBalance: any = 0;
   viewPane: boolean;
   canShowMenu: boolean;
   ReceivingCode: string;
@@ -203,7 +203,6 @@ export class StockReceiptComponent implements OnInit {
           })
         } else {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
-            this.isDepositorTypeDisabled = false;
             this.TransType = (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType;
           }
         }
@@ -227,14 +226,14 @@ export class StockReceiptComponent implements OnInit {
               depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
             this.depositorTypeOptions = depositorTypeList;
-            this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
+          //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
             this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
-          const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorCode.value : this.depositorCode).append('TRType', this.TransType);
+          const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             res.forEach(dn => {
               depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
