@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, ConfirmationService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -15,9 +15,13 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
+  username: any;
+  viewDate: Date = new Date();
+  viewPane: boolean = false;
   deliveryCols: any;
   deliveryData: any = [];
-  deliveryItemEntryData: any = [];
+  deliveryViewCols: any;
+  deliveryViewData: any = [];
   index: number = 0;
   scheme_data: any[];
   itemCols: any;
@@ -28,7 +32,6 @@ export class DeliveryReceiptComponent implements OnInit {
   paymentBalData: any;
   itemSchemeCols: any;
   itemSchemeData: any = [];
-  itemSchemeEntryData: any = [];
   maxDate: Date = new Date();
   transactionOptions: SelectItem[];
   yearOptions: SelectItem[];
@@ -40,7 +43,7 @@ export class DeliveryReceiptComponent implements OnInit {
   rateInTermsOptions: SelectItem[];
   marginSchemeOptions: SelectItem[];
   marginRateInTermsOptions: SelectItem[];
-  paymentOptions: Selection[];
+  paymentOptions: SelectItem[];
   selectedItem: boolean;
   RegionName: any;
   GodownName: any;
@@ -51,6 +54,8 @@ export class DeliveryReceiptComponent implements OnInit {
   DeliveryDate: Date = new Date();
   DeliveryOrderNo: any;
   Trcode: any;
+  trCode: any;
+  TransType: any;
   IndentNo: number;
   OrderPeriod: any;
   PermitDate: Date = new Date();
@@ -59,25 +64,34 @@ export class DeliveryReceiptComponent implements OnInit {
   RCode: string;
   GCode: string;
   PName: any;
+  pCode: any;
   RTCode: any;
+  rtCode: any;
   Remarks: string;
   Scheme: any;
+  schemeCode: any;
   MarginScheme: any;
+  marginSchemeCode: any;
   ICode: any;
+  iCode: any;
   MICode: any;
+  miCode: any;
   NKgs: any;
   Rate: any;
   RateTerm: any;
+  rateTerm: any;
   TotalAmount: any;
   MarginNKgs: any;
   MarginRate: any;
   MarginAmount: any;
   MarginRateInTerms: any;
+  marginRateInTerms: any;
   GrandTotal: any;
   Payment: string;
-  OcrNo: any;
-  PDate: Date;
+  ChequeNo: any;
+  ChequeDate: Date = new Date();
   PAmount: any;
+  PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
   PrevAmount: any;
@@ -90,12 +104,14 @@ export class DeliveryReceiptComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, private datepipe: DatePipe) { }
+    private restAPIService: RestAPIService, private authService: AuthService, 
+    private datepipe: DatePipe,  private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.data = this.roleBasedService.getInstance();
+    this.username = JSON.parse(this.authService.getCredentials());
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
@@ -160,12 +176,11 @@ export class DeliveryReceiptComponent implements OnInit {
             this.marginSchemeOptions = schemeSelection;
           });
           this.marginSchemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          // this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rt':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.GCode);
+          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             res.forEach(dt => {
               receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
@@ -179,7 +194,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'pn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.Trcode.transType);
+          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
+          .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             res.forEach(dn => {
               partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
@@ -192,32 +208,47 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
-          const params = new HttpParams().set('SCode', this.Scheme.value);
+          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             res.forEach(i => {
-              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-            })
+              if (!this.selectedItem) {
+                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+              } else {
+                let filteredArr = res.filter(x => {
+                  return x.Allotmentgroup === 'Rice';
+                })
+                filteredArr.forEach(i => {
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                })
+              }
+            });
             this.itemDescOptions = itemDesc;
             this.marginItemDescOptions = itemDesc;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            // this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
         case 'wmt':
         let weighment = [];
         if (this.rateInTermsOptions === undefined || this.marginRateInTermsOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.rateInTermsOptions = weighment;
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             this.marginRateInTermsOptions = weighment;
-            // this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
+        case 'pay':
+          if (this.paymentOptions === undefined) {
+            this.paymentOptions = [{ 'label': '-select-', 'value': null},
+              { label: 'Adjustment', value: 'A'},{ label: 'Cash', value: 'C'},
+            { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
+            { label: 'PayOrder', value: 'PO'}];
+          }
+          break;
     }
   }
 
@@ -231,47 +262,161 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onPayment() { }
 
+  onView() {
+    this.viewPane = true;
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+      res.forEach(data => {
+        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      })
+      this.deliveryViewData = res;
+    });
+  }
+
+
+  deleteRow(id, index) {
+    switch(id) {
+      case 'delivery':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deliveryData.splice(index, 1);
+            }
+        });
+        break;
+      case 'item':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemData.splice(index, 1);
+            }
+        });
+        break;
+        case 'scheme':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.itemSchemeData.splice(index, 1);
+            }
+        });
+        break;
+        case 'payment':
+            this.confirmationService.confirm({
+              message: 'Are you sure that you want to proceed?',
+                  header: 'Confirmation',
+                  icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                  this.paymentData.splice(index, 1);
+              }
+          });
+          break;
+          case 'prevBal':
+              this.confirmationService.confirm({
+                message: 'Are you sure that you want to proceed?',
+                    header: 'Confirmation',
+                    icon: 'pi pi-exclamation-triangle',
+                accept: () => {
+                    this.paymentBalData.splice(index, 1);
+                }
+            });
+            break;
+      case 'view':
+          this.confirmationService.confirm({
+            message: 'Are you sure that you want to proceed?',
+                header: 'Confirmation',
+                icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+              //  this.documentViewData.splice(index, 1);
+            }
+        });
+        break;
+    }
+  }
+
   onEnter(id) {
     switch (id) {
-      case 'Item1':
+      case 'Item':
         this.itemData.push({
           'itemDesc': this.ICode.label, 'netWeight': this.NKgs, 'unitMeasure': this.RateTerm.label,
-          'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount
-        });
-        this.deliveryItemEntryData.push({
+          'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount,
           'Itemcode': this.ICode.value, 'NetWeight': this.NKgs, 'Wtype': this.RateTerm.value,
           'Scheme': this.Scheme.value, 'Rate': this.Rate, 'Total': this.TotalAmount, 'RCode': this.RCode
         });
-        if (this.itemData.length !== 0 && this.deliveryItemEntryData.length !== 0) {
+        if (this.itemData.length !== 0) {
           this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
         }
         break;
-      case 'Item2':
+      case 'MarginItem':
         this.itemSchemeData.push({
           'itemName': this.MICode.label, 'netWeight': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
-          'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount
+          'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount,
+          'ItemCode': this.MICode.value, 'MarginNkgs': this.MarginNKgs, 'MarginWtype': this.MarginRateInTerms.label,
+          'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
         });
-        this.itemSchemeEntryData.push({
-          'ItemCode': this.MICode.label, 'MarginNkgs': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
-          'SchemeCode': this.MarginScheme.label, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
-        });
-        if (this.itemSchemeData.length !== 0 && this.itemSchemeEntryData.length !== 0) {
+        if (this.itemSchemeData.length !== 0) {
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
         }
         break;
+      case 'Payment':
+        this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
+          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
+          if (this.paymentData.length !== 0) {
+            this.Payment = this.PayableAt = this.ChequeNo = this.ChequeDate = this.OnBank = this.PAmount = null;
+          }
+        break;
     }
+  }
+
+  rateWithQtyCalculation(selectedWt, amnt, qty) {
+    let total: any = 0;
+    switch (selectedWt) {
+      case 'kgs':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'quintall':
+        total = ((qty / 100) * amnt).toFixed(2);
+        break;
+      case 'tons':
+        total = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'ltrs':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'nos':
+        total = (qty * amnt).toFixed(2);
+        break;
+      case 'kltrs':
+        total = ((qty / 1000) * amnt).toFixed(2);
+        break;
+    }
+    return total;
   }
 
   calculateTotal() {
    if (this.NKgs !== undefined && this.Rate !== undefined) {
-      this.TotalAmount = (this.NKgs * 1) + (this.Rate * 1);
+      this.TotalAmount = this.rateWithQtyCalculation(this.RateTerm, this.Rate, this.NKgs);
     }
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined) {
-      this.MarginAmount = (this.MarginNKgs * 1) + (this.MarginRate * 1);
+      this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms, this.Rate, this.NKgs);
+    }
+    if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
+      this.GrandTotal = (this.TotalAmount * 1) - (this.MarginAmount * 1);
     }
   }
 
   onPrint() { }
+
+  onClear() {
+    this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+  }
 
   onSave() {
     this.OrderPeriod = this.PMonth.value + '/' + this.PYear.label;
@@ -293,7 +438,11 @@ export class DeliveryReceiptComponent implements OnInit {
       'GodownName': this.GodownName,
       'TransactionName': this.Trcode.label,
       'RegionName': this.RegionName,
-      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip
+      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UserID': this.username.user,
+      'documentDeliveryItems': this.itemData,
+      'deliveryMarginDetails': this.itemSchemeData,
+      'deliveryPaymentDetails': this.paymentData
     };
    }
 }

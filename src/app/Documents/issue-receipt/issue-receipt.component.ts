@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem, MessageService } from 'primeng/api';
+import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
@@ -18,16 +18,16 @@ issueData: any = [];
 issueCols: any;
 itemCols: any;
 itemData: any = [];
-entryList: any = [];
 regionName: string;
 issuingGodownName: string;
+showMsg: any;
 data: any;
-maxDate: Date;
+maxDate: Date = new Date();
 scheme_data: any;
 stackYear: any;
 issueMemoDocData: any = [];
 issueMemoDocCols: any;
-viewDate: Date;
+viewDate: Date = new Date();
 packingTypes: any = [];
 monthOptions: SelectItem[];
 yearOptions: SelectItem[];
@@ -39,7 +39,6 @@ itemDescOptions: SelectItem[];
 packingTypeOptions: SelectItem[];
 stackOptions: SelectItem[];
 wmtOptions: SelectItem[];
-disableOkButton: boolean = true;
 viewPane: boolean = false;
 isViewClicked: boolean = false;
 isReceivorNameDisabled: boolean;
@@ -58,20 +57,20 @@ TKgs: any;
 month: any;
 year: any;
 SINo: any;
-SIDate: Date;
+SIDate: Date = new Date();
 IssuingCode: any;
 RCode: any;
-StackBalance: any;
+StackBalance: any = 0;
 RegularAdvance: any;
 RowId: any;
-DDate: Date;
+DDate: Date = new Date();
 SI_Date: Date;
-DNo: Date;
+DNo: any;
 canShowMenu: boolean;
 //Issue details
 Trcode: any;
 IRelates: any;
-DeliveryOrderDate: Date;
+DeliveryOrderDate: Date = new Date();
 DeliveryOrderNo: any;
 RTCode: any;
 RNCode: any;
@@ -90,20 +89,21 @@ NoPacking: number;
 GKgs: number;
 NKgs: number;
 WTCode: any;
-Moisture: number;
-NewBale: any;
-SServiceable: any;
-SPatches: any;
-Gunnyutilised: any;
-GunnyReleased: any;
-NStackBalance: any;
-CurrentDocQtv: any;
+Moisture: string;
+NewBale: any = 0;
+SServiceable: any = 0;
+SPatches: any = 0;
+Gunnyutilised: any = 0;
+GunnyReleased: any = 0;
+NStackBalance: any = 0;
+CurrentDocQtv: any = 0;
 index: number = 0;
 UserID :any;
 Loadingslip : any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
-    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) { 
+    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
+    private confirmationService: ConfirmationService) { 
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -112,6 +112,7 @@ Loadingslip : any;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
+    this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
     this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
@@ -269,8 +270,45 @@ Loadingslip : any;
   }
 }
 
-onIssueTextChange(event) {
+parseMoisture(event) {
+  let totalLength = event.target.value.length;
+  let value = event.target.value;
+  let findDot = this.Moisture.toString().indexOf('.');
+  if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
+    || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+    || (findDot > 1)) {
+    return false;
+  } else if (totalLength === 1 && event.keyCode === 190) {
+    return true;
+  }
+  else if (totalLength > 2) {
+    if (findDot < 0) {
+      let checkValue: any = this.Moisture.toString().slice(0, 2);
+    checkValue = (checkValue * 1);
+    console.log(findDot);
+      if (checkValue > 25) {
+        let startValue = this.Moisture.toString().slice(0, 1);
+        let endValue = this.Moisture.toString().slice(1, totalLength);
+        this.Moisture = startValue + '.' + endValue;
+      } else {
+        let startValue = this.Moisture.toString().slice(0, 2);
+        let endValue = this.Moisture.toString().slice(2, totalLength);
+        this.Moisture = startValue + '.' + endValue;
+      }
+    } 
+  } else {
+    return true;
+  }
+}
 
+onCalculateKgs() {
+  if (this.NoPacking !== undefined && this.NoPacking !== null
+    && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
+    this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+    this.TKgs = this.GKgs - this.NKgs;
+  } else {
+    this.GKgs = this.NKgs = this.TKgs = 0;
+  }
 }
 
 onIssueDetailsEnter() { 
@@ -278,7 +316,7 @@ onIssueDetailsEnter() {
   this.DDate = this.DeliveryOrderDate;
   this.SI_Date = this.SIDate;
  this.issueData.push({
-    'SINo': (this.SINo !== undefined) ? this.SINo : '', 
+    'SINo': (this.SINo !== undefined) ? this.SINo : '-', 
     'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
     'DNo': this.DeliveryOrderNo, 
     'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
@@ -289,18 +327,7 @@ onIssueDetailsEnter() {
  }
 
 onItemDetailsEnter() {
-  this.itemData.push({ 
-    'TStockNo': this.TStockNo.label, 
-    'ICode': this.ICode.label, 
-    'IPCode': this.IPCode.label,
-    'NoPacking': this.NoPacking, 
-    'GKgs': this.GKgs, 
-    'Nkgs': this.NKgs, 
-    'WTCode': this.WTCode.label, 
-    'Moisture': this.Moisture,
-    'Scheme': this.Scheme.label
-});
-this.entryList.push({ 
+this.itemData.push({ 
   'TStockNo': this.TStockNo.value, 
   'ICode': this.ICode.value, 
   'IPCode': this.IPCode.value,
@@ -312,12 +339,47 @@ this.entryList.push({
   'Scheme': this.Scheme.value,
   'CommodityName' : this.ICode.label,
   'SchemeName' : this.Scheme.label,
-  'PackingName' : this.IPCode.label
+  'PackingName' : this.IPCode.label,
+  'WmtType': this.WTCode.label
 });
 if (this.itemData.length !== 0) {
   this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
   this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
 }
+}
+
+deleteRow(id, index) {
+  switch(id) {
+  case 'issue':
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.issueData.splice(index, 1);
+            this.showMsg = [{severity:'info', summary:'Deleted', detail:'Successfully deleted!'}];
+        },
+        reject: () => {
+            this.showMsg = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        }
+    });
+    break;
+  case 'item':
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.itemData.splice(index, 1);
+            this.showMsg = [{severity:'info', summary:'Deleted', detail:'Successfully deleted!'}];
+        },
+        reject: () => {
+            this.showMsg = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        }
+    });
+    break;
+  }
+
 }
 
 onSave() {
@@ -346,7 +408,7 @@ onSave() {
     'ServiceablePatches': this.SPatches,
     'GunnyUtilised': this.Gunnyutilised,
     'GunnyReleased': this.GunnyReleased,
-    'IssueItemList': this.entryList,
+    'IssueItemList': this.itemData,
     'SIDetailsList': this.issueData,
     'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
     'GodownName':this.issuingGodownName,
@@ -361,6 +423,7 @@ onSave() {
     if (res !== undefined) {
       if (res) {
         this.messageService.add({key: 't-err', severity:'success', summary: 'Success Message', detail:'Saved Successfully!'});
+        this.onClear();
       } else {
         this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
       }
@@ -373,8 +436,8 @@ onSave() {
   const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
   this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
     res.forEach(data => {
-      data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
-      data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      data.SIDate = this.datepipe.transform(data.SIDate, 'dd-MM-yyyy');
+      data.DDate = this.datepipe.transform(data.DDate, 'dd-MM-yyyy');
     })
     this.issueMemoDocData = res;
   });
@@ -382,7 +445,6 @@ onSave() {
 
 onRowSelect(event) {
   this.SINo = event.data.SINo;
-  this.disableOkButton = false;
 }
 
 getDocBySINo() {
@@ -390,8 +452,10 @@ getDocBySINo() {
   const params = new HttpParams().set('value', this.SINo).append('Type', '2');
   this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
     if (res !== undefined && res.length !== 0) {
+    // this.issuingGodownName = res[0].IssuerName,
+    // this.IssuingCode = res[0].IssuingCode,
     this.SINo = res[0].SINo;
-    this.SIDate = res[0].SIDate;
+    this.SIDate = new Date(res[0].SIDate);
     this.RowId = res[0].RowId;
     this.DeliveryOrderDate = new Date(res[0].DDate);
     this.DeliveryOrderNo = res[0].DNo;
@@ -438,6 +502,14 @@ getDocBySINo() {
     this.ManualDocNo = res[0].Flag1;
     }
   });
+}
+
+onClear() {
+  this.itemData = this.issueData = [];
+  this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode
+   = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
+   this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = this.NewBale =
+   this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = null;
 }
 
 

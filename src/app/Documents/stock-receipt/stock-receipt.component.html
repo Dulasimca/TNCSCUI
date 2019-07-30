@@ -8,6 +8,7 @@
       </div>
     </p-header>
     <p-toast [style]="{marginTop: '80px'}" key="t-err" position="top-center"></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
         <div class="col-md-1"></div>
@@ -42,7 +43,7 @@
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label class="label-fontsize">Month</label>
                     <p-dropdown #m id="float-input" [options]="monthOptions" [(ngModel)]="month"
-                      (onClick)="onSelect('m')" filter="true" optionLabel="label" [showClear]="true">
+                      (onClick)="onSelect('m')" (onFocus)="onSelect('m')" filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -51,7 +52,7 @@
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label class="label-fontsize">Year</label>
                     <p-dropdown #y id="float-input" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y')"
-                      optionLabel="label" [showClear]="true">
+                    (keydown.enter)="onSelect('y')"   optionLabel="label" [showClear]="true">
                     </p-dropdown>
                   </div>
                 </div>
@@ -97,7 +98,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label class="label-fontsize">Transaction Code</label>
                     <p-dropdown [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                      filter="true" optionLabel="label" [showClear]="true" required>
+                    (keydown.enter)="onSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -106,7 +107,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label class="label-fontsize">Depositor Type</label>
                     <p-dropdown #dt id="float-input" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
-                      (onClick)="onSelect('dt')" filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
+                      (onClick)="onSelect('dt')" (keydown.enter)="onSelect('dt')" filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
                       [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -120,7 +121,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label class="label-fontsize">Depositor Name</label>
                     <p-dropdown #dn id="float-input" [options]="depositorNameOptions" [(ngModel)]="DepositorCode"
-                      (onClick)="onSelect('dn')" filter="true" [disabled]="isDepositorNameDisabled" optionLabel="label"
+                      (onClick)="onSelect('dn')" (keydown.enter)="onSelect('dn')" filter="true" [disabled]="isDepositorNameDisabled" optionLabel="label"
                       [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -138,7 +139,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -18px;">
                     <label class="label-fontsize">Truck Memo Date</label>
-                    <p-calendar [(ngModel)]="TruckMemoDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="TruckMemoDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
@@ -173,7 +174,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" [options]="schemeOptions" [(ngModel)]="Scheme"
-                      (onClick)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
+                      (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
                       [autoWidth]="false" [style]="{'width':'100%'}">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -183,7 +184,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Item Description</label>
                     <p-dropdown #i_desc id="float-input" [options]="itemDescOptions" [(ngModel)]="ICode"
-                      (onClick)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true"
+                      (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true"
                       [disabled]="isItemDescEnabled">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -193,7 +194,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Stack No.</label>
                     <p-dropdown #st_no id="float-input" [options]="stackOptions" [(ngModel)]="TStockNo"
-                      (onClick)="onSelect('st_no')" filter="true" optionLabel="label" [showClear]="true"
+                      (onClick)="onSelect('st_no')" (keydown.enter)="onSelect('st_no')" filter="true" optionLabel="label" [showClear]="true"
                       [disabled]="isStackNoEnabled">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; word-wrap: break-word">{{item.label}}</span>
@@ -219,7 +220,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Packing Type</label>
                     <p-dropdown #pt id="float-input" [options]="packingTypeOptions" [(ngModel)]="IPCode"
-                      (onClick)="onSelect('pt')" filter="true" optionLabel="label" [showClear]="true">
+                      (onClick)="onSelect('pt')" (keydown.enter)="onSelect('pt')" filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -229,7 +230,7 @@
                 <div class="ui-g-12">
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 10px">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText maxlength="4" [(ngModel)]="NoPacking" autocomplete="off">
+                      <input id="float-input" pInputText maxlength="4" [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
                       <label class="float-input">No.of Packing</label>
                     </span>
                   </div>
@@ -260,7 +261,7 @@
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
                     <label class="label-fontsize">WmtType</label>
                     <p-dropdown #wmt id="float-input" [options]="wmtOptions" [(ngModel)]="WTCode"
-                      (onClick)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true"
+                      (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')" filter="true" optionLabel="label" [showClear]="true"
                      >
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -269,8 +270,9 @@
                   </div>
                   <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
                     <span class="ui-float-label">
-                      <input id="float-input" type="number" maxLength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off">
+                      <input id="float-input" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
+                        autocomplete="off" (keyup)="parseMoisture($event)"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                       <label class="float-input">Moisture</label>
                     </span>
                   </div>
@@ -293,7 +295,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 16px;">
                     <span class="ui-float-label">
-                      <input id="float-input" pInputText [(ngModel)]="stackBalance" autocomplete="off">
+                      <input id="float-input" pInputText [(ngModel)]="stackBalance" [readonly]="true" autocomplete="off">
                       <label class="float-input">Stack Balance</label>
                     </span>
                   </div>
@@ -312,8 +314,8 @@
                         </th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                      <tr>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
                           <i *ngIf="rowdata?.icon" class="pi pi-trash" aria-hidden="true"></i>
@@ -407,7 +409,7 @@
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -18px">
                     <label class="label-fontsize">Freight Code</label>
                     <p-dropdown #fc id="float-input" [options]="freightOptions" [disabled]="true" [(ngModel)]="FCode"
-                      (onClick)="onSelect('fc')" filter="true" optionLabel="label" [showClear]="true">
+                      (onClick)="onSelect('fc')" (keydown.enter)="onSelect('fc')" filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -418,7 +420,7 @@
                   <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -18px">
                     <label class="label-fontsize">Vehicle Code</label>
                     <p-dropdown #vc id="float-input" [options]="vehicleOptions" [disabled]="true" [(ngModel)]="VCode"
-                      (onClick)="onSelect('vc')" filter="true" optionLabel="label" [showClear]="true"
+                      (onClick)="onSelect('vc')" (keydown.enter)="onSelect('vc')" filter="true" optionLabel="label" [showClear]="true"
                       placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -458,7 +460,7 @@
                     <label class="label-fontsize">From Station</label>
                     <p-dropdown #fs id="float-input" [options]="fromStationOptions" [disabled]="true"
                       [(ngModel)]="FStation" (onClick)="onSelect('fs')" filter="true" optionLabel="label"
-                      [showClear]="true" placeholder="-select-">
+                      (keydown.enter)="onSelect('fs')" [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -467,7 +469,7 @@
                   <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top: -18px">
                     <label class="label-fontsize">To Station</label>
                     <p-dropdown #ts id="float-input" [options]="toStationOptions" [disabled]="true"
-                      [(ngModel)]="TStation" (onClick)="onSelect('ts')" filter="true" optionLabel="label"
+                      [(ngModel)]="TStation" (onClick)="onSelect('ts')" (keydown.enter)="onSelect('ts')" filter="true" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -525,7 +527,7 @@
   </p-panel>
 </div>
 <p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-12 ui-md-2">
         <label class="ui-g-6 label-fontsize-large">Date</label>
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
@@ -543,8 +545,8 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>

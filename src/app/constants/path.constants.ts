@@ -21,8 +21,10 @@ export class PathConstants {
   public static readonly CB_STATEMENT_REPORT = '/api/DailyCBStatement';
   public static readonly STOCK_RECEIPT_REGISTER_REPORT = '/api/StockReceipts/Post';
   public static readonly STOCK_ISSUE_REGISTER_REPORT = '/api/StockIssue/Post';
-  public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
+  public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemo/Post';
+  public static readonly STOCK_TRUCK_MEMO_VIEW_REPORT = '/api/StockTruckMemo/Get';
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrders/Post';
+  public static readonly STOCK_DELIVERY_ORDER_VIEW_REPORT = '/api/StockDeliveryOrders/Get';
   public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
   public static readonly COMMODITY_RECEIPT_REPORT = '/api/CommodityReceipt/Post';
   public static readonly SCHEME_ISSUE_MEMO_REPORT = '/api/SchemeIssueMemo/Post';
@@ -60,4 +62,5 @@ export class PathConstants {
   public static readonly STACK_OPENING_ENTRY_REPORT_PUT = '/api/StackOpeningEntry/Put';
   public static readonly DAILY_DOCUMENT_RECEIPT_POST = '/api/DailyReceipt/Post';
   public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
+  public static readonly BASIC_WEIGHT_MASTER = '/api/Basicweight';
 }

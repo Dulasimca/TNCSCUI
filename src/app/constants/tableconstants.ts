@@ -78,6 +78,7 @@ export class TableConstants {
   DailyDocumentTotalReport: any;
   DailyDocumentReceipt: any;
   DailyDocumentIssue: any;
+  StockIssueMemoViewBySINOCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -202,10 +203,11 @@ export class TableConstants {
     ];
 
     this.DeliveryPaymentcolumns = [
-      { field: 'paymentMode', header: 'Payment Mode' },
-      { field: 'payOrderNumber', header: 'CH/DD/PayOrder No' },
-      { field: 'payOrderDate', header: 'CH/DD/PayOrder Date' },
-      { field: 'paymentAmount', header: 'Payment Amount' },
+      { field: 'PaymentMode', header: 'Payment Mode' },
+      { field: 'ChequeNo', header: 'CH/DD/PayOrder No' },
+      { field: 'ChDate', header: 'CH/DD/PayOrder Date' },
+      { field: 'PaymentAmount', header: 'Payment Amount' },
+      { field: 'payableat', header: 'Payable At' },
       { field: 'bank', header: 'Bank' },
     ]
 
@@ -455,6 +457,15 @@ export class TableConstants {
       // { field: 'icon', header: 'Action'}
     ];
 
+    this.StockIssueMemoViewBySINOCols = [
+      {field: 'SINo', header: 'Issue Memo No' },
+    { field: 'SIDate', header: 'Issue Memo Date' },
+    { field: 'DNo', header: 'Delivery Order No' },
+    { field: 'DDate', header: 'Delivery Order' },
+    { field: 'IssuerName', header: 'Issuer Name'},
+    { field: 'ReceivorName', header: 'Receivor Name'},
+    ];
+
     this.StockIssueMemoIssueDetailsColumns = [ 
     {field: 'SINo', header: 'Issue Memo No' },
     { field: 'SIDate', header: 'Issue Memo Date' },
@@ -463,14 +474,14 @@ export class TableConstants {
 
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'TStockNo', header:'Stack No.' },
-      { field: 'ICode', header:'Item Description' },
-      { field: 'IPCode', header:'Packing Type' },
+      { field: 'CommodityName', header:'Item Description' },
+      { field: 'PackingName', header:'Packing Type' },
       { field: 'NoPacking', header:'No. of packing' },
-      { field: 'WTCode', header:'Wmt Type' },
+      { field: 'WmtType', header:'Wmt Type' },
       { field: 'GKgs', header:'Gross Wt' },
       { field: 'Nkgs', header:'Net WT' },
       { field: 'Moisture', header:'Moisture' },
-      { field: 'Scheme', header:'Scheme' },
+      { field: 'SchemeName', header:'Scheme' },
     ];
 
     this.DoAllScheme = [
@@ -785,15 +796,15 @@ export class TableConstants {
     ];
 
     this.TruckMemoItemDetails = [
-      { header: 'Stack No.', field:'StackNo' },
-      { header: 'Item Description', field:'ItemDesc' },
+      { header: 'Stack No.', field:'TStockNo' },
+      { header: 'Item Description', field:'ITDescription' },
       { header: 'Packing Type', field:'PackingType' },
-      { header: 'No. of packing', field:'No Packing' },
+      { header: 'No. of packing', field:'NoPacking' },
       { header: 'Wmt Type', field:'WmtType' },
-      { header: 'Gross Wt', field:'GrossWt' },
-      { header: 'Net Wt', field:'NetWT' },
+      { header: 'Gross Wt', field:'GKgs' },
+      { header: 'Net Wt', field:'Nkgs' },
       { header: 'Moisture', field:'Moisture' },
-      { header: 'Scheme', field:'Scheme' }
+      { header: 'Scheme', field:'SchemeName' }
     ];
     this.StockStatementReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
