@@ -35,7 +35,7 @@ export class StockReceiptComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   year: any;
-  disableOkButton: boolean = true;
+  isSaveSucceed: boolean = true;
   isViewClicked: boolean = false;
   tareWt: number;
   maxDate: Date = new Date();
@@ -198,7 +198,7 @@ export class StockReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
+          // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
         }
         break;
       case 'dt':
@@ -372,11 +372,12 @@ export class StockReceiptComponent implements OnInit {
       'Moisture': this.Moisture,
       'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
       'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
-      'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode
+      'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
+      'WmtType': (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
     if (this.itemData.length !== 0) {
       this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
-        = this.GKgs = this.NKgs = this.WTCode = this.tareWt = null;
+        = this.GKgs = this.NKgs = this.WTCode = this.tareWt = this.godownNo = this.locationNo = this.stackYear = null;
     }
   }
 
@@ -419,6 +420,7 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
+          this.isSaveSucceed = false;
           this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
@@ -445,7 +447,6 @@ export class StockReceiptComponent implements OnInit {
 
   onRowSelect(event) {
     this.SRNo = event.data.SRNo;
-    this.disableOkButton = false;
   }
 
   getDocBySRNo() {
