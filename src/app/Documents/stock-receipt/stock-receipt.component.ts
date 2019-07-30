@@ -271,14 +271,6 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        } else {
-          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-            this.NoPacking = this.IPCode.weight;
-            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-            this.tareWt = this.GKgs - this.NKgs;
-          } else {
-            this.NoPacking = this.GKgs = this.NKgs = 0;
-          }
         }
         break;
       case 'wmt':
@@ -355,9 +347,18 @@ export class StockReceiptComponent implements OnInit {
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
       this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-      this.tareWt = this.GKgs - this.NKgs;
+      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
       this.GKgs = this.NKgs = this.tareWt = 0;
+    }
+  }
+
+  onCalculateWt() {
+    if (this.GKgs !== undefined && this.NKgs !== undefined)  {
+      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
+    }
+    if (this.GKgs < this.NKgs) {
+      this.NKgs = this.GKgs = this.tareWt = 0;
     }
   }
 

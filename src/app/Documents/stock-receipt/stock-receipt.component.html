@@ -147,7 +147,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="VNo" type="text" maxlength="20" size="10" [(ngModel)]="LNo" pInputText
-                        autocomplete="off" style="text-transform: capitalize !important" required>
+                        autocomplete="off" style="text-transform: uppercase !important" required>
                       <label for="VNo" class="float-input">Vehicle No</label>
                     </span>
                   </div>
@@ -178,7 +178,7 @@
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" name="Scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
                       (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                      [autoWidth]="false" [style]="{'width':'100%'}" required>
+                      [autoWidth]="false" [style]="{'width':'100%'}">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -188,7 +188,7 @@
                     <label class="label-fontsize">Item Description</label>
                     <p-dropdown #i_desc id="float-input" name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                       (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')"
-                       filter="true" optionLabel="label" [showClear]="true" required>
+                       filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -198,7 +198,7 @@
                     <label class="label-fontsize">Stack No.</label>
                     <p-dropdown #st_no id="float-input" name="TStockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
                       (onClick)="onSelect('st_no')" (keydown.enter)="onSelect('st_no')" filter="true"
-                       optionLabel="label" [showClear]="true" required>
+                       optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; word-wrap: break-word">{{item.label}}</span>
                       </ng-template>
@@ -224,7 +224,7 @@
                     <label class="label-fontsize">Packing Type</label>
                     <p-dropdown #pt id="float-input" name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                       (onClick)="onSelect('pt')" (keydown.enter)="onSelect('pt')" filter="true"
-                       optionLabel="label" [showClear]="true" required>
+                       optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -235,7 +235,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 10px">
                     <span class="ui-float-label">
                       <input id="float-input" name="NoPacking" pInputText maxlength="4"
-                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off" required>
+                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
                       <label for="NoPacking" class="float-input">No.of Packing</label>
                     </span>
                   </div>
@@ -249,7 +249,7 @@
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input id="float-input" name="Gkgs" type="text" maxlength="6" [(ngModel)]="GKgs"
-                       size="20" pInputText autocomplete="off" required>
+                       size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -25px">
@@ -262,14 +262,14 @@
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input id="float-input" type="text" name="Nkgs" size="20" maxlength="6"
-                       [(ngModel)]="NKgs" pInputText autocomplete="off" required>
+                       [(ngModel)]="NKgs" pInputText (input)="onCalculateWt()" autocomplete="off">
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
                     <label class="label-fontsize">WmtType</label>
                     <p-dropdown #wmt id="float-input" name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                       (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')" filter="true"
-                       optionLabel="label" [showClear]="true" required>
+                       optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -279,7 +279,7 @@
                     <span class="ui-float-label">
                       <input id="float-input" name="Moisture" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
                         autocomplete="off" (keyup)="parseMoisture($event)"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" required>
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                       <label for="Moisture" class="float-input">Moisture</label>
                     </span>
                   </div>
@@ -523,7 +523,7 @@
             <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
+            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0')" label=Save (click)="onSave()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
             <button name="print" style="margin-top:5px" pButton type="button" [disabled]="isSaveSucceed" label=Print (click)="onPrint()"></button>
@@ -565,7 +565,7 @@
       </div>
       <div class="ui-g-4 ui-md-10"></div>
       <div class="ui-g-4 ui-md-1 no-right-pad">
-        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="!documentViewData" (click)="getDocBySRNo()"></button>
+        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="documentViewData.length=='0'" (click)="getDocBySRNo()"></button>
       </div>
       <div class="ui-g-4 ui-md-1 no-left-pad">
           <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>

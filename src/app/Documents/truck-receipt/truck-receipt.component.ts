@@ -297,15 +297,7 @@ export class TruckReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        } else {
-          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-            this.NoPacking = this.IPCode.weight;
-            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-            this.TKgs = this.GKgs - this.NKgs;
-          } else {
-            this.NoPacking = this.GKgs = this.NKgs = 0;
-          }
-        }
+        } 
         break;
       case 'wmt':
         let weighment = [];

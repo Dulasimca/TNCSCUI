@@ -247,15 +247,7 @@ Loadingslip : any;
             this.packingTypeOptions = this.packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        } else {
-          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-            this.NoPacking = this.IPCode.weight;
-            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-            this.TKgs = this.GKgs - this.NKgs;
-          } else {
-            this.NoPacking = this.GKgs = this.NKgs = 0;
-          }
-        }
+        } 
         break;
       case 'wmt':
         let weighment = [];
@@ -307,11 +299,21 @@ onCalculateKgs() {
   if (this.NoPacking !== undefined && this.NoPacking !== null
     && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
     this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-    this.TKgs = this.GKgs - this.NKgs;
+    this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
   } else {
     this.GKgs = this.NKgs = this.TKgs = 0;
   }
 }
+
+onCalculateWt() {
+  if (this.GKgs !== undefined && this.NKgs !== undefined)  {
+    this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
+  }
+  if (this.GKgs < this.NKgs) {
+    this.NKgs = this.GKgs = this.TKgs = 0;
+  }
+}
+
 
 onIssueDetailsEnter() { 
   this.DNo = this.DeliveryOrderNo;
