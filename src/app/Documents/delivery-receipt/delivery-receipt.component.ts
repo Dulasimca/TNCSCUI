@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { SelectItem, ConfirmationService } from 'primeng/api';
+import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 
@@ -27,9 +27,9 @@ export class DeliveryReceiptComponent implements OnInit {
   itemCols: any;
   itemData: any = [];
   paymentCols: any;
-  paymentData: any;
+  paymentData: any = [];
   paymentBalCols: any;
-  paymentBalData: any;
+  paymentBalData: any = [];
   itemSchemeCols: any;
   itemSchemeData: any = [];
   maxDate: Date = new Date();
@@ -94,17 +94,20 @@ export class DeliveryReceiptComponent implements OnInit {
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
-  PrevAmount: any;
+  PrevOrderDate: Date;
+  AdjusmentAmount: any;
+  AdjustmentType: string;
   OtherAmount: any;
   Balance: any;
   DueAmount: any;
   PaidAmount: any;
   BalanceAmount: any;
   MarginItem: string;
+  isSaveSucceed: boolean = false;
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, 
+    private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe,  private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -232,8 +235,9 @@ export class DeliveryReceiptComponent implements OnInit {
         let weighment = [];
         if (this.rateInTermsOptions === undefined || this.marginRateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-            res.Table1.forEach(w => {
-              weighment.push({ 'label': w.WEType, 'value': w.WECode });
+            res.forEach(w => {
+              if (w.Basicweight !== 'GRAMS') {
+              weighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
             })
             this.rateInTermsOptions = weighment;
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -366,10 +370,21 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'Payment':
         this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'), RCode: this.RCode,
           PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
           if (this.paymentData.length !== 0) {
-            this.Payment = this.PayableAt = this.ChequeNo = this.ChequeDate = this.OnBank = this.PAmount = null;
+            this.ChequeDate = new Date();
+            this.Payment = this.PayableAt = this.ChequeNo =  this.OnBank = this.PAmount = null;
+          }
+        break;
+      case 'Adjustment':
+        this.paymentBalData.push({AdjustedDoNo: this.PrevOrderNo,
+          AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+          Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
+          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance});
+          if(this.paymentBalData.length !== 0) {
+            this.PrevOrderDate =  new Date();
+            this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
           }
         break;
     }
@@ -378,22 +393,22 @@ export class DeliveryReceiptComponent implements OnInit {
   rateWithQtyCalculation(selectedWt, amnt, qty) {
     let total: any = 0;
     switch (selectedWt) {
-      case 'kgs':
+      case 'KGS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'quintall':
+      case 'QUINTALL':
         total = ((qty / 100) * amnt).toFixed(2);
         break;
-      case 'tons':
+      case 'TONS':
         total = ((qty / 1000) * amnt).toFixed(2);
         break;
-      case 'ltrs':
+      case 'LTRS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'nos':
+      case 'NOS':
         total = (qty * amnt).toFixed(2);
         break;
-      case 'kltrs':
+      case 'KILOLTRS':
         total = ((qty / 1000) * amnt).toFixed(2);
         break;
     }
@@ -416,6 +431,8 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+    this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = this.Trcode =
+    this.IndentNo = this.PMonth = this.PYear = this.RTCode = this.PName = this.Remarks = null;
   }
 
   onSave() {
@@ -442,7 +459,23 @@ export class DeliveryReceiptComponent implements OnInit {
       'UserID': this.username.user,
       'documentDeliveryItems': this.itemData,
       'deliveryMarginDetails': this.itemSchemeData,
-      'deliveryPaymentDetails': this.paymentData
+      'deliveryPaymentDetails': this.paymentData,
+      'deliveryAdjustmentDetails': this.paymentBalData
     };
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+      if (res !== undefined) {
+        if (res) {
+          this.isSaveSucceed = false;
+          this.onClear();
+          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        } else {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+        }
+      }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+      }
+    });
    }
 }

@@ -212,12 +212,12 @@ export class TableConstants {
     ]
 
     this.DeliveryPaymentBalanceCols = [
-      { field: 'prevDeliveryOrder', header: 'Previous Delivery Order' },
-      { field: 'deliveryOrderDate', header: 'Delivery Order Date' },
-      { field: 'adjAmt', header: 'Adjustment Amount' },
-      { field: 'adjType', header: 'Adjustment Type' },
-      { field: 'amtNowAdjusted', header: 'Amount Now Adjusted' },
-      { field: 'balance', header: 'Balance' }
+      { field: 'AdjustedDoNo', header: 'Previous Delivery Order' },
+      { field: 'AdjustDate', header: 'Delivery Order Date' },
+      { field: 'Amount', header: 'Adjustment Amount' },
+      { field: 'AdjustmentType', header: 'Adjustment Type' },
+      { field: 'AmountNowAdjusted', header: 'Amount Now Adjusted' },
+      { field: 'Balance', header: 'Balance' }
     ];
 
     this.StockReceiptRegisterReport = [
@@ -446,14 +446,14 @@ export class TableConstants {
 
     this.StockReceiptItemColumns = [
       { field: 'TStockNo', header: 'Stack No.' },
-      { field: 'ICode', header: 'Item Description' },
-      { field: 'IPCode', header: 'Packing Type' },
+      { field: 'CommodityName', header: 'Item Description' },
+      { field: 'PackingName', header: 'Packing Type' },
       { field: 'NoPacking', header: 'No. of packing' },
-      { field: 'WTCode', header: 'Wmt Type' },
+      { field: 'WmtType', header: 'Wmt Type' },
       { field: 'GKgs', header: 'Gross Wt' },
       { field: 'Nkgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
-      { field: 'Scheme', header: 'Scheme' },
+      { field: 'SchemeName', header: 'Scheme' },
       // { field: 'icon', header: 'Action'}
     ];
 

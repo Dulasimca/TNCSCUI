@@ -4,9 +4,11 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -226,7 +228,7 @@ Loadingslip : any;
             this.stackOptions = stackNo;
             this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+          if (this.TStockNo !== undefined && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
             let index;
             index = this.TStockNo.value.toString().indexOf('/', 1);
@@ -245,15 +247,7 @@ Loadingslip : any;
             this.packingTypeOptions = this.packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        } else {
-          if (this.IPCode.value !== undefined && this.IPCode.value !== '' && this.IPCode !== null) {
-            this.NoPacking = this.IPCode.weight;
-            this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-            this.TKgs = this.GKgs - this.NKgs;
-          } else {
-            this.NoPacking = this.GKgs = this.NKgs = 0;
-          }
-        }
+        } 
         break;
       case 'wmt':
         let weighment = [];
@@ -275,13 +269,13 @@ parseMoisture(event) {
   let value = event.target.value;
   let findDot = this.Moisture.toString().indexOf('.');
   if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-    || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+    || (event.keyCode >= 91 && event.keyCode <= 965) || (event.keyCode >= 123 && event.keyCode <= 127)
     || (findDot > 1)) {
     return false;
   } else if (totalLength === 1 && event.keyCode === 190) {
     return true;
   }
-  else if (totalLength > 2) {
+  else if (totalLength >= 2 && event.keyCode !== 8) {
     if (findDot < 0) {
       let checkValue: any = this.Moisture.toString().slice(0, 2);
     checkValue = (checkValue * 1);
@@ -305,11 +299,21 @@ onCalculateKgs() {
   if (this.NoPacking !== undefined && this.NoPacking !== null
     && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
     this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-    this.TKgs = this.GKgs - this.NKgs;
+    this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
   } else {
     this.GKgs = this.NKgs = this.TKgs = 0;
   }
 }
+
+onCalculateWt() {
+  if (this.GKgs !== undefined && this.NKgs !== undefined)  {
+    this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
+  }
+  if (this.GKgs < this.NKgs) {
+    this.NKgs = this.GKgs = this.TKgs = 0;
+  }
+}
+
 
 onIssueDetailsEnter() { 
   this.DNo = this.DeliveryOrderNo;
@@ -428,6 +432,10 @@ onSave() {
         this.messageService.add({key: 't-err', severity:'error', summary: 'Error Message', detail:'Something went wrong!'});
       }
     }
+  },(err: HttpErrorResponse) => {
+    if (err.status === 0) {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+    }
   });
  }
 
@@ -519,5 +527,11 @@ openNext() {
 
 openPrev() {
   this.index = (this.index === 0) ? 2 : this.index - 1;
+}
+
+onPrint() {
+  const path = "../../assets/Reports/" + this.UserID.user + "/";
+  const filename = this.IssuingCode + GolbalVariable.StockIssueDocument + ".txt";
+  saveAs(path + filename, filename);
 }
 }
