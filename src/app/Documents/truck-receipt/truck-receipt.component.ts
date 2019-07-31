@@ -563,7 +563,7 @@ export class TruckReceiptComponent implements OnInit {
       'MDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
       'RNo': this.RNo,
       'RDate': this.datepipe.transform(this.RDate, 'MM/dd/yyyy'),
-      'LNo': this.LorryNo,
+      'LorryNo': this.LorryNo,
       'ReceivingCode': this.RNCode.value,
       'IssuingCode': this.GCode,
       'RCode': this.RCode,
