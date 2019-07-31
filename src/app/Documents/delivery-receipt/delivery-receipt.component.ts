@@ -370,17 +370,17 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'Payment':
         this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'), RCode: this.RCode,
           PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
           if (this.paymentData.length !== 0) {
             this.ChequeDate = new Date();
             this.Payment = this.PayableAt = this.ChequeNo =  this.OnBank = this.PAmount = null;
           }
         break;
-      case 'Adjusment':
+      case 'Adjustment':
         this.paymentBalData.push({AdjustedDoNo: this.PrevOrderNo,
           AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
-          Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType,
+          Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
           AmountNowAdjusted: this.OtherAmount, Balance: this.Balance});
           if(this.paymentBalData.length !== 0) {
             this.PrevOrderDate =  new Date();

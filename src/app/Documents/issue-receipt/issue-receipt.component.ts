@@ -228,7 +228,7 @@ Loadingslip : any;
             this.stackOptions = stackNo;
             this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+          if (this.TStockNo !== undefined && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
             let index;
             index = this.TStockNo.value.toString().indexOf('/', 1);
@@ -269,7 +269,7 @@ parseMoisture(event) {
   let value = event.target.value;
   let findDot = this.Moisture.toString().indexOf('.');
   if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-    || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+    || (event.keyCode >= 91 && event.keyCode <= 965) || (event.keyCode >= 123 && event.keyCode <= 127)
     || (findDot > 1)) {
     return false;
   } else if (totalLength === 1 && event.keyCode === 190) {

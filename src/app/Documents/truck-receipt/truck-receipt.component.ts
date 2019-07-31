@@ -213,7 +213,9 @@ export class TruckReceiptComponent implements OnInit {
         let regionsData = [];
         if (this.regions !== undefined && this.receivorRegionOptions === undefined) {
           this.regions.forEach(r => {
+            if (r.Rcode !== this.RCode) {
             regionsData.push({ 'label': r.RName, 'value': r.RCode });
+            }
           })
           this.receivorRegionOptions = regionsData;
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
@@ -277,15 +279,17 @@ export class TruckReceiptComponent implements OnInit {
               stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
             })
             this.stackOptions = stackNo;
-            this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
           });
-          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+          if (this.TStockNo !== undefined && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
             let index;
             index = this.TStockNo.value.toString().indexOf('/', 1);
             const totalLength = this.TStockNo.value.length;
             this.GodownNo = this.TStockNo.value.toString().slice(0, index);
             this.LocationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+          } else {
+            this.GodownNo = this.stackYear = this.LocationNo = null;
           }
         }
         break;
@@ -362,7 +366,7 @@ export class TruckReceiptComponent implements OnInit {
     let value = event.target.value;
     let findDot = this.Moisture.toString().indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
       return false;
     } else if (totalLength === 1 && event.keyCode === 190) {

@@ -252,7 +252,7 @@ export class StockReceiptComponent implements OnInit {
             this.stackOptions = stackNo;
             this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-          if (this.TStockNo.value !== undefined && this.TStockNo.value !== '' && this.TStockNo !== null) {
+          if (this.TStockNo !== undefined && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
             let index;
             index = this.TStockNo.value.toString().indexOf('/', 1);
