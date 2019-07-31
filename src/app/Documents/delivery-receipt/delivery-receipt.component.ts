@@ -386,6 +386,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.PrevOrderDate =  new Date();
             this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
           }
+        break;
     }
   }
 
