@@ -358,6 +358,7 @@
                         <label for="payAt" class="float-input" style="padding-top: 10px;">Payable At</label>
                       </span>
                     </div>
+                    <div class="ui-g-12 dashboard">
                     <div class="ui-g-6 ui-md-3" style="padding-left: 0px">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="onBank" id="float-input" [(ngModel)]="OnBank" pInputText autocomplete="off">
@@ -368,6 +369,7 @@
                       <div style="padding-right: 10px;padding-top: 20px;">
                         <button pButton label="Enter" (click)="onEnter('Payment')"></button></div>
                     </div>
+                  </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid  no-left-pad">
                     <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"

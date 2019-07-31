@@ -27,9 +27,9 @@ export class DeliveryReceiptComponent implements OnInit {
   itemCols: any;
   itemData: any = [];
   paymentCols: any;
-  paymentData: any;
+  paymentData: any = [];
   paymentBalCols: any;
-  paymentBalData: any;
+  paymentBalData: any = [];
   itemSchemeCols: any;
   itemSchemeData: any = [];
   maxDate: Date = new Date();
@@ -373,14 +373,19 @@ export class DeliveryReceiptComponent implements OnInit {
           ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
           PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
           if (this.paymentData.length !== 0) {
-            this.Payment = this.PayableAt = this.ChequeNo = this.ChequeDate = this.OnBank = this.PAmount = null;
+            this.ChequeDate = new Date();
+            this.Payment = this.PayableAt = this.ChequeNo =  this.OnBank = this.PAmount = null;
           }
         break;
       case 'Adjusment':
         this.paymentBalData.push({AdjustedDoNo: this.PrevOrderNo,
           AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
           Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType,
-          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance})
+          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance});
+          if(this.paymentBalData.length !== 0) {
+            this.PrevOrderDate =  new Date();
+            this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
+          }
     }
   }
 
@@ -425,6 +430,8 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+    this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = this.Trcode =
+    this.IndentNo = this.PMonth = this.PYear = this.RTCode = this.PName = this.Remarks = null;
   }
 
   onSave() {

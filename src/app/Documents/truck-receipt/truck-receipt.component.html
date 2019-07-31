@@ -272,7 +272,7 @@
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
-                      <button pButton type="button" label="Enter" [disabled]="itemData.length=='0'" (click)="onEnter()"></button>
+                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode)" (click)="onEnter()"></button>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
