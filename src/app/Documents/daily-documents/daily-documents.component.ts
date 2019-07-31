@@ -26,15 +26,10 @@ export class DailyDocumentsComponent implements OnInit {
   DocumentDate: Date;
   roleId: any;
   gdata: any;
-  // Docdate: any;
-  godownName: SelectItem[];
-  disableOkButton: boolean = true;
+  isActionDisabled: any;
   userid: any;
   maxDate: Date;
   loading: boolean;
-  viewPane: boolean;
-  selectedRow: any;
-  viewDate: Date = new Date();
   godownOptions: SelectItem[];
   canShowMenu: boolean;
 
@@ -43,14 +38,13 @@ export class DailyDocumentsComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.gdata = this.roleBasedService.getInstance();
+    this.isActionDisabled = true;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.rCode = JSON.parse(this.authService.getUserAccessible().rCode);
     this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport;
     this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceipt;
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
   }
-
 
   onSelect(selectedItem) {
     let godownSelection = [];
@@ -64,72 +58,50 @@ export class DailyDocumentsComponent implements OnInit {
           this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
-
     }
   }
 
-  onTotal() {
-    this.DailyDocumentTotalData = [];
-    this.DailyDocumentReceiptData = [];
-    // this.checkValidDateSelection();
+  ontime() {
+    this.loading = true;
     const params = {
-      'GodownCode': this.g_cd.value,
+      'GodownCode': (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode,
       'RegionCode': this.g_cd.rcode,
       'RoleId': this.roleId,
       'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
     }
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
-      this.DailyDocumentTotalData = res;
-      // this.DailyDocumentReceiptData = res;
-      // let sno = 0;
-      // this.DailyDocumentReceiptData.forEach(data => {
-      //   data.NetWt = (data.NetWt * 1).toFixed(3);
-      //   sno += 1;
-      //   data.SlNo = sno;
-      // })
-      this.DailyDocumentTotalData.forEach(res => {
-        
-        res.rcode = this.g_cd.rcode,
-        res.gCode = this.g_cd.value
+      this.DailyDocumentReceiptData = res;
+      this.DailyDocumentTotalData = this.gdata
+      this.DailyDocumentTotalData.forEach(s => {
+        s.RCode = this.g_cd.rcode,
+          s.GCode = this.g_cd.value,
+          s.GName = this.g_cd.label,
+          s.RName,
+          s.NoDocument = res.length
       })
-      if (res !== undefined && res.length !== 0)
-       {
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
-        } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
-        }
-      this.DailyDocumentTotalCols.push(res);
+      let sno = 0;
+      this.DailyDocumentReceiptData.forEach(data => {
+        data.DocDate = this.datepipe.transform(data.DocDate, 'dd-MM-yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      })
+      if (res !== undefined && res.length !== 0) {
+        this.isActionDisabled = false;
+      } else {
+        this.loading = false;
+        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+      }
+      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.loading = false;
+      }
     })
   }
 
+  onResetTable() {
+    this.DailyDocumentReceiptData = [];
+    this.DailyDocumentTotalData = [];
+    this.isActionDisabled = true;
+  }
 }
-
-// this.checkValidDateSelection();
-// this.loading = true;
-// const params = {
-//   'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-//   'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-//   'UserName': this.username.user,
-//   'GCode': this.g_cd.value
-// }
-// this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-//   this.truckMemoRegData = res;
-//   let sno = 0;
-//   this.truckMemoRegData.forEach(data => {
-//     data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-//     data.NetWt = (data.NetWt * 1).toFixed(3);
-//     sno += 1;
-//     data.SlNo = sno;
-//   })
-//   if (res !== undefined && res.length !== 0) {
-//     this.isActionDisabled = false;
-//   } else {
-//     this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
-//   }
-//   this.loading = false;
-// }, (err: HttpErrorResponse) => {
-//   if (err.status === 0) {
-//   this.loading = false;
-//   this.router.navigate(['pageNotFound']);
-//   }
-// })  }

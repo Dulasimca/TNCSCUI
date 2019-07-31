@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Daily Documents</div>
+        <div class="ui-g-4 dashboard">Daily Documents Receipt</div>
       </div>
     </p-header>
     <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
@@ -12,40 +12,32 @@
     <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
-        <div class="ui-g-2"></div>
+        <div class="ui-g-3"></div>
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g label-fontsize dashboard" for="SRDate">Date</label>
-          <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="Docdate" [(ngModel)]="Docdate">
+          <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="DocumentDate"
+            [(ngModel)]="DocumentDate" (ngModelChange)="onResetTable()">
           </p-calendar>
         </div>
         <div class="ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard">Godown</label>
           <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
-            (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')" filter="true" optionLabel="label"
-            [showClear]="true" placeholder="-select-">
+            (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')" (ngModelChange)="onResetTable()" filter="true"
+            optionLabel="label" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="ui-g-12 ui-md-2">
-          <label class="ui-g-7 label-fontsize dashboard">Type</label>
-          <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="typeOptions" [(ngModel)]="t_cd"
-            (onClick)="onSelect('type')" (keydown.enter)="onSelect('type')" filter="true" optionLabel="label"
-            [showClear]="true" placeholder="-select-">
-            <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle">{{item.label}}</span>
-            </ng-template>
-          </p-dropdown>
+        <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 23px">
+          <button pButton type="button" label=View [disabled]="((DocumentDate == null) || (g_cd == null))"
+            (click)="ontime()"></button>
         </div>
-        <div class="ui-g-3  ui-md-1 ui-fluid" style="padding-top: 23px">
-          <button pButton type="button" label=View [disabled]="((Docdate == null) || (g_cd == null))"
-            (click)="onTotal()"></button>
-        </div>
+        <div class="ui-g-3"></div>
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
         <p-table [columns]="DailyDocumentTotalCols" [value]="DailyDocumentTotalData" [responsive]="true"
-          autoLayout="true" [loading]="loading" [totalRecords]="totalRecords">
+          autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">

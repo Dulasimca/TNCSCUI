@@ -441,7 +441,7 @@ export class TableConstants {
       {field: 'TNCSName', header: 'Receiver Godown'},
       {field: 'NoPacking', header: 'Bags Received'},
       {field: 'Nkgs', header: 'Received Quantity'},
-      // {field: 'Transfertype', header: 'INTERNAL/'}
+      {field: 'Transfertype', header: 'INTERNAL/'}
     ];
 
     this.StockReceiptItemColumns = [
@@ -835,45 +835,47 @@ export class TableConstants {
     ];
 
     this.DailyDocumentTotalReport = [
-      { field: '', header: 'No of Documents' },
-      { field: 'rcode', header: 'Region Code' },
-      { field: '', header: 'Region' },
-      { field: 'gCode', header: 'Godown Code' },
-      { field: '', header: 'Godown Name' }
+      { field: 'NoDocument', header: 'No of Documents' },
+      { field: 'RCode', header: 'Region Code' },
+      { field: 'RName', header: 'Region Name' },
+      { field: 'GCode', header: 'Godown Code' },
+      { field: 'GName', header: 'Godown Name' }
     ];
 
     this.DailyDocumentReceipt = [
-      { field: '', header: 'Doc No' },
-      { field: '', header: 'Doc Date' },
-      { field: '', header: 'Transaction Type' },
-      { field: '', header: 'Stack No' },
-      { field: '', header: 'Commodity Name' },
-      { field: '', header: 'Packing type' },
-      { field: '', header: 'No Of Packing' },
-      { field: '', header: 'Gross Wt' },
-      { field: '', header: 'Net Wt' },
-      { field: '', header: 'Moisture' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Period Allotment' },
-      { field: '', header: 'Order No' },
-      { field: '', header: 'Order Date' },
-      { field: '', header: 'Received From' },
-      { field: '', header: 'Truck Memo No' },
-      { field: '', header: 'Truck Date' },
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'Transactiontype', header: 'Transaction Type' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'PackingType', header: 'Packing type' },
+      { field: 'NOOfPACKING', header: 'No Of Packing' },
+      { field: 'GROSSWT', header: 'Gross Wt' },
+      { field: 'NETWT', header: 'Net Wt' },
+      { field: 'Moisture', header: 'Moisture' },
+      { field: 'SCHEME', header: 'Scheme' },
+      { field: 'PERIODALLOT', header: 'Period Allotment' },
+      { field: 'OrderNo', header: 'Order No' },
+      { field: 'ORDERDate', header: 'Order Date' },
+      { field: 'ReceivedFrom', header: 'Received From' },
+      { field: 'TruckMemoNo', header: 'Truck Memo No' },
+      { field: 'TRUCKDate', header: 'Truck Date' },
     ];
 
     this.DailyDocumentIssue = [
-      { field: '', header: 'Doc No' },
-      { field: '', header: 'Doc Date' },
-      { field: '', header: 'Stack No' },
-      { field: '', header: 'Transaction Type' },
-      { field: '', header: 'Commodity Name' },
-      { field: '', header: 'Packing type' },
-      { field: '', header: 'No of Packing/Bags' },
-      { field: '', header: 'Gross Wt' },
-      { field: '', header: 'Net Wt' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Issued To' },
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'TransactionType', header: 'Transaction Type' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'PackingType', header: 'Packing type' },
+      { field: 'NOOfPACKING', header: 'No of Packing/Bags' },
+      { field: 'GROSSWT', header: 'Gross Wt' },
+      { field: 'NETWT', header: 'Net Wt' },
+      { field: 'SCHEME', header: 'Scheme' },
+      { field: 'ReceivedFrom', header: 'Issued To' },
     ];
   }
 }

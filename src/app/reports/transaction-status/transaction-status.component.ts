@@ -29,20 +29,20 @@ export class TransactionStatusComponent implements OnInit {
   Transfer: boolean;
   CB: boolean;
   Transaction_Status: any;
+  isActionDisabled: any;
   maxDate: Date;
   loading: boolean;
   viewPane: boolean;
   selectedRow: any;
-  viewDate: Date = new Date();
   godownOptions: SelectItem[];
   canShowMenu: boolean;
-  show: any;
 
-  constructor(private tableConstants: TableConstants,private cd: ChangeDetectorRef , private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private cd: ChangeDetectorRef, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
+    this.isActionDisabled = true;
     this.TransactionStatusCols = this.tableConstants.TransactionStatus;
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
@@ -59,11 +59,6 @@ export class TransactionStatusComponent implements OnInit {
     }
   }
 
-  onRowSelect(event) {
-    this.disableOkButton = false;
-    this.selectedRow = event.Docdate;
-  }
-
   showSelectedData() {
     this.viewPane = false;
     this.Docdate = this.selectedRow.DocdDate;
@@ -72,7 +67,7 @@ export class TransactionStatusComponent implements OnInit {
     this.Transfer = this.selectedRow.Transfer;
     this.CB = this.selectedRow.CB;
     this.remarks = this.selectedRow.remarks;
-    this.userid = this.userid;
+    this.userid = this.userid.user;
   }
 
   onView() {
@@ -80,56 +75,42 @@ export class TransactionStatusComponent implements OnInit {
       const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy')).append('Gcode', this.g_cd.value);
       this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
         this.TransactionStatusData = res;
-        if (this.TransactionStatusData !== undefined) {
+        if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
+          this.isActionDisabled = false;
           this.Receipt = this.TransactionStatusData[0].Receipt,
             this.Issues = this.TransactionStatusData[0].Issues,
             this.Transfer = this.TransactionStatusData[0].Transfer,
             this.CB = this.TransactionStatusData[0].CB,
-            this.remarks = this.TransactionStatusData[0].remarks,
-            this.userid = this.TransactionStatusData[0].userid
+            this.remarks = this.TransactionStatusData[0].remarks
         }
       });
-    } 
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No Records!' });
+    }
   }
 
   onClear() {
     this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = null;
   }
 
-  showTrue(value) {
-    this.show = value;
-    if (!this.Receipt) {
-      this.cd.detectChanges();
-      this.show = !value;
+  onResetTable() {
+    this.TransactionStatusData = [];
+    this.Receipt = false;
+    this.Issues = false;
+    this.Transfer = false;
+    this.CB = false;
+    this.isActionDisabled = true;
+  }
+
+  showTrue(e: any) {
+    if (this.Receipt == true && this.Issues == true && this.Transfer == true && this.CB == true) {
+      this.Receipt = this.Issues = this.Transfer = this.CB = true
+    } else {
+      this.Receipt = this.Issues = this.Transfer = this.CB = false
     }
   }
 
-// ShowTrue(selectedItem) {
-//   this.show = selectedItem;
-//   switch (selectedItem) {
-//    case 'Receipt':
-//   if(!this.Receipt){
-//     this.cd.detectChanges();
-//     this.show = !selectedItem;
-//   }
-//   break;
-// case 'Issue':
-//   if(!){
-//     this.cd.detectChanges();
-//     this.show = !selectedItem;
-//   }
-//   case 'Issue':
-//   if(!){
-//     this.cd.detectChanges();
-//     this.show = !selectedItem;
-//   }
-//   case 'Issue':
-//   if(!){
-//     this.cd.detectChanges();
-//     this.show = !selectedItem;
-//   }
-
-onSave() {
+  onSave() {
     const params = {
       'Gcode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
       'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
@@ -138,7 +119,7 @@ onSave() {
       'Transfer': (this.Transfer !== undefined && this.Transfer !== null) ? true : false,
       'CB': (this.CB !== undefined && this.CB !== null) ? true : false,
       'remarks': (this.remarks !== undefined && this.remarks !== null) ? this.remarks : 'No Remarks',
-      'userid': this.userid.user,
+      'userid': this.userid.user
     };
     this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {
