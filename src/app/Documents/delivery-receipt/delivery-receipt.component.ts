@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { SelectItem, ConfirmationService } from 'primeng/api';
+import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 
@@ -94,17 +94,20 @@ export class DeliveryReceiptComponent implements OnInit {
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
-  PrevAmount: any;
+  PrevOrderDate: Date;
+  AdjusmentAmount: any;
+  AdjustmentType: string;
   OtherAmount: any;
   Balance: any;
   DueAmount: any;
   PaidAmount: any;
   BalanceAmount: any;
   MarginItem: string;
+  isSaveSucceed: boolean = false;
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, 
+    private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe,  private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -373,6 +376,11 @@ export class DeliveryReceiptComponent implements OnInit {
             this.Payment = this.PayableAt = this.ChequeNo = this.ChequeDate = this.OnBank = this.PAmount = null;
           }
         break;
+      case 'Adjusment':
+        this.paymentBalData.push({AdjustedDoNo: this.PrevOrderNo,
+          AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+          Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType,
+          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance})
     }
   }
 
@@ -443,7 +451,23 @@ export class DeliveryReceiptComponent implements OnInit {
       'UserID': this.username.user,
       'documentDeliveryItems': this.itemData,
       'deliveryMarginDetails': this.itemSchemeData,
-      'deliveryPaymentDetails': this.paymentData
+      'deliveryPaymentDetails': this.paymentData,
+      'deliveryAdjustmentDetails': this.paymentBalData
     };
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+      if (res !== undefined) {
+        if (res) {
+          this.isSaveSucceed = false;
+          this.onClear();
+          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        } else {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+        }
+      }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+      }
+    });
    }
 }

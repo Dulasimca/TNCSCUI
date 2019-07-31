@@ -65,15 +65,6 @@
                       <label class="label-fontsize" for="RDate">Release Order Date</label>
                       <p-calendar name="RDate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
-                    <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="LNo" id="float-input" [(ngModel)]="LorryNo"
-                        oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                          onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" pInputText
-                          autocomplete="off" required>
-                        <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
-                      </span>
-                    </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="RHCode" class="label-fontsize" style="padding-top: 10px;">To The Rail Head</label>
                       <p-dropdown #rail name="RHCode" [options]="toRailHeadOptions" [disabled]="disableRailHead"
@@ -83,6 +74,16 @@
                         </ng-template>
                       </p-dropdown>
                     </div>
+                    <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
+                        <label for="RRCode" class="label-fontsize" style="padding-top: 10px;">Receivor Region</label>
+                        <p-dropdown #rr name="RRCode" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
+                          (onClick)="onSelect('rr')" optionLabel="label" filter="true" [disabled]="isRailSelected"
+                          required>
+                          <ng-template let-item pTemplate="selectedItem">
+                            <span style="vertical-align:middle">{{item.label}}</span>
+                          </ng-template>
+                        </p-dropdown>
+                      </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="RTCode" class="label-fontsize" style="padding-top: 10px;">Receivor Type</label>
                       <p-dropdown #rt name="RTCode" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
@@ -118,16 +119,15 @@
                           Name</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
-                      <label for="RRCode" class="label-fontsize" style="padding-top: 10px;">Receivor Region</label>
-                      <p-dropdown #rr name="RRCode" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
-                        (onClick)="onSelect('rr')" optionLabel="label" filter="true" [disabled]="isRailSelected"
-                        required>
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle">{{item.label}}</span>
-                        </ng-template>
-                      </p-dropdown>
-                    </div>
+                    <div class="ui-g-6 ui-md-2">
+                        <span class="ui-float-label" style="padding-top: 20px;">
+                          <input name="LNo" id="float-input" [(ngModel)]="LorryNo"
+                          oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                            onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" pInputText
+                            autocomplete="off" required>
+                          <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
+                        </span>
+                      </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="ManualDNo" id="float-input" [(ngModel)]="ManualDocNo" pInputText autocomplete="off"

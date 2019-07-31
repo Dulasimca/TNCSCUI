@@ -408,7 +408,7 @@
                             </div>
                             <div class="ui-g-6 ui-md-2">
                               <span class="ui-float-label">
-                                <input name="PrvAmnt" id="float-input" [(ngModel)]="PrevAmount" pInputText
+                                <input name="AdjusmentAmount" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
                                   autocomplete="off" appDecimalDigit>
                                 <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                               </span>
@@ -418,7 +418,7 @@
                                   Credit</b></label>
                             </div>
                             <div class="ui-g-4 ui-md-2">
-                              <button pButton label="Enter" (click)="onEnter()"></button>
+                              <button pButton label="Enter" (click)="onEnter('Adjustment')"></button>
                             </div>
                           </div>
                           <div class="ui-g-12">
@@ -449,11 +449,11 @@
                                   Adjustment Type
                                 </label> </div>
                               <div class="ui-g-6">
-                                <p-radioButton name="groupname" label="Credit" value="val1" [(ngModel)]="selectedValue">
+                                <p-radioButton name="groupname" label="Credit" value="Credit" [(ngModel)]="AdjustmentType">
                                 </p-radioButton>
                               </div>
                               <div class="ui-g-6">
-                                <p-radioButton name="groupname" label="Debit" value="val2" [(ngModel)]="selectedValue">
+                                <p-radioButton name="groupname" label="Debit" value="Debit" [(ngModel)]="AdjustmentType">
                                 </p-radioButton>
                               </div>
                             </div>
