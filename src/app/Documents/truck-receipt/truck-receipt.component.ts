@@ -591,11 +591,13 @@ export class TruckReceiptComponent implements OnInit {
           this.onClear();
           this.isSaveSucceed = false;
         } else {
+          this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
       }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.STTDetails = [];
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
