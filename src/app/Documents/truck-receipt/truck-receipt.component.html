@@ -123,7 +123,7 @@
                         <span class="ui-float-label" style="padding-top: 20px;">
                           <input name="LNo" id="float-input" maxlength="13"[(ngModel)]="LorryNo" pInputText
                           oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                            autocomplete="off" required>
+                          style="text-transform: uppercase !important" autocomplete="off" required>
                           <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
                         </span>
                       </div>

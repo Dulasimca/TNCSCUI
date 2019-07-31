@@ -551,8 +551,8 @@ export class TruckReceiptComponent implements OnInit {
       LNo: this.LorryNo,
       Wno: this.WNo,
       RRNo: this.RRNo,
-      RailHead: (this.RHCode.value !== undefined) ? this.RHCode.value : this.rhCode,
-      RailHeadName: (this.RHCode.label !== undefined) ? this.RHCode.label : this.RHCode,
+      RailHead: (this.RHCode !== undefined) ? this.RHCode.value : this.rhCode,
+      RailHeadName: (this.RHCode !== undefined) ? this.RHCode.label : this.RHCode,
       RFreightAmount: this.RailFreightAmt,
       Rcode: this.RCode
     })
