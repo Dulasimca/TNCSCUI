@@ -199,7 +199,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onClear() {
     this.c_cd = null;
     this.commodityCd = null;
-    this.Location = this.Formation = this.StackNo =  this.Date = null;
+    this.Location = this.Formation = this.StackNo = null;
       this.Bags = this.Weights = 0;
   }
 
@@ -236,6 +236,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
       if (res) {
         this.onView();
+        this.onClear();
         this.nonEditable = false;
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Card closed!' });
       } else {
