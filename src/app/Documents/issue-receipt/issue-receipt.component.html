@@ -246,7 +246,9 @@
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 8px">
                 <span class="ui-float-label">
-                  <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking"  (input)="onCalculateKgs()" pInputText autocomplete="off">
+                  <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking" 
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   (input)="onCalculateKgs()" pInputText autocomplete="off">
                   <label for="NoPacking" class="float-input">No.of Packing</label>
                 </span>
               </div>
@@ -259,7 +261,8 @@
                 <label for="Gkgs" class="label-fontsize">Kgs</label>
                 <label for="Gkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Gkgs" id="float-input" type="text" [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Gkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px;">
@@ -271,7 +274,8 @@
                 <label for="Nkgs" class="label-fontsize">Kgs</label>
                 <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Nkgs" id="float-input" type="text" [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Nkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off">
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px">
@@ -339,31 +343,41 @@
             <div class="ui-g-12 ui-fluid">
               <div class="ui-g-12 ui-md-2">
                 <span class="ui-float-label">
-                  <input name="NewBale" id="float-input" [(ngModel)]="NewBale" pInputText autocomplete="off">
+                  <input name="NewBale" id="float-input" [(ngModel)]="NewBale"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   pInputText autocomplete="off" required>
                   <label for="NewBale" class="float-input">New Bale</label>
                 </span>
               </div>
               <div class="ui-g-12 ui-md-2">
                 <span class="ui-float-label">
-                  <input name="SServicable" id="float-input" pInputText [(ngModel)]="SServiceable" autocomplete="off">
+                  <input name="SServicable" id="float-input" pInputText [(ngModel)]="SServiceable"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   autocomplete="off" required>
                   <label for="SServicable" class="float-input">SoundServiceable</label>
                 </span>
               </div>
               <div class="ui-g-12 ui-md-2">
                 <span class="ui-float-label">
-                  <input name="Patches" id="float-input" pInputText [(ngModel)]="SPatches" autocomplete="off">
+                  <input name="Patches" id="float-input" pInputText [(ngModel)]="SPatches" 
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  autocomplete="off" required>
                   <label for="Patches" class="float-input">Serviceable With Patches</label>
                 </span>
               </div>
               <div class="ui-g-12 ui-md-2">
                 <span class="ui-float-label">
-                  <input name="GUtilised" id="float-input" pInputText [(ngModel)]="Gunnyutilised" autocomplete="off">
+                  <input name="GUtilised" id="float-input" pInputText [(ngModel)]="Gunnyutilised"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   autocomplete="off" required>
                   <label for="GUtilised" class="float-input">Gunny Utilised</label>
                 </span>
               </div>
               <div class="ui-g-12 ui-md-2">
                 <span class="ui-float-label">
-                  <input name="GReleased" id="float-input" pInputText [(ngModel)]="GunnyReleased" autocomplete="off">
+                  <input name="GReleased" id="float-input" pInputText [(ngModel)]="GunnyReleased" 
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  autocomplete="off" required>
                   <label for="GReleased" class="float-input">Gunny Released</label>
                 </span>
               </div>

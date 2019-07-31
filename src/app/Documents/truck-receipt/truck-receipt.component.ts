@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
+  isSaveSucceed: boolean = true;
   viewDate: Date = new Date();
   data: any;
   username: any;
@@ -71,7 +72,7 @@ export class TruckReceiptComponent implements OnInit {
   GCode: any;
   RRCode: any;
   ManualDocNo: any;
-  Region: string;
+  RRemarks: string;
   Scheme: any;
   schemeCode: any;
   TStockNo: any;
@@ -406,6 +407,13 @@ export class TruckReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.STTDetails =  [];
+    this.STDate = this.OrderDate = this.RDate = this.LWBillDate = this.LDate = new Date();
+    this.Trcode = this.OrderNo = this.selectedValues = this.RNo = this.LorryNo = 
+    this.RHCode = this.RTCode = this.RNCode = this.ManualDocNo = this.Remarks = this.RRemarks= 
+    this.StackBalance = this.CurrentDocQtv = this.NetStackBalance = this.TransporterName =
+    this.LWBillNo = this.FreightAmount = this.Kilometers = this.WHDNo = this.WCharges =
+    this.HCharges = this.TStation = this.FStation = this.GunnyReleased = this.Gunnyutilised =
+    this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
   }
 
   onEnter() {
@@ -576,6 +584,7 @@ export class TruckReceiptComponent implements OnInit {
         if (res) {
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
           this.onClear();
+          this.isSaveSucceed = false;
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }

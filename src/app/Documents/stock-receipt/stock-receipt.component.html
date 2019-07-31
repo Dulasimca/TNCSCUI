@@ -235,6 +235,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 10px">
                     <span class="ui-float-label">
                       <input id="float-input" name="NoPacking" pInputText maxlength="4"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                        [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
                       <label for="NoPacking" class="float-input">No.of Packing</label>
                     </span>
@@ -249,6 +250,7 @@
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input id="float-input" name="Gkgs" type="text" maxlength="6" [(ngModel)]="GKgs"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                        size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
                     </span>
                   </div>
@@ -262,6 +264,7 @@
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input id="float-input" type="text" name="Nkgs" size="20" maxlength="6"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                        [(ngModel)]="NKgs" pInputText (input)="onCalculateWt()" autocomplete="off">
                     </span>
                   </div>
