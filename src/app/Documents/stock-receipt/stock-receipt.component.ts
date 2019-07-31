@@ -318,7 +318,7 @@ export class StockReceiptComponent implements OnInit {
     let value = event.target.value;
     let findDot = this.Moisture.toString().indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-      || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
       return false;
     } else if (totalLength === 1 && event.keyCode === 190) {
@@ -337,7 +337,7 @@ export class StockReceiptComponent implements OnInit {
           let endValue = this.Moisture.toString().slice(2, totalLength);
           this.Moisture = startValue + '.' + endValue;
         }
-      } 
+      }
     } else {
       return true;
     }
@@ -406,7 +406,7 @@ export class StockReceiptComponent implements OnInit {
       'TruckMemoNo': this.TruckMemoNo,
       'TruckMemoDate': this.datepipe.transform(this.TruckMemoDate, 'MM/dd/yyyy'),
       'ManualDocNo': this.ManualDocNo,
-      'LNo': (this.LNo !== undefined) ? this.LNo : '',
+      'LNo': (this.LNo !== undefined) ? this.LNo.toString().toUpperCase() : '',
       'LFrom': (this.LFrom !== undefined) ? this.LFrom : '',
       'ItemList': this.itemData,
       'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
@@ -463,7 +463,9 @@ export class StockReceiptComponent implements OnInit {
         this.TruckMemoNo = res[0].TruckMemoNo;
         this.LNo = res[0].LNo;
         this.LFrom = res[0].LFrom;
+        this.monthOptions = [{label: res[0].Pallotment.slice(0, 1), value: res[0].Pallotment.slice(0, 1)}]
         this.month = res[0].Pallotment.slice(0, 1);
+        this.yearOptions = [{label: res[0].Pallotment.slice(3, 6), value: res[0].Pallotment.slice(3, 6)}]
         this.year = res[0].Pallotment.slice(3, 6);
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];
         this.Trcode = res[0].TRName;
@@ -476,7 +478,7 @@ export class StockReceiptComponent implements OnInit {
         this.GKgs = res[0].GKgs;
         this.NKgs = res[0].Nkgs;
         this.tareWt = (this.GKgs * 1) - (this.NKgs * 1),
-        this.Moisture = res[0].Moisture;
+        this.Moisture = (res[0].Moisture*1).toFixed(2);
         this.itemDescOptions = [{ label: res[0].ITName, value: res[0].ICode }];
         this.ICode = res[0].ITName;
         this.iCode = res[0].ITCode;

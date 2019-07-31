@@ -68,7 +68,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="LNo" id="float-input" [(ngModel)]="LorryNo"
-                          oninput="this.value = this.value.replace(/[^a-zA-Z]{2}\/[0-9]{2}\/[a-zA-Z]{2}\/[0-9]{4}$/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" pInputText
                           autocomplete="off" required>
                         <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
@@ -266,7 +266,7 @@
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
                         <input id="float-input" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)" (input)=input(Moisture) name="Moisture"
+                        autocomplete="off" (keyup)="parseMoisture($event)" name="Moisture"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                         <label for="Moisture" class="float-input">Moisture</label>
                       </span>
@@ -487,7 +487,8 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Truck-Memo-Slip" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+<p-dialog header="Truck-Memo-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
     <div class="ui-g-12 ui-md-2">
         <label class="ui-g-6 label-fontsize-large">Date</label>
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>

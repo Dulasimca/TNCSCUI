@@ -146,8 +146,9 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" name="VNo" type="text" maxlength="20" size="10" [(ngModel)]="LNo" pInputText
-                        autocomplete="off" style="text-transform: uppercase !important" required>
+                      <input id="float-input" name="VNo" type="text" maxlength="13" size="10" [(ngModel)]="LNo" pInputText
+                      oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+                      autocomplete="off" style="text-transform: uppercase !important" required>
                       <label for="VNo" class="float-input">Vehicle No</label>
                     </span>
                   </div>
@@ -538,9 +539,10 @@
     <div class="col-md-1"></div>
   </p-panel>
 </div>
-<p-dialog header="Stock-Receipt" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+<p-dialog header="Stock-Receipt" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
     <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-6 label-fontsize-large">Date</label>
+        <label class="label-fontsize-large">Date</label>
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
     <div class="ui-g-12 ui-fluid">
