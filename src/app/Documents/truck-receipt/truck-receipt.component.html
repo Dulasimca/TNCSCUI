@@ -43,13 +43,13 @@
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="road" class="ui-g-3" name="groupname" value="Road"
-                        (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues">
+                        (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
                       <label class="ui-g-9 label-fontsize-large" for="road">By Road</label>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="rail" class="ui-g-3" name="groupname" (onChange)="onSelectTransportMode()"
-                        value="Rail" [(ngModel)]="selectedValues">
+                        value="Rail" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
                       <label class="ui-g-8 label-fontsize-large" for="rail">By Rail</label>
                     </div>
