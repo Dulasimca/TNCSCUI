@@ -4,14 +4,15 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Stack Card Opening Entry</div>
+        <div class="ui-g-4 dashboard">Stack Card Opening/Closing</div>
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
       <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
       <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
       <form #f="ngForm" name="form">
-        <div class="ui-g-12 no-pad-top">
+        <div class="ui-g-12 no-pad-top" style="border: 1px solid #18c5a9">
+        <div class="ui-g-12">
           <div class="ui-g-2"></div>
           <div class="ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
@@ -88,15 +89,13 @@
             <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
           </div>
           <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="submit" [disabled]="(!f.valid || nonEditable)" label=Clear (click)="onClear()"></button>
+            <button pButton type="submit" [disabled]="(!f.valid)" label=Clear (click)="onClear()"></button>
           </div>
         </div>
+      </div>
       </form>
 
-      <!-- <p-dialog header="Stack Opening Balance" [contentStyle]="{'overflow':'visible'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}"> 
- style="border: .2px solid #d9d9d9"-->
-       <div class="ui-g-12 ui-md-12 no-pad-top"> 
+       <div *ngIf="stackOpeningData.length!='0'" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
        <div class="ui-g-12 ui-md-3 no-left-pad">
         <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
         <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
@@ -136,14 +135,3 @@
 </div>
 </p-panel>
 </div>
-<!-- <div class="ui-g-4 ui-md-10"></div>
-      <div class="ui-g-4 ui-md-1 no-right-pad">
-        <button class="ui-g-10 dashboard" pButton label=OK [readonly]="disableOkButton"
-          (click)="showSelectedData()"></button>
-      </div> -->
-
-<!-- <div class="ui-g-4 ui-md-1 no-left-pad">
-    <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
-  </div> -->
-<!-- </div> -->
-<!-- </p-dialog> -->

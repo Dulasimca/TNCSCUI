@@ -464,6 +464,10 @@ h3 a {
   font-size: smaller;
 }
 
+.spacing-content {
+  margin-top: 10px;
+}
+
 .no-pad-top {
   padding-top: 0px !important;
 }

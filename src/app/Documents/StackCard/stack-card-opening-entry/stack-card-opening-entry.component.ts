@@ -85,9 +85,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   keyPress(event) {
-    let nValue:string;
-    let newValue:string;
-     nValue=this.Location;
      if((event.keyCode>=32 && event.keyCode <=46)|| (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
     {
       return false;
@@ -178,6 +175,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
+    this.commodityCd = null;
     this.stackOpeningData = [];
     const params = new HttpParams().set('OBDate', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
@@ -198,7 +196,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.Location = this.Formation = this.StackNo = this.c_cd = this.commodityCd = this.Date = null;
+    this.c_cd = null;
+    this.commodityCd = null;
+    this.Location = this.Formation = this.StackNo =  this.Date = null;
       this.Bags = this.Weights = 0;
   }
 
@@ -248,20 +248,3 @@ export class StackCardOpeningEntryComponent implements OnInit {
 }
 
 }
-
-function allnumeric(inputtxt)
-   {
-      var numbers = /^[0-9]+$/;
-      if(inputtxt.target.value.match(numbers))
-      {
-      alert('Your Registration number has accepted....');
-      //document.form1.text1.focus();
-      return true;
-      }
-      else
-      {
-      alert('Please input numeric characters only');
-      //document.form1.text1.focus();
-      return false;
-      }
-   } 
