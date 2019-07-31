@@ -169,6 +169,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.Bags = this.selectedRow.StackBalanceBags;
       this.Weights = this.selectedRow.StackBalanceWeight;
     } else {
+      this.onClear();
       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Card already closed!' });
     }
   } 
@@ -235,6 +236,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
       if (res) {
         this.onView();
+        this.nonEditable = false;
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Card closed!' });
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
