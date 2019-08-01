@@ -261,8 +261,7 @@
                 <label for="Gkgs" class="label-fontsize">Kgs</label>
                 <label for="Gkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Gkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                   [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Gkgs" id="float-input" type="text" [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px;">
@@ -274,8 +273,7 @@
                 <label for="Nkgs" class="label-fontsize">Kgs</label>
                 <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Nkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Nkgs" id="float-input" type="text" [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px">

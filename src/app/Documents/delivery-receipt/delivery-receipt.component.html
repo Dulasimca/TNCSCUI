@@ -199,7 +199,7 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input class="ui-g-12" name="RateRs" pInputText [(ngModel)]="Rate" autocomplete="off"
-                        (input)="calculateTotal()" appDecimalDigit />
+                        (input)="calculateTotal()" appDecimalAmount />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="total" style="padding-top: 0px;">Total</label>
@@ -285,7 +285,7 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input name="mRate" pInputText [(ngModel)]="MarginRate" (input)="calculateTotal()"
-                        autocomplete="off" />
+                        autocomplete="off" appDecimalAmount />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="mAmnt" style="padding-top: 0px;">Margin Amount</label>
@@ -375,7 +375,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="payAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off"
-                          appDecimalDigit>
+                        appDecimalAmount>
                         <label for="payAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
@@ -401,28 +401,27 @@
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" pInputText autocomplete="off"
-                                appDecimalDigit>
+                              <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" pInputText autocomplete="off">
                               <label for="dueAmnt" class="float-input" style="padding-top: 10px;">Amt Due</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
                               <input name="paidAmnt" id="float-input" [(ngModel)]="PaidAmount" pInputText
-                                autocomplete="off" appDecimalDigit>
+                                autocomplete="off">
                               <label for="paidAmnt" class="float-input" style="padding-top: 10px;">Amt Paid</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
                               <input name="balAmnt" id="float-input" [(ngModel)]="BalanceAmount" pInputText
-                                autocomplete="off" appDecimalDigit>
+                                autocomplete="off">
                               <label for="balAmnt" class="float-input" style="padding-top: 10px;">Balance Amt</label>
                             </span>
                       </div>
                     </div>
                   </div>
-                  <div class="ui-g-12 ui-md-12 ui-fluid  no-left-pad">
+                  <div class="ui-g-12 ui-md-12 ui-fluid  no-pad-top no-left-pad">
                     <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"
                       scrollHeight="150px">
                       <ng-template pTemplate="colgroup" let-columns>
@@ -463,21 +462,20 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjusmentAmount" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
-                          autocomplete="off" appDecimalDigit>
+                        [readonly]="true" autocomplete="off" >
                         <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="otherAmnt" id="float-input" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
-                          appDecimalDigit>
+                        <input name="otherAmnt" id="float-input" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
                         <label for="otherAmnt" class="float-input">Other Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="balance" id="float-input" [(ngModel)]="Balance" pInputText autocomplete="off"
-                          appDecimalDigit>
+                        [readonly]="true" >
                         <label for="balance" class="float-input">Balance</label>
                       </span>
                     </div>
@@ -506,7 +504,7 @@
                         </div> 
                   </div>
                   <!-- </div> -->
-                  <div class="ui-g-12 ui-fluid no-left-pad">
+                  <div class="ui-g-12 ui-fluid no-left-pad no-pad-top">
                     <p-table [columns]="paymentBalCols" [value]="paymentBalData" [responsive]="true" [scrollable]="true"
                       scrollHeight="150px">
                       <ng-template pTemplate="colgroup" let-columns>
