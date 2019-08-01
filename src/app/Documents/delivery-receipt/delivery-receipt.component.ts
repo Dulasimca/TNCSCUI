@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
-  isSaveSucceed: boolean = false;
+  isSaveSucceed: boolean = true;
   username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
