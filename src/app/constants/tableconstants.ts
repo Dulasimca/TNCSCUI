@@ -185,21 +185,21 @@ export class TableConstants {
     ]
 
     this.DeliveryItemColumns = [
-      { field: 'itemDesc', header: 'IT Description' },
-      { field: 'netWeight', header: 'Net Weight' },
-      { field: 'unitMeasure', header: 'Unit Measure' },
-      { field: 'scheme', header: 'Scheme' },
-      { field: 'rate', header: 'Rate' },
-      { field: 'total', header: 'Total' },
+      { field: 'ITDescription', header: 'IT Description' },
+      { field: 'NetWeight', header: 'Net Weight' },
+      { field: 'UnitMeasure', header: 'Unit Measure' },
+      { field: 'SchemeName', header: 'Scheme' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Total', header: 'Total' },
     ]
 
     this.DeliveryItemSchemeColumns = [
-      { field: 'schemeName', header: 'Scheme Name' },
-      { field: 'itemName', header: 'Item Name' },
-      { field: 'netWeight', header: 'Net Weight' },
-      { field: 'rateInTerms', header: 'Rate In Terms' },
-      { field: 'marginRate', header: 'Margin Rate' },
-      { field: 'marginAmount', header: 'Margin Amount' },
+      { field: 'SchemeName', header: 'Scheme Name' },
+      { field: 'ITDescription', header: 'Item Name' },
+      { field: 'MarginNkgs', header: 'Net Weight' },
+      { field: 'RateInTerms', header: 'Rate In Terms' },
+      { field: 'MarginRate', header: 'Margin Rate' },
+      { field: 'MarginAmount', header: 'Margin Amount' },
     ];
 
     this.DeliveryPaymentcolumns = [

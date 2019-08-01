@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
+  isSaveSucceed: boolean = false;
   username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
@@ -103,8 +104,6 @@ export class DeliveryReceiptComponent implements OnInit {
   PaidAmount: any;
   BalanceAmount: any;
   MarginItem: string;
-  isSaveSucceed: boolean = false;
-
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
@@ -348,9 +347,8 @@ export class DeliveryReceiptComponent implements OnInit {
     switch (id) {
       case 'Item':
         this.itemData.push({
-          'itemDesc': this.ICode.label, 'netWeight': this.NKgs, 'unitMeasure': this.RateTerm.label,
-          'scheme': this.Scheme.label, 'rate': this.Rate, 'total': this.TotalAmount,
-          'Itemcode': this.ICode.value, 'NetWeight': this.NKgs, 'Wtype': this.RateTerm.value,
+          'ITDescription': this.ICode.label, 'UnitMeasure': this.RateTerm.label,
+          'SchemeName': this.Scheme.label, 'Itemcode': this.ICode.value, 'NetWeight': this.NKgs, 'Wtype': this.RateTerm.value,
           'Scheme': this.Scheme.value, 'Rate': this.Rate, 'Total': this.TotalAmount, 'RCode': this.RCode
         });
         if (this.itemData.length !== 0) {
@@ -359,10 +357,9 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'MarginItem':
         this.itemSchemeData.push({
-          'itemName': this.MICode.label, 'netWeight': this.MarginNKgs, 'rateInTerms': this.MarginRateInTerms.label,
-          'schemeName': this.MarginScheme.label, 'marginRate': this.MarginRate, 'marginAmount': this.MarginAmount,
-          'ItemCode': this.MICode.value, 'MarginNkgs': this.MarginNKgs, 'MarginWtype': this.MarginRateInTerms.label,
-          'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
+          'ITDescription': this.MICode.label, 'RateInTerms': this.MarginRateInTerms.label,
+          'SchemeName': this.MarginScheme.label, 'ItemCode': this.MICode.value, 'MarginNkgs': this.MarginNKgs,
+           'MarginWtype': this.MarginRateInTerms.value, 'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
         });
         if (this.itemSchemeData.length !== 0) {
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
