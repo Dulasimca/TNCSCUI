@@ -250,9 +250,8 @@
                     <label for="Nkgs" class="label-fontsize">Kgs</label>
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
-                      <input id="float-input" name="Gkgs" type="text" maxlength="6" [(ngModel)]="GKgs"
-                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
+                      <input id="float-input" name="Gkgs" type="text" [(ngModel)]="GKgs"
+                       size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -25px">
@@ -264,9 +263,7 @@
                     <label for="Nkgs" class="label-fontsize">Kgs</label>
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
-                      <input id="float-input" type="text" name="Nkgs" size="20" maxlength="6"
-                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       [(ngModel)]="NKgs" pInputText (input)="onCalculateWt()" autocomplete="off">
+                      <input id="float-input" type="text" name="Nkgs" size="20" [(ngModel)]="NKgs" pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
@@ -366,6 +363,7 @@
                     <div class="ui-g-6 ui-md-4 ui-fluid">
                       <span class="ui-float-label">
                         <input id="float-input" name="Kms" pInputText [(ngModel)]="Kilometers" [disabled]="true"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off">
                         <label for="Kms" class="float-input">Kms</label>
                       </span>
@@ -374,7 +372,7 @@
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="FreightAmt" pInputText [(ngModel)]="FreightAmount" [disabled]="true"
-                        autocomplete="off">
+                        autocomplete="off" appDecimalAmount>
                       <label for="FreightAmt" class="float-input">Freight Amt</label>
                     </span>
                   </div>
@@ -388,19 +386,20 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" name="Wmt" pInputText [(ngModel)]="WCharges" [disabled]="true" autocomplete="off">
+                      <input id="float-input" name="Wmt" pInputText [(ngModel)]="WCharges" [disabled]="true" autocomplete="off" appDecimalAmount>
                       <label for="Wmt" class="float-input">Wmt Charges</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" name="HChrg" pInputText [(ngModel)]="HCharges" [disabled]="true" autocomplete="off">
+                      <input id="float-input" name="HChrg" pInputText [(ngModel)]="HCharges" [disabled]="true" autocomplete="off" appDecimalAmount>
                       <label for="HChrg" class="float-input">Handling Charges</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="UGunny" pInputText [(ngModel)]="GUnserviceable" [disabled]="true"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         autocomplete="off">
                       <label for="UGunny" class="float-input">Un Serviceable</label>
                     </span>
@@ -408,13 +407,15 @@
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="SGunny" pInputText [(ngModel)]="GServiceable" [disabled]="true"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         autocomplete="off">
                       <label  for="SGunny" class="float-input">Serviceable Gunny</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input id="float-input" name="Patches" pInputText [(ngModel)]="GPatches" [disabled]="true" autocomplete="off">
+                      <input id="float-input" name="Patches" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                       pInputText [(ngModel)]="GPatches" [disabled]="true" autocomplete="off">
                       <label for="Patches" class="float-input">Gunny With Patches</label>
                     </span>
                   </div>
@@ -442,14 +443,14 @@
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="GUtilised" pInputText [(ngModel)]="Gunnyutilised" [disabled]="true"
-                        autocomplete="off">
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  autocomplete="off">
                       <label for="GUtilised" class="float-input">Gunny Utilised</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="GReleased" pInputText [(ngModel)]="GunnyReleased" [disabled]="true"
-                        autocomplete="off">
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  autocomplete="off">
                       <label for="GReleased" class="float-input">Gunny Released</label>
                     </span>
                   </div>

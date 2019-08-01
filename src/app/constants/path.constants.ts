@@ -21,8 +21,9 @@ export class PathConstants {
   public static readonly CB_STATEMENT_REPORT = '/api/DailyCBStatement';
   public static readonly STOCK_RECEIPT_REGISTER_REPORT = '/api/StockReceipts/Post';
   public static readonly STOCK_ISSUE_REGISTER_REPORT = '/api/StockIssue/Post';
-  public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemo/Post';
-  public static readonly STOCK_TRUCK_MEMO_VIEW_REPORT = '/api/StockTruckMemo/Get';
+  public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
+  public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';
+  public static readonly STOCK_TRUCK_MEMO_VIEW_DOCUMENT = '/api/StockTruckMemo/Get';
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrders/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_REPORT = '/api/StockDeliveryOrders/Get';
   public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
@@ -45,8 +46,10 @@ export class PathConstants {
   public static readonly STACK_DETAILS = '/api/StackDetails/Get';
   public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
-  public static readonly STOCK_RECEIPT_DOCUMENTS = '/api/StockReceipt/Post';
-  public static readonly STOCK_RECEIPT_VIEW_DOCUMENTS = '/api/StockReceipt/Get'; 
+  public static readonly STOCK_RECEIPT_DOCUMENT = '/api/StockReceipt/Post';
+  public static readonly STOCK_RECEIPT_VIEW_DOCUMENT = '/api/StockReceipt/Get'; 
+  public static readonly STOCK_DELIVERY_ORDER_DOCUMENT = '/api/StockDeliveryOrder/Post';
+  public static readonly STOCK_DELIVERY_ORDER_VIEW_DOCUMENT = '/api/StockDeliveryOrder/Get';
   public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
   public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
   public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';

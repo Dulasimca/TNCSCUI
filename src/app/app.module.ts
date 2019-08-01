@@ -122,7 +122,8 @@ import { StackCardClosingComponent } from './Documents/StackCard/stack-card-clos
 import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
-
+import { TooltipModule } from 'primeng/tooltip';
+import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 
 @NgModule({
   declarations: [
@@ -207,8 +208,8 @@ import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-docum
     StockstatementreportComponent,
     TransactionStatusComponent,
     DailyDocumentsComponent,
-    DailyDocumentIssueComponent
-    
+    DailyDocumentIssueComponent,
+    AmountDecimalDirective,
   ],
   imports: [
     BrowserModule,
@@ -241,7 +242,8 @@ import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-docum
     InputTextModule,
     MatDatepickerModule,
     TabViewModule,
-    InputSwitchModule
+    InputSwitchModule,
+    TooltipModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],

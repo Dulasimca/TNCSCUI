@@ -261,8 +261,7 @@
                 <label for="Gkgs" class="label-fontsize">Kgs</label>
                 <label for="Gkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Gkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                   [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Gkgs" id="float-input" type="text" [(ngModel)]="GKgs" size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px;">
@@ -274,8 +273,7 @@
                 <label for="Nkgs" class="label-fontsize">Kgs</label>
                 <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
-                  <input name="Nkgs" id="float-input" type="text"  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off">
+                  <input name="Nkgs" id="float-input" type="text" [(ngModel)]="NKgs" size="20"  (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px">
@@ -315,8 +313,26 @@
                 <button name="Enter" pButton type="button" label="Enter" (click)="onItemDetailsEnter()"
                   [disabled]="(!Scheme || !ICode || !IPCode || !TStockNo || !WTCode || !Moisture)"></button>
               </div>
+              <div class="ui-g-12 ui-md-2">
+                  <span class="ui-float-label">
+                    <input name="StackBal" id="float-input" pInputText [(ngModel)]="StackBalance" [readonly]="true" autocomplete="off">
+                    <label for="StackBal" class="float-input">Stack Balance</label>
+                  </span>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <span class="ui-float-label">
+                      <input name="NetStackBal" id="float-input" pInputText [(ngModel)]="NStackBalance" [readonly]="true" autocomplete="off">
+                      <label for="NetStackBal" class="float-input">Net Stack Balance</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                    <span class="ui-float-label">
+                      <input name="CurrentDocQty" id="float-input" pInputText [(ngModel)]="CurrentDocQtv" [readonly]="true" autocomplete="off">
+                      <label for="CurrentDocQty" class="float-input">Cur.Doc. Qtv</label>
+                    </span>
+                  </div>
             </div>
-            <div class="ui-g-12 ui-fluid">
+            <div class="ui-g-12 ui-fluid no-pad-top">
               <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
                 scrollHeight="180px">
                 <ng-template pTemplate="colgroup" let-columns>
@@ -381,34 +397,16 @@
                   <label for="GReleased" class="float-input">Gunny Released</label>
                 </span>
               </div>
-              <div class="ui-g-12 ui-md-2">
-                <span class="ui-float-label">
-                  <input name="StackBal" id="float-input" pInputText [(ngModel)]="StackBalance" [readonly]="true" autocomplete="off">
-                  <label for="StackBal" class="float-input">Stack Balance</label>
-                </span>
-              </div>
             </div>
-            <div class="ui-g-12 ui-fluid">
-              <div class="ui-g-12 ui-md-8 ui-fluid">
+            <div class="ui-g-12 ui-fluid no-pad-top">
+              <div class="ui-g-8 ui-md-8 ui-fluid no-pad-top">
                 <input name="Text" pInputText autocomplete="off" [readOnly]="true">
               </div>
-              <div class="ui-g-12 ui-md-2">
-                <span class="ui-float-label">
-                  <input name="NetStackBal" id="float-input" pInputText [(ngModel)]="NStackBalance" [readonly]="true" autocomplete="off">
-                  <label for="NetStackBal" class="float-input">Net Stack Balance</label>
-                </span>
-              </div>
-              <div class="ui-g-12 ui-md-2">
-                <span class="ui-float-label">
-                  <input name="CurrentDocQty" id="float-input" pInputText [(ngModel)]="CurrentDocQtv" [readonly]="true" autocomplete="off">
-                  <label for="CurrentDocQty" class="float-input">Cur.Doc. Qtv</label>
-                </span>
-              </div>
-            </div>
-            <div class="ui-g-10 ui-md-11"></div>
-            <div class="ui-g-2 ui-md-1">
-              <button class="ui-g-6 ui-md-1 dashboard" style="float: right; margin-top: 5px" type="button" pButton
-                label=Prev name="prev" (click)="openPrev()"></button></div>
+              <div class="ui-g-2 ui-md-3"></div>
+              <div class="ui-g-2 ui-md-1 no-pad-top">
+                  <button class="ui-g-6 ui-md-1 dashboard" style="float: right; margin-top: 5px" type="button" pButton
+                    label=Prev name="prev" (click)="openPrev()"></button></div>
+            </div>           
           </div>
         </p-tabPanel>
         </p-tabView>

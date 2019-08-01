@@ -441,7 +441,7 @@ export class TruckReceiptComponent implements OnInit {
   onView() {
     this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -453,7 +453,7 @@ export class TruckReceiptComponent implements OnInit {
   getDocBySTNo() {
     this.viewPane = false;
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2');
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.STNo = res[0].STNo,
         this.STDate = new Date(res[0].STDate),
@@ -551,8 +551,8 @@ export class TruckReceiptComponent implements OnInit {
       LNo: this.LorryNo,
       Wno: this.WNo,
       RRNo: this.RRNo,
-      RailHead: (this.RHCode !== undefined) ? this.RHCode.value : 0,
-      RailHeadName: (this.RHCode !== undefined) ? this.RHCode.label : '',
+      RailHead: (this.RHCode !== undefined && this.RHCode !== null) ? this.RHCode.value : ((this.rhCode === undefined || this.rhCode === null) ? '-' : this.rhCode),
+      RailHeadName: (this.RHCode !== undefined && this.RHCode !== null) ?  this.RHCode.label : ((this.rhCode === undefined || this.rhCode === null) ? '-' : this.RHCode),
       RFreightAmount: this.RailFreightAmt,
       Rcode: this.RCode
     })
@@ -584,7 +584,7 @@ export class TruckReceiptComponent implements OnInit {
       'documentSTItemDetails': this.itemData,
       'documentSTTDetails': this.STTDetails
     };
-    this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });

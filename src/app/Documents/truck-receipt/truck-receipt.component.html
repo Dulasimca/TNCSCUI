@@ -77,7 +77,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                         <label for="RRCode" class="label-fontsize" style="padding-top: 10px;">Receivor Region</label>
                         <p-dropdown #rr name="RRCode" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
-                          (onClick)="onSelect('rr')" optionLabel="label" filter="true" [disabled]="isRailSelected"
+                          (onClick)="onSelect('rr')" (keydown.enter)="onSelect('rr')" optionLabel="label" filter="true" [disabled]="isRailSelected"
                           required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
@@ -210,7 +210,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <label for="NoPacking" class="label-fontsize">No.of Packing</label>
                       <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking" pInputText autocomplete="off"
-                        (input)="onCalculateKgs()">
+                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" (input)="onCalculateKgs()">
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
                       <p-header>
@@ -222,7 +222,7 @@
                       <label class="label-fontsize" for="GKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GKgs" id="float-input" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                          autocomplete="off">
+                          autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -235,7 +235,7 @@
                       <label class="label-fontsize" for="NKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NKgs" id="float-input" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                          autocomplete="off">
+                          autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -343,7 +343,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="LWBillNo" id="float-input" [(ngModel)]="LWBillNo" pInputText autocomplete="off" required>
+                        <input name="LWBillNo" id="float-input" [(ngModel)]="LWBillNo"
+                         pInputText autocomplete="off" required>
                         <label for="LWBillNo" class="float-input" style="padding-top: 10px;">Lorry Way Bill No</label>
                       </span>
                     </div>
@@ -353,19 +354,24 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="FAmt" id="float-input" [(ngModel)]="FreightAmount" pInputText autocomplete="off" required>
+                        <input name="FAmt" id="float-input" [(ngModel)]="FreightAmount"
+                        pInputText autocomplete="off" appDecimalAmount required>
                         <label for="FAmt" class="float-input" style="padding-top: 10px;">Freight Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-1">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="Kms" id="float-input" [(ngModel)]="Kilometers" pInputText autocomplete="off" required>
+                        <input name="Kms" id="float-input" [(ngModel)]="Kilometers"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        pInputText autocomplete="off" required>
                         <label for="Kms" class="float-input" style="padding-top: 10px;">Kms</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-3">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="WHDeposit" id="float-input" [(ngModel)]="WHDNo" pInputText autocomplete="off" required>
+                        <input name="WHDeposit" id="float-input" [(ngModel)]="WHDNo"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        pInputText autocomplete="off" required>
                         <label for="WHDeposit" class="float-input" style="padding-top: 10px;">Warehouse Deposit
                           Receipt</label>
                       </span>
@@ -374,20 +380,23 @@
                   <div class="ui-g-12 no-pad-top" style="text-align: center">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="WmtCharges" id="float-input" [(ngModel)]="WCharges" pInputText autocomplete="off" required>
+                        <input name="WmtCharges" id="float-input" [(ngModel)]="WCharges" 
+                        pInputText autocomplete="off" appDecimalAmount required>
                         <label for="WmtCharges" class="float-input" style="padding-top: 10px;">Wmt Charges</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="Hcharges" id="float-input" [(ngModel)]="HCharges" pInputText autocomplete="off" required>
+                        <input name="Hcharges" id="float-input" [(ngModel)]="HCharges"
+                        pInputText autocomplete="off" appDecimalAmount required>
                         <label for="Hcharges" class="float-input" style="padding-top: 10px;">Handling Charges</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="GunnnyReleased" id="float-input" pInputText [(ngModel)]="GunnyReleased"
-                          autocomplete="off" required>
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         autocomplete="off" required>
                         <label for="GunnnyReleased" class="float-input" style="padding-top: 10px;">Gunny
                           Released</label>
                       </span>
@@ -395,6 +404,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="GunnyUtilised" id="float-input" pInputText [(ngModel)]="Gunnyutilised"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off" required>
                         <label for="GunnyUtilised" class="float-input" style="padding-top: 10px;">Gunny Utilised</label>
                       </span>
@@ -432,20 +442,24 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="RRNo" id="float-input" [(ngModel)]="RRNo" pInputText autocomplete="off" required>
+                        <input name="RRNo" id="float-input" [(ngModel)]="RRNo"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         pInputText autocomplete="off" required>
                         <label for="RRNo" class="float-input" style="padding-top: 10px;">RR No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="WNo" id="float-input" pInputText [(ngModel)]="WNo" autocomplete="off" required>
+                        <input name="WNo" id="float-input" pInputText [(ngModel)]="WNo"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         autocomplete="off" required>
                         <label for="WNo" class="float-input" style="padding-top: 10px;">Wagon No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="RailFAmnt" id="float-input" pInputText [(ngModel)]="RailFreightAmt"
-                          autocomplete="off" required>
+                        autocomplete="off" appDecimalAmount required>
                         <label for="RailFAmnt" class="float-input" style="padding-top: 10px;">Rail Freight Amt</label>
                       </span>
                     </div>

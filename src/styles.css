@@ -1414,6 +1414,12 @@ ul
             color: rgb(240, 36, 36);
             font-size: 14px;
           }
+          .ui-button.ui-state-hover, .ui-button.ui-state-active{
+            border: none;
+            color: #09143e;
+            background: #18c5a9;
+       }
+       
 
           .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
             border: 0px solid #2399e5;
