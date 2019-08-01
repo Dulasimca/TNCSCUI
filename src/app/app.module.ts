@@ -123,6 +123,7 @@ import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 
 @NgModule({
   declarations: [
@@ -207,8 +208,8 @@ import { TooltipModule } from 'primeng/tooltip';
     StockstatementreportComponent,
     TransactionStatusComponent,
     DailyDocumentsComponent,
-    DailyDocumentIssueComponent
-    
+    DailyDocumentIssueComponent,
+    AmountDecimalDirective,
   ],
   imports: [
     BrowserModule,
