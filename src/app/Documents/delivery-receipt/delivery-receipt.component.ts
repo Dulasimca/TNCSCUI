@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -227,48 +227,48 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'commodity':
        if (this.Scheme !== null && this.Scheme !== undefined) {
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
-          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            res.forEach(i => {
-              if (!this.selectedItem) {
-                commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-              } else {
-                let filteredArr = res.filter(x => {
-                  return x.Allotmentgroup === 'Rice';
-                })
-                filteredArr.forEach(i => {
-                  commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                })
-              }
-            });
-            this.itemDescOptions = commoditySelection;
-            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+         if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+             if (!this.selectedItem) {
+               res.forEach(i => {
+                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+               });
+             } else {
+               let filteredArr = res.filter(x => {
+                 return x.Allotmentgroup === 'RICE';
+               })
+               filteredArr.forEach(i => {
+                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+               })
+             }
+             this.itemDescOptions = commoditySelection;
+             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+           });
         }
       }
         break;
         case 'margin_commodity':
            if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
-            if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
-              const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
-              this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-                res.forEach(i => {
-                  if (!this.selectedItem) {
-                    marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                  } else {
-                    let filteredArr = res.filter(x => {
-                      return x.Allotmentgroup === 'Rice';
-                    })
-                    filteredArr.forEach(i => {
-                      marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                    })
-                  }
-                });
-                this.marginItemDescOptions = marginCommoditySelection;
-                this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              });
-            }
+             if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+               const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
+               this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                 if (!this.selectedItem) {
+                   res.forEach(i => {
+                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                   });
+                 } else {
+                   let filteredArr = res.filter(x => {
+                     return x.Allotmentgroup === 'RICE';
+                   })
+                   filteredArr.forEach(i => {
+                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                   })
+                 }
+                 this.marginItemDescOptions = marginCommoditySelection;
+                 this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+               });
+             }
           }
             break;
         case 'wmt':
