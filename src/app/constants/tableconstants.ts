@@ -441,7 +441,7 @@ export class TableConstants {
       {field: 'TNCSName', header: 'Receiver Godown'},
       {field: 'NoPacking', header: 'Bags Received'},
       {field: 'Nkgs', header: 'Received Quantity'},
-      {field: 'Transfertype', header: 'INTERNAL/'}
+      {field: 'Transfertype', header: 'Transfer Type'}
     ];
 
     this.StockReceiptItemColumns = [
