@@ -37,7 +37,7 @@
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
         <p-table [columns]="DailyDocumentTotalCols" [value]="DailyDocumentTotalData" [responsive]="true"
-          autoLayout="true" [loading]="loading">
+          autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">

@@ -24,6 +24,7 @@ export class TransactionStatusComponent implements OnInit {
   Docdate: Date;
   userid: any;
   remarks: any;
+  Srno: any;
   Receipt: boolean;
   Issues: boolean;
   Transfer: boolean;
@@ -59,33 +60,27 @@ export class TransactionStatusComponent implements OnInit {
     }
   }
 
-  showSelectedData() {
-    this.viewPane = false;
-    this.Docdate = this.selectedRow.DocdDate;
-    this.Receipt = this.selectedRow.Receipt;
-    this.Issues = this.selectedRow.Issues;
-    this.Transfer = this.selectedRow.Transfer;
-    this.CB = this.selectedRow.CB;
-    this.remarks = this.selectedRow.remarks;
-    this.userid = this.userid.user;
-  }
-
   onView() {
     if (this.godownOptions !== undefined) {
-      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy')).append('Gcode', this.g_cd.value);
+      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy')).append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode);
       this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
         this.TransactionStatusData = res;
         if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
-          this.isActionDisabled = false;
-          this.Receipt = this.TransactionStatusData[0].Receipt,
+            this.isActionDisabled = false;
+            this.Srno = this.TransactionStatusData[0].Srno,
+            this.Receipt = this.TransactionStatusData[0].Receipt,
             this.Issues = this.TransactionStatusData[0].Issues,
             this.Transfer = this.TransactionStatusData[0].Transfer,
             this.CB = this.TransactionStatusData[0].CB,
             this.remarks = this.TransactionStatusData[0].remarks
+        } else {
+          this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
-      });
-    } else {
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No Records!' });
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.loading = false;
+        }
+      })
     }
   }
 
@@ -94,11 +89,11 @@ export class TransactionStatusComponent implements OnInit {
   }
 
   onResetTable() {
-    this.TransactionStatusData = [];
     this.Receipt = false;
     this.Issues = false;
     this.Transfer = false;
     this.CB = false;
+    this.remarks = '';
     this.isActionDisabled = true;
   }
 
@@ -114,10 +109,11 @@ export class TransactionStatusComponent implements OnInit {
     const params = {
       'Gcode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
       'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
-      'Receipt': (this.Receipt !== undefined && this.Receipt !== null) ? true : false,
-      'Issues': (this.Issues !== undefined && this.Issues !== null) ? true : false,
-      'Transfer': (this.Transfer !== undefined && this.Transfer !== null) ? true : false,
-      'CB': (this.CB !== undefined && this.CB !== null) ? true : false,
+      'Srno': this.Srno,
+      'Receipt': (this.Receipt == true) ? true : false,
+      'Issues': (this.Issues == true) ? true : false,
+      'Transfer': (this.Transfer == true) ? true : false,
+      'CB': (this.CB == true) ? true : false,
       'remarks': (this.remarks !== undefined && this.remarks !== null) ? this.remarks : 'No Remarks',
       'userid': this.userid.user
     };
