@@ -486,10 +486,22 @@ export class DeliveryReceiptComponent implements OnInit {
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
       this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms.value, this.MarginRate, this.MarginNKgs);
     }
-    // if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
-    //   this.GrandTotal = ((this.TotalAmount * 1) - (this.MarginAmount * 1)).toFixed(2);
-    //   this.DueAmount = this.GrandTotal;
-    // }
+  }
+
+  onCalculateBalance() {
+    if( this.AdjustmentType === 'Credit') {
+      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
+        this.OtherAmount !== undefined && this.AdjusmentAmount) {
+          this.Balance = (((this.AdjusmentAmount * 1) + (this.PaidAmount * 1)) - 
+          ((this.DueAmount * 1) + (this.OtherAmount * 1)));
+        }
+    } else {
+      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
+        this.OtherAmount !== undefined && this.AdjusmentAmount) {
+          this.Balance = (((this.AdjusmentAmount * 1) + (this.DueAmount * 1) + (this.OtherAmount * 1)) - 
+          ((this.PaidAmount * 1) ));
+        }
+    }
   }
 
   onPrint() { }

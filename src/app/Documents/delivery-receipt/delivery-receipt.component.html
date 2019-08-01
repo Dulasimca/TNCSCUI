@@ -401,20 +401,20 @@
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" pInputText autocomplete="off">
+                              <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" [readonly]="true" pInputText autocomplete="off">
                               <label for="dueAmnt" class="float-input" style="padding-top: 10px;">Amt Due</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="paidAmnt" id="float-input" [(ngModel)]="PaidAmount" pInputText
+                              <input name="paidAmnt" id="float-input" [(ngModel)]="PaidAmount" [readonly]="true" pInputText
                                 autocomplete="off">
                               <label for="paidAmnt" class="float-input" style="padding-top: 10px;">Amt Paid</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="balAmnt" id="float-input" [(ngModel)]="BalanceAmount" pInputText
+                              <input name="balAmnt" id="float-input" [(ngModel)]="BalanceAmount" [readonly]="true" pInputText
                                 autocomplete="off">
                               <label for="balAmnt" class="float-input" style="padding-top: 10px;">Balance Amt</label>
                             </span>
@@ -462,7 +462,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjusmentAmount" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
-                        [readonly]="true" autocomplete="off" >
+                         autocomplete="off" >
                         <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
@@ -482,11 +482,11 @@
                   </div>
                   <div class="ui-g-12 ui-md-12 dashboard">
                     <div class="ui-g-4 ui-md-1">
-                      <p-radioButton name="groupname" label="Credit" value="Credit" [(ngModel)]="AdjustmentType">
+                      <p-radioButton name="groupname" label="Credit" value="Credit" [(ngModel)]="AdjustmentType" (onClick)="onCalculateBalance()">
                       </p-radioButton>
                     </div>
                     <div class="ui-g-4 ui-md-1">
-                      <p-radioButton name="groupname" label="Debit" value="Debit" [(ngModel)]="AdjustmentType">
+                      <p-radioButton name="groupname" label="Debit" value="Debit" [(ngModel)]="AdjustmentType"  (onClick)="onCalculateBalance()">
                       </p-radioButton>
                     </div>
                     <div class="ui-g-4 ui-md-1">
