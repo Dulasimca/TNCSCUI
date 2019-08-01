@@ -551,8 +551,8 @@ export class TruckReceiptComponent implements OnInit {
       LNo: this.LorryNo,
       Wno: this.WNo,
       RRNo: this.RRNo,
-      RailHead: (this.RHCode.value !== undefined) ? this.RHCode.value : this.rhCode,
-      RailHeadName: (this.RHCode.label !== undefined) ? this.RHCode.label : this.RHCode,
+      RailHead: (this.RHCode !== undefined) ? this.RHCode.value : 0,
+      RailHeadName: (this.RHCode !== undefined) ? this.RHCode.label : '',
       RFreightAmount: this.RailFreightAmt,
       Rcode: this.RCode
     })
@@ -591,11 +591,13 @@ export class TruckReceiptComponent implements OnInit {
           this.onClear();
           this.isSaveSucceed = false;
         } else {
+          this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
       }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.STTDetails = [];
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });

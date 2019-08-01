@@ -43,13 +43,13 @@
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="road" class="ui-g-3" name="groupname" value="Road"
-                        (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues">
+                        (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
                       <label class="ui-g-9 label-fontsize-large" for="road">By Road</label>
                     </div>
                     <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
                       <p-checkbox name="rail" class="ui-g-3" name="groupname" (onChange)="onSelectTransportMode()"
-                        value="Rail" [(ngModel)]="selectedValues">
+                        value="Rail" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
                       <label class="ui-g-8 label-fontsize-large" for="rail">By Rail</label>
                     </div>
@@ -123,7 +123,7 @@
                         <span class="ui-float-label" style="padding-top: 20px;">
                           <input name="LNo" id="float-input" maxlength="13"[(ngModel)]="LorryNo" pInputText
                           oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                            autocomplete="off" required>
+                          style="text-transform: uppercase !important" autocomplete="off" required>
                           <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
                         </span>
                       </div>

@@ -86,7 +86,7 @@ export class DeliveryReceiptComponent implements OnInit {
   MarginAmount: any;
   MarginRateInTerms: any;
   marginRateInTerms: any;
-  GrandTotal: any;
+  GrandTotal: any = 0;
   Payment: string;
   ChequeNo: any;
   ChequeDate: Date = new Date();
@@ -437,17 +437,19 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onSave() {
     this.OrderPeriod = this.PMonth.value + '/' + this.PYear.label;
+    this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0;
+    this.rowId = (this.rowId !== undefined) ? this.rowId : 0;
     const params = {
       'Dono': this.DeliveryOrderNo,
-      'RowId': (this.rowId !== undefined) ? this.rowId : 0,
+      'RowId': this.rowId,
       'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
-      'TransactionCode': this.Trcode.value,
+      'TransactionCode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
       'IndentNo': this.IndentNo,
       'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
       'OrderPeriod': this.OrderPeriod,
-      'ReceivorCode': this.PName.value,
+      'ReceivorCode': (this.PName.value !== undefined) ? this.PName.value : this.pCode,
       'IssuerCode': this.GCode,
-      'IssuerType': this.RTCode.value,
+      'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'GrandTotal': this.GrandTotal,
       'Regioncode': this.RCode,
       'Remarks': this.Remarks,
@@ -462,7 +464,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryPaymentDetails': this.paymentData,
       'deliveryAdjustmentDetails': this.paymentBalData
     };
-    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;
