@@ -156,7 +156,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="scheme" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #sc name="scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
-                        (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('scheme')" (keydown.enter)="onSelect('scheme')" filter="true" optionLabel="label"
                         [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -166,7 +166,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;text-align: center">
                       <label class="label-fontsize" for="idesc" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #i_desc name="idesc" [options]="itemDescOptions" [(ngModel)]="ICode"
-                        (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')" filter="true"
+                        (onClick)="onSelect('commodity')" (keydown.enter)="onSelect('commodity')" filter="true"
                         optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -242,7 +242,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="marginScheme" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
-                        (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" name="marginScheme"
+                        (onClick)="onSelect('margin_scheme')" (keydown.enter)="onSelect('margin_scheme')" filter="true" name="marginScheme"
                         optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -252,7 +252,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;text-align: center">
                       <label class="label-fontsize" for="marginItem" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #margin_id name="marginItem" [options]="marginItemDescOptions" [(ngModel)]="MICode"
-                        (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')" filter="true"
+                        (onClick)="onSelect('margin_commodity')" (keydown.enter)="onSelect('margin_commodity')" filter="true"
                         optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -271,7 +271,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="marginRate">Rate In Term Of</label>
                       <p-dropdown #margin_rate name="marginRate" [options]="marginRateInTermsOptions"
-                        (keydown.enter)="onSelect('wmt')" [(ngModel)]="MarginRateInTerms" (onClick)="onSelect('wmt')"
+                        (keydown.enter)="onSelect('margin_wmt')" [(ngModel)]="MarginRateInTerms" (onClick)="onSelect('margin_wmt')"
                         filter="true" optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -325,7 +325,7 @@
                     </p-table>
                   </div>
                   <div class="ui-g-12">
-                    <div class="ui-g-6 ui-md-3 dashboard">
+                    <div class="ui-g-6 ui-md-3 no-left-pad">
                       <span class="ui-float-label">
                         <input name="GUtilised" id="float-input" pInputText [(ngModel)]="GrandTotal"
                           oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"

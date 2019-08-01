@@ -49,6 +49,8 @@ export class DeliveryReceiptComponent implements OnInit {
   RegionName: any;
   GodownName: any;
   marginItemDescOptions: SelectItem[];
+  marginTotal: any = 0;
+  totalAmount: any = 0;
   canShowMenu: boolean;
   rowId: any;
   UnLoadingSlip: any;
@@ -81,10 +83,10 @@ export class DeliveryReceiptComponent implements OnInit {
   Rate: any;
   RateTerm: any;
   rateTerm: any;
-  TotalAmount: any;
+  TotalAmount: any = 0;
   MarginNKgs: any;
   MarginRate: any;
-  MarginAmount: any;
+  MarginAmount: any = 0;
   MarginRateInTerms: any;
   marginRateInTerms: any;
   GrandTotal: any = 0;
@@ -101,7 +103,7 @@ export class DeliveryReceiptComponent implements OnInit {
   OtherAmount: any;
   Balance: any;
   DueAmount: any;
-  PaidAmount: any;
+  PaidAmount: any = 0;
   BalanceAmount: any;
   MarginItem: string;
 
@@ -130,7 +132,12 @@ export class DeliveryReceiptComponent implements OnInit {
   onSelect(selectedItem) {
     let transactoinSelection = [];
     let schemeSelection = [];
+    let marginSchemeSelection = [];
+    let commoditySelection = [];
+    let marginCommoditySelection = [];
     let receivorTypeList = [];
+    let weighment = [];
+    let marginWeighment = [];
     let partyNameList = [];
     let yearArr = [];
     const range = 3;
@@ -170,17 +177,26 @@ export class DeliveryReceiptComponent implements OnInit {
           })
         }
         break;
-      case 'sc':
-        if (this.scheme_data !== undefined) {
+      case 'scheme':
+        if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
-            this.marginSchemeOptions = schemeSelection;
+          });
+          this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        }
+        break;
+        case 'margin_scheme':
+        if (this.scheme_data !== undefined && this.scheme_data !== null) {
+          this.scheme_data.forEach(y => {
+            marginSchemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            this.marginSchemeOptions = marginSchemeSelection;
           });
           this.marginSchemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rt':
+       if (this.Trcode !== null && this.Trcode !== undefined) {
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
@@ -192,10 +208,11 @@ export class DeliveryReceiptComponent implements OnInit {
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      }
         break;
       case 'pn':
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
-          this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+       if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
+        if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
           const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
           .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
@@ -206,33 +223,56 @@ export class DeliveryReceiptComponent implements OnInit {
             this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      }
         break;
-      case 'i_desc':
-        let itemDesc = [];
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+      case 'commodity':
+       if (this.Scheme !== null && this.Scheme !== undefined) {
+        if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             res.forEach(i => {
               if (!this.selectedItem) {
-                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
               } else {
                 let filteredArr = res.filter(x => {
                   return x.Allotmentgroup === 'Rice';
                 })
                 filteredArr.forEach(i => {
-                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
                 })
               }
             });
-            this.itemDescOptions = itemDesc;
-            this.marginItemDescOptions = itemDesc;
+            this.itemDescOptions = commoditySelection;
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      }
         break;
+        case 'margin_commodity':
+           if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
+            if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+              const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
+              this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                res.forEach(i => {
+                  if (!this.selectedItem) {
+                    marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  } else {
+                    let filteredArr = res.filter(x => {
+                      return x.Allotmentgroup === 'Rice';
+                    })
+                    filteredArr.forEach(i => {
+                      marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                    })
+                  }
+                });
+                this.marginItemDescOptions = marginCommoditySelection;
+                this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              });
+            }
+          }
+            break;
         case 'wmt':
-        let weighment = [];
-        if (this.rateInTermsOptions === undefined || this.marginRateInTermsOptions === undefined) {
+        if (this.rateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             res.forEach(w => {
               if (w.Basicweight !== 'GRAMS') {
@@ -240,10 +280,21 @@ export class DeliveryReceiptComponent implements OnInit {
             })
             this.rateInTermsOptions = weighment;
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            this.marginRateInTermsOptions = weighment;
           });
         }
         break;
+        case 'margin_wmt':
+            if (this.marginRateInTermsOptions === undefined) {
+              this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+                res.forEach(w => {
+                  if (w.Basicweight !== 'GRAMS') {
+                  marginWeighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
+                })
+                this.marginRateInTermsOptions = marginWeighment;
+                this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              });
+            }
+            break;
         case 'pay':
           if (this.paymentOptions === undefined) {
             this.paymentOptions = [{ 'label': '-select-', 'value': null},
@@ -352,7 +403,11 @@ export class DeliveryReceiptComponent implements OnInit {
           'Scheme': this.Scheme.value, 'Rate': this.Rate, 'Total': this.TotalAmount, 'RCode': this.RCode
         });
         if (this.itemData.length !== 0) {
-          this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
+            this.totalAmount = 0;
+            this.itemData.forEach(x => this.totalAmount += (x.Total * 1));
+            this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+            this.DueAmount = this.GrandTotal;
+            this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
         }
         break;
       case 'MarginItem':
@@ -362,6 +417,10 @@ export class DeliveryReceiptComponent implements OnInit {
            'MarginWtype': this.MarginRateInTerms.value, 'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
         });
         if (this.itemSchemeData.length !== 0) {
+          this.marginTotal = 0;
+          this.itemSchemeData.forEach(y => this.marginTotal += (y.MarginAmount * 1));
+          this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.DueAmount = this.GrandTotal;
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
         }
         break;
@@ -369,7 +428,15 @@ export class DeliveryReceiptComponent implements OnInit {
         this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
           ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'), RCode: this.RCode,
           PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
+          let lastIndex = this.paymentData.length;
           if (this.paymentData.length !== 0) {
+            this.PaidAmount += (this.PAmount * 1);
+            this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
+            this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?  
+           ((this.DueAmount > this.PaidAmount) ? ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 
+           (this.paymentData = this.paymentData.splice(lastIndex, 1), this.BalanceAmount = null,
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No due is pending!' })
+        )) : 0;
             this.ChequeDate = new Date();
             this.Payment = this.PayableAt = this.ChequeNo =  this.OnBank = this.PAmount = null;
           }
@@ -413,15 +480,16 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   calculateTotal() {
-   if (this.NKgs !== undefined && this.Rate !== undefined) {
+   if (this.NKgs !== undefined && this.Rate !== undefined && this.NKgs !== null && this.Rate !== null) {
       this.TotalAmount = this.rateWithQtyCalculation(this.RateTerm.value, this.Rate, this.NKgs);
     }
-    if (this.MarginNKgs !== undefined && this.MarginRate !== undefined) {
+    if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
       this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms.value, this.MarginRate, this.MarginNKgs);
     }
-    if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
-      this.GrandTotal = ((this.TotalAmount * 1) - (this.MarginAmount * 1)).toFixed(2);
-    }
+    // if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
+    //   this.GrandTotal = ((this.TotalAmount * 1) - (this.MarginAmount * 1)).toFixed(2);
+    //   this.DueAmount = this.GrandTotal;
+    // }
   }
 
   onPrint() { }
