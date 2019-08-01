@@ -269,7 +269,7 @@ export class DeliveryReceiptComponent implements OnInit {
   onView() {
     this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_REPORT, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -464,7 +464,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryPaymentDetails': this.paymentData,
       'deliveryAdjustmentDetails': this.paymentBalData
     };
-    this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;

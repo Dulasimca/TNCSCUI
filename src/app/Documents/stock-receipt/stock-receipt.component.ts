@@ -417,7 +417,7 @@ export class StockReceiptComponent implements OnInit {
       'RegionName': this.regionName,
       'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip
     }
-    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENTS, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;
@@ -436,7 +436,7 @@ export class StockReceiptComponent implements OnInit {
   onView() {
     this.viewPane = this.isViewClicked = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
-    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -452,7 +452,7 @@ export class StockReceiptComponent implements OnInit {
   getDocBySRNo() {
     this.viewPane = this.enableActions = false;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
-    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.SRNo = res[0].SRNO;
         this.SRDate = res[0].SRDate;
