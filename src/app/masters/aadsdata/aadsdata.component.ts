@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
   selector: 'app-aadsdata',
   templateUrl: './aadsdata.component.html',
   styleUrls: ['./aadsdata.component.css']
- })
+})
 export class AADSDataComponent implements OnInit {
 
   data: any;
@@ -27,23 +27,23 @@ export class AADSDataComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.column=this.tableConstants.AadsData;
+    this.column = this.tableConstants.AadsData;
     this.restApiService.get(PathConstants.AADS).subscribe((response: any[]) => {
-      if(response!==undefined){
+      if (response !== undefined) {
         this.data = response;
         this.filterArray = response;
       }
-      else 
-      {
+      else {
         return this.errMessage;
       }
-       this.items = [
+      this.items = [
         {
           label: 'Excel', icon: 'fa fa-table', command: () => {
             this.exportAsXLSX();
-        }},
+          }
+        },
         {
-          label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
+          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
           }
         }]
@@ -54,28 +54,33 @@ export class AADSDataComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-          return item.RegionName.toString().startsWith(value);
+        return item.RegionName.toString().startsWith(value);
       });
-     } 
+    }
   }
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.data, 'AADS_DATA', this.column);
+  exportAsXLSX(): void {
+    var AadsData = [];
+    this.data.forEach(value => {
+      AadsData.push({ SlNo: value.SlNo, RegionName: value.RegionName, AADSType: value.AADSType, Name: value.Name })
+    })
+    this.excelService.exportAsExcelFile(AadsData, 'AADS_DATA', this.column);
   }
+
   exportAsPDF() {
-    var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
     // var img ="assets\layout\images\dashboard\tncsc-logo.png";
     // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;
     var rows = [];
-      this.data.forEach(element => {
-       var temp = [element.SlNo,element.Name,element.AADSType,element.RegionName];
-          rows.push(temp);
+    this.data.forEach(element => {
+      var temp = [element.SlNo, element.RegionName, element.AADSType, element.Name];
+      rows.push(temp);
     });
-      doc.autoTable(col,rows);
-      doc.save('AADS_DATA.pdf');
+    doc.autoTable(col, rows);
+    doc.save('AADS_DATA.pdf');
   }
-  print(){
+  print() {
     window.print();
   }
 }

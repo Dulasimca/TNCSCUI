@@ -35,20 +35,24 @@ export class GodownDataComponent implements OnInit {
       response.forEach(x => {
         let list = x.list;
         for (let i = 0; i < list.length; i++) {
-          childNode = { 'data': {
-            'serialNo': i + 1 + ")",
-            'Name': list[i].Name,
-            'Capacity': list[i].Capacity,
-            'Carpet': list[i].Carpet
-          }}
+          childNode = {
+            'data': {
+              'serialNo': i + 1 + ")",
+              'Name': list[i].Name,
+              'Code': list[i].Code,
+              'Capacity': list[i].Capacity,
+              'Carpet': list[i].Carpet
+            }
+          }
           regionData.push(childNode);
         }
         var index = response.findIndex(index => index.Name === x.Name);
         treeData.push(Object.assign({},
           {
             "data": {
-              "serialNo": index + 1 ,
+              "serialNo": index + 1,
               "Name": x.Name,
+              "Code": x.Code,
               "Capacity": x.Capacity,
               "Carpet": x.Carpet
             },
@@ -59,15 +63,16 @@ export class GodownDataComponent implements OnInit {
       });
       this.data = treeData;
       this.filterArray = treeData;
-      
+
       this.items = [
         {
           label: 'Excel', icon: 'fa fa-table', command: () => {
             this.exportAsXLSX();
-        }},
+          }
+        },
         {
-          label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
-           this.exportAsPDF();
+          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+            this.exportAsPDF();
           }
         }]
     });
@@ -77,11 +82,11 @@ export class GodownDataComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-          return item.data.Name.toString().startsWith(value);
+        return item.data.Name.toString().startsWith(value);
       });
     }
   }
-  exportAsXLSX():void{
+  exportAsXLSX(): void {
     let tempArray = [];
     this.data.forEach(x => {
       tempArray.push(x.data);
@@ -90,28 +95,26 @@ export class GodownDataComponent implements OnInit {
         tempArray.push(y.data);
       })
     })
-     this.excelService.exportAsExcelFile(tempArray, 'GODOWN_DATA', this.column);
+    this.excelService.exportAsExcelFile(tempArray, 'GODOWN_DATA', this.column);
   }
   exportAsPDF() {
-    var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
     var col = this.column;
     var rows = [];
     this.data.forEach(element => {
-      var temp = [element.data.serialNo,element.data.Name,element.data.Capacity,element.data.Carpet];
+      var temp = [element.data.serialNo, element.data.Name, element.data.Code, element.data.Capacity, element.data.Carpet];
       rows.push(temp);
       let childNode = element.children;
       childNode.forEach(element => {
-      var temp = [element.data.serialNo,element.data.Name,element.data.Capacity,element.data.Carpet];
-      rows.push(temp);
+        var temp = [element.data.serialNo, element.data.Name, element.data.Code, element.data.Capacity, element.data.Carpet];
+        rows.push(temp);
       })
-      // let tempArray = [element.data.Name, element.data.Capacity,element.data.Carpet];
-      // rows.push(tempArray);
     });
-      doc.autoTable(col,rows);
-      doc.save('GODOWN_DATA.pdf');
+    doc.autoTable(col, rows);
+    doc.save('GODOWN_DATA.pdf');
   }
-  print(){
+  print() {
     window.print();
   }
 
@@ -122,7 +125,7 @@ export class GodownDataComponent implements OnInit {
   public getColor(name: string, index): string {
     let color;
     this.data.forEach(x => {
-      if(x.serialNo - 1 === index) {
+      if (x.serialNo - 1 === index) {
         color = "#53aae4";
       } else {
         color = "white"

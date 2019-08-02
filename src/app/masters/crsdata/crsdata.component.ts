@@ -17,68 +17,72 @@ import { MessageService } from 'primeng/api';
 })
 export class CRSDataComponent implements OnInit {
 
-  data: any=[];
+  data: any = [];
   column: any;
   errMessage: "Record Not Found";
   items: any;
   canShowMenu: boolean;
   filterArray: any;
   loading: boolean = false;
-  
-    constructor(private restApiService:RestAPIService, private authService: AuthService, private messageService: MessageService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
-  
-    ngOnInit() {
-      this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-      this.column = this.tableConstants.CrsData;
-      this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
-        if(response!==undefined){
-        this.loading = true;
-          this.data = response;
-          this.loading = false;
-          this.filterArray = response;
-        }else 
-        {
-          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
-        }
-       this.items = [
+
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+
+  ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.loading = true;
+    this.column = this.tableConstants.CrsData;
+    this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
+      if (response !== undefined) {
+        this.loading = false;
+        this.data = response;
+        this.filterArray = response;
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+      }
+      this.items = [
         {
           label: 'Excel', icon: 'fa fa-table', command: () => {
             this.exportAsXLSX();
-        }},
+          }
+        },
         {
-          label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
-           this.exportAsPDF();
+          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+            this.exportAsPDF();
           }
         }]
-      });
-   }
-   onSearch(value) {
+    });
+  }
+  onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-      return item.GodownName,item.RegionName.toString().startsWith(value);
-    });
-   } 
+        return item.GodownName, item.RegionName.toString().startsWith(value);
+      });
+    }
   }
-   exportAsXLSX():void{
-     this.excelService.exportAsExcelFile(this.data, 'CRS DATA', this.column);
+  exportAsXLSX(): void {
+    var CrsData = [];
+    this.data.forEach(value => {
+      CrsData.push({ SlNo: value.SlNo, RegionName: value.RegionName, GodownName: value.GodownName, Issuername: value.Issuername, IssuerCode: value.IssuerCode, AcsCode: value.AcsCode })
+    })
+    this.excelService.exportAsExcelFile(CrsData, 'CRS DATA', this.column);
   }
   exportAsPDF() {
-    var doc = new jsPDF('p','pt','a4');
-      doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
-      // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-      // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;
     var rows = [];
-      this.data.forEach(element => {
-       var temp = [element.SlNo,element.Issuername,element.RegionName,element.SocietyName,element.GodownName];
-          rows.push(temp);
+    this.data.forEach(element => {
+      var temp = [element.SlNo, element.RegionName, element.GodownName, element.Issuername, element.IssuerCode, element.AcsCode];
+      rows.push(temp);
     });
-      doc.autoTable(col,rows);
-      doc.save('CRS_DATA.pdf');
+    doc.autoTable(col, rows);
+    doc.save('CRS_DATA.pdf');
   }
-  print(){
+  print() {
     window.print();
   }
 }
