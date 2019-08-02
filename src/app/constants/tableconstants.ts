@@ -79,6 +79,7 @@ export class TableConstants {
   DailyDocumentReceipt: any;
   DailyDocumentIssue: any;
   StockIssueMemoViewBySINOCols: any;
+  StackCardOpening: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -399,7 +400,6 @@ export class TableConstants {
       { field: 'Year', header: 'S.YEAR' }
     ];
 
-
     this.StackCardOpeningEntryReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'CommodityName', header: 'Commodity'},
@@ -410,8 +410,6 @@ export class TableConstants {
       { field: 'CurYear', header: 'Formation Year' },
       { field: 'Flag1', header: 'Status' },
     ];
-
-    
 
     this.StackWiseBreakupDetails = [
       { field: 'Stackno', header: 'Stack No'},
@@ -875,6 +873,16 @@ export class TableConstants {
       { field: 'NETWT', header: 'Net Wt' },
       { field: 'SCHEME', header: 'Scheme' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+    ];
+
+    this.StackCardOpening = [
+      { field: '', header: 'S.No' },
+      { field: '', header: 'Stack No' },
+      { field: '', header: 'Ope.Bags' },
+      { field: '', header: 'Ope.Quar' },
+      { field: '', header: 'From_dt' },
+      { field: '', header: 'Formation Year' },
+      { field: '', header: 'Status' },
     ];
   }
 }

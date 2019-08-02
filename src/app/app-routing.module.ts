@@ -77,6 +77,7 @@ import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
+import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 
 
 const routes: Routes = [
@@ -156,6 +157,7 @@ const routes: Routes = [
   { path :'Transaction Status', component: TransactionStatusComponent },
   { path: 'Daily Document Receipt', component: DailyDocumentsComponent },
   { path: 'Daily Document Issue', component: DailyDocumentIssueComponent },
+  { path: 'Stack Card Opening', component: StackCardOpeningComponent },
   { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

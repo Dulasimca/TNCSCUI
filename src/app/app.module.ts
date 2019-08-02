@@ -124,6 +124,7 @@ import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-iss
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
+import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 
 @NgModule({
   declarations: [
@@ -210,6 +211,7 @@ import { AmountDecimalDirective } from './directives/DecimalForAmount.directive'
     DailyDocumentsComponent,
     DailyDocumentIssueComponent,
     AmountDecimalDirective,
+    StackCardOpeningComponent,
   ],
   imports: [
     BrowserModule,
