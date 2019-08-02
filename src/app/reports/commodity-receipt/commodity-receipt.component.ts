@@ -50,45 +50,45 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'gd':
-          this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-              this.godownOptions = godownSelection;
-            });
-      }
-        break;
-      case 'tr':
-        if(this.transactionOptions === undefined) {
-        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-          if(data !== undefined) {
-          data.forEach(y => {
-            transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
-            this.transactionOptions = transactionSelection;
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
           });
         }
-        })
-      }
-      break;
+        break;
+      case 'tr':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactionSelection;
+              });
+            }
+          })
+        }
+        break;
       case 'cd':
-        if(this.commodityOptions === undefined){
-        this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-          if (data !== undefined) {
-            data.forEach(y => {
-              commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-              this.commodityOptions = commoditySelection;
-            });
-          }
-        })
-      }
-      break;
+        if (this.commodityOptions === undefined) {
+          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                this.commodityOptions = commoditySelection;
+              });
+            }
+          })
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = { 
+    const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.g_cd.value,
@@ -112,10 +112,11 @@ export class CommodityReceiptComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
@@ -129,10 +130,10 @@ export class CommodityReceiptComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -144,12 +145,14 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    var commodity_receipt_data = [];
+    var CommodityReceiptData = [];
     this.commodityReceiptData.forEach(data => {
-      commodity_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
-      Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
-    Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno})
+      CommodityReceiptData.push({
+        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
+        Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
+        Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno
+      })
     })
-    this.excelService.exportAsExcelFile(commodity_receipt_data, 'COMMODITY_RECEIPT_REPORT', this.commodityReceiptCols);
+    this.excelService.exportAsExcelFile(CommodityReceiptData, 'COMMODITY_RECEIPT_REPORT', this.commodityReceiptCols);
   }
 }

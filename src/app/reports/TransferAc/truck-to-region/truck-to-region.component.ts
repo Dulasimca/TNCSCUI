@@ -62,7 +62,7 @@ export class TruckToRegionComponent implements OnInit {
       this.TruckToRegionData = res;
       let sno = 0;
       this.TruckToRegionData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;

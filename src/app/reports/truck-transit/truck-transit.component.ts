@@ -141,7 +141,7 @@ export class TruckTransitComponent implements OnInit {
     var TruckTransit = [];
     this.TruckTransitData.forEach(data => {
       if (data.Transfertype == "INTERNAL TRANSFER" || data.Transfertype == "TRANSFER") {
-        TruckTransit.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, Region: data.Region, TNCSName: data.TNCSName, LNo: data.LNo, NoPacking: data.NoPacking, Nkgs: data.Nkgs, AckNo: data.STNo, RTDate: data.STDate, RRegion: data.Region, RGodown: data.TNCSName, Bags: data.NoPacking, Quantity: data.Nkgs, type: data.Transfertype })
+        TruckTransit.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, Region: data.Region, TNCSName: data.TNCSName, LNo: data.LNo, NoPacking: data.NoPacking, Nkgs: data.Nkgs, ACKNO: data.ACKNO, ReceiverDate: data.STDate, DepositorName: data.DepositorName, Bags: data.NoPacking, Quantity: data.Nkgs, TransferType: data.Transfertype })
       }
     })
     this.excelService.exportAsExcelFile(TruckTransit, 'Truck_Transit', this.TruckTransitCols);

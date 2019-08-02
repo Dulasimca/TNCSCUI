@@ -12,9 +12,9 @@
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')"
-            (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
-            placeholder="-select-">
+          <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+            (keydown.enter)="onSelect('gd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+            [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -22,9 +22,9 @@
         </div>
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')" (keydown.enter)="onSelect('cd')"
-            (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
-            placeholder="-select-">
+          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+            (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+            [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -56,7 +56,8 @@
           <label class="ui-g-10 dashboard">Issued to Depositor</label>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !c_cd || !fromDate || !toDate)"></button>
+          <button pButton type="button" label=View (click)="onView()"
+            [disabled]="(!g_cd || !c_cd || !fromDate || !toDate)"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

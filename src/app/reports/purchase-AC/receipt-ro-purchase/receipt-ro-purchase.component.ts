@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './receipt-ro-purchase.component.html',
   styleUrls: ['./receipt-ro-purchase.component.css']
 })
-export class ReceiptROPurchaseComponent implements OnInit {  
+export class ReceiptROPurchaseComponent implements OnInit {
   receiptROPurchaseCols: any;
   receiptROPurchaseData: any;
   fromDate: any;
@@ -30,7 +30,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
   loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-     private authService: AuthService, private excelService: ExcelService, private router: Router, 
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -47,16 +47,16 @@ export class ReceiptROPurchaseComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-          godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-          this.godownOptions = godownSelection;
-        });
-      }
+        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = godownSelection;
+      });
+    }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params =  {
+    const params = {
       'GCode': this.g_cd.value,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
@@ -79,10 +79,11 @@ export class ReceiptROPurchaseComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onDateSelect() {
     this.checkValidDateSelection();
@@ -97,10 +98,9 @@ export class ReceiptROPurchaseComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if (selectedFromMonth !== selectedToMonth || selectedFromYear !== selectedToYear) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a date within a month' });
-        this.fromDate = this.toDate = '';
-      } else if (selectedFromDate >= selectedToDate) {
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }
@@ -113,7 +113,15 @@ export class ReceiptROPurchaseComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.receiptROPurchaseData, 'RECEIPT-RO-PURCHASE', this.receiptROPurchaseCols);
+  onExportExcel(): void {
+    var ReceiptRo = [];
+    this.receiptROPurchaseData.forEach(data => {
+      ReceiptRo.push({
+        SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type: data.Type,
+        Depositor: data.Depositor, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity,
+        TruckMen: data.TruckMen, Orderno: data.Orderno, Lorryno: data.Lorryno
+      })
+    })
+    this.excelService.exportAsExcelFile(ReceiptRo, 'RECEIPT-RO-PURCHASE', this.receiptROPurchaseCols);
   }
 }

@@ -34,7 +34,7 @@ export class StockstatementreportComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe,
-     private excelService: ExcelService, private messageService: MessageService) { }
+    private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -45,10 +45,11 @@ export class StockstatementreportComponent implements OnInit {
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
           this.exportAsXLSX();
-      }},
+        }
+      },
       {
-        label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
-         this.exportAsPDF();
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
         }
       }]
   }
@@ -58,10 +59,10 @@ export class StockstatementreportComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -76,31 +77,31 @@ export class StockstatementreportComponent implements OnInit {
       'UserName': this.username.user
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
-      if (res !== undefined && res.length !== 0) { 
+      if (res !== undefined && res.length !== 0) {
         this.stockData = res;
         let sno = 0;
         this.stockData.forEach(data => {
           sno += 1;
-        data.SlNo = sno;
-        data.ITDescription = data.ITDescription;
-        data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
-        data.Receipt = (data.TotalReceipt * 1).toFixed(3);
-        data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
-        data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
-        data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
-        data.CSBalance = (data.CSBalance * 1).toFixed(3);
-        data.Shortage = (data.Shortage * 1).toFixed(3);
-        data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
-        this.loading = false;
+          data.SlNo = sno;
+          data.ITDescription = data.ITDescription;
+          data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
+          data.Receipt = (data.TotalReceipt * 1).toFixed(3);
+          data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
+          data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
+          data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+          data.CSBalance = (data.CSBalance * 1).toFixed(3);
+          data.Shortage = (data.Shortage * 1).toFixed(3);
+          data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
+          this.loading = false;
         });
-      } else{
+      } else {
         this.loading = false;
         this.messageService.add({ key: 't-error', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.loading = false;
+        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
   }
@@ -118,10 +119,11 @@ export class StockstatementreportComponent implements OnInit {
       let selectedToMonth = this.toDate.getMonth();
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear) ||
-       (selectedFromMonth != selectedToMonth) || (selectedToYear != selectedFromYear)) {
-          this.messageService.add({ key: 't-error', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -130,33 +132,34 @@ export class StockstatementreportComponent implements OnInit {
     this.stockData = [];
   }
 
-  exportAsXLSX():void{
-    var stock_statement_data = [];
+  exportAsXLSX(): void {
+    var StockStatementData = [];
     this.stockData.forEach(data => {
-      stock_statement_data.push({SlNo: data.SlNo, ITDescription: data.ITDescription,
+      StockStatementData.push({
+        SlNo: data.SlNo, ITDescription: data.ITDescription,
         OpeningBalance: data.OpeningBalance, Receipt: data.Receipt,
-         TotalReceipt: data.TotalReceipt,  TotalIssue: data.TotalIssue,
+        TotalReceipt: data.TotalReceipt, TotalIssue: data.TotalIssue,
         ClosingBalance: data.ClosingBalance, CSBalance: data.CSBalance,
         Shortage: data.Shortage, PhycialBalance: data.PhycialBalance
-        });
-   });
-    this.excelService.exportAsExcelFile(stock_statement_data, 'STOCK_STATEMENT_REPORT',this.stockDataColumns);
-}
-exportAsPDF() {
-  var doc = new jsPDF('p','pt','a4');
-  doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30,);
-  // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-  // doc.addImage(img, 'PNG', 150, 10, 40, 20);
-  var col = this.stockDataColumns;
-  var rows = [];
-  this.stockData.forEach(element => {
-     var temp = [element.SlNo, element.ITDescription, element.OpeningBalance, element.Receipt,
-      element.TotalReceipt,  element.TotalIssue,  element.ClosingBalance, element.CSBalance,
+      });
+    });
+    this.excelService.exportAsExcelFile(StockStatementData, 'STOCK_STATEMENT_REPORT', this.stockDataColumns);
+  }
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    var col = this.stockDataColumns;
+    var rows = [];
+    this.stockData.forEach(element => {
+      var temp = [element.SlNo, element.ITDescription, element.OpeningBalance, element.Receipt,
+      element.TotalReceipt, element.TotalIssue, element.ClosingBalance, element.CSBalance,
       element.Shortage, element.PhycialBalance
-     ];
-        rows.push(temp);
-  });
-    doc.autoTable(col,rows);
+      ];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
     doc.save('STOCK_STATEMENT_REPORT.pdf');
-}
+  }
 }

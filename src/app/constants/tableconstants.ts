@@ -79,6 +79,7 @@ export class TableConstants {
   DailyDocumentReceipt: any;
   DailyDocumentIssue: any;
   StockIssueMemoViewBySINOCols: any;
+  StackCardOpening: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -337,7 +338,7 @@ export class TableConstants {
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Issue_Memono', header: 'I.MEMO NO' },
-      { field: 'Issuedto', header: 'DATE' },
+      { field: 'Issue_Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Quantity', header: 'QUANTITY' },
       { field: 'Issuedto', header: 'ISSUED TO' }
@@ -399,7 +400,6 @@ export class TableConstants {
       { field: 'Year', header: 'S.YEAR' }
     ];
 
-
     this.StackCardOpeningEntryReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'CommodityName', header: 'Commodity'},
@@ -410,8 +410,6 @@ export class TableConstants {
       { field: 'CurYear', header: 'Formation Year' },
       { field: 'Flag1', header: 'Status' },
     ];
-
-    
 
     this.StackWiseBreakupDetails = [
       { field: 'Stackno', header: 'Stack No'},
@@ -431,14 +429,13 @@ export class TableConstants {
       {field: 'STNo', header: 'Truck Memo No'},
       {field: 'STDate', header: 'Sender Date'},
       {field: 'Region', header: 'Region'},
-      {field: 'TNCSName', header: 'Godown Name'},
+      {field: 'TNCSName', header: 'Sender Godown'},
       {field: 'LNo', header: 'Lorry No'},
       {field: 'NoPacking', header: 'Bags'},
       {field: 'Nkgs', header: 'Quantity'},
-      {field: 'STNo', header: 'AckNo'},
+      {field: 'ACKNO', header: 'AckNo'},
       {field: 'STDate', header: 'Receiver Date'},
-      {field: 'Region', header: 'Receiver Region'},
-      {field: 'TNCSName', header: 'Receiver Godown'},
+      {field: 'DepositorName', header: 'Receiver Godown'},
       {field: 'NoPacking', header: 'Bags Received'},
       {field: 'Nkgs', header: 'Received Quantity'},
       {field: 'Transfertype', header: 'Transfer Type'}
@@ -569,7 +566,7 @@ export class TableConstants {
       { field: 'Bags', header: 'BAGS' },
       { field: 'Quantity', header: 'QUANTITY' },
       { field: 'TruckMen', header: 'TRUCKMEN' },
-      { field: 'Orderno', header: 'Order.No' },
+      { field: 'Orderno', header: 'ORDER NO' },
       { field: 'Lorryno', header: 'LORRY NO' },
     ];
 
@@ -579,12 +576,12 @@ export class TableConstants {
       { field: 'Date', header: 'DATE' },
       { field: 'Type', header: 'TYPE '},
       { field: 'Depositor', header: 'DEPOSITOR' },
-      { field: 'Commodity', header: 'Commodity' },
-      { field: 'Bags', header: 'Bags' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'TruckMen', header: 'Truckmen' },
-      { field: 'Orderno', header: 'Order No' },
-      { field: 'Lorryno', header: 'Lorry No' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
+      { field: 'TruckMen', header: 'TRUCKMEN' },
+      { field: 'Orderno', header: 'ORDER NO' },
+      { field: 'Lorryno', header: 'LORRY NO' },
     ];
     
     this.ReceiptRONOPurchaseReport = [
@@ -597,7 +594,7 @@ export class TableConstants {
       { field: 'Bags', header: 'BAGS' },
       { field: 'Quantity', header: 'QUANTITY' },
       { field: 'TruckMen', header: 'TRUCKMEN' },
-      { field: 'Orderno', header: 'Order.No' },
+      { field: 'Orderno', header: 'ORDER NO' },
       { field: 'Lorryno', header: 'LORRY NO' },
       { field: 'Scheme', header: 'Scheme' }
     ];
@@ -876,6 +873,16 @@ export class TableConstants {
       { field: 'NETWT', header: 'Net Wt' },
       { field: 'SCHEME', header: 'Scheme' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+    ];
+
+    this.StackCardOpening = [
+      { field: '', header: 'S.No' },
+      { field: '', header: 'Stack No' },
+      { field: '', header: 'Ope.Bags' },
+      { field: '', header: 'Ope.Quar' },
+      { field: '', header: 'From_dt' },
+      { field: '', header: 'Formation Year' },
+      { field: '', header: 'Status' },
     ];
   }
 }

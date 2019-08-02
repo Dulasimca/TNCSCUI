@@ -1,30 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
-import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
-import { AuthService } from 'src/app/shared-services/auth.service';
+import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { AuthService } from 'src/app/shared-services/auth.service';
+import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-commodity-issue-memo',
-  templateUrl: './commodity-issue-memo.component.html',
-  styleUrls: ['./commodity-issue-memo.component.css']
+  selector: 'app-stack-card-opening',
+  templateUrl: './stack-card-opening.component.html',
+  styleUrls: ['./stack-card-opening.component.css']
 })
-export class CommodityIssueMemoComponent implements OnInit {
-  commodityIssueMemoCols: any;
-  commodityIssueMemoData: any;
-  fromDate: any;
-  toDate: any;
+export class StackCardOpeningComponent implements OnInit {
+  StackCardCols: any;
+  StackCardData: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
   c_cd: any;
+  tr_cd: any;
+  StackDate: any;
+  ICode: any;
   godownOptions: SelectItem[];
+  transactionOptions: SelectItem[];
   commodityOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
@@ -37,15 +39,15 @@ export class CommodityIssueMemoComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
-    this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
+    this.StackCardCols = this.tableConstants.StackCardOpening;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
   onSelect(item) {
     let godownSelection = [];
+    let transactionSelection = [];
     let commoditySelection = [];
-
     switch (item) {
       case 'gd':
         this.data = this.roleBasedService.instance;
@@ -54,6 +56,18 @@ export class CommodityIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+        }
+        break;
+      case 'tr':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactionSelection;
+              });
+            }
+          })
         }
         break;
       case 'cd':
@@ -72,19 +86,19 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   onView() {
-    this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.g_cd.value,
-      'TRCode': this.c_cd.value
+      'StackDate':  this.StackDate,
+      'ICode': this.ICode, 
+      'TRCode': this.tr_cd.value,
     }
-    this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
-      this.commodityIssueMemoData = res;
+    this.restAPIService.post(PathConstants.STACK_CARD_OPENING_GET, params).subscribe(res => {
+      this.StackCardData = res;
       let sno = 0;
-      this.commodityIssueMemoData.forEach(data => {
-        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+      this.StackCardData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
         data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
@@ -103,43 +117,20 @@ export class CommodityIssueMemoComponent implements OnInit {
     })
   }
 
-  onDateSelect() {
-    this.checkValidDateSelection();
-    this.onResetTable();
-  }
-
-  checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
-      let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
-      let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
-      let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
-    }
-  }
-
   onResetTable() {
-    this.commodityIssueMemoData = [];
+    this.StackCardData = [];
     this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
-    var CommodityIssueData = [];
-    this.commodityIssueMemoData.forEach(data => {
-      CommodityIssueData.push({
-        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
-        Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
-        Lorryno: data.Lorryno, Stackno: data.Stackno
+    var StackData = [];
+    this.StackCardData.forEach(data => {
+      StackData.push({
+        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
+        Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
+        Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno
       })
-    });
-    this.excelService.exportAsExcelFile(CommodityIssueData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
+    })
+    this.excelService.exportAsExcelFile(StackData, 'STACK_CARD_OPENING_REPORT', this.StackCardCols);
   }
 }

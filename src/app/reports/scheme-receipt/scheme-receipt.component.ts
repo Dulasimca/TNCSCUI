@@ -34,7 +34,7 @@ export class SchemeReceiptComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
-     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -69,7 +69,7 @@ export class SchemeReceiptComponent implements OnInit {
     }
     if (this.fromDate !== undefined && this.toDate !== undefined
       && this.g_cd.value !== '' && this.g_cd.value !== undefined &&
-       this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.g_cd !== null && this.sc_cd !== null) {
+      this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.g_cd !== null && this.sc_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -103,8 +103,8 @@ export class SchemeReceiptComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -118,7 +118,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable();
     if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined &&
-    this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.g_cd !== null && this.sc_cd !== null) {
+      this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.g_cd !== null && this.sc_cd !== null) {
       this.isViewDisabled = false;
     }
   }
@@ -132,21 +132,20 @@ export class SchemeReceiptComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
   exportAsXLSX(): void {
-    var scheme_receipt_data = [];
+    var SchemeReceiptData = [];
     this.schemeReceiptData.forEach(data => {
-      scheme_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, AckNo: data.AckNo, Commodity: data.Commodity,
-      Date: data.Date, Quantity: data.Quantity, RecdFrom: data.RecdFrom, TruckMemoNo: data.TruckMemoNo, Lorryno: data.Lorryno})
+      SchemeReceiptData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, AckNo: data.Ackno, Date: data.Date, Commodity: data.Commodity, Quantity: data.Quantity, RecdFrom: data.RecdFrom, TruckMemoNo: data.TruckMemoNo, Lorryno: data.Lorryno })
     })
-    this.excelService.exportAsExcelFile(scheme_receipt_data, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
+    this.excelService.exportAsExcelFile(SchemeReceiptData, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
   }
 }

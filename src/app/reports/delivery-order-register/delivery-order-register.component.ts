@@ -36,7 +36,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
-     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -55,7 +55,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         options.push({ 'label': x.GName, 'value': x.GCode });
         this.godownOptions = options;
       });
-  }
+    }
   }
 
   onView() {
@@ -84,10 +84,11 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onResetTable() {
     this.deliveryReceiptRegData = [];
@@ -108,31 +109,32 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    var delivery_data = [];
+  exportAsXLSX(): void {
+    var DeliveryData = [];
     this.deliveryReceiptRegData.forEach(data => {
-      delivery_data.push({SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
-      Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
-      PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
-      Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
-      PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
+      DeliveryData.push({
+        SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
+        Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
+        PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
+        Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
+        PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
+      })
     })
-    })
-    this.excelService.exportAsExcelFile(delivery_data, 'DELIVERY_ORDER_REGISTER_REPORT',this.deliveryReceiptRegCols);
-}
+    this.excelService.exportAsExcelFile(DeliveryData, 'DELIVERY_ORDER_REGISTER_REPORT', this.deliveryReceiptRegCols);
+  }
 
-onPrint() {
-  const path = "../../assets/Reports/" + this.username.user + "/";
-  const filename = this.g_cd.value + GolbalVariable.StockDORegFilename + ".txt";
-  saveAs(path + filename, filename);
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.g_cd.value + GolbalVariable.StockDORegFilename + ".txt";
+    saveAs(path + filename, filename);
   }
 }

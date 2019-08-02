@@ -68,4 +68,5 @@ export class PathConstants {
   public static readonly BASIC_WEIGHT_MASTER = '/api/Basicweight';
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';
   public static readonly STOCK_PAYMENT_DETAILS_DOCUMENT = '/api/StockPaymentDetails/Post';
+  public static readonly STACK_CARD_OPENING_GET = '/api/Accounting/Get';
 }

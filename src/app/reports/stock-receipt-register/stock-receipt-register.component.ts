@@ -117,15 +117,15 @@ export class StockReceiptRegisterComponent implements OnInit {
   }
 
   onExportExcel(): void {
-    var stock_receipt_data = [];
+    var StockReceiptData = [];
     this.stockReceiptRegData.forEach(data => {
-      stock_receipt_data.push({
+      StockReceiptData.push({
         SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, TruckMemoNo: data.TruckMemoNo,
         Lorryno: data.Lorryno, From_Whom_Received: data.From_Whom_Received, Stackno: data.Stackno, Scheme: data.Scheme,
         NoPacking: data.NoPacking, Commodity: data.Commodity, NetWt: data.NetWt
       })
     })
-    this.excelService.exportAsExcelFile(stock_receipt_data, 'STOCK_RECEIPT_REGISTER_REPORT', this.stockReceiptRegCols);
+    this.excelService.exportAsExcelFile(StockReceiptData, 'STOCK_RECEIPT_REGISTER_REPORT', this.stockReceiptRegCols);
   }
 
   onPrint() {
