@@ -113,7 +113,7 @@
                         pInputTextarea required></textarea>
                     </div>
                     <div class="ui-g-2 ui-md-2">
-                      <button pButton type="button" label="Payment Details" (click)="onPayment()"></button>
+                      <button pButton type="button" label="Payment Details" [disabled]="(!Trcode || !DeliveryDate || !PName)" (click)="checkPayment()"></button>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid">
@@ -448,7 +448,7 @@
                   <div class="ui-g-12 ui-md-12 dashboard">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                        tooltipPosition="top"></button>
+                      (click)="getPreviousBalance()"  tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
@@ -577,7 +577,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
+        <tr [pSelectableRow]="rowData">
           <td *ngFor="let col of columns">
             {{rowData[col.field]}}
           </td>

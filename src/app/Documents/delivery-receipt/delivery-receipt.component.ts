@@ -95,18 +95,18 @@ export class DeliveryReceiptComponent implements OnInit {
   Payment: string;
   ChequeNo: any;
   ChequeDate: Date = new Date();
-  PAmount: any;
+  PAmount: any = 0;
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
   PrevOrderDate: Date;
-  AdjusmentAmount: any;
+  AdjusmentAmount: any = 0;
   AdjustmentType: string;
-  OtherAmount: any;
-  Balance: any;
-  DueAmount: any;
+  OtherAmount: any = 0;
+  Balance: any = 0;
+  DueAmount: any = 0;
   PaidAmount: any = 0;
-  BalanceAmount: any;
+  BalanceAmount: any = 0;
   MarginItem: string;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
@@ -169,7 +169,7 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'tr':
         if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined) {
+            if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
                 this.transactionOptions = transactoinSelection;
@@ -202,10 +202,12 @@ export class DeliveryReceiptComponent implements OnInit {
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            res.forEach(dt => {
+            if (res !== null && res !== undefined && res.length !== 0) {
+              res.forEach(dt => {
               receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
             this.receivorTypeOptions = receivorTypeList;
+          }
             // this.isReceivorNameDisabled = false;
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
@@ -214,25 +216,28 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'pn':
        if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
-        if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
-          .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            res.forEach(dn => {
-              partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
-            })
-            this.partyNameOptions = partyNameList;
-            this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
-        }
-      }
+         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+           const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
+             .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
+           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+             if (res !== null && res !== undefined && res.length !== 0) {
+               res.forEach(dn => {
+                 partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+               })
+               this.partyNameOptions = partyNameList;
+             }
+             this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+           });
+         }
+       }
         break;
       case 'commodity':
        if (this.Scheme !== null && this.Scheme !== undefined) {
          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
            const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-             if (!this.selectedItem) {
+            if (res !== null && res !== undefined && res.length !== 0) {
+              if (!this.selectedItem) {
                res.forEach(i => {
                  commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
                });
@@ -245,6 +250,7 @@ export class DeliveryReceiptComponent implements OnInit {
                })
              }
              this.itemDescOptions = commoditySelection;
+            }
              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
            });
         }
@@ -255,6 +261,7 @@ export class DeliveryReceiptComponent implements OnInit {
              if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
                const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
                this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                if (res !== null && res !== undefined && res.length !== 0) {
                  if (!this.selectedItem) {
                    res.forEach(i => {
                      marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
@@ -268,6 +275,7 @@ export class DeliveryReceiptComponent implements OnInit {
                    })
                  }
                  this.marginItemDescOptions = marginCommoditySelection;
+                }
                  this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
                });
              }
@@ -276,31 +284,36 @@ export class DeliveryReceiptComponent implements OnInit {
         case 'wmt':
         if (this.rateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-            res.forEach(w => {
+            if (res !== null && res !== undefined && res.length !== 0) {
+              res.forEach(w => {
               if (w.Basicweight !== 'GRAMS') {
               weighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
             })
             this.rateInTermsOptions = weighment;
+          }
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
         case 'margin_wmt':
-            if (this.marginRateInTermsOptions === undefined) {
-              this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-                res.forEach(w => {
-                  if (w.Basicweight !== 'GRAMS') {
-                  marginWeighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
-                })
-                this.marginRateInTermsOptions = marginWeighment;
-                this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              });
+        if (this.marginRateInTermsOptions === undefined) {
+          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+            if (res !== null && res !== undefined && res.length !== 0) {
+              res.forEach(w => {
+                if (w.Basicweight !== 'GRAMS') {
+                  marginWeighment.push({ 'label': w.Basicweight, 'value': w.Basicweight });
+                }
+              })
+              this.marginRateInTermsOptions = marginWeighment;
             }
-            break;
-        case 'pay':
-          if (this.paymentOptions === undefined) {
-            this.paymentOptions = [{ 'label': '-select-', 'value': null},
-              { label: 'Adjustment', value: 'A'},{ label: 'Cash', value: 'C'},
+              this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          });
+        }
+        break;
+      case 'pay':
+        if (this.paymentOptions === undefined) {
+          this.paymentOptions = [{ 'label': '-select-', 'value': null },
+            { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
             { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
             { label: 'PayOrder', value: 'PO'}];
           }
@@ -316,17 +329,37 @@ export class DeliveryReceiptComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 
-  onPayment() { }
+  checkPayment() { 
+    const params = {
+      Type: 1,
+      DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
+      GCode: this.GCode,
+      DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
+      ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
+       ((this.pCode !== undefined) ? this.pCode : this.PName.value) : this.pCode
+    }
+    this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+      this.deliveryData = res;
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+      }
+    });
+  }
 
   onView() {
     this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      res.forEach(data => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+        res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
       })
       this.deliveryViewData = res;
+     }  else {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+    }
     });
   }
 
@@ -383,16 +416,6 @@ export class DeliveryReceiptComponent implements OnInit {
                 }
             });
             break;
-      case 'view':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-              //  this.documentViewData.splice(index, 1);
-            }
-        });
-        break;
     }
   }
 
@@ -427,29 +450,33 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'Payment':
-        this.paymentData.push({PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
+        this.paymentData.push({
+          PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
           ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'), RCode: this.RCode,
-          PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank})
-          let lastIndex = this.paymentData.length;
-          if (this.paymentData.length !== 0) {
-            this.PaidAmount += (this.PAmount * 1);
-            this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
-            this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?  
-           ((this.DueAmount > this.PaidAmount) ? ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 
-           (this.paymentData = this.paymentData.splice(lastIndex, 1), this.BalanceAmount = null,
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No due is pending!' })
-        )) : 0;
-            this.ChequeDate = new Date();
-            this.Payment = this.PayableAt = this.ChequeNo =  this.OnBank = this.PAmount = null;
-          }
+          PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank
+        })
+        let lastIndex = this.paymentData.length;
+        if (this.paymentData.length !== 0) {
+          this.PaidAmount += (this.PAmount * 1);
+          this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
+          this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
+            ((this.DueAmount > this.PaidAmount) ? ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) :
+              (this.paymentData = this.paymentData.splice(lastIndex, 1), this.BalanceAmount = null,
+                this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No due is pending!' })
+              )) : 0;
+          this.ChequeDate = new Date();
+          this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
+        }
         break;
       case 'Adjustment':
-        this.paymentBalData.push({AdjustedDoNo: this.PrevOrderNo,
+        this.paymentBalData.push({
+          AdjustedDoNo: this.PrevOrderNo,
           AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
           Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
-          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance});
-          if(this.paymentBalData.length !== 0) {
-            this.PrevOrderDate =  new Date();
+          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance
+        });
+        if (this.paymentBalData.length !== 0) {
+          this.PrevOrderDate =  new Date();
             this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
           }
         break;
@@ -491,19 +518,36 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onCalculateBalance() {
-    if( this.AdjustmentType === 'Credit') {
-      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
-        this.OtherAmount !== undefined && this.AdjusmentAmount) {
-          this.Balance = (((this.AdjusmentAmount * 1) + (this.PaidAmount * 1)) - 
+    if (this.DueAmount !== undefined && this.PaidAmount !== undefined &&
+      this.OtherAmount !== undefined && this.AdjusmentAmount !== undefined &&
+      this.DueAmount !== null && this.PaidAmount !== null &&
+      this.OtherAmount !== null && this.AdjusmentAmount !== null) {
+      if (this.AdjustmentType === 'Credit') {
+        this.Balance = (((this.AdjusmentAmount * 1) + (this.PaidAmount * 1)) -
           ((this.DueAmount * 1) + (this.OtherAmount * 1)));
-        }
-    } else {
-      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
-        this.OtherAmount !== undefined && this.AdjusmentAmount) {
-          this.Balance = (((this.AdjusmentAmount * 1) + (this.DueAmount * 1) + (this.OtherAmount * 1)) - 
-          ((this.PaidAmount * 1) ));
-        }
+      } else {
+        this.Balance = (((this.AdjusmentAmount * 1) + (this.DueAmount * 1) + (this.OtherAmount * 1)) -
+          ((this.PaidAmount * 1)));
+      }
     }
+  }
+
+  getPreviousBalance() {
+    const params = {
+      Type: 2,
+      DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
+      GCode: this.GCode,
+      DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
+      ReceivorCode: this.PName.value }
+      this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
+        if (res !== null && res !== undefined && res.length !== 0) {
+          this.PrevOrderNo = res[0].Dono;
+          this.PrevOrderDate = new Date(res[0].DoDate);
+          this.AdjusmentAmount = (res[0].Balance * 1);
+          } else {
+            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+          }
+    })
   }
 
   onPrint() {
@@ -548,7 +592,6 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryAdjustmentDetails': this.paymentBalData
     };
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
-      if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;
           this.onClear();
@@ -556,7 +599,6 @@ export class DeliveryReceiptComponent implements OnInit {
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }
-      }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });

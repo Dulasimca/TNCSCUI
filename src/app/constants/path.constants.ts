@@ -67,4 +67,5 @@ export class PathConstants {
   public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
   public static readonly BASIC_WEIGHT_MASTER = '/api/Basicweight';
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';
+  public static readonly STOCK_PAYMENT_DETAILS_DOCUMENT = '/api/StockPaymentDetails/Post';
 }
