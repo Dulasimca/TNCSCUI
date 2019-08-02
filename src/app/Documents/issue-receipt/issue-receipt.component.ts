@@ -381,7 +381,6 @@ if (this.itemData.length !== 0) {
   }
   this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
   this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-  this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
 }
 }
 
@@ -551,6 +550,7 @@ onClear() {
    = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
    this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = this.NewBale =
    this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = null;
+   this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
 }
 
 

@@ -415,10 +415,11 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = this.OrderDate = this.RDate = this.LWBillDate = this.LDate = new Date();
     this.Trcode = this.OrderNo = this.selectedValues = this.RNo = this.LorryNo = 
     this.RHCode = this.RTCode = this.RNCode = this.ManualDocNo = this.Remarks = this.RRemarks= 
-    this.StackBalance = this.CurrentDocQtv = this.NetStackBalance = this.TransporterName =
-    this.LWBillNo = this.FreightAmount = this.Kilometers = this.WHDNo = this.WCharges =
-    this.HCharges = this.TStation = this.FStation = this.GunnyReleased = this.Gunnyutilised =
+    this.TransporterName = this.LWBillNo = this.FreightAmount = this.Kilometers =
+    this.WHDNo = this.WCharges = this.HCharges = this.TStation =
+    this.FStation = this.GunnyReleased = this.Gunnyutilised =
     this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
+    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
   }
 
   onStackNoChange(event) {
@@ -465,7 +466,6 @@ export class TruckReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
         = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
-      this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
     }
   }
 
