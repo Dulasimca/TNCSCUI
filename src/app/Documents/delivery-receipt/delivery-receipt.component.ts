@@ -130,6 +130,10 @@ export class DeliveryReceiptComponent implements OnInit {
       this.RCode = this.data[0].RCode;
     }, 300);
   }
+  customSearchFn(term: string, item: any) {
+    term = term.toLocaleLowerCase();
+    return item.brand.toLocaleLowerCase().indexOf(term) > -1 || item.id.toLocaleLowerCase().indexOf(term) > -1;
+}
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
