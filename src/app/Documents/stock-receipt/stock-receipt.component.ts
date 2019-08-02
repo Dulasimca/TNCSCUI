@@ -183,7 +183,7 @@ export class StockReceiptComponent implements OnInit {
       case 'tr':
         if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined) {
+            if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
                 this.transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
                 this.transactionOptions = this.transactoinSelection.slice(0);
@@ -198,7 +198,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'sc':
-        if (this.scheme_data !== undefined) {
+        if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
@@ -213,10 +213,12 @@ export class StockReceiptComponent implements OnInit {
         if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.ReceivingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            res.forEach(dt => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(dt => {
               depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
             this.depositorTypeOptions = depositorTypeList;
+          }
           //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
             this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
@@ -227,10 +229,12 @@ export class StockReceiptComponent implements OnInit {
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
           const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            res.forEach(dn => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(dn => {
               depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
             })
             this.depositorNameOptions = depositorNameList;
+          }
             this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
@@ -240,10 +244,12 @@ export class StockReceiptComponent implements OnInit {
           if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-              res.forEach(i => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(i => {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
               this.itemDescOptions = itemDesc;
+            }
               this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
             //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
@@ -256,10 +262,12 @@ export class StockReceiptComponent implements OnInit {
           if (this.ICode.value !== undefined && this.ICode.value !== '') {
             const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-              res.forEach(s => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(s => {
                 stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
               })
               this.stackOptions = stackNo;
+            }
               this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
             if (this.TStockNo !== undefined && this.TStockNo !== null) {
@@ -276,10 +284,12 @@ export class StockReceiptComponent implements OnInit {
       case 'pt':
         if (this.packingTypeOptions === undefined && !this.isViewClicked) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            res.Table.forEach(p => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = packingTypes;
+          }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
@@ -288,10 +298,12 @@ export class StockReceiptComponent implements OnInit {
         let weighment = [];
         if (this.wmtOptions === undefined && !this.isViewClicked) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            res.Table1.forEach(w => {
+           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
+              res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
+          }
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
@@ -299,10 +311,8 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  deleteRow(id, index) {
-    switch (id) {
-      case 'item':
-        this.confirmationService.confirm({
+  deleteRow(index) {
+          this.confirmationService.confirm({
           message: 'Are you sure that you want to proceed?',
           header: 'Confirmation',
           icon: 'pi pi-exclamation-triangle',
@@ -310,18 +320,6 @@ export class StockReceiptComponent implements OnInit {
             this.itemData.splice(index, 1);
           }
         });
-        break;
-      case 'view':
-        this.confirmationService.confirm({
-          message: 'Are you sure that you want to proceed?',
-          header: 'Confirmation',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.documentViewData.splice(index, 1);
-          }
-        });
-        break;
-    }
   }
 
   parseMoisture(event) {
@@ -381,13 +379,15 @@ export class StockReceiptComponent implements OnInit {
       ICode: this.ICode.value
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      this.StackBalance = (res[0].StackBalance * 1);
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.StackBalance = (res[0].StackBalance * 1);
       if (this.StackBalance > 0) {
         this.isValidStackBalance = false;
       } else {
         this.isValidStackBalance = true;
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
       }
+    }
     })
   }
 
@@ -475,11 +475,15 @@ export class StockReceiptComponent implements OnInit {
     this.viewPane = this.isViewClicked = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      res.forEach(data => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
       })
       this.documentViewData = res;
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+    }
     });
   }
 
@@ -491,7 +495,7 @@ export class StockReceiptComponent implements OnInit {
     this.viewPane = this.enableActions = false;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      if (res !== undefined && res.length !== 0) {
+      if (res !== undefined && res !== null && res.length !== 0) {
         this.SRNo = res[0].SRNO;
         this.SRDate = res[0].SRDate;
         this.RowId = res[0].RowId;
@@ -539,7 +543,9 @@ export class StockReceiptComponent implements OnInit {
         this.selectedValues = res[0].TransportMode;
         this.ManualDocNo = res[0].Flag1;
         this.UnLoadingSlip = res[0].UnLoadingSlip;
-      }
+      } else {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+    }
     });
   }
 
