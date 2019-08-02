@@ -336,7 +336,8 @@ onStackNoChange(event) {
     TStockNo: stack_data.value,
     StackDate: stack_data.stack_date,
     GCode: this.IssuingCode,
-    ICode: this.ICode.value
+    ICode: this.ICode.value,
+    Type: 1
   }
   this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
     if (res !== null && res !== undefined && res.length !== 0) {
