@@ -28,23 +28,22 @@ export class SchemesComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.SchemeData;
     this.restApiService.get(PathConstants.SCHEMES).subscribe((response: any[]) => {
-      if (response !== undefined)
-      {
+      if (response !== undefined) {
         this.data = response;
         this.filterArray = response;
-      } 
-      else
-      {
+      }
+      else {
         document.getElementById("errMessage").innerHTML = "Record Not Found!";
       }
       this.items = [
         {
           label: 'Excel', icon: 'fa fa-table', command: () => {
             this.exportAsXLSX();
-        }},
+          }
+        },
         {
-          label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
-           this.exportAsPDF();
+          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+            this.exportAsPDF();
           }
         }]
     });
@@ -54,28 +53,32 @@ export class SchemesComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.data = this.data.filter(item => {
-          return item.Name.toString().startsWith(value);
+        return item.Name.toString().startsWith(value);
       });
-    } 
+    }
   }
-  exportAsXLSX():void{
-     this.excelService.exportAsExcelFile(this.data, 'SCHEME_DATA', this.column);
+  exportAsXLSX(): void {
+    var SchemeData = [];
+    this.data.forEach(value => {
+      SchemeData.push({ SlNo: value.SlNo, Name: value.Name })
+    })
+    this.excelService.exportAsExcelFile(SchemeData, 'SCHEME_DATA', this.column);
   }
   exportAsPDF() {
-    var doc = new jsPDF('p','pt','a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office",100,30);
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
     // var img ="assets\layout\images\dashboard\tncsc-logo.png";
     // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.column;
     var rows = [];
     this.data.forEach(element => {
-       var temp = [element.SlNo,element.Name];
-          rows.push(temp);
+      var temp = [element.SlNo, element.Name];
+      rows.push(temp);
     });
-      doc.autoTable(col,rows);
-      doc.save('SCHEME_DATA.pdf');
+    doc.autoTable(col, rows);
+    doc.save('SCHEME_DATA.pdf');
   }
-  print(){
+  print() {
     window.print();
   }
 }
