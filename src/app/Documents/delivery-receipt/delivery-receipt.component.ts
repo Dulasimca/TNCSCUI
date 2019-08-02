@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
-  isSaveSucceed: boolean = false;
+  isSaveSucceed: boolean = true;
   username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
@@ -227,48 +227,48 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'commodity':
        if (this.Scheme !== null && this.Scheme !== undefined) {
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
-          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            res.forEach(i => {
-              if (!this.selectedItem) {
-                commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-              } else {
-                let filteredArr = res.filter(x => {
-                  return x.Allotmentgroup === 'Rice';
-                })
-                filteredArr.forEach(i => {
-                  commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                })
-              }
-            });
-            this.itemDescOptions = commoditySelection;
-            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+         if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+             if (!this.selectedItem) {
+               res.forEach(i => {
+                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+               });
+             } else {
+               let filteredArr = res.filter(x => {
+                 return x.Allotmentgroup === 'RICE';
+               })
+               filteredArr.forEach(i => {
+                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+               })
+             }
+             this.itemDescOptions = commoditySelection;
+             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+           });
         }
       }
         break;
         case 'margin_commodity':
            if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
-            if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
-              const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
-              this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-                res.forEach(i => {
-                  if (!this.selectedItem) {
-                    marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                  } else {
-                    let filteredArr = res.filter(x => {
-                      return x.Allotmentgroup === 'Rice';
-                    })
-                    filteredArr.forEach(i => {
-                      marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                    })
-                  }
-                });
-                this.marginItemDescOptions = marginCommoditySelection;
-                this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              });
-            }
+             if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+               const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
+               this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+                 if (!this.selectedItem) {
+                   res.forEach(i => {
+                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                   });
+                 } else {
+                   let filteredArr = res.filter(x => {
+                     return x.Allotmentgroup === 'RICE';
+                   })
+                   filteredArr.forEach(i => {
+                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                   })
+                 }
+                 this.marginItemDescOptions = marginCommoditySelection;
+                 this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+               });
+             }
           }
             break;
         case 'wmt':
@@ -486,10 +486,22 @@ export class DeliveryReceiptComponent implements OnInit {
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
       this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms.value, this.MarginRate, this.MarginNKgs);
     }
-    // if (this.TotalAmount !== undefined && this.MarginAmount !== undefined) {
-    //   this.GrandTotal = ((this.TotalAmount * 1) - (this.MarginAmount * 1)).toFixed(2);
-    //   this.DueAmount = this.GrandTotal;
-    // }
+  }
+
+  onCalculateBalance() {
+    if( this.AdjustmentType === 'Credit') {
+      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
+        this.OtherAmount !== undefined && this.AdjusmentAmount) {
+          this.Balance = (((this.AdjusmentAmount * 1) + (this.PaidAmount * 1)) - 
+          ((this.DueAmount * 1) + (this.OtherAmount * 1)));
+        }
+    } else {
+      if(this.DueAmount !== undefined && this.PaidAmount !== undefined && 
+        this.OtherAmount !== undefined && this.AdjusmentAmount) {
+          this.Balance = (((this.AdjusmentAmount * 1) + (this.DueAmount * 1) + (this.OtherAmount * 1)) - 
+          ((this.PaidAmount * 1) ));
+        }
+    }
   }
 
   onPrint() { }
