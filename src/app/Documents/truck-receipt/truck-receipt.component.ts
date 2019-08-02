@@ -7,6 +7,8 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -636,5 +638,11 @@ export class TruckReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
+  }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
+    saveAs(path + filename, filename);
   }
 }

@@ -7,6 +7,8 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -504,7 +506,11 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    saveAs(path + filename, filename);
+   }
 
   onClear() {
     this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
