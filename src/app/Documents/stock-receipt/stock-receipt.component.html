@@ -198,7 +198,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Stack No.</label>
                     <p-dropdown #st_no id="float-input" name="TStockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
-                      (onClick)="onSelect('st_no')" (keydown.enter)="onSelect('st_no')" filter="true"
+                      (onClick)="onSelect('st_no')" (keydown.enter)="onSelect('st_no')" (onChange)="onStackNoChange($event)" filter="true"
                        optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; word-wrap: break-word">{{item.label}}</span>
@@ -237,7 +237,7 @@
                     <span class="ui-float-label">
                       <input id="float-input" name="NoPacking" pInputText maxlength="4"
                       oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
+                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" [readonly]="isValidStackBalance" autocomplete="off">
                       <label for="NoPacking" class="float-input">No.of Packing</label>
                     </span>
                   </div>
@@ -250,7 +250,7 @@
                     <label for="Nkgs" class="label-fontsize">Kgs</label>
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
-                      <input id="float-input" name="Gkgs" type="text" [(ngModel)]="GKgs"
+                      <input id="float-input" name="Gkgs" type="text" [(ngModel)]="GKgs" [readonly]="isValidStackBalance"
                        size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
@@ -263,14 +263,15 @@
                     <label for="Nkgs" class="label-fontsize">Kgs</label>
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
-                      <input id="float-input" type="text" name="Nkgs" size="20" [(ngModel)]="NKgs" pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
+                      <input id="float-input" type="text" name="Nkgs" size="20" [(ngModel)]="NKgs" 
+                      [readonly]="isValidStackBalance" pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
                     <label class="label-fontsize">WmtType</label>
                     <p-dropdown #wmt id="float-input" name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                       (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')" filter="true"
-                       optionLabel="label" [showClear]="true">
+                      [readonly]="isValidStackBalance" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -279,7 +280,7 @@
                   <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
                     <span class="ui-float-label">
                       <input id="float-input" name="Moisture" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)"
+                        autocomplete="off" (keyup)="parseMoisture($event)" [readonly]="isValidStackBalance"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                       <label for="Moisture" class="float-input">Moisture</label>
                     </span>
@@ -304,7 +305,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 16px;">
                     <span class="ui-float-label">
-                      <input id="float-input" name="StackBal" pInputText [(ngModel)]="stackBalance" [readonly]="true" autocomplete="off">
+                      <input id="float-input" name="StackBal" pInputText [(ngModel)]="StackBalance" [readonly]="true" autocomplete="off">
                       <label for="StackBal" class="float-input">Stack Balance</label>
                     </span>
                   </div>
@@ -324,7 +325,7 @@
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
+                      <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowIndex)">
                         <td *ngFor="let col of columns">
                           {{rowData[col.field]}}
                           <i *ngIf="rowdata?.icon" class="pi pi-trash" aria-hidden="true"></i>
@@ -561,7 +562,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
+            <tr [pSelectableRow]="rowData">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>

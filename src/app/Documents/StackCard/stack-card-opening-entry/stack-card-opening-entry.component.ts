@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
+import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -7,6 +7,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -26,12 +27,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Formation: any;
   StackNo: string;
   Date: Date = new Date();
-  g_cd: any;
-  c_cd: any;
-  commodityCd: any;
+  GCode: any;
+  ICode: any;
+  CurYear: any;
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
+  curYearOptions: SelectItem[];
   commoditySelection: any[] = [];
   Weights: number = 0;
   Bags: number = 0;
@@ -41,9 +43,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
   isActionDisabled: any;
   isViewDisabled: any;
   allowInput: boolean = true;
-  isSlash:boolean=false;
+  isSlash: boolean = false;
+  openView: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private datepipe: DatePipe, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, 
+    private datepipe: DatePipe, private restAPIService: RestAPIService, 
+    private roleBasedService: RoleBasedService, private authService: AuthService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -68,6 +74,23 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.Location !== undefined && this.Formation !== undefined) {
       this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation.valueOf();
       this.StackNo =this.StackNo.replace("//","/");
+      if  (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
+        this.stackOpeningData.forEach(x => {
+          if (x.StackNo === this.StackNo) {
+            this.confirmationService.confirm({
+              message: 'You have entered running stack card number! Do you want close this current stack card or try new entry?',
+              header: 'Confirmation',
+              icon: 'pi pi-exclamation-triangle',
+              accept: () => {
+                this.nonEditable = true;
+              },
+              reject: () => {
+                this.onClear();
+              }
+            });
+          }
+        })
+      }
     }
   }
 
@@ -124,26 +147,39 @@ export class StackCardOpeningEntryComponent implements OnInit {
           });
           this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
-    }
-  }
-
-  onChange(e) {
-    if (this.commodityOptions !== undefined) {
-      const selectedItem = e.value;
-      if (selectedItem !== null) {
-        this.stackOpeningData = this.stackOpeningData.filter(x => { return x.CommodityName === selectedItem.label });
-        if (this.stackOpeningData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'No matching commodity found!' });
-        }
-      } else {
-        this.stackOpeningData = this.Opening_Balance;
-      }
-    }
-  }
-
-  onCommodityClicked() {
-    if (this.commodityOptions !== undefined && this.commodityOptions.length <= 1) {
-      this.commodityOptions = this.commoditySelection;
+        case 'cd':
+            if (this.ICode !== undefined && this.ICode !== null) {
+              this.stackOpeningData = [];
+              const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
+              this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
+                if (res !== undefined && res !== null && res.length !== 0) {
+                  this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+                  this.stackOpeningData = res.Table;
+                  if (res.Table1 !== undefined && res.Table1 !== null) {
+                  res.Table1.forEach(cy => {
+                    this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
+                  })
+                }
+                  let sno = 0;
+                  this.stackOpeningData.forEach(x => {
+                    sno += 1;
+                    x.SlNo = sno;
+                    x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
+                  });
+                  this.Opening_Balance = this.stackOpeningData.slice(0);
+                } else {
+                  this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+                }
+              })
+            }
+          break;
+          case 'cy':
+            if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
+              this.stackOpeningData = this.stackOpeningData.filter(x => {
+                return x.CurYear === this.CurYear
+              })
+            }
+            break;
     }
   }
 
@@ -151,11 +187,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.selectedRow = data;
     this.ClosingDate = null;
     if (this.selectedRow !== undefined) {
-      if (this.selectedRow.Flag1 === 'A') {
+      if (this.selectedRow.Flag1 === 'R') {
       this.nonEditable = true;
       this.RowId = this.selectedRow.RowId;
       this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
-      this.c_cd = this.selectedRow.CommodityName;
+      this.ICode = this.selectedRow.CommodityName;
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
@@ -170,35 +206,22 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.Weights = this.selectedRow.StackBalanceWeight;
     } else {
       this.onClear();
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Card already closed!' });
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Card has been closed  already!' });
     }
   } 
   }
 
   onView() {
-    this.commodityCd = null;
-    this.stackOpeningData = [];
-    const params = new HttpParams().set('OBDate', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
-        this.stackOpeningData = res;
-        let sno = 0;
-        this.stackOpeningData.forEach(x =>{ 
-          sno += 1;
-          x.SlNo = sno;
-          x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
-        });
-        this.Opening_Balance = this.stackOpeningData.slice(0);
-      } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
-      }
-    })
+    if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
+      this.openView = true;
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+    }
   }
 
   onClear() {
-    this.c_cd = null;
-    this.commodityCd = null;
+    this.ICode = null;
+    this.nonEditable = false;
     this.Location = this.Formation = this.StackNo = null;
       this.Bags = this.Weights = 0;
   }
@@ -206,15 +229,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onSave() {
     if (!this.nonEditable) {
     const params = {
-      'GodownCode': this.g_cd.value,
-      'CommodityCode': this.c_cd.value,
+      'GodownCode': this.GCode.value,
+      'CommodityCode': this.ICode.value,
       'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
       'Location': this.Location,
       'Formation': this.Formation,
       'StackNo': this.StackNo,
       'Bags': this.Bags,
       'Weights': this.Weights,
-      'RegionCode': this.g_cd.rcode,
+      'RegionCode': this.GCode.rcode,
       'clstackdate': new Date()
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {

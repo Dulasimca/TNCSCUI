@@ -7,6 +7,8 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -15,6 +17,7 @@ import { DatePipe } from '@angular/common';
 })
 export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
+  isValidStackBalance: boolean;
   isSaveSucceed: boolean = true;
   viewDate: Date = new Date();
   data: any;
@@ -88,7 +91,7 @@ export class TruckReceiptComponent implements OnInit {
   WTCode: any;
   wtCode: any;
   Moisture: string;
-  StackBalance: number;
+  StackBalance: number = 0;
   CurrentDocQtv: any;
   NetStackBalance: any;
   TransporterName: string;
@@ -154,7 +157,7 @@ export class TruckReceiptComponent implements OnInit {
         this.isRailSelected = (this.Trcode.value === 'TR021') ? true : false;
         break;
       case 'sc':
-        if (this.scheme_data !== undefined) {
+        if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
             this.schemeOptions = schemeSelection;
@@ -163,10 +166,12 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+        if (this.Trcode !== null && this.Trcode !== undefined) {
+        if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            res.forEach(rt => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(rt => {
               if (this.Trcode.label === 'Transfer') {
                 receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
               } else {
@@ -174,15 +179,18 @@ export class TruckReceiptComponent implements OnInit {
               }
             });
             this.receivorTypeOptions = receivorTypeList;
+          }
             // this.isReceivorNameDisabled = false;
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      }
         break;
       case 'rn':
         this.receivorNameList = [];
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
-          this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+        if(this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
+        if (this.Trcode.value !== undefined && this.Trcode.value !== '' &&
+          this.RTCode.value !== undefined && this.RTCode.value !== '') {
             let rt_code = (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode;
           if (rt_code === 'TY008') {
             if (this.godowns !== undefined) {
@@ -200,18 +208,21 @@ export class TruckReceiptComponent implements OnInit {
           } else {
             const params = new HttpParams().set('TyCode', rt_code).append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
                   this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
                 })
               this.receivorNameOptions = this.receivorNameList;
+              }
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
         }
+      }
         break;
       case 'rr':
         let regionsData = [];
-        if (this.regions !== undefined && this.receivorRegionOptions === undefined) {
+        if (this.regions !== undefined && this.regions !== null && this.receivorRegionOptions === undefined) {
           this.regions.forEach(r => {
             if (r.Rcode !== this.RCode) {
             regionsData.push({ 'label': r.RName, 'value': r.RCode });
@@ -225,10 +236,12 @@ export class TruckReceiptComponent implements OnInit {
         if (this.toRailHeadOptions === undefined) {
           const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            res.forEach(rh => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(rh => {
               railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
             })
             this.toRailHeadOptions = railHeads;
+          }
             this.toRailHeadOptions.unshift({ label: '-select-', value: null });
           });
         }
@@ -237,10 +250,12 @@ export class TruckReceiptComponent implements OnInit {
         if (this.fromStationOptions === undefined) {
           const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            res.forEach(fs => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(fs => {
               fromStation.push({ 'label': fs.RYName, 'value': fs.RYCode });
             })
             this.fromStationOptions = fromStation;
+          }
             this.fromStationOptions.unshift({ label: '-select-', value: null });
           });
         }
@@ -249,36 +264,45 @@ export class TruckReceiptComponent implements OnInit {
         if (this.toStationOptions === undefined) {
           const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            res.forEach(ts => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(ts => {
               toStation.push({ 'label': ts.RYName, 'value': ts.RYCode });
             })
             this.toStationOptions = toStation;
+          }
             this.toStationOptions.unshift({ label: '-select-', value: null });
           });
         }
         break;
       case 'i_desc':
         let itemDesc = [];
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+        if (this.Scheme !== undefined && this.Scheme !== null) {
+        if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            res.forEach(i => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(i => {
               itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
             })
             this.itemDescOptions = itemDesc;
+          }
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
+        }
         }
         break;
       case 'st_no':
         let stackNo = [];
-        if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
+        if (this.RCode !== undefined && this.ICode !== undefined  && this.ICode !== null) {
+        if (this.ICode.value !== undefined && this.ICode.value !== '') {
           const params = new HttpParams().set('GCode', this.GCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-            res.forEach(s => {
-              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(s => {
+              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
             })
             this.stackOptions = stackNo;
+          }
             this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
           });
           if (this.TStockNo !== undefined && this.TStockNo !== null) {
@@ -292,14 +316,17 @@ export class TruckReceiptComponent implements OnInit {
             this.GodownNo = this.stackYear = this.LocationNo = null;
           }
         }
+      }
         break;
       case 'pt':
         if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            res.Table.forEach(p => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = packingTypes;
+          }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         } 
@@ -308,20 +335,26 @@ export class TruckReceiptComponent implements OnInit {
         let weighment = [];
         if (this.wmtOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            res.Table1.forEach(w => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
+          }
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
       case 'fc':
+        if (this.freightOptions === undefined) {
         this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
+        }
         break;
       case 'vc':
+        if(this.vehicleOptions === undefined) {
         this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },
         { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT' }];
+        }
         break;
     }
   }
@@ -414,23 +447,59 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = this.OrderDate = this.RDate = this.LWBillDate = this.LDate = new Date();
     this.Trcode = this.OrderNo = this.selectedValues = this.RNo = this.LorryNo = 
     this.RHCode = this.RTCode = this.RNCode = this.ManualDocNo = this.Remarks = this.RRemarks= 
-    this.StackBalance = this.CurrentDocQtv = this.NetStackBalance = this.TransporterName =
-    this.LWBillNo = this.FreightAmount = this.Kilometers = this.WHDNo = this.WCharges =
-    this.HCharges = this.TStation = this.FStation = this.GunnyReleased = this.Gunnyutilised =
+    this.TransporterName = this.LWBillNo = this.FreightAmount = this.Kilometers =
+    this.WHDNo = this.WCharges = this.HCharges = this.TStation =
+    this.FStation = this.GunnyReleased = this.Gunnyutilised =
     this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
+    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
+  }
+
+  onStackNoChange(event) {
+    let stack_data = event.value;
+    const params = {
+      TStockNo: stack_data.value,
+      StackDate: stack_data.stack_date,
+      GCode: this.GCode,
+      ICode: this.ICode.value
+    }
+    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.StackBalance = (res[0].StackBalance * 1);
+      if (this.StackBalance > 0) {
+        this.isValidStackBalance = false;
+      } else {
+        this.isValidStackBalance = true;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+      }
+    }
+    })
   }
 
   onEnter() {
     this.itemData.push({TStockNo: this.TStockNo.value, ITDescription: this.ICode.label,
-       PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
-       NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
-       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
-       SchemeName: this.Scheme.label,
-       Scheme: this.Scheme.value, Rcode: this.RCode
+      PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
+      NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
+      GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
+      SchemeName: this.Scheme.label,
+      Scheme: this.Scheme.value, Rcode: this.RCode
     })
     if (this.itemData.length !== 0) {
+      this.StackBalance = (this.StackBalance * 1);
+      this.itemData.forEach(x => 
+        {
+          if (x.TStockNo === this.TStockNo.value) {
+            this.CurrentDocQtv += (x.Nkgs * 1);
+          } 
+        });
+      let lastIndex = this.itemData.length;
+      if (this.CurrentDocQtv > this.StackBalance) {
+        this.itemData = this.itemData.splice(lastIndex, 1);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+      } else {
+        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+      }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
-      = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
+        = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
     }
   }
 
@@ -442,11 +511,15 @@ export class TruckReceiptComponent implements OnInit {
     this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      res.forEach(data => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(data => {
         data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
         data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
       })
       this.truckMemoViewData = res;
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+    }
     });
   }
 
@@ -520,6 +593,8 @@ export class TruckReceiptComponent implements OnInit {
         this.RailFreightAmt = res[0].RFreightAmount,
         this.LDate = new Date(res[0].LDate),
         this.Remarks = res[0].Remarks
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
       }
     });
   }
@@ -601,5 +676,11 @@ export class TruckReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });
+  }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
+    saveAs(path + filename, filename);
   }
 }
