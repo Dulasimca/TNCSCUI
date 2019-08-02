@@ -460,7 +460,7 @@ export class StockReceiptComponent implements OnInit {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }

@@ -123,7 +123,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       if (selectedItem !== null) {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record not found!' });
         }
       } else {
         this.openingBalanceData = this.opening_balance;
@@ -177,7 +177,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
       }
     })
   }
@@ -201,13 +201,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     })
     this.onClear();

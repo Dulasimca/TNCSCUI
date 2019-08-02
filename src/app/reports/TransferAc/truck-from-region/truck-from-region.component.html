@@ -9,7 +9,7 @@
     </p-header>
     <div class="ui-g">
       <div style="text-align: center">
-        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+        <p-toast position="top-center" key="t-err"></p-toast>
         <div class="ui-g-12 ui-md-2 ui-fluid">
           <label>Godown Name:</label>
           <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()" (keydown.enter)="onSelect()"

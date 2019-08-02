@@ -168,7 +168,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
                   });
                   this.Opening_Balance = this.stackOpeningData.slice(0);
                 } else {
-                  this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+                  this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
                 }
               })
             }
@@ -206,7 +206,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.Weights = this.selectedRow.StackBalanceWeight;
     } else {
       this.onClear();
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Card has been closed  already!' });
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed  already!' });
     }
   } 
   }
@@ -215,7 +215,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
       this.openView = true;
     } else {
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Warn Message', detail: 'Record Not Found!' });
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
     }
   }
 
@@ -242,13 +242,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     })
     this.onClear();
@@ -261,13 +261,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.onView();
         this.onClear();
         this.nonEditable = false;
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Card closed!' });
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Card closed!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     })
   }

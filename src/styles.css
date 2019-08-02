@@ -463,7 +463,11 @@ h3 a {
 .ui-float-label {
   font-size: smaller;
 }
-
+.focus  .ui-dropdown, .focus  .ui-select {
+  -moz-box-shadow: 0px 0px 5px #1f89ce;
+  -webkit-box-shadow: 0px 0px 5px #1f89ce;
+  box-shadow: 0px 0px 5px #1f89ce;
+}
 .spacing-content {
   margin-top: 10px;
 }
@@ -1406,7 +1410,7 @@ ul
 
           .ui-toast .ui-toast-message-warn {
             padding: .5em 1em;
-            background-color: rgb(247, 250, 98);
+            background-color: #FF8C00;
             color: white;
           }
 

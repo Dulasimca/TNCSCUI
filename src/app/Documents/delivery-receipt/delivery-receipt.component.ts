@@ -312,7 +312,7 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'pay':
         if (this.paymentOptions === undefined) {
-          this.paymentOptions = [{ 'label': '-select-', 'value': null },
+          this.paymentOptions = [
             { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
             { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
             { label: 'PayOrder', value: 'PO'}];
@@ -595,7 +595,7 @@ export class DeliveryReceiptComponent implements OnInit {
         if (res) {
           this.isSaveSucceed = false;
           this.onClear();
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }

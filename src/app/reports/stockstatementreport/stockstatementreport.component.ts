@@ -95,7 +95,7 @@ export class StockstatementreportComponent implements OnInit {
         });
       } else{
         this.loading = false;
-        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-error', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
@@ -120,7 +120,7 @@ export class StockstatementreportComponent implements OnInit {
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear) ||
        (selectedFromMonth != selectedToMonth) || (selectedToYear != selectedFromYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+          this.messageService.add({ key: 't-error', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
           this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;

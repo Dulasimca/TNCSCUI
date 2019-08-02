@@ -7,8 +7,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Delivery Order Slip</div>
       </div>
     </p-header>
-    <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
-    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+    <p-toast position="center" key="t-err"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -350,7 +349,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <p-dropdown #pay id="float-input" [options]="paymentOptions" [(ngModel)]="Payment"
-                          (onClick)="onSelect('pay')" (keydown.enter)="onSelect('pay')" filter="true" name="payment"
+                          (onClick)="onSelect('pay')" autoDisplayFirst="true" (keydown.enter)="onSelect('pay')" filter="true" name="payment"
                           [showClear]="true">
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
