@@ -32,7 +32,7 @@ export class CommodityIssueMemoComponent implements OnInit {
   loading: boolean;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
-     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -48,26 +48,26 @@ export class CommodityIssueMemoComponent implements OnInit {
 
     switch (item) {
       case 'gd':
-          this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-              this.godownOptions = godownSelection;
-            });
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
         }
         break;
       case 'cd':
-        if(this.commodityOptions === undefined){
-        this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-          if (data !== undefined) {
-            data.forEach(y => {
-              commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-              this.commodityOptions = commoditySelection;
-            });
-          }
-        })
-      }
-      break;
+        if (this.commodityOptions === undefined) {
+          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                this.commodityOptions = commoditySelection;
+              });
+            }
+          })
+        }
+        break;
     }
   }
 
@@ -97,8 +97,8 @@ export class CommodityIssueMemoComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -117,10 +117,10 @@ export class CommodityIssueMemoComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -132,12 +132,14 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    var commodity_issue_data = [];
+    var CommodityIssueData = [];
     this.commodityIssueMemoData.forEach(data => {
-      commodity_issue_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
+      CommodityIssueData.push({
+        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
         Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
-        Lorryno: data.Lorryno, Stackno: data.Stackno})
+        Lorryno: data.Lorryno, Stackno: data.Stackno
+      })
     });
-    this.excelService.exportAsExcelFile(commodity_issue_data, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
+    this.excelService.exportAsExcelFile(CommodityIssueData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 }

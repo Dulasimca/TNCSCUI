@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-transaction-receipt',
   templateUrl: './transaction-receipt.component.html',
   styleUrls: ['./transaction-receipt.component.css'],
-  encapsulation : ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class TransactionReceiptComponent implements OnInit {
   transactionReceiptCols: any;
@@ -33,7 +33,7 @@ export class TransactionReceiptComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
-     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -98,8 +98,8 @@ export class TransactionReceiptComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
     })
   }
@@ -123,24 +123,24 @@ export class TransactionReceiptComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
   exportAsXLSX(): void {
-    var transaction_receipt_data = [];
+    var TransactionReceiptData = [];
     this.transactionReceiptData.forEach(data => {
-      transaction_receipt_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Commodity: data.Commodity, Date: data.Date, Trans_action: data.Trans_action, Quantity: data.Quantity})
+      TransactionReceiptData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Commodity: data.Commodity, Date: data.Date, Trans_action: data.Trans_action, Quantity: data.Quantity })
     })
-    this.excelService.exportAsExcelFile(transaction_receipt_data, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
+    this.excelService.exportAsExcelFile(TransactionReceiptData, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
   }
 
-  public setAlignment (value) {
+  public setAlignment(value) {
     return (value !== '') ? 'right' : 'left';
   }
 }

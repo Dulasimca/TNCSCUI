@@ -33,9 +33,9 @@ export class TruckMemoRegisterComponent implements OnInit {
   loading: boolean;
   username: any;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,private messageService: MessageService,
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
-     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -51,10 +51,10 @@ export class TruckMemoRegisterComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -83,10 +83,11 @@ export class TruckMemoRegisterComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onDateSelect() {
     this.checkValidDateSelection();
@@ -102,10 +103,10 @@ export class TruckMemoRegisterComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -116,13 +117,17 @@ export class TruckMemoRegisterComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.truckMemoRegData, 'TRUCK_MEMO_REGISTER_REPORT',this.truckMemoRegCols);
-}
+  exportAsXLSX(): void {
+    var TruckMemo = [];
+    this.truckMemoRegData.forEach(data => {
+      TruckMemo.push({ SlNo: data.SlNo, Truck_Memono: data.Truck_Memono, Mono: data.Mono, Issue_Date: data.Issue_Date, RoNo: data.RoNo, To_Whom_Issued: data.To_Whom_Issued, Stackno: data.Stackno, Scheme: data.Scheme, NoPacking: data.NoBags, Commodity: data.Commodity, NetWt: data.NetWt })
+    })
+    this.excelService.exportAsExcelFile(TruckMemo, 'TRUCK_MEMO_REGISTER_REPORT', this.truckMemoRegCols);
+  }
 
-onPrint() {
-  const path = "../../assets/Reports/" + this.username.user + "/";
-  const filename = this.g_cd.value + GolbalVariable.StocTruckMemoRegFilename + ".txt";
-  saveAs(path + filename, filename);
-}
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.g_cd.value + GolbalVariable.StocTruckMemoRegFilename + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

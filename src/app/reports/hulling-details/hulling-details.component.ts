@@ -45,7 +45,7 @@ export class HullingDetailsComponent implements OnInit {
   onSelect() {
     let options = [];
     this.data = this.roleBasedService.instance;
-     if (this.data !== undefined) {
+    if (this.data !== undefined) {
       this.data.forEach(x => {
         options.push({ 'label': x.GName, 'value': x.GCode });
         this.godownOptions = options;
@@ -72,10 +72,11 @@ export class HullingDetailsComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onResetTable() {
     this.hullingDetailsData = [];
@@ -96,21 +97,23 @@ export class HullingDetailsComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
   exportAsXLSX(): void {
-    var hulling_data = [];
+    var HullingData = [];
     this.hullingDetailsData.forEach(data => {
-      hulling_data.push({SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, ITDescription: data.ITDescription,
-        DepositorName: data.DepositorName, NoPacking: data.NoPacking, Nkgs: data.Nkgs})
+      HullingData.push({
+        SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, ITDescription: data.ITDescription,
+        DepositorName: data.DepositorName, NoPacking: data.NoPacking, Nkgs: data.Nkgs
+      })
     })
-    this.excelService.exportAsExcelFile(hulling_data, 'HULLING_DETAILS_REPORT', this.hullingDetailsCols);
+    this.excelService.exportAsExcelFile(HullingData, 'HULLING_DETAILS_REPORT', this.hullingDetailsCols);
   }
 }

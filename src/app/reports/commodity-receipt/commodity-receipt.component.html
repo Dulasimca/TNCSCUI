@@ -13,8 +13,9 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+          (keydown.enter)="onSelect('gd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+          [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -23,7 +24,8 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd" [showClear]="true"
-          (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" (ngModelChange)="onResetTable()" placeholder="-select-" filter="true" optionLabel="label">
+          (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" (ngModelChange)="onResetTable()"
+          placeholder="-select-" filter="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -31,8 +33,9 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')" (keydown.enter)="onSelect('cd')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+          (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
+          [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -51,11 +54,12 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-4"></div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !g_cd || !c_cd)"></button>
-        </div>
-        <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div>
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!fromDate || !toDate || !g_cd || !c_cd)"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1 ui-fluid">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+      </div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
       </div>
@@ -64,36 +68,34 @@
       </div>
       <div class="ui-g-4"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="commodityReceiptCols" [value]="commodityReceiptData" [loading]="loading"
-          [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-          autoLayout="true">
+        <p-table [columns]="commodityReceiptCols" [value]="commodityReceiptData" [loading]="loading" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                    <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
-                      <div style="text-align: end !important">
-                        {{rowData[col.field]}}
-                      </div>
-                    </div>
-                    <div *ngIf="col.field === 'Date'">
-                      <div style="width: 90px !important">
-                        {{rowData[col.field]}}
-                      </div>
-                    </div>
-                    <div
-                      *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
-                      {{rowData[col.field]}}
-                    </div>
-                  </td>
-                </tr>
-              </ng-template>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field === 'Date'">
+                  <div style="width: 90px !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template>
         </p-table>
       </div>
       <!-- </div> -->

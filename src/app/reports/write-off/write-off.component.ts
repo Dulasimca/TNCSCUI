@@ -47,10 +47,10 @@ export class WriteOffComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -75,10 +75,11 @@ export class WriteOffComponent implements OnInit {
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.router.navigate(['pageNotFound']);
+        this.loading = false;
+        this.router.navigate(['pageNotFound']);
       }
-    })  }
+    })
+  }
 
   onResetTable() {
     this.writeoffData = [];
@@ -98,16 +99,20 @@ export class WriteOffComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.writeoffData, 'Write_Off',this.writeoffCols);
-}
+  exportAsXLSX(): void {
+    var WritOffData = [];
+    this.writeoffData.forEach(data => {
+      WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Date: data.Date, Issue_Memono: data.Issue_Memono, Commodity: data.Commodity, Quantity: data.Quantity, StackNo: data.StackNo, Remarks: data.Remarks })
+    })
+    this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
+  }
 }

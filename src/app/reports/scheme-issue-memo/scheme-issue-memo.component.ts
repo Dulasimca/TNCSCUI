@@ -143,11 +143,13 @@ export class SchemeIssueMemoComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    var scheme_issue_data = [];
+    var SchemeIssueData = [];
     this.schemeIssueMemoData.forEach(data => {
-      scheme_issue_data.push({SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
-      Issuedto: data.Issuedto, Commodity: data.Commodity, Quantity: data.Quantity})
+      SchemeIssueData.push({
+        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
+        Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issued_To: data.Issuedto
+      })
     })
-    this.excelService.exportAsExcelFile(scheme_issue_data, 'SCHEME_ISSUE_MEMO_REPORT', this.schemeIssueMemoCols);
+    this.excelService.exportAsExcelFile(SchemeIssueData, 'SCHEME_ISSUE_MEMO_REPORT', this.schemeIssueMemoCols);
   }
 }
