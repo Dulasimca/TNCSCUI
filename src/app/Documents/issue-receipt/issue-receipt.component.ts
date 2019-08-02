@@ -43,6 +43,7 @@ stackOptions: SelectItem[];
 wmtOptions: SelectItem[];
 viewPane: boolean = false;
 isViewClicked: boolean = false;
+isValidStackBalance: boolean;
 isReceivorNameDisabled: boolean;
 isReceivorTypeDisabled: boolean;
 rtCode: string;
@@ -97,7 +98,7 @@ SServiceable: any = 0;
 SPatches: any = 0;
 Gunnyutilised: any = 0;
 GunnyReleased: any = 0;
-NStackBalance: any = 0;
+NetStackBalance: any = 0;
 CurrentDocQtv: any = 0;
 index: number = 0;
 UserID :any;
@@ -223,7 +224,7 @@ Loadingslip : any;
           const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
-              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
+              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
             })
             this.stackOptions = stackNo;
             this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -279,7 +280,6 @@ parseMoisture(event) {
     if (findDot < 0) {
       let checkValue: any = this.Moisture.toString().slice(0, 2);
     checkValue = (checkValue * 1);
-    console.log(findDot);
       if (checkValue > 25) {
         let startValue = this.Moisture.toString().slice(0, 1);
         let endValue = this.Moisture.toString().slice(1, totalLength);
@@ -312,6 +312,25 @@ onCalculateWt() {
   if (this.GKgs < this.NKgs) {
     this.NKgs = this.GKgs = this.TKgs = 0;
   }
+}
+
+onStackNoChange(event) {
+  let stack_data = event.value;
+  const params = {
+    TStockNo: stack_data.value,
+    StackDate: stack_data.stack_date,
+    GCode: this.IssuingCode,
+    ICode: this.ICode.value
+  }
+  this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+    this.StackBalance = (res[0].StackBalance * 1);
+    if (this.StackBalance > 0) {
+      this.isValidStackBalance = false;
+    } else {
+      this.isValidStackBalance = true;
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+    }
+  })
 }
 
 
@@ -347,8 +366,22 @@ this.itemData.push({
   'WmtType': this.WTCode.label
 });
 if (this.itemData.length !== 0) {
+  this.StackBalance = (this.StackBalance * 1);
+  this.itemData.forEach(x => {
+   if (x.TStockNo === this.TStockNo.value) {
+      this.CurrentDocQtv += (x.Nkgs * 1);
+    } 
+  });
+  let lastIndex = this.itemData.length;
+  if (this.CurrentDocQtv > this.StackBalance) { 
+    this.itemData = this.itemData.splice(lastIndex, 1);
+    this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+  } else {
+    this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+  }
   this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs = 
   this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
+  this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
 }
 }
 

@@ -10,13 +10,22 @@
     <div class="ui-g ui-fluid">
       <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
       <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+      <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+          <p-footer>
+            <div class="ui-g-12 ui-md-12 dashboard">
+              <div class="ui-g-4 ui-md-8"></div>
+                <button class="ui-g-4 ui-md-2 no-pad-top no-pad-bottom" type="button" pButton label="Close Card" (click)="cd.accept()"></button>
+                <button class="ui-g-4 ui-md-2 no-pad-top no-pad-bottom"type="button" pButton label="New Entry" (click)="cd.reject()"></button>
+            </div>
+          </p-footer>
+      </p-confirmDialog>
       <form #f="ngForm" name="form">
         <div class="ui-g-12 no-pad-top" style="border: 1px solid #18c5a9">
         <div class="ui-g-12">
           <div class="ui-g-2"></div>
           <div class="ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
-            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
+            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="GCode" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
               filter="true" optionLabel="label" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -25,7 +34,8 @@
           </div>
           <div class="form-group ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-            <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (keydown.enter)="onCommodityClicked()" (onClick)="onCommodityClicked()" filter="true"
+            <p-dropdown [options]="commodityOptions" [(ngModel)]="ICode" (keydown.enter)="onSelect('cd')"
+             (onChange)="onSelect('cd')" filter="true"
               optionLabel="label" name="CommodityName" [readonly]="nonEditable" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -83,7 +93,7 @@
         <div class="ui-g-12 dashboard">
           <div class="ui-g-12 ui-md-4"></div>
           <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="button" [disabled]="(!Date || !g_cd)" label=View (click)="onView()"></button>
+            <button pButton type="button" [disabled]="(!ICode || !GCode)" label=View (click)="onView()"></button>
           </div>
           <div class="form-group ui-g-4 ui-md-1">
             <button pButton type="submit" [disabled]="!f.valid" label=Save (click)="onSave()"></button>
@@ -95,12 +105,11 @@
       </div>
       </form>
 
-       <div *ngIf="stackOpeningData.length!='0'" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
+       <div *ngIf="openView" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
        <div class="ui-g-12 ui-md-3 no-left-pad">
-        <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
-        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
-          (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true" optionLabel="label"
-          [showClear]="true" name="CommodityName" required>
+        <label class="ui-g-6 label-fontsize-large">Current Year</label>
+        <p-dropdown id="float-input" [options]="curYearOptions" [(ngModel)]="CurYear"
+           (onChange)="onChange($event)" filter="true" [showClear]="true" name="curyear">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

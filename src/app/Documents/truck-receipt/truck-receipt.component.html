@@ -172,7 +172,8 @@
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -22px">
                       <label for="TStockNo" class="label-fontsize">Stack No.</label>
                       <p-dropdown #st_no name="TStockNo" id="float-input" [options]="stackOptions"
-                        [(ngModel)]="TStockNo" (onClick)="onSelect('st_no')" (keydown.enter)="onSelect('st_no')" filter="true" optionLabel="label"
+                        [(ngModel)]="TStockNo" (onClick)="onSelect('st_no')" (onChange)="onStackNoChange($event)"
+                         (keydown.enter)="onSelect('st_no')" filter="true" optionLabel="label"
                         [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -209,7 +210,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label for="NoPacking" class="label-fontsize">No.of Packing</label>
-                      <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking" pInputText autocomplete="off"
+                      <input name="NoPacking" id="float-input" [(ngModel)]="NoPacking" pInputText 
+                      autocomplete="off" [readonly]="isValidStackBalance"
                       oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" (input)="onCalculateKgs()">
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -222,7 +224,7 @@
                       <label class="label-fontsize" for="GKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GKgs" id="float-input" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                          autocomplete="off" appDecimalDigit>
+                        [readonly]="isValidStackBalance" autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -235,7 +237,7 @@
                       <label class="label-fontsize" for="NKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NKgs" id="float-input" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                          autocomplete="off" appDecimalDigit>
+                        [readonly]="isValidStackBalance"  autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -256,7 +258,8 @@
                     <div class="ui-g-6 ui-md-3" style="margin-top: -18px">
                       <label for="WmtType" class="label-fontsize">WmtType</label>
                       <p-dropdown #wmt name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
-                        (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')" filter="true" optionLabel="label">
+                        (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')"
+                        [readonly]="isValidStackBalance" filter="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -265,7 +268,7 @@
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
                         <input id="float-input" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)" name="Moisture"
+                        autocomplete="off" (keyup)="parseMoisture($event)" name="Moisture" [readonly]="isValidStackBalance"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                         <label for="Moisture" class="float-input">Moisture</label>
                       </span>
@@ -273,6 +276,27 @@
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
                       <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode)" (click)="onEnter()"></button>
                     </div>
+                    <div class="ui-g-6 ui-md-2">
+                        <span class="ui-float-label">
+                          <input name="StackBal" id="float-input" [(ngModel)]="StackBalance" pInputText autocomplete="off"
+                          [readonly]="true" >
+                          <label for="StackBal" class="float-input">Stack Balance</label>
+                        </span>
+                      </div>
+                      <div class="ui-g-6 ui-md-2">
+                        <span class="ui-float-label">
+                          <input name="CurQtv" id="float-input" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
+                          [readonly]="true">
+                          <label for="CurQtv" class="float-input">Cur.Doc. Qtv</label>
+                        </span>
+                      </div>
+                      <div class="ui-g-6 ui-md-2">
+                        <span class="ui-float-label">
+                          <input name="NetStackBal" id="float-input" [readonly]="true" [(ngModel)]="NetStackBalance" pInputText
+                            autocomplete="off">
+                          <label for="NetStackBal" class="float-input">Net Stack Balance</label>
+                        </span>
+                      </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
                     <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
@@ -297,29 +321,6 @@
                         </tr>
                       </ng-template>
                     </p-table>
-                  </div>
-                  <div class="ui-g-12 ui-fluid no-pad-top">
-                    <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label">
-                        <input name="StackBal" id="float-input" [(ngModel)]="StackBalance" pInputText autocomplete="off"
-                        [readonly]="true" >
-                        <label for="StackBal" class="float-input">Stack Balance</label>
-                      </span>
-                    </div>
-                    <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label">
-                        <input name="CurQtv" id="float-input" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
-                        [readonly]="true">
-                        <label for="CurQtv" class="float-input">Cur.Doc. Qtv</label>
-                      </span>
-                    </div>
-                    <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label">
-                        <input name="NetStackBal" id="float-input" [readonly]="true" [(ngModel)]="NetStackBalance" pInputText
-                          autocomplete="off">
-                        <label for="NetStackBal" class="float-input">Net Stack Balance</label>
-                      </span>
-                    </div>
                   </div>
                   <div class="ui-g-10 ui-md-10"></div>
                   <div class="ui-g-2 ui-md-1">

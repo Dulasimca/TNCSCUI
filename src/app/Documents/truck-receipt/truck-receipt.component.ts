@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
+  isValidStackBalance: boolean;
   isSaveSucceed: boolean = true;
   viewDate: Date = new Date();
   data: any;
@@ -88,7 +89,7 @@ export class TruckReceiptComponent implements OnInit {
   WTCode: any;
   wtCode: any;
   Moisture: string;
-  StackBalance: number;
+  StackBalance: number = 0;
   CurrentDocQtv: any;
   NetStackBalance: any;
   TransporterName: string;
@@ -276,7 +277,7 @@ export class TruckReceiptComponent implements OnInit {
           const params = new HttpParams().set('GCode', this.GCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             res.forEach(s => {
-              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
+              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
             })
             this.stackOptions = stackNo;
             this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
@@ -420,17 +421,51 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
   }
 
+  onStackNoChange(event) {
+    let stack_data = event.value;
+    const params = {
+      TStockNo: stack_data.value,
+      StackDate: stack_data.stack_date,
+      GCode: this.GCode,
+      ICode: this.ICode.value
+    }
+    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+      this.StackBalance = (res[0].StackBalance * 1);
+      if (this.StackBalance > 0) {
+        this.isValidStackBalance = false;
+      } else {
+        this.isValidStackBalance = true;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+      }
+    })
+  }
+
   onEnter() {
     this.itemData.push({TStockNo: this.TStockNo.value, ITDescription: this.ICode.label,
-       PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
-       NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
-       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
-       SchemeName: this.Scheme.label,
-       Scheme: this.Scheme.value, Rcode: this.RCode
+      PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
+      NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
+      GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
+      SchemeName: this.Scheme.label,
+      Scheme: this.Scheme.value, Rcode: this.RCode
     })
     if (this.itemData.length !== 0) {
+      this.StackBalance = (this.StackBalance * 1);
+      this.itemData.forEach(x => 
+        {
+          if (x.TStockNo === this.TStockNo.value) {
+            this.CurrentDocQtv += (x.Nkgs * 1);
+          } 
+        });
+      let lastIndex = this.itemData.length;
+      if (this.CurrentDocQtv > this.StackBalance) {
+        this.itemData = this.itemData.splice(lastIndex, 1);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+      } else {
+        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+      }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
-      = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
+        = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
+      this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
     }
   }
 

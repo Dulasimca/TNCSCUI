@@ -60,6 +60,7 @@ export class StockReceiptComponent implements OnInit {
   stackYear: any;
   isStackNoEnabled: boolean = true;
   isItemDescEnabled: boolean = true;
+  isValidStackBalance: boolean = false;
   wmtOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
@@ -147,6 +148,7 @@ export class StockReceiptComponent implements OnInit {
   onSelect(selectedItem) {
     let schemeSelection = [];
     let depositorNameList = [];
+    let itemDesc = [];
     let yearArr = [];
     let depositorTypeList = [];
     let packingTypes: any = [];
@@ -154,6 +156,7 @@ export class StockReceiptComponent implements OnInit {
     switch (selectedItem) {
       case 'y':
         const year = new Date().getFullYear();
+        if(this.yearOptions === undefined) {
         for (let i = 0; i < range; i++) {
           if (i === 0) {
             yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
@@ -163,16 +166,19 @@ export class StockReceiptComponent implements OnInit {
             yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
           }
         }
+        }
         this.yearOptions = yearArr;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
+        if(this.monthOptions === undefined) {
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
         { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        }
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -203,7 +209,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'dt':
         this.isViewClicked = false;
-        if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
+        if (this.Trcode !== undefined  && this.Trcode !== null) {
+        if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.ReceivingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             res.forEach(dt => {
@@ -214,6 +221,7 @@ export class StockReceiptComponent implements OnInit {
             this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      }
         break;
       case 'dn':
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
@@ -228,37 +236,40 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        let itemDesc = [];
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
-          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            res.forEach(i => {
-              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-            })
-            this.itemDescOptions = itemDesc;
-            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
-        //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
+        if (this.Scheme !== undefined && this.Scheme !== null) {
+          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+            const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              res.forEach(i => {
+                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+              })
+              this.itemDescOptions = itemDesc;
+              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
+            //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
+          }
         }
         break;
       case 'st_no':
         let stackNo = [];
-        if (this.ReceivingCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
-          const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
-          this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-            res.forEach(s => {
-              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_yr': s.CurYear });
-            })
-            this.stackOptions = stackNo;
-            this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
-          if (this.TStockNo !== undefined && this.TStockNo !== null) {
-            this.stackYear = this.TStockNo.stack_yr;
-            let index;
-            index = this.TStockNo.value.toString().indexOf('/', 1);
-            const totalLength = this.TStockNo.value.length;
-            this.godownNo = this.TStockNo.value.toString().slice(0, index);
-            this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+        if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
+          if (this.ICode.value !== undefined && this.ICode.value !== '') {
+            const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
+            this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+              res.forEach(s => {
+                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
+              })
+              this.stackOptions = stackNo;
+              this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
+            if (this.TStockNo !== undefined && this.TStockNo !== null) {
+              this.stackYear = this.TStockNo.stack_yr;
+              let index;
+              index = this.TStockNo.value.toString().indexOf('/', 1);
+              const totalLength = this.TStockNo.value.length;
+              this.godownNo = this.TStockNo.value.toString().slice(0, index);
+              this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+            }
           }
         }
         break;
@@ -361,8 +372,27 @@ export class StockReceiptComponent implements OnInit {
       this.NKgs = this.GKgs = this.tareWt = 0;
     }
   }
+  onStackNoChange(event) {
+    let stack_data = event.value;
+    const params = {
+      TStockNo: stack_data.value,
+      StackDate: stack_data.stack_date,
+      GCode: this.ReceivingCode,
+      ICode: this.ICode.value
+    }
+    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+      this.StackBalance = (res[0].StackBalance * 1);
+      if (this.StackBalance > 0) {
+        this.isValidStackBalance = false;
+      } else {
+        this.isValidStackBalance = true;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+      }
+    })
+  }
 
   onEnter() {
+    let stackBalance;
     this.itemData.push({
       'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
@@ -376,6 +406,14 @@ export class StockReceiptComponent implements OnInit {
       'WmtType': (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
     if (this.itemData.length !== 0) {
+      stackBalance = (stackBalance !== undefined) ? (stackBalance * 1) : 0;
+      this.itemData.forEach(x => 
+        {
+          if(x.TStockNo === this.TStockNo.value) {
+          stackBalance += (x.Nkgs * 1);
+          }
+        });
+      this.StackBalance += stackBalance;
       this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
         = this.GKgs = this.NKgs = this.WTCode = this.tareWt = this.godownNo = this.locationNo = this.stackYear = null;
     }
