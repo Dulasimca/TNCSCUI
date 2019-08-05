@@ -29,6 +29,8 @@ export class TransactionStatusComponent implements OnInit {
   Issues: boolean;
   Transfer: boolean;
   CB: boolean;
+  roleId: any;
+  RoleId: any;
   Transaction_Status: any;
   isActionDisabled: any;
   maxDate: Date;
@@ -43,6 +45,7 @@ export class TransactionStatusComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.isActionDisabled = true;
     this.TransactionStatusCols = this.tableConstants.TransactionStatus;
     this.maxDate = new Date();
@@ -72,7 +75,8 @@ export class TransactionStatusComponent implements OnInit {
             this.Issues = this.TransactionStatusData[0].Issues,
             this.Transfer = this.TransactionStatusData[0].Transfer,
             this.CB = this.TransactionStatusData[0].CB,
-            this.remarks = this.TransactionStatusData[0].remarks
+            this.remarks = this.TransactionStatusData[0].remarks,
+            this.RoleId = this.roleId
         } else {
           this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
@@ -115,7 +119,8 @@ export class TransactionStatusComponent implements OnInit {
       'Transfer': (this.Transfer == true) ? true : false,
       'CB': (this.CB == true) ? true : false,
       'remarks': (this.remarks !== undefined && this.remarks !== null) ? this.remarks : 'No Remarks',
-      'userid': this.userid.user
+      'userid': this.userid.user,
+      'RoleId': this.roleId
     };
     this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {

@@ -80,6 +80,7 @@ export class TableConstants {
   DailyDocumentIssue: any;
   StockIssueMemoViewBySINOCols: any;
   StackCardOpening: any;
+  StackCard: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -842,7 +843,7 @@ export class TableConstants {
     this.DailyDocumentReceipt = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'DocNo', header: 'Doc No' },
-      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'DocDate', header: 'Doc_Date' },
       { field: 'Transactiontype', header: 'Transaction Type' },
       { field: 'StackNo', header: 'Stack No' },
       { field: 'CommodityName', header: 'Commodity Name' },
@@ -861,7 +862,7 @@ export class TableConstants {
     ];
 
     this.DailyDocumentIssue = [
-      // { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'DocNo', header: 'Doc No' },
       { field: 'DocDate', header: 'Doc Date' },
       { field: 'StackNo', header: 'Stack No' },
@@ -876,13 +877,24 @@ export class TableConstants {
     ];
 
     this.StackCardOpening = [
-      { field: '', header: 'S.No' },
-      { field: '', header: 'Stack No' },
-      { field: '', header: 'Ope.Bags' },
-      { field: '', header: 'Ope.Quar' },
-      { field: '', header: 'From_dt' },
-      { field: '', header: 'Formation Year' },
-      { field: '', header: 'Status' },
+      { field: 'SlNo', header: 'SlNo' },
+      { field: 'Stackno', header: 'Stack No' },
+      { field: 'StackBalanceBags', header: 'Bags' },
+      { field: 'Stackbalanceweight', header: 'Quantity' },
+      { field: 'obstackdate', header: 'From Date' },
+      { field: 'Formationyear', header: 'Formation Year' },
+      { field: 'Status', header: 'Status' },
+    ];
+
+    this.StackCard = [
+      { field: 'SlNo', header: 'SlNo' },
+      { field: '', header: 'Ack Date' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Issue Date' },
+      { field: '', header: 'Bags' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'Closing Balance' },
     ];
   }
 }
