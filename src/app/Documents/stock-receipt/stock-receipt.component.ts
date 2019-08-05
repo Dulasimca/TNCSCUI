@@ -376,7 +376,8 @@ export class StockReceiptComponent implements OnInit {
       TStockNo: stack_data.value,
       StackDate: stack_data.stack_date,
       GCode: this.ReceivingCode,
-      ICode: this.ICode.value
+      ICode: this.ICode.value,
+      Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -459,7 +460,7 @@ export class StockReceiptComponent implements OnInit {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = false;
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
         }

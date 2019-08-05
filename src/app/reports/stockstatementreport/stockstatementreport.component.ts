@@ -96,7 +96,7 @@ export class StockstatementreportComponent implements OnInit {
         });
       } else {
         this.loading = false;
-        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-error', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {

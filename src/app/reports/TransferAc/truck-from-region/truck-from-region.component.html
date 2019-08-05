@@ -8,8 +8,8 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <!-- <div style="text-align: center"> -->
-        <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+      <div style="text-align: center">
+        <p-toast position="top-center" key="t-err"></p-toast>
         <div class="ui-g-12 ui-md-2 ui-fluid">
           <label class="ui-g-7 label-fontsize dashboard">Godown</label>
           <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (click)="onSelect()" (keydown.enter)="onSelect()"
@@ -74,7 +74,7 @@
             </ng-template>
           </p-table>
         </div>
-      <!-- </div> -->
+       </div>
     </div>
   </p-panel>
 </div>

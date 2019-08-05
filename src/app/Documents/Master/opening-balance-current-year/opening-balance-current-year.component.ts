@@ -133,9 +133,9 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
     // const params = new HttpParams().set('RowId', this.Rowid).append('WriteOff', this.WriteOff);
     this.restAPIService.put(PathConstants.OPENING_BALANCE_MASTER_PUT, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     })
     this.onClear();
