@@ -83,6 +83,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
               icon: 'pi pi-exclamation-triangle',
               accept: () => {
                 this.nonEditable = true;
+                this.RowId = x.RowId;
               },
               reject: () => {
                 this.onClear();
@@ -91,6 +92,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
           } else if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'C') {
             this.onClear();
             this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
+          } else {
+            this.StackNo = this.StackNo;
           }
         })
       }
