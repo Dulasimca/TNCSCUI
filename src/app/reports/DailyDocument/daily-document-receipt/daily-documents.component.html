@@ -68,7 +68,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'GROSSWT' || col.field === 'NOOfPACKING' || col.field === 'NETWT' || col.field === 'Moisture'">
+                  <span style="float: right">
+                    {{rowData[col.field]}}
+                  </span>
+                </div>
+                <div *ngIf="col.field !== 'GROSSWT' && col.field !== 'NOOfPACKING' && col.field !== 'NETWT' && col.field !== 'Moisture'">
+                  {{rowData[col.field]}}
+                </div>
               </td>
             </tr>
           </ng-template>

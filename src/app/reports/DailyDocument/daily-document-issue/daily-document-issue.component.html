@@ -55,8 +55,9 @@
         </p-table>
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
-        <p-table [columns]="DailyDocumentIssueCols" [value]="DailyDocumentIssueData" [responsive]="true"
-          autoLayout="true" [loading]="loading">
+        <p-table [columns]="DailyDocumentIssueCols" [value]="DailyDocumentIssueData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [loading]="loading" [totalRecords]="totalRecords">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -67,7 +68,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'GROSSWT' || col.field === 'NOOfPACKING' || col.field === 'NETWT'">
+                  <span style="float: right">
+                    {{rowData[col.field]}}
+                  </span>
+                </div>
+                <div *ngIf="col.field !== 'GROSSWT' && col.field !== 'NOOfPACKING' && col.field !== 'NETWT'">
+                  {{rowData[col.field]}}
+                </div>
               </td>
             </tr>
           </ng-template>

@@ -24,16 +24,6 @@
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Stack Formation Year</label>
-        <p-dropdown id="float-input" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true"
-          (onClick)="onSelect('y')" (keydown.enter)="onSelect('y')" (ngModelChange)="onResetTable()"
-          placeholder="-select-" filter="true" optionLabel="label">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
         <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
           (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
@@ -43,9 +33,28 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Stack Year</label>
+        <p-dropdown id="float-input" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true"
+          (onClick)="onSelect('y')" (keydown.enter)="onSelect('y')" (ngModelChange)="onResetTable()"
+          placeholder="-select-" filter="true" optionLabel="label">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Select Stack</label>
+        <p-dropdown id="float-input" [options]="StackOptions" [(ngModel)]="s_cd" [showClear]="true"
+          (onClick)="onSelect('s')" (keydown.enter)="onSelect('s')" (ngModelChange)="onResetTable()"
+          placeholder="-select-" filter="true" optionLabel="label">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!g_cd || !Year || !c_cd)"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !c_cd || !s_cd || !Year)"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
@@ -55,7 +64,7 @@
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading" [rows]="20"
+        <p-table [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
@@ -67,7 +76,7 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'StackBalanceBags' || col.field === 'Stackbalanceweight' || col.field === 'Formationyear'">
+                <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
@@ -77,7 +86,7 @@
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field !== 'StackBalanceBags' && col.field !== 'Stackbalanceweight' && col.field !== 'Formationyear'">
+                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
                   {{rowData[col.field]}}
                 </div>
               </td>

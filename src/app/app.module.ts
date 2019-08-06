@@ -126,6 +126,7 @@ import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-docum
 import { TooltipModule } from 'primeng/tooltip';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
+import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
 
 @NgModule({
   declarations: [
@@ -213,6 +214,7 @@ import { StackCardOpeningComponent } from './reports/StackCard/stack-card-openin
     DailyDocumentIssueComponent,
     AmountDecimalDirective,
     StackCardOpeningComponent,
+    StackCardComponent,
   ],
   imports: [
     BrowserModule,
