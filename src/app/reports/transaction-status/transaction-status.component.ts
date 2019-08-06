@@ -65,7 +65,9 @@ export class TransactionStatusComponent implements OnInit {
 
   onView() {
     if (this.godownOptions !== undefined) {
-      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy')).append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode);
+      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
+        .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
+        .append("RoleId",this.roleId);
       this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
         this.TransactionStatusData = res;
         if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
