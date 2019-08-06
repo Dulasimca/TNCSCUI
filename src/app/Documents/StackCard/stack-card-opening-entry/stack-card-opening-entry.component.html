@@ -85,7 +85,7 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div *ngIf="nonEditable" style="border: 1.2px solid #44a3ec !important; box-shadow: 5px 2px 2px #c4c6c7;" class="ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
-            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" [(ngModel)]="ClosingDate"></p-calendar>
+            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" [(ngModel)]="ClosingDate" required></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 dashboard">

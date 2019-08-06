@@ -24,7 +24,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Opening_Balance: any = []
   godownName: any;
   Location: string;
-  Formation: any;
+  Formation: string;
   StackNo: string;
   Date: Date = new Date();
   GCode: any;
@@ -71,12 +71,12 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   calculateStackNo() {
-    if (this.Location !== undefined && this.Formation !== undefined) {
-      this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation.valueOf();
+    if (this.Location !== undefined && this.Location !== null && this.Formation !== undefined && this.Formation !== null) {
+      this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation;
       this.StackNo =this.StackNo.replace("//","/");
       if  (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
         this.stackOpeningData.forEach(x => {
-          if (x.StackNo === this.StackNo && x.Flag1 === 'R') {
+          if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'R') {
             this.confirmationService.confirm({
               message: 'You have entered running stack card number! Do you want close this current stack card or try new entry?',
               header: 'Confirmation',
@@ -88,7 +88,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
                 this.onClear();
               }
             });
-          } else if (x.StackNo === this.StackNo && x.Flag1 === 'C') {
+          } else if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'C') {
             this.onClear();
             this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
           }
@@ -151,29 +151,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
         case 'cd':
-            if (this.ICode !== undefined && this.ICode !== null) {
-              this.stackOpeningData = [];
-              const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
-              this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
-                if (res !== undefined && res !== null && res.length !== 0) {
-                  this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
-                  this.stackOpeningData = res.Table;
-                  if (res.Table1 !== undefined && res.Table1 !== null) {
-                  res.Table1.forEach(cy => {
-                    this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
-                  })
-                }
-                  let sno = 0;
-                  this.stackOpeningData.forEach(x => {
-                    sno += 1;
-                    x.SlNo = sno;
-                    x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
-                  });
-                  this.Opening_Balance = this.stackOpeningData.slice(0);
-                } else {
-                  this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
-                }
-              })
+          this.messageService.clear();
+            if (this.ICode !== undefined && this.ICode.value !== null) {
+                this.onView();
+            } else {
+              this.openView = false;
             }
           break;
           case 'cy':
@@ -193,8 +175,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (this.selectedRow.Flag1 === 'R') {
       this.nonEditable = true;
       this.RowId = this.selectedRow.RowId;
-      this.commodityOptions = [{ 'label': this.selectedRow.CommodityName, 'value': this.selectedRow.CommodityCode }];
-      this.ICode = this.selectedRow.CommodityName;
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
@@ -215,21 +195,40 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
-    if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
       this.openView = true;
-    } else {
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
-    }
+      this.stackOpeningData = [];
+      const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
+      this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
+        if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+          this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+          this.stackOpeningData = res.Table;
+          if (res.Table1 !== undefined && res.Table1 !== null) {
+            res.Table1.forEach(cy => {
+              this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
+            })
+          }
+          let sno = 0;
+          this.stackOpeningData.forEach(x => {
+            sno += 1;
+            x.SlNo = sno;
+            x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
+          });
+          this.Opening_Balance = this.stackOpeningData.slice(0);
+        } else {
+          this.openView = false;
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
+        }
+      });
   }
 
   onClear() {
-    this.commodityOptions = this.commoditySelection;
     this.nonEditable = false;
     this.Location = this.Formation = this.StackNo = null;
       this.Bags = this.Weights = 0;
   }
 
   onSave() {
+    this.messageService.clear();
     if (!this.nonEditable) {
     const params = {
       'GodownCode': this.GCode.value,
@@ -245,6 +244,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
       if (res) {
+        this.onView();
         this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
