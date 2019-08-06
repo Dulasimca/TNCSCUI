@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { DataTableModule, SharedModule, ButtonModule, MenubarModule, DropdownModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, ButtonModule, MenubarModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';

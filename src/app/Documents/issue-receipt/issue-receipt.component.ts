@@ -136,7 +136,6 @@ Loadingslip : any;
     switch(selectedItem) {
     case 'y':
       const year = new Date().getFullYear();
-      if(this.yearOptions === undefined) {
       for (let i = 0; i < range ; i ++) {
         if (i === 0) {
           yearArr.push({'label': (year - 1).toString(), 'value': year - 1});
@@ -145,20 +144,17 @@ Loadingslip : any;
         } else {
           yearArr.push({'label': (year + 1).toString(), 'value': year + 1});
         }
-      }
       this.yearOptions = yearArr;
       this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
     }
       break;
       case 'm':
-        if(this.monthOptions === undefined) {
         this.monthOptions = [{'label': 'Jan', 'value': '01'},
         {'label': 'Feb', 'value': '02'},{'label': 'Mar', 'value': '03'},{'label': 'Apr', 'value': '04'},
         {'label': 'May', 'value': '05'},{'label': 'Jun', 'value': '06'},{'label': 'Jul', 'value': '07'},
         {'label': 'Aug', 'value': '08'},{'label': 'Sep', 'value': '09'},{'label': 'Oct', 'value': '10'},
         {'label': 'Nov', 'value': '11'},{'label': 'Dec', 'value': '12'}];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        }
         break;
         case 'tr':
         if (this.transactionOptions === undefined) {

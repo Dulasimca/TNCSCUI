@@ -1418,6 +1418,13 @@ ul
             color: rgb(240, 36, 36);
             font-size: 14px;
           }
+          .ui-chkbox .ui-chkbox-box {
+            width: 1.3em;
+            height: 1.3em;
+            line-height: 1.125em;
+            border-radius: 2px;
+            text-align: center;
+        }
           .ui-button.ui-state-hover, .ui-button.ui-state-active{
             border: none;
             color: #09143e;
