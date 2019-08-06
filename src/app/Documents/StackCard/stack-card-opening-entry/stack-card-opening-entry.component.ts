@@ -76,7 +76,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.StackNo =this.StackNo.replace("//","/");
       if  (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
         this.stackOpeningData.forEach(x => {
-          if (x.StackNo === this.StackNo) {
+          if (x.StackNo === this.StackNo && x.Flag1 === 'R') {
             this.confirmationService.confirm({
               message: 'You have entered running stack card number! Do you want close this current stack card or try new entry?',
               header: 'Confirmation',
@@ -88,6 +88,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
                 this.onClear();
               }
             });
+          } else if (x.StackNo === this.StackNo && x.Flag1 === 'C') {
+            this.onClear();
+            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
           }
         })
       }
@@ -220,7 +223,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.ICode = null;
+    this.commodityOptions = this.commoditySelection;
     this.nonEditable = false;
     this.Location = this.Formation = this.StackNo = null;
       this.Bags = this.Weights = 0;

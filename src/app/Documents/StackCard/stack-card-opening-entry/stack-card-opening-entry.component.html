@@ -12,9 +12,8 @@
       <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
           <p-footer>
             <div class="ui-g-12 ui-md-12 dashboard">
-              <div class="ui-g-4 ui-md-8"></div>
-                <button class="ui-g-4 ui-md-2 no-pad-top no-pad-bottom" type="button" pButton label="Close Card" (click)="cd.accept()"></button>
-                <button class="ui-g-4 ui-md-2 no-pad-top no-pad-bottom"type="button" pButton label="New Entry" (click)="cd.reject()"></button>
+                <button type="button" pButton label="Close Card" (click)="cd.accept()"></button>
+                <button type="button" pButton label="New Entry" (click)="cd.reject()"></button>
             </div>
           </p-footer>
       </p-confirmDialog>
