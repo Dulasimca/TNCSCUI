@@ -9,6 +9,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { moment } from 'ngx-bootstrap/chronos/test/chain';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -26,7 +27,7 @@ export class StockReceiptComponent implements OnInit {
   godownName: any;
   data: any;
   RowId: any;
-  selectedValues: string[] = ['road'];
+  selectedValues: string[] = ['Road'];
   depositorTypeOptions: SelectItem[];
   depositorNameOptions: SelectItem[];
   transactionOptions: SelectItem[];
@@ -49,6 +50,12 @@ export class StockReceiptComponent implements OnInit {
  // isDepositorNameDisabled: boolean = true;
   locationNo: any;
   transactoinSelection: any = [];
+  schemeSelection: any = [];
+  depositorNameList: any = [];
+  itemDesc: any = [];
+  yearArr: any = [];
+  depositorTypeList: any = [];
+  packingTypes: any = [];
   depositorType: string;
   trCode: string;
   wtCode: string;
@@ -146,29 +153,25 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSelect(selectedItem) {
-    let schemeSelection = [];
-    let depositorNameList = [];
-    let itemDesc = [];
-    let yearArr = [];
-    let depositorTypeList = [];
-    let packingTypes: any = [];
     const range = 3;
+    this.yearOptions = [];
     switch (selectedItem) {
       case 'y':
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
-            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+            this.yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
           } else if (i === 1) {
-            yearArr.push({ 'label': (year).toString(), 'value': year });
+            this.yearArr.push({ 'label': (year).toString(), 'value': year });
           } else {
-            yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
+            this.yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
           }
         }
-        this.yearOptions = yearArr;
+        this.yearOptions = this.yearArr;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
+        this.monthOptions = [];
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -177,7 +180,7 @@ export class StockReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (this.transactionOptions === undefined) {
+        this.transactionOptions = [];
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
@@ -187,17 +190,16 @@ export class StockReceiptComponent implements OnInit {
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
-        } else {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
             this.TransType = (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType;
           }
-        }
         break;
       case 'sc':
+        this.schemeOptions = [];
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
-            schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-            this.schemeOptions = schemeSelection;
+            this.schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            this.schemeOptions = this.schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
@@ -211,9 +213,9 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(dt => {
-              depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+              this.depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
-            this.depositorTypeOptions = depositorTypeList;
+            this.depositorTypeOptions = this.depositorTypeList;
           }
           //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
             this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -227,9 +229,9 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(dn => {
-              depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+              this.depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
             })
-            this.depositorNameOptions = depositorNameList;
+            this.depositorNameOptions = this.depositorNameList;
           }
             this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
@@ -242,9 +244,9 @@ export class StockReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(i => {
-                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                this.itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
-              this.itemDescOptions = itemDesc;
+              this.itemDescOptions = this.itemDesc;
             }
               this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
@@ -282,9 +284,9 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.Table.forEach(p => {
-              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+              this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
-            this.packingTypeOptions = packingTypes;
+            this.packingTypeOptions = this.packingTypes;
           }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
@@ -470,7 +472,7 @@ export class StockReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = this.isViewClicked = true;
-    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.ReceivingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         res.forEach(data => {
@@ -494,7 +496,7 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.SRNo = res[0].SRNO;
-        this.SRDate = res[0].SRDate;
+        this.SRDate = new Date(res[0].SRDate);
         this.RowId = res[0].RowId;
         this.OrderDate = new Date(res[0].OrderDate);
         this.OrderNo = res[0].OrderNo;
@@ -502,9 +504,9 @@ export class StockReceiptComponent implements OnInit {
         this.TruckMemoNo = res[0].TruckMemoNo;
         this.LNo = res[0].LNo;
         this.LFrom = res[0].LFrom;
-        this.monthOptions = [{label: res[0].Pallotment.slice(0, 1), value: res[0].Pallotment.slice(0, 1)}]
+        this.monthOptions = [{label: new Date(res[0].Pallotment.slice(5, 7)).toDateString().slice(4,7), value: res[0].Pallotment.slice(5, 7)}]
         this.month = res[0].Pallotment.slice(0, 1);
-        this.yearOptions = [{label: res[0].Pallotment.slice(3, 6), value: res[0].Pallotment.slice(3, 6)}]
+        this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
         this.year = res[0].Pallotment.slice(3, 6);
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];
         this.Trcode = res[0].TRName;
@@ -537,9 +539,17 @@ export class StockReceiptComponent implements OnInit {
         this.depositorCode = res[0].IssuingCode;
         this.PAllotment = res[0].Pallotment;
         this.LNo = res[0].LNo;
-        this.selectedValues = res[0].TransportMode;
+        this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
+        this.Remarks = (res[0].Remarks !== " ") ? res[0].Remarks : "-";
         this.UnLoadingSlip = res[0].UnLoadingSlip;
+        if (this.TStockNo !== undefined && this.TStockNo !== null) {
+          let index;
+          index = this.TStockNo.toString().indexOf('/', 1);
+          const totalLength = this.TStockNo.length;
+          this.godownNo = this.TStockNo.toString().slice(0, index);
+          this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+        }
       } else {
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
     }
