@@ -43,7 +43,7 @@
           <div class="form-group ui-g-12 ui-md-2 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="Date">Date</label>
             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
-              [maxDate]="maxDate" name="Date" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
+             (onChange)="getStackYear()" [maxDate]="maxDate" name="Date" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
           </div>
 
           <div class="ui-g-2"></div>
@@ -114,7 +114,7 @@
         </p-dropdown>
       </div> 
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table #table [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="20"
+        <p-table #table [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
           [paginator]="true">
           <ng-template pTemplate="colgroup" let-columns>

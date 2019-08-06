@@ -45,6 +45,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   allowInput: boolean = true;
   isSlash: boolean = false;
   openView: boolean = false;
+  newEntry: boolean;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, 
     private datepipe: DatePipe, private restAPIService: RestAPIService, 
@@ -56,6 +57,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
     this.gdata = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    let dt = '31-03-2019';
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -86,14 +88,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
                 this.RowId = x.RowId;
               },
               reject: () => {
-                this.onClear();
+                this.newEntry = true;
               }
             });
           } else if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'C') {
-            this.onClear();
-            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
+            this.getStackYear(x.CurYear);
+         //   this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
           } else {
             this.StackNo = this.StackNo;
+            this.newEntry = false;
           }
         })
       }
@@ -112,6 +115,23 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.allowInput = true;
     }
   }
+
+getStackYear(curYear) {
+  this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
+    if (data !== null && data !== undefined){
+        data.forEach(x => {
+          console.log('from', new Date(Date.parse(x.FromDate)));
+          console.log('to', new Date(Date.parse(x.ToDate)));
+      if ((this.Date >= new Date(Date.parse(x.FromDate))) && (this.Date <= new Date(Date.parse(x.ToDate)))) {
+          if (x.ShortYear === curYear) {
+            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Cannot have same stack number for current year!' });
+            this.onClear();
+          }
+        }
+      })
+    }
+  })
+}
 
   keyPress(event) {
      if((event.keyCode>=32 && event.keyCode <=46)|| (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
@@ -178,6 +198,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (this.selectedRow.Flag1 === 'R') {
       this.nonEditable = true;
       this.RowId = this.selectedRow.RowId;
+      this.Date = new Date(this.selectedRow.ObStackDate);
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
@@ -232,6 +253,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onSave() {
     this.messageService.clear();
+    if (this.newEntry) {
+      this.stackOpeningData.forEach(x => {
+        if (x.StackNo.toString().trim() === this.StackNo) {
+          this.onClear();
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'You have entered running stack card number!' });
+          this.newEntry = false;
+        }
+      });
+    } else {
     if (!this.nonEditable) {
     const params = {
       'GodownCode': this.GCode.value,
@@ -277,6 +307,5 @@ export class StackCardOpeningEntryComponent implements OnInit {
       }
     })
   }
-}
-
+} }
 }
