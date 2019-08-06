@@ -32,25 +32,23 @@
                         (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" optionLabel="label" required>
                       </p-dropdown>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="margin-top: -7px">
-                      <label for="MNo" class="label-fontsize">Allotment/Movement Order No</label>
+                    <div class="ui-g-6 ui-md-2">
+                      <label for="MNo" class="label-fontsize">Movement Order No</label>
                       <input name="MNo" [(ngModel)]="OrderNo" pInputText autocomplete="off" required>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="MDate">Movement Order Date</label>
                       <p-calendar name="MDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
-                    <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
-                      <p-checkbox name="road" class="ui-g-3" name="groupname" value="Road"
+                    <div class="ui-g-6 ui-md-2" style="margin-top: 20px;">
+                      <p-checkbox name="road" class="ui-g-2 dashboard" name="groupname" value="Road"
                         (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
-                      <label class="ui-g-9 label-fontsize-large" for="road">By Road</label>
-                    </div>
-                    <div class="ui-g-6 ui-md-1" style="padding: 20px 0px 0px 0px;">
-                      <p-checkbox name="rail" class="ui-g-3" name="groupname" (onChange)="onSelectTransportMode()"
+                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="road">Road</label>
+                      <p-checkbox name="rail" class="ui-g-2 dashboard" name="groupname" (onChange)="onSelectTransportMode()"
                         value="Rail" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
-                      <label class="ui-g-8 label-fontsize-large" for="rail">By Rail</label>
+                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="rail">Rail</label>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">

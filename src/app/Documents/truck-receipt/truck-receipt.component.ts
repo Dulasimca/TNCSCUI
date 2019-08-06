@@ -30,7 +30,7 @@ export class TruckReceiptComponent implements OnInit {
   truckMemoViewData: any = [];
   index: number = 0;
   maxDate: Date = new Date();
-  selectedValues: string[];
+  selectedValues: string[] = ['Road'];
   isRailSelected: boolean = false;
   disableRailHead: boolean = true;
   transactionOptions: SelectItem[];
