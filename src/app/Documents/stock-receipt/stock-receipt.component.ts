@@ -144,6 +144,12 @@ export class StockReceiptComponent implements OnInit {
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
+    let curMonth = new Date().getMonth() + 1;
+    this.month = new Date(curMonth).toDateString().slice(4,7);
+    console.log(curMonth, new Date(curMonth).toDateString(), this.month);
+    this.monthOptions = [{ label: this.month, value: curMonth}];
+    this.year = new Date().getFullYear();
+    this.yearOptions = [{ label: this.year, value: this.year}];
     setTimeout(() => {
       this.regionName = this.data[0].RName;
       this.godownName = this.data[0].GName;

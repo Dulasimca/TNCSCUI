@@ -194,7 +194,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (this.selectedRow.Flag1 === 'R') {
       this.nonEditable = true;
       this.RowId = this.selectedRow.RowId;
-      this.Date = new Date(this.selectedRow.ObStackDate);
+      this.Date = new Date(this.datepipe.transform(this.selectedRow.ObStackDate, 'dd/MM/yyyy'));
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
@@ -294,6 +294,9 @@ postData() {
     })
     this.onClear();
   } else {
+    if(this.ClosingDate < this.Date) {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
+    } else {
     const closingParams = {
       'ClosedDate': this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'), 
       'RowId': this.RowId };
@@ -311,6 +314,7 @@ postData() {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
       }
     })
+  }
   }
 }
 }
