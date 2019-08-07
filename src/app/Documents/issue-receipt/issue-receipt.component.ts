@@ -286,7 +286,7 @@ export class IssueReceiptComponent implements OnInit {
   parseMoisture(event) {
     let totalLength = event.target.value.length;
     let value = event.target.value;
-    let findDot = this.Moisture.toString().indexOf('.');
+    let findDot = this.Moisture.indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
       || (event.keyCode >= 91 && event.keyCode <= 965) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
@@ -296,11 +296,11 @@ export class IssueReceiptComponent implements OnInit {
     }
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
-        let checkValue: any = this.Moisture.toString().slice(0, 2);
+        let checkValue: any = this.Moisture.slice(0, 2);
         checkValue = (checkValue * 1);
         if (checkValue > 25) {
-          let startValue = this.Moisture.toString().slice(0, 1);
-          let endValue = this.Moisture.toString().slice(1, totalLength);
+          let startValue = this.Moisture.slice(0, 1);
+          let endValue = this.Moisture.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
           let startValue = this.Moisture.toString().slice(0, 2);
@@ -334,6 +334,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onStackNoChange(event) {
+    this.messageService.clear();
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,
@@ -344,15 +345,25 @@ export class IssueReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1);
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
         if (this.StackBalance > 0) {
           this.isValidStackBalance = false;
         } else {
           this.isValidStackBalance = true;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
         }
       }
     })
+    if(this.StackBalance > 0 && this.CurrentDocQtv > 0 && this.itemData.length !== 0) {
+      this.itemData.forEach(x => {
+        if(x.TStockNo === stack_data.value) {
+          this.CurrentDocQtv += (x.Nkgs * 1);
+          this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+        } else { this.NetStackBalance = this.CurrentDocQtv = 0; }
+      })
+    }
   }
 
 
@@ -390,6 +401,7 @@ export class IssueReceiptComponent implements OnInit {
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
+      this.CurrentDocQtv = 0;
       this.itemData.forEach(x => {
         if (x.TStockNo === this.TStockNo.value) {
           this.CurrentDocQtv += (x.Nkgs * 1);
