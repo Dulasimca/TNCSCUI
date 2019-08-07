@@ -512,25 +512,6 @@ export class StockReceiptComponent implements OnInit {
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
         this.TransType = res[0].TransType,
-        this.wmtOptions = [{ label: res[0].WEType, value: res[0].WTCode }];
-        this.WTCode = res[0].WEType;
-        this.wtCode = res[0].WTCode;
-        this.NoPacking = res[0].NoPacking;
-        this.GKgs = res[0].GKgs;
-        this.NKgs = res[0].Nkgs;
-        this.tareWt = (this.GKgs * 1) - (this.NKgs * 1),
-        this.Moisture = (res[0].Moisture*1).toFixed(2);
-        this.itemDescOptions = [{ label: res[0].ITName, value: res[0].ICode }];
-        this.ICode = res[0].ITName;
-        this.iCode = res[0].ITCode;
-        this.packingTypeOptions = [{ label: res[0].PName, value: res[0].IPCode }];
-        this.IPCode = res[0].PName;
-        this.ipCode = res[0].IPCode;
-        this.schemeOptions = [{ label: res[0].SCName, value: res[0].Scheme }];
-        this.Scheme = res[0].SCName;
-        this.schemeCode = res[0].Scheme;
-        this.stackOptions = [{ label: res[0].TStockNo, value: res[0].TStockNo }];
-        this.TStockNo = res[0].TStockNo;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
@@ -543,16 +524,24 @@ export class StockReceiptComponent implements OnInit {
         this.ManualDocNo = res[0].Flag1;
         this.Remarks = (res[0].Remarks !== " ") ? res[0].Remarks : "-";
         this.UnLoadingSlip = res[0].UnLoadingSlip;
-        if (this.TStockNo !== undefined && this.TStockNo !== null) {
-          let index;
-          index = this.TStockNo.toString().indexOf('/', 1);
-          const totalLength = this.TStockNo.length;
-          this.godownNo = this.TStockNo.toString().slice(0, index);
-          this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
-        }
+        res.forEach(i => {
+        this.itemData.push({
+          TStockNo: i.TStockNo,
+          Scheme: i.Scheme,
+          ICode: i.ICode,
+          IPCode: i.IPCode,
+          NoPacking: i.NoPacking, GKgs: i.GKgs, Nkgs: i.Nkgs,
+          WTCode: i.WTCode,
+          Moisture: i.Moisture,
+          CommodityName: i.ITName,
+          SchemeName: i.SCName,
+          PackingName: i.PName,
+          WmtType: i.WEType
+        })
+      });
       } else {
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
-    }
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+      }
     });
   }
 

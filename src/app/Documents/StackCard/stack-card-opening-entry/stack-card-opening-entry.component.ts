@@ -47,6 +47,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   openView: boolean = false;
   newEntry: boolean;
   curYear_data: any;
+  cardExits: boolean;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, 
     private datepipe: DatePipe, private restAPIService: RestAPIService, 
@@ -101,19 +102,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
             this.curYear_data.forEach(cy => {
               if ((this.Date >= new Date(Date.parse(cy.FromDate))) && (this.Date <= new Date(Date.parse(cy.ToDate)))) {
                 if (cy.ShortYear === x.CurYear) {
-                  this.confirmationService.confirm({
-                    message: 'Entered stack number cannot be processed! Do you want to try new entry?',
-                    header: 'Confirmation',
-                    icon: 'pi pi-exclamation-triangle',
-                    accept: () => {
-                      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'stack card number cannot be proccessed now!' });
-                      this.onClear();
-                    },
-                    reject: () => {
-                      this.newEntry = true;
-                    }
-                  });
-                }
+                  this.cardExits = true;
+                } else { this.cardExits = false; }
               }
             });
           }
@@ -255,6 +245,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.nonEditable = false;
     this.Location = this.Formation = this.StackNo = null;
       this.Bags = this.Weights = 0;
+      this.newEntry = this.cardExits = false;
   }
 
   onSave() {
@@ -264,11 +255,17 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'You have entered running stack card number!' });
-          this.newEntry = false;
-        }
+        } 
       });
+    } else if (this.cardExits) {
+      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Stack card has been closed already!' });
+      this.onClear();
     } else {
-    if (!this.nonEditable) {
+    this.postData();
+} }
+
+postData() {
+  if (!this.nonEditable) {
     const params = {
       'GodownCode': this.GCode.value,
       'CommodityCode': this.ICode.value,
@@ -282,7 +279,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
       'clstackdate': new Date()
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
-      if (res) {
+      if(res.Item1) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Stack card is existing!' });
+      }else if (res.Item2) {
         this.onView();
         this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
       } else {
@@ -313,5 +312,5 @@ export class StackCardOpeningEntryComponent implements OnInit {
       }
     })
   }
-} }
+}
 }
