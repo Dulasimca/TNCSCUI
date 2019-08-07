@@ -326,7 +326,7 @@ export class StockReceiptComponent implements OnInit {
         this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
         this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-        this.Moisture = data.Moisture;
+        this.Moisture = (data.Moisture * 1).toFixed(2);
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
@@ -440,7 +440,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSave() {
-    this.PAllotment = ((this.month.value !== undefined) ? this.month.value : this.curMonth) + '/' + this.year;
+    this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth) ;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
@@ -502,6 +502,7 @@ export class StockReceiptComponent implements OnInit {
       })
       this.documentViewData = res;
     } else {
+      this.documentViewData = [];
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
     }
     });
