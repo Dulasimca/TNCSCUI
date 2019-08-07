@@ -46,6 +46,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   isSlash: boolean = false;
   openView: boolean = false;
   newEntry: boolean;
+  curYear_data: any;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, 
     private datepipe: DatePipe, private restAPIService: RestAPIService, 
@@ -57,7 +58,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
     this.gdata = this.roleBasedService.getInstance();
     this.maxDate = new Date();
-    let dt = '31-03-2019';
+    this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
+      if (data !== null && data !== undefined){
+        this.curYear_data = data;
+      } 
+    });
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -92,8 +97,26 @@ export class StackCardOpeningEntryComponent implements OnInit {
               }
             });
           } else if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'C') {
-            this.getStackYear(x.CurYear);
-         //   this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed already!' });
+            if(this.curYear_data !== undefined && this.curYear_data !== null) {
+            this.curYear_data.forEach(cy => {
+              if ((this.Date >= new Date(Date.parse(cy.FromDate))) && (this.Date <= new Date(Date.parse(cy.ToDate)))) {
+                if (cy.ShortYear === x.CurYear) {
+                  this.confirmationService.confirm({
+                    message: 'Entered stack number cannot be processed! Do you want to try new entry?',
+                    header: 'Confirmation',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: () => {
+                      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'stack card number cannot be proccessed now!' });
+                      this.onClear();
+                    },
+                    reject: () => {
+                      this.newEntry = true;
+                    }
+                  });
+                }
+              }
+            });
+          }
           } else {
             this.StackNo = this.StackNo;
             this.newEntry = false;
@@ -115,23 +138,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.allowInput = true;
     }
   }
-
-getStackYear(curYear) {
-  this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
-    if (data !== null && data !== undefined){
-        data.forEach(x => {
-          console.log('from', new Date(Date.parse(x.FromDate)));
-          console.log('to', new Date(Date.parse(x.ToDate)));
-      if ((this.Date >= new Date(Date.parse(x.FromDate))) && (this.Date <= new Date(Date.parse(x.ToDate)))) {
-          if (x.ShortYear === curYear) {
-            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Cannot have same stack number for current year!' });
-            this.onClear();
-          }
-        }
-      })
-    }
-  })
-}
 
   keyPress(event) {
      if((event.keyCode>=32 && event.keyCode <=46)|| (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))

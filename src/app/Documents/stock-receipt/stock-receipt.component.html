@@ -542,17 +542,18 @@
 </div>
 <p-dialog header="Stock-Receipt" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-6 ui-md-2">
+    <div>
+      <div class="ui-g-6 ui-md-8 no-pad-top">
         <label class="label-fontsize-large">Date</label>
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
-    </div>
-    <div class="ui-g-2 ui-md-8"></div>
-    <div class="ui-g-4 ui-md-1 no-right-pad">
-      <button class="ui-g-10 dashboard" pButton label=OK [disabled]="documentViewData.length=='0'" (click)="getDocBySRNo()"></button>
-    </div>
-    <div class="ui-g-4 ui-md-1 no-left-pad">
-        <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
       </div>
+       <div class="ui-g-4 ui-md-2 dashboard">
+      <button class="ui-md-12 dashboard" pButton label=OK [disabled]="documentViewData.length=='0'" (click)="getDocBySRNo()"></button>
+    </div>
+    <div class="ui-g-4 ui-md-2 dashboard">
+        <button class="ui-md-12 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+      </div>
+    </div>
     <div class="ui-g-12 ui-fluid">
         <p-table [columns]="documentViewCol" [value]="documentViewData" selectionMode="single"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"  [paginator]="true" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
