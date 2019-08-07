@@ -37,7 +37,7 @@ export class StockReceiptComponent implements OnInit {
   yearOptions: SelectItem[];
   year: any;
   isSaveSucceed: boolean = true;
-  isViewClicked: boolean = false;
+  isViewed: boolean = false;
   tareWt: number;
   maxDate: Date = new Date();
   enableActions: boolean = true;
@@ -49,13 +49,6 @@ export class StockReceiptComponent implements OnInit {
  // isDepositorTypeDisabled: boolean = true;
  // isDepositorNameDisabled: boolean = true;
   locationNo: any;
-  transactoinSelection: any = [];
-  schemeSelection: any = [];
-  depositorNameList: any = [];
-  itemDesc: any = [];
-  yearArr: any = [];
-  depositorTypeList: any = [];
-  packingTypes: any = [];
   depositorType: string;
   trCode: string;
   wtCode: string;
@@ -144,9 +137,8 @@ export class StockReceiptComponent implements OnInit {
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
-    let curMonth = new Date().getMonth() + 1;
+    let curMonth = "0" + (new Date().getMonth() + 1);
     this.month = new Date(curMonth).toDateString().slice(4,7);
-    console.log(curMonth, new Date(curMonth).toDateString(), this.month);
     this.monthOptions = [{ label: this.month, value: curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year}];
@@ -159,25 +151,32 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSelect(selectedItem) {
+    let transactoinSelection: any = [];
+    let schemeSelection: any = [];
+    let depositorNameList: any = [];
+    let itemDesc: any = [];
+    let yearArr: any = [];
+    let depositorTypeList: any = [];
+    let packingTypes: any = [];
+    let stackNo: any = [];
+    let weighment: any = [];
     const range = 3;
-    this.yearOptions = [];
     switch (selectedItem) {
       case 'y':
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
-            this.yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
           } else if (i === 1) {
-            this.yearArr.push({ 'label': (year).toString(), 'value': year });
+            yearArr.push({ 'label': (year).toString(), 'value': year });
           } else {
-            this.yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
+            yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
           }
         }
-        this.yearOptions = this.yearArr;
+        this.yearOptions = yearArr;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        this.monthOptions = [];
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -186,12 +185,11 @@ export class StockReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        this.transactionOptions = [];
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
-                this.transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
-                this.transactionOptions = this.transactoinSelection.slice(0);
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
+                this.transactionOptions = transactoinSelection.slice(0);
               });
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
@@ -201,30 +199,28 @@ export class StockReceiptComponent implements OnInit {
           }
         break;
       case 'sc':
-        this.schemeOptions = [];
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
-            this.schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-            this.schemeOptions = this.schemeSelection;
+            schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
         }
         break;
       case 'dt':
-        this.isViewClicked = false;
         if (this.Trcode !== undefined  && this.Trcode !== null) {
         if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.ReceivingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(dt => {
-              this.depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+              depositorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
             });
-            this.depositorTypeOptions = this.depositorTypeList;
-          }
-          //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
+            this.depositorTypeOptions = depositorTypeList;
             this.depositorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            }
+          //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
           });
         }
       }
@@ -235,11 +231,11 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(dn => {
-              this.depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+              depositorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
             })
-            this.depositorNameOptions = this.depositorNameList;
-          }
+            this.depositorNameOptions = depositorNameList;
             this.depositorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          }
           });
         }
         break;
@@ -250,9 +246,9 @@ export class StockReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(i => {
-                this.itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
-              this.itemDescOptions = this.itemDesc;
+              this.itemDescOptions = itemDesc;
             }
               this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
@@ -261,7 +257,6 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        let stackNo = [];
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if (this.ICode.value !== undefined && this.ICode.value !== '') {
             const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
@@ -286,21 +281,20 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined && !this.isViewClicked) {
+        if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.Table.forEach(p => {
-              this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
-            this.packingTypeOptions = this.packingTypes;
+            this.packingTypeOptions = packingTypes;
           }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
       case 'wmt':
-        let weighment = [];
-        if (this.wmtOptions === undefined && !this.isViewClicked) {
+        if (this.wmtOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
            if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
               res.Table1.forEach(w => {
@@ -315,7 +309,8 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  deleteRow(index) {
+  deleteRow(data, index) {
+    if (!this.isViewed) {
           this.confirmationService.confirm({
           message: 'Are you sure that you want to proceed?',
           header: 'Confirmation',
@@ -324,6 +319,29 @@ export class StockReceiptComponent implements OnInit {
             this.itemData.splice(index, 1);
           }
         });
+      } else {
+        this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
+        this.ICode = data.CommodityName; this.iCode = data.ICode;
+        this.IPCode = data.PackingName; this.ipCode = data.IPCode;
+        this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
+        this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
+        this.WTCode = data.WmtType; this.wtCode = data.WTCode;
+        this.Moisture = data.Moisture;
+        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
+        this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
+        this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
+        this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
+        this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
+        if (this.TStockNo !== undefined && this.TStockNo !== null) {
+          let index;
+          index = this.TStockNo.toString().indexOf('/', 1);
+          const totalLength = this.TStockNo.length;
+          this.godownNo = this.TStockNo.toString().slice(0, index);
+          this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+        }
+        this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+        console.log('length', this.itemData.length);
+      }
   }
 
   parseMoisture(event) {
@@ -375,6 +393,7 @@ export class StockReceiptComponent implements OnInit {
     }
   }
   onStackNoChange(event) {
+    this.messageService.clear();
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,
@@ -463,7 +482,7 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
-          this.isSaveSucceed = false;
+          this.isSaveSucceed = this.isViewed = false;
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
@@ -477,7 +496,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onView() {
-    this.viewPane = this.isViewClicked = true;
+    this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.ReceivingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -497,7 +516,8 @@ export class StockReceiptComponent implements OnInit {
   }
 
   getDocBySRNo() {
-    this.viewPane = this.enableActions = false;
+    this.viewPane = false;
+    this.isViewed = true;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -528,7 +548,7 @@ export class StockReceiptComponent implements OnInit {
         this.LNo = res[0].LNo;
         this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
-        this.Remarks = (res[0].Remarks !== " ") ? res[0].Remarks : "-";
+        this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
         this.UnLoadingSlip = res[0].UnLoadingSlip;
         res.forEach(i => {
         this.itemData.push({
@@ -562,6 +582,7 @@ export class StockReceiptComponent implements OnInit {
     this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo =
       this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType =
       this.TruckMemoDate = this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
+      this.isViewed = false;
   }
 
   openNext() {
