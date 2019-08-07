@@ -127,6 +127,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
+import { GodownProfileComponent } from './godown-profile/godown-profile.component';
 
 @NgModule({
   declarations: [
@@ -215,6 +216,7 @@ import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.co
     AmountDecimalDirective,
     StackCardOpeningComponent,
     StackCardComponent,
+    GodownProfileComponent,
   ],
   imports: [
     BrowserModule,

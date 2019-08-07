@@ -90,6 +90,10 @@ export class TransactionStatusComponent implements OnInit {
     }
   }
 
+  onTable() {
+    
+  }
+
   onClear() {
     this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = null;
   }

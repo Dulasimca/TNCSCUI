@@ -79,6 +79,7 @@ import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
+import { GodownProfileComponent } from './godown-profile/godown-profile.component';
 
 
 const routes: Routes = [
@@ -142,7 +143,7 @@ const routes: Routes = [
   { path: 'Society Master', component: SocietMasterComponent },
   { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent },
-  { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent }, 
+  { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent },
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
   { path: 'Employee Master', component: EmployeeMasterComponent },
   { path: 'Rate Master', component: RateMasterComponent },
@@ -155,12 +156,13 @@ const routes: Routes = [
   { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
-  { path :'Transaction Status', component: TransactionStatusComponent },
+  { path: 'Transaction Status', component: TransactionStatusComponent },
   { path: 'Daily Receipt', component: DailyDocumentsComponent },
   { path: 'Daily Issue', component: DailyDocumentIssueComponent },
   { path: 'Stack Card Opening', component: StackCardOpeningComponent },
   { path: 'Stack Card', component: StackCardComponent },
-  { path: 'pageNotFound', redirectTo:'Home', pathMatch: 'full' },
+  { path: 'Godown Profile', component: GodownProfileComponent },
+  { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
