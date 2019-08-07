@@ -440,12 +440,13 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSave() {
+    this.messageService.clear();
     this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth) ;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
       } else if (this.selectedValues.length === 1) {
-        this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
+        this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
       }
     }
     const params = {
@@ -479,6 +480,7 @@ export class StockReceiptComponent implements OnInit {
       if (res !== undefined) {
         if (res) {
           this.isSaveSucceed = this.isViewed = false;
+          this.onClear();
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
