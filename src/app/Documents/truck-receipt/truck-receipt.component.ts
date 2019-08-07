@@ -416,6 +416,7 @@ export class TruckReceiptComponent implements OnInit {
         } else {
           let startValue = this.Moisture.toString().slice(0, 2);
           let endValue = this.Moisture.toString().slice(2, totalLength);
+          endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
       } 

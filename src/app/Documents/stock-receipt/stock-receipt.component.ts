@@ -60,7 +60,6 @@ export class StockReceiptComponent implements OnInit {
   stackYear: any;
   isStackNoEnabled: boolean = true;
   isItemDescEnabled: boolean = true;
-  isValidStackBalance: boolean = false;
   wmtOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
@@ -123,6 +122,7 @@ export class StockReceiptComponent implements OnInit {
   Remarks: string;
   username: any;
   UnLoadingSlip: any;
+  curMonth: any;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -137,9 +137,9 @@ export class StockReceiptComponent implements OnInit {
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
-    let curMonth = "0" + (new Date().getMonth() + 1);
-    this.month = new Date(curMonth).toDateString().slice(4,7);
-    this.monthOptions = [{ label: this.month, value: curMonth}];
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.month = new Date(this.curMonth).toDateString().slice(4,7);
+    this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year}];
     setTimeout(() => {
@@ -357,15 +357,16 @@ export class StockReceiptComponent implements OnInit {
     }
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
-        let checkValue: any = this.Moisture.toString().slice(0, 2);
+        let checkValue: any = this.Moisture.slice(0, 2);
       checkValue = (checkValue * 1);
         if (checkValue > 25) {
-          let startValue = this.Moisture.toString().slice(0, 1);
-          let endValue = this.Moisture.toString().slice(1, totalLength);
+          let startValue = this.Moisture.slice(0, 1);
+          let endValue = this.Moisture.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
-          let startValue = this.Moisture.toString().slice(0, 2);
-          let endValue = this.Moisture.toString().slice(2, totalLength);
+          let startValue = this.Moisture.slice(0, 2);
+          let endValue = this.Moisture.slice(2, totalLength);
+          endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
       }
@@ -405,12 +406,6 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1);
-      if (this.StackBalance > 0) {
-        this.isValidStackBalance = false;
-      } else {
-        this.isValidStackBalance = true;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
-      }
     }
     })
   }
@@ -418,7 +413,8 @@ export class StockReceiptComponent implements OnInit {
   onEnter() {
     let stackBalance;
     this.itemData.push({
-      'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      'TStockNo': (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
@@ -444,7 +440,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSave() {
-    this.PAllotment = this.month.value + '/' + this.year.label;
+    this.PAllotment = ((this.month.value !== undefined) ? this.month.value : this.curMonth) + '/' + this.year;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
