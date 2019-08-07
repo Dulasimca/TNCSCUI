@@ -83,16 +83,21 @@ export class StackCardComponent implements OnInit {
         }
         break;
       case 's':
-        if (this.stackOptions === undefined) {
-          this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(s => {
-                StackSelection.push({});
-                this.stackOptions = StackSelection;
-              })
-            }
-          })
+        const params = {
+          'GCode': this.g_cd.value,
+          'StackDate': this.Year.label,
+          'ICode': this.c_cd.value,
+          'Type': 2
         }
+        this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+          this.StackCardData = res;
+          if (this.StackCardData !== undefined) {
+            this.StackCardData.forEach(s => {
+              StackSelection.push({ 'label': s.Stackno });
+              this.stackOptions = StackSelection;
+            })
+          }
+        })
     }
   }
 
@@ -102,7 +107,7 @@ export class StackCardComponent implements OnInit {
       'GCode': this.g_cd.value,
       'StackDate': this.Year.label,
       'ICode': this.c_cd.value,
-      'Type': 3
+      'Type': 2
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       this.StackCardData = res;
@@ -120,12 +125,8 @@ export class StackCardComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
-        this.loading = false;
-        this.router.navigate(['pageNotFound']);
-      }
-    })
+    }
+    )
   }
 
   onResetTable() {

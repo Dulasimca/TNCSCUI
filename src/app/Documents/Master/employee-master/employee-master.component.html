@@ -1,100 +1,3 @@
-<!-- <app-header></app-header>
-<div class="ui-g-12 ui-md-12 ui-lg-12 content">
-  <app-menu *ngIf="canShowMenu"></app-menu>
-  <p-panel>
-    <p-header>
-      <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">EMPLOYEE MASTER</div>
-      </div>
-    </p-header>
-    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-    <div class="ui-g ui-fluid">
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>Eepf No</label>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <input id="input" type="text" size="30" pInputText [(ngModel)]="text" autocomplete="off">
-      </div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>Designation</label>
-      </div>
-      <div class="ui-g-12 ui-md-3">
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" filter="true"
-          optionLabel="label" [showClear]="true" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="ui-g-3"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>Emp Name</label>
-      </div>
-      <div class="ui-g-12 ui-md-3">
-        <input id="input" type="text" size="30" pInputText [(ngModel)]="text" autocomplete="off">
-      </div>
-      <div class="ui-g-3"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>Ref No</label>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <input id="input" type="text" size="30" pInputText [(ngModel)]="text" autocomplete="off">
-      </div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>Ref Date</label>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <p-calendar [(ngModel)]="RefDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-          (ngModelChange)="onDateSelect()"></p-calendar>
-      </div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>J or R Date</label>
-      </div>
-      <div class="ui-g-12 ui-md-2">
-        <p-calendar [(ngModel)]="JRDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-          (ngModelChange)="onDateSelect()"></p-calendar>
-      </div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-12 ui-md-2">
-        <label>J or R Type</label>
-      </div>
-      <div class="ui-g-12 ui-md-3">
-        <span class="ui-g-12 ui-md-5">
-          <p-radioButton name="group1" value="Option 1" label="Join" [(ngModel)]="val1" inputId="opt1">
-          </p-radioButton>
-        </span>
-        <span class="ui-g-12 ui-md-5">
-          <p-radioButton name="group1" value="Option 2" label="Relieve" [(ngModel)]="val1" inputId="opt1">
-          </p-radioButton>
-        </span>
-      </div>
-      <div class="ui-g-4"></div>
-<div class="ui-g-9"></div>
-<div class="ui-g-4 ui-md-1">
-    <button pButton type="button" label=Add (click)="onAdd()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1">
-    <button pButton type="button" label=View (click)="onViw()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1">
-    <button pButton type="button" label=Cancel (click)="cancel()"></button>
-  </div>
-    </div>
-  </p-panel>
-</div> -->
-
-
-
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -109,91 +12,46 @@
       <div>
         <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="username" size="30" pInputText [(ngModel)]="formUser.username" username="eepf"
-              #username="ngModel" autocomplete="off" required>
-            <label for="userName">Eepf No</label>
+            <input class="icon2" type="eepfNo" size="30" pInputText [(ngModel)]="formUser.eepfNo" name="eepfNo" #eepfNo="ngModel" autocomplete="off"
+              required>
+            <label for="eepfNo">Eepf No</label>
           </div>
-          <!-- <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="empname" size="30" pInputText [(ngModel)]="formUser.empname" name="empname"
-              #empname="ngModel" autocomplete="off" required>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="designation" size="30" pInputText [(ngModel)]="formUser.designation" name="designation" #designation="ngModel"
+              autocomplete="off" required>
+            <label for="designation">Designation</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="empName" size="30" pInputText [(ngModel)]="formUser.empName" name="empName" #empName="ngModel"
+              autocomplete="off" required>
             <label for="empName">Employee Name</label>
           </div>
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="ref" size="30" pInputText [(ngModel)]="formUser.ref" name="ref"
-              #ref="ngModel" autocomplete="off" required>
+            <input class="icon2" type="refNo" size="30" pInputText [(ngModel)]="formUser.refNo" name="refNo" #refNo="ngModel" autocomplete="off"
+              required>
             <label for="refNo">Reference No</label>
           </div>
-          <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
-              #phone="ngModel" autocomplete="off" required>
-            <label for="phone">Phone number</label>
+          <div style="padding: 0px 15px 10px 16px;">
+            <label class="ui-g-7 label-fontsize dashboard">Reference Date</label>
+            <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
           </div>
-          <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="empId" size="30" pInputText [(ngModel)]="formUser.empId" name="empId"
-              #empId="ngModel" autocomplete="off" required>
-            <label for="empId">Employee Id</label>
-          </div> -->
+          <div style="padding: 0px 15px 10px 16px;">
+            <label class="ui-g-7 label-fontsize dashboard">J or R Date</label>
+            <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          </div>
+          <div>
+            <span style="padding: 0px 0px 0px 40px;">
+        <p-radioButton name="group1" value="Option 1" label="Join" [(ngModel)]="join"></p-radioButton>
+          </span>
+            <span style="padding: 0px 0px 0px 40px;" >
+        <p-radioButton name="group1" value="Option 2" label="Relieve" [(ngModel)]="relieve"></p-radioButton>
+        </span>
+          </div>
           <div class="bottom" style="padding-left: 85px">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
-              label=Submit [disabled]="!templateForm.form.valid"></button>
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)" label=Submit [disabled]="!templateForm.form.valid"></button>
           </div>
         </form>
       </div>
     </div>
   </p-panel>
 </div>
-
-
-
-<!-- <app-header></app-header>
-<div class="ui-g-12 ui-md-12 ui-lg-12 content">
-  <app-menu *ngIf="canShowMenu"></app-menu>
-  <p-panel>
-    <p-header>
-      <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">User Master</div>
-      </div>
-    </p-header>
-    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 offset-md-2">
-                <h3>Angular 7 Template-Driven Form Validation</h3>
-                <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
-                    <div class="ui-float-label" style="margin-bottom: 20px">
-                      <input class="icon2" type="username" size="30" pInputText [(ngModel)]="formUser.username" name="username"
-                        #username="ngModel" autocomplete="off" required>
-                      <label for="userName">Username</label>
-                    </div>
-                    <div class="ui-float-label" style="margin-bottom: 20px">
-                      <input class="icon2" type="password" size="30" pInputText [(ngModel)]="formUser.password" name="password"
-                        #password="ngModel" autocomplete="off" required>
-                      <label for="password">Password</label>
-                    </div>
-                    <div class="ui-float-label" style="margin-bottom: 20px">
-                      <input class="icon2" type="email" size="30" pInputText [(ngModel)]="formUser.email" name="email"
-                        #email="ngModel" autocomplete="off" required>
-                      <label for="email">Email</label>
-                    </div>
-                    <div class="ui-float-label" style="margin-bottom: 20px">
-                      <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
-                        #phone="ngModel" autocomplete="off" required>
-                      <label for="phone">Phone number</label>
-                    </div>
-                    <div class="ui-float-label" style="margin-bottom: 20px">
-                      <input class="icon2" type="empId" size="30" pInputText [(ngModel)]="formUser.empId" name="empId"
-                        #empId="ngModel" autocomplete="off" required>
-                      <label for="empId">Employee Id</label>
-                    </div>
-                    <div class="bottom" style="padding-left: 85px">
-                      <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
-                        label=Submit [disabled]="!templateForm.form.valid"></button>
-                    </div>
-                  </form>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </p-panel>
-                    </div> -->

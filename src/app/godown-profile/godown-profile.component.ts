@@ -3,11 +3,11 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-master',
-  templateUrl: './user-master.component.html',
-  styleUrls: ['./user-master.component.css']
+  selector: 'app-godown-profile',
+  templateUrl: './godown-profile.component.html',
+  styleUrls: ['./godown-profile.component.css']
 })
-export class UserMasterComponent implements OnInit {
+export class GodownProfileComponent implements OnInit  {
   username: any;
   userdata: any;
   canShowMenu: boolean;

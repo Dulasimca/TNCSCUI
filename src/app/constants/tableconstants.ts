@@ -821,15 +821,16 @@ export class TableConstants {
     ];
 
     this.TransactionStatus = [
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Docdate', header: 'Document Date'},
       { field: 'Receipt', header: 'Receipt'},
       { field: 'Issues', header: 'Issues'},
       { field: 'Transfer', header: 'Transfer'},
       { field: 'CB', header: 'CB'},
-      // { field: 'Approvaldate', header: 'Approval Date'},
+      { field: 'Approvaldate', header: 'Approval Date'},
       // { field: 'lastupdated', header: 'Last Updated'},
       { field: 'remarks', header: 'Remarks'},
-      { field: 'userid', header: 'User Id'},
+      { field: 'userid', header: 'Username'},
     ];
 
     this.DailyDocumentTotalReport = [
@@ -886,15 +887,15 @@ export class TableConstants {
       { field: 'Status', header: 'Status' },
     ];
 
-    this.StackCard = [
-      { field: 'SlNo', header: 'SlNo' },
-      { field: '', header: 'Ack Date' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Issue Date' },
-      { field: '', header: 'Bags' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Closing Balance' },
-    ];
+    // this.StackCard = [
+    //   { field: 'SlNo', header: 'SlNo' },
+    //   // { field: '', header: 'Ack Date' },
+    //   { field: '', header: 'Date' },
+    //   { field: '', header: ['Bags'] },
+    //   { field: '', header: 'Quantity' },
+    //   { field: '', header: 'Bags' },
+    //   { field: '', header: 'Quantity' },
+    //   { field: '', header: 'Closing Balance' },
+    // ];
   }
 }

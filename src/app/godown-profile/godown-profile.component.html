@@ -1,0 +1,52 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Install Details</div>
+      </div>
+    </p-header>
+    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <div class="install-main">
+      <div>
+        <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="name" size="30" pInputText [(ngModel)]="formUser.name" name="name"
+              #name="ngModel" autocomplete="off" required>
+            <label for="name">InchargeName</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="designation" size="30" pInputText [(ngModel)]="formUser.designation" name="designation"
+              #designation="ngModel" autocomplete="off" required>
+            <label for="designation">Designation</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="address1" size="30" pInputText [(ngModel)]="formUser.address1" name="address1"
+              #address1="ngModel" autocomplete="off" required>
+            <label for="address1">Address</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
+              #phone="ngModel" autocomplete="off" required>
+            <label for="phone">Telephone number</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+          <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
+            #phone="ngModel" autocomplete="off" required>
+          <label for="phone">Mobile number</label>
+        </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="fax" size="30" pInputText [(ngModel)]="formUser.fax" name="fax"
+              #fax="ngModel" autocomplete="off" required>
+            <label for="fax">Fax No</label>
+          </div>
+          <div class="bottom" style="padding-left: 85px">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
+              label=Submit [disabled]="!templateForm.form.valid"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-panel>
+</div>

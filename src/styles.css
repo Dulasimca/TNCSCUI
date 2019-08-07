@@ -89,14 +89,14 @@ h1 {
 	-moz-background-size:cover; 
     background-attachment: inherit;
     position: relative;
-    height: 95.6vh;
+    /* height: 95.98vh; */
   /* width: 100%; */
 }
 
 .bg-layer {
     background: rgba(0, 0, 0, 0.7);
-  height: 95.6vh;
-  min-height: fit-content
+  height: 95.99vh;
+  /* min-height: fit-content */
 }
 /*-- //slide --*/
 
@@ -105,7 +105,7 @@ h1 {
     padding: 0em 0 0;
 }
 .icon1 {
-	margin: 0 0 1em;
+	margin: 0 0 1.5em;
 	padding: .6em 1em;
 	background: rgba(255, 255, 255, 0.94);
 }
@@ -130,7 +130,7 @@ a {
     margin: 0em;
 }
 .bottom {
-    margin: 1em 0 0;
+    margin: 1.5em 0 0;
     padding-left: 60px;
 }
 .header-main {
@@ -139,6 +139,19 @@ a {
 	position: relative;
 	z-index: 999;
 	padding: 4em 2em;
+	background: rgba(255, 255, 255, 0.04);
+	-webkit-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  padding-top: 40px;
+}
+
+.install-main {
+	max-width: 320px;
+	margin: 50px auto;
+	position: relative;
+	z-index: 999;
+	padding: 3em 2em;
 	background: rgba(255, 255, 255, 0.04);
 	-webkit-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
@@ -1436,7 +1449,7 @@ ul
     }
 
           .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
-            border: 0px solid #2399e5;
+            /* border: 0px solid #2399e5; */
             color: #FFFFFF;
             /* background: #2399e5; */
             background:  linear-gradient(98deg, #64b9fc, #2196f3);
@@ -1556,21 +1569,21 @@ ul
       padding: 0px 0px 0px 40px;
       justify-content: space-around; 
   }
-  .modal-body{
+  /* .modal-body{
     padding: 1rem 1rem 0px 1rem !important;
-  }
+  } */
   .modal{
     background: rgba(0, 0, 0, 0.7);
   }
-  .modal-content{
-    /* background: linear-gradient(45deg, black, transparent); */
+  /* .modal-content{
+    background: linear-gradient(45deg, black, transparent);
     background: radial-gradient(black, transparent);
-  }
+  } */
   
   .icon2{
     padding: .6em 1em;
     /* background: rgba(255, 255, 255, 0.94); */
-    width: max-content;
+    width: -webkit-fill-available;
     margin: auto;
   }
   .carded{
