@@ -8,7 +8,6 @@
       </div>
     </p-header>
     <p-toast position="center" key="t-err"></p-toast>
-    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
         <div class="col-md-1"></div>
@@ -146,7 +145,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="VNo" type="text" maxlength="13" size="10" [(ngModel)]="LNo" pInputText
-                      oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+                      oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
                       autocomplete="off" style="text-transform: uppercase !important" required>
                       <label for="VNo" class="float-input">Vehicle No</label>
                     </span>
@@ -236,7 +235,7 @@
                     <span class="ui-float-label">
                       <input id="float-input" name="NoPacking" pInputText maxlength="4"
                       oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" [readonly]="isValidStackBalance" autocomplete="off">
+                       [(ngModel)]="NoPacking" (input)="onCalculateKgs()" autocomplete="off">
                       <label for="NoPacking" class="float-input">No.of Packing</label>
                     </span>
                   </div>
@@ -249,7 +248,7 @@
                     <label for="Nkgs" class="label-fontsize">Kgs</label>
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
-                      <input id="float-input" name="Gkgs" type="text" [(ngModel)]="GKgs" [readonly]="isValidStackBalance"
+                      <input id="float-input" name="Gkgs" type="text" [(ngModel)]="GKgs"
                        size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
@@ -263,14 +262,14 @@
                     <label for="Nkgs" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input id="float-input" type="text" name="Nkgs" size="20" [(ngModel)]="NKgs" 
-                      [readonly]="isValidStackBalance" pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
+                     pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">
                     <label class="label-fontsize">WmtType</label>
                     <p-dropdown #wmt id="float-input" name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                       (onClick)="onSelect('wmt')" (keydown.enter)="onSelect('wmt')" filter="true"
-                      [readonly]="isValidStackBalance" optionLabel="label" [showClear]="true">
+                     optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -279,7 +278,7 @@
                   <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 10px;">
                     <span class="ui-float-label">
                       <input id="float-input" name="Moisture" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)" [readonly]="isValidStackBalance"
+                        autocomplete="off" (keyup)="parseMoisture($event)"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                       <label for="Moisture" class="float-input">Moisture</label>
                     </span>
@@ -511,7 +510,7 @@
                   <div class="ui-g-12 ui-md-6 ui-fluid">
                     <span class="ui-float-label">
                       <textarea rows="4" name="remarks" cols="70" maxlength="250" pInputTextarea [(ngModel)]="Remarks"
-                        autoResize="autoResize"></textarea>
+                        autoResize="autoResize" required></textarea>
                       <label for="remarks" class="float-input">Remarks</label>
                     </span>
                   </div>

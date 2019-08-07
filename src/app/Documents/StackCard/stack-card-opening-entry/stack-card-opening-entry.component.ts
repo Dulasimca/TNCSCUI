@@ -118,7 +118,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   checkDate(value) {
     const date = new Date(value);
-    this.stackOpeningData = [];
     this.nonEditable = false;
     const selectedDate = date.getDate();
     const selectedMonth = date.getMonth() + 1;

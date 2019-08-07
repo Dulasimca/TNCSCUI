@@ -37,7 +37,6 @@ export class StockReceiptComponent implements OnInit {
   yearOptions: SelectItem[];
   year: any;
   isSaveSucceed: boolean = true;
-  isViewed: boolean = false;
   tareWt: number;
   maxDate: Date = new Date();
   enableActions: boolean = true;
@@ -60,7 +59,6 @@ export class StockReceiptComponent implements OnInit {
   stackYear: any;
   isStackNoEnabled: boolean = true;
   isItemDescEnabled: boolean = true;
-  isValidStackBalance: boolean = false;
   wmtOptions: SelectItem[];
   fromStationOptions: SelectItem[];
   toStationOptions: SelectItem[];
@@ -123,6 +121,7 @@ export class StockReceiptComponent implements OnInit {
   Remarks: string;
   username: any;
   UnLoadingSlip: any;
+  curMonth: any;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -137,9 +136,9 @@ export class StockReceiptComponent implements OnInit {
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
-    let curMonth = "0" + (new Date().getMonth() + 1);
-    this.month = new Date(curMonth).toDateString().slice(4,7);
-    this.monthOptions = [{ label: this.month, value: curMonth}];
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.month = new Date(this.curMonth).toDateString().slice(4,7);
+    this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year}];
     setTimeout(() => {
@@ -188,7 +187,9 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
+                if (y.TransType === 'R') {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
+                }
                 this.transactionOptions = transactoinSelection.slice(0);
               });
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -310,23 +311,13 @@ export class StockReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
-    if (!this.isViewed) {
-          this.confirmationService.confirm({
-          message: 'Are you sure that you want to proceed?',
-          header: 'Confirmation',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.itemData.splice(index, 1);
-          }
-        });
-      } else {
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
         this.ICode = data.CommodityName; this.iCode = data.ICode;
         this.IPCode = data.PackingName; this.ipCode = data.IPCode;
         this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
         this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-        this.Moisture = data.Moisture;
+        this.Moisture = (data.Moisture * 1).toFixed(2);
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
@@ -339,9 +330,9 @@ export class StockReceiptComponent implements OnInit {
           this.godownNo = this.TStockNo.toString().slice(0, index);
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
+        this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
         this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        console.log('length', this.itemData.length);
-      }
+        this.itemData.splice(index, 1);
   }
 
   parseMoisture(event) {
@@ -357,15 +348,16 @@ export class StockReceiptComponent implements OnInit {
     }
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
-        let checkValue: any = this.Moisture.toString().slice(0, 2);
+        let checkValue: any = this.Moisture.slice(0, 2);
       checkValue = (checkValue * 1);
         if (checkValue > 25) {
-          let startValue = this.Moisture.toString().slice(0, 1);
-          let endValue = this.Moisture.toString().slice(1, totalLength);
+          let startValue = this.Moisture.slice(0, 1);
+          let endValue = this.Moisture.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
-          let startValue = this.Moisture.toString().slice(0, 2);
-          let endValue = this.Moisture.toString().slice(2, totalLength);
+          let startValue = this.Moisture.slice(0, 2);
+          let endValue = this.Moisture.slice(2, totalLength);
+          endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
       }
@@ -405,12 +397,6 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1);
-      if (this.StackBalance > 0) {
-        this.isValidStackBalance = false;
-      } else {
-        this.isValidStackBalance = true;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
-      }
     }
     })
   }
@@ -418,7 +404,8 @@ export class StockReceiptComponent implements OnInit {
   onEnter() {
     let stackBalance;
     this.itemData.push({
-      'TStockNo': this.TStockNo.value, 'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      'TStockNo': (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
@@ -444,12 +431,13 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSave() {
-    this.PAllotment = this.month.value + '/' + this.year.label;
+    this.messageService.clear();
+    this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth) ;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
       } else if (this.selectedValues.length === 1) {
-        this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
+        this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
       }
     }
     const params = {
@@ -482,7 +470,8 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res !== undefined) {
         if (res) {
-          this.isSaveSucceed = this.isViewed = false;
+          this.isSaveSucceed = true;
+          this.onClear();
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
@@ -506,6 +495,7 @@ export class StockReceiptComponent implements OnInit {
       })
       this.documentViewData = res;
     } else {
+      this.documentViewData = [];
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
     }
     });
@@ -517,7 +507,6 @@ export class StockReceiptComponent implements OnInit {
 
   getDocBySRNo() {
     this.viewPane = false;
-    this.isViewed = true;
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -575,6 +564,7 @@ export class StockReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
     saveAs(path + filename, filename);
+    this.isSaveSucceed = false;
   }
 
   onClear() {
@@ -582,7 +572,6 @@ export class StockReceiptComponent implements OnInit {
     this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo =
       this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType =
       this.TruckMemoDate = this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
-      this.isViewed = false;
   }
 
   openNext() {
