@@ -15,7 +15,7 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
           (keydown.enter)="onSelect('gd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
@@ -25,7 +25,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Stack Formation Year</label>
-        <p-dropdown id="float-input" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true"
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true"
           (onClick)="onSelect('y')" (keydown.enter)="onSelect('y')" (ngModelChange)="onResetTable()"
           placeholder="-select-" filter="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
@@ -35,7 +35,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
           (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">

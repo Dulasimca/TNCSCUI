@@ -128,6 +128,9 @@ import { AmountDecimalDirective } from './directives/DecimalForAmount.directive'
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
 import { GodownProfileComponent } from './godown-profile/godown-profile.component';
+import { PackingMasterComponent } from './UserMaster/packing-master/packing-master.component';
+import { OtherMasterComponent } from './UserMaster/other-master/other-master.component';
+import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 
 @NgModule({
   declarations: [
@@ -217,6 +220,9 @@ import { GodownProfileComponent } from './godown-profile/godown-profile.componen
     StackCardOpeningComponent,
     StackCardComponent,
     GodownProfileComponent,
+    PackingMasterComponent,
+    OtherMasterComponent,
+    CncCorrectionComponent,
   ],
   imports: [
     BrowserModule,

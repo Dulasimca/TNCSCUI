@@ -81,6 +81,10 @@ export class TableConstants {
   StockIssueMemoViewBySINOCols: any;
   StackCardOpening: any;
   StackCard: any;
+  PackingMaster: any;
+  CommodityMaster: any;
+  OtherMaster: any;
+  CncCorrection: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -887,15 +891,35 @@ export class TableConstants {
       { field: 'Status', header: 'Status' },
     ];
 
-    // this.StackCard = [
-    //   { field: 'SlNo', header: 'SlNo' },
-    //   // { field: '', header: 'Ack Date' },
-    //   { field: '', header: 'Date' },
-    //   { field: '', header: ['Bags'] },
-    //   { field: '', header: 'Quantity' },
-    //   { field: '', header: 'Bags' },
-    //   { field: '', header: 'Quantity' },
-    //   { field: '', header: 'Closing Balance' },
-    // ];
+    this.StackCard = [
+      { field: 'obstackdate', header: 'Date' },
+      { field: 'StackBalanceBags', header: 'Bags' },
+      { field: 'Stackbalanceweight', header: 'Quantity' },
+      { field: 'StackBalanceBags', header: 'Bags' },
+      { field: 'Stackbalanceweight', header: 'Quantity' },
+      { field: '', header: 'Closing Balance' },
+    ];
+
+    this.PackingMaster = [
+      { field: '', header: 'Packing Name' },
+      { field: '', header: 'Net Weight' },
+      { field: '', header: 'Unit of Measure'}
+    ];
+
+    this.CommodityMaster = [
+      { field: '', header: 'Commodity Name' },
+      { field: '', header: 'Unit of Measure'},
+      { field: '', header: 'Tax' },
+      { field: '', header: 'Major Commodity Name' },
+    ];
+
+    this.OtherMaster = [];
+    
+    this.CncCorrection = [
+      { field: '', header: 'Code' },
+      { field: '', header: 'Item Name' },
+      { field: '', header: 'Group' },
+      { field: '', header: 'CER.N/CER' }
+    ];
   }
 }

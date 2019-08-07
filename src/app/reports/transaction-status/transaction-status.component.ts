@@ -16,9 +16,13 @@ import { PathConstants } from 'src/app/constants/path.constants';
 export class TransactionStatusComponent implements OnInit {
   TransactionStatusCols: any;
   TransactionStatusData: any;
+  TransactionStatusTableData: any;
   g_cd: any;
+  r_cd: any;
+  rCode: any;
   gCode: any;
   data: any;
+  Type: any;
   godownName: SelectItem[];
   disableOkButton: boolean = true;
   Docdate: Date;
@@ -57,7 +61,7 @@ export class TransactionStatusComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
+        options.push({ 'label': x.GName, 'value': x.GCode , 'RCode': x.RCode});
         this.godownOptions = options;
       });
     }
@@ -67,7 +71,7 @@ export class TransactionStatusComponent implements OnInit {
     if (this.godownOptions !== undefined) {
       const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
         .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
-        .append("RoleId",this.roleId);
+        .append('RoleId',this.roleId).append('RCode', this.g_cd.RCode).append('Type', '1');
       this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
         this.TransactionStatusData = res;
         if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
@@ -91,7 +95,30 @@ export class TransactionStatusComponent implements OnInit {
   }
 
   onTable() {
-    
+    if (this.godownOptions !== undefined) {
+      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
+        .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
+        .append("RoleId",this.roleId).append('RCode', this.g_cd.RCode).append("Type", '2');
+      this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
+        this.TransactionStatusTableData = res;
+        if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
+            this.isActionDisabled = false;
+            this.Srno = this.TransactionStatusTableData[0].Srno,
+            this.Receipt = this.TransactionStatusTableData[0].Receipt,
+            this.Issues = this.TransactionStatusTableData[0].Issues,
+            this.Transfer = this.TransactionStatusTableData[0].Transfer,
+            this.CB = this.TransactionStatusTableData[0].CB,
+            this.remarks = this.TransactionStatusTableData[0].remarks,
+            this.RoleId = this.roleId
+        } else {
+          this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.loading = false;
+        }
+      })
+    }
   }
 
   onClear() {
