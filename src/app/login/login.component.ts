@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private roleBasedService: RoleBasedService,
-    private restApiService: RestAPIService, private loginService: LoginService, private messageService: MessageService) {
+    private restApiService: RestAPIService, private loginService: LoginService, 
+    private messageService: MessageService) {
 
   }
 

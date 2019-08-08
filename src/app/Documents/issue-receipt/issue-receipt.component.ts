@@ -181,9 +181,9 @@ export class IssueReceiptComponent implements OnInit {
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-            this.schemeOptions = schemeSelection;
           });
-          this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.schemeOptions = schemeSelection;
+            this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'rt':
@@ -195,24 +195,24 @@ export class IssueReceiptComponent implements OnInit {
                 receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
               });
               this.receiverTypeOptions = receivorTypeList;
+              this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               // this.isReceivorNameDisabled = false;
             }
-            this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
       case 'rn':
         if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
           this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GodCode', this.IssuingCode);
+          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(dn => {
                 receivorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
               })
               this.receiverNameOptions = receivorNameList;
+              this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
-            this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -226,8 +226,8 @@ export class IssueReceiptComponent implements OnInit {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
               this.itemDescOptions = itemDesc;
+              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
-            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -241,13 +241,14 @@ export class IssueReceiptComponent implements OnInit {
                 stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
               })
               this.stackOptions = stackNo;
+              this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
-            this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
           if (this.TStockNo !== undefined && this.TStockNo !== null) {
             this.stackYear = this.TStockNo.stack_yr;
             let index;
-            index = this.TStockNo.value.toString().indexOf('/', 1);
+            let s: string;
+            index = this.TStockNo.value.toString().indexOf('/', 2);
             const totalLength = this.TStockNo.value.length;
             this.godownNo = this.TStockNo.value.toString().slice(0, index);
             this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
@@ -262,8 +263,8 @@ export class IssueReceiptComponent implements OnInit {
                 this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
               })
               this.packingTypeOptions = this.packingTypes;
+              this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
-            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -276,8 +277,8 @@ export class IssueReceiptComponent implements OnInit {
                 weighment.push({ 'label': w.WEType, 'value': w.WECode });
               })
               this.wmtOptions = weighment;
+              this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
-            this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
         break;
@@ -287,9 +288,9 @@ export class IssueReceiptComponent implements OnInit {
   parseMoisture(event) {
     let totalLength = event.target.value.length;
     let value = event.target.value;
-    let findDot = this.Moisture.indexOf('.');
+    let findDot = this.Moisture.toString().indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-      || (event.keyCode >= 91 && event.keyCode <= 965) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
       return false;
     } else if (totalLength === 1 && event.keyCode === 190) {
@@ -298,14 +299,14 @@ export class IssueReceiptComponent implements OnInit {
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
         let checkValue: any = this.Moisture.slice(0, 2);
-        checkValue = (checkValue * 1);
+      checkValue = (checkValue * 1);
         if (checkValue > 25) {
           let startValue = this.Moisture.slice(0, 1);
           let endValue = this.Moisture.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
-          let startValue = this.Moisture.toString().slice(0, 2);
-          let endValue = this.Moisture.toString().slice(2, totalLength);
+          let startValue = this.Moisture.slice(0, 2);
+          let endValue = this.Moisture.slice(2, totalLength);
           endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
@@ -391,19 +392,19 @@ export class IssueReceiptComponent implements OnInit {
 
   onItemDetailsEnter() {
     this.itemData.push({
-      'TStockNo': this.TStockNo.value,
-      'ICode': this.ICode.value,
-      'IPCode': this.IPCode.value,
+      'TStockNo': (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      'ICode': (this.ICode.value !== undefined) ? this.ICode.value: this.iCode,
+      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       'NoPacking': this.NoPacking,
       'GKgs': this.GKgs,
       'Nkgs': this.NKgs,
-      'WTCode': this.WTCode.value,
+      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
       'Moisture': this.Moisture,
-      'Scheme': this.Scheme.value,
-      'CommodityName': this.ICode.label,
-      'SchemeName': this.Scheme.label,
-      'PackingName': this.IPCode.label,
-      'WmtType': this.WTCode.label
+      'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
+      'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
+      'PackingName': (this.IPCode.label  !== undefined) ? this.IPCode.label : this.IPCode,
+      'WmtType': (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
@@ -445,12 +446,13 @@ export class IssueReceiptComponent implements OnInit {
         this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
+        this.NoPacking = (data.NoPacking * 1),
         this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
         this.Moisture = (data.Moisture * 1).toFixed(2);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
-          index = this.TStockNo.toString().indexOf('/', 1);
+          index = this.TStockNo.toString().indexOf('/', 2);
           const totalLength = this.TStockNo.length;
           this.godownNo = this.TStockNo.toString().slice(0, index);
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);

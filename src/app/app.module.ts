@@ -26,6 +26,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 
 
@@ -256,7 +257,8 @@ import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correcti
     MatDatepickerModule,
     TabViewModule,
     InputSwitchModule,
-    TooltipModule
+    TooltipModule,
+    KeyFilterModule
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],

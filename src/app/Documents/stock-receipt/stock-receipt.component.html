@@ -145,7 +145,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input id="float-input" name="VNo" type="text" maxlength="13" size="10" [(ngModel)]="LNo" pInputText
-                      oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+                      [pKeyFilter]="ccRegex" [pValidateOnly]="true"
                       autocomplete="off" style="text-transform: uppercase !important" required>
                       <label for="VNo" class="float-input">Vehicle No</label>
                     </span>
@@ -309,7 +309,8 @@
                   </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">
-                  <p-table name="itemTable" [columns]="itemCol" [value]="itemData" [responsive]="true" autoLayout="true">
+                  <p-table name="itemTable" [columns]="itemCol" [value]="itemData"
+                   [responsive]="true" autoLayout="true" [scrollable]="true" scrollHeight="200px">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
