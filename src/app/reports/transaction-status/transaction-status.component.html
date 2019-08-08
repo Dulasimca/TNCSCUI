@@ -68,7 +68,7 @@
           <div class="ui-g-5"></div>
         </div>
         <div class="ui-g-12 dashboard">
-          <p-table [columns]="TransactionStatusCols" [value]="TransactionStatusData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          <p-table [columns]="TransactionStatusCols" [value]="TransactionStatusTableData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
             [paginator]="true" [loading]="loading" [responsive]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">

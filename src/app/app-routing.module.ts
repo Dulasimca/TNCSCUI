@@ -80,6 +80,9 @@ import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-docum
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
 import { GodownProfileComponent } from './godown-profile/godown-profile.component';
+import { PackingMasterComponent } from './UserMaster/packing-master/packing-master.component';
+import { OtherMasterComponent } from './UserMaster/other-master/other-master.component';
+import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 
 
 const routes: Routes = [
@@ -162,6 +165,9 @@ const routes: Routes = [
   { path: 'Stack Card Opening', component: StackCardOpeningComponent },
   { path: 'Stack Card', component: StackCardComponent },
   { path: 'Godown Profile', component: GodownProfileComponent },
+  { path: 'Packing Master', component: PackingMasterComponent },
+  { path: 'Other Master', component: OtherMasterComponent },
+  { path: 'Cnc Correction', component: CncCorrectionComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
