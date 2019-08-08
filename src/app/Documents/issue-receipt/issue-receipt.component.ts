@@ -288,9 +288,9 @@ export class IssueReceiptComponent implements OnInit {
   parseMoisture(event) {
     let totalLength = event.target.value.length;
     let value = event.target.value;
-    let findDot = this.Moisture.indexOf('.');
+    let findDot = this.Moisture.toString().indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
-      || (event.keyCode >= 91 && event.keyCode <= 965) || (event.keyCode >= 123 && event.keyCode <= 127)
+      || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
       return false;
     } else if (totalLength === 1 && event.keyCode === 190) {
@@ -299,14 +299,14 @@ export class IssueReceiptComponent implements OnInit {
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
         let checkValue: any = this.Moisture.slice(0, 2);
-        checkValue = (checkValue * 1);
+      checkValue = (checkValue * 1);
         if (checkValue > 25) {
           let startValue = this.Moisture.slice(0, 1);
           let endValue = this.Moisture.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
-          let startValue = this.Moisture.toString().slice(0, 2);
-          let endValue = this.Moisture.toString().slice(2, totalLength);
+          let startValue = this.Moisture.slice(0, 2);
+          let endValue = this.Moisture.slice(2, totalLength);
           endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
@@ -452,7 +452,7 @@ export class IssueReceiptComponent implements OnInit {
         this.Moisture = (data.Moisture * 1).toFixed(2);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
-          index = this.TStockNo.toString().indexOf('/', 1);
+          index = this.TStockNo.toString().indexOf('/', 2);
           const totalLength = this.TStockNo.length;
           this.godownNo = this.TStockNo.toString().slice(0, index);
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);

@@ -272,7 +272,7 @@ export class StockReceiptComponent implements OnInit {
             if (this.TStockNo !== undefined && this.TStockNo !== null) {
               this.stackYear = this.TStockNo.stack_yr;
               let index;
-              index = this.TStockNo.value.toString().indexOf('/', 1);
+              index = this.TStockNo.value.toString().indexOf('/', 2);
               const totalLength = this.TStockNo.value.length;
               this.godownNo = this.TStockNo.value.toString().slice(0, index);
               this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
