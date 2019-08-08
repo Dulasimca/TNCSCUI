@@ -105,6 +105,7 @@ export class IssueReceiptComponent implements OnInit {
   index: number = 0;
   UserID: any;
   Loadingslip: any;
+  LNO_Regex: RegExp = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}$/; 
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,

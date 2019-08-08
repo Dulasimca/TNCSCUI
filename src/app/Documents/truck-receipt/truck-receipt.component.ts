@@ -117,6 +117,7 @@ export class TruckReceiptComponent implements OnInit {
   Remarks: string;
   IssueSlip: any;
   STTDetails: any = [];
+  LNO_Regex: RegExp = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}$/; 
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
