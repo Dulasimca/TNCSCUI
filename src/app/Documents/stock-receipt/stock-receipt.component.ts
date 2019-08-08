@@ -64,7 +64,7 @@ export class StockReceiptComponent implements OnInit {
   toStationOptions: SelectItem[];
   vehicleOptions: SelectItem[];
   freightOptions: SelectItem[];
-  TransType: string;
+  TransType: string = 'R';
   godownNo: any;
   OrderNo: any;
   OrderDate: Date = new Date();
@@ -187,17 +187,14 @@ export class StockReceiptComponent implements OnInit {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
-                if (y.TransType === 'R') {
-                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
+                if (y.TransType === this.TransType) {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 }
                 this.transactionOptions = transactoinSelection.slice(0);
               });
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
-          if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.Trcode !== null) {
-            this.TransType = (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType;
-          }
         break;
       case 'sc':
         if (this.scheme_data !== undefined && this.scheme_data !== null) {

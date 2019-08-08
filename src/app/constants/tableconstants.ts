@@ -466,9 +466,9 @@ export class TableConstants {
 
     this.StockIssueMemoIssueDetailsColumns = [ 
     {field: 'SINo', header: 'Issue Memo No' },
-    { field: 'SIDate', header: 'Issue Memo Date' },
+    { field: 'IssueMemoDate', header: 'Issue Memo Date' },
     { field: 'DNo', header: 'Delivery Order No' },
-    { field: 'DDate', header: 'Delivery Order' }];
+    { field: 'DeliveryOrderDate', header: 'Delivery Order' }];
 
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'TStockNo', header:'Stack No.' },
