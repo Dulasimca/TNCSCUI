@@ -85,25 +85,25 @@ export class TruckReceiptComponent implements OnInit {
   LocationNo: any;
   IPCode: any;
   ipCode: any;
-  NoPacking: number;
-  GKgs: number;
-  NKgs: number;
+  NoPacking: any;
+  GKgs: any;
+  NKgs: any;
   WTCode: any;
   wtCode: any;
   Moisture: string;
   StackBalance: number = 0;
-  CurrentDocQtv: any;
-  NetStackBalance: any;
+  CurrentDocQtv: any = 0;
+  NetStackBalance: any = 0;
   TransporterName: string;
   LWBillNo: any;
   WHDNo: any;
-  HCharges: any;
-  WCharges: any;
+  HCharges: any = 0;
+  WCharges: any = 0;
   Kilometers: number;
-  FreightAmount: number;
+  FreightAmount: number = 0;
   LWBillDate: Date = new Date();
-  Gunnyutilised: any;
-  GunnyReleased: any;
+  Gunnyutilised: any = 0;
+  GunnyReleased: any = 0;
   FCode: string;
   VCode: string;
   FStation: any;
@@ -113,7 +113,7 @@ export class TruckReceiptComponent implements OnInit {
   RRNo: any;
   LDate: Date = new Date();
   WNo: any;
-  RailFreightAmt: any;
+  RailFreightAmt: any = 0;
   Remarks: string;
   IssueSlip: any;
   STTDetails: any = [];
@@ -370,29 +370,31 @@ export class TruckReceiptComponent implements OnInit {
     }
   }
 
-  deleteRow(id, index) {
-    switch (id) {
-      case 'item':
-        this.confirmationService.confirm({
-          message: 'Are you sure that you want to proceed?',
-          header: 'Confirmation',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.itemData.splice(index, 1);
-          }
-        });
-        break;
-      case 'view':
-        this.confirmationService.confirm({
-          message: 'Are you sure that you want to proceed?',
-          header: 'Confirmation',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            //  this.documentViewData.splice(index, 1);
-          }
-        });
-        break;
-    }
+  deleteRow(data, index) {
+    this.TStockNo = data.TStockNo;
+        this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
+        this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
+        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme}];
+        this.ICode = data.ITDescription; this.iCode = data.ICode;
+        this.itemDescOptions = [{ label: data.ITDescription, value: data.ICode }];
+        this.IPCode = data.PackingName; this.ipCode = data.IPCode;
+        this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
+        this.WTCode = data.WmtType; this.wtCode = data.WTCode;
+        this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
+        this.NoPacking = (data.NoPacking * 1),
+        this.GKgs = (data.GKgs * 1).toFixed(3);
+        this.NKgs = (data.Nkgs * 1).toFixed(3);
+        this.Moisture = (data.Moisture * 1).toFixed(2);
+        if (this.TStockNo !== undefined && this.TStockNo !== null) {
+          let index;
+          index = this.TStockNo.toString().indexOf('/', 2);
+          const totalLength = this.TStockNo.length;
+          this.GodownNo = this.TStockNo.toString().slice(0, index);
+          this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+        }
+        this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+        this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
+        this.itemData.splice(index, 1);
   }
 
   parseMoisture(event) {
@@ -456,6 +458,15 @@ export class TruckReceiptComponent implements OnInit {
     this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
   }
 
+  onCalculateWt() {
+    if (this.GKgs !== undefined && this.NKgs !== undefined)  {
+      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
+    }
+    if (this.GKgs < this.NKgs) {
+      this.NKgs = this.GKgs = this.TKgs = 0;
+    }
+  }
+
   onStackNoChange(event) {
     let stack_data = event.value;
     const params = {
@@ -476,6 +487,14 @@ export class TruckReceiptComponent implements OnInit {
       }
     }
     })
+    if(this.StackBalance > 0 && this.CurrentDocQtv > 0 && this.itemData.length !== 0) {
+      this.itemData.forEach(x => {
+        if(x.TStockNo === stack_data.value) {
+          this.CurrentDocQtv += (x.Nkgs * 1);
+          this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+        } else { this.NetStackBalance = this.CurrentDocQtv = 0; }
+      })
+    }
   }
 
   onEnter() {
@@ -488,12 +507,12 @@ export class TruckReceiptComponent implements OnInit {
     })
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
-      this.itemData.forEach(x => 
-        {
-          if (x.TStockNo === this.TStockNo.value) {
-            this.CurrentDocQtv += (x.Nkgs * 1);
-          } 
-        });
+      this.CurrentDocQtv = 0;
+      this.itemData.forEach(x => {
+        if (x.TStockNo === this.TStockNo.value) {
+          this.CurrentDocQtv += (x.Nkgs * 1);
+        }
+      });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
         this.itemData = this.itemData.splice(lastIndex, 1);
@@ -501,8 +520,8 @@ export class TruckReceiptComponent implements OnInit {
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
       }
-      this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.WTCode = this.Moisture
-        = this.GKgs = this.NKgs = this.Scheme = this.GodownNo = this.LocationNo = this.stackYear = null;
+      this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
+        this.GodownNo = this.LocationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
     }
   }
 
@@ -550,28 +569,6 @@ export class TruckReceiptComponent implements OnInit {
         this.RTCode = res[0].ReceivorType,
         this.transType = res[0].TRType,
         this.ManualDocNo = res[0].ManualDocNo,
-        this.schemeOptions = [{label: res[0].SchemeName, value: res[0].Scheme}];
-        this.Scheme = res[0].SchemeName,
-        this.schemeCode = res[0].Scheme,
-        this.itemDescOptions = [{label: res[0].CommodityName, value: res[0].ICode}];
-        this.ICode = res[0].CommodityName,
-        this.iCode = res[0].ICode,
-        this.packingTypeOptions = [{label: res[0].PackingName, value: res[0].IPCode}];
-        this.IPCode = res[0].PackingName,
-        this.ipCode = res[0].IPCode,
-        this.wmtOptions = [{label: res[0].WmtType, value: res[0].WTCode}];
-        this.WTCode = res[0].WmtType,
-        this.wtCode = res[0].WTCode,
-        this.NoPacking = res[0].NoPacking,
-        this.GKgs = res[0].GKgs,
-        this.NKgs = res[0].Nkgs,
-        this.TKgs = (this.GKgs * 1) - (this.NKgs * 1),
-        this.Moisture = (res[0].Moisture * 1).toFixed(2),
-        /// ---- stack table ----
-        // this.StackBalance = res[0].StackBalance,
-        // this.NetStackBalance = res[0].NetStackBalance,
-        // this.CurrentDocQtv = res[0].CurrentDocQtv,
-        /// ---end----
         this.TransporterName = res[0].TransporterName,
         this.LWBillDate = new Date(res[0].LWBillDate),
         this.LWBillNo = res[0].LWBillNo,
@@ -595,7 +592,24 @@ export class TruckReceiptComponent implements OnInit {
         this.RRNo = res[0].RRNo,
         this.RailFreightAmt = res[0].RFreightAmount,
         this.LDate = new Date(res[0].LDate),
-        this.Remarks = res[0].Remarks
+        this.Remarks = res[0].Remarks,
+        res.forEach(i => {
+          this.itemData.push({
+            TStockNo: i.TStockNo,
+            ICode: i.ICode,
+            IPCode: i.IPCode,
+            NoPacking: i.NoPacking,
+            GKgs: i.GKgs,
+            Nkgs: i.Nkgs,
+            WTCode: i.WTCode,
+            Moisture: i.Moisture,
+            Scheme: i.Scheme,
+            CommodityName: i.ITName,
+            SchemeName: i.SchemeName,
+            PackingName: i.PName,
+            WmtType: i.WEType
+          })
+        });
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
       }

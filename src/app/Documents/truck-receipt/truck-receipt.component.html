@@ -221,7 +221,7 @@
                       <label class="label-fontsize" for="GKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GKgs" id="float-input" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                        [readonly]="isValidStackBalance" autocomplete="off" appDecimalDigit>
+                        (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -234,7 +234,7 @@
                       <label class="label-fontsize" for="NKgs" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NKgs" id="float-input" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                        [readonly]="isValidStackBalance"  autocomplete="off" appDecimalDigit>
+                        (input)="onCalculateWt()"  [readonly]="isValidStackBalance"  autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -311,7 +311,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -519,7 +519,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="rowData" (dbclick)="deleteRow('view', rowIndex)">
+            <tr [pSelectableRow]="rowData">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>
