@@ -22,7 +22,7 @@ export class TransactionStatusComponent implements OnInit {
   rCode: any;
   gCode: any;
   data: any;
-  Type: any;
+  Type: 1;
   godownName: SelectItem[];
   disableOkButton: boolean = true;
   Docdate: Date;
@@ -67,49 +67,50 @@ export class TransactionStatusComponent implements OnInit {
     }
   }
 
-  onView() {
-    if (this.godownOptions !== undefined) {
-      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
-        .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
-        .append('RoleId',this.roleId).append('RCode', this.g_cd.RCode).append('Type', '1');
-      this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
-        this.TransactionStatusData = res;
-        if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
-            this.isActionDisabled = false;
-            this.Srno = this.TransactionStatusData[0].Srno,
-            this.Receipt = this.TransactionStatusData[0].Receipt,
-            this.Issues = this.TransactionStatusData[0].Issues,
-            this.Transfer = this.TransactionStatusData[0].Transfer,
-            this.CB = this.TransactionStatusData[0].CB,
-            this.remarks = this.TransactionStatusData[0].remarks,
-            this.RoleId = this.roleId
-        } else {
-          this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0) {
-          this.loading = false;
-        }
-      })
-    }
-  }
+// For Checkbox
 
+  // onView() {
+  //   if (this.godownOptions !== undefined) {
+  //     const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
+  //       .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
+  //       .append('RoleId',this.roleId).append('Type', '1');
+  //     this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
+  //       this.TransactionStatusData = res;
+  //       if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
+  //           this.isActionDisabled = false;
+  //           this.Srno = this.TransactionStatusData[0].Srno,
+  //           this.Receipt = this.TransactionStatusData[0].Receipt,
+  //           this.Issues = this.TransactionStatusData[0].Issues,
+  //           this.Transfer = this.TransactionStatusData[0].Transfer,
+  //           this.CB = this.TransactionStatusData[0].CB,
+  //           this.remarks = this.TransactionStatusData[0].remarks
+  //           this.RoleId = this.roleId
+  //       } else {
+  //         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+  //       }
+  //     }, (err: HttpErrorResponse) => {
+  //       if (err.status === 0) {
+  //         this.loading = false;
+  //       }
+  //     })
+  //   }
+  // }
+
+
+  // For Grid
+  
   onTable() {
+      const params = {
+        'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
+        'RCode': this.g_cd.RCode,
+        'RoleId': this.roleId,
+        'Type': 2
+      }
     if (this.godownOptions !== undefined) {
-      const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
-        .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
-        .append("RoleId",this.roleId).append('RCode', this.g_cd.RCode).append("Type", '2');
       this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
         this.TransactionStatusTableData = res;
         if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
             this.isActionDisabled = false;
-            this.Srno = this.TransactionStatusTableData[0].Srno,
-            this.Receipt = this.TransactionStatusTableData[0].Receipt,
-            this.Issues = this.TransactionStatusTableData[0].Issues,
-            this.Transfer = this.TransactionStatusTableData[0].Transfer,
-            this.CB = this.TransactionStatusTableData[0].CB,
-            this.remarks = this.TransactionStatusTableData[0].remarks,
-            this.RoleId = this.roleId
         } else {
           this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
