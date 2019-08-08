@@ -504,6 +504,7 @@ export class StockReceiptComponent implements OnInit {
 
   getDocBySRNo() {
     this.viewPane = false;
+    this.itemData = [];
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {

@@ -119,6 +119,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
+    this.deliveryViewCols = this.tableConstants.DeliveryDocumentViewCols;
     this.itemCols = this.tableConstants.DeliveryItemColumns;
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
     this.paymentBalCols = this.tableConstants.DeliveryPaymentBalanceCols;
@@ -325,6 +326,10 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
+  onRowSelect(event) {
+    this.DeliveryOrderNo = event.data.Dono;
+  }
+
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
@@ -368,7 +373,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
 
-  deleteRow(id, index) {
+  deleteRow(id, data, index) {
     switch(id) {
       case 'delivery':
           this.confirmationService.confirm({
@@ -381,14 +386,11 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'item':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
+        this.Scheme = data.SchemeName;
+        this.schemeCode = data.Scheme;
+        this.NKgs = (data.Nkgs * 1);
+        this.Rate = (data.Rate)
                 this.itemData.splice(index, 1);
-            }
-        });
         break;
         case 'scheme':
           this.confirmationService.confirm({
@@ -564,6 +566,48 @@ export class DeliveryReceiptComponent implements OnInit {
     this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
     this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = this.Trcode =
     this.IndentNo = this.PMonth = this.PYear = this.RTCode = this.PName = this.Remarks = null;
+  }
+
+  getDocByDoNo() {
+    this.messageService.clear();
+    this.itemData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+    this.viewPane = false;
+    const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2');
+    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
+      if (res !== undefined && res.length !== 0) {
+        this.DeliveryOrderNo = res[0].Dono;
+        this.DeliveryDate = new Date(res[0].DDate);
+        this.trCode = res[0].Trcode;
+        this.Trcode = res[0].TrName;
+        this.transactionOptions = [{ label: res[0].TrName, value: res[0].Trcode }];
+        this.IndentNo = res[0].IndentNo;
+        this.PermitDate = new Date(res[0].PermitDate);
+        this.monthOptions = [{label: new Date(res[0].Pallotment.slice(5, 7)).toDateString().slice(4,7), value: res[0].Pallotment.slice(5, 7)}]
+        this.PMonth = res[0].Pallotment.slice(5, 7);
+        this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
+        this.PYear = res[0].Pallotment.slice(0, 4);
+        this.PName = res[0].ReceivorName;
+        this.pCode = res[0].ReceivorCode;
+        this.partyNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivorCode }];
+        this.Remarks = (res[0].Remarks.toString().trim() !== '') ? res[0].Remarks : '-';
+        this.GrandTotal = (res[0].GrandTotal * 1);
+        res.forEach(i => {
+          this.itemData.push({
+            ITDescription: i.ITDescription,
+            NetWeight: (i.Nkgs * 1),
+            UnitMeasure: i.UnitMeasure,
+            SchemeName: i.SchemeName,
+            Rate: (i.Rate * 1),
+            Total: (i.TotalAmount * 1),
+            ItemCode: i.ItemCode,
+            Scheme: i.Scheme,
+          });
+          this.itemSchemeData.push({});
+          this.paymentBalData.push({});
+          this.paymentData.push({});
+        });
+      }
+    });
   }
 
   onSave() {

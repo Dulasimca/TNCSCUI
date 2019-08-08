@@ -16,6 +16,7 @@ export class TableConstants {
   StockPurchase: any;
   CBStatementColumns: any;
   DeliveryDocumentcolumns: any;
+  DeliveryDocumentViewCols: any;
   DeliveryItemColumns: any;
   DeliveryItemSchemeColumns: any;
   DeliveryPaymentcolumns: any;
@@ -930,6 +931,12 @@ export class TableConstants {
       { field: '', header: 'Item Name' },
       { field: '', header: 'Group' },
       { field: '', header: 'CER.N/CER' }
+    ];
+
+    this.DeliveryDocumentViewCols = [
+      { field: 'Dono', header: 'Delivery Order No' },
+      { field: 'DDate', header: 'Delivery Order Date' },
+      { field: 'PartyName', header: 'Party Name' },
     ];
   }
 }

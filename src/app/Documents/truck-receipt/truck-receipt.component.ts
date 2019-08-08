@@ -534,16 +534,17 @@ export class TruckReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.truckMemoViewData = [];
     this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         res.forEach(data => {
-        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
-        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
       })
       this.truckMemoViewData = res;
     } else {
+      this.truckMemoViewData = [];
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
     }
     });
@@ -551,53 +552,53 @@ export class TruckReceiptComponent implements OnInit {
 
   getDocBySTNo() {
     this.messageService.clear();
+    this.itemData = [];
     this.viewPane = false;
-    const params = new HttpParams().set('sValue', this.STNo).append('Type', '2');
+    const params = new HttpParams().set('sValue', this.STNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
-        this.STNo = res[0].STNo,
-        this.STDate = new Date(res[0].STDate),
+        this.STNo = res[0].STNo;
+        this.STDate = new Date(res[0].STDate);
         this.transactionOptions = [{label: res[0].TransactionName, value: res[0].TrCode}];
-        this.Trcode = res[0].TransactionName,
-        this.trCode = res[0].TrCode,
-        this.OrderDate = new Date(res[0].MDate),
-        this.OrderNo = res[0].MNo,
-        this.RNo = res[0].RNo,
-        this.RDate = new Date(res[0].RDate),
-        this.LorryNo = res[0].LNo,
-        this.selectedValues = res[0].TransportMode,
+        this.Trcode = res[0].TransactionName;
+        this.trCode = res[0].TrCode;
+        this.OrderDate = new Date(res[0].MDate);
+        this.OrderNo = res[0].MNo;
+        this.RNo = res[0].RNo;
+        this.RDate = new Date(res[0].RDate);
+        this.LorryNo = res[0].LNo;
+        this.selectedValues = res[0].TransportMode;
+        if (res[0].RailHead !== null) {
         this.toRailHeadOptions = [{label: res[0].RHName, value: res[0].RailHead}];
-        this.RHCode = res[0].RHName,
-        this.rhCode = res[0].RailHead,
-        this.receivorTypeOptions = [{label: res[0].ReceivorType, value: res[0].ReceivingCode}];
-        this.rtCode = res[0].ReceivingCode,
-        this.RTCode = res[0].ReceivorType,
-        this.transType = res[0].TRType,
-        this.ManualDocNo = res[0].ManualDocNo,
-        this.TransporterName = res[0].TransporterName,
-        this.LWBillDate = new Date(res[0].LWBillDate),
-        this.LWBillNo = res[0].LWBillNo,
-        this.FreightAmount = res[0].FreightAmount,
-        this.Kilometers = res[0].Kilometers,
-        this.WHDNo = res[0].WHDNo,
-        this.WCharges = res[0].WCharges,
-        this.HCharges = res[0].HCharges,
-        this.GunnyReleased = res[0].GunnyReleased,
-        this.Gunnyutilised = res[0].GunnyUtilised,
-        this.freightOptions = [{ label: res[0].FCode, value: res[0].FCode }],
-        this.FCode = res[0].FCode,
+        this.RHCode = res[0].RHName;
+        this.rhCode = res[0].RailHead }
+        this.receivorNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivingCode}]
+        this.transType = res[0].TRType;
+        this.ManualDocNo = res[0].ManualDocNo;
+        this.TransporterName = res[0].TransporterName;
+        this.LWBillDate = new Date(res[0].LWBillDate);
+        this.LWBillNo = res[0].LWBillNo;
+        this.FreightAmount = res[0].FreightAmount;
+        this.Kilometers = res[0].Kilometers;
+        this.WHDNo = res[0].WHDNo;
+        this.WCharges = res[0].WCharges;
+        this.HCharges = res[0].HCharges;
+        this.GunnyReleased = res[0].GunnyReleased;
+        this.Gunnyutilised = res[0].GunnyUtilised;
+        this.freightOptions = [{ label: res[0].FCode, value: res[0].FCode }];
+        this.FCode = res[0].FCode;
         this.vehicleOptions = [{ label: res[0].Vcode, value: res[0].Vcode }],
-        this.VCode = res[0].Vcode,
+        this.VCode = res[0].Vcode;
         this.fromStationOptions = [{ label: res[0].FromStation, value: res[0].FStation }],
-        this.FStation = res[0].FromStation,
-        this.fStationCode = res[0].FStation,
+        this.FStation = res[0].FromStation;
+        this.fStationCode = res[0].FStation;
         this.toStationOptions = [{ label: res[0].ToStation, value: res[0].TStation }],
-        this.TStation = res[0].ToStation,
-        this.tStationCode = res[0].TStation,
-        this.RRNo = res[0].RRNo,
-        this.RailFreightAmt = res[0].RFreightAmount,
-        this.LDate = new Date(res[0].LDate),
-        this.Remarks = res[0].Remarks,
+        this.TStation = res[0].ToStation;
+        this.tStationCode = res[0].TStation;
+        this.RRNo = res[0].RRNo;
+        this.RailFreightAmt = res[0].RFreightAmount;
+        this.LDate = new Date(res[0].LDate);
+        this.Remarks = res[0].Remarks;
         res.forEach(i => {
           this.itemData.push({
             TStockNo: i.TStockNo,
@@ -609,9 +610,9 @@ export class TruckReceiptComponent implements OnInit {
             WTCode: i.WTCode,
             Moisture: i.Moisture,
             Scheme: i.Scheme,
-            CommodityName: i.ITName,
+            ITDescription: i.ITName,
             SchemeName: i.SchemeName,
-            PackingName: i.PName,
+            PackingType: i.PName,
             WmtType: i.WEType
           })
         });
@@ -626,7 +627,7 @@ export class TruckReceiptComponent implements OnInit {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
       } else if (this.selectedValues.length === 1) {
-        this.MTransport = (this.selectedValues[0] === 'rail') ? 'Rail' : 'Road';
+        this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
       }
     }
     this.STTDetails.push({
@@ -665,7 +666,7 @@ export class TruckReceiptComponent implements OnInit {
       'MDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
       'RNo': this.RNo,
       'RDate': this.datepipe.transform(this.RDate, 'MM/dd/yyyy'),
-      'LorryNo': this.LorryNo,
+      'LorryNo': this.LorryNo.toString().toUpperCase(),
       'ReceivingCode': this.RNCode.value,
       'IssuingCode': this.GCode,
       'RCode': this.RCode,

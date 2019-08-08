@@ -551,6 +551,7 @@ export class IssueReceiptComponent implements OnInit {
 
   getDocBySINo() {
     this.viewPane = false;
+    this.itemData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0 && res !== null) {

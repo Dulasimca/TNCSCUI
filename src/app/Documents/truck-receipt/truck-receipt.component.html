@@ -497,7 +497,7 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Truck-Memo-Slip"  [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Truck-Memo-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
 <div>
     <div class="ui-g-6 ui-md-10 no-pad-top">
@@ -505,13 +505,13 @@
       <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
      <div class="ui-g-4 ui-md-1 dashboard">
-    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="truckMemoViewData.length=='0'" (click)="getDocBySRNo()"></button>
+    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="truckMemoViewData.length=='0'" (click)="getDocBySTNo()"></button>
   </div>
   <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
     </div>
   </div>
-    <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-12 ui-md-12 ui-fluid">
         <p-table [columns]="truckMemoViewCol" [value]="truckMemoViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
