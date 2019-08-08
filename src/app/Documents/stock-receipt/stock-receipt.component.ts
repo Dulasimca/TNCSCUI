@@ -519,9 +519,9 @@ export class StockReceiptComponent implements OnInit {
         this.LNo = res[0].LNo;
         this.LFrom = res[0].LFrom;
         this.monthOptions = [{label: new Date(res[0].Pallotment.slice(5, 7)).toDateString().slice(4,7), value: res[0].Pallotment.slice(5, 7)}]
-        this.month = res[0].Pallotment.slice(0, 1);
+        this.month = res[0].Pallotment.slice(5, 7);
         this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
-        this.year = res[0].Pallotment.slice(3, 6);
+        this.year = res[0].Pallotment.slice(0, 4);
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
