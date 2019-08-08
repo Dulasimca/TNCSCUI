@@ -18,6 +18,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 export class StackCardComponent implements OnInit {
   StackCardCols: any;
   StackCardData: any;
+  StackCardNoData: any;
   isActionDisabled: any;
   data: any;
   g_cd: any;
@@ -90,9 +91,9 @@ export class StackCardComponent implements OnInit {
           'Type': 2
         }
         this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-          this.StackCardData = res;
-          if (this.StackCardData !== undefined) {
-            this.StackCardData.forEach(s => {
+          this.StackCardNoData = res;
+          if (this.StackCardNoData !== undefined) {
+            this.StackCardNoData.forEach(s => {
               StackSelection.push({ 'label': s.Stackno });
               this.stackOptions = StackSelection;
             })
