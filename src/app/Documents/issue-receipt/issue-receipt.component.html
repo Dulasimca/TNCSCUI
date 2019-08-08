@@ -29,7 +29,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 13px">
                   <span class="ui-float-label">
-                    <input name="DONO" id="float-input" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
+                    <input name="DONO" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
                     <label for="DONO" class="float-input">Delivery Order No</label>
                   </span>
                 </div>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-2">
                     <span class="ui-float-label">
-                      <input name="WCNo" id="float-input" [(ngModel)]="WNo" pInputText autocomplete="off" required>
+                      <input name="WCNo" id="float-input" type="text" pKeyFilter="alphanum" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
                       <label for="WCNo" class="float-input">Weigment Certificate No</label>
                     </span>
                   </div>
@@ -145,32 +145,33 @@
                   <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                           <input name="VehicleNo" id="float-input" maxlength="13" [(ngModel)]="VehicleNo" pInputText autocomplete="off"  style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/^[A-Z0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" required>
+                          pKeyFilter="alphanum" required>
                           <label for="VehicleNo" class="float-input">Vehicle Number</label>
                         </span>
                   </div>
                 <div class="ui-g-6 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pInputText autocomplete="off" required>
+                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pInputText autocomplete="off" required appDecimalDigit>
                     <label for="TCharges" class="float-input">Transporters Charges</label>
                   </span>
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TName" id="float-input" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
+                    <input name="TName" id="float-input" type="text" minlength="1" maxlength="50" pKeyFilter="alpha" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
                     <label for="TName" class="float-input">Transporters Name</label>
                   </span>
                 </div>
                 <div class="ui-g-6 ui-md-2">
                     <span class="ui-float-label">
-                        <input name="ManualDocNo" id="float-input" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
+                        <input name="ManualDocNo" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
                         <label for="ManualDocNo" class="float-input">Manual Document No</label>
                       </span>
                 </div>
                 </div>
               <div class="ui-g-12 ui-md-5 ui-fluid">
                 <span class="ui-float-label">
-                  <textarea name="Remarks" rows="4" cols="70" [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
+                  <textarea name="Remarks" rows="4" cols="70" pKeyFilter="alphanum" minlength="1" maxlength="150"
+                   [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
                   <label for="Remarks" class="float-input">Remarks</label>
                 </span>
               </div>

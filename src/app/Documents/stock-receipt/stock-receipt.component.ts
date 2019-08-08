@@ -122,6 +122,8 @@ export class StockReceiptComponent implements OnInit {
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
+  ccRegex: RegExp = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}$/; 
+
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -190,8 +192,8 @@ export class StockReceiptComponent implements OnInit {
                 if (y.TransType === this.TransType) {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 }
-                this.transactionOptions = transactoinSelection.slice(0);
               });
+              this.transactionOptions = transactoinSelection.slice(0);
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           })
@@ -200,8 +202,8 @@ export class StockReceiptComponent implements OnInit {
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
-            this.schemeOptions = schemeSelection;
           });
+          this.schemeOptions = schemeSelection;
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
         }
@@ -247,8 +249,8 @@ export class StockReceiptComponent implements OnInit {
                 itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
               })
               this.itemDescOptions = itemDesc;
-            }
               this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            }
             });
             //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
           }
@@ -264,8 +266,8 @@ export class StockReceiptComponent implements OnInit {
                 stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
               })
               this.stackOptions = stackNo;
-            }
               this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            }
             });
             if (this.TStockNo !== undefined && this.TStockNo !== null) {
               this.stackYear = this.TStockNo.stack_yr;
@@ -286,8 +288,8 @@ export class StockReceiptComponent implements OnInit {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = packingTypes;
-          }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          }
           });
         }
         break;
@@ -299,8 +301,8 @@ export class StockReceiptComponent implements OnInit {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
-          }
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          }
           });
         }
         break;
@@ -322,7 +324,7 @@ export class StockReceiptComponent implements OnInit {
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
-          index = this.TStockNo.toString().indexOf('/', 1);
+          index = this.TStockNo.toString().indexOf('/', 2);
           const totalLength = this.TStockNo.length;
           this.godownNo = this.TStockNo.toString().slice(0, index);
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
