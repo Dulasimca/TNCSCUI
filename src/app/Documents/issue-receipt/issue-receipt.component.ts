@@ -458,7 +458,8 @@ export class IssueReceiptComponent implements OnInit {
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
+        this.CurrentDocQtv = (this.CurrentDocQtv * 1) - (this.NKgs * 1);
+        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.itemData.splice(index, 1);
       break;
     }
