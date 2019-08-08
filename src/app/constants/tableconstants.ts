@@ -85,6 +85,7 @@ export class TableConstants {
   CommodityMaster: any;
   OtherMaster: any;
   CncCorrection: any;
+  TruckMemoViewDocumentCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -460,7 +461,7 @@ export class TableConstants {
     ];
 
     this.StockIssueMemoViewBySINOCols = [
-      {field: 'SINo', header: 'Issue Memo No' },
+    {field: 'SINo', header: 'Issue Memo No' },
     { field: 'SIDate', header: 'Issue Memo Date' },
     { field: 'DNo', header: 'Delivery Order No' },
     { field: 'DDate', header: 'Delivery Order' },
@@ -808,6 +809,15 @@ export class TableConstants {
       { header: 'Moisture', field:'Moisture' },
       { header: 'Scheme', field:'SchemeName' }
     ];
+     
+    this.TruckMemoViewDocumentCols = [
+    {field: 'STNo', header: 'Truck Memo No' },
+    { field: 'STDate', header: 'Truck Memo Date' },
+    { field: 'MNo', header: 'Movement Order No' },
+    { field: 'RNo', header: 'Release Order No' },
+    { field: 'ReceivorName', header: 'Receivor Name'}
+    ];
+
     this.StockStatementReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Commodity', field: 'ITDescription' },

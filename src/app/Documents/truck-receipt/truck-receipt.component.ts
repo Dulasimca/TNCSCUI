@@ -117,7 +117,6 @@ export class TruckReceiptComponent implements OnInit {
   Remarks: string;
   IssueSlip: any;
   STTDetails: any = [];
-  LNO_Regex: RegExp = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}$/; 
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -130,6 +129,7 @@ export class TruckReceiptComponent implements OnInit {
   ngOnInit() {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCols = this.tableConstants.TruckMemoItemDetails;
+    this.truckMemoViewCol = this.tableConstants.TruckMemoViewDocumentCols;
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.godowns = this.roleBasedService.getGodowns();
@@ -468,6 +468,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onStackNoChange(event) {
+    this.messageService.clear();
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,
@@ -498,6 +499,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onEnter() {
+    this.messageService.clear();
     this.itemData.push({TStockNo: this.TStockNo.value, ITDescription: this.ICode.label,
       PackingType: this.IPCode.label, IPCode: this.IPCode.value, ICode: this.ICode.value,
       NoPacking: this.NoPacking, WmtType: this.WTCode.label, WTCode: this.WTCode.value,
@@ -531,6 +533,7 @@ export class TruckReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -546,6 +549,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   getDocBySTNo() {
+    this.messageService.clear();
     this.viewPane = false;
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {

@@ -119,8 +119,7 @@
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label" style="padding-top: 20px;">
                           <input name="LNo" id="float-input" maxlength="13"[(ngModel)]="LorryNo" pInputText
-                          [pKeyFilter]="LNO_Regex" [pValidateOnly]="true"
-                          style="text-transform: uppercase !important" autocomplete="off" required>
+                          pKeyFilter="alphanum" style="text-transform: uppercase !important" autocomplete="off" required>
                           <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
                         </span>
                       </div>
@@ -498,12 +497,20 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Truck-Memo-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Truck-Memo-Slip"  [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-6 label-fontsize-large">Date</label>
-        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+<div>
+    <div class="ui-g-6 ui-md-10 no-pad-top">
+      <label class="label-fontsize-large">Date</label>
+      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
+     <div class="ui-g-4 ui-md-1 dashboard">
+    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="truckMemoViewData.length=='0'" (click)="getDocBySRNo()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1 dashboard">
+      <button class="ui-md-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+    </div>
+  </div>
     <div class="ui-g-12 ui-fluid">
         <p-table [columns]="truckMemoViewCol" [value]="truckMemoViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
@@ -527,11 +534,4 @@
           </ng-template>
         </p-table>
       </div>
-      <div class="ui-g-4 ui-md-10"></div>
-      <div class="ui-g-4 ui-md-1 no-right-pad">
-        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="!viewTruckData" (click)="getDocBySTNo()"></button>
-      </div>
-      <div class="ui-g-4 ui-md-1 no-left-pad">
-          <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
-        </div>
 </p-dialog>

@@ -122,8 +122,6 @@ export class StockReceiptComponent implements OnInit {
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
-  LNO_Regex: RegExp = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}$/; 
-
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
