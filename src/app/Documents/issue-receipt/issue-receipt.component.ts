@@ -191,8 +191,8 @@ export class IssueReceiptComponent implements OnInit {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(dt => {
-                receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+              res.forEach(rt => {
+                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
               });
               this.receiverTypeOptions = receivorTypeList;
               this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -207,8 +207,8 @@ export class IssueReceiptComponent implements OnInit {
           const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(dn => {
-                receivorNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+              res.forEach(rn => {
+                receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode });
               })
               this.receiverNameOptions = receivorNameList;
               this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
