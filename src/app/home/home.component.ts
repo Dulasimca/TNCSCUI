@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, LocationStrategy } from '@angular/common';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
@@ -60,9 +60,10 @@ export class HomeComponent implements OnInit {
   isIssueClicked: boolean = false;
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
-    private router: Router) { }
+    private router: Router, private locationStrategy: LocationStrategy) { }
 
   ngOnInit() {
+    this.preventBackButton();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -692,5 +693,11 @@ export class HomeComponent implements OnInit {
         })
         break;
     }
+  }
+  preventBackButton() {
+    history.pushState(null, null, location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, null, location.href);
+    })
   }
 }
