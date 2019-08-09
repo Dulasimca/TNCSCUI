@@ -63,7 +63,6 @@
           [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
-              <th rowspan="2">S.No</th>
               <th rowspan="2">Date</th>
 
               <th colspan="2">Receipt</th>
@@ -81,18 +80,15 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
+                <div *ngIf="col.field !== 'AckDate'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field === 'Date'">
+                <div *ngIf="col.field === 'AckDate'">
                   <div style="width: 90px !important">
                     {{rowData[col.field]}}
                   </div>
-                </div>
-                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
-                  {{rowData[col.field]}}
                 </div>
               </td>
             </tr>
@@ -102,32 +98,3 @@
     </div>
   </p-panel>
 </div>
-<!-- <p-table [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
-            <tr style="text-align: center;">
-              <th *ngFor="let col of columns">
-                {{col.header}}
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
-              <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
-                  <div style="text-align: end !important">
-                    {{rowData[col.field]}}
-                  </div>
-                </div>
-                <div *ngIf="col.field === 'Date'">
-                  <div style="width: 90px !important">
-                    {{rowData[col.field]}}
-                  </div>
-                </div>
-                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
-                  {{rowData[col.field]}}
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table> -->
