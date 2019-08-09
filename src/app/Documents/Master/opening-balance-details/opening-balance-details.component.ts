@@ -69,7 +69,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.PhysicalBalanceWeight = this.CumulativeShortage = null;
       } else {
         this.showErr = false;
-        this.CumulativeShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
+        this.CumulativeShortage = ((this.BookBalanceWeight * 1) - (this.PhysicalBalanceWeight * 1)).toFixed(3);
+        this.CumulativeShortage = (this.CumulativeShortage * 1);
       }
     } else {
       this.CumulativeShortage = 0;

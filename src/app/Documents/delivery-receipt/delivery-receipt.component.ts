@@ -231,7 +231,8 @@ export class DeliveryReceiptComponent implements OnInit {
        if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
          if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
            const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
-             .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType);
+             .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType)
+             .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
              if (res !== null && res !== undefined && res.length !== 0) {
                res.forEach(dn => {
