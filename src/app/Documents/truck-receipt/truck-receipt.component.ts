@@ -215,7 +215,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'rr':
         let regionsData = [];
-        if (this.regions !== undefined && this.regions !== null && this.receivorRegionOptions === undefined) {
+        if (this.regions !== undefined && this.regions !== null) {
           this.regions.forEach(r => {
             if (r.Rcode !== this.RCode) {
             regionsData.push({ 'label': r.RName, 'value': r.RCode });
@@ -467,7 +467,7 @@ export class TruckReceiptComponent implements OnInit {
     this.WHDNo = this.WCharges = this.HCharges = this.TStation =
     this.FStation = this.GunnyReleased = this.Gunnyutilised =
     this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
-    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
+    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = this.STNo = 0;
   }
 
   onCalculateWt() {
@@ -536,6 +536,7 @@ export class TruckReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
         this.GodownNo = this.LocationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
+      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
     }
   }
 
@@ -693,9 +694,9 @@ export class TruckReceiptComponent implements OnInit {
       'documentSTTDetails': this.STTDetails
     };
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
-      if (res !== undefined) {
+      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res) {
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Truck Memo No:' + res.Item2 });
           this.onClear();
           this.isSaveSucceed = false;
         } else {

@@ -128,6 +128,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
+    this.PYear = new Date().getFullYear();
+    this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
@@ -450,6 +452,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
             this.DueAmount = this.GrandTotal;
             this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
+            this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
         }
         break;
       case 'MarginItem':
@@ -464,6 +467,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
           this.DueAmount = this.GrandTotal;
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
+          this.marginSchemeOptions = this.marginRateInTermsOptions = this.marginItemDescOptions = [];
         }
         break;
       case 'Payment':
@@ -483,6 +487,7 @@ export class DeliveryReceiptComponent implements OnInit {
               )) : 0;
           this.ChequeDate = new Date();
           this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
+          this.paymentOptions = [];
         }
         break;
       case 'Adjustment':
@@ -591,8 +596,14 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
-    this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = this.Trcode =
-    this.IndentNo = this.PMonth = this.PYear = this.RTCode = this.PName = this.Remarks = null;
+    this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = 0;
+    this.Trcode = this.IndentNo = this.RTCode = this.PName = this.Remarks = null;
+    this.DeliveryOrderNo = 0;
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.PMonth = this.datepipe.transform(new Date(), 'MMM');
+    this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
+    this.PYear = new Date().getFullYear();
+    this.yearOptions = [{ label: this.PYear, value: this.PYear }];
   }
 
   getDocByDoNo() {

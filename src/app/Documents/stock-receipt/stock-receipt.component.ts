@@ -456,6 +456,7 @@ export class StockReceiptComponent implements OnInit {
       this.StackBalance += stackBalance;
       this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
         = this.GKgs = this.NKgs = this.WTCode = this.tareWt = this.godownNo = this.locationNo = this.stackYear = null;
+      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
     }
   }
 
@@ -497,13 +498,13 @@ export class StockReceiptComponent implements OnInit {
       'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
-      if (res !== undefined) {
-        if (res) {
+      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
+        if (res.Item1) {
           this.isSaveSucceed = true;
           this.onClear();
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Receipt No:' + res.Item2 });
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -602,14 +603,19 @@ export class StockReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = [];
-    this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo = null;
-    this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType = null;
-    this.TruckMemoDate = this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
+    this.monthOptions = [{ label: this.month, value: this.curMonth }];
+    this.year = new Date().getFullYear();
+    this.yearOptions = [{ label: this.year, value: this.year }];
+    this.OrderNo = this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType = null;
+    this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
     this.trCode = this.depositorCode = this.depositorType = this.schemeCode = this.Scheme =
-      this.ICode = this.iCode = this.IPCode = this.ipCode = this.TStockNo = this.NoPacking = null;
+    this.ICode = this.iCode = this.IPCode = this.ipCode = this.TStockNo = this.NoPacking = null;
     this.transactionOptions = this.schemeOptions = this.itemDescOptions = this.depositorNameOptions =
-      this.depositorTypeOptions = this.stackOptions = this.wmtOptions = this.packingTypeOptions = [];
-    this.StackBalance = this.GKgs = this.tareWt = this.NKgs = 0;
+    this.depositorTypeOptions = this.stackOptions = this.wmtOptions = this.packingTypeOptions = [];
+    this.StackBalance = this.GKgs = this.tareWt = this.NKgs = this.SRNo = 0;
+    this.TruckMemoDate = this.SRDate = this.OrderDate = new Date();
   }
 
   openNext() {

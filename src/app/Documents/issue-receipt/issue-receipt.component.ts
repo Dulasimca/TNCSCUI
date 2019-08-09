@@ -460,7 +460,8 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
         this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-    }
+        this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
+      }
   }
 
   deleteRow(id, data, index) {
@@ -550,10 +551,10 @@ export class IssueReceiptComponent implements OnInit {
       'IssueMemo ': 'F'
     }
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
-      if (res !== undefined) {
-        if (res) {
+      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
+        if (res.Item1) {
           this.isSaveSucceed = true;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Issue No:' + res.Item2 });
           this.onClear();
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
@@ -655,11 +656,13 @@ export class IssueReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = this.issueData = [];
-    this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode
-      = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
-      this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = null;
+    this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode = this.WTCode =
+     this.WNo = this.RegularAdvance = this.VehicleNo = this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = null;
        this.NewBale = this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = 0;
-    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
+    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = this.SINo = 0;
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
+    this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.packingTypeOptions = this.transactionOptions = this.schemeOptions = this.stackOptions = 
      this.wmtOptions = this.receiverNameOptions = this.receiverTypeOptions = [];
   }
