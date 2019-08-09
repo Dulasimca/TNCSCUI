@@ -135,10 +135,6 @@ export class DeliveryReceiptComponent implements OnInit {
       this.RCode = this.data[0].RCode;
     }, 300);
   }
-  customSearchFn(term: string, item: any) {
-    term = term.toLocaleLowerCase();
-    return item.brand.toLocaleLowerCase().indexOf(term) > -1 || item.id.toLocaleLowerCase().indexOf(term) > -1;
-}
 
   onSelect(selectedItem) {
     let transactoinSelection = [];
@@ -184,6 +180,8 @@ export class DeliveryReceiptComponent implements OnInit {
                 this.transactionOptions = transactoinSelection;
               });
               this.transactionOptions.unshift({ 'label': '-select', 'value': null });
+            } else {
+              this.transactionOptions = transactoinSelection;
             }
           })
         }
@@ -195,6 +193,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
         case 'margin_scheme':
@@ -204,6 +204,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.marginSchemeOptions = marginSchemeSelection;
           });
           this.marginSchemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.marginSchemeOptions = marginSchemeSelection;
         }
         break;
       case 'rt':
@@ -221,6 +223,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      } else {
+        this.receivorTypeOptions = receivorTypeList;
       }
         break;
       case 'pn':
@@ -238,6 +242,8 @@ export class DeliveryReceiptComponent implements OnInit {
              this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
            });
          }
+       } else {
+        this.partyNameOptions = partyNameList;
        }
         break;
       case 'commodity':
@@ -263,6 +269,8 @@ export class DeliveryReceiptComponent implements OnInit {
              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
            });
         }
+      } else {
+        this.itemDescOptions = commoditySelection;
       }
         break;
         case 'margin_commodity':
@@ -288,6 +296,8 @@ export class DeliveryReceiptComponent implements OnInit {
                  this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
                });
              }
+          } else {
+            this.marginItemDescOptions = marginCommoditySelection;
           }
             break;
         case 'wmt':
@@ -379,16 +389,6 @@ export class DeliveryReceiptComponent implements OnInit {
 
   deleteRow(id, data, index) {
     switch(id) {
-      case 'delivery':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.deliveryData.splice(index, 1);
-            }
-        });
-        break;
       case 'item':
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
@@ -414,25 +414,23 @@ export class DeliveryReceiptComponent implements OnInit {
           this.itemSchemeData.splice(index, 1);
         break;
         case 'payment':
-            this.confirmationService.confirm({
-              message: 'Are you sure that you want to proceed?',
-                  header: 'Confirmation',
-                  icon: 'pi pi-exclamation-triangle',
-              accept: () => {
-                  this.paymentData.splice(index, 1);
-              }
-          });
+          this.Payment = data.PaymentMode;
+          this.ChequeNo = data.ChequeNo;
+          this.ChequeDate = new Date(data.ChDate);
+          this.PAmount = (data.PaymentAmount * 1)
+          this.PayableAt = data.payableat;
+          this.OnBank = data.bank;
+          this.paymentData.splice(index, 1);
           break;
           case 'prevBal':
-              this.confirmationService.confirm({
-                message: 'Are you sure that you want to proceed?',
-                    header: 'Confirmation',
-                    icon: 'pi pi-exclamation-triangle',
-                accept: () => {
-                    this.paymentBalData.splice(index, 1);
-                }
-            });
-            break;
+            this.PrevOrderNo = data.AdjustedDoNo;
+            this.PrevOrderDate = new Date(data.AdjustDate);
+            this.AdjusmentAmount = (data.Amount * 1);
+            this.OtherAmount = (data.AmountNowAdjusted * 1);
+            this.Balance = (data.Balance * 1);
+            this.AdjustmentType = data.AdjustmentType;
+            this.paymentBalData.splice(index, 1);
+          break;
     }
   }
 
@@ -595,7 +593,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PermitDate = new Date(res[0].PermitDate);
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
-        this.curMonth = res[0].IRelates.slice(5, 7);
+        this.curMonth = res[0].Pallotment.slice(5, 7);
         let formDate = this.curMonth + "-" + today + "-" + currentYr;
         this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.PMonth = this.datepipe.transform(new Date(formDate), 'MMM');
