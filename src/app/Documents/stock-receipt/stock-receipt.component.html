@@ -44,7 +44,7 @@
                     <label class="label-fontsize">Month</label>
                     <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m')" (keydown.enter)="onSelect('m')" filter="true"
-                       [showClear]="true" required>
+                      optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>

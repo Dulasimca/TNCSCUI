@@ -192,8 +192,9 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'rt':
         if (this.Trcode !== null && this.Trcode !== undefined) {
-          if (this.Trcode.value !== undefined && this.Trcode.value !== null) {
-          const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.IssuingCode);
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
+          (this.trCode !== null && this.trCode !== undefined)) {
+          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(rt => {
@@ -211,8 +212,10 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'rn':
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
-          if ( this.Trcode.value !== undefined && this.Trcode.value !== null && this.RTCode.value !== undefined && this.RTCode.value !== null) {
-          const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GCode', this.IssuingCode);
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null && 
+            this.RTCode.value !== undefined && this.RTCode.value !== null) || (this.rtCode !== null && this.rtCode !== undefined
+              && this.trCode !== null && this.trCode !== undefined)) {
+          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode).append('TRType', this.transType).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(rn => {
@@ -230,8 +233,8 @@ export class IssueReceiptComponent implements OnInit {
       case 'i_desc':
         let itemDesc = [];
         if(this.Scheme !== null && this.Scheme !== undefined) {
-        if (this.Scheme.value !== undefined && this.Scheme.value !== null) {
-          const params = new HttpParams().set('SCode', this.Scheme.value);
+        if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
+          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(i => {
@@ -248,9 +251,9 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'st_no':
         let stackNo = [];
-        if( this.ICode !== undefined && this.ICode !== null) {
-        if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== null) {
-          const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', this.ICode.value);
+        if(this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
+        if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
+          const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(s => {
@@ -275,7 +278,7 @@ export class IssueReceiptComponent implements OnInit {
       }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
+        // if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.Table.forEach(p => {
@@ -285,11 +288,11 @@ export class IssueReceiptComponent implements OnInit {
               this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           });
-        }
+        // }
         break;
       case 'wmt':
         let weighment = [];
-        if (this.wmtOptions === undefined) {
+        // if (this.wmtOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.Table1.forEach(w => {
@@ -299,7 +302,7 @@ export class IssueReceiptComponent implements OnInit {
               this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           });
-        }
+        // }
         break;
     }
   }
@@ -639,9 +642,11 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = this.issueData = [];
     this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode
       = this.WTCode = this.WNo = this.RegularAdvance = this.month = this.year = this.VehicleNo =
-      this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = this.NewBale =
-      this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = null;
+      this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = null;
+       this.NewBale = this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = 0;
     this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
+    this.packingTypeOptions = this.transactionOptions = this.schemeOptions = this.stackOptions = 
+     this.wmtOptions = this.receiverNameOptions = this.receiverTypeOptions = [];
   }
 
 

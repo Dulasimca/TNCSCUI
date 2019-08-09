@@ -372,7 +372,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
-    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
+    const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
         res.forEach(data => {
@@ -615,8 +615,24 @@ export class DeliveryReceiptComponent implements OnInit {
             ItemCode: i.ItemCode,
             Scheme: i.Scheme,
           });
-          this.itemSchemeData.push({});
-          this.paymentBalData.push({});
+          this.itemSchemeData.push({
+            ITDescription: i.ITDescription,
+            MarginNkgs: (i.Nkgs * 1),
+            RateInTerms: i.UnitMeasure,
+            SchemeName: i.SchemeName,
+            MarginRate: (i.MarginRate * 1),
+            MarginAmount: (i.MarginAmount * 1),
+            ItemCode: i.ItemCode,
+            Scheme: i.Scheme,
+          });
+          this.paymentBalData.push({
+            PaymentMode: i.PaymentMode,
+            ChequeNo: i.ChequeNo,
+            ChDate: this.datepipe.transform(i.ChDate, 'dd-MM-yyyy'),
+            PaymentAmount: (i.PaymentAmount * 1),
+            payableat: i.payableat,
+            bank: i.bank
+          });
           this.paymentData.push({});
         });
       }

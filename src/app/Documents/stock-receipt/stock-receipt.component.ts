@@ -212,7 +212,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'dt':
         if (this.Trcode !== undefined  && this.Trcode !== null) {
-        if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
+        if ((this.Trcode.value !== undefined && this.Trcode.value !== null) 
+        || (this.trCode !== undefined && this.trCode !== null)){
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.ReceivingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
@@ -231,7 +232,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'dn':
         if (this.DepositorType !== null && this.DepositorType !== undefined) {
-        if (this.DepositorType.value !== undefined && this.DepositorType.value !== '') {
+        if ((this.DepositorType.value !== undefined && this.DepositorType.value !== null) 
+        || (this.depositorType !== null && this.depositorType !== undefined)) {
           const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
@@ -249,7 +251,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'i_desc':
         if (this.Scheme !== undefined && this.Scheme !== null) {
-          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+          if ((this.Scheme.value !== undefined && this.Scheme.value !== null) 
+          || (this.schemeCode !== undefined && this.schemeCode !== null)){
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
@@ -268,7 +271,8 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'st_no':
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
-          if (this.ICode.value !== undefined && this.ICode.value !== '') {
+          if ((this.ICode.value !== undefined && this.ICode.value !== null) 
+          || (this.iCode !== undefined && this.iCode !== null)){
             const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
@@ -293,7 +297,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
+        // if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.Table.forEach(p => {
@@ -303,10 +307,10 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
           });
-        }
+        // }
         break;
       case 'wmt':
-        if (this.wmtOptions === undefined) {
+        // if (this.wmtOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
            if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
               res.Table1.forEach(w => {
@@ -316,7 +320,7 @@ export class StockReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
           });
-        }
+        // }
         break;
     }
   }
@@ -584,9 +588,14 @@ export class StockReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = [];
-    this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo =
-      this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType =
+    this.SRDate = this.month = this.year = this.OrderDate = this.OrderNo = null;
+      this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType = null;
       this.TruckMemoDate = this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
+      this.trCode = this.depositorCode = this.depositorType = this.schemeCode = this.Scheme = 
+      this.ICode = this.iCode = this.IPCode = this.ipCode = this.TStockNo = this.NoPacking = null;
+      this.transactionOptions = this.schemeOptions = this.itemDescOptions = this.depositorNameOptions = 
+      this.depositorTypeOptions = this.stackOptions = this.wmtOptions = this.packingTypeOptions = [];
+      this.StackBalance = this.GKgs = this.tareWt = this.NKgs = 0;
   }
 
   openNext() {
