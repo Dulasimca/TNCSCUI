@@ -557,7 +557,7 @@ export class IssueReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Issue No:' + res.Item2 });
           this.onClear();
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
