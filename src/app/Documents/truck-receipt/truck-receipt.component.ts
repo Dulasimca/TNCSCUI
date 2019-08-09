@@ -48,7 +48,6 @@ export class TruckReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   vehicleOptions: SelectItem[];
   stackYear: any;
-  receivorNameList: any = [];
   scheme_data: any;
   godownName: string;
   regionName: string;
@@ -149,6 +148,7 @@ export class TruckReceiptComponent implements OnInit {
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
+    let receivorNameList: any = []; 
     switch (selectedItem) {
       case 'tr':
         transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': this.transType },
@@ -192,40 +192,25 @@ export class TruckReceiptComponent implements OnInit {
       }
         break;
       case 'rn':
-        this.receivorNameList = [];
         if(this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
         if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
           this.RTCode.value !== undefined && this.RTCode.value !== null) || 
           (this.trCode !== undefined && this.trCode !== null && this.rtCode !== undefined && this.rtCode !== null)) {
             let rt_code = (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode;
-          if (rt_code === 'TY008') {
-            if (this.godowns !== undefined) {
-              this.godowns.forEach(g => {
-                this.receivorNameList.push({ 'label': g.GName, 'value': g.GCode, 'rcode': g.RCode });
-              })
-              if (this.RRCode !== undefined) {
-                this.receivorNameList = this.receivorNameList.filter(x => {
-                  return x.rcode === this.RRCode.value
-                });
-              }
-              this.receivorNameOptions = this.receivorNameList;
-              this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          } else {
-            const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType).append('GCode', this.GCode);
+            const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType)
+            .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
-                  this.receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
                 })
-              this.receivorNameOptions = this.receivorNameList;
+              this.receivorNameOptions = receivorNameList;
               }
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
-        }
       } else {
-        this.receivorNameOptions = this.receivorNameList;
+        this.receivorNameOptions = receivorNameList;
       }
         break;
       case 'rr':
@@ -376,7 +361,7 @@ export class TruckReceiptComponent implements OnInit {
   refreshSelect(id) {
     switch (id) {
       case 'tr':
-        this.receivorNameList = this.receivorTypeOptions = [];
+        this.receivorNameOptions = this.receivorTypeOptions = [];
         this.rtCode = this.RTCode = this.RNCode = null;
         break;
       case 'sc':

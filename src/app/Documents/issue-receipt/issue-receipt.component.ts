@@ -215,7 +215,8 @@ export class IssueReceiptComponent implements OnInit {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null && 
             this.RTCode.value !== undefined && this.RTCode.value !== null) || (this.rtCode !== null && this.rtCode !== undefined
               && this.trCode !== null && this.trCode !== undefined)) {
-          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode).append('TRType', this.transType).append('GCode', this.IssuingCode);
+          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode).append('TRType', this.transType).append('GCode', this.IssuingCode)
+          .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(rn => {
