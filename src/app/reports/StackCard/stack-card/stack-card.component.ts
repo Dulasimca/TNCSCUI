@@ -84,21 +84,29 @@ export class StackCardComponent implements OnInit {
         }
         break;
       case 's':
-        const params = {
-          'GCode': this.g_cd.value,
-          'StackDate': this.Year.label,
-          'ICode': this.c_cd.value,
-          'Type': 2
-        }
-        this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-          this.StackCardNoData = res;
-          if (this.StackCardNoData !== undefined) {
-            this.StackCardNoData.forEach(s => {
-              StackSelection.push({ 'label': s.Stackno });
-              this.stackOptions = StackSelection;
-            })
+         if(this.g_cd.value !== undefined && this.g_cd.value !== null && this.Year.label !== undefined && this.Year.label !== null
+           && this.c_cd.value !== undefined &&  this.c_cd.value !== null) 
+         {
+          const params = {
+            'GCode': this.g_cd.value,
+            'StackDate': this.Year.label,
+            'ICode': this.c_cd.value,
+            'Type': 3
           }
-        })
+          this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+            this.StackCardNoData = res;
+            if (this.StackCardNoData !== undefined) {
+              this.StackCardNoData.forEach(s => {
+                StackSelection.push({ 'label': s.StackNo,'value' : s.StackDate });
+                this.stackOptions = StackSelection;
+              })
+            }
+          })
+         }
+         else{
+          this.stackOptions = StackSelection;
+         }
+        
     }
   }
 
@@ -106,29 +114,29 @@ export class StackCardComponent implements OnInit {
     this.loading = true;
     const params = {
       'GCode': this.g_cd.value,
-      'StackDate': this.Year.label,
+      'StackDate': this.s_cd.value,
       'ICode': this.c_cd.value,
       'TStockNo': this.s_cd.label,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      this.StackCardData = res;
-      let sno = 0;
-      this.StackCardData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+     
       if (res !== undefined && res.length !== 0) {
+        this.StackCardData = res;
+        this.StackCardData.forEach(data => {
+          data.AckDate = this.datePipe.transform(data.AckDate, 'dd-MM-yyyy');
+          data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
+          data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
+          data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+         
+        });
         this.isActionDisabled = false;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
-      this.loading = false;
-    }
-    )
+      
+    });
+    this.loading = false;
   }
 
   onResetTable() {
