@@ -902,14 +902,14 @@ export class TableConstants {
     ];
 
     this.StackCard = [
-      { field: 'obstackdate', header: 'Date' },
-      { field: 'StackBalanceBags', header: 'Bags' },
-      { field: 'Stackbalanceweight', header: 'Quantity' },
-      { field: 'StackBalanceBags', header: 'Bags' },
-      { field: 'Stackbalanceweight', header: 'Quantity' },
-      { field: '', header: 'Closing Balance' },
+      { field: 'AckDate', header: 'Date' },
+      { field: 'ReceiptBags', header: 'Bags' },
+      { field: 'ReceiptQuantity', header: 'Quantity' },
+      { field: 'IssuesBags', header: 'Bags' },
+      { field: 'IssuesQuantity', header: 'Quantity' },
+      { field: 'ClosingBalance', header: 'Closing Balance' },
     ];
-
+   
     this.PackingMaster = [
       { field: '', header: 'Packing Name' },
       { field: '', header: 'Net Weight' },
