@@ -122,7 +122,7 @@ export class IssueReceiptComponent implements OnInit {
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
-    this.month = new Date(this.curMonth).toDateString().slice(4,7);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year}];
@@ -458,7 +458,8 @@ export class IssueReceiptComponent implements OnInit {
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
+        this.CurrentDocQtv = (this.CurrentDocQtv * 1) - (this.NKgs * 1);
+        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.itemData.splice(index, 1);
       break;
     }
@@ -550,6 +551,7 @@ export class IssueReceiptComponent implements OnInit {
 
   getDocBySINo() {
     this.viewPane = false;
+    this.itemData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -562,8 +564,12 @@ export class IssueReceiptComponent implements OnInit {
         this.GunnyReleased = res[0].GunnyReleased;
         this.Gunnyutilised = res[0].GunnyUtilised;
         this.WNo = res[0].WCCode;
-        this.monthOptions = [{ label: new Date(res[0].IRelates.slice(5, 7)).toDateString().slice(4, 7), value: res[0].IRelates.slice(5, 7) }]
-        this.month = res[0].IRelates.slice(0, 1);
+        let currentYr = new Date().getFullYear();
+        let today = new Date().getDate();
+        this.curMonth = res[0].IRelates.slice(5, 7);
+        let formDate = this.curMonth + "-" + today + "-" + currentYr;
+        this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
+        this.month = this.datepipe.transform(new Date(formDate), 'MMM');
         this.yearOptions = [{ label: res[0].IRelates.slice(0, 4), value: res[0].IRelates.slice(0, 4) }]
         this.year = res[0].IRelates.slice(3, 6);
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
