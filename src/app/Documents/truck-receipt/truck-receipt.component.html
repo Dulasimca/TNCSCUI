@@ -29,7 +29,8 @@
                     <div class="ui-g-6 ui-md-2">
                       <label for="Trcd" class="label-fontsize">Transaction Code</label>
                       <p-dropdown #tr name="Trcd" id="float-input" [options]="transactionOptions" [(ngModel)]="Trcode"
-                        (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')" optionLabel="label" required>
+                        (onClick)="onSelect('tr')" (keydown.enter)="onSelect('tr')"
+                        (onChange)="refreshSelect('tr')" optionLabel="label" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -150,7 +151,7 @@
                       <label for="Scheme" class="label-fontsize">Scheme</label>
                       <p-dropdown #sc name="Scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" optionLabel="label" 
-                        filter="true">
+                        (onChange)="refreshSelect('sc')" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

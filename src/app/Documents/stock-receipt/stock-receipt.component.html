@@ -99,7 +99,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label for="Transaction" class="label-fontsize">Transaction Code</label>
                     <p-dropdown name="Transaction" [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                    (keydown.enter)="onSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
+                    (keydown.enter)="onSelect('tr')" (onChange)="refreshSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -175,8 +175,8 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" name="Scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
-                      (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                      [autoWidth]="false" [style]="{'width':'100%'}">
+                      (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" (onChange)="refreshSelect('sc')"
+                       filter="true" optionLabel="label" [showClear]="true" [autoWidth]="false" [style]="{'width':'100%'}">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>

@@ -307,6 +307,20 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
+  refreshSelect(id) {
+    switch (id) {
+      case 'tr':
+        this.receiverNameOptions = this.receiverTypeOptions = [];
+        this.rtCode = this.RTCode = this.rnCode = this.RNCode = null;
+        break;
+      case 'sc':
+        this.itemDescOptions = this.stackOptions = [];
+        this.iCode = this.ICode = this.ipCode = this.IPCode = null;
+        break;
+    }
+  }
+
+
   parseMoisture(event) {
     let totalLength = event.target.value.length;
     let value = event.target.value;

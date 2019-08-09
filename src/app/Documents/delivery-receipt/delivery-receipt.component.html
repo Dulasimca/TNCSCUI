@@ -32,7 +32,7 @@
                       <label for="Trcode" class="label-fontsize" style="padding-top: 10px;">Transaction Code</label>
                       <p-dropdown #tr name="Trcode" [options]="transactionOptions" (keydown.enter)="onSelect('tr')"
                         [(ngModel)]="Trcode" (onClick)="onSelect('tr')" filter="true" optionLabel="label"
-                        [showClear]="true" required>
+                        [showClear]="true" (onChange)="refreshSelect('tr')" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -155,8 +155,8 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="scheme" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #sc name="scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
-                        (onClick)="onSelect('scheme')" (keydown.enter)="onSelect('scheme')" filter="true" optionLabel="label"
-                        [showClear]="true">
+                        (onClick)="onSelect('scheme')" (keydown.enter)="onSelect('scheme')" filter="true" 
+                        optionLabel="label" (onChange)="refreshSelect('sc')" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -242,7 +242,7 @@
                       <label class="label-fontsize" for="marginScheme" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
                         (onClick)="onSelect('margin_scheme')" (keydown.enter)="onSelect('margin_scheme')" filter="true" name="marginScheme"
-                        optionLabel="label" [showClear]="true">
+                        (onChange)="refreshSelect('msc')" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -252,7 +252,7 @@
                       <label class="label-fontsize" for="marginItem" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #margin_id name="marginItem" [options]="marginItemDescOptions" [(ngModel)]="MICode"
                         (onClick)="onSelect('margin_commodity')" (keydown.enter)="onSelect('margin_commodity')" filter="true"
-                        optionLabel="label" [showClear]="true">
+                         optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

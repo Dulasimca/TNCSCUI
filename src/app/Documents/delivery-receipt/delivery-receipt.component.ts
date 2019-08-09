@@ -340,6 +340,24 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
+  refreshSelect(id) {
+    switch (id) {
+      case 'tr':
+        this.receivorTypeOptions = this.partyNameOptions = [];
+        this.RTCode = this.rtCode = this.PName = this.pCode = null;
+        break;
+      case 'sc':
+        this.itemDescOptions = [];
+        this.iCode = this.ICode = null;
+        break;
+      case 'msc':
+        this.marginItemDescOptions = [];
+        this.miCode = this.MICode = null;
+        break;
+    }
+  }
+
+
   onRowSelect(event) {
     this.DeliveryOrderNo = event.data.Dono;
   }

@@ -373,6 +373,19 @@ export class TruckReceiptComponent implements OnInit {
     }
   }
 
+  refreshSelect(id) {
+    switch (id) {
+      case 'tr':
+        this.receivorNameList = this.receivorTypeOptions = [];
+        this.rtCode = this.RTCode = this.RNCode = null;
+        break;
+      case 'sc':
+        this.itemDescOptions = this.stackOptions = [];
+        this.iCode = this.ICode = this.ipCode = this.IPCode = null;
+        break;
+    }
+  }
+
   onSelectTransportMode() {
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 1) {
