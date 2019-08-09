@@ -137,7 +137,7 @@ export class StockReceiptComponent implements OnInit {
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
     this.curMonth = "0" + (new Date().getMonth() + 1);
-    this.month = new Date(this.curMonth).toDateString().slice(4,7);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year}];
@@ -517,8 +517,12 @@ export class StockReceiptComponent implements OnInit {
         this.TruckMemoNo = res[0].TruckMemoNo;
         this.LNo = res[0].LNo;
         this.LFrom = res[0].LFrom;
-        this.monthOptions = [{label: new Date(res[0].Pallotment.slice(5, 7)).toDateString().slice(4,7), value: res[0].Pallotment.slice(5, 7)}]
-        this.month = res[0].Pallotment.slice(5, 7);
+        let currentYr = new Date().getFullYear();
+        let today = new Date().getDate();
+        this.curMonth = res[0].IRelates.slice(5, 7);
+        let formDate = this.curMonth + "-" + today + "-" + currentYr;
+        this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
+        this.month = this.datepipe.transform(new Date(formDate), 'MMM');
         this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
         this.year = res[0].Pallotment.slice(0, 4);
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];

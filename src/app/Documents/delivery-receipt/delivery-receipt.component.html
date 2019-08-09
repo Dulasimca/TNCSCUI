@@ -69,7 +69,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="year" id="float-input" [options]="yearOptions" [(ngModel)]="PYear"
-                        (onClick)="onSelect('y')" (keydown.enter)="onSelect('y')" optionLabel="label" required>
+                        (onClick)="onSelect('y')" (keydown.enter)="onSelect('y')" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -132,7 +132,7 @@
                           </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('delivery', rowIndex)">
+                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('delivery', rowData, rowIndex)">
                             <td *ngFor="let col of columns">
                               {{rowData[col.field]}}
                             </td>
@@ -229,7 +229,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowIndex)">
+                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('item', rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -315,7 +315,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('scheme', rowIndex)">
+                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('scheme', rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -436,7 +436,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('payment', rowIndex)">
+                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('payment', rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -519,7 +519,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('prevBal', rowIndex)">
+                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow('prevBal', rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>

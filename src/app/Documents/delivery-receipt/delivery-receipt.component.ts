@@ -108,6 +108,7 @@ export class DeliveryReceiptComponent implements OnInit {
   PaidAmount: any = 0;
   BalanceAmount: any = 0;
   MarginItem: string;
+  curMonth: any;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
@@ -124,6 +125,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.paymentCols = this.tableConstants.DeliveryPaymentcolumns;
     this.paymentBalCols = this.tableConstants.DeliveryPaymentBalanceCols;
     this.itemSchemeCols = this.tableConstants.DeliveryItemSchemeColumns;
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.PMonth = this.datepipe.transform(new Date(), 'MMM');
+    this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
@@ -388,19 +392,26 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'item':
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
-        this.NKgs = (data.Nkgs * 1);
-        this.Rate = (data.Rate)
-                this.itemData.splice(index, 1);
+        this.iCode = data.ItemCode;
+        this.ICode = data.ITDescription;
+        this.NKgs = (data.Nkgs * 1).toFixed(3);
+        this.Rate = (data.Rate * 1).toFixed(2);
+        this.RateTerm = data.UnitMeasure;
+        this.rateTerm = data.Wtype;
+        this.TotalAmount = (data.Total * 1).toFixed(2);
+        this.itemData.splice(index, 1);
         break;
         case 'scheme':
-          this.confirmationService.confirm({
-            message: 'Are you sure that you want to proceed?',
-                header: 'Confirmation',
-                icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.itemSchemeData.splice(index, 1);
-            }
-        });
+          this.marginSchemeCode = data.SchemeCode;
+          this.MarginScheme = data.SchemeName;
+          this.MICode = data.ITDescription;
+          this.miCode = data.ItemCode;
+          this.MarginRateInTerms = data.RateInTerms;
+          this.marginRateInTerms = data.MarginWtype;
+          this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
+          this.MarginRate = (data.MarginRate * 1).toFixed(2);
+          this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+          this.itemSchemeData.splice(index, 1);
         break;
         case 'payment':
             this.confirmationService.confirm({
@@ -582,8 +593,12 @@ export class DeliveryReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TrName, value: res[0].Trcode }];
         this.IndentNo = res[0].IndentNo;
         this.PermitDate = new Date(res[0].PermitDate);
-        this.monthOptions = [{label: new Date(res[0].Pallotment.slice(5, 7)).toDateString().slice(4,7), value: res[0].Pallotment.slice(5, 7)}]
-        this.PMonth = res[0].Pallotment.slice(5, 7);
+        let currentYr = new Date().getFullYear();
+        let today = new Date().getDate();
+        this.curMonth = res[0].IRelates.slice(5, 7);
+        let formDate = this.curMonth + "-" + today + "-" + currentYr;
+        this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
+        this.PMonth = this.datepipe.transform(new Date(formDate), 'MMM');
         this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
         this.PYear = res[0].Pallotment.slice(0, 4);
         this.PName = res[0].ReceivorName;
@@ -611,7 +626,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onSave() {
-    this.OrderPeriod = this.PMonth.value + '/' + this.PYear.label;
+    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined) ? this.PMonth.value : this.curMonth) ;
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined) ? this.rowId : 0;
     const params = {
