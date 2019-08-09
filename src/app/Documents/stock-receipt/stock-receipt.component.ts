@@ -230,7 +230,7 @@ export class StockReceiptComponent implements OnInit {
       }
         break;
       case 'dn':
-        if (this.DepositorType !== null) {
+        if (this.DepositorType !== null && this.DepositorType !== undefined) {
         if (this.DepositorType.value !== undefined && this.DepositorType.value !== '') {
           const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {

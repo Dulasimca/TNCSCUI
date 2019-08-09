@@ -164,6 +164,8 @@ export class TruckReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
       case 'rt':
@@ -185,6 +187,8 @@ export class TruckReceiptComponent implements OnInit {
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      } else {
+        this.receivorTypeOptions = receivorTypeList;
       }
         break;
       case 'rn':
@@ -219,6 +223,8 @@ export class TruckReceiptComponent implements OnInit {
             });
           }
         }
+      } else {
+        this.receivorNameOptions = this.receivorNameList;
       }
         break;
       case 'rr':
@@ -231,6 +237,8 @@ export class TruckReceiptComponent implements OnInit {
           })
           this.receivorRegionOptions = regionsData;
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
+        } else {
+          this.receivorRegionOptions = regionsData;
         }
         break;
       case 'rh':
@@ -290,6 +298,8 @@ export class TruckReceiptComponent implements OnInit {
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+        } else {
+          this.itemDescOptions = itemDesc;
         }
         break;
       case 'st_no':
@@ -317,6 +327,8 @@ export class TruckReceiptComponent implements OnInit {
             this.GodownNo = this.stackYear = this.LocationNo = null;
           }
         }
+      } else {
+        this.stackOptions = stackNo;
       }
         break;
       case 'pt':

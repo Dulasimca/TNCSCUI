@@ -191,7 +191,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (this.Trcode !== null) {
+        if (this.Trcode !== null && this.Trcode !== undefined) {
           if (this.Trcode.value !== undefined && this.Trcode.value !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
@@ -210,7 +210,7 @@ export class IssueReceiptComponent implements OnInit {
       }
         break;
       case 'rn':
-        if (this.Trcode !== null && this.RTCode !== null) {
+        if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
           if ( this.Trcode.value !== undefined && this.Trcode.value !== null && this.RTCode.value !== undefined && this.RTCode.value !== null) {
           const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
