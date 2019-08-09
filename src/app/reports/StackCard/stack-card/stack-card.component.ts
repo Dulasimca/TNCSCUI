@@ -108,7 +108,8 @@ export class StackCardComponent implements OnInit {
       'GCode': this.g_cd.value,
       'StackDate': this.Year.label,
       'ICode': this.c_cd.value,
-      'Type': 2
+      'TStockNo': this.s_cd.label,
+      'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       this.StackCardData = res;
