@@ -519,7 +519,7 @@ export class StockReceiptComponent implements OnInit {
         this.LFrom = res[0].LFrom;
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
-        this.curMonth = res[0].IRelates.slice(5, 7);
+        this.curMonth = res[0].Pallotment.slice(5, 7);
         let formDate = this.curMonth + "-" + today + "-" + currentYr;
         this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.month = this.datepipe.transform(new Date(formDate), 'MMM');
