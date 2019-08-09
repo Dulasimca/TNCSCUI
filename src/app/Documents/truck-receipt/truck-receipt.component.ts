@@ -60,7 +60,7 @@ export class TruckReceiptComponent implements OnInit {
   STDate: Date = new Date();
   Trcode: any;
   trCode: any;
-  transType: any;
+  transType: string = "I";
   OrderNo: any;
   OrderDate: Date = new Date();
   RNo: any;
@@ -151,8 +151,8 @@ export class TruckReceiptComponent implements OnInit {
     let packingTypes = [];
     switch (selectedItem) {
       case 'tr':
-        transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': 'I' },
-          { 'label': 'Internal Transfer', 'value': 'TR021', 'transType': 'I' });
+        transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': this.transType },
+          { 'label': 'Internal Transfer', 'value': 'TR021', 'transType': this.transType });
         this.transactionOptions = transactoinSelection;
         this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         this.isRailSelected = (this.Trcode.value === 'TR021') ? true : false;
@@ -207,7 +207,7 @@ export class TruckReceiptComponent implements OnInit {
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           } else {
-            const params = new HttpParams().set('TyCode', rt_code).append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
+            const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
@@ -235,7 +235,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'rh':
         if (this.toRailHeadOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(rh => {
@@ -249,7 +249,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'fs':
         if (this.fromStationOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(fs => {
@@ -263,7 +263,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'ts':
         if (this.toStationOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType',  (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.transType).append('GCode', this.GCode);
+          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(ts => {
@@ -573,7 +573,6 @@ export class TruckReceiptComponent implements OnInit {
         this.RHCode = res[0].RHName;
         this.rhCode = res[0].RailHead }
         this.receivorNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivingCode}]
-        this.transType = res[0].TRType;
         this.ManualDocNo = res[0].ManualDocNo;
         this.TransporterName = res[0].TransporterName;
         this.LWBillDate = new Date(res[0].LWBillDate);

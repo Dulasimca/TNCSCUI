@@ -528,7 +528,6 @@ export class StockReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode}];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
-        this.TransType = res[0].TransType,
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
