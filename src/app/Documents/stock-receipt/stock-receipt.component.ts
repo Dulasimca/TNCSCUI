@@ -610,7 +610,7 @@ export class StockReceiptComponent implements OnInit {
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.OrderNo = this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType = null;
     this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
-    this.trCode = this.depositorCode = this.depositorType = this.schemeCode = this.Scheme =
+    this.trCode = this.depositorCode = this.depositorType = this.schemeCode = this.Scheme = this.Remarks =
     this.ICode = this.iCode = this.IPCode = this.ipCode = this.TStockNo = this.NoPacking = null;
     this.transactionOptions = this.schemeOptions = this.itemDescOptions = this.depositorNameOptions =
     this.depositorTypeOptions = this.stackOptions = this.wmtOptions = this.packingTypeOptions = [];
