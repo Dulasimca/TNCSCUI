@@ -180,6 +180,8 @@ export class DeliveryReceiptComponent implements OnInit {
                 this.transactionOptions = transactoinSelection;
               });
               this.transactionOptions.unshift({ 'label': '-select', 'value': null });
+            } else {
+              this.transactionOptions = transactoinSelection;
             }
           })
         }
@@ -191,6 +193,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
         case 'margin_scheme':
@@ -200,6 +204,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.marginSchemeOptions = marginSchemeSelection;
           });
           this.marginSchemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.marginSchemeOptions = marginSchemeSelection;
         }
         break;
       case 'rt':
@@ -217,6 +223,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      } else {
+        this.receivorTypeOptions = receivorTypeList;
       }
         break;
       case 'pn':
@@ -234,6 +242,8 @@ export class DeliveryReceiptComponent implements OnInit {
              this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
            });
          }
+       } else {
+        this.partyNameOptions = partyNameList;
        }
         break;
       case 'commodity':
@@ -259,6 +269,8 @@ export class DeliveryReceiptComponent implements OnInit {
              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
            });
         }
+      } else {
+        this.itemDescOptions = commoditySelection;
       }
         break;
         case 'margin_commodity':
@@ -284,6 +296,8 @@ export class DeliveryReceiptComponent implements OnInit {
                  this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
                });
              }
+          } else {
+            this.marginItemDescOptions = marginCommoditySelection;
           }
             break;
         case 'wmt':

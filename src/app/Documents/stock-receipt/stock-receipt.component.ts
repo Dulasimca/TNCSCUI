@@ -193,6 +193,8 @@ export class StockReceiptComponent implements OnInit {
               });
               this.transactionOptions = transactoinSelection.slice(0);
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            } else {
+              this.transactionOptions = transactoinSelection.slice(0);
             }
           })
         break;
@@ -204,6 +206,8 @@ export class StockReceiptComponent implements OnInit {
           this.schemeOptions = schemeSelection;
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
       case 'dt':
@@ -221,10 +225,13 @@ export class StockReceiptComponent implements OnInit {
           //  this.isDepositorNameDisabled = (this.DepositorType !== null && this.DepositorType !== undefined) ? false : true;
           });
         }
+      } else {
+        this.depositorTypeOptions = depositorTypeList;
       }
         break;
       case 'dn':
-        if (this.DepositorType.value !== undefined && this.DepositorType.value !== '' && this.DepositorType !== null) {
+        if (this.DepositorType !== null) {
+        if (this.DepositorType.value !== undefined && this.DepositorType.value !== '') {
           const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType).append('TRType', this.TransType);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
@@ -236,6 +243,9 @@ export class StockReceiptComponent implements OnInit {
           }
           });
         }
+      } else {
+        this.depositorNameOptions = depositorNameList;
+      }
         break;
       case 'i_desc':
         if (this.Scheme !== undefined && this.Scheme !== null) {
@@ -252,6 +262,8 @@ export class StockReceiptComponent implements OnInit {
             });
             //  this.isStackNoEnabled = (this.ICode !== null && this.ICode !== undefined) ? false : true;
           }
+        } else {
+          this.itemDescOptions = itemDesc;
         }
         break;
       case 'st_no':
@@ -276,6 +288,8 @@ export class StockReceiptComponent implements OnInit {
               this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
             }
           }
+        } else {
+          this.stackOptions = stackNo;
         }
         break;
       case 'pt':

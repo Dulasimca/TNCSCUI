@@ -174,6 +174,8 @@ export class IssueReceiptComponent implements OnInit {
               });
               this.isReceivorTypeDisabled = false;
               this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            } else {
+              this.transactionOptions = transactoinSelection;
             }
           })
         break;
@@ -182,12 +184,15 @@ export class IssueReceiptComponent implements OnInit {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
           });
-          this.schemeOptions = schemeSelection;
+            this.schemeOptions = schemeSelection;
             this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
       case 'rt':
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+        if (this.Trcode !== null) {
+          if (this.Trcode.value !== undefined && this.Trcode.value !== null) {
           const params = new HttpParams().set('TRCode', this.Trcode.value).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
@@ -200,10 +205,13 @@ export class IssueReceiptComponent implements OnInit {
             }
           });
         }
+      } else {
+        this.receiverTypeOptions = receivorTypeList;
+      }
         break;
       case 'rn':
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '' &&
-          this.RTCode !== null && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+        if (this.Trcode !== null && this.RTCode !== null) {
+          if ( this.Trcode.value !== undefined && this.Trcode.value !== null && this.RTCode.value !== undefined && this.RTCode.value !== null) {
           const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType).append('GCode', this.IssuingCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
@@ -215,10 +223,14 @@ export class IssueReceiptComponent implements OnInit {
             }
           });
         }
+      } else {
+        this.receiverNameOptions = receivorNameList;
+      }
         break;
       case 'i_desc':
         let itemDesc = [];
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '' && this.Scheme !== null) {
+        if(this.Scheme !== null && this.Scheme !== undefined) {
+        if (this.Scheme.value !== undefined && this.Scheme.value !== null) {
           const params = new HttpParams().set('SCode', this.Scheme.value);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
@@ -230,10 +242,14 @@ export class IssueReceiptComponent implements OnInit {
             }
           });
         }
+      } else {
+        this.itemDescOptions = itemDesc;
+      }
         break;
       case 'st_no':
         let stackNo = [];
-        if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== '' && this.ICode !== null) {
+        if( this.ICode !== undefined && this.ICode !== null) {
+        if (this.RCode !== undefined && this.ICode.value !== undefined && this.ICode.value !== null) {
           const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', this.ICode.value);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
@@ -254,6 +270,9 @@ export class IssueReceiptComponent implements OnInit {
             this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
           }
         }
+      } else {
+        this.stackOptions = stackNo;
+      }
         break;
       case 'pt':
         if (this.packingTypeOptions === undefined) {
