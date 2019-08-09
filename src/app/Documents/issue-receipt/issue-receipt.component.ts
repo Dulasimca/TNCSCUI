@@ -219,7 +219,7 @@ export class IssueReceiptComponent implements OnInit {
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(rn => {
-                receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode });
+                receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
               })
               this.receiverNameOptions = receivorNameList;
               this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
