@@ -157,7 +157,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onView() {
-    this.openingBalanceData = [];
+    this.openingBalanceData =  this.opening_balance = [];
     const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -186,6 +186,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
     this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
+    this.commodityOptions = [];
   }
 
   onSave() {
@@ -194,10 +195,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       'CommodityCode': (this.c_cd.value !== null && this.c_cd.value !== undefined) ? this.c_cd.value : this.commodityCd,
       'ObDate': this.Year.value,
       'BookBalanceBags': this.BookBalanceBags,
-      'BookBalanceWeight': (this.BookBalanceWeight).toFixed(3),
+      'BookBalanceWeight': this.BookBalanceWeight,
       'PhysicalBalanceBags': this.PhysicalBalanceBags,
-      'PhysicalBalanceWeight': (this.PhysicalBalanceWeight).toFixed(3),
-      'CumulitiveShortage': (this.CumulativeShortage).toFixed(3),
+      'PhysicalBalanceWeight': this.PhysicalBalanceWeight,
+      'CumulitiveShortage': this.CumulativeShortage,
       'RegionCode': this.g_cd.rcode
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {

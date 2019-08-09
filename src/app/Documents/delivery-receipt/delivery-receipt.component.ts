@@ -572,10 +572,10 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
-        res.forEach(data => {
-        data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
-        data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
-      })
+      //   res.forEach(data => {
+      //   data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
+      //   data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+      // })
       this.deliveryViewData = res;
      }  else {
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
