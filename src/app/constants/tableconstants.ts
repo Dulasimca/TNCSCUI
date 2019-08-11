@@ -354,12 +354,12 @@ export class TableConstants {
     this.WriteoffReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Godownname', header: 'GODOWN' },
-      { field: 'Date', header: 'DATE' },
-      { field: 'Issue_Memono', header: 'ISSUE NO' },
+      { field: 'Issue_Date', header: 'DATE' },
+      { field: 'Issueno', header: 'ISSUE NO' },
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Quantity', header: 'QUANTITY' },
-      { field: 'StackNo', header: 'Stack No' },
-      { field: 'Remarks', header: 'REMARKS' }
+      { field: 'NetWt', header: 'QUANTITY' },
+      { field: 'Stackno', header: 'STACK NO' },
+      { field: 'remarks', header: 'REMARKS' }
     ];
 
     this.HullingDetailsReport = [
@@ -837,15 +837,16 @@ export class TableConstants {
 
     this.TransactionStatus = [
       // { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'Docdate', header: 'Document Date'},
+      { field: 'GodownName', header: 'Godown Name'},
+      { field: 'TransactionDate', header: 'Document Date'},
       { field: 'Receipt', header: 'Receipt'},
       { field: 'Issues', header: 'Issues'},
       { field: 'Transfer', header: 'Transfer'},
-      { field: 'CB', header: 'CB'},
-      { field: 'Approvaldate', header: 'Approval Date'},
+      { field: 'ClosingBalance', header: 'CB'},
+      { field: 'ApprovalDate', header: 'Approved Date'},
       // { field: 'lastupdated', header: 'Last Updated'},
-      { field: 'remarks', header: 'Remarks'},
-      { field: 'userid', header: 'Username'},
+      // { field: 'remarks', header: 'Remarks'},
+      { field: 'UserId', header: 'Username'},
     ];
 
     this.DailyDocumentTotalReport = [

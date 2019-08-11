@@ -14,7 +14,7 @@
       <div>
         <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="name" size="30" pInputText [(ngModel)]="formUser.name" name="name"
+            <input class="icon2" type="name" size="30" pInputText [(ngModel)]="formUser.Gname" name="name"
               #name="ngModel" autocomplete="off" required>
             <label for="name">InchargeName</label>
           </div>
@@ -29,9 +29,9 @@
             <label for="address1">Address</label>
           </div>
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
-              #phone="ngModel" autocomplete="off" required>
-            <label for="phone">Telephone number</label>
+            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.telno" name="telno"
+              #telno="ngModel" autocomplete="off" required>
+            <label for="telno">Telephone number</label>
           </div>
           <div class="ui-float-label" style="margin-bottom: 20px">
           <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
@@ -43,8 +43,8 @@
               #fax="ngModel" autocomplete="off" required>
             <label for="fax">Fax No</label>
           </div>
-          <div class="bottom" style="padding-left: 85px">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
+          <div class="bottom" style="padding-left: 105px">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
               label=Submit [disabled]="!templateForm.form.valid"></button>
           </div>
         </form>

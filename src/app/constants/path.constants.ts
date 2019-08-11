@@ -35,6 +35,7 @@ export class PathConstants {
   public static readonly HULLING_DETAILS_REPORT = '/api/HullingDetails/Get';
   public static readonly TRANSACTION_MASTER = '/api/TransactionMaster';
   public static readonly TRANSACTION_STATUS_POST = '/api/TransactionStatus/Post';
+  public static readonly TRANSACTION_STATUS_DETAILS_POST = '/api/TransactionStatusDetails/Post';
   public static readonly TRANSACTION_STATUS_GET = '/api/TransactionStatus/Get';
   public static readonly ITEM_MASTER = '/api/ItemMaster';
   public static readonly TRUCK_TO_REGION_REPORT = '/api/TruckToRegion/Get';
@@ -69,4 +70,6 @@ export class PathConstants {
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';
   public static readonly STOCK_PAYMENT_DETAILS_DOCUMENT = '/api/StockPaymentDetails/Post';
   public static readonly STACK_YEAR = '/api/Accounting';
+  public static readonly GODOWN_PROFILE = '/api/GodownProfiles/Post';
+  
 }

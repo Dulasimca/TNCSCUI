@@ -37,7 +37,7 @@ export class TransactionStatusComponent implements OnInit {
   RoleId: any;
   Transaction_Status: any;
   isActionDisabled: any;
-  maxDate: Date;
+  maxDate: Date = new Date();
   loading: boolean;
   viewPane: boolean;
   selectedRow: any;
@@ -48,11 +48,9 @@ export class TransactionStatusComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.data = this.roleBasedService.getInstance();
+    this.data = this.roleBasedService.getInstance().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.isActionDisabled = true;
-    this.TransactionStatusCols = this.tableConstants.TransactionStatus;
-    this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
   }
 
@@ -61,56 +59,33 @@ export class TransactionStatusComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode , 'RCode': x.RCode});
+        options.push({ 'label': x.GName, 'value': x.GCode, 'RCode': x.RCode });
         this.godownOptions = options;
       });
     }
   }
 
-// For Checkbox
+  // For Checkbox
 
-  // onView() {
-  //   if (this.godownOptions !== undefined) {
-  //     const params = new HttpParams().set('Docdate', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
-  //       .append('Gcode', (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode)
-  //       .append('RoleId',this.roleId).append('Type', '1');
-  //     this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
-  //       this.TransactionStatusData = res;
-  //       if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
-  //           this.isActionDisabled = false;
-  //           this.Srno = this.TransactionStatusData[0].Srno,
-  //           this.Receipt = this.TransactionStatusData[0].Receipt,
-  //           this.Issues = this.TransactionStatusData[0].Issues,
-  //           this.Transfer = this.TransactionStatusData[0].Transfer,
-  //           this.CB = this.TransactionStatusData[0].CB,
-  //           this.remarks = this.TransactionStatusData[0].remarks
-  //           this.RoleId = this.roleId
-  //       } else {
-  //         this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
-  //       }
-  //     }, (err: HttpErrorResponse) => {
-  //       if (err.status === 0) {
-  //         this.loading = false;
-  //       }
-  //     })
-  //   }
-  // }
-
-
-  // For Grid
-  
-  onTable() {
-      const params = {
-        'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
-        'RCode': this.g_cd.RCode,
-        'RoleId': this.roleId,
-        'Type': 2
-      }
+  onView() {
     if (this.godownOptions !== undefined) {
-      this.restAPIService.getByParameters(PathConstants.TRANSACTION_STATUS_GET, params).subscribe((res: any) => {
-        this.TransactionStatusTableData = res;
-        if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
-            this.isActionDisabled = false;
+      const params = {
+        'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
+        'Gcode':  this.g_cd.value,
+        'RoleId': this.roleId,
+        'Type': 1
+      };
+      this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
+        this.TransactionStatusData = res;
+        if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
+          this.isActionDisabled = false;
+          this.Srno = this.TransactionStatusData[0].Srno,
+            this.Receipt = this.TransactionStatusData[0].Receipt,
+            this.Issues = this.TransactionStatusData[0].Issues,
+            this.Transfer = this.TransactionStatusData[0].Transfer,
+            this.CB = this.TransactionStatusData[0].CB,
+            this.remarks = this.TransactionStatusData[0].remarks
+          this.RoleId = this.roleId
         } else {
           this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
@@ -122,8 +97,37 @@ export class TransactionStatusComponent implements OnInit {
     }
   }
 
+
+  // For Grid
+
+  onTable() {
+    if (this.roleId === 2) {
+    this.TransactionStatusCols = this.tableConstants.TransactionStatus;
+      const params = {
+        'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
+        'RCode': this.g_cd.RCode,
+        'RoleId': this.roleId,
+        'Type': 2
+      }
+      if (this.godownOptions !== undefined) {
+        this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
+          this.TransactionStatusTableData = res;
+          if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
+            this.isActionDisabled = false;
+          } else {
+            this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+          }
+        }, (err: HttpErrorResponse) => {
+          if (err.status === 0) {
+            this.loading = false;
+          }
+        })
+      }
+    }
+  }
+
   onClear() {
-    this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = null;
+    this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = this.TransactionStatusTableData = null;
   }
 
   onResetTable() {
