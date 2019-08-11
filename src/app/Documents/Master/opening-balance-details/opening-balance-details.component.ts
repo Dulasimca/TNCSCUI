@@ -69,7 +69,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.PhysicalBalanceWeight = this.CumulativeShortage = null;
       } else {
         this.showErr = false;
-        this.CumulativeShortage = this.BookBalanceWeight - this.PhysicalBalanceWeight;
+        this.CumulativeShortage = ((this.BookBalanceWeight * 1) - (this.PhysicalBalanceWeight * 1)).toFixed(3);
+        this.CumulativeShortage = (this.CumulativeShortage * 1);
       }
     } else {
       this.CumulativeShortage = 0;
@@ -149,14 +150,14 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.c_cd = this.selectedRow.ITDescription;
     this.commodityCd = this.selectedRow.CommodityCode;
     this.BookBalanceBags = this.selectedRow.BookBalanceBags;
-    this.BookBalanceWeight = this.selectedRow.BookBalanceWeight;
+    this.BookBalanceWeight = (this.selectedRow.BookBalanceWeight * 1);
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
-    this.PhysicalBalanceWeight = this.selectedRow.PhysicalBalanceWeight;
-    this.CumulativeShortage = this.selectedRow.CumulativeShortage;
+    this.PhysicalBalanceWeight = (this.selectedRow.PhysicalBalanceWeight * 1);
+    this.CumulativeShortage = (this.selectedRow.CumulativeShortage * 1);
   }
 
   onView() {
-    this.openingBalanceData = [];
+    this.openingBalanceData =  this.opening_balance = [];
     const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -185,6 +186,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
     this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
+    this.commodityOptions = [];
   }
 
   onSave() {

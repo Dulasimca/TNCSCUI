@@ -7,7 +7,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Stock Issue Memo Slip</div>
       </div>
     </p-header>
-    <p-toast position="center" key="t-err"></p-toast>
+    <p-toast position="center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -106,7 +106,8 @@
                   <div class="ui-g-12 ui-md-3 no-left-pad" style="margin-top: -18px">
                     <label class="label-fontsize">Transaction Code</label>
                     <p-dropdown name="TansactionType" [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                      filter="true" optionLabel="label" [showClear]="true" (keydown.enter)="onSelect('tr')" required>
+                      filter="true" optionLabel="label" [showClear]="true" 
+                      (onChange)="refreshSelect('tr')" (keydown.enter)="onSelect('tr')" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
@@ -197,7 +198,8 @@
                 <!-- <span class="ui-float-label"> -->
                 <label class="label-fontsize">Scheme</label>
                 <p-dropdown #sc name="Scheme" id="float-input" [options]="schemeOptions" [(ngModel)]="Scheme"
-                  (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true">
+                  (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" (onChange)="refreshSelect('sc')"
+                   filter="true" optionLabel="label" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                   </ng-template>

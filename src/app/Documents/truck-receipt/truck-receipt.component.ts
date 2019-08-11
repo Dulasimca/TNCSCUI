@@ -48,7 +48,6 @@ export class TruckReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   vehicleOptions: SelectItem[];
   stackYear: any;
-  receivorNameList: any = [];
   scheme_data: any;
   godownName: string;
   regionName: string;
@@ -149,6 +148,7 @@ export class TruckReceiptComponent implements OnInit {
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
+    let receivorNameList: any = []; 
     switch (selectedItem) {
       case 'tr':
         transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': this.transType },
@@ -164,11 +164,13 @@ export class TruckReceiptComponent implements OnInit {
             this.schemeOptions = schemeSelection;
           });
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        } else {
+          this.schemeOptions = schemeSelection;
         }
         break;
       case 'rt':
         if (this.Trcode !== null && this.Trcode !== undefined) {
-        if (this.Trcode.value !== undefined && this.Trcode.value !== '') {
+        if ((this.Trcode.value !== undefined && this.Trcode.value !== null) || (this.trCode !== null && this.trCode !== undefined)) {
           const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -185,45 +187,35 @@ export class TruckReceiptComponent implements OnInit {
             this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+      } else {
+        this.receivorTypeOptions = receivorTypeList;
       }
         break;
       case 'rn':
-        this.receivorNameList = [];
         if(this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
-        if (this.Trcode.value !== undefined && this.Trcode.value !== '' &&
-          this.RTCode.value !== undefined && this.RTCode.value !== '') {
+        if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
+          this.RTCode.value !== undefined && this.RTCode.value !== null) || 
+          (this.trCode !== undefined && this.trCode !== null && this.rtCode !== undefined && this.rtCode !== null)) {
             let rt_code = (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode;
-          if (rt_code === 'TY008') {
-            if (this.godowns !== undefined) {
-              this.godowns.forEach(g => {
-                this.receivorNameList.push({ 'label': g.GName, 'value': g.GCode, 'rcode': g.RCode });
-              })
-              if (this.RRCode !== undefined) {
-                this.receivorNameList = this.receivorNameList.filter(x => {
-                  return x.rcode === this.RRCode.value
-                });
-              }
-              this.receivorNameOptions = this.receivorNameList;
-              this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          } else {
-            const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType).append('GCode', this.GCode);
+            const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType)
+            .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
-                  this.receivorNameList.push({ 'label': rn.Issuername, 'value': rn.IssuerCode, 'IssuerRegion': rn.IssuerRegion });
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
                 })
-              this.receivorNameOptions = this.receivorNameList;
+              this.receivorNameOptions = receivorNameList;
               }
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
-        }
+      } else {
+        this.receivorNameOptions = receivorNameList;
       }
         break;
       case 'rr':
         let regionsData = [];
-        if (this.regions !== undefined && this.regions !== null && this.receivorRegionOptions === undefined) {
+        if (this.regions !== undefined && this.regions !== null) {
           this.regions.forEach(r => {
             if (r.Rcode !== this.RCode) {
             regionsData.push({ 'label': r.RName, 'value': r.RCode });
@@ -231,26 +223,28 @@ export class TruckReceiptComponent implements OnInit {
           })
           this.receivorRegionOptions = regionsData;
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
+        } else {
+          this.receivorRegionOptions = regionsData;
         }
         break;
       case 'rh':
-        if (this.toRailHeadOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+        // if (this.toRailHeadOptions === undefined) {
+          const rail_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, rail_params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(rh => {
-              railHeads.push({ 'label': rh.RYName, 'value': rh.RYCode });
+              railHeads.push({ 'label': rh.DepositorName, 'value': rh.DepositorCode });
             })
             this.toRailHeadOptions = railHeads;
           }
             this.toRailHeadOptions.unshift({ label: '-select-', value: null });
           });
-        }
+        // }
         break;
       case 'fs':
-        if (this.fromStationOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+        // if (this.fromStationOptions === undefined) {
+          const fromStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, fromStation_params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(fs => {
               fromStation.push({ 'label': fs.RYName, 'value': fs.RYCode });
@@ -259,12 +253,12 @@ export class TruckReceiptComponent implements OnInit {
           }
             this.fromStationOptions.unshift({ label: '-select-', value: null });
           });
-        }
+        // }
         break;
       case 'ts':
-        if (this.toStationOptions === undefined) {
-          const params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+        // if (this.toStationOptions === undefined) {
+          const toStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType).append('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, toStation_params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(ts => {
               toStation.push({ 'label': ts.RYName, 'value': ts.RYCode });
@@ -273,12 +267,12 @@ export class TruckReceiptComponent implements OnInit {
           }
             this.toStationOptions.unshift({ label: '-select-', value: null });
           });
-        }
+        // }
         break;
       case 'i_desc':
         let itemDesc = [];
         if (this.Scheme !== undefined && this.Scheme !== null) {
-        if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+        if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)){
           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
@@ -290,12 +284,14 @@ export class TruckReceiptComponent implements OnInit {
             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
+        } else {
+          this.itemDescOptions = itemDesc;
         }
         break;
       case 'st_no':
         let stackNo = [];
         if (this.RCode !== undefined && this.ICode !== undefined  && this.ICode !== null) {
-        if (this.ICode.value !== undefined && this.ICode.value !== '') {
+        if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== null && this.iCode !== undefined)) {
           const params = new HttpParams().set('GCode', this.GCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
           this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
@@ -317,10 +313,12 @@ export class TruckReceiptComponent implements OnInit {
             this.GodownNo = this.stackYear = this.LocationNo = null;
           }
         }
+      } else {
+        this.stackOptions = stackNo;
       }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
+        // if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.Table.forEach(p => {
@@ -330,11 +328,11 @@ export class TruckReceiptComponent implements OnInit {
           }
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        } 
+        // } 
         break;
       case 'wmt':
         let weighment = [];
-        if (this.wmtOptions === undefined) {
+        // if (this.wmtOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.Table1.forEach(w => {
@@ -344,18 +342,31 @@ export class TruckReceiptComponent implements OnInit {
           }
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        }
+        // }
         break;
       case 'fc':
-        if (this.freightOptions === undefined) {
+        // if (this.freightOptions === undefined) {
         this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
-        }
+        // }
         break;
       case 'vc':
-        if(this.vehicleOptions === undefined) {
+        // if(this.vehicleOptions === undefined) {
         this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },
         { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT' }];
-        }
+        // }
+        break;
+    }
+  }
+
+  refreshSelect(id) {
+    switch (id) {
+      case 'tr':
+        this.receivorNameOptions = this.receivorTypeOptions = [];
+        this.rtCode = this.RTCode = this.RNCode = null;
+        break;
+      case 'sc':
+        this.itemDescOptions = this.stackOptions = [];
+        this.iCode = this.ICode = this.ipCode = this.IPCode = null;
         break;
     }
   }
@@ -456,7 +467,7 @@ export class TruckReceiptComponent implements OnInit {
     this.WHDNo = this.WCharges = this.HCharges = this.TStation =
     this.FStation = this.GunnyReleased = this.Gunnyutilised =
     this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
-    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = 0;
+    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = this.STNo = 0;
   }
 
   onCalculateWt() {
@@ -525,6 +536,7 @@ export class TruckReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
         this.GodownNo = this.LocationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
+      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
     }
   }
 
@@ -682,20 +694,20 @@ export class TruckReceiptComponent implements OnInit {
       'documentSTTDetails': this.STTDetails
     };
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
-      if (res !== undefined) {
-        if (res) {
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
+        if (res.Item1) {
+          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Truck Memo No:' + res.Item2 });
           this.onClear();
           this.isSaveSucceed = false;
         } else {
           this.STTDetails = [];
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Something went wrong!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
         }
       }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.STTDetails = [];
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
       }
     });
   }

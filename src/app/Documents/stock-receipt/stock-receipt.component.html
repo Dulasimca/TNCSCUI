@@ -7,7 +7,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Stock Receipt Slip</div>
       </div>
     </p-header>
-    <p-toast position="center" key="t-err"></p-toast>
+    <p-toast position="center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
     <div class="ibox-body">
       <div class="row">
         <div class="col-md-1"></div>
@@ -44,7 +44,7 @@
                     <label class="label-fontsize">Month</label>
                     <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m')" (keydown.enter)="onSelect('m')" filter="true"
-                       [showClear]="true" required>
+                      optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -99,7 +99,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label for="Transaction" class="label-fontsize">Transaction Code</label>
                     <p-dropdown name="Transaction" [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr')"
-                    (keydown.enter)="onSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
+                    (keydown.enter)="onSelect('tr')" (onChange)="refreshSelect('tr')" filter="true" optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -175,8 +175,8 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Scheme</label>
                     <p-dropdown #sc id="float-input" name="Scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
-                      (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                      [autoWidth]="false" [style]="{'width':'100%'}">
+                      (onClick)="onSelect('sc')" (keydown.enter)="onSelect('sc')" (onChange)="refreshSelect('sc')"
+                       filter="true" optionLabel="label" [showClear]="true" [autoWidth]="false" [style]="{'width':'100%'}">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -544,7 +544,7 @@
     <div>
       <div class="ui-g-6 ui-md-8 no-pad-top">
         <label class="label-fontsize-large">Date</label>
-        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" [maxDate]="maxDate" (ngModelChange)="onView()"></p-calendar>
       </div>
        <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-10 dashboard" pButton label=OK [disabled]="documentViewData.length=='0'" (click)="getDocBySRNo()"></button>
