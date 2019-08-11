@@ -70,6 +70,6 @@ export class PathConstants {
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';
   public static readonly STOCK_PAYMENT_DETAILS_DOCUMENT = '/api/StockPaymentDetails/Post';
   public static readonly STACK_YEAR = '/api/Accounting';
-  public static readonly GODOWN_PROFILE = '/api/GodownProfiles/Post';
-  
+  public static readonly GODOWN_PROFILE_POST = '/api/GodownProfiles/Post';
+  public static readonly GODOWN_PROFILE_GET = '/api/GodownProfiles/Get';
 }

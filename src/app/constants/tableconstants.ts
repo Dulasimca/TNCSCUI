@@ -87,6 +87,7 @@ export class TableConstants {
   OtherMaster: any;
   CncCorrection: any;
   TruckMemoViewDocumentCols: any;
+  godownProfile: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -938,6 +939,16 @@ export class TableConstants {
       { field: 'Dono', header: 'Delivery Order No' },
       { field: 'DDate', header: 'Delivery Order Date' },
       { field: 'PartyName', header: 'Party Name' },
+    ];
+
+    this.godownProfile = [
+      { field: 'GNAME', header: 'Incharge Name' },
+      { field: 'GodownCode', header: 'Godown Code'},
+      { field: 'DESIG', header: 'Designation' },
+      { field: 'ADD1', header: 'Address' },
+      { field: 'TELNO', header: 'Telephone No' },
+      { field: 'MOBNO', header: 'Mobile No' },
+      { field: 'FAXNO', header: 'Fax No' },
     ];
   }
 }

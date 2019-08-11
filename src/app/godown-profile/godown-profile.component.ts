@@ -14,15 +14,17 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
   templateUrl: './godown-profile.component.html',
   styleUrls: ['./godown-profile.component.css']
 })
-export class GodownProfileComponent implements OnInit  {
+export class GodownProfileComponent implements OnInit {
   username: any;
   userdata: any;
+  godownProfileCols: any;
+  godownProfileData: any;
   data: any;
   roleId: any;
   g_cd: any;
   gCode: any;
   Gname: any;
-  designation: [];
+  designation: any;
   address1: any;
   address2: any;
   address3: any;
@@ -38,34 +40,23 @@ export class GodownProfileComponent implements OnInit  {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.gCode = this.authService.getUserAccessible().gCode;
     this.data = this.roleBasedService.getInstance();
     this.userdata = new FormGroup({
-   });
+    });
 
   }
 
-  onSelect() {
-    let godownSelection = [];
-        this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
-          });
-        }
-      }
-
   onClear() {
-
+    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = "" ;
   }
 
   onSubmit(formUser) {
-
     // console.log('form values ', form);
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
     const params = {
       'RowId': this.roleId,
-      'GodownCode': (this.gCode !== undefined && this.gCode !== null) ? this.gCode : this.gCode,
+      'GodownCode': this.gCode,
       'Gname': formUser.Gname,
       'desig': formUser.designation,
       'add1': formUser.address1,
@@ -75,9 +66,17 @@ export class GodownProfileComponent implements OnInit  {
       'mobno': formUser.phone,
       'faxno': formUser.fax,
     };
-    this.restAPIService.post(PathConstants.GODOWN_PROFILE, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
       if (res) {
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        const params = new HttpParams().append('GCode', this.gCode);
+        this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
+          if (value !== undefined) {
+            this.godownProfileData = value;
+            this.godownProfileCols = this.tableConstants.godownProfile;
+
+          }
+        })
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
