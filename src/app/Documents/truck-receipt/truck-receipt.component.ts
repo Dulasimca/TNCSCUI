@@ -476,13 +476,17 @@ export class TruckReceiptComponent implements OnInit {
   onClear() {
     this.itemData = []; this.STTDetails =  [];
     this.STDate = this.OrderDate = this.RDate = this.LWBillDate = this.LDate = new Date();
-    this.Trcode = this.OrderNo = this.selectedValues = this.RNo = this.LorryNo = this.RRCode =
-    this.RHCode = this.RTCode = this.RNCode = this.ManualDocNo = this.Remarks = this.RRemarks= 
-    this.TransporterName = this.LWBillNo = this.FreightAmount = this.Kilometers =
-    this.WHDNo = this.WCharges = this.HCharges = this.TStation =
-    this.FStation = this.GunnyReleased = this.Gunnyutilised =
-    this.FCode = this.VCode = this.RRNo = this.WNo = this.RailFreightAmt = null;
-    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = this.STNo = 0;
+    this.Trcode = null; this.trCode = null; this.rtCode = null;
+    this.OrderNo = null; this.selectedValues = null; this.RNo = 0; this.LorryNo = null;
+    this.RRCode = null; this.RHCode = null; this.rhCode = null;
+    this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
+    this.RRemarks= null; this.TransporterName = null; this.LWBillNo = null;
+    this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
+    this.HCharges = 0; this.TStation = null; this.FStation =null;
+    this.fStationCode = null; this.tStationCode = null;
+    this.GunnyReleased = 0; this.Gunnyutilised = 0; this.STNo = null;
+    this.FCode = null; this.VCode = null; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
+    this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
   }
 
   onCalculateWt() {
@@ -692,8 +696,8 @@ export class TruckReceiptComponent implements OnInit {
       RFreightAmount: (this.RailFreightAmt !== undefined && this.RailFreightAmt !== null) ? this.RailFreightAmt : 0,
       Rcode: this.RCode
     })
-    this.RowId = (this.RowId !== undefined) ? this.RowId : 0;
-    this.STNo = (this.STNo !== undefined) ? this.STNo : 0;
+    this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
+    this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
     this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
     const params = {
       'STNo': this.STNo,

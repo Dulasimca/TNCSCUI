@@ -518,7 +518,7 @@ export class IssueReceiptComponent implements OnInit {
     const params = {
       'Type': 1,
       'SINo': (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-      'RowId': (this.RowId !== undefined) ? this.RowId : 0,
+      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
       'IRelates': this.IRelates,
       'DNo': (this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : this.DNo,
@@ -669,19 +669,22 @@ export class IssueReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = []; this.issueData = [];
-    this.trCode = this.Trcode = this.rtCode = this.RTCode = this.rnCode = this.RNCode = this.wtCode = this.WTCode =
-     this.WNo = this.RegularAdvance = this.VehicleNo = this.TransporterCharges = this.TransporterName = this.ManualDocNo = this.Remarks = null;
-       this.NewBale = this.GunnyReleased = this.Gunnyutilised = this.SServiceable = this.SPatches = 0;
-    this.CurrentDocQtv = this.StackBalance = this.NetStackBalance = this.SINo = 0;
+    this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
+    this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null; 
+    this.WNo = null; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
+    this.TransporterCharges = null; this.TransporterName = null; this.ManualDocNo = null;
+    this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
+    this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
+    this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth}];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.packingTypeOptions = this.transactionOptions = this.schemeOptions = this.stackOptions = 
-     this.wmtOptions = this.receiverNameOptions = this.receiverTypeOptions = [];
+    this.packingTypeOptions = []; this.transactionOptions = [];
+    this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
+    this.receiverNameOptions = []; this.receiverTypeOptions = [];
   }
-
 
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
