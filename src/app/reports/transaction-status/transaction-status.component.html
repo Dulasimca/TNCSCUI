@@ -23,7 +23,8 @@
           <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard">Godown</label>
             <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
-              (keydown.enter)="onSelect()" (onChange)="onTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              (keydown.enter)="onSelect()" (onChange)="onView()" (onChange)="onTable()" filter="true" optionLabel="label" [showClear]="true"
+              placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -31,25 +32,41 @@
           </div>
           <div class="ui-g-4"></div>
         </div>
-        <div class="ui-g-12 dashboard" style="padding: 20px 0px 20px 0px">
-          <div class="ui-g-2"></div>
-          <div class="ui-g-3 ui-md-2">
+        <!-- <div class="ui-g-12 dashboard" style="padding: 20px 0px 20px 0px">
+          <div class="ui-g-12 ui-md-2"></div>
+          <div class="ui-g-5 ui-md-2">
             <p-checkbox class="ui-g-2" name="Receipt" [(ngModel)]="Receipt" binary="showTrue"></p-checkbox>
-            <label class="ui-g-8" for="Receipt">Receipt</label>
+            <label class="ui-g-10" for="Receipt">Receipt</label>
           </div>
-          <div class="ui-g-3 ui-md-2">
+          <div class="ui-g-7 ui-md-2">
             <p-checkbox class="ui-g-2" name="Issues" [(ngModel)]="Issues" binary="showTrue"></p-checkbox>
-            <label class="ui-g-8" for="Issues">Issue</label>
+            <label class="ui-g-10" for="Issues">Issue</label>
           </div>
-          <div class="ui-g-3 ui-md-2">
+          <div class="ui-g-5 ui-md-2">
             <p-checkbox class="ui-g-2" name="Transfer" [(ngModel)]="Transfer" binary="showTrue"></p-checkbox>
-            <label class="ui-g-8" for="Transfer">Transfer</label>
+            <label class="ui-g-10" for="Transfer">Transfer</label>
           </div>
-          <div class="ui-g-3 ui-md-2">
+          <div class="ui-g-7 ui-md-2">
             <p-checkbox class="ui-g-2" name="CB" [(ngModel)]="CB" binary="showTrue"></p-checkbox>
-            <label class="ui-g-8" for="CB">CB</label>
+            <label class="ui-g-10" for="CB">Closing Balance</label>
           </div>
-          <div class="ui-g-2"></div>
+          <div class="ui-g-12 ui-md-2"></div>
+        </div> -->
+        <div class="ui-g-12 dashboard" style="padding: 20px 0px 20px 0px">
+          <div class="ui-g-12 ui-md-2"></div>
+          <div class="ui-g-5 ui-md-2">
+            <p-checkbox name="Receipt" [(ngModel)]="Receipt" label="Receipt" binary="showTrue"></p-checkbox>
+          </div>
+          <div class="ui-g-7 ui-md-2">
+            <p-checkbox name="Issues" [(ngModel)]="Issues" label="Issue" binary="showTrue"></p-checkbox>
+          </div>
+          <div class="ui-g-5 ui-md-2">
+            <p-checkbox name="Transfer" [(ngModel)]="Transfer" label="Transfer" binary="showTrue"></p-checkbox>
+          </div>
+          <div class="ui-g-7 ui-md-3">
+            <p-checkbox name="CB" [(ngModel)]="CB" label="Closing Balance" binary="showTrue"></p-checkbox>
+          </div>
+          <div class="ui-g-12 ui-md-1"></div>
         </div>
         <div class="ui-g-12 dashboard">
           <div class="ui-g-3"></div>
@@ -60,16 +77,18 @@
           <div class="ui-g-4"></div>
         </div>
         <div class="ui-g-12 dashboard">
-          <div class="ui-g-5"></div>
-          <div class="ui-g-3 ui-md-1">
+          <div class="ui-g-4 ui-md-5"></div>
+          <!-- <div class="ui-g-6 ui-md-1 ui-fluid">
+            <button pButton type="button" label=View (click)="onTable()" [disabled]="((Docdate == null) || (g_cd == null) || (Receipt == null) && (Issues == null) && (Transfer == null) && (CB == null))"></button>
+          </div> -->
+          <div class="ui-g-4 ui-md-1 ui-fluid">
             <button pButton type="submit" label=Save [disabled]="((Docdate == null) || (g_cd == null) || (Receipt == null) && (Issues == null) && (Transfer == null) && (CB == null))"
               (click)="onSave()"></button>
           </div>
-          <div class="ui-g-5"></div>
+          <div class="ui-g-4 ui-md-6"></div>
         </div>
         <div class="ui-g-12 dashboard">
-          <p-table [columns]="TransactionStatusCols" [value]="TransactionStatusTableData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-            [paginator]="true" [loading]="loading" [responsive]="true" autoLayout="true">
+          <p-table [columns]="TransactionStatusCols" [value]="TransactionStatusTableData" [loading]="loading" [responsive]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">

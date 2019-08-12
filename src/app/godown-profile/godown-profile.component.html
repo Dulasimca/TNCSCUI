@@ -10,11 +10,12 @@
     <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
     <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
     <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+   <div class="ui-g">
     <div class="install-main">
       <div>
         <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="name" size="30" pInputText [(ngModel)]="formUser.name" name="name"
+            <input class="icon2" type="name" size="30" pInputText [(ngModel)]="formUser.Gname" name="Gname"
               #name="ngModel" autocomplete="off" required>
             <label for="name">InchargeName</label>
           </div>
@@ -29,9 +30,19 @@
             <label for="address1">Address</label>
           </div>
           <div class="ui-float-label" style="margin-bottom: 20px">
-            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
-              #phone="ngModel" autocomplete="off" required>
-            <label for="phone">Telephone number</label>
+            <input class="icon2" type="address2" size="30" pInputText [(ngModel)]="formUser.address2" name="address2"
+              #address2="ngModel" autocomplete="off" required>
+            <label for="address2">Address</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="address3" size="30" pInputText [(ngModel)]="formUser.address3" name="address3"
+              #address3="ngModel" autocomplete="off" required>
+            <label for="address3">Address</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.telno" name="telno"
+              #telno="ngModel" autocomplete="off" required>
+            <label for="telno">Telephone number</label>
           </div>
           <div class="ui-float-label" style="margin-bottom: 20px">
           <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
@@ -43,12 +54,34 @@
               #fax="ngModel" autocomplete="off" required>
             <label for="fax">Fax No</label>
           </div>
-          <div class="bottom" style="padding-left: 85px">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
+          <div class="bottom" style="padding-left: 105px">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
               label=Submit [disabled]="!templateForm.form.valid"></button>
           </div>
         </form>
       </div>
     </div>
+    <div class="ui-g-12 dashboard" style="text-align: center">
+      <p-fieldset legend="GODOWN PROFILE DATA">
+        <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
+          [loading]="loading" [totalRecords]="totalRecords">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+    </div>
+  </div>
   </p-panel>
 </div>
