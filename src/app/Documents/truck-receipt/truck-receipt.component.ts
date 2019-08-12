@@ -202,7 +202,14 @@ export class TruckReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
-                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
+                  if ((this.Trcode === 'TR004' || this.trCode === 'TR004') 
+                  && (this.RRCode !== null && this.RRCode !== undefined)) {
+                    if(rn.RCode === this.RRCode.value) {
+                    receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
+                    }
+                  } else {
+                    receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
+                  }
                 })
               this.receivorNameOptions = receivorNameList;
               }
@@ -217,7 +224,7 @@ export class TruckReceiptComponent implements OnInit {
         let regionsData = [];
         if (this.regions !== undefined && this.regions !== null) {
           this.regions.forEach(r => {
-            if (r.Rcode !== this.RCode) {
+            if (r.RCode !== this.RCode) {
             regionsData.push({ 'label': r.RName, 'value': r.RCode });
             }
           })
