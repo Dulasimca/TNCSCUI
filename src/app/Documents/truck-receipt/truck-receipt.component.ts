@@ -195,7 +195,8 @@ export class TruckReceiptComponent implements OnInit {
         if(this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
         if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
           this.RTCode.value !== undefined && this.RTCode.value !== null) || 
-          (this.trCode !== undefined && this.trCode !== null && this.rtCode !== undefined && this.rtCode !== null)) {
+          (this.trCode !== undefined && this.trCode !== null)) {
+            //&& this.rtCode !== undefined && this.rtCode !== null)
             let rt_code = (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode;
             const params = new HttpParams().set('TyCode', rt_code).append('TRType', this.transType)
             .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
@@ -586,16 +587,24 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.STNo = res[0].STNo;
+        this.RowId = res[0].RowId;
         this.STDate = new Date(res[0].STDate);
         this.transactionOptions = [{label: res[0].TransactionName, value: res[0].TrCode}];
         this.Trcode = res[0].TransactionName;
         this.trCode = res[0].TrCode;
+        this.enableReceivorRegn = (this.Trcode.value === 'TR021' || this.trCode === 'TR021') ? true : false;
         this.OrderDate = new Date(res[0].MDate);
         this.OrderNo = res[0].MNo;
         this.RNo = res[0].RNo;
         this.RDate = new Date(res[0].RDate);
         this.LorryNo = res[0].LNo;
-        this.selectedValues = (res[0].TransportMode !== 'UPCountry') ? [res[0].TransportMode] : ['RailRoad'];
+        if (res[0].TransportMode !== 'UPCountry') {
+          this.selectedValues = [];
+          this.selectedValues.push(res[0].TransportMode)
+        } else {
+          this.selectedValues = [];
+          this.selectedValues.push('Road', 'Rail');
+        }
         if (res[0].RailHead !== null) {
         this.toRailHeadOptions = [{label: res[0].RHName, value: res[0].RailHead}];
         this.RHCode = res[0].RHName;
@@ -641,7 +650,8 @@ export class TruckReceiptComponent implements OnInit {
             ITDescription: i.ITName,
             SchemeName: i.SchemeName,
             PackingType: i.PName,
-            WmtType: i.WEType
+            WmtType: i.WEType,
+            RCode: i.RCode
           })
         });
       } else {
@@ -651,6 +661,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onSave() {
+    this.messageService.clear();
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
@@ -704,7 +715,8 @@ export class TruckReceiptComponent implements OnInit {
       'ReceivingName': this.RTCode.label,
       'ManualDocNo': this.ManualDocNo,
       'RegionName': this.regionName,
-      'RailHeadName': (this.RHCode !== undefined && this.RHCode !== null) ?  this.RHCode.label : ((this.rhCode === undefined || this.rhCode === null) ? '-' : this.RHCode),
+      'RailHeadName': (this.RHCode !== undefined && this.RHCode !== null) ?  
+      ((this.RHCode.label !== undefined) ? this.RHCode.label : this.RHCode) : '-',
       'IssueSlip': this.IssueSlip,
       'UserID': this.username.user,
       'documentSTItemDetails': this.itemData,
