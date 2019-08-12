@@ -27,6 +27,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {KeyFilterModule} from 'primeng/keyfilter';
+import { FileUploadModule } from 'primeng/fileupload';
+import {TooltipModule} from 'primeng/tooltip';
 
 
 
@@ -124,7 +126,6 @@ import { StackCardClosingComponent } from './Documents/StackCard/stack-card-clos
 import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
-import { TooltipModule } from 'primeng/tooltip';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
 import { StackCardComponent } from './reports/StackCard/stack-card/stack-card.component';
@@ -258,7 +259,10 @@ import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correcti
     TabViewModule,
     InputSwitchModule,
     TooltipModule,
-    KeyFilterModule
+    KeyFilterModule,
+    FileUploadModule,
+    TooltipModule
+    
   ],
   providers: [MenuService, AuthService, ConfirmationService, TableConstants,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
