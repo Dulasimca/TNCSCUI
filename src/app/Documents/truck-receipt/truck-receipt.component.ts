@@ -519,11 +519,13 @@ export class TruckReceiptComponent implements OnInit {
             if(x.TStockNo === stack_data.value) {
               this.CurrentDocQtv += (x.Nkgs * 1);
               this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-            } else { this.NetStackBalance = this.CurrentDocQtv = 0; }
+            }
           })
         }
       } else {
         this.isValidStackBalance = true;
+        this.CurrentDocQtv = 0;
+        this.NetStackBalance = 0;
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
       }
     }

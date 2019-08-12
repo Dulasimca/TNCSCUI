@@ -383,26 +383,27 @@ export class IssueReceiptComponent implements OnInit {
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res !== null && res !== undefined && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0) {
-          this.isValidStackBalance = false;
-        } else {
-          this.isValidStackBalance = true;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.StackBalance = (res[0].StackBalance * 1);
+      if (this.StackBalance > 0) {
+        this.isValidStackBalance = false;
+        this.CurrentDocQtv = this.NetStackBalance = 0;
+        if(this.itemData.length !== 0) {
+          this.itemData.forEach(x => {
+            if(x.TStockNo === stack_data.value) {
+              this.CurrentDocQtv += (x.Nkgs * 1);
+              this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+            }
+          })
         }
+      } else {
+        this.isValidStackBalance = true;
+        this.CurrentDocQtv = 0;
+        this.NetStackBalance = 0;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
       }
-    })
-    if(this.StackBalance > 0 && this.CurrentDocQtv > 0 && this.itemData.length !== 0) {
-      this.itemData.forEach(x => {
-        if(x.TStockNo === stack_data.value) {
-          this.CurrentDocQtv += (x.Nkgs * 1);
-          this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-        } else { this.NetStackBalance = this.CurrentDocQtv = 0; }
-      })
     }
+    })
   }
 
 
