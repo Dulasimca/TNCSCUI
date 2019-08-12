@@ -574,6 +574,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
@@ -595,10 +596,11 @@ export class DeliveryReceiptComponent implements OnInit {
    }
 
   onClear() {
-    this.itemData = this.deliveryData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
-    this.BalanceAmount = this.DueAmount = this.PaidAmount = this.GrandTotal = 0;
-    this.Trcode = this.IndentNo = this.RTCode = this.PName = this.Remarks = null;
-    this.DeliveryOrderNo = 0;
+    this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
+    this.paymentBalData = []; this.paymentData = [];
+    this.BalanceAmount = 0; this.DueAmount = 0; this.PaidAmount = 0; this.GrandTotal = 0;
+    this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
+    this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];

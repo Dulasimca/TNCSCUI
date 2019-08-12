@@ -471,8 +471,8 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
-      'SRNo': (this.SRNo !== undefined) ? this.SRNo : 0,
-      'RowId': (this.RowId !== undefined) ? this.RowId : 0,
+      'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
+      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'PAllotment': this.PAllotment,
       'OrderNo': this.OrderNo,
@@ -608,13 +608,16 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.OrderNo = this.selectedValues = this.Trcode = this.DepositorCode = this.DepositorType = null;
-    this.TruckMemoNo = this.LNo = this.LFrom = this.ManualDocNo = null;
-    this.trCode = this.depositorCode = this.depositorType = this.schemeCode = this.Scheme = this.Remarks =
-    this.ICode = this.iCode = this.IPCode = this.ipCode = this.TStockNo = this.NoPacking = null;
-    this.transactionOptions = this.schemeOptions = this.itemDescOptions = this.depositorNameOptions =
-    this.depositorTypeOptions = this.stackOptions = this.wmtOptions = this.packingTypeOptions = [];
-    this.StackBalance = this.GKgs = this.tareWt = this.NKgs = this.SRNo = 0;
+    this.OrderNo = null; this.selectedValues = null; this.Trcode = null;
+    this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = null;
+    this.LNo = null; this.LFrom = null; this.ManualDocNo = null; this.trCode = null;
+    this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
+    this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
+    this.schemeCode = null; this.Scheme = null; this.Remarks = null;
+    this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
+    this.depositorNameOptions = []; this.depositorTypeOptions = [];
+    this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
+    this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = this.SRDate = this.OrderDate = new Date();
   }
 

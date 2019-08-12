@@ -372,7 +372,7 @@
                 <span class="ui-float-label">
                   <input name="NewBale" id="float-input" [(ngModel)]="NewBale"
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                   pInputText autocomplete="off" required>
+                   pInputText autocomplete="off" [readonly]="true">
                   <label for="NewBale" class="float-input">New Bale</label>
                 </span>
               </div>
@@ -380,7 +380,7 @@
                 <span class="ui-float-label">
                   <input name="SServicable" id="float-input" pInputText [(ngModel)]="SServiceable"
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                   autocomplete="off" required>
+                   autocomplete="off" [readonly]="true">
                   <label for="SServicable" class="float-input">SoundServiceable</label>
                 </span>
               </div>
@@ -388,7 +388,7 @@
                 <span class="ui-float-label">
                   <input name="Patches" id="float-input" pInputText [(ngModel)]="SPatches" 
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  autocomplete="off" required>
+                  autocomplete="off" [readonly]="true">
                   <label for="Patches" class="float-input">Serviceable With Patches</label>
                 </span>
               </div>
@@ -396,7 +396,7 @@
                 <span class="ui-float-label">
                   <input name="GUtilised" id="float-input" pInputText [(ngModel)]="Gunnyutilised"
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                   autocomplete="off" required>
+                   autocomplete="off" [readonly]="true">
                   <label for="GUtilised" class="float-input">Gunny Utilised</label>
                 </span>
               </div>
@@ -404,7 +404,7 @@
                 <span class="ui-float-label">
                   <input name="GReleased" id="float-input" pInputText [(ngModel)]="GunnyReleased" 
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  autocomplete="off" required>
+                  autocomplete="off" [readonly]="true">
                   <label for="GReleased" class="float-input">Gunny Released</label>
                 </span>
               </div>
@@ -445,7 +445,7 @@
 <div>
     <div class="ui-g-6 ui-md-8 no-pad-top">
       <label class="label-fontsize-large">Date</label>
-      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
      <div class="ui-g-4 ui-md-1 dashboard">
     <button class="ui-md-10 dashboard" pButton label=OK [disabled]="issueMemoDocData.length=='0'" (click)="getDocBySINo()"></button>
