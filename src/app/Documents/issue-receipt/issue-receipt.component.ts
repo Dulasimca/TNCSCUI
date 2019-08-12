@@ -420,7 +420,7 @@ export class IssueReceiptComponent implements OnInit {
       'IssueMemoDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
     });
     if (this.issueData.length !== 0) {
-      this.DeliveryOrderDate = this.DeliveryOrderNo = null;
+      this.DeliveryOrderDate = new Date(); this.DeliveryOrderNo = null;
       this.issueData = this.issueData.filter(x => {
          return x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')
        });
@@ -572,12 +572,12 @@ export class IssueReceiptComponent implements OnInit {
     this.viewPane = true;
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
-      if (res !== null && res !== undefined && res.length !== 0) {
-        res.forEach(data => {
+      if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
+        res.Table.forEach(data => {
           data.SIDate = this.datepipe.transform(data.SIDate, 'dd-MM-yyyy');
           data.DDate = this.datepipe.transform(data.DDate, 'dd-MM-yyyy');
         })
-        this.issueMemoDocData = res;
+        this.issueMemoDocData = res.Table;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
       }
@@ -593,44 +593,44 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = []; this.issueData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-        this.DeliveryOrderNo = res[0].DNo;
-        this.RowId = res[0].RowId;
-        this.TransporterName = res[0].TransporterName;
-        this.TransporterCharges = res[0].TransportingCharge;
-        this.NewBale = (res[0].NewBale !== null && res[0].NewBale !== undefined) ? res[0].NewBale : 0;
-        this.SServiceable = (res[0].SoundServiceable !== null && res[0].SoundServiceable !== undefined) ?
-         res[0].SoundServiceable : 0;
-        this.SPatches = (res[0].ServiceablePatches !== null && res[0].ServiceablePatches !== undefined) 
-        ? res[0].ServiceablePatches : 0;
-        this.GunnyReleased = (res[0].GunnyReleased !== null && res[0].GunnyReleased !== undefined) ?
-         res[0].GunnyReleased : 0;
-        this.Gunnyutilised = (res[0].GunnyUtilised !== null && res[0].GunnyUtilised !== undefined) ? 
-        res[0].GunnyUtilised : 0;
-        this.WNo = res[0].WCCode;
+      if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.DeliveryOrderNo = res.Table[0].DNo;
+        this.RowId = res.Table[0].RowId;
+        this.TransporterName = res.Table[0].TransporterName;
+        this.TransporterCharges = res.Table[0].TransportingCharge;
+        this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
+        this.SServiceable = (res.Table[0].SoundServiceable !== null && res.Table[0].SoundServiceable !== undefined) ?
+         res.Table[0].SoundServiceable : 0;
+        this.SPatches = (res.Table[0].ServiceablePatches !== null && res.Table[0].ServiceablePatches !== undefined) 
+        ? res.Table[0].ServiceablePatches : 0;
+        this.GunnyReleased = (res.Table[0].GunnyReleased !== null && res.Table[0].GunnyReleased !== undefined) ?
+         res.Table[0].GunnyReleased : 0;
+        this.Gunnyutilised = (res.Table[0].GunnyUtilised !== null && res.Table[0].GunnyUtilised !== undefined) ? 
+        res.Table[0].GunnyUtilised : 0;
+        this.WNo = res.Table[0].WCCode;
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
-        this.curMonth = res[0].IRelates.slice(5, 7);
+        this.curMonth = res.Table[0].IRelates.slice(5, 7);
         let formDate = this.curMonth + "-" + today + "-" + currentYr;
         this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.month = this.datepipe.transform(new Date(formDate), 'MMM');
-        this.yearOptions = [{ label: res[0].IRelates.slice(0, 4), value: res[0].IRelates.slice(0, 4) }]
-        this.year = res[0].IRelates.slice(0, 4);
-        this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
-        this.Trcode = res[0].TRName;
-        this.trCode = res[0].Trcode;
-        this.receiverTypeOptions = [{ label: res[0].ReceivorType, value: res[0].issuetype1 }];
-        this.RTCode = res[0].ReceivorType;
-        this.rtCode = res[0].issuetype1;
-        this.receiverNameOptions = [{ label: res[0].ReceivorName, value: res[0].Receivorcode }];
-        this.RNCode = res[0].ReceivorName;
-        this.rnCode = res[0].Receivorcode;
-        this.IRelates = res[0].IRelates;
-        this.VehicleNo = res[0].LorryNo;
-        this.RegularAdvance = res[0].Flag2;
-        this.ManualDocNo = res[0].Flag1;
-        this.Remarks = res[0].Remarks;
-        res.forEach(i => {
+        this.yearOptions = [{ label: res.Table[0].IRelates.slice(0, 4), value: res.Table[0].IRelates.slice(0, 4) }]
+        this.year = res.Table[0].IRelates.slice(0, 4);
+        this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
+        this.Trcode = res.Table[0].TRName;
+        this.trCode = res.Table[0].Trcode;
+        this.receiverTypeOptions = [{ label: res.Table[0].ReceivorType, value: res.Table[0].issuetype1 }];
+        this.RTCode = res.Table[0].ReceivorType;
+        this.rtCode = res.Table[0].issuetype1;
+        this.receiverNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].Receivorcode }];
+        this.RNCode = res.Table[0].ReceivorName;
+        this.rnCode = res.Table[0].Receivorcode;
+        this.IRelates = res.Table[0].IRelates;
+        this.VehicleNo = res.Table[0].LorryNo;
+        this.RegularAdvance = res.Table[0].Flag2;
+        this.ManualDocNo = res.Table[0].Flag1;
+        this.Remarks = res.Table[0].Remarks;
+        res.Table.forEach(i => {
           this.itemData.push({
             TStockNo: i.TStockNo,
             ICode: i.ICode,
@@ -647,15 +647,18 @@ export class IssueReceiptComponent implements OnInit {
             WmtType: i.WEType,
             RCode: i.RCode
           })
+        })
+        res.Table1.forEach(j => {
           this.issueData.push({
-            SINo: i.SINo,
-            IssueMemoDate: this.datepipe.transform(new Date(i.SIDate), 'dd-MM-yyyy'),
-            SIDate: this.datepipe.transform(new Date(i.SIDate), 'MM/dd/yyyy'),
-            DDate: this.datepipe.transform(new Date(i.DDate1), 'MM/dd/yyyy'),
-            DNo: i.DNo1,
-            DeliveryOrderDate: this.datepipe.transform(new Date(i.DDate1), 'dd-MM-yyyy'),
+            SINo: j.SINo,
+            IssueMemoDate: this.datepipe.transform(new Date(j.SIDate), 'dd-MM-yyyy'),
+            SIDate: this.datepipe.transform(new Date(j.SIDate), 'MM/dd/yyyy'),
+            DDate: this.datepipe.transform(new Date(j.DDate), 'MM/dd/yyyy'),
+            DNo: j.DNo,
+            DeliveryOrderDate: this.datepipe.transform(new Date(j.DDate), 'dd-MM-yyyy'),
             GodownCode: this.IssuingCode,
-            RCode: i.RCode
+            DORowid: j.Rowid,
+            RCode: j.RCode
           })
         })
       } else {
