@@ -421,7 +421,7 @@ export class StockReceiptComponent implements OnInit {
       TStockNo: stack_data.value,
       StackDate: stack_data.stack_date,
       GCode: this.ReceivingCode,
-      ICode: this.ICode.value,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {

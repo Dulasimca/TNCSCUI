@@ -379,7 +379,7 @@ export class IssueReceiptComponent implements OnInit {
       TStockNo: stack_data.value,
       StackDate: stack_data.stack_date,
       GCode: this.IssuingCode,
-      ICode: this.ICode.value,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -564,7 +564,7 @@ export class IssueReceiptComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
       }
     });
   }
