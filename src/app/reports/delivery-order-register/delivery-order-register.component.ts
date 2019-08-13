@@ -71,7 +71,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       this.deliveryReceiptRegData = res;
       let sno = 0;
       this.deliveryReceiptRegData.forEach(data => {
-        data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd-MM-yyyy');
+        data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd/MM/yyyy');
         sno += 1;
         data.SlNo = sno;
       })

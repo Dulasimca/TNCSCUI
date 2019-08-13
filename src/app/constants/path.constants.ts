@@ -72,4 +72,11 @@ export class PathConstants {
   public static readonly STACK_YEAR = '/api/Accounting';
   public static readonly GODOWN_PROFILE_POST = '/api/GodownProfiles/Post';
   public static readonly GODOWN_PROFILE_GET = '/api/GodownProfiles/Get';
+  public static readonly COMMODITY_BREAK_ITEM_MASTER_MODIFICATION = '/api/ItemMaster';
+  public static readonly KEROSENE_SUPPLIERS = '/api/KeroseneSuppliers';
+  public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
+  public static readonly DEPOSITOR_MASTER = '';
+  public static readonly CUSTOMER_MASTER = '';
+  public static readonly SCHEME_COMMODITY = '/api/SchemeCommodity';
+
 }
