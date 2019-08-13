@@ -401,6 +401,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rateTerm = data.Wtype;
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.UnitMeasure }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
+        this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
         break;
         case 'scheme':
@@ -416,6 +417,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
           this.MarginRate = (data.MarginRate * 1).toFixed(2);
           this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+          this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
           this.itemSchemeData.splice(index, 1);
         break;
         case 'payment':
