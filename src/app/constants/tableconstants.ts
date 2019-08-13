@@ -936,7 +936,9 @@ export class TableConstants {
     this.DeliveryDocumentViewCols = [
       { field: 'Dono', header: 'Delivery Order No' },
       { field: 'DDate', header: 'Delivery Order Date' },
-      { field: 'PartyName', header: 'Party Name' },
+      { field: 'TRName', header: 'Transaction Name' },
+      { field: 'IssuerType', header: 'Receivor Type' },
+      { field: 'ReceivorName', header: 'Party Name' },
     ];
 
     this.godownProfile = [

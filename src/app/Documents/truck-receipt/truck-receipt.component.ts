@@ -401,6 +401,7 @@ export class TruckReceiptComponent implements OnInit {
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme}];
+        this.StackDate = data.StackDate;
         this.ICode = data.ITDescription; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ICode }];
         this.IPCode = data.PackingType; this.ipCode = data.IPCode;
@@ -457,10 +458,12 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
+    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
-      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
-      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-      this.TKgs = this.GKgs - this.NKgs;
+      && this.IPCode !== undefined && this.IPCode !== null) {
+        let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
       this.GKgs = this.NKgs = this.TKgs = 0;
     }
