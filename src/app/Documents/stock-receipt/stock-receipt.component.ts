@@ -360,7 +360,8 @@ export class StockReceiptComponent implements OnInit {
       this.godownNo = this.TStockNo.toString().slice(0, index);
       this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
     }
-    this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
+    this.StackBalance = ((this.StackBalance * 1) > (this.NKgs * 1)) ?
+     ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
   }

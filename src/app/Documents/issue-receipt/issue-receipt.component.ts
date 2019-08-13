@@ -461,7 +461,8 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
         this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-        this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
+        this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = [];
       }
   }
 
