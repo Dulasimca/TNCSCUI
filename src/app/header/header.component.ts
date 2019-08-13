@@ -8,6 +8,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { Router } from '@angular/router';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +16,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  uploadedFiles: any[] = [];
   isValidUser: boolean;
   ChangeForm: FormGroup;
   userName: any;
+  password: any;
   OldPassword: any;
   NewPassword: any;
   godownName: string;
@@ -31,7 +34,7 @@ export class HeaderComponent implements OnInit {
   date: any;
   seconds: any;
   data: any;
-  constructor(private roleBasedService: RoleBasedService, private router: Router, private restApiService: RestAPIService, private messageService: MessageService , private fb: FormBuilder, private authService: AuthService, private datePipe: DatePipe) { }
+  constructor(private roleBasedService: RoleBasedService, private router: Router, private restApiService: RestAPIService, private messageService: MessageService, private fb: FormBuilder, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     // this.data = this.roleBasedService.getInstance();
@@ -41,82 +44,101 @@ export class HeaderComponent implements OnInit {
       Newpswd: ['', Validators.required]
     })
   }
-  
+
   onLogOut() {
-   this.authService.logout();
- }
-
- onViewUserinfo(event, panel) {
-   panel.toggle(event);
-  this.userName = JSON.parse(this.authService.getCredentials()).user;
-  this.OldPassword = JSON.parse(this.authService.getCredentials().Password)
-  // if(this.data !== undefined) {
-  //  this.data.forEach(x => {
-  //   this.godownName = x.GName;
-  //   this.regionName = x.RName;
-  //  });
-  // }
- }
-
- onForgetPswd(){
-   if(this.ChangeForm.invalid){
-    this.messageService.add({severity: 'error', summary: 'Error!', detail: 'Please enter valid details'});
-    return;
-  } else {
-    let username = new HttpParams().append('userName', this.userName);
-    this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(res => {
-      if(res !== undefined) {
-        if(this.userName.toLowerCase() === res[0].userName.toLowerCase() && this.OldPassword === res[0].Pwd && this.OldPassword !== this.NewPassword) {
-          this.router.navigate(['Home']);
-          this.setUsername(this.userName);
-          this.setOldPassword(this.OldPassword);
-          this.setNewPassword(this.NewPassword);
-        }
-      }
-    })
+    this.authService.logout();
   }
- }
 
-onNew() {
-  const params = {
-    'UserId' : this.userName,
-    'OldPassword': this.OldPassword,
-    'NewPassword': this.NewPassword
-  };
-  this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
-    if (res) {
-      this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
-      // this.router.navigate(['login']);
+  onViewUserinfo(event, panel) {
+    panel.toggle(event);
+    this.userName = JSON.parse(this.authService.getCredentials()).user;
+    // this.password = JSON.parse(this.authService.getCredentials()).pswd;
+    // if(this.data !== undefined) {
+    //  this.data.forEach(x => {
+    //   this.godownName = x.GName;
+    //   this.regionName = x.RName;
+    //  });
+    // }
+  }
+
+  onForgetPswd() {
+    if (this.ChangeForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Please enter valid details' });
+      return;
     } else {
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+      let username = new HttpParams().append('userName', this.userName);
+      this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(res => {
+        if (res !== undefined) {
+          if (this.userName.toLowerCase() === res[0].userName.toLowerCase() && this.OldPassword === res[0].Pwd && this.OldPassword !== this.NewPassword) {
+            this.router.navigate(['Home']);
+            this.setUsername(this.userName);
+            this.setOldPassword(this.OldPassword);
+            this.setNewPassword(this.NewPassword);
+          }
+        } else {
+          this.onClear();
+          this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Validation Failed!' });
+        }
+      });
     }
-  })
-  this.onClear();
-  this.router.navigate(['login']);
-}
+  }
 
-onClear(){
-  this.userName = this.OldPassword = this.NewPassword = '';
-}
+  //   onUpload(event) {
+  //     for(let image of event.files) {
+  //         this.uploadedFiles.push(image);
+  //     }
 
-setUsername(username) {
-  this.userName = username;
-}
-getUsername(){
-  return this.userName;
-}
-setOldPassword(OldPassword) {
-  this.OldPassword = OldPassword;
-}
-getOldPassword(){
-  return this.OldPassword;
-}
-setNewPassword(NewPassword) {
-  this.NewPassword = NewPassword;
-}
-getNewPassword(){
-  return this.NewPassword;
-}
+  //     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  // }
+
+  onNew() {
+    let pass = JSON.parse(this.authService.getCredentials()).pswd;
+    const params = {
+      'UserId': this.userName,
+      'OldPassword': this.OldPassword,
+      'NewPassword': this.NewPassword
+    };
+    if (this.OldPassword === pass) {
+      this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
+        if (res) {
+          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
+          // setTimeout(this.onTime, 3000);
+        } else {
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        }
+      });
+      // this.router.navigate(['login']);
+    }
+    this.onClear();
+    this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+  }
+
+  onTime() {
+    this.router.navigate(['login']);
+  }
+
+  onClear() {
+    this.userName = this.OldPassword = this.NewPassword = '';
+  }
+
+  setUsername(username) {
+    this.userName = username;
+  }
+  getUsername() {
+    return this.userName;
+  }
+  setOldPassword(OldPassword) {
+    this.OldPassword = OldPassword;
+  }
+  getOldPassword() {
+    return this.OldPassword;
+  }
+  setNewPassword(NewPassword) {
+    this.NewPassword = NewPassword;
+  }
+  getNewPassword() {
+    return this.NewPassword;
+  }
 
 }
 // function showTime() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import {Validators,FormControl,FormGroup,FormBuilder} from '@angular/forms';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -35,14 +35,22 @@ export class GodownProfileComponent implements OnInit {
   canShowMenu: boolean;
   formUser = [];
 
-  constructor(private authService: AuthService, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.gCode = this.authService.getUserAccessible().gCode;
     this.data = this.roleBasedService.getInstance();
-    this.userdata = new FormGroup({
+    this.userdata = this.fb.group({
+        'Gname': new FormControl('', Validators.required),
+        'designation': new FormControl('', Validators.required),
+        'address1': new FormControl(''),
+        'address2': new FormControl(''),
+        'address3': new FormControl(''),
+        'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
+        'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+        'faxno': new FormControl('', Validators.compose([Validators.required])),
     });
 
   }
