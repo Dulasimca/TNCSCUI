@@ -335,7 +335,7 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'sc':
         this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = this.ipCode = this.IPCode = null;
+        this.iCode = this.ICode = null;
         break;
     }
   }
