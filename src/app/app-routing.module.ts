@@ -58,7 +58,7 @@ import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co
 import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
-import { SocietMasterComponent } from './Documents/Master/societ-master/societ-master.component';
+import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
 import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
@@ -83,6 +83,7 @@ import { GodownProfileComponent } from './godown-profile/godown-profile.componen
 import { PackingMasterComponent } from './UserMaster/packing-master/packing-master.component';
 import { OtherMasterComponent } from './UserMaster/other-master/other-master.component';
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
+import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 
 
 const routes: Routes = [
@@ -168,6 +169,7 @@ const routes: Routes = [
   { path: 'Packing Master', component: PackingMasterComponent },
   { path: 'Other Master', component: OtherMasterComponent },
   { path: 'Cnc Correction', component: CncCorrectionComponent },
+  { path: 'Scheme Commodity', component: SchemeCommodityComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

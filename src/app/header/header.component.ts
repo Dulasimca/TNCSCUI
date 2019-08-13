@@ -92,13 +92,13 @@ export class HeaderComponent implements OnInit {
   // }
 
   onNew() {
-    let pass = JSON.parse(this.authService.getCredentials()).pswd;
+    let head = JSON.parse(this.authService.getCredentials()).pswd;
     const params = {
       'UserId': this.userName,
       'OldPassword': this.OldPassword,
       'NewPassword': this.NewPassword
     };
-    if (this.OldPassword === pass) {
+    if (this.OldPassword === head) {
       this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
         if (res) {
           this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
@@ -108,6 +108,8 @@ export class HeaderComponent implements OnInit {
         }
       });
       // this.router.navigate(['login']);
+    } else {
+      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Password did not match!' });
     }
     this.onClear();
     this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
@@ -118,7 +120,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onClear() {
-    this.userName = this.OldPassword = this.NewPassword = '';
+    this.OldPassword = this.NewPassword = '';
   }
 
   setUsername(username) {

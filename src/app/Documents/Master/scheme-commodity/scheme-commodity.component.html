@@ -1,0 +1,34 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Scheme Commodity</div>
+      </div>
+    </p-header>
+    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12 dashboard">
+        <p-table [columns]="SchemeCommodityCols" [value]="SchemeCommodityData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [loading]="loading">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>
