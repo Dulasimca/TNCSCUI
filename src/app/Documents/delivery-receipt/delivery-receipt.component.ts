@@ -634,16 +634,16 @@ export class DeliveryReceiptComponent implements OnInit {
 
   getDocByDoNo() {
     this.messageService.clear();
-    this.itemData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+    this.itemData = []; this.itemSchemeData = []; this.paymentBalData = []; this.paymentData = [];
     this.viewPane = false;
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      if (res !== undefined && res.length !== 0) {
+    this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.DeliveryOrderNo = res[0].Dono;
-        this.DeliveryDate = new Date(res[0].DDate);
-        this.trCode = res[0].Trcode;
-        this.Trcode = res[0].TrName;
-        this.transactionOptions = [{ label: res[0].TrName, value: res[0].Trcode }];
+        this.DeliveryDate = new Date(res[0].DoDate);
+        this.trCode = res[0].TransactionCode;
+        this.Trcode = res[0].TRName;
+        this.transactionOptions = [{ label: res[0].TRName, value: res[0].TransactionCode }];
         this.IndentNo = res[0].IndentNo;
         this.PermitDate = new Date(res[0].PermitDate);
         let currentYr = new Date().getFullYear();
@@ -657,6 +657,10 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PName = res[0].ReceivorName;
         this.pCode = res[0].ReceivorCode;
         this.partyNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivorCode }];
+        this.RTCode = res[0].Tyname;
+        this.rtCode = res[0].IssuerType;
+        this.receivorTypeOptions = [{ label: res[0].Tyname, value: res[0].IssuerType }];
+        this.TransType = res[0].TransType;
         this.Remarks = (res[0].Remarks.toString().trim() !== '') ? res[0].Remarks : '-';
         this.GrandTotal = (res[0].GrandTotal * 1);
         res.forEach(i => {
@@ -669,6 +673,7 @@ export class DeliveryReceiptComponent implements OnInit {
             Total: (i.TotalAmount * 1),
             ItemCode: i.ItemCode,
             Scheme: i.Scheme,
+            Rcode: i.RCode
           });
           this.itemSchemeData.push({
             ITDescription: i.ITDescription,
@@ -679,6 +684,7 @@ export class DeliveryReceiptComponent implements OnInit {
             MarginAmount: (i.MarginAmount * 1),
             ItemCode: i.ItemCode,
             Scheme: i.Scheme,
+            Rcode: i.RCode
           });
           this.paymentBalData.push({
             PaymentMode: i.PaymentMode,

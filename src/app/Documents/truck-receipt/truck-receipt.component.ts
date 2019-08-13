@@ -74,7 +74,6 @@ export class TruckReceiptComponent implements OnInit {
   GCode: any;
   RRCode: any;
   ManualDocNo: any;
-  RRemarks: string;
   Scheme: any;
   schemeCode: any;
   TStockNo: any;
@@ -484,7 +483,7 @@ export class TruckReceiptComponent implements OnInit {
     this.OrderNo = null; this.selectedValues = null; this.RNo = 0; this.LorryNo = null;
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
     this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
-    this.RRemarks= null; this.TransporterName = null; this.LWBillNo = null;
+    this.TransporterName = null; this.LWBillNo = null;
     this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
     this.HCharges = 0; this.TStation = null; this.FStation =null;
     this.fStationCode = null; this.tStationCode = null;
@@ -666,7 +665,7 @@ export class TruckReceiptComponent implements OnInit {
         this.RailFreightAmt = res[0].RFreightAmount;
         this.LDate = new Date(res[0].LDate);
         this.WNo = res[0].Wno;
-        this.RRemarks = res[0].Remarks;
+        this.Remarks = res[0].Remarks;
         this.IssueSlip = res[0].IssueSlip;
         res.forEach(i => {
           this.itemData.push({

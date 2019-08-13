@@ -489,6 +489,7 @@ export class IssueReceiptComponent implements OnInit {
             this.SINo = data.SINo;
             this.DeliveryOrderNo = data.DNo;
             this.DeliveryOrderDate = new Date(data.DDate);
+            this.issueData.splice(index, 1);
         break;
       case 'item':
         this.TStockNo = data.TStockNo;
