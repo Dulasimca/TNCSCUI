@@ -636,7 +636,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.messageService.clear();
     this.itemData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
     this.viewPane = false;
-    const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2');
+    const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.DeliveryOrderNo = res[0].Dono;

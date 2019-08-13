@@ -307,6 +307,8 @@ export class StockReceiptComponent implements OnInit {
             })
             this.packingTypeOptions = packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.packingTypeOptions = packingTypes;
           }
         });
         // }
@@ -455,9 +457,12 @@ export class StockReceiptComponent implements OnInit {
         }
       });
       this.StackBalance += stackBalance;
-      this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
-        = this.GKgs = this.NKgs = this.WTCode = this.tareWt = this.godownNo = this.locationNo = this.stackYear = null;
-      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
+      this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
+      this.WTCode = null; this.Moisture = null; this.NoPacking = null;
+      this.GKgs = null; this.NKgs = null; this.WTCode = null; this.tareWt = null;
+      this.godownNo = null; this.locationNo = null; this.stackYear = null;
+      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = [];
     }
   }
 
@@ -480,20 +485,20 @@ export class StockReceiptComponent implements OnInit {
       'OrderDate': this.datepipe.transform(this.OrderDate, 'MM/dd/yyyy'),
       'ReceivingCode': this.ReceivingCode,
       'RCode': this.RCode,
-      'MTransport': (this.MTransport !== undefined) ? this.MTransport : '',
+      'MTransport': (this.MTransport !== undefined && this.MTransport !== null) ? this.MTransport : '-',
       'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
-      'DepositorType': (this.DepositorType.value !== undefined) ? this.DepositorType.value : this.depositorType,
-      'DepositorCode': (this.DepositorCode.value !== undefined) ? this.DepositorCode.value : this.depositorCode,
+      'DepositorType': (this.DepositorType.value !== undefined && this.DepositorType.value !== null) ? this.DepositorType.value : this.depositorType,
+      'DepositorCode': (this.DepositorCode.value !== undefined && this.DepositorCode.value !== null) ? this.DepositorCode.value : this.depositorCode,
       'TruckMemoNo': this.TruckMemoNo,
       'TruckMemoDate': this.datepipe.transform(this.TruckMemoDate, 'MM/dd/yyyy'),
       'ManualDocNo': this.ManualDocNo,
-      'LNo': (this.LNo !== undefined) ? this.LNo.toString().toUpperCase() : '',
-      'LFrom': (this.LFrom !== undefined) ? this.LFrom : '',
+      'LNo': (this.LNo !== undefined && this.LNo !== null) ? this.LNo.toString().toUpperCase() : '-',
+      'LFrom': (this.LFrom !== undefined && this.LFrom !== null) ? this.LFrom : '-',
       'ItemList': this.itemData,
-      'Remarks': (this.Remarks !== undefined) ? this.Remarks : '',
+      'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '-',
       'GodownName': this.godownName,
-      'TransactionType': (this.DepositorType.label !== undefined) ? this.DepositorType.label : this.DepositorType,
-      'DepositorName': (this.DepositorCode.label !== undefined) ? this.DepositorCode.label : this.DepositorCode,
+      'TransactionType': (this.DepositorType.label !== undefined && this.DepositorType.label !== null) ? this.DepositorType.label : this.DepositorType,
+      'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
       'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip
