@@ -78,5 +78,6 @@ export class PathConstants {
   public static readonly DEPOSITOR_MASTER = '';
   public static readonly CUSTOMER_MASTER = '';
   public static readonly SCHEME_COMMODITY = '/api/SchemeCommodity';
+  public static readonly SOCIETY_MASTER_GET = '/api/SocietyMaster/Get';
 
 }

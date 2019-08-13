@@ -71,7 +71,7 @@ export class TransactionStatusComponent implements OnInit {
     if (this.godownOptions !== undefined) {
       const params = {
         'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
-        'Gcode':  this.g_cd.value,
+        'Gcode': this.g_cd.value,
         'RoleId': this.roleId,
         'Type': 1
       };
@@ -102,7 +102,7 @@ export class TransactionStatusComponent implements OnInit {
 
   onTable() {
     if (this.roleId === 2) {
-    this.TransactionStatusCols = this.tableConstants.TransactionStatus;
+      this.TransactionStatusCols = this.tableConstants.TransactionStatus;
       const params = {
         'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
         'RCode': this.g_cd.RCode,

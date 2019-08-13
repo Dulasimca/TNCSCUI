@@ -4,32 +4,24 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g dashboard">Depositor/Customer Master - Depositor/Customer/Kerosene Suppliers Master Entries</div>
+        <div class="ui-g dashboard">Depositor/Kerosene Master
+        </div>
       </div>
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-2"></div>
+      <div class="ui-g-12 ui-md-4"></div>
       <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (onClick)="onDepositor"
+        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (ngModelChange)="onResetTable()" (onClick)="onDepositor()"
           [(ngModel)]="val1" inputId="opt1">
         </p-radioButton>
       </div>
       <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 2" label="CustomerMaster" (onClick)="onCustomer" [(ngModel)]="val1"
-          inputId="opt2">
-        </p-radioButton>
-      </div>
-      <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 3" label="Kerosene Main Suppliers" [(ngModel)]="val1"
+        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()" [(ngModel)]="val1"
           (onClick)="onKeroseneSuppliers()" inputId="opt3">
         </p-radioButton>
       </div>
-      <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 4" label="Kerosene Regional Suppliers"
-          (onClick)="onKeroseneRegionalSuppliers" [(ngModel)]="val1" inputId="opt4"></p-radioButton>
-      </div>
-      <div class="ui-g-12 ui-md-2"></div>
+      <div class="ui-g-12 ui-md-4"></div>
       <!-- <div class="ui-g-3 ui-md-1">
         <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
       </div>
@@ -39,8 +31,9 @@
       <div class="ui-g-3 ui-md-1">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
       </div> -->
+      <div class="ui-g-12"></div>
       <div class="ui-g-12">
-        <p-table [columns]="KeroseneSuppliersCols" [value]="KeroseneSuppliersData" [rows]="20"
+          <p-table [columns]="(DepositorCols || KeroseneSuppliersCols)" [value]="(DepositorData || KeroseneSuppliersData)" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>
@@ -58,67 +51,8 @@
             </tr>
           </ng-template>
         </p-table>
+        <!--  -->
       </div>
-      <!-- <div class="ui-g-12 dashboard">
-          <p-table [columns]="KeroseneRegionalSuppliersCols" [value]="KeroseneRegionalSuppliersData" [rows]="20"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-            [loading]="loading">
-            <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-        <div class="ui-g-12 dashboard">
-            <p-table [columns]="CustomerCols" [value]="CustomerData" [rows]="20"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-              [loading]="loading">
-              <ng-template pTemplate="header" let-columns>
-                <tr style="text-align: center;">
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
-          <div class="ui-g-12 dashboard">
-              <p-table [columns]="DepositorCols" [value]="DepositorData" [rows]="20"
-                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-                [loading]="loading">
-                <ng-template pTemplate="header" let-columns>
-                  <tr style="text-align: center;">
-                    <th *ngFor="let col of columns">
-                      {{col.header}}
-                    </th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                  <tr>
-                    <td *ngFor="let col of columns">
-                      {{rowData[col.field]}}
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div> -->
     </div>
   </p-panel>
 </div>

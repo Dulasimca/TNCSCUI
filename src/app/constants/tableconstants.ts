@@ -844,7 +844,7 @@ export class TableConstants {
       { field: 'ClosingBalance', header: 'CB' },
       { field: 'ApprovalDate', header: 'Approved Date' },
       // { field: 'lastupdated', header: 'Last Updated'},
-      // { field: 'remarks', header: 'Remarks'},
+      { field: 'Status', header: 'Regional Status'},
       { field: 'UserId', header: 'Username' },
     ];
 
