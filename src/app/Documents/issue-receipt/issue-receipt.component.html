@@ -29,7 +29,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 13px">
                     <span class="ui-float-label">
-                    <input name="DONO" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
+                    <input name="DONO" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
                     <label for="DONO" class="float-input">Delivery Order No</label>
                   </span> 
                 </div>
@@ -41,7 +41,7 @@
                   </div>
                   <div class="ui-g-12" style="margin-top: 17px">
                       <span class="ui-float-label">
-                          <input name="WCNo" id="float-input" type="text" pKeyFilter="alphanum" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
+                          <input name="WCNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
                           <label for="WCNo" class="float-input">Weigment Certificate No</label>
                         </span>
                   </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-10 ui-fluid dashboard" style="margin-top: -5px">
                   <div class="ui-g-12 ui-md-7 no-pad-top"  style="margin-top: -40px; max-height: 80px;">
-                  <p-table [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="25px" [style]="{width:'500px'}">
+                  <p-table [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="50px" [style]="{width:'500px'}">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
@@ -152,31 +152,31 @@
                   <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                           <input name="VehicleNo" id="float-input" maxlength="13" [(ngModel)]="VehicleNo" pInputText autocomplete="off"  style="text-transform: uppercase !important"
-                          pKeyFilter="alphanum" required>
+                           required>
                           <label for="VehicleNo" class="float-input">Vehicle Number</label>
                         </span>
                   </div>
                 <div class="ui-g-6 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pInputText autocomplete="off" required appDecimalAmount>
+                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pKeyFilter="num" pInputText autocomplete="off" required appDecimalAmount>
                     <label for="TCharges" class="float-input">Transporters Charges</label>
                   </span>
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TName" id="float-input" type="text" minlength="1" maxlength="50" pKeyFilter="alpha" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
+                    <input name="TName" id="float-input" type="text" minlength="1" maxlength="50" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
                     <label for="TName" class="float-input">Transporters Name</label>
                   </span>
                 </div>
                 <div class="ui-g-6 ui-md-2">
                     <span class="ui-float-label">
-                        <input name="ManualDocNo" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
+                        <input name="ManualDocNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
                         <label for="ManualDocNo" class="float-input">Manual Document No</label>
                       </span>
                 </div>
                 <div class="ui-g-12 ui-md-4 ui-fluid">
                   <span class="ui-float-label">
-                    <textarea name="Remarks" rows="2" cols="70" pKeyFilter="alphanum" minlength="1" maxlength="150"
+                    <textarea name="Remarks" rows="2" cols="70" minlength="1" maxlength="150"
                      [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
                     <label for="Remarks" class="float-input">Remarks</label>
                   </span>
@@ -429,7 +429,7 @@
           <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0')" label=Save (click)="onSave()"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="isSaveSucceed" label=Print (click)="onPrint()"></button>
+          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="!isSaveSucceed" label=Print (click)="onPrint()"></button>
         </div>
         </form>
       </div>

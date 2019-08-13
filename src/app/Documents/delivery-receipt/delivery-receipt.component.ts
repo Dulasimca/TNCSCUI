@@ -17,7 +17,7 @@ import { saveAs } from 'file-saver';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
-  isSaveSucceed: boolean = true;
+  isSaveSucceed: boolean = false;
   username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
@@ -100,10 +100,10 @@ export class DeliveryReceiptComponent implements OnInit {
   OnBank: any;
   PrevOrderNo: any;
   PrevOrderDate: Date;
-  AdjusmentAmount: any = 0;
+  AdjusmentAmount: any;
   AdjustmentType: string;
-  OtherAmount: any = 0;
-  Balance: any = 0;
+  OtherAmount: any;
+  Balance: any;
   DueAmount: any = 0;
   PaidAmount: any = 0;
   BalanceAmount: any = 0;
@@ -130,6 +130,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
+    this.AdjusmentAmount = this.OtherAmount = this.Balance = 0;
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
@@ -304,7 +305,6 @@ export class DeliveryReceiptComponent implements OnInit {
           }
             break;
         case 'wmt':
-        if (this.rateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(w => {
@@ -315,10 +315,8 @@ export class DeliveryReceiptComponent implements OnInit {
           }
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        }
         break;
         case 'margin_wmt':
-        if (this.marginRateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(w => {
@@ -330,15 +328,12 @@ export class DeliveryReceiptComponent implements OnInit {
             }
               this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        }
         break;
       case 'pay':
-        if (this.paymentOptions === undefined) {
           this.paymentOptions = [
             { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
             { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
             { label: 'PayOrder', value: 'PO'}];
-          }
           break;
     }
   }
@@ -380,7 +375,7 @@ export class DeliveryReceiptComponent implements OnInit {
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
-       ((this.pCode !== undefined) ? this.pCode : this.PName.value) : this.pCode
+       ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
     this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
@@ -396,25 +391,33 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'item':
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
+        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.iCode = data.ItemCode;
         this.ICode = data.ITDescription;
-        this.NKgs = (data.Nkgs * 1).toFixed(3);
+        this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
+        this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(2);
         this.RateTerm = data.UnitMeasure;
         this.rateTerm = data.Wtype;
+        this.rateInTermsOptions = [{ label: data.Wtype, value: data.UnitMeasure }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
+        this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
         break;
         case 'scheme':
           this.marginSchemeCode = data.SchemeCode;
           this.MarginScheme = data.SchemeName;
+          this.marginSchemeOptions = [{ label: data.SchemeName, value: data.SchemeCode }];
           this.MICode = data.ITDescription;
           this.miCode = data.ItemCode;
+          this.marginItemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
           this.MarginRateInTerms = data.RateInTerms;
           this.marginRateInTerms = data.MarginWtype;
+          this.marginRateInTermsOptions = [{ label: data.MarginWtype, value: data.RateInTerms }];
           this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
           this.MarginRate = (data.MarginRate * 1).toFixed(2);
           this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+          this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
           this.itemSchemeData.splice(index, 1);
         break;
         case 'payment':
@@ -424,6 +427,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.PAmount = (data.PaymentAmount * 1)
           this.PayableAt = data.payableat;
           this.OnBank = data.bank;
+          this.PaidAmount = this.PaidAmount - (this.paymentData[index].PaymentAmount * 1);
+          this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
           this.paymentData.splice(index, 1);
           break;
           case 'prevBal':
@@ -442,9 +447,13 @@ export class DeliveryReceiptComponent implements OnInit {
     switch (id) {
       case 'Item':
         this.itemData.push({
-          'ITDescription': this.ICode.label, 'UnitMeasure': this.RateTerm.label,
-          'SchemeName': this.Scheme.label, 'Itemcode': this.ICode.value, 'NetWeight': this.NKgs, 'Wtype': this.RateTerm.value,
-          'Scheme': this.Scheme.value, 'Rate': this.Rate, 'Total': this.TotalAmount, 'RCode': this.RCode
+          ITDescription: (this.ICode.label !== undefined && this.ICode.label !== null) ? this.ICode.label : this.ICode,
+          UnitMeasure: (this.RateTerm.label !== undefined && this.RateTerm.label !== null) ? this.RateTerm.label : this.RateTerm,
+          SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
+          Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+          NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, RCode: this.RCode,
+          Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.rateTerm,
+          Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
         });
         if (this.itemData.length !== 0) {
             this.totalAmount = 0;
@@ -457,9 +466,19 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'MarginItem':
         this.itemSchemeData.push({
-          'ITDescription': this.MICode.label, 'RateInTerms': this.MarginRateInTerms.label,
-          'SchemeName': this.MarginScheme.label, 'ItemCode': this.MICode.value, 'MarginNkgs': this.MarginNKgs,
-           'MarginWtype': this.MarginRateInTerms.value, 'SchemeCode': this.MarginScheme.value, 'MarginRate': this.MarginRate, 'MarginAmount': this.MarginAmount, 'RCode': this.RCode
+          ITDescription: (this.MICode.label !== undefined && this.MICode.label !== null) ? this.MICode.label : this.MICode,
+          RateInTerms: (this.MarginRateInTerms.label !== undefined && this.MarginRateInTerms.label !== null)
+          ? this.MarginRateInTerms.label : this.MarginRateInTerms,
+          SchemeName: (this.MarginScheme.label !== undefined && this.MarginScheme.label !== null)
+          ? this.MarginScheme.label : this.MarginScheme,
+          ItemCode: (this.MICode.value !== undefined && this.MICode.value !== null)
+          ? this.MICode.value : this.miCode,
+          MarginRate: this.MarginRate, MarginAmount: this.MarginAmount,
+          RCode: this.RCode, MarginNkgs: this.MarginNKgs,
+          MarginWtype: (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null)
+          ? this.MarginRateInTerms.value : this.marginRateInTerms,
+          SchemeCode: (this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
+          ? this.MarginScheme.value : this.marginSchemeCode
         });
         if (this.itemSchemeData.length !== 0) {
           this.marginTotal = 0;
@@ -532,10 +551,12 @@ export class DeliveryReceiptComponent implements OnInit {
 
   calculateTotal() {
    if (this.NKgs !== undefined && this.Rate !== undefined && this.NKgs !== null && this.Rate !== null) {
-      this.TotalAmount = this.rateWithQtyCalculation(this.RateTerm.value, this.Rate, this.NKgs);
+     let unit = (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.rateTerm;
+      this.TotalAmount = this.rateWithQtyCalculation(unit, this.Rate, this.NKgs);
     }
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
-      this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms.value, this.MarginRate, this.MarginNKgs);
+      let marginUnit = (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null) ? this.MarginRateInTerms.value : this.marginRateInTerms;
+      this.MarginAmount = this.rateWithQtyCalculation(marginUnit, this.MarginRate, this.MarginNKgs);
     }
   }
 
@@ -560,7 +581,9 @@ export class DeliveryReceiptComponent implements OnInit {
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
-      ReceivorCode: this.PName.value }
+      ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
+      ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
+     }
       this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
         if (res !== null && res !== undefined && res.length !== 0) {
           this.PrevOrderNo = res[0].Dono;
@@ -570,7 +593,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
           }
     })
-  }
+  } 
 
   onView() {
     this.viewPane = true;
@@ -593,6 +616,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
     saveAs(path + filename, filename);
+    this.isSaveSucceed = false;
    }
 
   onClear() {
@@ -671,10 +695,13 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onSave() {
-    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined) ? this.PMonth.value : this.curMonth) ;
-    this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0;
-    this.rowId = (this.rowId !== undefined) ? this.rowId : 0;
+    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null) 
+    ? this.PMonth.value : this.curMonth) ;
+    this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
+    ? this.DeliveryOrderNo : 0;
+    this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
     const params = {
+      'Type': 1,
       'Dono': this.DeliveryOrderNo,
       'RowId': this.rowId,
       'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -690,7 +717,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'Remarks': this.Remarks,
       'deliverytype': '',
       'GodownName': this.GodownName,
-      'TransactionName': this.Trcode.label,
+      'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'RegionName': this.RegionName,
       'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip,
       'UserID': this.username.user,
@@ -700,14 +727,16 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryAdjustmentDetails': this.paymentBalData
     };
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
-        if (res) {
-          this.isSaveSucceed = false;
-          this.onClear();
+      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
+        if (res.Item1) {
+          this.isSaveSucceed = true;
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Delivery Order No:' + res.Item2 });
+          this.onClear();
         } else {
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
         }
-    },(err: HttpErrorResponse) => {
+      }
+    }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
       }

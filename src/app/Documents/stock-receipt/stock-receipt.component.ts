@@ -36,7 +36,7 @@ export class StockReceiptComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   year: any;
-  isSaveSucceed: boolean = true;
+  isSaveSucceed: boolean = false;
   tareWt: number;
   maxDate: Date = new Date();
   enableActions: boolean = true;
@@ -335,7 +335,7 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'sc':
         this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = this.ipCode = this.IPCode = null;
+        this.iCode = this.ICode = null;
         break;
     }
   }
@@ -360,7 +360,8 @@ export class StockReceiptComponent implements OnInit {
       this.godownNo = this.TStockNo.toString().slice(0, index);
       this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
     }
-    this.StackBalance = (this.StackBalance * 1) - (this.NKgs * 1);
+    this.StackBalance = ((this.StackBalance * 1) > (this.NKgs * 1)) ?
+     ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
   }
@@ -421,7 +422,7 @@ export class StockReceiptComponent implements OnInit {
       TStockNo: stack_data.value,
       StackDate: stack_data.stack_date,
       GCode: this.ReceivingCode,
-      ICode: this.ICode.value,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {

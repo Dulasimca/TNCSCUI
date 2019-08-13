@@ -45,7 +45,7 @@ export class IssueReceiptComponent implements OnInit {
   isValidStackBalance: boolean;
   isReceivorNameDisabled: boolean;
   isReceivorTypeDisabled: boolean;
-  isSaveSucceed: boolean;
+  isSaveSucceed: boolean = false;
   rtCode: string;
   rnCode: string;
   locationNo: any;
@@ -379,7 +379,7 @@ export class IssueReceiptComponent implements OnInit {
       TStockNo: stack_data.value,
       StackDate: stack_data.stack_date,
       GCode: this.IssuingCode,
-      ICode: this.ICode.value,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -461,7 +461,8 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
         this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-        this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
+        this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = [];
       }
   }
 
@@ -564,7 +565,7 @@ export class IssueReceiptComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
       }
     });
   }
