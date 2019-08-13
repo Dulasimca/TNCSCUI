@@ -21,6 +21,7 @@ export class TruckFromRegionComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
+  // selectedValues: string[] = ['Road'];
   g_cd: any;
   data: any;
   isActionDisabled: boolean;
@@ -62,6 +63,7 @@ export class TruckFromRegionComponent implements OnInit {
       let sno = 0;
       this.TruckFromRegionData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        // this.selectedValues = [res[0].TransportMode];
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
@@ -103,6 +105,17 @@ export class TruckFromRegionComponent implements OnInit {
     this.TruckFromRegionData = [];
     this.isActionDisabled = true;
   }
+
+  // onSave() {
+  //   this.messageService.clear();
+  //   this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
+  //   if (this.selectedValues.length !== 0) {
+  //     if (this.selectedValues.length === 2) {
+  //       this.MTransport = 'UPCountry';
+  //     } else if (this.selectedValues.length === 1) {
+  //       this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
+  //     }
+  //   }
 
   exportAsXLSX(): void {
     var TruckFromRegion = [];
