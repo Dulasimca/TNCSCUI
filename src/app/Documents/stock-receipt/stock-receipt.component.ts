@@ -36,7 +36,7 @@ export class StockReceiptComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   year: any;
-  isSaveSucceed: boolean = true;
+  isSaveSucceed: boolean = false;
   tareWt: number;
   maxDate: Date = new Date();
   enableActions: boolean = true;

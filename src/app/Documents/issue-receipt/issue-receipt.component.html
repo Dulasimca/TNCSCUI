@@ -78,7 +78,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-10 ui-fluid dashboard" style="margin-top: -5px">
                   <div class="ui-g-12 ui-md-7 no-pad-top"  style="margin-top: -40px; max-height: 80px;">
-                  <p-table [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="25px" [style]="{width:'500px'}">
+                  <p-table [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="50px" [style]="{width:'500px'}">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
@@ -170,7 +170,7 @@
                 </div>
                 <div class="ui-g-6 ui-md-2">
                     <span class="ui-float-label">
-                        <input name="ManualDocNo" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
+                        <input name="ManualDocNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
                         <label for="ManualDocNo" class="float-input">Manual Document No</label>
                       </span>
                 </div>
@@ -429,7 +429,7 @@
           <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0')" label=Save (click)="onSave()"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="isSaveSucceed" label=Print (click)="onPrint()"></button>
+          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="!isSaveSucceed" label=Print (click)="onPrint()"></button>
         </div>
         </form>
       </div>

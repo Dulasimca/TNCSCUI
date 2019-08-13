@@ -45,7 +45,7 @@ export class IssueReceiptComponent implements OnInit {
   isValidStackBalance: boolean;
   isReceivorNameDisabled: boolean;
   isReceivorTypeDisabled: boolean;
-  isSaveSucceed: boolean;
+  isSaveSucceed: boolean = false;
   rtCode: string;
   rnCode: string;
   locationNo: any;

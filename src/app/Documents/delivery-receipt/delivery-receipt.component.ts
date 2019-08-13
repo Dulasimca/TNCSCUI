@@ -17,7 +17,7 @@ import { saveAs } from 'file-saver';
 })
 export class DeliveryReceiptComponent implements OnInit {
   data: any;
-  isSaveSucceed: boolean = true;
+  isSaveSucceed: boolean = false;
   username: any;
   viewDate: Date = new Date();
   viewPane: boolean = false;
@@ -612,6 +612,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
     saveAs(path + filename, filename);
+    this.isSaveSucceed = false;
    }
 
   onClear() {

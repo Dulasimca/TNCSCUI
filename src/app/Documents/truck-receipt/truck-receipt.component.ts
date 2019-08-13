@@ -18,7 +18,7 @@ import { saveAs } from 'file-saver';
 export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
   isValidStackBalance: boolean;
-  isSaveSucceed: boolean = true;
+  isSaveSucceed: boolean = false;
   viewDate: Date = new Date();
   data: any;
   username: any;
@@ -745,7 +745,7 @@ export class TruckReceiptComponent implements OnInit {
         if (res.Item1) {
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Truck Memo No:' + res.Item2 });
           this.onClear();
-          this.isSaveSucceed = false;
+          this.isSaveSucceed = true;
         } else {
           this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
@@ -763,5 +763,6 @@ export class TruckReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
     saveAs(path + filename, filename);
+    this.isSaveSucceed = false;
   }
 }

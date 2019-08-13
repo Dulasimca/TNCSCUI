@@ -495,7 +495,7 @@
               <button style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0')" label=Save (click)="onSave()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="isSaveSucceed" (click)="onPrint()"></button>
+              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="!isSaveSucceed" (click)="onPrint()"></button>
             </div>
           </form>
         </div>

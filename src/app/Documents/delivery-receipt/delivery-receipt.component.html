@@ -545,7 +545,7 @@
                 (click)="onSave()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="isSaveSucceed" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="!isSaveSucceed" label=Print
                 (click)="onPrint()"></button>
             </div>
           </form>
