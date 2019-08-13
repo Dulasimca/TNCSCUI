@@ -307,6 +307,8 @@ export class StockReceiptComponent implements OnInit {
             })
             this.packingTypeOptions = packingTypes;
             this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.packingTypeOptions = packingTypes;
           }
         });
         // }
@@ -455,9 +457,12 @@ export class StockReceiptComponent implements OnInit {
         }
       });
       this.StackBalance += stackBalance;
-      this.ICode = this.TStockNo = this.Scheme = this.IPCode = this.WTCode = this.Moisture = this.NoPacking
-        = this.GKgs = this.NKgs = this.WTCode = this.tareWt = this.godownNo = this.locationNo = this.stackYear = null;
-      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
+      this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
+      this.WTCode = null; this.Moisture = null; this.NoPacking = null;
+      this.GKgs = null; this.NKgs = null; this.WTCode = null; this.tareWt = null;
+      this.godownNo = null; this.locationNo = null; this.stackYear = null;
+      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = [];
     }
   }
 

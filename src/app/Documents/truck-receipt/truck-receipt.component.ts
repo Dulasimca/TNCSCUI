@@ -78,12 +78,14 @@ export class TruckReceiptComponent implements OnInit {
   Scheme: any;
   schemeCode: any;
   TStockNo: any;
+  StackDate: Date;
   ICode: any;
   iCode: any;
   GodownNo: any;
   LocationNo: any;
   IPCode: any;
   ipCode: any;
+  PWeight: any;
   NoPacking: any;
   GKgs: any;
   NKgs: any;
@@ -402,6 +404,7 @@ export class TruckReceiptComponent implements OnInit {
         this.ICode = data.ITDescription; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ICode }];
         this.IPCode = data.PackingType; this.ipCode = data.IPCode;
+        this.PWeight = (data.PWeight * 1);
         this.packingTypeOptions = [{ label: data.PackingType, value: data.IPCode }];
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
@@ -417,10 +420,10 @@ export class TruckReceiptComponent implements OnInit {
           this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        this.CurrentDocQtv = (this.CurrentDocQtv * 1) - (this.NKgs * 1);
-        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.itemData.splice(index, 1);
-  }
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
+        this.onStackNoChange(list);
+        }
 
   parseMoisture(event) {
     let totalLength = event.target.value.length;
@@ -500,9 +503,9 @@ export class TruckReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
-    let stack_data = event.value;
+    let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
-      TStockNo: stack_data.value,
+      TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
       StackDate: stack_data.stack_date,
       GCode: this.GCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -546,28 +549,36 @@ export class TruckReceiptComponent implements OnInit {
       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
       SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
       Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
-      Rcode: this.RCode
+      PWeight: (this.IPCode.weight  !== undefined) ? this.IPCode.weight : this.PWeight,
+      StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
+       new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode
     })
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
-        if (x.TStockNo === this.TStockNo.value) {
+        if (x.TStockNo === stock_no) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
         this.itemData = this.itemData.splice(lastIndex, 1);
-        this.CurrentDocQtv = this.NetStackBalance = this.StackBalance = 0;
+        this.CurrentDocQtv = 0;
+        this.NetStackBalance = 0;
+        this.NoPacking = null;
+        this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+        this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
+      this.GKgs = null; this.NKgs = null; this.GodownNo = null; this.LocationNo = null;
+      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = [];
       }
-      this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
-        this.GodownNo = this.LocationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-      this.schemeOptions = this.itemDescOptions = this.stackOptions = this.packingTypeOptions = this.wmtOptions = [];
-    }
+      }
   }
 
   onRowSelect(event) {
@@ -669,6 +680,8 @@ export class TruckReceiptComponent implements OnInit {
             SchemeName: i.SchemeName,
             PackingType: i.PName,
             WmtType: i.WEType,
+            PWeight: i.PWeight,
+            StackDate: i.StackDate,
             RCode: i.RCode
           })
         });

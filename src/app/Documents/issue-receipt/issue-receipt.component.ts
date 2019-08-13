@@ -30,7 +30,6 @@ export class IssueReceiptComponent implements OnInit {
   issueMemoDocData: any = [];
   issueMemoDocCols: any;
   viewDate: Date = new Date();
-  packingTypes: any = [];
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   transactionOptions: SelectItem[];
@@ -89,8 +88,10 @@ export class IssueReceiptComponent implements OnInit {
   Scheme: any;
   ICode: any;
   TStockNo: any;
+  StackDate: Date;
   IPCode: any;
   NoPacking: any;
+  PWeight: any;
   GKgs: any;
   NKgs: any;
   WTCode: any;
@@ -139,6 +140,7 @@ export class IssueReceiptComponent implements OnInit {
     let yearArr = [];
     let receivorTypeList = [];
     let receivorNameList = [];
+    let packingTypes = [];
     const range = 3;
     switch (selectedItem) {
       case 'y':
@@ -283,10 +285,12 @@ export class IssueReceiptComponent implements OnInit {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.Table.forEach(p => {
-                this.packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+                packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
               })
-              this.packingTypeOptions = this.packingTypes;
+              this.packingTypeOptions = packingTypes;
               this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            } else {
+              this.packingTypeOptions = packingTypes;
             }
           });
         // }
@@ -354,9 +358,11 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
+    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
-      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
-      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+      && this.IPCode !== undefined && this.IPCode !== null) {
+        let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
       this.GKgs = this.NKgs = this.TKgs = 0;
@@ -374,9 +380,9 @@ export class IssueReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
-    let stack_data = event.value;
+    let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
-      TStockNo: stack_data.value,
+      TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
       StackDate: stack_data.stack_date,
       GCode: this.IssuingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -412,13 +418,13 @@ export class IssueReceiptComponent implements OnInit {
     this.DDate = this.DeliveryOrderDate;
     this.SI_Date = this.SIDate;
     this.issueData.push({
-      'SINo': (this.SINo !== undefined) ? this.SINo : '-',
-      'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
-      'DNo': this.DeliveryOrderNo,
-      'DDate': this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
-      'RCode': this.RCode, 'GodownCode': this.IssuingCode,
-      'DeliveryOrderDate': this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy'),
-      'IssueMemoDate': this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
+      SINo: (this.SINo !== undefined) ? this.SINo : '-',
+      SIDate: this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
+      DNo: this.DeliveryOrderNo,
+      DDate: this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
+      RCode: this.RCode, GodownCode: this.IssuingCode,
+      DeliveryOrderDate: this.datepipe.transform(this.DeliveryOrderDate, 'dd/MM/yyyy'),
+      IssueMemoDate: this.datepipe.transform(this.SIDate, 'dd/MM/yyyy'),
     });
     if (this.issueData.length !== 0) {
       this.DeliveryOrderDate = new Date(); this.DeliveryOrderNo = null;
@@ -430,39 +436,49 @@ export class IssueReceiptComponent implements OnInit {
 
   onItemDetailsEnter() {
     this.itemData.push({
-      'TStockNo': (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
-      'ICode': (this.ICode.value !== undefined) ? this.ICode.value: this.iCode,
-      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
-      'NoPacking': this.NoPacking,
-      'GKgs': this.GKgs,
-      'Nkgs': this.NKgs,
-      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
-      'Moisture': this.Moisture,
-      'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
-      'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
-      'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
-      'PackingName': (this.IPCode.label  !== undefined) ? this.IPCode.label : this.IPCode,
-      'WmtType': (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
+      TStockNo: (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      ICode: (this.ICode.value !== undefined) ? this.ICode.value: this.iCode,
+      IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
+      NoPacking: this.NoPacking,
+      GKgs: this.GKgs,
+      Nkgs: this.NKgs,
+      WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
+      Moisture: this.Moisture,
+      Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
+      SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
+      PackingName: (this.IPCode.label  !== undefined) ? this.IPCode.label : this.IPCode,
+      WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode,
+      PWeight: (this.IPCode.weight  !== undefined) ? this.IPCode.weight : this.PWeight,
+      StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
+       new Date(this.TStockNo.stack_date) : this.StackDate
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
-        if (x.TStockNo === this.TStockNo.value) {
+        if (x.TStockNo === stock_no) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
         this.itemData = this.itemData.splice(lastIndex, 1);
+        this.CurrentDocQtv = 0;
+        this.NetStackBalance = 0;
+        this.NoPacking = null;
+        this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+        this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
+      this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = [];
       }
-      this.TStockNo = this.ICode = this.IPCode = this.NoPacking = this.GKgs = this.NKgs =
-        this.godownNo = this.locationNo = this.TKgs = this.WTCode = this.Moisture = this.Scheme = null;
-        this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-        this.packingTypeOptions = []; this.wmtOptions = [];
+      
       }
   }
 
@@ -477,11 +493,13 @@ export class IssueReceiptComponent implements OnInit {
       case 'item':
         this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
+        this.StackDate = data.StackDate;
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme}];
         this.ICode = data.CommodityName; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
         this.IPCode = data.PackingName; this.ipCode = data.IPCode;
+        this.PWeight = (data.PWeight * 1);
         this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
@@ -497,9 +515,9 @@ export class IssueReceiptComponent implements OnInit {
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        this.CurrentDocQtv = (this.CurrentDocQtv * 1) - (this.NKgs * 1);
-        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.itemData.splice(index, 1);
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
+        this.onStackNoChange(list);
       break;
     }
 
@@ -596,7 +614,6 @@ export class IssueReceiptComponent implements OnInit {
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
-        this.DeliveryOrderNo = res.Table[0].DNo;
         this.RowId = res.Table[0].RowId;
         this.TransporterName = res.Table[0].TransporterName;
         this.TransporterCharges = res.Table[0].TransportingCharge;
@@ -647,6 +664,8 @@ export class IssueReceiptComponent implements OnInit {
             SchemeName: i.SchemeName,
             PackingName: i.PName,
             WmtType: i.WEType,
+            PWeight: i.PWeight,
+            StackDate: i.StackDate,
             RCode: i.RCode
           })
         })
