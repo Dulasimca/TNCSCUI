@@ -29,7 +29,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 13px">
                     <span class="ui-float-label">
-                    <input name="DONO" id="float-input" type="text" minlength="1" maxlength="20" pKeyFilter="alphanum" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
+                    <input name="DONO" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="DeliveryOrderNo" pInputText autocomplete="off">
                     <label for="DONO" class="float-input">Delivery Order No</label>
                   </span> 
                 </div>
@@ -41,7 +41,7 @@
                   </div>
                   <div class="ui-g-12" style="margin-top: 17px">
                       <span class="ui-float-label">
-                          <input name="WCNo" id="float-input" type="text" pKeyFilter="alphanum" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
+                          <input name="WCNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
                           <label for="WCNo" class="float-input">Weigment Certificate No</label>
                         </span>
                   </div>
@@ -158,13 +158,13 @@
                   </div>
                 <div class="ui-g-6 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pInputText autocomplete="off" required appDecimalAmount>
+                    <input name="TCharges" id="float-input" [(ngModel)]="TransporterCharges" pKeyFilter="num" pInputText autocomplete="off" required appDecimalAmount>
                     <label for="TCharges" class="float-input">Transporters Charges</label>
                   </span>
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TName" id="float-input" type="text" minlength="1" maxlength="50" pKeyFilter="alpha" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
+                    <input name="TName" id="float-input" type="text" minlength="1" maxlength="50" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
                     <label for="TName" class="float-input">Transporters Name</label>
                   </span>
                 </div>
@@ -176,7 +176,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-4 ui-fluid">
                   <span class="ui-float-label">
-                    <textarea name="Remarks" rows="2" cols="70" pKeyFilter="alphanum" minlength="1" maxlength="150"
+                    <textarea name="Remarks" rows="2" cols="70" minlength="1" maxlength="150"
                      [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
                     <label for="Remarks" class="float-input">Remarks</label>
                   </span>

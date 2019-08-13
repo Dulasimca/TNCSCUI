@@ -549,10 +549,12 @@ export class DeliveryReceiptComponent implements OnInit {
 
   calculateTotal() {
    if (this.NKgs !== undefined && this.Rate !== undefined && this.NKgs !== null && this.Rate !== null) {
-      this.TotalAmount = this.rateWithQtyCalculation(this.RateTerm.value, this.Rate, this.NKgs);
+     let unit = (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.rateTerm;
+      this.TotalAmount = this.rateWithQtyCalculation(unit, this.Rate, this.NKgs);
     }
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
-      this.MarginAmount = this.rateWithQtyCalculation(this.MarginRateInTerms.value, this.MarginRate, this.MarginNKgs);
+      let marginUnit = (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null) ? this.MarginRateInTerms.value : this.marginRateInTerms;
+      this.MarginAmount = this.rateWithQtyCalculation(marginUnit, this.MarginRate, this.MarginNKgs);
     }
   }
 

@@ -447,7 +447,7 @@
                   <div class="ui-g-12 ui-md-12 dashboard">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                      (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !DeliveryOrderNo || !PName)" 
+                      (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !PName)" 
                       tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -457,7 +457,7 @@
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                      <p-calendar name="PDDate" [(ngModel)]="PrevOrderDate" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
+                      <p-calendar name="PDDate" dateFormat="dd/mm/yy" [(ngModel)]="PrevOrderDate" [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
