@@ -43,7 +43,7 @@ export class PathConstants {
   public static readonly GUNNY_REPORT = '/api/GUGR/Post'; 
   public static readonly DEPOSITOR_TYPE_MASTER = '/api/TypeMaster/Get';
   public static readonly DEPOSITOR_NAME_MASTER = '/api/DepositorDetails/Get';
-  public static readonly COMMODITY_FOR_SCHEME = '/api/CommodityForScheme/Get ';
+  public static readonly COMMODITY_FOR_SCHEME = '/api/CommodityForScheme/Get';
   public static readonly STACK_DETAILS = '/api/StackDetails/Get';
   public static readonly PACKING_AND_WEIGHMENT = '/api/PackingandWeighment';
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 

@@ -100,10 +100,10 @@ export class DeliveryReceiptComponent implements OnInit {
   OnBank: any;
   PrevOrderNo: any;
   PrevOrderDate: Date;
-  AdjusmentAmount: any = 0;
+  AdjusmentAmount: any;
   AdjustmentType: string;
-  OtherAmount: any = 0;
-  Balance: any = 0;
+  OtherAmount: any;
+  Balance: any;
   DueAmount: any = 0;
   PaidAmount: any = 0;
   BalanceAmount: any = 0;
@@ -130,6 +130,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
+    this.AdjusmentAmount = this.OtherAmount = this.Balance = 0;
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
@@ -304,7 +305,6 @@ export class DeliveryReceiptComponent implements OnInit {
           }
             break;
         case 'wmt':
-        if (this.rateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(w => {
@@ -315,10 +315,8 @@ export class DeliveryReceiptComponent implements OnInit {
           }
             this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        }
         break;
         case 'margin_wmt':
-        if (this.marginRateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
               res.forEach(w => {
@@ -330,15 +328,12 @@ export class DeliveryReceiptComponent implements OnInit {
             }
               this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
-        }
         break;
       case 'pay':
-        if (this.paymentOptions === undefined) {
           this.paymentOptions = [
             { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
             { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
             { label: 'PayOrder', value: 'PO'}];
-          }
           break;
     }
   }
@@ -380,7 +375,7 @@ export class DeliveryReceiptComponent implements OnInit {
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
-       ((this.pCode !== undefined) ? this.pCode : this.PName.value) : this.pCode
+       ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
     this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
@@ -560,7 +555,9 @@ export class DeliveryReceiptComponent implements OnInit {
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
-      ReceivorCode: this.PName.value }
+      ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
+      ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
+     }
       this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
         if (res !== null && res !== undefined && res.length !== 0) {
           this.PrevOrderNo = res[0].Dono;
@@ -570,7 +567,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
           }
     })
-  }
+  } 
 
   onView() {
     this.viewPane = true;

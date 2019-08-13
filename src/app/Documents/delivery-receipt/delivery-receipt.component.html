@@ -97,8 +97,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Pname" class="label-fontsize">Party Name</label>
                       <p-dropdown #pn name="Pname" [options]="partyNameOptions" [(ngModel)]="PName"
-                        (onClick)="onSelect('pn')" (keydown.enter)="onSelect('pn')" filter="true" optionLabel="label"
-                        [showClear]="true" required>
+                        (onClick)="onSelect('pn')" (keydown.enter)="onSelect('pn')" filter="true"
+                        optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -447,11 +447,12 @@
                   <div class="ui-g-12 ui-md-12 dashboard">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                      (click)="getPreviousBalance()"  tooltipPosition="top"></button>
+                      (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !DeliveryOrderNo || !PName)" 
+                      tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="PDNo" [(ngModel)]="PrevOrderNo" id="float-input" pInputText autocomplete="off">
+                        <input name="PDNo" [(ngModel)]="PrevOrderNo" type="text" id="float-input" pInputText autocomplete="off">
                         <label for="PDNo" class="float-input">Previous DoNo</label>
                       </span>
                     </div>
@@ -461,19 +462,19 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjusmentAmount" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
-                        [readonly]="true" autocomplete="off" >
+                        type="number" [readonly]="true" autocomplete="off" >
                         <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="otherAmnt" id="float-input" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
+                        <input name="otherAmnt" id="float-input" type="number" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
                         <label for="otherAmnt" class="float-input">Other Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="balance" id="float-input" [(ngModel)]="Balance" pInputText autocomplete="off"
+                        <input name="balance" id="float-input" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
                         [readonly]="true" >
                         <label for="balance" class="float-input">Balance</label>
                       </span>
@@ -490,7 +491,7 @@
                     </div>
                     <div class="ui-g-4 ui-md-1">
                       <button pButton label="Enter"
-                        [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType || !AdjusmentAmount || !OtherAmount || !Balance)"
+                        [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null || OtherAmount==null || Balance==null)"
                         (click)="onEnter('Adjustment')"></button>
                     </div>
                     <div class="ui-g-12 ui-md-4">
