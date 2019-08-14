@@ -285,14 +285,6 @@ export class StockReceiptComponent implements OnInit {
                 this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
-            if (this.TStockNo !== undefined && this.TStockNo !== null) {
-              this.stackYear = this.TStockNo.stack_yr;
-              let index;
-              index = this.TStockNo.value.toString().indexOf('/', 2);
-              const totalLength = this.TStockNo.value.length;
-              this.godownNo = this.TStockNo.value.toString().slice(0, index);
-              this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
-            }
           }
         } else {
           this.stackOptions = stackNo;
@@ -428,6 +420,16 @@ export class StockReceiptComponent implements OnInit {
   }
   onStackNoChange(event) {
     this.messageService.clear();
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+    } else {
+      this.godownNo = this.stackYear = this.locationNo = null;
+    }
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,

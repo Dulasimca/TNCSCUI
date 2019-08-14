@@ -139,8 +139,11 @@ export class IssueReceiptComponent implements OnInit {
     let schemeSelection = [];
     let yearArr = [];
     let receivorTypeList = [];
+    let itemDesc = [];
     let receivorNameList = [];
+    let stackNo = [];
     let packingTypes = [];
+    let weighment = [];
     const range = 3;
     switch (selectedItem) {
       case 'y':
@@ -234,7 +237,6 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        let itemDesc = [];
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -253,7 +255,6 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        let stackNo = [];
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
@@ -266,15 +267,6 @@ export class IssueReceiptComponent implements OnInit {
                 this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
-            if (this.TStockNo !== undefined && this.TStockNo !== null) {
-              this.stackYear = this.TStockNo.stack_yr;
-              let index;
-              let s: string;
-              index = this.TStockNo.value.toString().indexOf('/', 2);
-              const totalLength = this.TStockNo.value.length;
-              this.godownNo = this.TStockNo.value.toString().slice(0, index);
-              this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
-            }
           }
         } else {
           this.stackOptions = stackNo;
@@ -296,7 +288,6 @@ export class IssueReceiptComponent implements OnInit {
         // }
         break;
       case 'wmt':
-        let weighment = [];
         // if (this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
@@ -388,6 +379,17 @@ export class IssueReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      let s: string;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+    } else {
+      this.godownNo = this.stackYear = this.locationNo = null;
+    }
     let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
       TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
