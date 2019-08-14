@@ -87,7 +87,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Rtcode" class="label-fontsize">Receivor Type</label>
                       <p-dropdown #rt name="Rtcode" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
-                        (onClick)="onSelect('rt')" (keydown.enter)="onSelect('rt')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('rt')" (keydown.enter)="onSelect('rt')"
+                        (onChange)="refreshSelect('rt')" filter="true" optionLabel="label"
                         [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>

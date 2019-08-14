@@ -88,7 +88,7 @@
                       <label for="RTCode" class="label-fontsize" style="padding-top: 10px;">Receivor Type</label>
                       <p-dropdown #rt name="RTCode" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
                         (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
-                        optionLabel="label" [showClear]="true" filter="true" required>
+                        (onChange)="refreshSelect('rt')" optionLabel="label" [showClear]="true" filter="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -160,7 +160,7 @@
                       <label for="ITDesc" class="label-fontsize">Item Description</label>
                       <p-dropdown #i_desc name="ITDesc" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
-                        [showClear]="true" filter="true" optionLabel="label">
+                        (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

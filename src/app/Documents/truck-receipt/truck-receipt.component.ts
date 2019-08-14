@@ -428,16 +428,24 @@ export class TruckReceiptComponent implements OnInit {
   refreshSelect(id) {
     switch (id) {
       case 'tr':
-        this.receivorNameOptions = this.receivorTypeOptions = [];
-        this.rnCode = this.RTCode = this.RNCode = null;
+        this.receivorNameOptions = []; this.receivorTypeOptions = [];
+        this.rnCode = null; this.RTCode = null; this.RNCode = null;
         break;
       case 'sc':
-        this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = null;
+        this.itemDescOptions = []; this.stackOptions = [];
+        this.iCode = null; this.ICode = null; this.TStockNo = null;
+        break;
+        case 'i_desc':
+        this.stackOptions = [];
+        this.TStockNo = null;
         break;
       case 'rr':
-        this.receivorNameOptions = this.receivorTypeOptions = [];
-        this.rnCode = this.RTCode = this.RNCode = null;
+        this.receivorNameOptions = []; this.receivorTypeOptions = [];
+        this.rnCode = null; this.RTCode = null; this.RNCode = null;
+        break;
+        case 'rt':
+        this.receivorNameOptions = [];
+        this.rnCode = null; this.RNCode = null;
         break;
     }
   }
@@ -535,20 +543,24 @@ export class TruckReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = []; this.STTDetails =  [];
-    this.STDate = this.OrderDate = this.RDate = this.LWBillDate = this.LDate = new Date();
+    this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
+    this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
-    this.OrderNo = null; this.selectedValues = null; this.RNo = 0; this.LorryNo = null;
+    this.OrderNo = null; this.selectedValues = null; this.RNo = null; this.LorryNo = null;
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
     this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
-    this.TransporterName = null; this.LWBillNo = null;
+    this.TransporterName = '-'; this.LWBillNo = '-';
     this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
-    this.HCharges = 0; this.TStation = null; this.FStation =null;
-    this.fStationCode = null; this.tStationCode = null;
+    this.HCharges = 0; this.TStation = '-'; this.FStation = '-';
+    this.fStationCode = '-'; this.tStationCode = '-';
     this.GunnyReleased = 0; this.Gunnyutilised = 0; this.STNo = null;
-    this.FCode = null; this.VCode = null; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
+    this.FCode = '-'; this.VCode = '-'; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
     this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
-    this.transactionOptions = []; this.toRailHeadOptions = []; this.freightOptions = [];
-    this.vehicleOptions = []; this.fromStationOptions = []; this.toStationOptions = [];
+    this.transactionOptions = []; this.toRailHeadOptions = [];
+    this.freightOptions = [{ label: '-', value: '-' }];
+    this.vehicleOptions = [{ label: '-', value: '-' }];
+    this.fromStationOptions = [{ label: '-', value: '-' }];
+    this.toStationOptions = [{ label: '-', value: '-' }];
   }
 
   onCalculateWt() {

@@ -124,9 +124,9 @@ export class IssueReceiptComponent implements OnInit {
     this.maxDate = new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.month, value: this.curMonth}];
+    this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
-    this.yearOptions = [{ label: this.year, value: this.year}];
+    this.yearOptions = [{ label: this.year, value: this.year }];
     setTimeout(() => {
       this.regionName = this.data[0].RName;
       this.issuingGodownName = this.data[0].GName;
@@ -166,28 +166,28 @@ export class IssueReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined && data !== null && data.length !== 0) {
-              data.forEach(y => {
-                if (y.TransType === this.transType) {
-                  transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
-                }
-                this.transactionOptions = transactoinSelection;
-              });
-              this.isReceivorTypeDisabled = false;
-              this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            } else {
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+          if (data !== undefined && data !== null && data.length !== 0) {
+            data.forEach(y => {
+              if (y.TransType === this.transType) {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+              }
               this.transactionOptions = transactoinSelection;
-            }
-          })
+            });
+            this.isReceivorTypeDisabled = false;
+            this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.transactionOptions = transactoinSelection;
+          }
+        })
         break;
       case 'sc':
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
           });
-            this.schemeOptions = schemeSelection;
-            this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.schemeOptions = schemeSelection;
+          this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         } else {
           this.schemeOptions = schemeSelection;
         }
@@ -195,118 +195,118 @@ export class IssueReceiptComponent implements OnInit {
       case 'rt':
         if (this.Trcode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
-          (this.trCode !== null && this.trCode !== undefined)) {
-          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.IssuingCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(rt => {
-                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
-              });
-              this.receiverTypeOptions = receivorTypeList;
-              this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              // this.isReceivorNameDisabled = false;
-            }
-          });
+            (this.trCode !== null && this.trCode !== undefined)) {
+            const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.IssuingCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(rt => {
+                  receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+                });
+                this.receiverTypeOptions = receivorTypeList;
+                this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+                // this.isReceivorNameDisabled = false;
+              }
+            });
+          }
+        } else {
+          this.receiverTypeOptions = receivorTypeList;
         }
-      } else {
-        this.receiverTypeOptions = receivorTypeList;
-      }
         break;
       case 'rn':
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
-          if ((this.Trcode.value !== undefined && this.Trcode.value !== null && 
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
             this.RTCode.value !== undefined && this.RTCode.value !== null) || (this.rtCode !== null && this.rtCode !== undefined
               && this.trCode !== null && this.trCode !== undefined)) {
-          const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode).append('TRType', this.transType).append('GCode', this.IssuingCode)
-          .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(rn => {
-                receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
-              })
-              this.receiverNameOptions = receivorNameList;
-              this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          });
+            const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode).append('TRType', this.transType).append('GCode', this.IssuingCode)
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(rn => {
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
+                })
+                this.receiverNameOptions = receivorNameList;
+                this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              }
+            });
+          }
+        } else {
+          this.receiverNameOptions = receivorNameList;
         }
-      } else {
-        this.receiverNameOptions = receivorNameList;
-      }
         break;
       case 'i_desc':
         let itemDesc = [];
-        if(this.Scheme !== null && this.Scheme !== undefined) {
-        if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
-          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(i => {
-                itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-              })
-              this.itemDescOptions = itemDesc;
-              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          });
+        if (this.Scheme !== null && this.Scheme !== undefined) {
+          if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
+            const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(i => {
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                })
+                this.itemDescOptions = itemDesc;
+                this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              }
+            });
+          }
+        } else {
+          this.itemDescOptions = itemDesc;
         }
-      } else {
-        this.itemDescOptions = itemDesc;
-      }
         break;
       case 'st_no':
         let stackNo = [];
-        if(this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
-        if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
-          const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
-          this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(s => {
-                stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
-              })
-              this.stackOptions = stackNo;
-              this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
+          if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
+            const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
+            this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(s => {
+                  stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
+                })
+                this.stackOptions = stackNo;
+                this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              }
+            });
+            if (this.TStockNo !== undefined && this.TStockNo !== null) {
+              this.stackYear = this.TStockNo.stack_yr;
+              let index;
+              let s: string;
+              index = this.TStockNo.value.toString().indexOf('/', 2);
+              const totalLength = this.TStockNo.value.length;
+              this.godownNo = this.TStockNo.value.toString().slice(0, index);
+              this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
             }
-          });
-          if (this.TStockNo !== undefined && this.TStockNo !== null) {
-            this.stackYear = this.TStockNo.stack_yr;
-            let index;
-            let s: string;
-            index = this.TStockNo.value.toString().indexOf('/', 2);
-            const totalLength = this.TStockNo.value.length;
-            this.godownNo = this.TStockNo.value.toString().slice(0, index);
-            this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
           }
+        } else {
+          this.stackOptions = stackNo;
         }
-      } else {
-        this.stackOptions = stackNo;
-      }
         break;
       case 'pt':
         // if (this.packingTypeOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.Table.forEach(p => {
-                packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
-              })
-              this.packingTypeOptions = packingTypes;
-              this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            } else {
-              this.packingTypeOptions = packingTypes;
-            }
-          });
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== null && res !== undefined && res.length !== 0) {
+            res.Table.forEach(p => {
+              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+            })
+            this.packingTypeOptions = packingTypes;
+            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.packingTypeOptions = packingTypes;
+          }
+        });
         // }
         break;
       case 'wmt':
         let weighment = [];
         // if (this.wmtOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.Table1.forEach(w => {
-                weighment.push({ 'label': w.WEType, 'value': w.WECode });
-              })
-              this.wmtOptions = weighment;
-              this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            }
-          });
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== null && res !== undefined && res.length !== 0) {
+            res.Table1.forEach(w => {
+              weighment.push({ 'label': w.WEType, 'value': w.WECode });
+            })
+            this.wmtOptions = weighment;
+            this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          }
+        });
         // }
         break;
     }
@@ -315,12 +315,20 @@ export class IssueReceiptComponent implements OnInit {
   refreshSelect(id) {
     switch (id) {
       case 'tr':
-        this.receiverNameOptions = this.receiverTypeOptions = [];
-        this.rtCode = this.RTCode = this.rnCode = this.RNCode = null;
+        this.receiverNameOptions = []; this.receiverTypeOptions = [];
+        this.rtCode = null; this.RTCode = null; this.rnCode = null; this.RNCode = null;
         break;
       case 'sc':
-        this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = null;
+        this.itemDescOptions = []; this.stackOptions = [];
+        this.iCode = null; this.ICode = null; this.TStockNo = null;
+        break;
+      case 'i_desc':
+        this.stackOptions = [];
+        this.TStockNo = null;
+        break;
+      case 'rt':
+        this.receiverNameOptions = [];
+        this.rnCode = null; this.RNCode = null;
         break;
     }
   }
@@ -340,7 +348,7 @@ export class IssueReceiptComponent implements OnInit {
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
         let checkValue: any = this.Moisture.slice(0, 2);
-      checkValue = (checkValue * 1);
+        checkValue = (checkValue * 1);
         if (checkValue > 25) {
           let startValue = this.Moisture.slice(0, 1);
           let endValue = this.Moisture.slice(1, totalLength);
@@ -361,7 +369,7 @@ export class IssueReceiptComponent implements OnInit {
     this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
-        let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
@@ -391,24 +399,24 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1);
-      if (this.StackBalance > 0) {
-        this.isValidStackBalance = false;
-        this.CurrentDocQtv = this.NetStackBalance = 0;
-        if(this.itemData.length !== 0) {
-          this.itemData.forEach(x => {
-            if(x.TStockNo === stack_data.value) {
-              this.CurrentDocQtv += (x.Nkgs * 1);
-              this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-            }
-          })
+        if (this.StackBalance > 0) {
+          this.isValidStackBalance = false;
+          this.CurrentDocQtv = this.NetStackBalance = 0;
+          if (this.itemData.length !== 0) {
+            this.itemData.forEach(x => {
+              if (x.TStockNo === stack_data.value) {
+                this.CurrentDocQtv += (x.Nkgs * 1);
+                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+              }
+            })
+          }
+        } else {
+          this.isValidStackBalance = true;
+          this.CurrentDocQtv = 0;
+          this.NetStackBalance = 0;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
         }
-      } else {
-        this.isValidStackBalance = true;
-        this.CurrentDocQtv = 0;
-        this.NetStackBalance = 0;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
       }
-    }
     })
   }
 
@@ -429,15 +437,15 @@ export class IssueReceiptComponent implements OnInit {
     if (this.issueData.length !== 0) {
       this.DeliveryOrderDate = new Date(); this.DeliveryOrderNo = null;
       this.issueData = this.issueData.filter(x => {
-         return x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')
-       });
-     }
+        return x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')
+      });
+    }
   }
 
   onItemDetailsEnter() {
     this.itemData.push({
       TStockNo: (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
-      ICode: (this.ICode.value !== undefined) ? this.ICode.value: this.iCode,
+      ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
       GKgs: this.GKgs,
@@ -447,11 +455,11 @@ export class IssueReceiptComponent implements OnInit {
       Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
       SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
-      PackingName: (this.IPCode.label  !== undefined) ? this.IPCode.label : this.IPCode,
+      PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
       WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode,
-      PWeight: (this.IPCode.weight  !== undefined) ? this.IPCode.weight : this.PWeight,
+      PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
-       new Date(this.TStockNo.stack_date) : this.StackDate
+        new Date(this.TStockNo.stack_date) : this.StackDate
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
@@ -473,30 +481,30 @@ export class IssueReceiptComponent implements OnInit {
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-      this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
-      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
-      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-      this.packingTypeOptions = []; this.wmtOptions = [];
+        this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+        this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+        this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = [];
       }
-      
-      }
+
+    }
   }
 
   deleteRow(id, data, index) {
     switch (id) {
       case 'issue':
-            this.SIDate = new Date(data.SIDate);
-            this.SINo = data.SINo;
-            this.DeliveryOrderNo = data.DNo;
-            this.DeliveryOrderDate = new Date(data.DDate);
-            this.issueData.splice(index, 1);
+        this.SIDate = new Date(data.SIDate);
+        this.SINo = data.SINo;
+        this.DeliveryOrderNo = data.DNo;
+        this.DeliveryOrderDate = new Date(data.DDate);
+        this.issueData.splice(index, 1);
         break;
       case 'item':
         this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.StackDate = data.StackDate;
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
-        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme}];
+        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.ICode = data.CommodityName; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
         this.IPCode = data.PackingName; this.ipCode = data.IPCode;
@@ -505,7 +513,7 @@ export class IssueReceiptComponent implements OnInit {
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
         this.NoPacking = (data.NoPacking * 1),
-        this.GKgs = (data.GKgs * 1).toFixed(3);
+          this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
         this.Moisture = (data.Moisture * 1).toFixed(2);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
@@ -517,24 +525,24 @@ export class IssueReceiptComponent implements OnInit {
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
         this.itemData.splice(index, 1);
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
-      break;
+        break;
     }
 
   }
 
   onSave() {
     this.messageService.clear();
-   if (this.SIDate !== undefined && this.SIDate !== null) {
-     this.issueData.forEach(x => {
-       if (x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')) {
-         this.SIDate = this.SIDate;
-       } else {
-         this.SIDate = x.SIDate;
-       }
-     })
-   }
+    if (this.SIDate !== undefined && this.SIDate !== null) {
+      this.issueData.forEach(x => {
+        if (x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')) {
+          this.SIDate = this.SIDate;
+        } else {
+          this.SIDate = x.SIDate;
+        }
+      })
+    }
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
       'Type': 1,
@@ -620,13 +628,13 @@ export class IssueReceiptComponent implements OnInit {
         this.TransporterCharges = res.Table[0].TransportingCharge;
         this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
         this.SServiceable = (res.Table[0].SoundServiceable !== null && res.Table[0].SoundServiceable !== undefined) ?
-         res.Table[0].SoundServiceable : 0;
-        this.SPatches = (res.Table[0].ServiceablePatches !== null && res.Table[0].ServiceablePatches !== undefined) 
-        ? res.Table[0].ServiceablePatches : 0;
+          res.Table[0].SoundServiceable : 0;
+        this.SPatches = (res.Table[0].ServiceablePatches !== null && res.Table[0].ServiceablePatches !== undefined)
+          ? res.Table[0].ServiceablePatches : 0;
         this.GunnyReleased = (res.Table[0].GunnyReleased !== null && res.Table[0].GunnyReleased !== undefined) ?
-         res.Table[0].GunnyReleased : 0;
-        this.Gunnyutilised = (res.Table[0].GunnyUtilised !== null && res.Table[0].GunnyUtilised !== undefined) ? 
-        res.Table[0].GunnyUtilised : 0;
+          res.Table[0].GunnyReleased : 0;
+        this.Gunnyutilised = (res.Table[0].GunnyUtilised !== null && res.Table[0].GunnyUtilised !== undefined) ?
+          res.Table[0].GunnyUtilised : 0;
         this.WNo = res.Table[0].WCCode;
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
@@ -692,7 +700,7 @@ export class IssueReceiptComponent implements OnInit {
   onClear() {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
-    this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null; 
+    this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
     this.WNo = null; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
     this.TransporterCharges = null; this.TransporterName = null; this.ManualDocNo = null;
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
@@ -700,7 +708,7 @@ export class IssueReceiptComponent implements OnInit {
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.month, value: this.curMonth}];
+    this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.packingTypeOptions = []; this.transactionOptions = [];

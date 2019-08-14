@@ -333,11 +333,20 @@ export class StockReceiptComponent implements OnInit {
     switch (id) {
       case 'tr':
         this.depositorNameOptions = this.depositorTypeOptions = [];
-        this.DepositorCode = this.DepositorType = this.depositorCode = this.depositorType = null;
+        this.DepositorCode = null; this.DepositorType = null; 
+        this.depositorCode = null; this.depositorType = null;
+        break;
+        case 'dt':
+        this.depositorNameOptions = [];
+        this.DepositorCode = null; this.depositorCode = null;
         break;
       case 'sc':
-        this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = null;
+        this.itemDescOptions = []; this.stackOptions = [];
+        this.iCode = null; this.ICode = null; this.TStockNo = null;
+        break;
+        case 'i_desc':
+        this.stackOptions = [];
+        this.TStockNo = null;
         break;
     }
   }
