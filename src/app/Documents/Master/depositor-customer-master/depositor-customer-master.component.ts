@@ -3,6 +3,9 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-depositor-customer-master',
@@ -19,14 +22,25 @@ export class DepositorCustomerMasterComponent implements OnInit {
   KeroseneRegionalSuppliersCols: any;
   KeroseneRegionalSuppliersData: any;
   canShowMenu: boolean;
+  filterArray: any;
+  items: any;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private authService: AuthService, private restApiService: RestAPIService) { }
+  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    // this.DepositorCols = this.tableConstants.DepositorMaster;
-
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.exportAsXLSX();
+        }
+      },
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
+        }
+      }]
   }
 
   //   onSelect(item) {
@@ -76,6 +90,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
       if (res !== undefined) {
         this.loading = false;
         this.KeroseneSuppliersData = res;
+        this.filterArray = res;
         let sno = 0;
         this.KeroseneSuppliersData.forEach(data => {
           sno += 1;
@@ -91,6 +106,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
       if (res !== undefined) {
         this.loading = false;
         this.DepositorData = res;
+        this.filterArray = res;
         let sno = 0;
         this.DepositorData.forEach(data => {
           sno += 1;
@@ -104,6 +120,49 @@ export class DepositorCustomerMasterComponent implements OnInit {
     this.DepositorData = this.KeroseneSuppliersData = this.KeroseneSuppliersCols = this.DepositorCols = null;
   }
 
-  exportAsXLSX() { }
+  exportAsXLSX(): void {
+    var DepositorMaster = [];
+    var KeroseneMaster = [];
+    if (this.DepositorData || this.KeroseneSuppliersData) {
+      if (this.DepositorData) {
+        this.DepositorData.forEach(data => {
+          DepositorMaster.push({ SlNo: data.SlNo, Depositor_Code: data.DepositorCode, Depositor_Name: data.DepositorName });
+        });
+        this.excelService.exportAsExcelFile(DepositorMaster, 'Depositor_Master', this.DepositorCols);
+      } else if (this.KeroseneSuppliersData) {
+        this.KeroseneSuppliersData.forEach(data => {
+          KeroseneMaster.push({ SlNo: data.SlNo, Supplier_Code: data.SupplierCode, Supplier_Name: data.SupplierName });
+        });
+        this.excelService.exportAsExcelFile(KeroseneMaster, 'Kerosene_Suppliers_Master', this.KeroseneSuppliersCols);
+      }
+    }
+  }
 
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    if (this.KeroseneSuppliersData || this.DepositorData) {
+      if (this.DepositorData) {
+        var col = this.DepositorCols;
+        var rows = [];
+        this.DepositorData.forEach(element => {
+          var temp = [element.SlNo, element.DepositorCode, element.DepositorName];
+          rows.push(temp);
+        });
+        doc.autoTable(col, rows);
+        doc.save('Depositor_Master.pdf');
+      } else if (this.KeroseneSuppliersData) {
+        var col = this.KeroseneSuppliersCols;
+        var rows = [];
+        this.KeroseneSuppliersData.forEach(element => {
+          var temp = [element.SlNo, element.SupplierCode, element.SupplierName];
+          rows.push(temp);
+        });
+        doc.autoTable(col, rows);
+        doc.save('Kerosene_Master.pdf');
+      }
+    }
+  }
 }

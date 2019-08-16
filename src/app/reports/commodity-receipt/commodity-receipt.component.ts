@@ -103,7 +103,7 @@ export class CommodityReceiptComponent implements OnInit {
         data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
-      })
+      });
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {

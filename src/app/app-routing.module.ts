@@ -153,7 +153,7 @@ const routes: Routes = [
   { path: 'Rate Master', component: RateMasterComponent },
   { path: 'User Master', component: UserMasterComponent },
   { path: 'Society Master Entry', component: SocietMasterEntryComponent },
-  { path: 'Item Master Modification', component: ItemMasterModificationComponent },
+  { path: 'Commodity Break', component: ItemMasterModificationComponent },
   { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
   { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },

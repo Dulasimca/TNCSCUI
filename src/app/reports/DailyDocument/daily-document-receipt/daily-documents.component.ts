@@ -8,6 +8,9 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
+import { ExcelService } from 'src/app/shared-services/excel.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-daily-documents',
@@ -32,8 +35,10 @@ export class DailyDocumentsComponent implements OnInit {
   loading: boolean;
   godownOptions: SelectItem[];
   canShowMenu: boolean;
+  items: any;
+  filterArray: any;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -44,6 +49,17 @@ export class DailyDocumentsComponent implements OnInit {
     this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceipt;
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.exportAsXLSX();
+        }
+      },
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
+        }
+      }]
   }
 
   onSelect(selectedItem) {
@@ -68,9 +84,10 @@ export class DailyDocumentsComponent implements OnInit {
       'RegionCode': this.g_cd.rcode,
       'RoleId': this.roleId,
       'DocumentDate': this.datepipe.transform(this.DocumentDate, 'dd/MM/yyyy')
-    }
+    };
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       this.DailyDocumentReceiptData = res;
+      this.filterArray = res;
       this.DailyDocumentTotalData = this.gdata
       this.DailyDocumentTotalData.forEach(s => {
         s.RCode = this.g_cd.rcode,
@@ -78,13 +95,13 @@ export class DailyDocumentsComponent implements OnInit {
           s.GName = this.g_cd.label,
           s.RName,
           s.NoDocument = res.length
-      })
+      });
       let sno = 0;
       this.DailyDocumentReceiptData.forEach(data => {
         data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');
         sno += 1;
         data.SlNo = sno;
-      })
+      });
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
@@ -97,12 +114,47 @@ export class DailyDocumentsComponent implements OnInit {
       if (err.status === 0) {
         this.loading = false;
       }
-    })
+    });
   }
 
   onResetTable() {
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
     this.isActionDisabled = true;
+  }
+
+  onSearch(value) {
+    this.DailyDocumentReceiptData = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.DailyDocumentReceiptData = this.DailyDocumentReceiptData.filter(item => {
+        // if (item.DepositorName.toString().startsWith(value)) {
+        return item.CommodityName.toString().startsWith(value);
+        // }
+      });
+    }
+  }
+
+  exportAsXLSX(): void {
+    var DailyReceipt = [];
+    this.DailyDocumentReceiptData.forEach(data => {
+      DailyReceipt.push({ SlNo: data.SlNo, DocNo: data.DocNo, DocDate: data.DocDate, Transactiontype: data.Transactiontype, StackNo: data.StackNo, CommodityName: data.CommodityName, PackingType: data.PackingType, NOOfPACKING: data.NOOfPACKING, GROSSWT: data.GROSSWT, NETWT: data.NETWT, Moisture: data.Moisture, Scheme: data.SCHEME, Period_Allotment: data.PERIODALLOT, OrderNo: data.OrderNo, Order_Date: data.ORDERDate, Received_From: data.ReceivedFrom, TruckMemoNo: data.TruckMemoNo, Truck_Date: data.TRUCKDate })
+    });
+    this.excelService.exportAsExcelFile(DailyReceipt, 'Daily_Receipt', this.DailyDocumentReceiptCols);
+  }
+
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    var col = this.DailyDocumentReceiptCols;
+    var rows = [];
+    this.DailyDocumentReceiptData.forEach(element => {
+      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName, element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT, element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
+    doc.save('Daily_Receipt.pdf');
   }
 }

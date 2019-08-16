@@ -61,8 +61,8 @@ export class MRMDataComponent implements OnInit {
   exportAsXLSX(): void {
     var MrmData = [];
     this.data.forEach(value => {
-      MrmData.push({ SlNo: value.SlNo, DepositorName: value.DepositorName })
-    })
+      MrmData.push({ SlNo: value.SlNo, DepositorName: value.DepositorName });
+    });
     this.excelService.exportAsExcelFile(MrmData, 'MRM_DATA', this.column);
   }
 

@@ -734,9 +734,13 @@ export class TableConstants {
     this.QtyIssueOtherItem = [];
 
     this.SocietyMaster = [
-      { field: '', header: 'SOCIETYNAME' },
-      { field: '', header: 'TYNAME' },
-      { field: '', header: 'EFLAG' },
+      { field: 'SlNo', header: 'S.No', width: '40px' },
+      { field: 'GodownName', header: 'Godown Name'},
+      { field: 'Tyname', header: 'Type Name' },
+      { field: 'SocietyName', header: 'Society Name' },
+      { field: 'SocietyType', header: 'Society Type' },
+      { field: 'SocietyCode', header: 'Society Code' },
+      { field: 'Issuername', header: 'Issuer Name' },
     ];
 
     this.ShopWiseAllotmentMaster = [
