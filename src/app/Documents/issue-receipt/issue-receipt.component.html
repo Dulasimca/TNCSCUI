@@ -115,7 +115,8 @@
                   </div>
                   <div class="ui-g-12 ui-md-3" style="margin-top: -18px">
                     <label class="label-fontsize">Receivor Type</label>
-                    <p-dropdown name="ReceivorType" [options]="receiverTypeOptions" [(ngModel)]="RTCode" (onClick)="onSelect('rt')"
+                    <p-dropdown name="ReceivorType" [options]="receiverTypeOptions" [(ngModel)]="RTCode"
+                    (onClick)="onSelect('rt')" (onChange)="refreshSelect('rt')"
                     (keydown.enter)="onSelect('rt')" filter="true" optionLabel="label" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -210,7 +211,8 @@
                 <!-- <span class="ui-float-label"> -->
                 <label class="label-fontsize">Item Description</label>
                 <p-dropdown #i_desc name="Commodity" id="float-input" [options]="itemDescOptions" [(ngModel)]="ICode"
-                  (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true">
+                  (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')"
+                  (onChange)="refreshSelect('rt')" filter="true" optionLabel="label" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                   </ng-template>

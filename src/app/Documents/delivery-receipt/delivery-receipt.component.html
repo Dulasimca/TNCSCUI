@@ -87,7 +87,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Rtcode" class="label-fontsize">Receivor Type</label>
                       <p-dropdown #rt name="Rtcode" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
-                        (onClick)="onSelect('rt')" (keydown.enter)="onSelect('rt')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('rt')" (keydown.enter)="onSelect('rt')"
+                        (onChange)="refreshSelect('rt')" filter="true" optionLabel="label"
                         [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -558,39 +559,38 @@
 <p-dialog header="Delivery-Order-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
 <div>
-    <div class="ui-g-6 ui-md-10 no-pad-top">
+    <div class="ui-g-6 ui-md-8 no-pad-top">
       <label class="label-fontsize-large">Date</label>
       <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
     </div>
      <div class="ui-g-4 ui-md-1 dashboard">
-    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="deliveryViewData.length=='0'" (click)="getDocByDoNo()()"></button>
+    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="deliveryViewData.length=='0'" (click)="getDocByDoNo()"></button>
   </div>
   <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
     </div>
   </div>
-  <div class="ui-g-12 ui-fluid">
-    <p-table [columns]="deliveryViewCols" [value]="deliveryViewData" selectionMode="single" [responsive]="true"
-      autoLayout="true" (onRowSelect)="onRowSelect($event)">
-      <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-          <col *ngFor="let col of columns" style="width:80px">
-        </colgroup>
-      </ng-template>
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData">
-          <td *ngFor="let col of columns">
-            {{rowData[col.field]}}
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+    <div class="ui-g-12 ui-fluid">
+        <p-table [columns]="deliveryViewCols" [value]="deliveryViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:80px">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
 </p-dialog>

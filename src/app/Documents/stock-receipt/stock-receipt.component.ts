@@ -285,14 +285,6 @@ export class StockReceiptComponent implements OnInit {
                 this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
-            if (this.TStockNo !== undefined && this.TStockNo !== null) {
-              this.stackYear = this.TStockNo.stack_yr;
-              let index;
-              index = this.TStockNo.value.toString().indexOf('/', 2);
-              const totalLength = this.TStockNo.value.length;
-              this.godownNo = this.TStockNo.value.toString().slice(0, index);
-              this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
-            }
           }
         } else {
           this.stackOptions = stackNo;
@@ -333,11 +325,20 @@ export class StockReceiptComponent implements OnInit {
     switch (id) {
       case 'tr':
         this.depositorNameOptions = this.depositorTypeOptions = [];
-        this.DepositorCode = this.DepositorType = this.depositorCode = this.depositorType = null;
+        this.DepositorCode = null; this.DepositorType = null; 
+        this.depositorCode = null; this.depositorType = null;
+        break;
+        case 'dt':
+        this.depositorNameOptions = [];
+        this.DepositorCode = null; this.depositorCode = null;
         break;
       case 'sc':
-        this.itemDescOptions = this.stackOptions = [];
-        this.iCode = this.ICode = null;
+        this.itemDescOptions = []; this.stackOptions = [];
+        this.iCode = null; this.ICode = null; this.TStockNo = null;
+        break;
+        case 'i_desc':
+        this.stackOptions = [];
+        this.TStockNo = null;
         break;
     }
   }
@@ -419,6 +420,16 @@ export class StockReceiptComponent implements OnInit {
   }
   onStackNoChange(event) {
     this.messageService.clear();
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+    } else {
+      this.godownNo = this.stackYear = this.locationNo = null;
+    }
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,
@@ -477,6 +488,7 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
+      'Type': 1,
       'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),

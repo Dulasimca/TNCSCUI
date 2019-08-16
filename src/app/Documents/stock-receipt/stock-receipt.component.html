@@ -108,7 +108,8 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label for="DepositorType" class="label-fontsize">Depositor Type</label>
                     <p-dropdown #dt id="float-input" name="DepositorType" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
-                      (onClick)="onSelect('dt')" (keydown.enter)="onSelect('dt')" filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
+                      (onClick)="onSelect('dt')" (keydown.enter)="onSelect('dt')" (onChange)="refreshSelect('dt')" 
+                      filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
                       [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -185,7 +186,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <label class="label-fontsize">Item Description</label>
                     <p-dropdown #i_desc id="float-input" name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
-                      (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')"
+                      (onClick)="onSelect('i_desc')" (keydown.enter)="onSelect('i_desc')" (onChange)="refreshSelect('i_desc')" 
                        filter="true" optionLabel="label" [showClear]="true">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>

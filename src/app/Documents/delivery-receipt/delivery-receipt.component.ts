@@ -84,13 +84,11 @@ export class DeliveryReceiptComponent implements OnInit {
   NKgs: any;
   Rate: any;
   RateTerm: any;
-  rateTerm: any;
   TotalAmount: any = 0;
   MarginNKgs: any;
   MarginRate: any;
   MarginAmount: any = 0;
   MarginRateInTerms: any;
-  marginRateInTerms: any;
   GrandTotal: any = 0;
   Payment: string;
   ChequeNo: any;
@@ -112,7 +110,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private datepipe: DatePipe,  private confirmationService: ConfirmationService) { }
+    private datepipe: DatePipe, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -127,7 +125,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.itemSchemeCols = this.tableConstants.DeliveryItemSchemeColumns;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
+    this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.AdjusmentAmount = this.OtherAmount = this.Balance = 0;
@@ -200,7 +198,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.schemeOptions = schemeSelection;
         }
         break;
-        case 'margin_scheme':
+      case 'margin_scheme':
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             marginSchemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -212,145 +210,150 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-       if (this.Trcode !== null && this.Trcode !== undefined) {
-        if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
-          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(dt => {
-              receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+        if (this.Trcode !== null && this.Trcode !== undefined) {
+          if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+            const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(dt => {
+                  receivorTypeList.push({ 'label': dt.Tyname, 'value': dt.Tycode });
+                });
+                this.receivorTypeOptions = receivorTypeList;
+              }
+              // this.isReceivorNameDisabled = false;
+              this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
-            this.receivorTypeOptions = receivorTypeList;
           }
-            // this.isReceivorNameDisabled = false;
-            this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+        } else {
+          this.receivorTypeOptions = receivorTypeList;
         }
-      } else {
-        this.receivorTypeOptions = receivorTypeList;
-      }
         break;
       case 'pn':
-       if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
-         if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
-           const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
-             .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType)
-             .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
-           this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
-             if (res !== null && res !== undefined && res.length !== 0) {
-               res.forEach(dn => {
-                 partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
-               })
-               this.partyNameOptions = partyNameList;
-             }
-             this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-           });
-         }
-       } else {
-        this.partyNameOptions = partyNameList;
-       }
+        if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
+          if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+            const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
+              .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType)
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                res.forEach(dn => {
+                  partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+                })
+                this.partyNameOptions = partyNameList;
+              }
+              this.partyNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
+          }
+        } else {
+          this.partyNameOptions = partyNameList;
+        }
         break;
       case 'commodity':
-       if (this.Scheme !== null && this.Scheme !== undefined) {
-         if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
-           const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-           this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              if (!this.selectedItem) {
-               res.forEach(i => {
-                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-               });
-             } else {
-               let filteredArr = res.filter(x => {
-                 return x.Allotmentgroup === 'RICE';
-               })
-               filteredArr.forEach(i => {
-                 commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-               })
-             }
-             this.itemDescOptions = commoditySelection;
-            }
-             this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-           });
-        }
-      } else {
-        this.itemDescOptions = commoditySelection;
-      }
-        break;
-        case 'margin_commodity':
-           if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
-             if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
-               const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
-               this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-                if (res !== null && res !== undefined && res.length !== 0) {
-                 if (!this.selectedItem) {
-                   res.forEach(i => {
-                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                   });
-                 } else {
-                   let filteredArr = res.filter(x => {
-                     return x.Allotmentgroup === 'RICE';
-                   })
-                   filteredArr.forEach(i => {
-                     marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                   })
-                 }
-                 this.marginItemDescOptions = marginCommoditySelection;
+        if (this.Scheme !== null && this.Scheme !== undefined) {
+          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+            const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                if (!this.selectedItem) {
+                  res.forEach(i => {
+                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  });
+                } else {
+                  let filteredArr = res.filter(x => {
+                    return x.Allotmentgroup === 'RICE';
+                  })
+                  filteredArr.forEach(i => {
+                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  })
                 }
-                 this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-               });
-             }
-          } else {
-            this.marginItemDescOptions = marginCommoditySelection;
+                this.itemDescOptions = commoditySelection;
+              }
+              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
           }
-            break;
-        case 'wmt':
-          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(w => {
+        } else {
+          this.itemDescOptions = commoditySelection;
+        }
+        break;
+      case 'margin_commodity':
+        if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
+          if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+            const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              if (res !== null && res !== undefined && res.length !== 0) {
+                if (!this.selectedItem) {
+                  res.forEach(i => {
+                    marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  });
+                } else {
+                  let filteredArr = res.filter(x => {
+                    return x.Allotmentgroup === 'RICE';
+                  })
+                  filteredArr.forEach(i => {
+                    marginCommoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  })
+                }
+                this.marginItemDescOptions = marginCommoditySelection;
+              }
+              this.marginItemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
+          }
+        } else {
+          this.marginItemDescOptions = marginCommoditySelection;
+        }
+        break;
+      case 'wmt':
+        this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+          if (res !== null && res !== undefined && res.length !== 0) {
+            res.forEach(w => {
               if (w.Basicweight !== 'GRAMS') {
-              weighment.push({ 'label': w.Basicweight, 'value': w.Basicweight }); }
+                weighment.push({ 'label': w.Basicweight, 'value': w.Basicweight });
+              }
             })
             this.rateInTermsOptions = weighment;
           }
-            this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+          this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        });
         break;
-        case 'margin_wmt':
-          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(w => {
-                if (w.Basicweight !== 'GRAMS') {
-                  marginWeighment.push({ 'label': w.Basicweight, 'value': w.Basicweight });
-                }
-              })
-              this.marginRateInTermsOptions = marginWeighment;
-            }
-              this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+      case 'margin_wmt':
+        this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+          if (res !== null && res !== undefined && res.length !== 0) {
+            res.forEach(w => {
+              if (w.Basicweight !== 'GRAMS') {
+                marginWeighment.push({ 'label': w.Basicweight, 'value': w.Basicweight });
+              }
+            })
+            this.marginRateInTermsOptions = marginWeighment;
+          }
+          this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        });
         break;
       case 'pay':
-          this.paymentOptions = [
-            { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
-            { label: 'Cheque', value: 'CH'},{ label: 'Draft', value: 'DD'},{ label: 'Ocr', value: 'O'},
-            { label: 'PayOrder', value: 'PO'}];
-          break;
+        this.paymentOptions = [
+          { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
+          { label: 'Cheque', value: 'CH' }, { label: 'Draft', value: 'DD' }, { label: 'Ocr', value: 'O' },
+          { label: 'PayOrder', value: 'PO' }];
+        break;
     }
   }
 
   refreshSelect(id) {
     switch (id) {
       case 'tr':
-        this.receivorTypeOptions = this.partyNameOptions = [];
-        this.RTCode = this.rtCode = this.PName = this.pCode = null;
+        this.receivorTypeOptions = []; this.partyNameOptions = [];
+        this.RTCode = null; this.rtCode = null; this.PName = null; this.pCode = null;
+        break;
+      case 'rt':
+        this.partyNameOptions = [];
+        this.pCode = null; this.PName = null;
         break;
       case 'sc':
         this.itemDescOptions = [];
-        this.iCode = this.ICode = null;
+        this.iCode = null; this.ICode = null;
         break;
       case 'msc':
         this.marginItemDescOptions = [];
-        this.miCode = this.MICode = null;
+        this.miCode = null; this.MICode = null;
         break;
     }
   }
@@ -368,26 +371,26 @@ export class DeliveryReceiptComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 
-  checkPayment() { 
+  checkPayment() {
     const params = {
       Type: 1,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
-       ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
+        ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
     this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
-      this.deliveryData = res;
+        this.deliveryData = res;
       } else {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
       }
     });
   }
 
-   deleteRow(id, data, index) {
-    switch(id) {
+  deleteRow(id, data, index) {
+    switch (id) {
       case 'item':
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
@@ -398,48 +401,47 @@ export class DeliveryReceiptComponent implements OnInit {
         this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(2);
         this.RateTerm = data.UnitMeasure;
-        this.rateTerm = data.Wtype;
-        this.rateInTermsOptions = [{ label: data.Wtype, value: data.UnitMeasure }];
+        this.rateInTermsOptions = [{ label: data.UnitMeasure, value: data.UnitMeasure }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
         break;
-        case 'scheme':
-          this.marginSchemeCode = data.SchemeCode;
-          this.MarginScheme = data.SchemeName;
-          this.marginSchemeOptions = [{ label: data.SchemeName, value: data.SchemeCode }];
-          this.MICode = data.ITDescription;
-          this.miCode = data.ItemCode;
-          this.marginItemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
-          this.MarginRateInTerms = data.RateInTerms;
-          this.marginRateInTerms = data.MarginWtype;
-          this.marginRateInTermsOptions = [{ label: data.MarginWtype, value: data.RateInTerms }];
-          this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
-          this.MarginRate = (data.MarginRate * 1).toFixed(2);
-          this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
-          this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
-          this.itemSchemeData.splice(index, 1);
+      case 'scheme':
+        this.marginSchemeCode = data.SchemeCode;
+        this.MarginScheme = data.SchemeName;
+        this.marginSchemeOptions = [{ label: data.SchemeName, value: data.SchemeCode }];
+        this.MICode = data.ITDescription;
+        this.miCode = data.ItemCode;
+        this.marginItemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
+        this.MarginRateInTerms = data.RateInTerms;
+        this.marginRateInTermsOptions = [{ label: data.RateInTerms, value: data.RateInTerms }];
+        this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
+        this.MarginRate = (data.MarginRate * 1).toFixed(2);
+        this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+        this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
+        this.itemSchemeData.splice(index, 1);
         break;
-        case 'payment':
-          this.Payment = data.PaymentMode;
-          this.ChequeNo = data.ChequeNo;
-          this.ChequeDate = new Date(data.ChDate);
-          this.PAmount = (data.PaymentAmount * 1)
-          this.PayableAt = data.payableat;
-          this.OnBank = data.bank;
-          this.PaidAmount = this.PaidAmount - (this.paymentData[index].PaymentAmount * 1);
-          this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
-          this.paymentData.splice(index, 1);
-          break;
-          case 'prevBal':
-            this.PrevOrderNo = data.AdjustedDoNo;
-            this.PrevOrderDate = new Date(data.AdjustDate);
-            this.AdjusmentAmount = (data.Amount * 1);
-            this.OtherAmount = (data.AmountNowAdjusted * 1);
-            this.Balance = (data.Balance * 1);
-            this.AdjustmentType = data.AdjustmentType;
-            this.paymentBalData.splice(index, 1);
-          break;
+      case 'payment':
+        this.Payment = data.PaymentMode;
+        this.paymentOptions = [{ label: data.PaymentMode, value: data.PaymentMode }];
+        this.ChequeNo = data.ChequeNo;
+        this.ChequeDate = data.ChDate;
+        this.PAmount = (data.PaymentAmount * 1)
+        this.PayableAt = data.payableat;
+        this.OnBank = data.bank;
+        this.PaidAmount = this.PaidAmount - (this.paymentData[index].PaymentAmount * 1);
+        this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
+        this.paymentData.splice(index, 1);
+        break;
+      case 'prevBal':
+        this.PrevOrderNo = data.AdjustedDoNo;
+        this.PrevOrderDate = data.AdjustDate;
+        this.AdjusmentAmount = (data.Amount * 1);
+        this.OtherAmount = (data.AmountNowAdjusted * 1);
+        this.Balance = (data.Balance * 1);
+        this.AdjustmentType = data.AdjustmentType;
+        this.paymentBalData.splice(index, 1);
+        break;
     }
   }
 
@@ -452,33 +454,33 @@ export class DeliveryReceiptComponent implements OnInit {
           SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
           Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
           NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, RCode: this.RCode,
-          Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.rateTerm,
+          Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm,
           Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
         });
         if (this.itemData.length !== 0) {
-            this.totalAmount = 0;
-            this.itemData.forEach(x => this.totalAmount += (x.Total * 1));
-            this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
-            this.DueAmount = this.GrandTotal;
-            this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
-            this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
+          this.totalAmount = 0;
+          this.itemData.forEach(x => this.totalAmount += (x.Total * 1));
+          this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.DueAmount = this.GrandTotal;
+          this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
+          this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
         }
         break;
       case 'MarginItem':
         this.itemSchemeData.push({
           ITDescription: (this.MICode.label !== undefined && this.MICode.label !== null) ? this.MICode.label : this.MICode,
           RateInTerms: (this.MarginRateInTerms.label !== undefined && this.MarginRateInTerms.label !== null)
-          ? this.MarginRateInTerms.label : this.MarginRateInTerms,
+            ? this.MarginRateInTerms.label : this.MarginRateInTerms,
           SchemeName: (this.MarginScheme.label !== undefined && this.MarginScheme.label !== null)
-          ? this.MarginScheme.label : this.MarginScheme,
+            ? this.MarginScheme.label : this.MarginScheme,
           ItemCode: (this.MICode.value !== undefined && this.MICode.value !== null)
-          ? this.MICode.value : this.miCode,
+            ? this.MICode.value : this.miCode,
           MarginRate: this.MarginRate, MarginAmount: this.MarginAmount,
           RCode: this.RCode, MarginNkgs: this.MarginNKgs,
           MarginWtype: (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null)
-          ? this.MarginRateInTerms.value : this.marginRateInTerms,
+            ? this.MarginRateInTerms.value : this.MarginRateInTerms,
           SchemeCode: (this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
-          ? this.MarginScheme.value : this.marginSchemeCode
+            ? this.MarginScheme.value : this.marginSchemeCode
         });
         if (this.itemSchemeData.length !== 0) {
           this.marginTotal = 0;
@@ -492,8 +494,11 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Payment':
         this.paymentData.push({
           PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'), RCode: this.RCode,
-          PaymentAmount: this.PAmount, payableat: this.PayableAt, bank: this.OnBank
+          ChDate: this.ChequeDate,
+          RCode: this.RCode,
+          PaymentAmount: this.PAmount,
+          payableat: this.PayableAt,
+          bank: this.OnBank
         })
         let lastIndex = this.paymentData.length;
         if (this.paymentData.length !== 0) {
@@ -512,14 +517,14 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Adjustment':
         this.paymentBalData.push({
           AdjustedDoNo: this.PrevOrderNo,
-          AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+          AdjustDate: this.PrevOrderDate,
           Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
           AmountNowAdjusted: this.OtherAmount, Balance: this.Balance
         });
         if (this.paymentBalData.length !== 0) {
-          this.PrevOrderDate =  new Date();
-            this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
-          }
+          this.PrevOrderDate = new Date();
+          this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
+        }
         break;
     }
   }
@@ -550,12 +555,12 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   calculateTotal() {
-   if (this.NKgs !== undefined && this.Rate !== undefined && this.NKgs !== null && this.Rate !== null) {
-     let unit = (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.rateTerm;
+    if (this.NKgs !== undefined && this.Rate !== undefined && this.NKgs !== null && this.Rate !== null) {
+      let unit = (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm;
       this.TotalAmount = this.rateWithQtyCalculation(unit, this.Rate, this.NKgs);
     }
     if (this.MarginNKgs !== undefined && this.MarginRate !== undefined && this.MarginNKgs !== null && this.MarginRate !== null) {
-      let marginUnit = (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null) ? this.MarginRateInTerms.value : this.marginRateInTerms;
+      let marginUnit = (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null) ? this.MarginRateInTerms.value : this.MarginRateInTerms;
       this.MarginAmount = this.rateWithQtyCalculation(marginUnit, this.MarginRate, this.MarginNKgs);
     }
   }
@@ -582,33 +587,32 @@ export class DeliveryReceiptComponent implements OnInit {
       GCode: this.GCode,
       DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
-      ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
-     }
-      this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
-        if (res !== null && res !== undefined && res.length !== 0) {
-          this.PrevOrderNo = res[0].Dono;
-          this.PrevOrderDate = new Date(res[0].DoDate);
-          this.AdjusmentAmount = (res[0].Balance * 1);
-          } else {
-            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
-          }
+        ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
+    }
+    this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+        this.PrevOrderNo = res[0].Dono;
+        this.PrevOrderDate = new Date(res[0].DoDate);
+        this.AdjusmentAmount = (res[0].Balance * 1);
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+      }
     })
-  } 
+  }
 
   onView() {
     this.viewPane = true;
     this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      if (res !== null && res !== undefined && res.length !== 0) {
-      //   res.forEach(data => {
-      //   data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
-      //   data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
-      // })
-      this.deliveryViewData = res;
-     }  else {
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
-    }
+      if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
+          res.Table.forEach(data => {
+          data.DoDate = this.datepipe.transform(data.DoDate, 'dd/MM/yyyy');
+        })
+        this.deliveryViewData = res.Table;
+      } else {
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+      }
     });
   }
 
@@ -617,7 +621,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
     saveAs(path + filename, filename);
     this.isSaveSucceed = false;
-   }
+  }
 
   onClear() {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
@@ -627,78 +631,114 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.PMonth, value: this.curMonth}];
+    this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
   }
 
   getDocByDoNo() {
     this.messageService.clear();
-    this.itemData = this.itemSchemeData = this.paymentBalData = this.paymentData = [];
+    this.itemData = []; this.itemSchemeData = []; this.paymentBalData = []; this.paymentData = [];
     this.viewPane = false;
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      if (res !== undefined && res.length !== 0) {
-        this.DeliveryOrderNo = res[0].Dono;
-        this.DeliveryDate = new Date(res[0].DDate);
-        this.trCode = res[0].Trcode;
-        this.Trcode = res[0].TrName;
-        this.transactionOptions = [{ label: res[0].TrName, value: res[0].Trcode }];
-        this.IndentNo = res[0].IndentNo;
-        this.PermitDate = new Date(res[0].PermitDate);
+    this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
+      if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.DeliveryOrderNo = res.Table[0].Dono;
+        this.DeliveryDate = new Date(res.Table[0].DoDate);
+        this.trCode = res.Table[0].TransactionCode;
+        this.Trcode = res.Table[0].TRName;
+        this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].TransactionCode }];
+        this.IndentNo = res.Table[0].IndentNo;
+        this.PermitDate = new Date(res.Table[0].PermitDate);
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
-        this.curMonth = res[0].Pallotment.slice(5, 7);
+        this.curMonth = res.Table[0].OrderPeriod.slice(5, 7);
         let formDate = this.curMonth + "-" + today + "-" + currentYr;
         this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.PMonth = this.datepipe.transform(new Date(formDate), 'MMM');
-        this.yearOptions = [{label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4)}]
-        this.PYear = res[0].Pallotment.slice(0, 4);
-        this.PName = res[0].ReceivorName;
-        this.pCode = res[0].ReceivorCode;
-        this.partyNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivorCode }];
-        this.Remarks = (res[0].Remarks.toString().trim() !== '') ? res[0].Remarks : '-';
-        this.GrandTotal = (res[0].GrandTotal * 1);
-        res.forEach(i => {
+        this.yearOptions = [{ label: res.Table[0].OrderPeriod.slice(0, 4), value: res.Table[0].OrderPeriod.slice(0, 4) }]
+        this.PYear = res.Table[0].OrderPeriod.slice(0, 4);
+        this.PName = res.Table[0].ReceivorName;
+        this.pCode = res.Table[0].ReceivorCode;
+        this.partyNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].ReceivorCode }];
+        this.RTCode = res.Table[0].Tyname;
+        this.rtCode = res.Table[0].IssuerType;
+        this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
+        this.TransType = res.Table[0].TransType;
+        this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
+        this.GrandTotal = (res.Table[0].GrandTotal * 1);
+        this.DueAmount = (res.Table[0].GrandTotal * 1);
+        res.Table.forEach(i => {
           this.itemData.push({
             ITDescription: i.ITDescription,
-            NetWeight: (i.Nkgs * 1),
-            UnitMeasure: i.UnitMeasure,
-            SchemeName: i.SchemeName,
+            NetWeight: (i.NetWeight * 1),
+            UnitMeasure: i.Wtype,
+            SchemeName: i.SCName,
             Rate: (i.Rate * 1),
-            Total: (i.TotalAmount * 1),
+            Total: (i.Total * 1),
             ItemCode: i.ItemCode,
             Scheme: i.Scheme,
+            Rcode: i.RCode
           });
-          this.itemSchemeData.push({
+        })
+      }
+      if (res.Table1 !== undefined && res.Table1.length !== 0 && res.Table1 !== null) {
+        res.Table1.forEach(i => { 
+        this.itemSchemeData.push({
             ITDescription: i.ITDescription,
-            MarginNkgs: (i.Nkgs * 1),
-            RateInTerms: i.UnitMeasure,
-            SchemeName: i.SchemeName,
+            MarginNkgs: (i.MarginNkgs * 1),
+            RateInTerms: i.MarginWtype,
+            SchemeName: i.SCName,
             MarginRate: (i.MarginRate * 1),
             MarginAmount: (i.MarginAmount * 1),
             ItemCode: i.ItemCode,
-            Scheme: i.Scheme,
+            Scheme: i.SchemeCode,
+            Rcode: i.RCode
           });
-          this.paymentBalData.push({
+        })
+      }
+      if (res.Table3 !== undefined && res.Table3.length !== 0 && res.Table3 !== null) {
+        res.Table3.forEach(i => {
+          this.paymentData.push({
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
-            ChDate: this.datepipe.transform(i.ChDate, 'dd-MM-yyyy'),
-            PaymentAmount: (i.PaymentAmount * 1),
+            ChDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
+            // ChDate: i.ChDate,
+            PaymentAmount: i.PaymentAmount,
             payableat: i.payableat,
-            bank: i.bank
+            bank: i.bank,
+            RCode: i.Rcode
           });
-          this.paymentData.push({});
+        })
+        if(this.paymentData.length !== 0) {
+          this.paymentData.forEach(x => {
+          this.PaidAmount += (x.PaymentAmount * 1) ;
+        })
+        this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+        }
+      }
+      if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
+        res.Table2.forEach(i => {
+          this.paymentBalData.push({
+            AdjustedDoNo: i.AdjustedDoNo,
+            AdjustDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
+            // AdjustDate: i.AdjustDate,
+            Amount: i.Amount,
+            AdjustmentType: i.AdjustmentType,
+            AmountNowAdjusted: i.AmountNowAdjusted,
+            Balance: i.Balance,
+            RCode: i.Rcode
+          });
         });
       }
     });
   }
 
   onSave() {
-    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null) 
-    ? this.PMonth.value : this.curMonth) ;
+    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
+      ? this.PMonth.value : this.curMonth);
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
-    ? this.DeliveryOrderNo : 0;
+      ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
     const params = {
       'Type': 1,
@@ -741,5 +781,5 @@ export class DeliveryReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
       }
     });
-   }
+  }
 }
