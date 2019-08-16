@@ -937,8 +937,8 @@ export class TableConstants {
       { field: 'Dono', header: 'Delivery Order No' },
       { field: 'DoDate', header: 'Delivery Order Date' },
       { field: 'TRName', header: 'Transaction Name' },
-      { field: 'IssuerType', header: 'Receivor Type' },
-      { field: 'ReceivorName', header: 'Party Name' },
+      { field: 'Tyname', header: 'Receivor Type' },
+      { field: 'ReceivorName', header: 'Party Name' }
     ];
 
     this.godownProfile = [

@@ -808,6 +808,7 @@ export class TruckReceiptComponent implements OnInit {
     this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
     this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
     const params = {
+      'Type': 1,
       'STNo': this.STNo,
       'RowId': this.RowId,
       'STDate': this.datepipe.transform(this.STDate, 'MM/dd/yyyy'),

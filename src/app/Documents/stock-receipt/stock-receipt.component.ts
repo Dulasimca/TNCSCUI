@@ -488,6 +488,7 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
+      'Type': 1,
       'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
