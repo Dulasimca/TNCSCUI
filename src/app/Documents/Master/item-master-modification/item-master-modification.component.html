@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">ITEM MASTER MODIFICATION</div>
+        <div class="ui-g-4 dashboard">Item Master Modification</div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by ItemName"
             (ngModelChange)="onSearch($event)">
@@ -19,7 +19,7 @@
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
      
-<div class="ui-g-12 dashboard">
+<div class="table-screen-size">
     <p-table [columns]="ItemMasterCols" [value]="ItemMasterData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
       [loading]="loading">
