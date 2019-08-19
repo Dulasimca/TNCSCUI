@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Install Details</div>
+        <div class="ui-g-4 dashboard">Godown Profile</div>
       </div>
     </p-header>
     <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
@@ -12,7 +12,7 @@
     <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
    <div class="ui-g">
       <div class="ui-g-12 dashboard" style="text-align: center">
-          <!-- <p-fieldset legend="GODOWN PROFILE DATA"> -->
+          <p-fieldset legend="GODOWN PROFILE DATA">
             <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
               [loading]="loading" [totalRecords]="totalRecords">
               <ng-template pTemplate="header" let-columns>
@@ -30,7 +30,7 @@
                 </tr>
               </ng-template>
             </p-table>
-          <!-- </p-fieldset> -->
+          </p-fieldset>
         </div>
     <div class="install-main">
       <div>
