@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ɵConsole, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -9,6 +9,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -107,7 +108,19 @@ export class DeliveryReceiptComponent implements OnInit {
   BalanceAmount: any = 0;
   MarginItem: string;
   curMonth: any;
-
+  @ViewChild('tr') transactionPanel: Dropdown;
+  @ViewChild('m') monthPanel: Dropdown;
+  @ViewChild('y') yearPanel: Dropdown;
+  @ViewChild('rt') receivorTypePanel: Dropdown;
+  @ViewChild('pn') partyNamePanel: Dropdown;
+  @ViewChild('sc') schemePanel: Dropdown;
+  @ViewChild('i_desc') commodityPanel: Dropdown;
+  @ViewChild('rate') weighmentPanel: Dropdown;
+  @ViewChild('ms') marginSchemePanel: Dropdown;
+  @ViewChild('margin_id') marginCommodityPanel: Dropdown;
+  @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
+  @ViewChild('pay') paymentPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe, private confirmationService: ConfirmationService) { }
@@ -137,7 +150,7 @@ export class DeliveryReceiptComponent implements OnInit {
     }, 300);
   }
 
-  onSelect(selectedItem) {
+  onSelect(selectedItem, type) {
     let transactoinSelection = [];
     let schemeSelection = [];
     let marginSchemeSelection = [];
@@ -151,7 +164,10 @@ export class DeliveryReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        const year = new Date().getFullYear();
+          if (type === 'enter') {
+            this.yearPanel.overlayVisible = true;
+          }
+            const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
             yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
@@ -165,6 +181,9 @@ export class DeliveryReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
+          if (type === 'enter') {
+            this.monthPanel.overlayVisible = true;
+          }
         this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
         { 'label': 'Feb', 'value': 2 }, { 'label': 'Mar', 'value': 3 }, { 'label': 'Apr', 'value': 4 },
         { 'label': 'May', 'value': 5 }, { 'label': 'Jun', 'value': 6 }, { 'label': 'Jul', 'value': 7 },
@@ -173,7 +192,10 @@ export class DeliveryReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (this.transactionOptions === undefined) {
+          if (type === 'enter') {
+            this.transactionPanel.overlayVisible = true;
+          } 
+      if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined && data !== null && data.length !== 0) {
               data.forEach(y => {
@@ -188,6 +210,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'scheme':
+          if (type === 'enter') {
+            this.schemePanel.overlayVisible = true;
+          }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -199,6 +224,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_scheme':
+          if (type === 'enter') {
+            this.marginSchemePanel.overlayVisible = true;
+          }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             marginSchemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -210,6 +238,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
+          if (type === 'enter') {
+            this.receivorTypePanel.overlayVisible = true;
+          }
         if (this.Trcode !== null && this.Trcode !== undefined) {
           if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
             const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
@@ -229,6 +260,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'pn':
+          if (type === 'enter') {
+            this.partyNamePanel.overlayVisible = true;
+          }
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
             const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
@@ -249,6 +283,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'commodity':
+          if (type === 'enter') {
+            this.commodityPanel.overlayVisible = true;
+          }
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -276,6 +313,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_commodity':
+          if (type === 'enter') {
+            this.marginCommodityPanel.overlayVisible = true;
+          }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
           if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
             const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
@@ -303,6 +343,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'wmt':
+          if (type === 'enter') {
+            this.weighmentPanel.overlayVisible = true;
+          }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -316,6 +359,9 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'margin_wmt':
+          if (type === 'enter') {
+            this.marginWeighmentPanel.overlayVisible = true;
+          }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -329,6 +375,9 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'pay':
+          if (type === 'enter') {
+            this.paymentPanel.overlayVisible = true;
+          }
         this.paymentOptions = [
           { label: 'Adjustment', value: 'Adjustment' }, { label: 'Cash', value: 'Cash' },
           { label: 'Cheque', value: 'Cheque' }, { label: 'Draft', value: 'Draft' }, { label: 'Ocr', value: 'Ocr' },

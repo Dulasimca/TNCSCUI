@@ -170,10 +170,9 @@ export class IssueReceiptComponent implements OnInit {
           } else {
             yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
           }
-          this.yearOptions = yearArr;
         }
+        this.yearOptions = yearArr;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-
         break;
       case 'm':
           if (type === 'enter') {
