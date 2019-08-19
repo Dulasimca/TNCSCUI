@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
@@ -9,6 +9,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -106,6 +107,16 @@ export class IssueReceiptComponent implements OnInit {
   index: number = 0;
   UserID: any;
   Loadingslip: any;
+  @ViewChild('tr') transactionPanel: Dropdown;
+  @ViewChild('m') monthPanel: Dropdown;
+  @ViewChild('y') yearPanel: Dropdown;
+  @ViewChild('rt') receivorTypePanel: Dropdown;
+  @ViewChild('rn') receivorNamePanel: Dropdown;
+  @ViewChild('sc') schemePanel: Dropdown;
+  @ViewChild('i_desc') commodityPanel: Dropdown;
+  @ViewChild('st_no') stackNoPanel: Dropdown;
+  @ViewChild('pt') packingPanel: Dropdown;
+  @ViewChild('wmt') weightmentPanel: Dropdown;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
@@ -134,7 +145,7 @@ export class IssueReceiptComponent implements OnInit {
       this.RCode = this.data[0].RCode;
     }, 1200);
   }
-  onSelect(selectedItem) {
+  onSelect(selectedItem, type) {
     let transactoinSelection = [];
     let schemeSelection = [];
     let yearArr = [];
@@ -147,6 +158,9 @@ export class IssueReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
+          if (type === 'enter') {
+            this.yearPanel.overlayVisible = true;
+          }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
@@ -157,10 +171,14 @@ export class IssueReceiptComponent implements OnInit {
             yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
           }
           this.yearOptions = yearArr;
-          this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
+        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+
         break;
       case 'm':
+          if (type === 'enter') {
+            this.monthPanel.overlayVisible = true;
+          }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -169,7 +187,10 @@ export class IssueReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+          if (type === 'enter') {
+            this.transactionPanel.overlayVisible = true;
+          }
+            this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
               if (y.TransType === this.transType) {
@@ -185,6 +206,9 @@ export class IssueReceiptComponent implements OnInit {
         })
         break;
       case 'sc':
+          if (type === 'enter') {
+            this.schemePanel.overlayVisible = true;
+          }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -196,6 +220,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
+          if (type === 'enter') {
+            this.receivorTypePanel.overlayVisible = true;
+          }
         if (this.Trcode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
             (this.trCode !== null && this.trCode !== undefined)) {
@@ -216,6 +243,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
+          if (type === 'enter') {
+            this.receivorNamePanel.overlayVisible = true;
+          }
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
             this.RTCode.value !== undefined && this.RTCode.value !== null) || (this.rtCode !== null && this.rtCode !== undefined
@@ -237,6 +267,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
+          if (type === 'enter') {
+            this.commodityPanel.overlayVisible = true;
+          }
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -255,6 +288,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
+          if (type === 'enter') {
+            this.stackNoPanel.overlayVisible = true;
+          }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
@@ -274,6 +310,9 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'pt':
         // if (this.packingTypeOptions === undefined) {
+          if (type === 'enter') {
+            this.packingPanel.overlayVisible = true;
+          }
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table.forEach(p => {
@@ -288,6 +327,9 @@ export class IssueReceiptComponent implements OnInit {
         // }
         break;
       case 'wmt':
+          if (type === 'enter') {
+            this.weightmentPanel.overlayVisible = true;
+          }
         // if (this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
