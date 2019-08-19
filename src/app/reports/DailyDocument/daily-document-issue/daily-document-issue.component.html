@@ -5,6 +5,15 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Daily Document Issue/Truck Memo</div>
+        <div class="ui-g-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Commodity"
+            (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+            styleClass="ui-button-danger"></p-splitButton>
+          <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
+            (click)="print()"></button>
+        </div>
       </div>
     </p-header>
     <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>

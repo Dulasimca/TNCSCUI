@@ -112,7 +112,7 @@ export class HeaderComponent implements OnInit {
       this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Password did not match!' });
     }
     this.onClear();
-    this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+    // this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
   }
 
   onTime() {

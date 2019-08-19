@@ -75,9 +75,9 @@ export class PathConstants {
   public static readonly COMMODITY_BREAK_ITEM_MASTER_MODIFICATION = '/api/ItemMaster';
   public static readonly KEROSENE_SUPPLIERS = '/api/KeroseneSuppliers';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
-  public static readonly DEPOSITOR_MASTER = '';
   public static readonly CUSTOMER_MASTER = '';
   public static readonly SCHEME_COMMODITY = '/api/SchemeCommodity';
   public static readonly SOCIETY_MASTER_GET = '/api/SocietyMaster/Get';
+  public static readonly ISSUER_MASTER_GET = '/api/IssuerMaster/Get';
 
 }

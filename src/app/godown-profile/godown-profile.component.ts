@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import {Validators,FormControl,FormGroup,FormBuilder} from '@angular/forms';
+import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -43,20 +43,72 @@ export class GodownProfileComponent implements OnInit {
     this.gCode = this.authService.getUserAccessible().gCode;
     this.data = this.roleBasedService.getInstance();
     this.userdata = this.fb.group({
-        'Gname': new FormControl('', Validators.required),
-        'designation': new FormControl('', Validators.required),
-        'address1': new FormControl(''),
-        'address2': new FormControl(''),
-        'address3': new FormControl(''),
-        'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
-        'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
-        'faxno': new FormControl('', Validators.compose([Validators.required])),
+      'Gname': new FormControl('', Validators.required),
+      'designation': new FormControl('', Validators.required),
+      'address1': new FormControl(''),
+      'address2': new FormControl(''),
+      'address3': new FormControl(''),
+      'telno': new FormControl(''),
+      'mobno': new FormControl(''),
+      'faxno': new FormControl('')
+      // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
+      // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+      // 'faxno': new FormControl('', Validators.compose([Validators.required]))
+    });
+    const params = new HttpParams().append('GCode', this.gCode);
+    this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
+      if (value !== undefined) {
+        this.godownProfileCols = this.tableConstants.godownProfile;
+        this.godownProfileData = value;
+      }
     });
 
   }
 
   onClear() {
-    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = "" ;
+    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = "";
+  }
+
+  //   onSubmit(formUser) {
+  //     // console.log('form values ', form);
+  //     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
+  //     const params = {
+  //       'RowId': this.roleId,
+  //       'GodownCode': this.gCode,
+  //       'Gname': formUser.Gname,
+  //       'desig': formUser.designation,
+  //       'add1': formUser.address1,
+  //       'add2': formUser.address2,
+  //       'add3': formUser.address3,
+  //       'telno': formUser.telno,
+  //       'mobno': formUser.phone,
+  //       'faxno': formUser.fax,
+  //     };
+  //     this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
+  //       if (res) {
+
+  //         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+  //         const params = new HttpParams().append('GCode', this.gCode);
+  //         this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
+  //           if (value !== undefined) {
+  //             this.godownProfileCols = this.tableConstants.godownProfile;
+  //             this.godownProfileData = value;
+  //           }
+  //         });
+  //       } else {
+  //         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+  //       }
+  //     }, (err: HttpErrorResponse) => {
+  //       if (err.status === 0) {
+  //         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+  //       }
+  //     })
+  //     this.onClear();
+  //   }
+  // }
+
+  onView() {
+
   }
 
   onSubmit(formUser) {
@@ -80,11 +132,10 @@ export class GodownProfileComponent implements OnInit {
         const params = new HttpParams().append('GCode', this.gCode);
         this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
           if (value !== undefined) {
-            this.godownProfileData = value;
             this.godownProfileCols = this.tableConstants.godownProfile;
-
+            this.godownProfileData = value;
           }
-        })
+        });
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
@@ -92,7 +143,7 @@ export class GodownProfileComponent implements OnInit {
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
-    })
+    });
     this.onClear();
   }
 }
