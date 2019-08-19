@@ -71,7 +71,7 @@
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
                             <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="password"
-                                placeholder="Password" tabindex="0" required="">
+                                placeholder="Password" tabindex="0" (keydown.enter)="onSignIn()" required="">
                         </div>
                         <div class="login-check">
                             <label class="checkbox"><input type="checkbox" name="checkbox" binary="true"

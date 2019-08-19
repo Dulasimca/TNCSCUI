@@ -233,7 +233,7 @@ export class DeliveryReceiptComponent implements OnInit {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
             const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
               .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType)
-              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(dn => {
@@ -330,9 +330,9 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'pay':
         this.paymentOptions = [
-          { label: 'Adjustment', value: 'A' }, { label: 'Cash', value: 'C' },
-          { label: 'Cheque', value: 'CH' }, { label: 'Draft', value: 'DD' }, { label: 'Ocr', value: 'O' },
-          { label: 'PayOrder', value: 'PO' }];
+          { label: 'Adjustment', value: 'Adjustment' }, { label: 'Cash', value: 'Cash' },
+          { label: 'Cheque', value: 'Cheque' }, { label: 'Draft', value: 'Draft' }, { label: 'Ocr', value: 'Ocr' },
+          { label: 'PayOrder', value: 'PayOrder' }];
         break;
     }
   }
