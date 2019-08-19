@@ -92,12 +92,12 @@ export class DeliveryReceiptComponent implements OnInit {
   GrandTotal: any = 0;
   Payment: string;
   ChequeNo: any;
-  ChequeDate: Date = new Date();
+  ChequeDate: any = new Date();
   PAmount: any = 0;
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
-  PrevOrderDate: Date;
+  PrevOrderDate: any;
   AdjusmentAmount: any;
   AdjustmentType: string;
   OtherAmount: any;
@@ -425,7 +425,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Payment = data.PaymentMode;
         this.paymentOptions = [{ label: data.PaymentMode, value: data.PaymentMode }];
         this.ChequeNo = data.ChequeNo;
-        this.ChequeDate = data.ChDate;
+        this.ChequeDate = new Date(data.ChequeDate);
         this.PAmount = (data.PaymentAmount * 1)
         this.PayableAt = data.payableat;
         this.OnBank = data.bank;
@@ -435,7 +435,7 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'prevBal':
         this.PrevOrderNo = data.AdjustedDoNo;
-        this.PrevOrderDate = data.AdjustDate;
+        this.PrevOrderDate = new Date(data.AdjustedDate);
         this.AdjusmentAmount = (data.Amount * 1);
         this.OtherAmount = (data.AmountNowAdjusted * 1);
         this.Balance = (data.Balance * 1);
@@ -494,7 +494,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Payment':
         this.paymentData.push({
           PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: this.ChequeDate,
+          ChDate: this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
+          ChequeDate: this.ChequeDate,
           RCode: this.RCode,
           PaymentAmount: this.PAmount,
           payableat: this.PayableAt,
@@ -517,7 +518,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Adjustment':
         this.paymentBalData.push({
           AdjustedDoNo: this.PrevOrderNo,
-          AdjustDate: this.PrevOrderDate,
+          AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
+          AdjustedDate: this.PrevOrderDate,
           Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
           AmountNowAdjusted: this.OtherAmount, Balance: this.Balance
         });
@@ -703,7 +705,7 @@ export class DeliveryReceiptComponent implements OnInit {
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
             ChDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
-            // ChDate: i.ChDate,
+            ChequeDate: i.ChDate,
             PaymentAmount: i.PaymentAmount,
             payableat: i.payableat,
             bank: i.bank,
@@ -722,7 +724,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.paymentBalData.push({
             AdjustedDoNo: i.AdjustedDoNo,
             AdjustDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
-            // AdjustDate: i.AdjustDate,
+            AdjustedDate: i.AdjustDate,
             Amount: i.Amount,
             AdjustmentType: i.AdjustmentType,
             AmountNowAdjusted: i.AmountNowAdjusted,

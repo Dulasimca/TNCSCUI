@@ -382,11 +382,12 @@ export class IssueReceiptComponent implements OnInit {
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      let s: string;
-      index = this.TStockNo.value.toString().indexOf('/', 2);
-      const totalLength = this.TStockNo.value.length;
-      this.godownNo = this.TStockNo.value.toString().slice(0, index);
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
+      this.TStockNo.value : this.TStockNo;
+      index = TStockNo.toString().indexOf('/', 2);
+      const totalLength = TStockNo.length;
+      this.godownNo = TStockNo.toString().slice(0, index);
+      this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
     } else {
       this.godownNo = this.stackYear = this.locationNo = null;
     }
@@ -601,6 +602,7 @@ export class IssueReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.messageService.clear();
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {

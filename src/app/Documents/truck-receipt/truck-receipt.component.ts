@@ -577,10 +577,12 @@ export class TruckReceiptComponent implements OnInit {
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      index = this.TStockNo.value.toString().indexOf('/', 2);
-      const totalLength = this.TStockNo.value.length;
-      this.GodownNo = this.TStockNo.value.toString().slice(0, index);
-      this.LocationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
+      this.TStockNo.value : this.TStockNo;
+      index = TStockNo.toString().indexOf('/', 2);
+      const totalLength = TStockNo.length;
+      this.GodownNo = TStockNo.toString().slice(0, index);
+      this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
     } else {
       this.GodownNo = this.stackYear = this.LocationNo = null;
     }
