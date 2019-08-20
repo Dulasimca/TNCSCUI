@@ -17,7 +17,8 @@ import { Router } from '@angular/router';
 })
 export class CommodityReceiptComponent implements OnInit {
   commodityReceiptCols: any;
-  commodityReceiptData: any;
+  commodityReceiptData: any = [];
+  loadedData: any = [];
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
@@ -42,12 +43,22 @@ export class CommodityReceiptComponent implements OnInit {
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    let commoditySelection = [];
+    if (this.commodityOptions === undefined) {
+      this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+        if (data !== undefined) {
+          data.forEach(y => {
+            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+            this.commodityOptions = commoditySelection;
+          });
+        }
+      })
+    }
   }
 
   onSelect(item) {
     let godownSelection = [];
     let transactionSelection = [];
-    let commoditySelection = [];
     switch (item) {
       case 'gd':
         this.data = this.roleBasedService.instance;
@@ -70,23 +81,12 @@ export class CommodityReceiptComponent implements OnInit {
           })
         }
         break;
-      case 'cd':
-        if (this.commodityOptions === undefined) {
-          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                this.commodityOptions = commoditySelection;
-              });
-            }
-          })
-        }
-        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
+    this.c_cd = null;
     this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
@@ -95,6 +95,7 @@ export class CommodityReceiptComponent implements OnInit {
       'TRCode': this.tr_cd.value,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
+      this.loadedData = res;
       this.commodityReceiptData = res;
       let sno = 0;
       this.commodityReceiptData.forEach(data => {
@@ -117,10 +118,24 @@ export class CommodityReceiptComponent implements OnInit {
       }
     })
   }
+
+  filterCommodity(event) {
+    let selectedItem = event.value;
+    if(selectedItem !== undefined && selectedItem !== null) {
+    this.commodityReceiptData = this.commodityReceiptData.filter(f => {
+      return f.Commodity === selectedItem.label;
+    })
+  } else {
+    this.commodityReceiptData = this.loadedData;
+  }
+    
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
