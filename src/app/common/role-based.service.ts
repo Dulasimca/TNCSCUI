@@ -20,62 +20,70 @@ export class RoleBasedService {
     godownsList: any = [];
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
+    /// All Godowns
     getGodowns() {
         let godowns;
         this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
             res.forEach(x => {
                 godowns = x.list;
-                godowns.forEach(data => { this.godownsList.push({'GName': data.Name, 'GCode': data.GCode, 'RCode': data.Code }) });
+                godowns.forEach(data => { this.godownsList.push({ 'GName': data.Name, 'GCode': data.GCode, 'RCode': data.Code }) });
             });
         })
         return this.godownsList;
     }
 
+    ///End
+
+    /// All regions
     getRegions() {
         this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
             res.forEach(x => {
-                this.regionsData.push({'RName': x.Name, 'RCode': x.Code});
+                this.regionsData.push({ 'RName': x.Name, 'RCode': x.Code });
             });
         })
         return this.regionsData;
     }
+    ///End
 
+    /// Godowns and Regions according to user role 
     getInstance() {
         this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
         this.gCode = this.authService.getUserAccessible().gCode;
         this.rCode = this.authService.getUserAccessible().rCode;
         let godownList = [];
-            this.instance = [];
-            this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
-                    res.forEach(x => {
-                        if (this.roleId === 1) {
-                            godownList = x.list;
-                            godownList.forEach(value => {
-                                this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
-                            });
-                        } else if (this.roleId === 2) {
-                            if (x.Code === this.rCode) {
-                                godownList = x.list;
-                                godownList.forEach(value => {
-                                    this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
-                                });
-                            }
-                        } else {
-                                if (x.Code === this.rCode) {
-                                    godownList = x.list.filter(y => {
-                                        return y.GCode === this.gCode;
-                                    });
-                                    godownList.forEach(value => {
-                                        this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
-                                    });
-                                }
-                        }
+        this.instance = [];
+        this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
+            res.forEach(x => {
+                if (this.roleId === 1) {
+                    godownList = x.list;
+                    godownList.forEach(value => {
+                        this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
                     });
-                   
+                } else if (this.roleId === 2) {
+                    if (x.Code === this.rCode) {
+                        godownList = x.list;
+                        godownList.forEach(value => {
+                            this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                        });
+                    }
+                } else {
+                    if (x.Code === this.rCode) {
+                        godownList = x.list.filter(y => {
+                            return y.GCode === this.gCode;
+                        });
+                        godownList.forEach(value => {
+                            this.instance.push({ 'RName': x.Name, 'RCode': value.Code, 'GName': value.Name, 'GCode': value.GCode });
+                        });
+                    }
+                }
             });
-            return this.instance;
-    }
 
+        });
+        return this.instance;
+    }
+    ///End
+
+    /// Scheme Master Data
     getSchemeData() {
         if (this.scheme_data === undefined) {
             this.scheme_data = [];
@@ -89,5 +97,6 @@ export class RoleBasedService {
         }
         return this.scheme_data;
     }
+    ///End
 
 }
