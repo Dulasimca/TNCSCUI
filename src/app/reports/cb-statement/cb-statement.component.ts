@@ -12,6 +12,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cb-statement',
@@ -32,7 +33,7 @@ export class CBStatementComponent implements OnInit {
   record: any;
   items: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService,
+  constructor(private restApiService: RestAPIService, private authService: AuthService,private messageService: MessageService,
     private tableConstants: TableConstants, private router: Router, private excelService: ExcelService) { }
 
   ngOnInit() {
@@ -181,7 +182,7 @@ export class CBStatementComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.router.navigate(['pageNotFound']);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });        
       }
     })
   }

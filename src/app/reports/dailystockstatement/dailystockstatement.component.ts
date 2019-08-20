@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { TreeNode } from 'primeng/api';
+import { TreeNode, MessageService } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
@@ -35,7 +35,7 @@ export class DailyStockStatementComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants,private excelService: ExcelService,
      private restApiService: RestAPIService, private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -138,8 +138,8 @@ export class DailyStockStatementComponent implements OnInit {
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
               this.loading = false;
-            this.router.navigate(['pageNotFound']);
-            }
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
+      }
           })
         }
       }

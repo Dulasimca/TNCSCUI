@@ -113,6 +113,7 @@ export class DailyDocumentsComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
       }
     });
   }

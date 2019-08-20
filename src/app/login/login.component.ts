@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     } else {
     let username = new HttpParams().append('userName', this.userName);
     this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
-      if (credentials !== undefined) {
+      if (credentials !== undefined && credentials !== null && credentials.length !== 0) {
       if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
         this.router.navigate(['Home']);
         this.roleId = credentials[0].RoleId;
@@ -68,6 +68,9 @@ export class LoginComponent implements OnInit {
         this.clearFields();
         this.messageService.add({key: 't-err', severity:'error', summary:'Error!', detail:'Validation Failed!'});
       }
+    } else {
+     // this.clearFields();
+      this.messageService.add({key: 't-err', severity:'error', summary:'Error!', detail:'Please check the credentials!'});
     }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {

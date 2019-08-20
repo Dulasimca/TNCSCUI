@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-commodity-receipt',
   templateUrl: './commodity-receipt.component.html',
-  styleUrls: ['./commodity-receipt.component.css']
+  styleUrls: ['./commodity-receipt.component.css'],
 })
 export class CommodityReceiptComponent implements OnInit {
   commodityReceiptCols: any;
@@ -22,8 +22,7 @@ export class CommodityReceiptComponent implements OnInit {
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
-  regionsList: any;
-  godownsList: any;
+  data: any;
   RCode: any;
   GCode: any;
   ITCode: any;
@@ -44,8 +43,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
-    this.godownsList = this.roleBasedService.getGodowns();
-    this.regionsList = this.roleBasedService.getRegions();
+    this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     let commoditySelection = [];
     if (this.commodityOptions === undefined) {
@@ -66,18 +64,18 @@ export class CommodityReceiptComponent implements OnInit {
     let transactionSelection = [];
     switch (item) {
       case 'reg':
-        this.regionsList = this.roleBasedService.regionsData;
-        if (this.regionsList !== undefined) {
-          this.regionsList.forEach(x => {
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
             regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             this.regionOptions = regionSelection;
           });
         }
         break;
       case 'gd':
-        this.godownsList = this.roleBasedService.godownsList;
-        if (this.godownsList !== undefined) {
-          this.godownsList.forEach(x => {
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
@@ -129,7 +127,7 @@ export class CommodityReceiptComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.router.navigate(['pageNotFound']);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
       }
     })
   }
