@@ -122,7 +122,7 @@ export class StockstatementreportComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;

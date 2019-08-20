@@ -106,7 +106,7 @@ export class DailyDocumentsComponent implements OnInit {
         this.isActionDisabled = false;
       } else {
         this.loading = false;
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
       this.DailyDocumentReceiptData.slice(0);

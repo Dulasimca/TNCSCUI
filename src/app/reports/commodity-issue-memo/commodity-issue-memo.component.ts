@@ -22,8 +22,10 @@ export class CommodityIssueMemoComponent implements OnInit {
   toDate: any;
   isActionDisabled: any;
   data: any;
-  g_cd: any;
-  c_cd: any;
+  RCode: any;
+  GCode: any;
+  ITCode: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
   truckName: string;
@@ -43,10 +45,20 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   onSelect(item) {
+    let regionSelection = [];
     let godownSelection = [];
     let commoditySelection = [];
 
     switch (item) {
+      case 'reg':
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            this.regionOptions = regionSelection;
+          });
+        }
+        break;
       case 'gd':
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
@@ -54,6 +66,7 @@ export class CommodityIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'cd':
@@ -77,8 +90,8 @@ export class CommodityIssueMemoComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
-      'TRCode': this.c_cd.value
+      'GCode': this.GCode.value,
+      'TRCode': this.ITCode.value
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
       this.commodityIssueMemoData = res;

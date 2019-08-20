@@ -22,10 +22,13 @@ export class CommodityReceiptComponent implements OnInit {
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
-  data: any;
-  g_cd: any;
-  c_cd: any;
-  tr_cd: any;
+  regionsList: any;
+  godownsList: any;
+  RCode: any;
+  GCode: any;
+  ITCode: any;
+  TrCode: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   transactionOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -41,7 +44,8 @@ export class CommodityReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
-    this.data = this.roleBasedService.getInstance();
+    this.godownsList = this.roleBasedService.getGodowns();
+    this.regionsList = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     let commoditySelection = [];
     if (this.commodityOptions === undefined) {
@@ -57,16 +61,27 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   onSelect(item) {
+    let regionSelection = [];
     let godownSelection = [];
     let transactionSelection = [];
     switch (item) {
+      case 'reg':
+        this.regionsList = this.roleBasedService.regionsData;
+        if (this.regionsList !== undefined) {
+          this.regionsList.forEach(x => {
+            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            this.regionOptions = regionSelection;
+          });
+        }
+        break;
       case 'gd':
-        this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
+        this.godownsList = this.roleBasedService.godownsList;
+        if (this.godownsList !== undefined) {
+          this.godownsList.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'tr':
@@ -86,13 +101,13 @@ export class CommodityReceiptComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
-    this.c_cd = null;
+    this.ITCode = null;
     this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
-      'TRCode': this.tr_cd.value,
+      'GCode': this.GCode.value,
+      'TRCode': this.TrCode.value,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
       this.loadedData = res;

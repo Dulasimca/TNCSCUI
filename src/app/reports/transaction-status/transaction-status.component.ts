@@ -87,7 +87,7 @@ export class TransactionStatusComponent implements OnInit {
             this.remarks = this.TransactionStatusData[0].remarks
           this.RoleId = this.roleId
         } else {
-          this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0) {
@@ -115,7 +115,7 @@ export class TransactionStatusComponent implements OnInit {
           if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
             this.isActionDisabled = false;
           } else {
-            this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
           }
         }, (err: HttpErrorResponse) => {
           if (err.status === 0) {
@@ -162,7 +162,7 @@ export class TransactionStatusComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }

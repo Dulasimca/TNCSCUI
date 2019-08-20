@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from './login.service';
 import { MessageService } from 'primeng/api';
 import { RoleBasedService } from '../common/role-based.service';
@@ -66,9 +66,13 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
       } else {
         this.clearFields();
-        this.messageService.add({severity:'error', summary:'Error!', detail:'Validation Failed!'});
+        this.messageService.add({key: 't-err', severity:'error', summary:'Error!', detail:'Validation Failed!'});
       }
     }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator!' });
+      }
     });
   }
   }
