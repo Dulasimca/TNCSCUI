@@ -20,7 +20,7 @@
     <div class="ui-g ui-md-12">
       <p-toast position="center" key="t-err"></p-toast>
       <p-table [value]="cbData" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
+        [paginator]="true" [responsive]="true" [loading]="loading">
         <ng-template pTemplate="header" let-columns>
           <tr style="text-align: center;">
             <th *ngFor="let col of columns">
@@ -30,7 +30,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
           <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
-            <td colspan="14">
+            <td colspan="13">
               <span style="font-weight:bold">{{data.RGNAME}}</span>
             </td>
           </tr>
