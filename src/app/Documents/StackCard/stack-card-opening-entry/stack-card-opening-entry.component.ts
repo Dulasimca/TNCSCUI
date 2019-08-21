@@ -225,6 +225,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
             sno += 1;
             this.stackOpeningData.push({
               SlNo: sno,
+              RowId: i.RowId,
               ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
               StackDate: i.ObStackDate,
               CommodityName: i.CommodityName,
