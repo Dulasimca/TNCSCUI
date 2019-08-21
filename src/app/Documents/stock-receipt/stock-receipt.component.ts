@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 import { moment } from 'ngx-bootstrap/chronos/test/chain';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -122,6 +123,18 @@ export class StockReceiptComponent implements OnInit {
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
+  @ViewChild('tr') transactionPanel: Dropdown;
+  @ViewChild('m') monthPanel: Dropdown;
+  @ViewChild('y') yearPanel: Dropdown;
+  @ViewChild('dt') depositorTypePanel: Dropdown;
+  @ViewChild('dn') depositorNamePanel: Dropdown;
+  @ViewChild('sc') schemePanel: Dropdown;
+  @ViewChild('i_desc') commodityPanel: Dropdown;
+  @ViewChild('st_no') stackNoPanel: Dropdown;
+  @ViewChild('pt') packingPanel: Dropdown;
+  @ViewChild('wmt') weightmentPanel: Dropdown;
+  @ViewChild('vc') vehiclePanel: Dropdown;
+  @ViewChild('fc') freightPanel: Dropdown;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -149,7 +162,7 @@ export class StockReceiptComponent implements OnInit {
     }, 1200);
   }
 
-  onSelect(selectedItem) {
+  onSelect(selectedItem, type) {
     let transactoinSelection: any = [];
     let schemeSelection: any = [];
     let depositorNameList: any = [];
@@ -162,6 +175,9 @@ export class StockReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
+        if (type === 'enter') {
+          this.yearPanel.overlayVisible = true;
+        }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
@@ -176,6 +192,9 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
+        if (type === 'enter') {
+          this.monthPanel.overlayVisible = true;
+        }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -184,6 +203,9 @@ export class StockReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -199,6 +221,9 @@ export class StockReceiptComponent implements OnInit {
         })
         break;
       case 'sc':
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -211,6 +236,9 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dt':
+        if (type === 'enter') {
+          this.depositorTypePanel.overlayVisible = true;
+        }
         if (this.Trcode !== undefined && this.Trcode !== null) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null)
             || (this.trCode !== undefined && this.trCode !== null)) {
@@ -231,12 +259,15 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dn':
+        if (type === 'enter') {
+          this.depositorNamePanel.overlayVisible = true;
+        }
         if (this.Trcode !== undefined && this.Trcode !== null && this.DepositorType !== null && this.DepositorType !== undefined) {
           if ((this.DepositorType.value !== undefined && this.DepositorType.value !== null)
             || (this.depositorType !== null && this.depositorType !== undefined)) {
             const params = new HttpParams().set('TyCode', (this.DepositorType.value !== undefined) ?
-             this.DepositorType.value : this.depositorType).append('TRType', this.TransType).append('GCode', this.ReceivingCode)
-             .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              this.DepositorType.value : this.depositorType).append('TRType', this.TransType).append('GCode', this.ReceivingCode)
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(dn => {
@@ -252,7 +283,10 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        if (this.Scheme !== undefined && this.Scheme !== null) {
+        if (type === 'enter') {
+          this.commodityPanel.overlayVisible = true;
+        }
+         if (this.Scheme !== undefined && this.Scheme !== null) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
             || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -272,6 +306,9 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
+        if (type === 'enter') {
+          this.stackNoPanel.overlayVisible = true;
+        } 
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
@@ -292,6 +329,9 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'pt':
         // if (this.packingTypeOptions === undefined) {
+        if (type === 'enter') {
+          this.packingPanel.overlayVisible = true;
+        } 
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -307,7 +347,10 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
-        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        if (type === 'enter') {
+          this.weightmentPanel.overlayVisible = true;
+        }
+         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
@@ -325,10 +368,10 @@ export class StockReceiptComponent implements OnInit {
     switch (id) {
       case 'tr':
         this.depositorNameOptions = this.depositorTypeOptions = [];
-        this.DepositorCode = null; this.DepositorType = null; 
+        this.DepositorCode = null; this.DepositorType = null;
         this.depositorCode = null; this.depositorType = null;
         break;
-        case 'dt':
+      case 'dt':
         this.depositorNameOptions = [];
         this.DepositorCode = null; this.depositorCode = null;
         break;
@@ -336,7 +379,7 @@ export class StockReceiptComponent implements OnInit {
         this.itemDescOptions = []; this.stackOptions = [];
         this.iCode = null; this.ICode = null; this.TStockNo = null;
         break;
-        case 'i_desc':
+      case 'i_desc':
         this.stackOptions = [];
         this.TStockNo = null;
         break;
@@ -364,7 +407,7 @@ export class StockReceiptComponent implements OnInit {
       this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
     }
     this.StackBalance = ((this.StackBalance * 1) > (this.NKgs * 1)) ?
-     ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
+      ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
   }
@@ -626,7 +669,7 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.OrderNo = null; this.selectedValues = null; this.Trcode = null;
+    this.OrderNo = null; this.selectedValues = ['Road']; this.Trcode = null;
     this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = null;
     this.LNo = null; this.LFrom = null; this.ManualDocNo = null; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;

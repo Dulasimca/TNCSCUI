@@ -7,6 +7,7 @@
         <div class="ui-g-4 dashboard">Employee Master</div>
       </div>
     </p-header>
+<<<<<<< HEAD
     <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
     <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
     <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
@@ -88,6 +89,52 @@
             </tr>
           </ng-template>
         </p-table>
+=======
+    <p-toast position="top-center" key="t-err"></p-toast>
+    <div class="employee-main">
+      <div>
+        <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="eepfNo" size="30" pInputText [(ngModel)]="formUser.eepfNo" name="eepfNo" #eepfNo="ngModel" autocomplete="off"
+              required>
+            <label for="eepfNo">Eepf No</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="designation" size="30" pInputText [(ngModel)]="formUser.designation" name="designation" #designation="ngModel"
+              autocomplete="off" required>
+            <label for="designation">Designation</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="empName" size="30" pInputText [(ngModel)]="formUser.empName" name="empName" #empName="ngModel"
+              autocomplete="off" required>
+            <label for="empName">Employee Name</label>
+          </div>
+          <div class="ui-float-label" style="margin-bottom: 20px">
+            <input class="icon2" type="refNo" size="30" pInputText [(ngModel)]="formUser.refNo" name="refNo" #refNo="ngModel" autocomplete="off"
+              required>
+            <label for="refNo">Reference No</label>
+          </div>
+          <div style="padding: 0px 15px 10px 16px;">
+            <label class="ui-g-7 label-fontsize dashboard">Reference Date</label>
+            <p-calendar [(ngModel)]="RefDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          </div>
+          <div style="padding: 0px 15px 10px 16px;">
+            <label class="ui-g-7 label-fontsize dashboard">J or R Date</label>
+            <p-calendar [(ngModel)]="JRDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+          </div>
+          <div>
+            <span style="padding: 0px 0px 0px 40px;">
+        <p-radioButton name="group1" value="Option 1" label="Join" [(ngModel)]="join"></p-radioButton>
+          </span>
+            <span style="padding: 0px 0px 0px 40px;" >
+        <p-radioButton name="group1" value="Option 2" label="Relieve" [(ngModel)]="relieve"></p-radioButton>
+        </span>
+          </div>
+          <div class="bottom" style="padding-left: 85px">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)" label=Submit [disabled]="!templateForm.form.valid"></button>
+          </div>
+        </form>
+>>>>>>> d3388f4c7c86dd8ec71340d3e897204362ef01cb
       </div>
     </div>
   </p-panel>

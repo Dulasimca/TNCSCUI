@@ -41,16 +41,15 @@ export class RestAPIService {
    return this.httpClient.put(this.BASEURL + url, obj);
   }
   handleError(error) {
-    let errorMessage = 'err occurred';
+    let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-      console.log(errorMessage);
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Get server-side error
+      // server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      console.log(errorMessage);
     }
+    window.alert(errorMessage);
     return throwError(errorMessage);
   }
 

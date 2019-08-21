@@ -13,18 +13,22 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-commodity-receipt',
   templateUrl: './commodity-receipt.component.html',
-  styleUrls: ['./commodity-receipt.component.css']
+  styleUrls: ['./commodity-receipt.component.css'],
 })
 export class CommodityReceiptComponent implements OnInit {
   commodityReceiptCols: any;
-  commodityReceiptData: any;
+  commodityReceiptData: any = [];
+  loadedData: any = [];
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
   data: any;
-  g_cd: any;
-  c_cd: any;
-  tr_cd: any;
+  regions: any;
+  RCode: any;
+  GCode: any;
+  ITCode: any;
+  TrCode: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   transactionOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -32,6 +36,7 @@ export class CommodityReceiptComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  roleId: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -39,16 +44,53 @@ export class CommodityReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    let commoditySelection = [];
+    if (this.commodityOptions === undefined) {
+      this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+        if (data !== undefined) {
+          data.forEach(y => {
+            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+            this.commodityOptions = commoditySelection;
+          });
+        }
+      })
+    }
   }
 
   onSelect(item) {
+    let regionSelection = [];
     let godownSelection = [];
     let transactionSelection = [];
-    let commoditySelection = [];
     switch (item) {
+      case 'reg':
+          if(this.roleId === 3) {
+            this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+          });
+          for (let i = 0; i < regionSelection.length - 1;) {
+            if(regionSelection[i].value === regionSelection[i+1].value) {
+              regionSelection.splice(i+1, 1);
+            }
+          }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.data = this.roleBasedService.regionsData;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
       case 'gd':
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
@@ -56,7 +98,10 @@ export class CommodityReceiptComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+          if (this.roleId !== '3') {
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
+      }
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -70,31 +115,22 @@ export class CommodityReceiptComponent implements OnInit {
           })
         }
         break;
-      case 'cd':
-        if (this.commodityOptions === undefined) {
-          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                this.commodityOptions = commoditySelection;
-              });
-            }
-          })
-        }
-        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
+    this.ITCode = null;
     this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
-      'TRCode': this.tr_cd.value,
+      'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
+      'TRCode': this.TrCode.value,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
+      this.loadedData = res;
       this.commodityReceiptData = res;
       let sno = 0;
       this.commodityReceiptData.forEach(data => {
@@ -113,14 +149,28 @@ export class CommodityReceiptComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.router.navigate(['pageNotFound']);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
       }
     })
   }
+
+  filterCommodity(event) {
+    let selectedItem = event.value;
+    if(selectedItem !== undefined && selectedItem !== null) {
+    this.commodityReceiptData = this.commodityReceiptData.filter(f => {
+      return f.Commodity === selectedItem.label;
+    })
+  } else {
+    this.commodityReceiptData = this.loadedData;
+  }
+    
+  }
+
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable();
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();

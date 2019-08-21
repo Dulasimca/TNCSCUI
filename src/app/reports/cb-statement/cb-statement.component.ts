@@ -12,10 +12,24 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cb-statement',
   templateUrl: './cb-statement.component.html',
+  styles: [`
+  :host ::ng-deep .ui-table .ui-table-thead > tr > th {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0px;
+  }
+
+  @media screen and (max-width: 64em) {
+      :host ::ng-deep .ui-table .ui-table-thead > tr > th {
+          top: 100px;
+      }
+  }
+`],
   styleUrls: ['./cb-statement.component.css']
 })
 export class CBStatementComponent implements OnInit {
@@ -32,7 +46,7 @@ export class CBStatementComponent implements OnInit {
   record: any;
   items: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService,
+  constructor(private restApiService: RestAPIService, private authService: AuthService,private messageService: MessageService,
     private tableConstants: TableConstants, private router: Router, private excelService: ExcelService) { }
 
   ngOnInit() {
@@ -181,7 +195,7 @@ export class CBStatementComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.router.navigate(['pageNotFound']);
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });        
       }
     })
   }

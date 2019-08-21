@@ -104,13 +104,14 @@ export class DailyDocumentIssueComponent implements OnInit {
         this.isActionDisabled = false;
       } else {
         this.loading = false;
-        this.messageService.add({ key: 't-date', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
       this.DailyDocumentIssueData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
       }
     });
   }
