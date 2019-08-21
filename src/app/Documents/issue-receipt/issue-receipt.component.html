@@ -213,7 +213,7 @@
                 <label class="label-fontsize">Item Description</label>
                 <p-dropdown #i_desc name="Commodity" id="float-input" [options]="itemDescOptions" [(ngModel)]="ICode"
                   (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
-                  (onChange)="refreshSelect('rt')" filter="true" optionLabel="label" [showClear]="true">
+                  (onChange)="refreshSelect('i_desc')" filter="true" optionLabel="label" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                   </ng-template>

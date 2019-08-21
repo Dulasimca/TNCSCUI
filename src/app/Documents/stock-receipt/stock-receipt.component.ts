@@ -669,7 +669,7 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.OrderNo = null; this.selectedValues = null; this.Trcode = null;
+    this.OrderNo = null; this.selectedValues = ['Road']; this.Trcode = null;
     this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = null;
     this.LNo = null; this.LFrom = null; this.ManualDocNo = null; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;

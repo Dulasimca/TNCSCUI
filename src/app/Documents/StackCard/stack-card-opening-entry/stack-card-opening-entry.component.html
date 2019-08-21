@@ -34,7 +34,7 @@
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
             <p-dropdown [options]="commodityOptions" [(ngModel)]="ICode" (keydown.enter)="onSelect('cd')"
              (onChange)="onSelect('cd')" filter="true"
-              optionLabel="label" name="CommodityName" [readonly]="nonEditable" required>
+              optionLabel="label" name="CommodityName" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>

@@ -23,6 +23,7 @@ export class CommodityReceiptComponent implements OnInit {
   toDate: any;
   isActionDisabled: any;
   data: any;
+  regions: any;
   RCode: any;
   GCode: any;
   ITCode: any;
@@ -35,6 +36,7 @@ export class CommodityReceiptComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  roleId: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -42,8 +44,10 @@ export class CommodityReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isActionDisabled = true;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     let commoditySelection = [];
     if (this.commodityOptions === undefined) {
@@ -64,12 +68,27 @@ export class CommodityReceiptComponent implements OnInit {
     let transactionSelection = [];
     switch (item) {
       case 'reg':
-        this.data = this.roleBasedService.instance;
+          if(this.roleId === 3) {
+            this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            this.regionOptions = regionSelection;
           });
+          for (let i = 0; i < regionSelection.length - 1;) {
+            if(regionSelection[i].value === regionSelection[i+1].value) {
+              regionSelection.splice(i+1, 1);
+            }
+          }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.data = this.roleBasedService.regionsData;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
         }
         break;
       case 'gd':
@@ -79,8 +98,10 @@ export class CommodityReceiptComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
+          if (this.roleId !== '3') {
           this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
+      }
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -105,6 +126,7 @@ export class CommodityReceiptComponent implements OnInit {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
       'TRCode': this.TrCode.value,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {

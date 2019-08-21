@@ -26,7 +26,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Location: string;
   Formation: string;
   StackNo: string;
-  Date: Date = new Date();
+  Date: any = new Date();
   GCode: any;
   ICode: any;
   CurYear: any;
@@ -193,7 +193,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (this.selectedRow.Flag1 === 'R') {
       this.nonEditable = true;
       this.RowId = this.selectedRow.RowId;
-      this.Date = new Date(this.datepipe.transform(this.selectedRow.ObStackDate, 'dd/MM/yyyy'));
+      this.Date = new Date(this.selectedRow.StackDate);
       this.StackNo = this.selectedRow.StackNo.toUpperCase();
       let index;
       index = this.StackNo.toString().indexOf('/', 1);
@@ -204,8 +204,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
       const locNo = nextValue.toString().slice(0, nextIndex);
       this.Location = trimmedValue + locNo;
       this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
-      this.Bags = this.selectedRow.StackBalanceBags;
-      this.Weights = this.selectedRow.StackBalanceWeight;
+      this.Bags = (this.selectedRow.StackBalanceBags * 1);
+      this.Weights = (this.selectedRow.StackBalanceWeight * 1); 
     } else {
       this.onClear();
       this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed  already!' });
@@ -220,18 +220,28 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
         if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
           this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
-          this.stackOpeningData = res.Table;
+          let sno = 0;
+          res.Table.forEach(i => {
+            sno += 1;
+            this.stackOpeningData.push({
+              SlNo: sno,
+              ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
+              StackDate: i.ObStackDate,
+              CommodityName: i.CommodityName,
+              StackNo: i.StackNo,
+              StackBalanceBags: (i.StackBalanceBags * 1),
+              StackBalanceWeight: (i.StackBalanceWeight * 1),
+              CurYear: i.CurYear,
+              Flag1: i.Flag1
+            })
+          });
           if (res.Table1 !== undefined && res.Table1 !== null) {
             res.Table1.forEach(cy => {
               this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
             })
           }
-          let sno = 0;
-          this.stackOpeningData.forEach(x => {
-            sno += 1;
-            x.SlNo = sno;
-            x.ObStackDate = this.datepipe.transform(x.ObStackDate, 'dd-MM-yyyy');
-          });
+          // this.stackOpeningData.forEach(x => {
+          // });
           this.Opening_Balance = this.stackOpeningData.slice(0);
         } else {
           this.openView = false;

@@ -1,0 +1,32 @@
+|----------------------------------------------------------------------------------------------------------|
+|                                                                                                          |
+|                                                                                                          |
+|                                       TAMILNADU CIVIL SUPPLIES CORPORATION                               |
+|                                           REGION :  CHENNAI (SOUTH)                                      |
+|                                                                                                          |
+|                                                                                                          |
+|                                      STOCK ISSUE TRUCK MEMO                                              |
+|----------------------------------------------------------------------------------------------------------|
+|TRUCK MEMO NO:T001900559            ALLOTMENT/RELEASE ORDER: 111          MOVE. ORDER NO: 12              | 
+|              DATE:21-Aug-2019                              TIME:                   DATE:21-Aug-2019      | 
+|ISSUING GODOWN   :GOPALAPURAM                    RECEIVER NAME: VEDAPALAYAM                               | 
+|----------------------------------------------------------------------------------------------------------|
+||--------------------------------------------------------------------------------------------------------||
+||SNo |STACK NO   |COMMODITY           | SCHEME       |UNIT WEIGHT  |NO.OF |  Gross        NET   |% OF    ||
+||    |           |                    |              |             |  UNIT|   WEIGHT in Kgs/NOs |MOISTURE||
+||--------------------------------------------------------------------------------------------------------||
+||1   |A/19/003   |RAW RICE COMMON     |AAN           |100KGGUNNY   |    10|      1000|      1000|   12.00|| 
+|----------------------------------------------------------------------------------------------------------|
+|LORRY NO: -                       TC NAME   : TR004                                                       | 
+|MODE OF WEIGHMENT : 0                                                                                     | 
+|FROM RAIL HEAD: -                 WAGON NO  : -                     RR NO:-                               | 
+|                                                                                                          |
+|The above stocks were weighed in our presence Received in Good Conditions and taken into account          |
+|                                                                                                          |
+|                                                                       NAME OF TC                         |
+|                                                                                                          |
+|GODOWN INCHARGE                                                        SIGNATURE OF THE TC REPRESENTATIVE |
+|REMARKS                                                                                                   |
+|                                                                                                          |
+|----------------------------------------------------------------------------------------------------------|
+
