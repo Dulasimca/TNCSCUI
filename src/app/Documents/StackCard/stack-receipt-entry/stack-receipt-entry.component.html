@@ -9,9 +9,8 @@
     </p-header>
     <div class="ui-g ui-fluid">
       <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
-      <div class="ui-g-12">
-        <div class="ui-g-1"></div>
-
+      <div class="ui-g-12 dashboard">
+        <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-6 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Receipt Date</label>
           <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
@@ -21,19 +20,24 @@
           <label class="ui-g-7 label-fontsize dashboard">Receipt No</label>
           <input type="number" size="20" [(ngModel)]="ReceiptNo" maxlength="20" pInputText autocomplete="off">
         </div>
-        <div class="ui-g-1 ui-fluid" style="padding-top: 24px">
+        <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
           <button pButton type="button" label=OK (click)="onEnter()" [disabled]="isViewDisabled"></button>
         </div>
+        <div class="ui-g-12 ui-md-4"></div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-12 ui-md-6">
           <span class="ui-float-label">
-            <textarea rows="3" cols="85" pInputTextarea></textarea>
+            <textarea rows="3" cols="91" pInputTextarea></textarea>
             <label class="float-input">Details</label>
           </span>
         </div>
+        <div class="ui-g-12 ui-md-3"></div>
       </div>
       <div class="cardBox">
-      <div class="ui-g-12">
-          <div class="ui-g-2"></div>
+        <div class="ui-g-12">
+          <div class="ui-g-3"></div>
           <div class="ui-g-3 ui-md-1">
             <label class="ui-g-12 label-fontsize dashboard">CA/DD/CH</label>
             <input type="text" size="20" [(ngModel)]="CheDd" maxlength="20" pInputText autocomplete="off">
@@ -52,23 +56,27 @@
             <p-checkbox name="group1" value="society" label="Select Society" [(ngModel)]="selectedCities" inputId="ny">
             </p-checkbox>
           </div>
-      </div>
-          <div class="ui-g-12 ui-md-4">
-            <label class="ui-g-7 label-fontsize dashboard">Bank</label>
-            <input type="text" size="20" [(ngModel)]="Bank" maxlength="20" pInputText autocomplete="off">
-          </div>
-          <div class="ui-g-12 ui-md-4">
-            <label class="ui-g-7 label-fontsize dashboard">Received from</label>
-            <input type="text" size="20" [(ngModel)]="RecdFrom" maxlength="20" pInputText autocomplete="off">
-          </div>
-          <div class="ui-g-12 ui-md-2">
-            <label class="ui-g-12 label-fontsize dashboard">CA/CH/DD Amt</label>
-            <input type="number" size="20" [(ngModel)]="CheAmount" maxlength="20" pInputText autocomplete="off">
-          </div>
-          <div class="ui-g-1 ui-fluid" style="padding-top: 24px">
-            <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="isViewDisabled"></button>
-          </div>
         </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-4">
+          <label class="ui-g-7 label-fontsize dashboard">Bank</label>
+          <input type="text" size="20" [(ngModel)]="Bank" maxlength="20" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <label class="ui-g-7 label-fontsize dashboard">Received from</label>
+          <input type="text" size="20" [(ngModel)]="RecdFrom" maxlength="20" pInputText autocomplete="off">
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-12 label-fontsize dashboard">CA/CH/DD Amt</label>
+          <input type="number" size="20" [(ngModel)]="CheAmount" maxlength="20" pInputText autocomplete="off">
+        </div>
+        <!-- <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-5"></div> -->
+        <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
+          <button pButton type="button" label=Enter (click)="onView()" [disabled]="isViewDisabled"></button>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-5"></div> -->
+      </div>
       <div class="ui-g-12">
         <p-table [columns]="stackReceiptCols" [value]="stackReceiptData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">

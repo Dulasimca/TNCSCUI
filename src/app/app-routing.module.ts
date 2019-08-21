@@ -170,6 +170,7 @@ const routes: Routes = [
   { path: 'Other Master', component: OtherMasterComponent },
   { path: 'Cnc Correction', component: CncCorrectionComponent },
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
+  { path: 'DD Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

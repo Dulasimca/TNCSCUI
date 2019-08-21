@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-stack-receipt-entry',
@@ -13,11 +16,12 @@ export class StackReceiptEntryComponent implements OnInit {
   isViewDisabled: boolean;
   canShowMenu: boolean;
 
-  constructor(private tableConstants: TableConstants, private authService : AuthService) { }
+  constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stackReceiptCols = this.tableConstants.StackReceiptEntryReport;
   }
 
+ 
 }
