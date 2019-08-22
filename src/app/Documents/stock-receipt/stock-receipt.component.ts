@@ -476,14 +476,15 @@ export class StockReceiptComponent implements OnInit {
     let stack_data = event.value;
     const params = {
       TStockNo: stack_data.value,
-      StackDate: stack_data.stack_date,
+      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.ReceivingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1);
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
       }
     })
   }
@@ -576,6 +577,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onView() {
+    this.messageService.clear();
     this.viewPane = true;
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.ReceivingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -597,6 +599,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   getDocBySRNo() {
+    this.messageService.clear();
     this.viewPane = false;
     this.itemData = [];
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
@@ -656,9 +659,13 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    if(this.isSaveSucceed) {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
     saveAs(path + filename, filename);
+    } else {
+
+    }
     this.isSaveSucceed = false;
   }
 

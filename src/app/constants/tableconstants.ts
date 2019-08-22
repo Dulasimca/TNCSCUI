@@ -201,7 +201,7 @@ export class TableConstants {
     this.DeliveryItemColumns = [
       { field: 'ITDescription', header: 'IT Description' },
       { field: 'NetWeight', header: 'Net Weight' },
-      { field: 'UnitMeasure', header: 'Unit Measure' },
+      { field: 'Wtype', header: 'Unit Measure' },
       { field: 'SchemeName', header: 'Scheme' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Total', header: 'Total' },
@@ -211,26 +211,26 @@ export class TableConstants {
       { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'ITDescription', header: 'Item Name' },
       { field: 'MarginNkgs', header: 'Net Weight' },
-      { field: 'RateInTerms', header: 'Rate In Terms' },
+      { field: 'MarginWtype', header: 'Rate In Terms' },
       { field: 'MarginRate', header: 'Margin Rate' },
       { field: 'MarginAmount', header: 'Margin Amount' },
     ];
 
     this.DeliveryPaymentcolumns = [
       { field: 'PaymentMode', header: 'Payment Mode' },
-      { field: 'ChequeNo', header: 'CH/DD/PayOrder No' },
-      { field: 'ChDate', header: 'CH/DD/PayOrder Date' },
-      { field: 'PaymentAmount', header: 'Payment Amount' },
+      { field: 'ChequeNo', header: 'CH/DD/PO No' },
+      { field: 'ChDate', header: 'CH/DD/PO Date' },
+      { field: 'PaymentAmount', header: 'Payment Amt' },
       { field: 'payableat', header: 'Payable At' },
       { field: 'bank', header: 'Bank' },
     ]
 
     this.DeliveryPaymentBalanceCols = [
-      { field: 'AdjustedDoNo', header: 'Previous Delivery Order' },
-      { field: 'AdjustDate', header: 'Delivery Order Date' },
-      { field: 'Amount', header: 'Adjustment Amount' },
-      { field: 'AdjustmentType', header: 'Adjustment Type' },
-      { field: 'AmountNowAdjusted', header: 'Amount Now Adjusted' },
+      { field: 'AdjustedDoNo', header: 'Previous DO' },
+      { field: 'AdjustDate', header: 'DO Date' },
+      { field: 'Amount', header: 'Adj. Amt' },
+      { field: 'AdjustmentType', header: 'Adj. Type' },
+      { field: 'AmountNowAdjusted', header: 'Amt. Now Adj' },
       { field: 'Balance', header: 'Balance' }
     ];
 

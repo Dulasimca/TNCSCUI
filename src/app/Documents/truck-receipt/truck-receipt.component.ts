@@ -92,7 +92,7 @@ export class TruckReceiptComponent implements OnInit {
   WTCode: any;
   wtCode: any;
   Moisture: string;
-  StackBalance: number = 0;
+  StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
   TransporterName: string = '-';
@@ -589,14 +589,15 @@ export class TruckReceiptComponent implements OnInit {
     let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
       TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
-      StackDate: stack_data.stack_date,
+      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.GCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1);
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
       if (this.StackBalance > 0) {
         this.isValidStackBalance = false;
         this.CurrentDocQtv = this.NetStackBalance = 0;

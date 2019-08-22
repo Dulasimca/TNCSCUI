@@ -384,14 +384,15 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="payAt" type="text" id="float-input" [(ngModel)]="PayableAt" pInputText
-                          autocomplete="off">
+                        style="text-transform: uppercase !important" autocomplete="off">
                         <label for="payAt" class="float-input" style="padding-top: 10px;">Payable At</label>
                       </span>
                     </div>
                     <div class="ui-g-12 dashboard">
                       <div class="ui-g-6 ui-md-4">
                         <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                          <input name="onBank" id="float-input" [(ngModel)]="OnBank" pInputText autocomplete="off">
+                          <input name="onBank" id="float-input" [(ngModel)]="OnBank"
+                          style="text-transform: uppercase !important" pInputText autocomplete="off">
                           <label for="onBank" class="float-input" style="padding-top: 10px;">On bank</label>
                         </span>
                       </div>
@@ -401,6 +402,7 @@
                             [disabled]="(!PayableAt || !OnBank || !PAmount || !Payment || !ChequeDate || !ChequeNo)"
                             (click)="onEnter('Payment')"></button></div>
                       </div>
+                     <!-- <div class="dashboard" style="border: .7px solid #18c5a9"> -->
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
                               <input name="dueAmnt" id="float-input" [(ngModel)]="DueAmount" [readonly]="true" pInputText autocomplete="off">
@@ -422,8 +424,10 @@
                             </span>
                       </div>
                     </div>
+                  <!-- </div> -->
                   </div>
-                  <div class="ui-g-12 ui-md-12 ui-fluid  no-pad-top no-left-pad">
+                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <div class="ui-g-12 ui-md-12 ui-fluid no-left-pad">
                     <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"
                       scrollHeight="150px">
                       <ng-template pTemplate="colgroup" let-columns>
@@ -447,7 +451,8 @@
                       </ng-template>
                     </p-table>
                   </div>
-                  <div class="ui-g-12 ui-md-12 dashboard">
+                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
                       (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !PName)" 
@@ -483,7 +488,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="ui-g-12 ui-md-12 dashboard">
+                  <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-4 ui-md-1">
                       <p-radioButton name="groupname" label="Credit" value="Credit" [(ngModel)]="AdjustmentType" (onClick)="onCalculateBalance()">
                       </p-radioButton>
@@ -506,8 +511,9 @@
                               Debit</b></label>
                         </div> 
                   </div>
+                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
                   <!-- </div> -->
-                  <div class="ui-g-12 ui-fluid no-left-pad no-pad-top">
+                  <div class="ui-g-12 ui-fluid no-left-pad">
                     <p-table [columns]="paymentBalCols" [value]="paymentBalData" [responsive]="true" [scrollable]="true"
                       scrollHeight="150px">
                       <ng-template pTemplate="colgroup" let-columns>

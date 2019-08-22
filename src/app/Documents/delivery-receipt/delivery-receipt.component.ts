@@ -421,6 +421,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   checkPayment() {
+    this.messageService.clear();
     const params = {
       Type: 1,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -499,10 +500,9 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Item':
         this.itemData.push({
           ITDescription: (this.ICode.label !== undefined && this.ICode.label !== null) ? this.ICode.label : this.ICode,
-          UnitMeasure: (this.RateTerm.label !== undefined && this.RateTerm.label !== null) ? this.RateTerm.label : this.RateTerm,
           SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
           Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-          NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, RCode: this.RCode,
+          NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, Rcode: this.RCode,
           Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm,
           Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
         });
@@ -518,14 +518,12 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'MarginItem':
         this.itemSchemeData.push({
           ITDescription: (this.MICode.label !== undefined && this.MICode.label !== null) ? this.MICode.label : this.MICode,
-          RateInTerms: (this.MarginRateInTerms.label !== undefined && this.MarginRateInTerms.label !== null)
-            ? this.MarginRateInTerms.label : this.MarginRateInTerms,
           SchemeName: (this.MarginScheme.label !== undefined && this.MarginScheme.label !== null)
             ? this.MarginScheme.label : this.MarginScheme,
           ItemCode: (this.MICode.value !== undefined && this.MICode.value !== null)
             ? this.MICode.value : this.miCode,
           MarginRate: this.MarginRate, MarginAmount: this.MarginAmount,
-          RCode: this.RCode, MarginNkgs: this.MarginNKgs,
+          Rcode: this.RCode, MarginNkgs: this.MarginNKgs,
           MarginWtype: (this.MarginRateInTerms.value !== undefined && this.MarginRateInTerms.value !== null)
             ? this.MarginRateInTerms.value : this.MarginRateInTerms,
           SchemeCode: (this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
@@ -545,8 +543,8 @@ export class DeliveryReceiptComponent implements OnInit {
           PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
           ChDate: this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
           ChequeDate: this.ChequeDate,
-          RCode: this.RCode,
-          PaymentAmount: this.PAmount,
+          Rcode: this.RCode,
+          PaymentAmount: (this.PAmount * 1).toFixed(2),
           payableat: this.PayableAt,
           bank: this.OnBank
         })
@@ -555,10 +553,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.PaidAmount += (this.PAmount * 1);
           this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-            ((this.DueAmount > this.PaidAmount) ? ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) :
-              (this.paymentData = this.paymentData.splice(lastIndex, 1), this.BalanceAmount = null,
-                this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No due is pending!' })
-              )) : 0;
+          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.ChequeDate = new Date();
           this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
           this.paymentOptions = [];
@@ -569,8 +564,11 @@ export class DeliveryReceiptComponent implements OnInit {
           AdjustedDoNo: this.PrevOrderNo,
           AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
           AdjustedDate: this.PrevOrderDate,
-          Amount: this.AdjusmentAmount, AdjustmentType: this.AdjustmentType, RCode: this.RCode,
-          AmountNowAdjusted: this.OtherAmount, Balance: this.Balance
+          Amount: (this.AdjusmentAmount * 1).toFixed(2),
+          AdjustmentType: this.AdjustmentType,
+          Rcode: this.RCode,
+          AmountNowAdjusted: (this.OtherAmount * 1).toFixed(2),
+          Balance: (this.Balance * 1).toFixed(2)
         });
         if (this.paymentBalData.length !== 0) {
           this.PrevOrderDate = new Date();
@@ -632,6 +630,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   getPreviousBalance() {
+    this.messageService.clear();
     const params = {
       Type: 2,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -754,7 +753,7 @@ export class DeliveryReceiptComponent implements OnInit {
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
             ChDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
-            ChequeDate: i.ChDate,
+       //     ChequeDate: i.ChDate,
             PaymentAmount: i.PaymentAmount,
             payableat: i.payableat,
             bank: i.bank,
@@ -773,7 +772,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.paymentBalData.push({
             AdjustedDoNo: i.AdjustedDoNo,
             AdjustDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
-            AdjustedDate: i.AdjustDate,
+           // AdjustedDate: i.AdjustDate,
             Amount: i.Amount,
             AdjustmentType: i.AdjustmentType,
             AmountNowAdjusted: i.AmountNowAdjusted,
@@ -786,6 +785,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onSave() {
+    this.messageService.clear();
     this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
       ? this.PMonth.value : this.curMonth);
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
@@ -829,7 +829,7 @@ export class DeliveryReceiptComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please Contact Administrator!' });
       }
     });
   }

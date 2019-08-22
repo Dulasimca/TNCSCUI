@@ -435,14 +435,15 @@ export class IssueReceiptComponent implements OnInit {
     let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
       TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
-      StackDate: stack_data.stack_date,
+      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.IssuingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1);
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
         if (this.StackBalance > 0) {
           this.isValidStackBalance = false;
           this.CurrentDocQtv = this.NetStackBalance = 0;
@@ -487,6 +488,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onItemDetailsEnter() {
+    this.messageService.clear();
     this.itemData.push({
       TStockNo: (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
@@ -516,6 +518,7 @@ export class IssueReceiptComponent implements OnInit {
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
+        this.messageService.clear();
         this.itemData = this.itemData.splice(lastIndex, 1);
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
@@ -663,6 +666,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   getDocBySINo() {
+    this.messageService.clear();
     this.viewPane = false;
     this.itemData = []; this.issueData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
