@@ -483,7 +483,8 @@ export class StockReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1);
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
       }
     })
   }

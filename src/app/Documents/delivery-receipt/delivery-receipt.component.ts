@@ -555,10 +555,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.PaidAmount += (this.PAmount * 1);
           this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-            ((this.DueAmount > this.PaidAmount) ? ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) :
-              (this.paymentData = this.paymentData.splice(lastIndex, 1), this.BalanceAmount = null,
-                this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'No due is pending!' })
-              )) : 0;
+          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.ChequeDate = new Date();
           this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
           this.paymentOptions = [];
