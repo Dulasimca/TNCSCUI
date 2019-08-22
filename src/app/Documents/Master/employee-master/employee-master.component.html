@@ -11,12 +11,13 @@
     <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
     <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
     <div class="ui-g">
+        
       <div class="employee-main">
         <div>
           <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
             <div class="ui-float-label" style="margin-bottom: 20px">
-              <input class="icon2" type="Empno" size="30" pInputText [(ngModel)]="formUser.Empno" name="Empno"
-                #Empno="ngModel" autocomplete="off" required>
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="formUser.Empno" name="Empno"
+                #Empno="ngModel" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" required>
               <label for="Empno">EEPF Number</label>
             </div>
             <div class="ui-float-label" style="margin-bottom: 20px">
@@ -24,11 +25,21 @@
                 #EmpName="ngModel" autocomplete="off" required>
               <label for="EmpName">Employee Name</label>
             </div>
-            <div class="ui-float-label" style="margin-bottom: 20px">
+            <!-- <div class="ui-float-label" style="margin-bottom: 20px">
               <input class="icon2" type="Designation" size="30" pInputText [(ngModel)]="formUser.Designation"
                 name="Designation" #Designation="ngModel" autocomplete="off" required>
               <label for="Designation">Designation</label>
-            </div>
+            </div> -->
+            <div class="ui-g" style="margin-bottom: 20px">
+                <label class="ui-g-6 label-fontsize-large">Depositor</label>
+                <p-dropdown class="ui-g-12 ui-fluid" id="float-input" [options]="depositorOptions" [(ngModel)]="d_cd"
+                  (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true"
+                  (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true" name="CommodityName" required>
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span style="vertical-align:middle">{{item.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
             <div class="ui-float-label" style="margin-bottom: 10px">
               <input class="icon2" type="Refno" size="30" pInputText [(ngModel)]="formUser.Refno" name="Refno"
                 #Refno="ngModel" autocomplete="off" required>
@@ -47,13 +58,13 @@
             </div>
             <!-- <div>
               <span style="padding: 0px 0px 0px 40px;">
-                <p-radioButton name="JRType" value="J" label="Join" [(ngModel)]="formUser.Join" binary="showTrue"></p-radioButton>
+                <p-radioButton name="JRType" value="J" label="Join" [(ngModel)]="Join" binary="showTrue"></p-radioButton>
               </span>
               <span style="padding: 0px 0px 0px 40px;">
-                <p-radioButton name="JRType" value="R" label="Relieve" [(ngModel)]="formUser.Relieve" binary="showTrue"></p-radioButton>
+                <p-radioButton name="JRType" value="R" label="Relieve" [(ngModel)]="Join" binary="showTrue"></p-radioButton>
               </span>
             </div> -->
-            <div>
+            <div> 
               <span style="padding: 0px 5px 0px 46px;">
                 <p-checkbox name="JRType" [(ngModel)]="Join" value="J" label="Join" binary="showTrue"></p-checkbox>
               </span>
@@ -66,11 +77,14 @@
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
                 label=Submit [disabled]="(!templateForm.form.valid)"></button>
             </div>
+            <div>
+              <button class="ui-g-10 dashboard" pButton label=OK (click)="onView()"></button>
+            </div>
 
           </form>
         </div>
       </div>
-      <div class="ui-g-12" style="text-align: center">
+      <!-- <div class="ui-g-12" style="text-align: center">
         <p-table [columns]="EmployeeCols" [value]="EmployeeData" [responsive]="true" autoLayout="true"
           [loading]="loading" [totalRecords]="totalRecords">
           <ng-template pTemplate="header" let-columns>
@@ -88,7 +102,63 @@
             </tr>
           </ng-template>
         </p-table>
+      </div> -->
+
+      <!-- <p-dialog header="Opening Balance" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+        [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+         <div class="ui-g-12 ui-md-6">
+          <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
+          <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
+            (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true"
+            (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true" name="CommodityName" required>
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div> -->
+      <div class="ui-g-12 ui-fluid">
+        <p-table #table [columns]="EmployeeCols" [value]="EmployeeData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+          [paginator]="true" (onRowSelect)="onRowSelect($event)">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:80px">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
+      <div>
+        <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+          (click)="showSelectedData()"></button>
+      </div>
+      <!-- <div class="ui-g-4 ui-md-9"></div>
+        <div class="ui-g-4 ui-md-1 no-right-pad">
+          <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+            (click)="showSelectedData()"></button>
+        </div>
+        <div class="ui-g-4 ui-md-1">
+          <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!openingBalanceData" label=Excel
+            (click)="exportAsXLSX()"></button>
+        </div>
+        <div class="ui-g-4 ui-md-1 no-left-pad">
+          <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
+        </div>
+      </p-dialog> -->
+
     </div>
   </p-panel>
 </div>
