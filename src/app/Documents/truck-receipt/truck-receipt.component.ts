@@ -589,7 +589,7 @@ export class TruckReceiptComponent implements OnInit {
     let stack_data = (event.value !== undefined) ? event.value : event;
     const params = {
       TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
-      StackDate: stack_data.stack_date,
+      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.GCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
