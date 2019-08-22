@@ -81,5 +81,6 @@ export class PathConstants {
   public static readonly ISSUER_MASTER_GET = '/api/IssuerMaster/Get';
   public static readonly EMPLOYEE_MASTER_GET = '/api/EmployeeMaster/Get';
   public static readonly EMPLOYEE_MASTER_POST = '/api/EmployeeMaster/Post';
+  public static readonly SOCIETY_MASTER_ENTRY_GET = '/api/SocietyMasterEntry/Get';
 
 }
