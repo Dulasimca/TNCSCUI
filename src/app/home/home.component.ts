@@ -200,15 +200,23 @@ export class HomeComponent implements OnInit {
           series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
           { data: response[10], name: 'SUGAR', color: '#FFA824' }],
           plotOptions: {
-            line: {
+            bar: {
               dataLabels: {
                 enabled: true
-              },
-              enableMouseTracking: false
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
             }
           },
           chart: {
-            type: "line"
+            type: "column"
+          },
+          credits: {
+            enabled: false
           },
           xAxis: {
             categories: this.chartLabels
@@ -223,7 +231,7 @@ export class HomeComponent implements OnInit {
               style: {
                 overflow: 'justify'
               }
-            },
+            }
           },
           legend: {
             align: 'right',
@@ -234,9 +242,6 @@ export class HomeComponent implements OnInit {
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
-          },
-          credits: {
-            enabled: false
           },
         };
       }
@@ -358,15 +363,23 @@ export class HomeComponent implements OnInit {
           series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
           { data: response[10], name: 'SUGAR', color: '#FFA824' }],
           plotOptions: {
-            line: {
+            bar: {
               dataLabels: {
                 enabled: true
-              },
-              enableMouseTracking: false
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
             }
           },
           chart: {
-            type: "line"
+            type: "column"
+          },
+          credits: {
+            enabled: false
           },
           xAxis: {
             categories: this.chartLabels
@@ -376,12 +389,13 @@ export class HomeComponent implements OnInit {
               text: 'Total Quantity in Mts (thousands)',
               align: 'high'
             },
+
             stackLabels: {
               enabled: true,
               style: {
                 overflow: 'justify'
               }
-            },
+            }
           },
           legend: {
             align: 'right',
@@ -392,9 +406,6 @@ export class HomeComponent implements OnInit {
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
-          },
-          credits: {
-            enabled: false
           },
         };
       }
@@ -516,15 +527,23 @@ export class HomeComponent implements OnInit {
           series: [{ data: response[9], name: 'WHEAT', color: '#00ff00' },
           { data: response[10], name: 'SUGAR', color: '#FFA824' }],
           plotOptions: {
-            line: {
+            bar: {
               dataLabels: {
                 enabled: true
-              },
-              enableMouseTracking: false
+              }
+            },
+            series: {
+              stacking: 'normal',
+              pointWidth: '25',
+              pointPadding: 0,
+              borderWidth: 0
             }
           },
           chart: {
-            type: "line"
+            type: "column"
+          },
+          credits: {
+            enabled: false
           },
           xAxis: {
             categories: this.chartLabels
@@ -539,7 +558,7 @@ export class HomeComponent implements OnInit {
               style: {
                 overflow: 'justify'
               }
-            },
+            }
           },
           legend: {
             align: 'right',
@@ -550,9 +569,6 @@ export class HomeComponent implements OnInit {
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
-          },
-          credits: {
-            enabled: false
           },
         };
       }
