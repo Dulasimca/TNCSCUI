@@ -349,8 +349,8 @@
                 <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                   <div class="ui-g-12 no-pad-top no-left-pad" style="text-align: center;">
                     <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <p-dropdown #pay id="float-input" [options]="paymentOptions" [(ngModel)]="Payment"
+                        <label  class="label-fontsize" for="payment">Payment Mode</label>
+                        <p-dropdown #pay [options]="paymentOptions" [(ngModel)]="Payment"
                           (onClick)="onSelect('pay', 'click')" autoDisplayFirst="true" 
                           (keydown.enter)="onSelect('pay', 'enter')" filter="true" name="payment"
                           [showClear]="true">
@@ -358,8 +358,6 @@
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
                         </p-dropdown>
-                        <label for="payment" class="float-input" style="padding-top: 10px;">Payment Mode</label>
-                      </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
@@ -550,7 +548,7 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0' || paymentData.length=='0')" label=Save
+                [disabled]="(!f.valid  || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0')" label=Save
                 (click)="onSave()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">

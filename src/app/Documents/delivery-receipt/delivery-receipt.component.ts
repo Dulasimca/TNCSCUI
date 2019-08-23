@@ -108,6 +108,7 @@ export class DeliveryReceiptComponent implements OnInit {
   BalanceAmount: any = 0;
   MarginItem: string;
   curMonth: any;
+  checkTransactionType: boolean = true;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -201,6 +202,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.transactionOptions = transactoinSelection;
           this.transactionOptions.unshift({ 'label': '-select', 'value': null });
         }
+        this.checkTransactionType = ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode) ? true : false;
         break;
       case 'scheme':
           if (type === 'enter') {
@@ -374,6 +376,7 @@ export class DeliveryReceiptComponent implements OnInit {
           { label: 'Adjustment', value: 'Adjustment' }, { label: 'Cash', value: 'Cash' },
           { label: 'Cheque', value: 'Cheque' }, { label: 'Draft', value: 'Draft' }, { label: 'Ocr', value: 'Ocr' },
           { label: 'PayOrder', value: 'PayOrder' }];
+          this.paymentOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
   }
@@ -548,7 +551,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.ChequeDate = new Date();
-          this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
+          this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
+          this.OnBank = null; this.PAmount = 0;
           this.paymentOptions = [];
         }
         break;
@@ -565,7 +569,9 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         if (this.paymentBalData.length !== 0) {
           this.PrevOrderDate = new Date();
-          this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
+          this.PrevOrderNo = null;
+          this.AdjusmentAmount = 0; this.AdjustmentType = null;
+          this.Balance = 0; this.OtherAmount = 0;
         }
         break;
     }
