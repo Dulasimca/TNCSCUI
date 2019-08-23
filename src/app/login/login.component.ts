@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn() {
+    this.messageService.clear();
     if (this.loginForm.invalid) {
       this.messageService.add({severity:'error', summary:'Error!', detail:'Please enter a valid credentials!'});
       return;
