@@ -1,15 +1,16 @@
-import { Component, OnInit, ɵConsole, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -123,8 +124,8 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('pay') paymentPanel: Dropdown;
   
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private datepipe: DatePipe, private confirmationService: ConfirmationService) { }
+    private restAPIService: RestAPIService, private authService: AuthService,
+    private messageService: MessageService, private datepipe: DatePipe, private http: HttpClient) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -446,8 +447,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(2);
-        this.RateTerm = data.UnitMeasure;
-        this.rateInTermsOptions = [{ label: data.UnitMeasure, value: data.UnitMeasure }];
+        this.RateTerm = data.Wtype;
+        this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
@@ -459,8 +460,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MICode = data.ITDescription;
         this.miCode = data.ItemCode;
         this.marginItemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
-        this.MarginRateInTerms = data.RateInTerms;
-        this.marginRateInTermsOptions = [{ label: data.RateInTerms, value: data.RateInTerms }];
+        this.MarginRateInTerms = data.MarginWtype;
+        this.marginRateInTermsOptions = [{ label: data.MarginWtype, value: data.MarginWtype }];
         this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
         this.MarginRate = (data.MarginRate * 1).toFixed(2);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
@@ -668,7 +669,17 @@ export class DeliveryReceiptComponent implements OnInit {
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
-    saveAs(path + filename, filename);
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'landscape',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+      });
     this.isSaveSucceed = false;
   }
 
