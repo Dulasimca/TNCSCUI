@@ -14,7 +14,10 @@ export class RestAPIService {
   public HttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Access-Control-Allow-Origin': 'http://180.179.49.72:8084',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':'Content-Type',
+      'Access-Control-Allow-Methods' : 'Get,Post,Put,Delete,Options',
+      'Access-Control-Allow-Credentials' : 'true'
     })
   };
   querParams = new HttpParams();
