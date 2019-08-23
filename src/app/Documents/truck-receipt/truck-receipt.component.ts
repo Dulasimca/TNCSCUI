@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
+import * as jsPDF from 'jspdf';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({
@@ -135,7 +135,7 @@ export class TruckReceiptComponent implements OnInit {
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
-    private datepipe: DatePipe, private confirmationService: ConfirmationService,
+    private datepipe: DatePipe, private http: HttpClient,
     private messageService: MessageService) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
@@ -859,8 +859,18 @@ export class TruckReceiptComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
-    saveAs(path + filename, filename);
-    this.isSaveSucceed = false;
+    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'landscape',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+      });
+      this.isSaveSucceed = false;
   }
 }

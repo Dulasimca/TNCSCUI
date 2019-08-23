@@ -8,7 +8,6 @@ import { HttpParams, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 
@@ -789,6 +788,7 @@ export class IssueReceiptComponent implements OnInit {
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
       });
+      this.isSaveSucceed = false;
   }
 
 }

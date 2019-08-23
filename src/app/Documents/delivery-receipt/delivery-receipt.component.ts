@@ -8,7 +8,6 @@ import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http'
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 
@@ -668,7 +667,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    const filename = this.GCode + GolbalVariable.StockDORegFilename;
     let filepath = path + filename + ".txt";
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
@@ -811,6 +810,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
       'OrderPeriod': this.OrderPeriod,
       'ReceivorCode': (this.PName.value !== undefined) ? this.PName.value : this.pCode,
+      'ReceivorName': (this.PName.label !== undefined) ? this.PName.label : this.PName,
       'IssuerCode': this.GCode,
       'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'GrandTotal': this.GrandTotal,

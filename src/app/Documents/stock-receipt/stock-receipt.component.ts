@@ -4,13 +4,12 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -138,7 +137,7 @@ export class StockReceiptComponent implements OnInit {
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    private datepipe: DatePipe, private messageService: MessageService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -661,8 +660,18 @@ export class StockReceiptComponent implements OnInit {
   onPrint() {
     if(this.isSaveSucceed) {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
-    saveAs(path + filename, filename);
+    const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'landscape',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+      });
     } else {
 
     }
