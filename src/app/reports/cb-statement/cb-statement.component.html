@@ -20,7 +20,7 @@
     <div class="ui-g ui-md-12">
       <p-toast position="center" key="t-err"></p-toast>
       <p-table [value]="cbData" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" [responsive]="true" [loading]="loading">
+        [paginator]="true" [autoLayout]="true" [responsive]="true" [loading]="loading">
         <ng-template pTemplate="header" let-columns>
           <tr style="text-align: center;">
             <th *ngFor="let col of columns">
@@ -43,7 +43,7 @@
               </div>
               <div *ngIf="col.field === 'TNCSName'">
                 {{data[col.field]}}
-              </div>
+            </div>
             </td>
           </tr>
         </ng-template>
