@@ -219,7 +219,7 @@ export class TableConstants {
     this.DeliveryPaymentcolumns = [
       { field: 'PaymentMode', header: 'Payment Mode' },
       { field: 'ChequeNo', header: 'CH/DD/PO No' },
-      { field: 'ChDate', header: 'CH/DD/PO Date' },
+      { field: 'ChequeDate', header: 'CH/DD/PO Date' },
       { field: 'PaymentAmount', header: 'Payment Amt' },
       { field: 'payableat', header: 'Payable At' },
       { field: 'bank', header: 'Bank' },
@@ -227,7 +227,7 @@ export class TableConstants {
 
     this.DeliveryPaymentBalanceCols = [
       { field: 'AdjustedDoNo', header: 'Previous DO' },
-      { field: 'AdjustDate', header: 'DO Date' },
+      { field: 'AdjustedDate', header: 'DO Date' },
       { field: 'Amount', header: 'Adj. Amt' },
       { field: 'AdjustmentType', header: 'Adj. Type' },
       { field: 'AmountNowAdjusted', header: 'Amt. Now Adj' },

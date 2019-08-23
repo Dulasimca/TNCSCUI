@@ -122,6 +122,7 @@ export class StockReceiptComponent implements OnInit {
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
+  isViewed: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -520,7 +521,7 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
     this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     if (this.selectedValues.length !== 0) {
@@ -531,7 +532,7 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
-      'Type': 1,
+      'Type': type,
       'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
@@ -562,6 +563,7 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
+          this.isViewed = false;
           this.onClear();
           this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Receipt No:' + res.Item2 });
         } else {
@@ -600,6 +602,7 @@ export class StockReceiptComponent implements OnInit {
   getDocBySRNo() {
     this.messageService.clear();
     this.viewPane = false;
+    this.isViewed = true;
     this.itemData = [];
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -673,7 +676,20 @@ export class StockReceiptComponent implements OnInit {
         doc.save(filename + '.pdf');
       });
     } else {
-
+      this.onSave('2');
+      const path = "../../assets/Reports/" + this.username.user + "/";
+      const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
+      let filepath = path + filename + ".txt";
+      this.http.get(filepath, { responseType: 'text' })
+        .subscribe(data => {
+          var doc = new jsPDF({
+            orientation: 'landscape',
+          })
+          doc.setFont('courier');
+          doc.setFontSize(10);
+          doc.text(data, 2, 2)
+          doc.save(filename + '.pdf');
+      });
     }
     this.isSaveSucceed = false;
   }
