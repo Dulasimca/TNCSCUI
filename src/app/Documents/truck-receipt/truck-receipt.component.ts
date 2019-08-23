@@ -616,7 +616,7 @@ export class TruckReceiptComponent implements OnInit {
         this.isValidStackBalance = true;
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.NotSufficientStackBalance });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
       }
     }
     })
@@ -656,7 +656,7 @@ export class TruckReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ExceedingStackBalance });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -685,7 +685,7 @@ export class TruckReceiptComponent implements OnInit {
       this.truckMemoViewData = res;
     } else {
       this.truckMemoViewData = [];
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
     }
     });
   }
@@ -774,7 +774,7 @@ export class TruckReceiptComponent implements OnInit {
           })
         });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -845,7 +845,7 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
           this.isSaveSucceed = true;
           this.isViewed = true;
@@ -853,7 +853,7 @@ export class TruckReceiptComponent implements OnInit {
         } else {
           this.blockScreen = true;
           this.isViewed = true; this.STTDetails = [];
-          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     },(err: HttpErrorResponse) => {
@@ -862,7 +862,7 @@ export class TruckReceiptComponent implements OnInit {
       this.blockScreen = true;
        if (err.status === 0) {
         this.STTDetails = [];
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }

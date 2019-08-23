@@ -462,7 +462,7 @@ export class IssueReceiptComponent implements OnInit {
           this.isValidStackBalance = true;
           this.CurrentDocQtv = 0;
           this.NetStackBalance = 0;
-          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.NotSufficientStackBalance });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
       }
     })
@@ -527,7 +527,7 @@ export class IssueReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ExceedingStackBalance });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -635,12 +635,12 @@ export class IssueReceiptComponent implements OnInit {
         if (res.Item1) {
           this.isSaveSucceed = true;
           this.isViewed = false;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
           this.isViewed = false;
           this.blockScreen = false;
-          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -648,7 +648,7 @@ export class IssueReceiptComponent implements OnInit {
       this.isViewed = false;
       this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -666,7 +666,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.issueMemoDocData = res.Table;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -753,7 +753,7 @@ export class IssueReceiptComponent implements OnInit {
           })
         })
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }

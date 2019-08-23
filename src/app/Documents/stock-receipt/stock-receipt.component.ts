@@ -569,11 +569,11 @@ export class StockReceiptComponent implements OnInit {
           this.isViewed = false;
           this.blockScreen = false;
           this.onClear();
-          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
           this.isViewed = false;
           this.blockScreen = false;
-          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -581,7 +581,7 @@ export class StockReceiptComponent implements OnInit {
           this.isViewed = false;
           this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -599,7 +599,7 @@ export class StockReceiptComponent implements OnInit {
         this.documentViewData = res;
       } else {
         this.documentViewData = [];
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -664,7 +664,7 @@ export class StockReceiptComponent implements OnInit {
           })
         });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
