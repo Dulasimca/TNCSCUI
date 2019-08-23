@@ -6,7 +6,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -20,10 +20,16 @@ export class EmployeeMasterComponent implements OnInit {
   EmployeeData: any;
   EmployeeCols: any;
   canShowMenu: boolean;
+  disableOkButton: boolean = true;
+  selectedRow: any;
   data?: any;
   rCode: any;
   gCode: any;
   roleId: any;
+  designationOptions: SelectItem[];
+  d_cd: any;
+  desig: any = [];
+  designationSelection: any[] = [];
   formUser = [];
   EmpName: any;
   Empno: any;
@@ -36,6 +42,9 @@ export class EmployeeMasterComponent implements OnInit {
   Relieve: any;
   userdata: any;
   maxDate: Date;
+  viewPane: boolean;
+  isViewed: boolean = false;
+
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
@@ -70,9 +79,60 @@ export class EmployeeMasterComponent implements OnInit {
     });
   }
 
+  onView() {
+    const params = {
+      'Gcode': this.gCode,
+      'Rcode': this.rCode,
+      'Roleid': this.roleId
+    };
+    this.restApiService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
+      if (res !== undefined) {
+        this.EmployeeCols = this.tableConstant.EmployeeMaster;
+        this.EmployeeData = res;
+      }
+    });
+  }
+
   onClear() {
     this.formUser = [];
     this.Join = this.Relieve = false;
+  }
+
+  onRowSelect(formUser) {
+    this.disableOkButton = false;
+    this.selectedRow = formUser.data;
+  }
+
+  showSelectedData() {
+    this.viewPane = false;
+    this.isViewed = true;
+    // this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
+    // this.c_cd = this.selectedRow.ITDescription;
+    // this.commodityCd = this.selectedRow.CommodityCode;
+    this.Empno = this.selectedRow.Empno;
+    this.EmpName = this.selectedRow.EmpName;
+    this.Designation = this.selectedRow.Designation;
+    this.Refno = this.selectedRow.Refno;
+  }
+
+  onChange(e) {
+    if (this.designationOptions !== undefined) {
+      const selectedItem = e.value;
+      if (selectedItem !== null) {
+        this.EmployeeData = this.EmployeeData.filter(x => { return x.ITDescription === selectedItem.label });
+        if (this.EmployeeData.length === 0) {
+          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record not found!' });
+        }
+      } else {
+        this.EmployeeData = this.desig;
+      }
+    }
+  }
+
+  onCommodityClicked() {
+    if (this.designationOptions !== undefined && this.designationOptions.length <= 1) {
+      this.designationOptions = this.designationSelection;
+    }
   }
 
   onSubmit(formUser) {
@@ -92,6 +152,7 @@ export class EmployeeMasterComponent implements OnInit {
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }

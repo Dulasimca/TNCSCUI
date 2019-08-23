@@ -754,9 +754,10 @@ export class TableConstants {
     ];
 
     this.SocietyMasterEntry = [
-      { field: '', header: 'TYNAME' },
-      { field: '', header: 'SOCIETYNAME' },
-      { field: '', header: 'ISSUERNAME' },
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Tyname', header: 'Type Name' },
+      { field: 'Societyname', header: 'Society Name' },
+      { field: 'Issuername', header: 'Issuer Name' },
     ];
 
     this.ItemMasterModification = [
