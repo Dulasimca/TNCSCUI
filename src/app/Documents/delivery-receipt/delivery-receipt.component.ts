@@ -94,7 +94,7 @@ export class DeliveryReceiptComponent implements OnInit {
   Payment: string;
   ChequeNo: any;
   ChequeDate: any = new Date();
-  PAmount: any = 0;
+  PAmount: any;
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
@@ -142,7 +142,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
-    this.AdjusmentAmount = this.OtherAmount = this.Balance = 0;
+    this.AdjusmentAmount = 0; this.OtherAmount = 0; this.Balance = 0; this.PAmount = 0;
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
