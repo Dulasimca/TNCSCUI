@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-stock-receipt',
@@ -123,6 +124,7 @@ export class StockReceiptComponent implements OnInit {
   UnLoadingSlip: any;
   curMonth: any;
   isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -522,6 +524,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onSave(type) {
+    this.blockScreen = true;
     this.messageService.clear();
     this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     if (this.selectedValues.length !== 0) {
@@ -564,15 +567,21 @@ export class StockReceiptComponent implements OnInit {
         if (res.Item1) {
           this.isSaveSucceed = true;
           this.isViewed = false;
+          this.blockScreen = false;
           this.onClear();
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Receipt No:' + res.Item2 });
+          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isSaveSucceed = false;
+          this.isViewed = false;
+          this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -590,7 +599,7 @@ export class StockReceiptComponent implements OnInit {
         this.documentViewData = res;
       } else {
         this.documentViewData = [];
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -655,13 +664,15 @@ export class StockReceiptComponent implements OnInit {
           })
         });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
 
   onPrint() {
-    if(this.isSaveSucceed) {
+    if(this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
@@ -674,24 +685,8 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(10);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
-      });
-    } else {
-      this.onSave('2');
-      const path = "../../assets/Reports/" + this.username.user + "/";
-      const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
-      let filepath = path + filename + ".txt";
-      this.http.get(filepath, { responseType: 'text' })
-        .subscribe(data => {
-          var doc = new jsPDF({
-            orientation: 'landscape',
-          })
-          doc.setFont('courier');
-          doc.setFontSize(10);
-          doc.text(data, 2, 2)
-          doc.save(filename + '.pdf');
-      });
-    }
-    this.isSaveSucceed = false;
+       this.isSaveSucceed = false;
+     });
   }
 
   onClear() {

@@ -1,3 +1,4 @@
+<p-blockUI [blocked]="blockScreen"></p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -549,10 +550,10 @@
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
                 [disabled]="(!f.valid  || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0')" label=Save
-                (click)="onSave()"></button>
+                (click)="onSave('1')"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="!isSaveSucceed" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="(!isViewed && !isSaveSucceed)" label=Print
                 (click)="onPrint()"></button>
             </div>
           </form>

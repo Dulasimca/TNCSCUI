@@ -1,3 +1,4 @@
+<p-blockUI [blocked]="blockScreen"></p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -488,10 +489,10 @@
               <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0')" label=Save (click)="onSave()"></button>
+              <button style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0')" label=Save (click)="onSave('1')"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="!isSaveSucceed" (click)="onPrint()"></button>
+              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="(!isViewed && !isSaveSucceed)" (click)="onPrint()"></button>
             </div>
           </form>
         </div>

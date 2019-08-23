@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -109,6 +110,8 @@ export class DeliveryReceiptComponent implements OnInit {
   MarginItem: string;
   curMonth: any;
   checkTransactionType: boolean = true;
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -430,7 +433,7 @@ export class DeliveryReceiptComponent implements OnInit {
       if (res !== null && res !== undefined && res.length !== 0) {
         this.deliveryData = res;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
   }
@@ -644,7 +647,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecForCombination })
       }
     })
   }
@@ -660,12 +663,15 @@ export class DeliveryReceiptComponent implements OnInit {
         })
         this.deliveryViewData = res.Table;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
   }
 
   onPrint() {
+    if(this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename;
     let filepath = path + filename + ".txt";
@@ -793,7 +799,7 @@ export class DeliveryReceiptComponent implements OnInit {
     });
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
     this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
       ? this.PMonth.value : this.curMonth);
@@ -801,7 +807,7 @@ export class DeliveryReceiptComponent implements OnInit {
       ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
     const params = {
-      'Type': 1,
+      'Type': type,
       'Dono': this.DeliveryOrderNo,
       'RowId': this.rowId,
       'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -831,15 +837,22 @@ export class DeliveryReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Delivery Order No:' + res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isViewed = false;
+      this.isSaveSucceed = false;
+      this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please Contact Administrator!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }

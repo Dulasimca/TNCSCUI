@@ -8,8 +8,9 @@ import { HttpParams, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, Messages } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -107,6 +108,8 @@ export class IssueReceiptComponent implements OnInit {
   index: number = 0;
   UserID: any;
   Loadingslip: any;
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -459,7 +462,7 @@ export class IssueReceiptComponent implements OnInit {
           this.isValidStackBalance = true;
           this.CurrentDocQtv = 0;
           this.NetStackBalance = 0;
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
       }
     })
@@ -524,7 +527,7 @@ export class IssueReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -579,7 +582,7 @@ export class IssueReceiptComponent implements OnInit {
 
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
     if (this.SIDate !== undefined && this.SIDate !== null) {
       this.issueData.forEach(x => {
@@ -592,7 +595,7 @@ export class IssueReceiptComponent implements OnInit {
     }
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
-      'Type': 1,
+      'Type': type,
       'SINo': (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
@@ -631,15 +634,21 @@ export class IssueReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Issue No:' + res.Item2 });
+          this.isViewed = false;
+          this.messageService.add({ key: 't-err', severity: 'success', summary: StatusMessage.SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+      this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: 'error', summary: StatusMessage.ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -657,7 +666,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.issueMemoDocData = res.Table;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -669,6 +678,8 @@ export class IssueReceiptComponent implements OnInit {
   getDocBySINo() {
     this.messageService.clear();
     this.viewPane = false;
+    this.isSaveSucceed = false;
+    this.isViewed = true;
     this.itemData = []; this.issueData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
@@ -742,7 +753,7 @@ export class IssueReceiptComponent implements OnInit {
           })
         })
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: StatusMessage.WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -775,6 +786,9 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    if(this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
@@ -786,9 +800,12 @@ export class IssueReceiptComponent implements OnInit {
         doc.setFont('courier');
         doc.setFontSize(10);
         doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
+        doc.output(filename + '.pdf');
+      //  var w = window.open(path + filename); //Required full file path.
+      //  w.print();
+       this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+       this.isViewed = (this.isViewed) ? false : true;
       });
-      this.isSaveSucceed = false;
   }
 
 }
