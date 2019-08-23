@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-daily-document-issue',
@@ -104,14 +105,14 @@ export class DailyDocumentIssueComponent implements OnInit {
         this.isActionDisabled = false;
       } else {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
       this.DailyDocumentIssueData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }

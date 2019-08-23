@@ -7,6 +7,7 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-opening-balance-details',
@@ -124,7 +125,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       if (selectedItem !== null) {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       } else {
         this.openingBalanceData = this.opening_balance;
@@ -178,7 +179,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     })
   }
@@ -203,13 +204,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
     this.onClear();

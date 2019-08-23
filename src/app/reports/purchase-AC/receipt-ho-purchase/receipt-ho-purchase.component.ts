@@ -9,6 +9,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-receipt-ho-purchase',
@@ -74,7 +75,7 @@ export class ReceiptHOPurchaseComponent implements OnInit {
       if (res !== undefined && this.receiptHOPurchaseData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
@@ -101,7 +102,7 @@ export class ReceiptHOPurchaseComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;

@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -96,12 +97,12 @@ export class StockstatementreportComponent implements OnInit {
         });
       } else {
         this.loading = false;
-        this.messageService.add({ key: 't-error', severity: 'warn', summary: 'Warn Message', detail: 'Record Not Found!' });
+        this.messageService.add({ key: 't-error', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-error', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -122,7 +123,7 @@ export class StockstatementreportComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.add({ key: 't-error', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
+        this.messageService.add({ key: 't-error', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;

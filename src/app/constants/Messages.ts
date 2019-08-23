@@ -14,5 +14,12 @@ export class StatusMessage {
     public static readonly NetworkErrorMessage = 'Please your network connectivity!';
     public static readonly ExceedingStackBalance = 'Exceeding the Stack Balance!';
     public static readonly NotSufficientStackBalance = 'Stack Balance is not sufficient!';
-
+    public static readonly ValidDateErrorMessage = 'Please select a valid date range!';
+    public static readonly StackCardClosedMessage = 'Stack Card has been closed  already!';
+    public static readonly RunningStackCardErrMessage = 'You have entered running stack card number!';
+    public static readonly ExistingStackCardErrMessage = 'Stack card is existing!';
+    public static readonly StackCardClosedSucceesMessage = 'Card Closed!';
+    public static readonly ValidCredentialsErrorMessage = 'Please Enter Valid Credentials!';
+    public static readonly PasswordChangeSuccessMessage = 'Password changed Successfully!';
+    public static readonly PasswordMatchErrorMessage = 'Password did not match!';
 }

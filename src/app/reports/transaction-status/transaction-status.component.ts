@@ -7,6 +7,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-transaction-status',
@@ -87,7 +88,7 @@ export class TransactionStatusComponent implements OnInit {
             this.remarks = this.TransactionStatusData[0].remarks
           this.RoleId = this.roleId
         } else {
-          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0) {
@@ -115,7 +116,7 @@ export class TransactionStatusComponent implements OnInit {
           if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
             this.isActionDisabled = false;
           } else {
-            this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
           }
         }, (err: HttpErrorResponse) => {
           if (err.status === 0) {
@@ -162,13 +163,13 @@ export class TransactionStatusComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {
-        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
     this.onClear();

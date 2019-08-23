@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-societ-master',
@@ -172,7 +173,7 @@ export class SocietMasterComponent implements OnInit {
       if (this.SocietyMasterData !== undefined && this.SocietyMasterData.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {

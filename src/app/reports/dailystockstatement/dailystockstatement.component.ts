@@ -9,6 +9,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Router } from '@angular/router';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-dailystockstatement',
@@ -138,7 +139,7 @@ export class DailyStockStatementComponent implements OnInit {
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
               this.loading = false;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
           })
         }
