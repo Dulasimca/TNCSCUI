@@ -4,12 +4,13 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -120,7 +121,7 @@ export class IssueReceiptComponent implements OnInit {
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService, private http: HttpClient) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -647,6 +648,7 @@ export class IssueReceiptComponent implements OnInit {
   onView() {
     this.viewPane = true;
     this.messageService.clear();
+    this.issueMemoDocData = [];
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
@@ -775,8 +777,18 @@ export class IssueReceiptComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
-    const filename = this.IssuingCode + GolbalVariable.StockIssueDocument + ".txt";
-    saveAs(path + filename, filename);
-    this.isSaveSucceed = false;
+    const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'landscape',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+      });
   }
+
 }
