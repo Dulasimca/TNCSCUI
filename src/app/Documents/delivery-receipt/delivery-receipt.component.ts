@@ -61,7 +61,7 @@ export class DeliveryReceiptComponent implements OnInit {
   DeliveryOrderNo: any;
   Trcode: any;
   trCode: any;
-  TransType: any;
+  TransType: string = 'I';
   IndentNo: number;
   OrderPeriod: any;
   PermitDate: Date = new Date();
@@ -196,17 +196,10 @@ export class DeliveryReceiptComponent implements OnInit {
             this.transactionPanel.overlayVisible = true;
           } 
       if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined && data !== null && data.length !== 0) {
-              data.forEach(y => {
-                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode, 'transType': y.TransType });
-                this.transactionOptions = transactoinSelection;
-              });
-              this.transactionOptions.unshift({ 'label': '-select', 'value': null });
-            } else {
-              this.transactionOptions = transactoinSelection;
-            }
-          })
+          transactoinSelection.push({ label: 'SALES', value: 'TR014'}, 
+          { label: 'CREDIT SALES', value: 'TR019'}, { label: 'FREE SCHEME', value: 'TR022'});
+          this.transactionOptions = transactoinSelection;
+          this.transactionOptions.unshift({ 'label': '-select', 'value': null });
         }
         break;
       case 'scheme':
@@ -266,8 +259,7 @@ export class DeliveryReceiptComponent implements OnInit {
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
           if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
             const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
-              .append('TRType', (this.Trcode.transType !== undefined) ? this.Trcode.transType : this.TransType)
-              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
+              .append('TRType', this.TransType).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(dn => {
@@ -422,6 +414,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   checkPayment() {
     this.messageService.clear();
+    this.deliveryData = [];
     const params = {
       Type: 1,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -677,6 +670,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
     this.paymentBalData = []; this.paymentData = [];
     this.BalanceAmount = 0; this.DueAmount = 0; this.PaidAmount = 0; this.GrandTotal = 0;
+    this.Balance = 0; this.AdjusmentAmount = 0; this.OtherAmount = 0;
     this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
     this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -714,7 +708,6 @@ export class DeliveryReceiptComponent implements OnInit {
         this.RTCode = res.Table[0].Tyname;
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
-        this.TransType = res.Table[0].TransType;
         this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
@@ -753,8 +746,8 @@ export class DeliveryReceiptComponent implements OnInit {
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
             ChDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
-       //     ChequeDate: i.ChDate,
-            PaymentAmount: i.PaymentAmount,
+            ChequeDate: i.ChDate,
+            PaymentAmount: (i.PaymentAmount !== null) ? i.PaymentAmount : 0,
             payableat: i.payableat,
             bank: i.bank,
             RCode: i.Rcode
@@ -772,11 +765,11 @@ export class DeliveryReceiptComponent implements OnInit {
           this.paymentBalData.push({
             AdjustedDoNo: i.AdjustedDoNo,
             AdjustDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
-           // AdjustedDate: i.AdjustDate,
-            Amount: i.Amount,
+            AdjustedDate: i.AdjustDate,
+            Amount: (i.Amount !== null) ? i.Amount : 0,
             AdjustmentType: i.AdjustmentType,
-            AmountNowAdjusted: i.AmountNowAdjusted,
-            Balance: i.Balance,
+            AmountNowAdjusted: (i.AmountNowAdjusted !== null) ? i.AmountNowAdjusted : 0,
+            Balance: (i.Balance !== null) ? i.Balance : 0,
             RCode: i.Rcode
           });
         });
