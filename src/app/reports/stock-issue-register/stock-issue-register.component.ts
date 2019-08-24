@@ -114,7 +114,7 @@ export class StockIssueRegisterComponent implements OnInit {
       }, (err: HttpErrorResponse) => {
         if (err.status === 0) {
           this.loading = false;
-          this.router.navigate(['pageNotFound']);
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
         }
       })
     }

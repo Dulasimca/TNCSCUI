@@ -811,6 +811,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onSave(type) {
     this.messageService.clear();
+    this.blockScreen = true;
     this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
       ? this.PMonth.value : this.curMonth);
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)

@@ -781,6 +781,7 @@ export class TruckReceiptComponent implements OnInit {
 
   onSave(type) {
     this.messageService.clear();
+    this.blockScreen = true;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
@@ -849,10 +850,11 @@ export class TruckReceiptComponent implements OnInit {
           this.onClear();
           this.isSaveSucceed = true;
           this.isViewed = true;
-          this.blockScreen = true;
+          this.blockScreen = false;
         } else {
-          this.blockScreen = true;
-          this.isViewed = true; this.STTDetails = [];
+          this.blockScreen = false;
+          this.isViewed = true;
+          this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
