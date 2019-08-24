@@ -35,6 +35,7 @@ export class CommodityIssueMemoComponent implements OnInit {
   maxDate: Date;
   loading: boolean;
   @ViewChild('region') regionPanel: Dropdown;
+  roleId: number;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -45,6 +46,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
   }
 
   onSelect(item) {
@@ -54,12 +56,27 @@ export class CommodityIssueMemoComponent implements OnInit {
 
     switch (item) {
       case 'reg':
-        this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            this.regionOptions = regionSelection;
-          });
+        if (this.roleId === 3) {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.data = this.roleBasedService.regionsData;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
         }
         break;
       case 'gd':
@@ -69,7 +86,9 @@ export class CommodityIssueMemoComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ label: 'All', value: 'All' });
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
       case 'cd':
@@ -88,6 +107,8 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   onView() {
+    this.messageService.clear();
+    this.commodityIssueMemoData = [];
     this.checkValidDateSelection();
     this.loading = true;
     const params = {

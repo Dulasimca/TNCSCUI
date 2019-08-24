@@ -1462,6 +1462,10 @@ ul
             color: white;
           }
 
+          .check-input {
+            border-bottom-color: #f44336;
+          }
+
           .error-Msg{
             color: rgb(240, 36, 36);
             font-size: 14px;
