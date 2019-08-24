@@ -678,21 +678,21 @@ export class StockReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
-    saveAs(filepath, filename);
-    // this.http.get(filepath, {responseType: 'text'})
-    //   .subscribe(data => {
-    //     var doc = new jsPDF({
-    //       orientation: 'landscape',
-    //     })
-    //     doc.setFont('courier');
-    //     doc.setFontSize(10);
-    //     doc.text(data, 2, 2)
-    //     doc.save(filename + '.pdf');
-    //     var w = window.open(filename + '.pdf');
-    //     w.print();
-    //     this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
-    //     this.isViewed = (this.isViewed) ? false : true;    
-    //   });
+    //saveAs(filepath, filename);
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'landscape',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+        var w = window.open(filename + '.pdf');
+        w.print();
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;    
+      });
   }
 
   onClear() {
