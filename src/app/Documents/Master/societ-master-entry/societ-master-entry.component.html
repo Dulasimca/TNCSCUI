@@ -9,10 +9,11 @@
     </p-header>
     <!-- <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast> -->
     <div class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Co-operative Type</label>
-        <p-dropdown [options]="typeOptions" [(ngModel)]="t_cd" (onClick)="ontype()"
-          filter="true" (ngModelChange)="onResetTable()" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown [options]="typeOptions" [(ngModel)]="t_cd" (onClick)="ontype()" (onChange)="ontype()" filter="true"
+          (ngModelChange)="onResetTable()" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -20,8 +21,8 @@
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Society</label>
-        <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onClick)="onSo()" (ngModelChange)="onResetTable()"
-          filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onChange)="onSo()" (onClick)="onSo()"
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -29,17 +30,17 @@
       </div>
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g label-fontsize dashboard">Select Shop Name for the Selected Society</label>
-        <p-dropdown [options]="IssuerOptions" [(ngModel)]="Iss_cd" (onClick)="onIss()"
+        <p-dropdown [options]="IssuerOptions" [(ngModel)]="Iss_cd" (onChange)="onIss()" (onClick)="onIss()"
           filter="true" optionLabel="label" (ngModelChange)="onResetTable()" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
+      <!-- <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Ccs Shop Code</label>
         <input type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off">
-      </div>
+      </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=New (click)="New()"></button>
       </div>
@@ -49,6 +50,7 @@
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Update (click)="onUpdate()"></button>
       </div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="SocietyMasterEntryCols" [value]="SocietyMasterEntryData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
