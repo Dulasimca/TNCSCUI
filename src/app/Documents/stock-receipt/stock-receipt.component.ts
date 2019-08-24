@@ -688,8 +688,6 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(10);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
-        var w = window.open(filename + '.pdf');
-        w.print();
         this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
         this.isViewed = (this.isViewed) ? false : true;    
       });
