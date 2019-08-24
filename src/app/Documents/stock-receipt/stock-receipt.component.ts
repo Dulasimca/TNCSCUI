@@ -11,6 +11,8 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-stock-receipt',
@@ -676,6 +678,7 @@ export class StockReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
+    saveAs(filepath, filename);
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
         var doc = new jsPDF({
@@ -685,6 +688,8 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(10);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
+        var w = window.open(filename + '.pdf');
+        w.print();
         this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
         this.isViewed = (this.isViewed) ? false : true;    
       });
