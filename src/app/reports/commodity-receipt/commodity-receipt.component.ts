@@ -99,7 +99,7 @@ export class CommodityReceiptComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
-          if (this.roleId !== '3') {
+          if (this.roleId !== 3) {
           this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
       }
@@ -123,6 +123,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.checkValidDateSelection();
     this.ITCode = null;
     this.loading = true;
+    this.commodityReceiptData = [];
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),

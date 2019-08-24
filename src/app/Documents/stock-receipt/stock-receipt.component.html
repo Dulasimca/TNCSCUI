@@ -58,7 +58,7 @@
                     </p-dropdown>
                   </div>
                 </div>
-                <div class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center">
+                <div [ngClass]="(!f.touched) ? check-input : none" class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center">
                   <div class="ui-g-12 dashboard label-fontsize-large">
                     Allotment/Release Order No
                   </div><br>

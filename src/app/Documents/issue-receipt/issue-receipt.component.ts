@@ -800,8 +800,8 @@ export class IssueReceiptComponent implements OnInit {
           orientation: 'potrait',
         })
         doc.setFont('courier');
-        doc.setFontSize(10);
-        doc.text(data, 2, 2)
+        doc.setFontSize(8);
+        doc.text(data, 2, 2);
         doc.output(filename + '.pdf');
         //  var w = window.open(path + filename); //Required full file path.
         //  w.print();
