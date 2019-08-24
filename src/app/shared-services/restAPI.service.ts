@@ -20,13 +20,7 @@ export class RestAPIService {
       'Access-Control-Allow-Credentials' : 'true'
     })
   };
-  querParams = new HttpParams();
   constructor(private httpClient: HttpClient) { }
-
-  private fetchData(response: Response) {
-    let data = response;
-    return data || {};
-  }
 
   get(url): Observable<any> {
     return this.httpClient.get(this.BASEURL + url);

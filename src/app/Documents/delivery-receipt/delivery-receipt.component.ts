@@ -703,6 +703,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.Balance = 0; this.AdjusmentAmount = 0; this.OtherAmount = 0;
     this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
     this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
+    this.transactionOptions = []; this.partyNameOptions = [];
+    this.receivorTypeOptions = [];
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
