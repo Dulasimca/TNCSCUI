@@ -85,10 +85,10 @@ export class SocietyMasterNewComponent implements OnInit {
       this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_NEW_ENTRY_GET, params).subscribe(res => {
         if (res !== undefined) {
           // res.forEach(x => {
-            // this.SocietyData.push({ 'label': x.SocietyCode, 'value': x.Societyname });
-            // this.SocietyOptions = this.SocietyData;
-            this.typeOptions = TypeSelection;
-            this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': 'TY004' }, { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
+          // this.SocietyData.push({ 'label': x.SocietyCode, 'value': x.Societyname });
+          // this.SocietyOptions = this.SocietyData;
+          this.typeOptions = TypeSelection;
+          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': 'TY004' }, { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
           // });
         }
       });
