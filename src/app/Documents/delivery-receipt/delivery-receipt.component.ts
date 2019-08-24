@@ -205,7 +205,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.transactionOptions = transactoinSelection;
           this.transactionOptions.unshift({ 'label': '-select', 'value': null });
         }
-        this.checkTransactionType = ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode) ? true : false;
+        this.checkTransactionType = ((this.Trcode !== undefined && this.Trcode !== null)?
+        ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode): false) ? true : false;
         break;
       case 'scheme':
           if (type === 'enter') {
@@ -432,6 +433,12 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
         this.deliveryData = res;
+        this.deliveryData.forEach(x => {
+          x.DoDate = this.datepipe.transform(x.DoDate, 'dd/MM/yyyy');
+          x.PaymentAmount = (x.PaymentAmount !== null) ? x.PaymentAmount : '-';
+          let paidAmount = (x.PaymentAmount !== '-') ? x.PaymentAmount : 0;
+          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1));
+        })
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }

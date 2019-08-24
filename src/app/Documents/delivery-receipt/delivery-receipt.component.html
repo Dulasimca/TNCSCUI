@@ -121,7 +121,7 @@
                   <div class="ui-g-12 ui-fluid">
                     <div class="ui-g-12 no-pad-top">
                       <p-table [columns]="deliveryCols" [value]="deliveryData" [responsive]="true" [scrollable]="true"
-                        scrollHeight="150px">
+                       [autoLayout]="true" scrollHeight="150px">
                         <ng-template pTemplate="colgroup" let-columns>
                           <colgroup>
                             <col *ngFor="let col of columns" style="width:80px">

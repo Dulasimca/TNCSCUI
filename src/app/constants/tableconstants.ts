@@ -191,7 +191,7 @@ export class TableConstants {
     this.DeliveryDocumentcolumns = [
       { field: 'Dono', header: 'Delivery Order' },
       { field: 'DoDate', header: 'Delivery Date' },
-      { field: 'Society', header: 'Society' },
+      { field: 'Issuername', header: 'Society' },
       { field: 'GrandTotal', header: 'Due' },
       { field: 'PaymentAmount', header: 'Paid' },
       { field: 'AdvCollection', header: 'Advance Collection' },
