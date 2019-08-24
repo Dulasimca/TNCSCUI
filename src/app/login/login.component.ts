@@ -9,6 +9,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from './login.service';
 import { MessageService } from 'primeng/api';
 import { RoleBasedService } from '../common/role-based.service';
+import { StatusMessage } from '../constants/Messages';
 
 
 @Component({
@@ -49,8 +50,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn() {
+    this.messageService.clear();
     if (this.loginForm.invalid) {
-      this.messageService.add({severity:'error', summary:'Error!', detail:'Please enter a valid credentials!'});
+      this.messageService.add({ key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
       return;
     } else {
     let username = new HttpParams().append('userName', this.userName);
@@ -66,15 +68,15 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
       } else {
         this.clearFields();
-        this.messageService.add({key: 't-err', severity:'error', summary:'Error!', detail:'Validation Failed!'});
+        this.messageService.add({key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
       }
     } else {
      // this.clearFields();
-      this.messageService.add({key: 't-err', severity:'error', summary:'Error!', detail:'Please check the credentials!'});
+      this.messageService.add({key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
     }
     },(err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }

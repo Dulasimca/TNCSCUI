@@ -8,6 +8,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { reject } from 'q';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -208,7 +209,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.Weights = (this.selectedRow.StackBalanceWeight * 1); 
     } else {
       this.onClear();
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Card has been closed  already!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
     }
   } 
   }
@@ -246,7 +247,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.Opening_Balance = this.stackOpeningData.slice(0);
         } else {
           this.openView = false;
-          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record Not Found!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       });
   }
@@ -264,11 +265,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.stackOpeningData.forEach(x => {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'You have entered running stack card number!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.RunningStackCardErrMessage });
         } 
       });
     } else if (this.cardExits) {
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Stack card has been closed already!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
       this.onClear();
     } else {
     this.postData();
@@ -290,16 +291,16 @@ postData() {
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
       if(res.Item1) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Stack card is existing!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExistingStackCardErrMessage });
       }else if (res.Item2) {
         this.onView();
-        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
     this.onClear();
@@ -315,13 +316,13 @@ postData() {
         this.onView();
         this.onClear();
         this.nonEditable = false;
-        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message!', detail: 'Card closed!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackCardClosedSucceesMessage });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }

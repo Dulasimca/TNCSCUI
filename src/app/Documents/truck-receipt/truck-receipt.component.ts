@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
+import * as jsPDF from 'jspdf';
 import { Dropdown } from 'primeng/primeng';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -118,6 +119,8 @@ export class TruckReceiptComponent implements OnInit {
   Remarks: string;
   IssueSlip: any;
   STTDetails: any = [];
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -135,7 +138,7 @@ export class TruckReceiptComponent implements OnInit {
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
-    private datepipe: DatePipe, private confirmationService: ConfirmationService,
+    private datepipe: DatePipe, private http: HttpClient,
     private messageService: MessageService) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
@@ -613,7 +616,7 @@ export class TruckReceiptComponent implements OnInit {
         this.isValidStackBalance = true;
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
       }
     }
     })
@@ -653,7 +656,7 @@ export class TruckReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -682,7 +685,7 @@ export class TruckReceiptComponent implements OnInit {
       this.truckMemoViewData = res;
     } else {
       this.truckMemoViewData = [];
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
     }
     });
   }
@@ -691,6 +694,7 @@ export class TruckReceiptComponent implements OnInit {
     this.messageService.clear();
     this.itemData = []; 
     this.viewPane = false;
+    this.isViewed = true;
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
@@ -770,13 +774,14 @@ export class TruckReceiptComponent implements OnInit {
           })
         });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
+    this.blockScreen = true;
     if (this.selectedValues.length !== 0) {
       if (this.selectedValues.length === 2) {
         this.MTransport = 'UPCountry';
@@ -811,7 +816,7 @@ export class TruckReceiptComponent implements OnInit {
     this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
     this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
     const params = {
-      'Type': 1,
+      'Type': type,
       'STNo': this.STNo,
       'RowId': this.RowId,
       'STDate': this.datepipe.transform(this.STDate, 'MM/dd/yyyy'),
@@ -841,26 +846,47 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Truck Memo No:' + res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
           this.isSaveSucceed = true;
+          this.isViewed = true;
+          this.blockScreen = false;
         } else {
+          this.blockScreen = false;
+          this.isViewed = true;
           this.STTDetails = [];
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     },(err: HttpErrorResponse) => {
-      if (err.status === 0) {
+      this.isSaveSucceed = true;
+      this.isViewed = true;
+      this.blockScreen = true;
+       if (err.status === 0) {
         this.STTDetails = [];
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
   onPrint() {
+    if(this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
-    saveAs(path + filename, filename);
-    this.isSaveSucceed = false;
+    const filename = this.GCode + GolbalVariable.StockTruckMemoDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'potrait',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;
+      });
   }
 }

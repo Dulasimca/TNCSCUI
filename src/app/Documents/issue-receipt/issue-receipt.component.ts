@@ -8,9 +8,9 @@ import { HttpParams, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, Messages } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -108,6 +108,8 @@ export class IssueReceiptComponent implements OnInit {
   index: number = 0;
   UserID: any;
   Loadingslip: any;
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -159,9 +161,9 @@ export class IssueReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-          if (type === 'enter') {
-            this.yearPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.yearPanel.overlayVisible = true;
+        }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
@@ -176,9 +178,9 @@ export class IssueReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-          if (type === 'enter') {
-            this.monthPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.monthPanel.overlayVisible = true;
+        }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -187,10 +189,10 @@ export class IssueReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-          if (type === 'enter') {
-            this.transactionPanel.overlayVisible = true;
-          }
-            this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
               if (y.TransType === this.transType) {
@@ -206,9 +208,9 @@ export class IssueReceiptComponent implements OnInit {
         })
         break;
       case 'sc':
-          if (type === 'enter') {
-            this.schemePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -220,9 +222,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-          if (type === 'enter') {
-            this.receivorTypePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.receivorTypePanel.overlayVisible = true;
+        }
         if (this.Trcode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
             (this.trCode !== null && this.trCode !== undefined)) {
@@ -243,9 +245,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
-          if (type === 'enter') {
-            this.receivorNamePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.receivorNamePanel.overlayVisible = true;
+        }
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
             this.RTCode.value !== undefined && this.RTCode.value !== null) || (this.rtCode !== null && this.rtCode !== undefined
@@ -267,9 +269,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-          if (type === 'enter') {
-            this.commodityPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.commodityPanel.overlayVisible = true;
+        }
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -288,9 +290,9 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-          if (type === 'enter') {
-            this.stackNoPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.stackNoPanel.overlayVisible = true;
+        }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
@@ -310,9 +312,9 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'pt':
         // if (this.packingTypeOptions === undefined) {
-          if (type === 'enter') {
-            this.packingPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.packingPanel.overlayVisible = true;
+        }
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table.forEach(p => {
@@ -327,9 +329,9 @@ export class IssueReceiptComponent implements OnInit {
         // }
         break;
       case 'wmt':
-          if (type === 'enter') {
-            this.weightmentPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.weightmentPanel.overlayVisible = true;
+        }
         // if (this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
@@ -424,8 +426,8 @@ export class IssueReceiptComponent implements OnInit {
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
-      this.TStockNo.value : this.TStockNo;
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+        this.TStockNo.value : this.TStockNo;
       index = TStockNo.toString().indexOf('/', 2);
       const totalLength = TStockNo.length;
       this.godownNo = TStockNo.toString().slice(0, index);
@@ -460,7 +462,7 @@ export class IssueReceiptComponent implements OnInit {
           this.isValidStackBalance = true;
           this.CurrentDocQtv = 0;
           this.NetStackBalance = 0;
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Stack Balance is not sufficient!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
       }
     })
@@ -525,7 +527,7 @@ export class IssueReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Exceeding the stack balance!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -580,8 +582,9 @@ export class IssueReceiptComponent implements OnInit {
 
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
+    this.blockScreen = true;
     if (this.SIDate !== undefined && this.SIDate !== null) {
       this.issueData.forEach(x => {
         if (x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')) {
@@ -593,7 +596,7 @@ export class IssueReceiptComponent implements OnInit {
     }
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
-      'Type': 1,
+      'Type': type,
       'SINo': (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
@@ -632,15 +635,22 @@ export class IssueReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Issue No:' + res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+      this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -658,7 +668,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.issueMemoDocData = res.Table;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -670,6 +680,8 @@ export class IssueReceiptComponent implements OnInit {
   getDocBySINo() {
     this.messageService.clear();
     this.viewPane = false;
+    this.isSaveSucceed = false;
+    this.isViewed = true;
     this.itemData = []; this.issueData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
@@ -743,7 +755,7 @@ export class IssueReceiptComponent implements OnInit {
           })
         })
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -776,18 +788,25 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    if (this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
-    this.http.get(filepath, {responseType: 'text'})
+    this.http.get(filepath, { responseType: 'text' })
       .subscribe(data => {
         var doc = new jsPDF({
-          orientation: 'landscape',
+          orientation: 'potrait',
         })
         doc.setFont('courier');
         doc.setFontSize(10);
         doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
+        doc.output(filename + '.pdf');
+        //  var w = window.open(path + filename); //Required full file path.
+        //  w.print();
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;
       });
   }
 

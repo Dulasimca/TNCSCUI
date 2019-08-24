@@ -13,6 +13,7 @@ import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
 import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-cb-statement',
@@ -195,7 +196,7 @@ export class CBStatementComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });        
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });        
       }
     })
   }

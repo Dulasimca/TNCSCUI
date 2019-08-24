@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-crsdata',
@@ -37,7 +38,7 @@ export class CRSDataComponent implements OnInit {
         this.data = response;
         this.filterArray = response;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
         {

@@ -29,7 +29,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import { FileUploadModule } from 'primeng/fileupload';
 import {TooltipModule} from 'primeng/tooltip';
-
+import { BlockUIModule } from 'primeng/blockui';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -135,6 +135,7 @@ import { OtherMasterComponent } from './UserMaster/other-master/other-master.com
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
+import { StatusMessage } from './constants/Messages';
 
 @NgModule({
   declarations: [
@@ -265,9 +266,10 @@ import { SocietyMasterNewComponent } from './Documents/Master/society-master-new
     TooltipModule,
     KeyFilterModule,
     FileUploadModule,
-    TooltipModule
+    TooltipModule,
+    BlockUIModule
   ],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants,
+  providers: [MenuService, AuthService, ConfirmationService, TableConstants, StatusMessage,
     DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
   bootstrap: [AppComponent]
 })

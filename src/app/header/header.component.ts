@@ -9,6 +9,7 @@ import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { Router } from '@angular/router';
 import { FileUploadModule } from 'primeng/fileupload';
+import { StatusMessage } from '../constants/Messages';
 
 @Component({
   selector: 'app-header',
@@ -63,7 +64,7 @@ export class HeaderComponent implements OnInit {
 
   onForgetPswd() {
     if (this.ChangeForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Please enter valid details' });
+      this.messageService.add({ key:'t-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
       let username = new HttpParams().append('userName', this.userName);
@@ -77,7 +78,7 @@ export class HeaderComponent implements OnInit {
           }
         } else {
           this.onClear();
-          this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Validation Failed!' });
+          this.messageService.add({ key:'t-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
         }
       });
     }
@@ -101,18 +102,18 @@ export class HeaderComponent implements OnInit {
     if (this.OldPassword === head) {
       this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
         if (res) {
-          this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Password changed Successfully!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.PasswordChangeSuccessMessage });
           // setTimeout(this.onTime, 3000);
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
       // this.router.navigate(['login']);
     } else {
-      this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Password did not match!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.PasswordMatchErrorMessage });
     }
     this.onClear();
-    // this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+    // this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: 'Error Message', detail: 'Please try again!' });
   }
 
   onTime() {

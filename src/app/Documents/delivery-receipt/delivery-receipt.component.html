@@ -1,3 +1,4 @@
+<p-blockUI [blocked]="blockScreen"></p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -120,7 +121,7 @@
                   <div class="ui-g-12 ui-fluid">
                     <div class="ui-g-12 no-pad-top">
                       <p-table [columns]="deliveryCols" [value]="deliveryData" [responsive]="true" [scrollable]="true"
-                        scrollHeight="150px">
+                       [autoLayout]="true" scrollHeight="150px">
                         <ng-template pTemplate="colgroup" let-columns>
                           <colgroup>
                             <col *ngFor="let col of columns" style="width:80px">
@@ -347,10 +348,10 @@
 
               <p-tabPanel header="Payment Details">
                 <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
-                  <div class="ui-g-12 no-pad-top no-left-pad" style="text-align: center;">
+                  <div class="ui-g-12 no-pad-top no-left-pad">
                     <div class="ui-g-6 ui-md-2">
-                      <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <p-dropdown #pay id="float-input" [options]="paymentOptions" [(ngModel)]="Payment"
+                        <label  class="label-fontsize" for="payment">Payment Mode</label>
+                        <p-dropdown #pay [options]="paymentOptions" [(ngModel)]="Payment"
                           (onClick)="onSelect('pay', 'click')" autoDisplayFirst="true" 
                           (keydown.enter)="onSelect('pay', 'enter')" filter="true" name="payment"
                           [showClear]="true">
@@ -358,8 +359,6 @@
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
                         </p-dropdown>
-                        <label for="payment" class="float-input" style="padding-top: 10px;">Payment Mode</label>
-                      </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
@@ -377,7 +376,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="payAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off"
-                        appDecimalAmount>
+                        type="number" appDecimalAmount>
                         <label for="payAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
@@ -399,7 +398,7 @@
                       <div class="ui-g-4 ui-md-1">
                         <div style="padding-right: 10px;padding-top: 20px;">
                           <button pButton label="Enter"
-                            [disabled]="(!PayableAt || !OnBank || !PAmount || !Payment || !ChequeDate || !ChequeNo)"
+                            [disabled]="(!PayableAt || !OnBank || PAmount==null || !Payment || !ChequeDate || !ChequeNo)"
                             (click)="onEnter('Payment')"></button></div>
                       </div>
                      <!-- <div class="dashboard" style="border: .7px solid #18c5a9"> -->
@@ -550,11 +549,11 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0' || paymentData.length=='0')" label=Save
-                (click)="onSave()"></button>
+                [disabled]="(!f.valid  || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0')" label=Save
+                (click)="onSave('1')"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="!isSaveSucceed" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="((f.dirty) || (!isViewed && !isSaveSucceed))" label=Print
                 (click)="onPrint()"></button>
             </div>
           </form>

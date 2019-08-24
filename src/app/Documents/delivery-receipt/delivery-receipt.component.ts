@@ -1,15 +1,16 @@
-import { Component, OnInit, ɵConsole, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -94,7 +95,7 @@ export class DeliveryReceiptComponent implements OnInit {
   Payment: string;
   ChequeNo: any;
   ChequeDate: any = new Date();
-  PAmount: any = 0;
+  PAmount: any;
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
@@ -108,6 +109,9 @@ export class DeliveryReceiptComponent implements OnInit {
   BalanceAmount: any = 0;
   MarginItem: string;
   curMonth: any;
+  checkTransactionType: boolean = true;
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -122,8 +126,8 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('pay') paymentPanel: Dropdown;
   
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
-    private restAPIService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private datepipe: DatePipe, private confirmationService: ConfirmationService) { }
+    private restAPIService: RestAPIService, private authService: AuthService,
+    private messageService: MessageService, private datepipe: DatePipe, private http: HttpClient) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -141,7 +145,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
-    this.AdjusmentAmount = this.OtherAmount = this.Balance = 0;
+    this.AdjusmentAmount = 0; this.OtherAmount = 0; this.Balance = 0; this.PAmount = 0;
     setTimeout(() => {
       this.GodownName = this.data[0].GName;
       this.RegionName = this.data[0].RName;
@@ -201,6 +205,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.transactionOptions = transactoinSelection;
           this.transactionOptions.unshift({ 'label': '-select', 'value': null });
         }
+        this.checkTransactionType = ((this.Trcode !== undefined && this.Trcode !== null)?
+        ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode): false) ? true : false;
         break;
       case 'scheme':
           if (type === 'enter') {
@@ -374,6 +380,7 @@ export class DeliveryReceiptComponent implements OnInit {
           { label: 'Adjustment', value: 'Adjustment' }, { label: 'Cash', value: 'Cash' },
           { label: 'Cheque', value: 'Cheque' }, { label: 'Draft', value: 'Draft' }, { label: 'Ocr', value: 'Ocr' },
           { label: 'PayOrder', value: 'PayOrder' }];
+          this.paymentOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
   }
@@ -426,8 +433,14 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_PAYMENT_DETAILS_DOCUMENT, params).subscribe(res => {
       if (res !== null && res !== undefined && res.length !== 0) {
         this.deliveryData = res;
+        this.deliveryData.forEach(x => {
+          x.DoDate = this.datepipe.transform(x.DoDate, 'dd/MM/yyyy');
+          x.PaymentAmount = (x.PaymentAmount !== null) ? x.PaymentAmount : '-';
+          let paidAmount = (x.PaymentAmount !== '-') ? x.PaymentAmount : 0;
+          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1));
+        })
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
   }
@@ -443,8 +456,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(2);
-        this.RateTerm = data.UnitMeasure;
-        this.rateInTermsOptions = [{ label: data.UnitMeasure, value: data.UnitMeasure }];
+        this.RateTerm = data.Wtype;
+        this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
@@ -456,8 +469,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MICode = data.ITDescription;
         this.miCode = data.ItemCode;
         this.marginItemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
-        this.MarginRateInTerms = data.RateInTerms;
-        this.marginRateInTermsOptions = [{ label: data.RateInTerms, value: data.RateInTerms }];
+        this.MarginRateInTerms = data.MarginWtype;
+        this.marginRateInTermsOptions = [{ label: data.MarginWtype, value: data.MarginWtype }];
         this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
         this.MarginRate = (data.MarginRate * 1).toFixed(2);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
@@ -468,7 +481,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Payment = data.PaymentMode;
         this.paymentOptions = [{ label: data.PaymentMode, value: data.PaymentMode }];
         this.ChequeNo = data.ChequeNo;
-        this.ChequeDate = new Date(data.ChequeDate);
+        this.ChequeDate = data.ChequeDate;
         this.PAmount = (data.PaymentAmount * 1)
         this.PayableAt = data.payableat;
         this.OnBank = data.bank;
@@ -478,7 +491,7 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'prevBal':
         this.PrevOrderNo = data.AdjustedDoNo;
-        this.PrevOrderDate = new Date(data.AdjustedDate);
+        this.PrevOrderDate = data.AdjustedDate;
         this.AdjusmentAmount = (data.Amount * 1);
         this.OtherAmount = (data.AmountNowAdjusted * 1);
         this.Balance = (data.Balance * 1);
@@ -534,8 +547,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Payment':
         this.paymentData.push({
           PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
-          ChequeDate: this.ChequeDate,
+          ChDate: (typeof this.ChequeDate === 'string') ? this.ChequeDate : this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          ChequeDate: (typeof this.ChequeDate === 'string') ? this.ChequeDate : this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
           Rcode: this.RCode,
           PaymentAmount: (this.PAmount * 1).toFixed(2),
           payableat: this.PayableAt,
@@ -548,15 +561,16 @@ export class DeliveryReceiptComponent implements OnInit {
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.ChequeDate = new Date();
-          this.Payment = this.PayableAt = this.ChequeNo = this.OnBank = this.PAmount = null;
+          this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
+          this.OnBank = null; this.PAmount = 0;
           this.paymentOptions = [];
         }
         break;
       case 'Adjustment':
         this.paymentBalData.push({
           AdjustedDoNo: this.PrevOrderNo,
-          AdjustDate: this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
-          AdjustedDate: this.PrevOrderDate,
+          AdjustDate: (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+          AdjustedDate:  (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
           Amount: (this.AdjusmentAmount * 1).toFixed(2),
           AdjustmentType: this.AdjustmentType,
           Rcode: this.RCode,
@@ -565,7 +579,9 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         if (this.paymentBalData.length !== 0) {
           this.PrevOrderDate = new Date();
-          this.PrevOrderNo = this.AdjusmentAmount = this.AdjustmentType = this.Balance = this.OtherAmount = null;
+          this.PrevOrderNo = null;
+          this.AdjusmentAmount = 0; this.AdjustmentType = null;
+          this.Balance = 0; this.OtherAmount = 0;
         }
         break;
     }
@@ -638,7 +654,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     })
   }
@@ -654,16 +670,30 @@ export class DeliveryReceiptComponent implements OnInit {
         })
         this.deliveryViewData = res.Table;
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No data for this combination!' })
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
   }
 
   onPrint() {
+    if(this.isViewed) {
+      this.onSave('2');
+    }
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
-    saveAs(path + filename, filename);
-    this.isSaveSucceed = false;
+    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'potrait',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;
+      });
   }
 
   onClear() {
@@ -684,6 +714,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.messageService.clear();
     this.itemData = []; this.itemSchemeData = []; this.paymentBalData = []; this.paymentData = [];
     this.viewPane = false;
+    this.isViewed = true;
+    this.isSaveSucceed = false;
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
@@ -715,7 +747,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.itemData.push({
             ITDescription: i.ITDescription,
             NetWeight: (i.NetWeight * 1),
-            UnitMeasure: i.Wtype,
+            Wtype: i.Wtype,
             SchemeName: i.SCName,
             Rate: (i.Rate * 1),
             Total: (i.Total * 1),
@@ -730,7 +762,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.itemSchemeData.push({
             ITDescription: i.ITDescription,
             MarginNkgs: (i.MarginNkgs * 1),
-            RateInTerms: i.MarginWtype,
+            MarginWtype: i.MarginWtype,
             SchemeName: i.SCName,
             MarginRate: (i.MarginRate * 1),
             MarginAmount: (i.MarginAmount * 1),
@@ -745,8 +777,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.paymentData.push({
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
-            ChDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
-            ChequeDate: i.ChDate,
+            ChequeDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
+            ChDate: this.datepipe.transform(i.ChDate, 'MM/dd/yyyy'),
             PaymentAmount: (i.PaymentAmount !== null) ? i.PaymentAmount : 0,
             payableat: i.payableat,
             bank: i.bank,
@@ -764,8 +796,8 @@ export class DeliveryReceiptComponent implements OnInit {
         res.Table2.forEach(i => {
           this.paymentBalData.push({
             AdjustedDoNo: i.AdjustedDoNo,
-            AdjustDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
-            AdjustedDate: i.AdjustDate,
+            AdjustedDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
+            AdjustDate: this.datepipe.transform(i.AdjustDate, 'MM/dd/yyyy'),
             Amount: (i.Amount !== null) ? i.Amount : 0,
             AdjustmentType: i.AdjustmentType,
             AmountNowAdjusted: (i.AmountNowAdjusted !== null) ? i.AmountNowAdjusted : 0,
@@ -777,15 +809,16 @@ export class DeliveryReceiptComponent implements OnInit {
     });
   }
 
-  onSave() {
+  onSave(type) {
     this.messageService.clear();
+    this.blockScreen = true;
     this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
       ? this.PMonth.value : this.curMonth);
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
       ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
     const params = {
-      'Type': 1,
+      'Type': type,
       'Dono': this.DeliveryOrderNo,
       'RowId': this.rowId,
       'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
@@ -794,6 +827,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
       'OrderPeriod': this.OrderPeriod,
       'ReceivorCode': (this.PName.value !== undefined) ? this.PName.value : this.pCode,
+      'ReceivorName': (this.PName.label !== undefined) ? this.PName.label : this.PName,
       'IssuerCode': this.GCode,
       'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'GrandTotal': this.GrandTotal,
@@ -814,15 +848,22 @@ export class DeliveryReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Delivery Order No:' + res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isViewed = false;
+      this.isSaveSucceed = false;
+      this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please Contact Administrator!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }

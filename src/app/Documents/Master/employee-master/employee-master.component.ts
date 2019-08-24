@@ -8,6 +8,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-employee-master',
@@ -121,7 +122,7 @@ export class EmployeeMasterComponent implements OnInit {
       if (selectedItem !== null) {
         this.EmployeeData = this.EmployeeData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.EmployeeData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Record not found!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       } else {
         this.EmployeeData = this.desig;
@@ -151,15 +152,15 @@ export class EmployeeMasterComponent implements OnInit {
     };
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
+        this.messageService.add({ key: 't-success', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
     this.onClear();

@@ -4,13 +4,15 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
+import { StatusMessage } from 'src/app/constants/Messages';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-stock-receipt',
@@ -123,6 +125,8 @@ export class StockReceiptComponent implements OnInit {
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
+  isViewed: boolean = false;
+  blockScreen: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -138,7 +142,7 @@ export class StockReceiptComponent implements OnInit {
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    private datepipe: DatePipe, private messageService: MessageService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -521,7 +525,8 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  onSave() {
+  onSave(type) {
+    this.blockScreen = true;
     this.messageService.clear();
     this.PAllotment = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     if (this.selectedValues.length !== 0) {
@@ -532,7 +537,7 @@ export class StockReceiptComponent implements OnInit {
       }
     }
     const params = {
-      'Type': 1,
+      'Type': type,
       'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
       'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
@@ -563,15 +568,22 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.isSaveSucceed = true;
+          this.isViewed = false;
+          this.blockScreen = false;
           this.onClear();
-          this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully! Receipt No:' + res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: res.Item2 });
+          this.isViewed = false;
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     }, (err: HttpErrorResponse) => {
+      this.isSaveSucceed = false;
+          this.isViewed = false;
+          this.blockScreen = false;
       if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please contact administrator!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -589,7 +601,7 @@ export class StockReceiptComponent implements OnInit {
         this.documentViewData = res;
       } else {
         this.documentViewData = [];
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
@@ -601,6 +613,7 @@ export class StockReceiptComponent implements OnInit {
   getDocBySRNo() {
     this.messageService.clear();
     this.viewPane = false;
+    this.isViewed = true;
     this.itemData = [];
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -653,20 +666,31 @@ export class StockReceiptComponent implements OnInit {
           })
         });
       } else {
-        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warn Message', detail: 'No record found!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
   }
 
   onPrint() {
-    if(this.isSaveSucceed) {
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument + ".txt";
-    saveAs(path + filename, filename);
-    } else {
-
+    if(this.isViewed) {
+      this.onSave('2');
     }
-    this.isSaveSucceed = false;
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
+    let filepath = path + filename + ".txt";
+    //saveAs(filepath, filename);
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        var doc = new jsPDF({
+          orientation: 'potrait',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(10);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;    
+      });
   }
 
   onClear() {
