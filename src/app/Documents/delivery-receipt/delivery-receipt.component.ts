@@ -691,8 +691,9 @@ export class DeliveryReceiptComponent implements OnInit {
         doc.setFontSize(10);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
+        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
+        this.isViewed = (this.isViewed) ? false : true;
       });
-    this.isSaveSucceed = false;
   }
 
   onClear() {
@@ -713,6 +714,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.messageService.clear();
     this.itemData = []; this.itemSchemeData = []; this.paymentBalData = []; this.paymentData = [];
     this.viewPane = false;
+    this.isViewed = true;
+    this.isSaveSucceed = false;
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
