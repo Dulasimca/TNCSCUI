@@ -680,12 +680,12 @@ export class DeliveryReceiptComponent implements OnInit {
       this.onSave('2');
     }
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename;
+    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
     let filepath = path + filename + ".txt";
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
         var doc = new jsPDF({
-          orientation: 'landscape',
+          orientation: 'potrait',
         })
         doc.setFont('courier');
         doc.setFontSize(10);

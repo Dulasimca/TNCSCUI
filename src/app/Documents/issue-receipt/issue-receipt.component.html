@@ -434,7 +434,7 @@
           <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0')" label=Save (click)="onSave('1')"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="(!isViewed && !isSaveSucceed)" label=Print (click)="onPrint()"></button>
+          <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((f.dirty) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
         </div>
         </form>
       </div>

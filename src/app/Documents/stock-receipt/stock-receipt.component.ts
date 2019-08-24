@@ -682,7 +682,7 @@ export class StockReceiptComponent implements OnInit {
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
         var doc = new jsPDF({
-          orientation: 'landscape',
+          orientation: 'potrait',
         })
         doc.setFont('courier');
         doc.setFontSize(10);
