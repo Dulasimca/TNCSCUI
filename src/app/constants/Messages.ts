@@ -1,8 +1,8 @@
 export class StatusMessage {
-    public static readonly SEVERITY_SUCCESS = 'succes';
+    public static readonly SEVERITY_SUCCESS = 'success';
     public static readonly SEVERITY_ERROR = 'error';
     public static readonly SEVERITY_WARNING = 'warn';
-    public static readonly SUMMARY_SUCCESS = 'Succes Message';
+    public static readonly SUMMARY_SUCCESS = 'Success Message';
     public static readonly SUMMARY_WARNING = 'Warning Message';
     public static readonly SUMMARY_ERROR = 'Error Message';
     public static readonly SUMMARY_INVALID = 'Invalid Date!'
