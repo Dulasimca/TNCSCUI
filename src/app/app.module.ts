@@ -134,6 +134,7 @@ import { PackingMasterComponent } from './UserMaster/packing-master/packing-mast
 import { OtherMasterComponent } from './UserMaster/other-master/other-master.component';
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
+import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 
 @NgModule({
   declarations: [
@@ -227,6 +228,7 @@ import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/sc
     OtherMasterComponent,
     CncCorrectionComponent,
     SchemeCommodityComponent,
+    SocietyMasterNewComponent,
   ],
   imports: [
     BrowserModule,

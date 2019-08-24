@@ -93,6 +93,7 @@ export class TableConstants {
   CustomerMaster: any;
   SchemeCommodity: any;
   EmployeeMaster: any;
+  SocietyMasterNewEntry: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -476,11 +477,11 @@ export class TableConstants {
       { field: 'ReceivorName', header: 'Receivor Name' },
     ];
 
-    this.StockIssueMemoIssueDetailsColumns = [ 
-    { field: 'DNo', header: 'Do No.' },
-    { field: 'DeliveryOrderDate', header: 'Do Date' },
-    {field: 'SINo', header: 'SI No.' },
-    { field: 'IssueMemoDate', header: 'SI Date' }];
+    this.StockIssueMemoIssueDetailsColumns = [
+      { field: 'DNo', header: 'Do No.' },
+      { field: 'DeliveryOrderDate', header: 'Do Date' },
+      { field: 'SINo', header: 'SI No.' },
+      { field: 'IssueMemoDate', header: 'SI Date' }];
 
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'TStockNo', header: 'Stack No.' },
@@ -736,7 +737,7 @@ export class TableConstants {
 
     this.SocietyMaster = [
       { field: 'SlNo', header: 'S.No', width: '40px' },
-      { field: 'GodownName', header: 'Godown Name'},
+      { field: 'GodownName', header: 'Godown Name' },
       { field: 'Tyname', header: 'Type Name' },
       { field: 'SocietyName', header: 'Society Name' },
       { field: 'SocietyType', header: 'Society Type' },
@@ -758,6 +759,13 @@ export class TableConstants {
       { field: 'Tyname', header: 'Type Name' },
       { field: 'Societyname', header: 'Society Name' },
       { field: 'Issuername', header: 'Issuer Name' },
+    ];
+
+    this.SocietyMasterNewEntry = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Societyname', header: 'Society Name' },
+      { field: 'Tyname', header: 'Type Name' },
+      { field: 'Eflag', header: 'EFlag' },
     ];
 
     this.ItemMasterModification = [
@@ -850,7 +858,7 @@ export class TableConstants {
       { field: 'ClosingBalance', header: 'CB' },
       { field: 'ApprovalDate', header: 'Approved Date' },
       // { field: 'lastupdated', header: 'Last Updated'},
-      { field: 'Status', header: 'Regional Status'},
+      { field: 'Status', header: 'Regional Status' },
       { field: 'UserId', header: 'Username' },
     ];
 
@@ -981,13 +989,13 @@ export class TableConstants {
     ];
 
     this.EmployeeMaster = [
-      { field: 'Empname', header: 'Employee Name'},
-      { field: 'Empno', header: 'Employee No'},
-      { field: 'Designation', header: 'Designation'},
-      { field: 'Jrtype', header: 'Join Type'},
-      { field: 'Jrdate', header: 'Join Date'},
-      { field: 'Refno', header: 'Reference No'},
-      { field: 'Refdate', header: 'Reference Date'}
+      { field: 'Empname', header: 'Employee Name' },
+      { field: 'Empno', header: 'Employee No' },
+      { field: 'Designation', header: 'Designation' },
+      { field: 'Jrtype', header: 'Join Type' },
+      { field: 'Jrdate', header: 'Join Date' },
+      { field: 'Refno', header: 'Reference No' },
+      { field: 'Refdate', header: 'Reference Date' }
     ];
   }
 }

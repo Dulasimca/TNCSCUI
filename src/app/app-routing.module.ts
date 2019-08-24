@@ -84,6 +84,7 @@ import { PackingMasterComponent } from './UserMaster/packing-master/packing-mast
 import { OtherMasterComponent } from './UserMaster/other-master/other-master.component';
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
+import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 
 
 const routes: Routes = [
@@ -172,6 +173,7 @@ const routes: Routes = [
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
   { path: 'DD Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Society Master Entry', component: SocietMasterEntryComponent },
+  { path: 'Society Master New Entry', component: SocietyMasterNewComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
