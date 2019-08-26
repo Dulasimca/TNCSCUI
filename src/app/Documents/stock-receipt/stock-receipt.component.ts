@@ -679,6 +679,7 @@ export class StockReceiptComponent implements OnInit {
  }
 
   onPrint() {
+    this.blockScreen = true;
     if(this.isViewed) {
       this.onSave('2');
     }
@@ -696,9 +697,11 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(9);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
+        this.blockScreen = false;
         this.isSaveSucceed = false;
         this.isViewed = false;   
         } else {
+          this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } 
         },(err: HttpErrorResponse) => {

@@ -677,6 +677,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    this.blockScreen = true;
     if(this.isViewed) {
       this.onSave('2', );
     }
@@ -695,7 +696,9 @@ export class DeliveryReceiptComponent implements OnInit {
         doc.save(filename + '.pdf');
         this.isSaveSucceed = false;
         this.isViewed = false;
+        this.blockScreen = false;
       } else {
+        this.blockScreen = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } 
       },(err: HttpErrorResponse) => {
