@@ -199,12 +199,10 @@ export class DeliveryReceiptComponent implements OnInit {
           if (type === 'enter') {
             this.transactionPanel.overlayVisible = true;
           } 
-      if (this.transactionOptions === undefined) {
           transactoinSelection.push({ label: 'SALES', value: 'TR014'}, 
           { label: 'CREDIT SALES', value: 'TR019'}, { label: 'FREE SCHEME', value: 'TR022'});
           this.transactionOptions = transactoinSelection;
           this.transactionOptions.unshift({ 'label': '-select', 'value': null });
-        }
         this.checkTransactionType = ((this.Trcode !== undefined && this.Trcode !== null)?
         ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode): false) ? true : false;
         break;
@@ -241,7 +239,8 @@ export class DeliveryReceiptComponent implements OnInit {
             this.receivorTypePanel.overlayVisible = true;
           }
         if (this.Trcode !== null && this.Trcode !== undefined) {
-          if (this.Trcode !== null && this.Trcode.value !== undefined && this.Trcode.value !== '') {
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
+            (this.trCode !== null && this.trCode !== undefined)) {
             const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -263,7 +262,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.partyNamePanel.overlayVisible = true;
           }
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
-          if (this.Trcode.value !== undefined && this.Trcode.value !== '' && this.RTCode.value !== undefined && this.RTCode.value !== '') {
+          if ((this.Trcode.value !== undefined && this.RTCode.value !== undefined) || (this.rtCode !== undefined && this.trCode !== null)) {
             const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
               .append('TRType', this.TransType).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
@@ -644,7 +643,7 @@ export class DeliveryReceiptComponent implements OnInit {
       Type: 2,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
-      DoNo: (this.DeliveryOrderNo !== undefined) ? this.DeliveryOrderNo : 0,
+      DoNo: (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
         ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
