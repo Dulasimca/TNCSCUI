@@ -79,7 +79,7 @@
                 </div>
                 <div class="ui-g-12 ui-md-10 ui-fluid dashboard" style="margin-top: -5px">
                   <div class="ui-g-12 ui-md-7 no-pad-top"  style="margin-top: -40px; max-height: 80px;">
-                  <p-table [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="50px" [style]="{width:'500px'}">
+                  <p-table tabindex="-1" [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="50px" [style]="{width:'500px'}">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
                         <col *ngFor="let col of columns" style="width:80px">
@@ -331,25 +331,25 @@
               </div>
               <div class="ui-g-12 ui-md-2">
                   <span class="ui-float-label">
-                    <input name="StackBal" id="float-input" pInputText [(ngModel)]="StackBalance" [readonly]="true" autocomplete="off">
+                    <input name="StackBal" id="float-input" tabindex="-1" pInputText [(ngModel)]="StackBalance" [readonly]="true" autocomplete="off">
                     <label for="StackBal" class="float-input">Stack Balance</label>
                   </span>
                 </div>
                   <div class="ui-g-12 ui-md-2">
                     <span class="ui-float-label">
-                      <input name="CurrentDocQty" id="float-input" pInputText [(ngModel)]="CurrentDocQtv" [readonly]="true" autocomplete="off">
+                      <input name="CurrentDocQty" id="float-input" tabindex="-1" pInputText [(ngModel)]="CurrentDocQtv" [readonly]="true" autocomplete="off">
                       <label for="CurrentDocQty" class="float-input">Cur.Doc. Qtv</label>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="NetStackBal" id="float-input" pInputText [(ngModel)]="NetStackBalance" [readonly]="true" autocomplete="off">
+                        <input name="NetStackBal" id="float-input" tabindex="-1" pInputText [(ngModel)]="NetStackBalance" [readonly]="true" autocomplete="off">
                         <label for="NetStackBal" class="float-input">Net Stack Balance</label>
                       </span>
                     </div>
             </div>
             <div class="ui-g-12 ui-fluid no-pad-top">
-              <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
+              <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
                 scrollHeight="180px">
                 <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
@@ -428,10 +428,10 @@
         </p-tabView>
         <div class="ui-g-3 ui-md-8"></div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
+          <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView();f.reset()"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0' || (isViewed && !f.dirty))" label=Save (click)="onSave('1')"></button>
+          <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0' || (isViewed && !f.dirty))" label=Save (click)="onSave('1');f.reset()"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
@@ -464,7 +464,7 @@
     </div>
   </div>
     <div class="ui-g-12 ui-fluid">
-        <p-table [columns]="issueMemoDocCols" [value]="issueMemoDocData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+        <p-table tabindex="-1" [columns]="issueMemoDocCols" [value]="issueMemoDocData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">

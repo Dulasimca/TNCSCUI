@@ -277,28 +277,28 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">
-                          <input name="StackBal" id="float-input" [(ngModel)]="StackBalance" pInputText autocomplete="off"
+                          <input name="StackBal" id="float-input" tabindex="-1" [(ngModel)]="StackBalance" pInputText autocomplete="off"
                           [readonly]="true" >
                           <label for="StackBal" class="float-input">Stack Balance</label>
                         </span>
                       </div>
                       <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">
-                          <input name="CurQtv" id="float-input" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
+                          <input name="CurQtv" id="float-input" tabindex="-1" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
                           [readonly]="true">
                           <label for="CurQtv" class="float-input">Cur.Doc. Qtv</label>
                         </span>
                       </div>
                       <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">
-                          <input name="NetStackBal" id="float-input" [readonly]="true" [(ngModel)]="NetStackBalance" pInputText
+                          <input name="NetStackBal" id="float-input" tabindex="-1" [readonly]="true" [(ngModel)]="NetStackBalance" pInputText
                             autocomplete="off">
                           <label for="NetStackBal" class="float-input">Net Stack Balance</label>
                         </span>
                       </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
-                    <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
+                    <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
                       scrollHeight="180px">
                       <ng-template pTemplate="colgroup" let-columns>
                         <colgroup>
@@ -486,10 +486,10 @@
             </p-tabView>
             <div class="ui-g-3 ui-md-8"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
+              <button style="margin-top:5px" pButton type="button" label=View (click)="onView();f.reset()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="((!f.valid || itemData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save (click)="onSave('1')"></button>
+              <button style="margin-top:5px" pButton type="button" [disabled]="((!f.valid || itemData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save (click)="onSave('1');f.reset()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button" label=Print [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed))" (click)="onPrint()"></button>
@@ -521,7 +521,7 @@
     </div>
   </div>
     <div class="ui-g-12 ui-md-12 ui-fluid">
-        <p-table #dt [columns]="truckMemoViewCol" [value]="truckMemoViewData" 
+        <p-table #dt tabindex="-1" [columns]="truckMemoViewCol" [value]="truckMemoViewData" 
         selectionMode="single" [responsive]="true" autoLayout="true" 
         (onRowSelect)="onRowSelect($event)">
           <ng-template pTemplate="colgroup" let-columns>

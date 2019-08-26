@@ -778,6 +778,7 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
+    this.isSaveSucceed = false; this.isViewed = false;
   }
 
   openNext() {
