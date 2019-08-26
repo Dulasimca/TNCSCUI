@@ -804,8 +804,6 @@ export class IssueReceiptComponent implements OnInit {
         doc.setFontSize(8);
         doc.text(data, 2, 2);
         doc.save(filename + '.pdf');
-        //  var w = window.open(path + filename); //Required full file path.
-        //  w.print();
         this.isSaveSucceed = false;
         this.isViewed = false;
       } else {
