@@ -772,7 +772,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'ITCode', header: 'CODE' },
       { field: 'ITDescription', header: 'ITEM NAME' },
-      { field: 'GRName', header: 'GROUP' },
+      // { field: 'GRName', header: 'GROUP' },
       { field: 'ItemType', header: 'ACTIVE' },
 
     ];
