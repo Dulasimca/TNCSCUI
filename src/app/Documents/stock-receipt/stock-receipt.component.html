@@ -45,7 +45,7 @@
                     <label class="label-fontsize">Month</label>
                     <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                      optionLabel="label" [showClear]="true" required>
+                      optionLabel="label" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -54,7 +54,7 @@
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label class="label-fontsize">Year</label>
                     <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y', 'click')"
-                    (keydown.enter)="onSelect('y', 'enter')"  [showClear]="true" required>
+                    (keydown.enter)="onSelect('y', 'enter')" required>
                     </p-dropdown>
                   </div>
                 </div>
@@ -525,7 +525,7 @@
               </div>
             </p-tabPanel>
           </p-tabView>
-          <div class="ui-g-3 ui-md-9"></div>
+          <div class="ui-g-3 ui-md-8"></div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
             <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
           </div>
@@ -535,6 +535,10 @@
           <div class="ui-g-3 ui-md-1 ui-fluid">
             <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty && !f.valid) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
           </div>
+          <div class="ui-g-3 ui-md-1 ui-fluid">
+              <button style="margin-top:5px" pButton type="button"
+                label=Clear (click)="onClear()"></button>
+            </div>
         </form>
         </div>
       </div>
