@@ -64,7 +64,7 @@ import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balan
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
 import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
 import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.component';
-import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
+import { ShopSocietUpdateMasterComponent } from './Documents/Master/shopSocietyUpdate/shopSocietyUpdate.component';
 import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 import { OpeningBalanceCurrentYearComponent } from './Documents/Master/opening-balance-current-year/opening-balance-current-year.component';
@@ -153,7 +153,7 @@ const routes: Routes = [
   { path: 'Employee Master', component: EmployeeMasterComponent },
   { path: 'Rate Master', component: RateMasterComponent },
   { path: 'User Master', component: UserMasterComponent },
-  { path: 'Society Master Entry', component: SocietMasterEntryComponent },
+  { path: 'Shop Society Update', component: ShopSocietUpdateMasterComponent },
   { path: 'Commodity Break', component: ItemMasterModificationComponent },
   { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
@@ -172,8 +172,7 @@ const routes: Routes = [
   { path: 'Cnc Correction', component: CncCorrectionComponent },
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
   { path: 'DD Receipt Entry', component: StackReceiptEntryComponent },
-  { path: 'Society Master Entry', component: SocietMasterEntryComponent },
-  { path: 'Society Master New Entry', component: SocietyMasterNewComponent },
+  { path: 'Society Master Entry', component: SocietyMasterNewComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

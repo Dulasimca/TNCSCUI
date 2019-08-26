@@ -35,10 +35,12 @@ export class HeaderComponent implements OnInit {
   date: any;
   seconds: any;
   data: any;
+  roleId: any;
   constructor(private roleBasedService: RoleBasedService, private router: Router, private restApiService: RestAPIService, private messageService: MessageService, private fb: FormBuilder, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     // this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],
       pswd: ['', Validators.required],

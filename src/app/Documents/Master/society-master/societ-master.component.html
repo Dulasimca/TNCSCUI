@@ -42,7 +42,7 @@
         <input type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off">
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-        <button pButton type="button" label=View (click)="onView()"></button>
+        <button pButton type="button" label=View [disabled]="(!t_cd || !g_cd)" (click)="onView()"></button>
       </div>
       <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()"></button>

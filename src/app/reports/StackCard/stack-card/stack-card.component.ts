@@ -122,7 +122,7 @@ export class StackCardComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
      
-      if (res !== undefined && res.length !== 0) {
+      if (res) {
         this.StackCardData = res;
         this.StackCardData.forEach(data => {
           data.AckDate = this.datePipe.transform(data.AckDate, 'dd-MM-yyyy');

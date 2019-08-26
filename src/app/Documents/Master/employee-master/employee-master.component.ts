@@ -116,19 +116,32 @@ export class EmployeeMasterComponent implements OnInit {
     this.Refno = this.selectedRow.Refno;
   }
 
-  onChange(e) {
-    if (this.designationOptions !== undefined) {
-      const selectedItem = e.value;
-      if (selectedItem !== null) {
-        this.EmployeeData = this.EmployeeData.filter(x => { return x.ITDescription === selectedItem.label });
-        if (this.EmployeeData.length === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-        }
-      } else {
-        this.EmployeeData = this.desig;
+  onDesignation() {
+    let designationSelection = [];
+    this.restApiService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(s => {
+          designationSelection.push({ 'label': s.DESIGNATIONNAME, 'value': s.DESGINATIONCODE });
+        });
+        this.designationOptions = designationSelection;
+        this.designationOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
       }
-    }
+    });
   }
+
+  // onChange(e) {
+  //   if (this.designationOptions !== undefined) {
+  //     const selectedItem = e.value;
+  //     if (selectedItem !== null) {
+  //       this.EmployeeData = this.EmployeeData.filter(x => { return x.ITDescription === selectedItem.label });
+  //       if (this.EmployeeData.length === 0) {
+  //         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+  //       }
+  //     } else {
+  //       this.EmployeeData = this.desig;
+  //     }
+  //   }
+  // }
 
   onCommodityClicked() {
     if (this.designationOptions !== undefined && this.designationOptions.length <= 1) {
@@ -142,7 +155,7 @@ export class EmployeeMasterComponent implements OnInit {
       'Roleid': this.roleId,
       'Empno': formUser.Empno,
       'Empname': formUser.EmpName,
-      'Designation': formUser.Designation,
+      'Designation': this.d_cd.value,
       'Jrtype': (this.Join === true) ? 'J' : 'R',
       // 'Jrtype': (this.Join === true && this.Relieve === false) ? this.Join : this.Relieve,
       'Jrdate': this.datepipe.transform(formUser.JRDate, 'MM/dd/yyyy'),
@@ -152,7 +165,7 @@ export class EmployeeMasterComponent implements OnInit {
     };
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
-        this.messageService.add({ key: 't-success', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });

@@ -89,6 +89,7 @@ export class DailyDocumentsComponent implements OnInit {
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       this.DailyDocumentReceiptData = res;
       this.filterArray = res;
+      if(this.roleId !== 1) {
       this.DailyDocumentTotalData = this.gdata
       this.DailyDocumentTotalData.forEach(s => {
         s.RCode = this.g_cd.rcode,
@@ -97,6 +98,7 @@ export class DailyDocumentsComponent implements OnInit {
           s.RName,
           s.NoDocument = res.length
       });
+    }
       let sno = 0;
       this.DailyDocumentReceiptData.forEach(data => {
         data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');

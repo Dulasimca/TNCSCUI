@@ -7,9 +7,7 @@
         <div class="ui-g-4 dashboard">Employee Master</div>
       </div>
     </p-header>
-    <p-toast class="ui-toast-message-warn" position="center" key="t-warn"></p-toast>
-    <p-toast class="ui-toast-message-success" position="center" key="t-success"></p-toast>
-    <p-toast class="ui-toast-message-error" position="center" key="t-err"></p-toast>
+    <p-toast position="center" key="t-err"></p-toast>
     <div class="ui-g">
         
       <div class="employee-main">
@@ -30,11 +28,11 @@
                 name="Designation" #Designation="ngModel" autocomplete="off" required>
               <label for="Designation">Designation</label>
             </div> -->
-            <div class="ui-g" style="margin-bottom: 20px">
-                <label class="ui-g-6 label-fontsize-large">Depositor</label>
-                <p-dropdown class="ui-g-12 ui-fluid" id="float-input" [options]="depositorOptions" [(ngModel)]="d_cd"
-                  (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true"
-                  (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true" name="CommodityName" required>
+            <div class="ui-g dashboard" style="margin-bottom: 20px">
+                <label class="ui-g label-fontsize-large">Designation</label>
+                <p-dropdown class="ui-g-12 ui-fluid dashboard" id="float-input" [options]="designationOptions" [(ngModel)]="d_cd"
+                  (onClick)="onDesignation()" filter="true"
+                  (keydown.enter)="onDesignation()" optionLabel="label" [showClear]="true" name="DesignationName" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -74,13 +72,17 @@
               </span>
             </div>
             <div class="bottom" style="padding-left: 95px">
+              <div>
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
                 label=Submit [disabled]="(!templateForm.form.valid)"></button>
+              </div>
+                <div style="padding-top: 10px;">
+                    <button class="btn" style="padding: 4px 17px 4px 17px" pButton type="button" label=View (click)="onView()"></button>
+                  </div>
             </div>
-            <div>
-              <button class="ui-g-10 dashboard" pButton label=OK (click)="onView()"></button>
-            </div>
-
+            <!-- <div>
+              <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" label=View (click)="onView()"></button>
+            </div> -->
           </form>
         </div>
       </div>

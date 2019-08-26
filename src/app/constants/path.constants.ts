@@ -85,5 +85,6 @@ export class PathConstants {
   public static readonly SOCIETY_MASTER_ENTRY_PUT = '/api/SocietyMasterEntry/Put';
   public static readonly SOCIETY_MASTER_NEW_ENTRY_GET = '/api/SocietyMasterNew/Get';
   public static readonly SOCIETY_MASTER_NEW_ENTRY_POST = '/api/SocietyMasterNew/Post';
+  public static readonly DESIGNATION_MASTER = '/api/DesignationMaster';
 
 }

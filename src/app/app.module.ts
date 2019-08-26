@@ -113,7 +113,7 @@ import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balan
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
 import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
 import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.component';
-import { SocietMasterEntryComponent } from './Documents/Master/societ-master-entry/societ-master-entry.component';
+import { ShopSocietUpdateMasterComponent } from './Documents/Master/shopSocietyUpdate/shopSocietyUpdate.component';
 import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
 import { CustomerListComponent } from './Documents/Master/customer-list/customer-list.component';
 import { UserMasterComponent } from './Documents/Master/user-master/user-master.component';
@@ -209,7 +209,7 @@ import { StatusMessage } from './constants/Messages';
     DepositorCustomerMasterComponent,
     EmployeeMasterComponent,
     RateMasterComponent,
-    SocietMasterEntryComponent,
+    ShopSocietUpdateMasterComponent,
     ItemMasterModificationComponent,
     CustomerListComponent,
     UserMasterComponent,
