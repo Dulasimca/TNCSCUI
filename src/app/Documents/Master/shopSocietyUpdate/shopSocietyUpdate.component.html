@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Society Master Entry</div>
+        <div class="ui-g-4 dashboard">Shop Society Update</div>
       </div>
     </p-header>
     <!-- <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast> -->
@@ -42,13 +42,10 @@
         <input type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off">
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=New (click)="New()"></button>
+        <button pButton type="button" label=View [disabled]="(!t_cd)" (click)="onView()"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Update (click)="onUpdate()"></button>
+        <button pButton type="button" label=Update [disabled]="(!t_cd || !s_cd || !Iss_cd)" (click)="onUpdate()"></button>
       </div>
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">

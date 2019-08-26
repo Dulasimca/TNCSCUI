@@ -88,7 +88,9 @@ export class SocietyMasterNewComponent implements OnInit {
           // this.SocietyData.push({ 'label': x.SocietyCode, 'value': x.Societyname });
           // this.SocietyOptions = this.SocietyData;
           this.typeOptions = TypeSelection;
-          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': 'TY004' }, { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
+          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, 
+          { 'label': 'CRS', 'value': 'TY004' },
+           { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
           // });
         }
       });
@@ -131,8 +133,16 @@ export class SocietyMasterNewComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.SOCIETY_MASTER_NEW_ENTRY_POST, params).subscribe(value => {
       if (value) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Updated Successfully!' });
-
+        this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Updated Successfully!' });
+        const params = new HttpParams().set('GCode', this.gCode);
+        this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_NEW_ENTRY_GET, params).subscribe(res => {
+          this.SocietyMasterEntryData = res;
+          let sno = 0;
+          this.SocietyMasterEntryData.forEach(data => {
+            sno += 1;
+            data.SlNo = sno;
+          });
+        });
       } else {
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }

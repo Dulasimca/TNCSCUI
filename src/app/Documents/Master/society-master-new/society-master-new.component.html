@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Society Master Entry</div>
       </div>
     </p-header>
-    <!-- <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast> -->
+    <p-toast position="center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-6 ui-md-3">
@@ -32,7 +32,7 @@
         <button pButton type="button" label=New (click)="onNew()"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-        <button pButton type="button" label=Save (click)="onSave()"></button>
+        <button pButton type="button" label=Save  [disabled]="(!t_cd || !Name)" (click)="onSave()"></button>
       </div>
 
       <div class="ui-g-12 ui-md-2"></div>

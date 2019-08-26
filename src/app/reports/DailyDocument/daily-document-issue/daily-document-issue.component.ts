@@ -87,14 +87,16 @@ export class DailyDocumentIssueComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_ISSUE_POST, params).subscribe(res => {
       this.DailyDocumentIssueData = res;
-      this.DailyDocumentTotalData = this.gdata
-      this.DailyDocumentTotalData.forEach(s => {
-        s.RCode = this.g_cd.rcode,
-          s.GCode = this.g_cd.value,
-          s.GName = this.g_cd.label,
-          s.RName,
-          s.NoDocument = res.length
-      });
+      if (this.roleId !== 1) {
+        this.DailyDocumentTotalData = this.gdata
+        this.DailyDocumentTotalData.forEach(s => {
+          s.RCode = this.g_cd.rcode,
+            s.GCode = this.g_cd.value,
+            s.GName = this.g_cd.label,
+            s.RName,
+            s.NoDocument = res.length
+        });
+      }
       let sno = 0;
       this.DailyDocumentIssueData.forEach(data => {
         data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');

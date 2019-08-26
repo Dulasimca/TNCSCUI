@@ -9,11 +9,12 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-societ-master-entry',
-  templateUrl: './societ-master-entry.component.html',
-  styleUrls: ['./societ-master-entry.component.css']
+  // tslint:disable-next-line: component-selector
+  selector: 'app-shopSocietyUpdate',
+  templateUrl: './shopSocietyUpdate.component.html',
+  styleUrls: ['./shopSocietyUpdate.component.css']
 })
-export class SocietMasterEntryComponent implements OnInit {
+export class ShopSocietUpdateMasterComponent implements OnInit {
   SocietyMasterEntryCols: any;
   SocietyMasterEntryData: any;
   data?: any;
@@ -30,7 +31,7 @@ export class SocietMasterEntryComponent implements OnInit {
   canShowMenu: boolean;
   loading: boolean;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, 
+  constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -43,13 +44,13 @@ export class SocietMasterEntryComponent implements OnInit {
   ontype() {
     let TypeSelection = [];
     if (this.typeOptions === undefined) {
-    const params = new HttpParams().set('GCode', this.gCode);
-    this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-      if (res !== undefined) {
-        this.typeOptions = TypeSelection;
-        this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COOPERATIVES LEADING', 'value': this.typeOptions }, { 'label': 'COOPERATIVES PRIMARY', 'value': this.typeOptions });
-      }
-    });
+      const params = new HttpParams().set('GCode', this.gCode);
+      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+        if (res !== undefined) {
+          this.typeOptions = TypeSelection;
+          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COOPERATIVES LEADING', 'value': this.typeOptions }, { 'label': 'COOPERATIVES PRIMARY', 'value': this.typeOptions });
+        }
+      });
     }
   }
   onSo() {
@@ -132,9 +133,6 @@ export class SocietMasterEntryComponent implements OnInit {
 
   onView() {
     this.loading = true;
-    // this.ontype();
-    // this.onSo();
-    // this.onIss();
     const params = new HttpParams().set('GCode', this.gCode);
     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
       this.SocietyMasterEntryData = res;
