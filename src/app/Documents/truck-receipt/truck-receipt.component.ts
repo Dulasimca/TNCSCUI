@@ -884,7 +884,7 @@ export class TruckReceiptComponent implements OnInit {
           orientation: 'potrait',
         })
         doc.setFont('courier');
-        doc.setFontSize(10);
+        doc.setFontSize(8);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
         this.isSaveSucceed = false;
