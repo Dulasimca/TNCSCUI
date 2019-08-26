@@ -12,6 +12,7 @@ import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { saveAs } from 'file-saver';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -671,6 +672,11 @@ export class StockReceiptComponent implements OnInit {
       }
     });
   }
+
+  resetForm(receiptForm: NgForm){
+    receiptForm.form.markAsUntouched();
+    receiptForm.form.markAsPristine();
+ }
 
   onPrint() {
     if(this.isViewed) {

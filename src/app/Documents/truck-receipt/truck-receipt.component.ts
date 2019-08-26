@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import * as jsPDF from 'jspdf';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -690,6 +691,11 @@ export class TruckReceiptComponent implements OnInit {
     }
     });
   }
+
+  resetForm(truckMemoForm: NgForm){
+    truckMemoForm.form.markAsUntouched();
+    truckMemoForm.form.markAsPristine();
+ }
 
   getDocBySTNo() {
     this.messageService.clear();

@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown, Messages } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -760,6 +761,11 @@ export class IssueReceiptComponent implements OnInit {
       }
     });
   }
+
+  resetForm(issueMemoForm: NgForm){
+    issueMemoForm.form.markAsUntouched();
+    issueMemoForm.form.markAsPristine();
+ }
 
   onClear() {
     this.itemData = []; this.issueData = [];

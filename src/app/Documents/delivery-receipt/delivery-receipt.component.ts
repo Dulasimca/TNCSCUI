@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -124,6 +125,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
+  @ViewChild('f') form;
   
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -676,7 +678,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onPrint() {
     if(this.isViewed) {
-      this.onSave('2');
+      this.onSave('2', );
     }
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
@@ -819,6 +821,11 @@ export class DeliveryReceiptComponent implements OnInit {
       }
     });
   }
+
+  resetForm(deliveryForm: NgForm){
+    deliveryForm.form.markAsUntouched();
+    deliveryForm.form.markAsPristine();
+ }
 
   onSave(type) {
     this.messageService.clear();
