@@ -549,7 +549,7 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
     this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
-    this.OrderNo = null; this.selectedValues = null; this.RNo = null; this.LorryNo = null;
+    this.OrderNo = null; this.selectedValues = ['Road']; this.RNo = null; this.LorryNo = null;
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
     this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
     this.TransporterName = '-'; this.LWBillNo = '-';
@@ -853,15 +853,16 @@ export class TruckReceiptComponent implements OnInit {
           this.blockScreen = false;
         } else {
           this.blockScreen = false;
+          this.isSaveSucceed = false;
           this.isViewed = true;
           this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     },(err: HttpErrorResponse) => {
-      this.isSaveSucceed = true;
-      this.isViewed = true;
-      this.blockScreen = true;
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+      this.blockScreen = false;
        if (err.status === 0) {
         this.STTDetails = [];
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -878,15 +879,24 @@ export class TruckReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
+        if(data !== null && data !== undefined) {
         var doc = new jsPDF({
           orientation: 'potrait',
         })
         doc.setFont('courier');
-        doc.setFontSize(10);
+        doc.setFontSize(9);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
-        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
-        this.isViewed = (this.isViewed) ? false : true;
+        this.isSaveSucceed = false;
+        this.isViewed = false;
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } 
+      },(err: HttpErrorResponse) => {
+        this.blockScreen = false;
+         if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
       });
   }
 }

@@ -45,7 +45,7 @@
                     <label class="label-fontsize">Month</label>
                     <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                      optionLabel="label" [showClear]="true" required>
+                      optionLabel="label" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -54,16 +54,16 @@
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label class="label-fontsize">Year</label>
                     <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y', 'click')"
-                    (keydown.enter)="onSelect('y', 'enter')"  [showClear]="true" required>
+                    (keydown.enter)="onSelect('y', 'enter')" required>
                     </p-dropdown>
                   </div>
                 </div>
-                <div [ngClass]="(!f.touched) ? check-input : none" class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center">
+                <div class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center">
                   <div class="ui-g-12 dashboard label-fontsize-large">
                     Allotment/Release Order No
                   </div><br>
                   <div class="ui-g-12 ui-fluid" style="padding-left:15px">
-                    <input name="OrderNo" type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off" required>
+                    <input name="orderno" type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off" required>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-3 ui-fluid">
@@ -525,16 +525,20 @@
               </div>
             </p-tabPanel>
           </p-tabView>
-          <div class="ui-g-3 ui-md-9"></div>
+          <div class="ui-g-3 ui-md-8"></div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
             <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0')" label=Save (click)="onSave('1')"></button>
+            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || (isViewed && !f.dirty) || itemData.length=='0')" label=Save (click)="onSave('1')"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((f.dirty) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
+            <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
           </div>
+          <div class="ui-g-3 ui-md-1 ui-fluid">
+              <button style="margin-top:5px" pButton type="button"
+                label=Clear (click)="onClear()"></button>
+            </div>
         </form>
         </div>
       </div>

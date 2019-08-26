@@ -579,8 +579,8 @@ export class StockReceiptComponent implements OnInit {
         }
       }
     }, (err: HttpErrorResponse) => {
-      this.isSaveSucceed = false;
           this.isViewed = false;
+          this.isSaveSucceed = false;
           this.blockScreen = false;
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -681,6 +681,7 @@ export class StockReceiptComponent implements OnInit {
     //saveAs(filepath, filename);
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
+        if(data !== null && data !== undefined) {
         var doc = new jsPDF({
           orientation: 'potrait',
         })
@@ -688,9 +689,17 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(9);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
-       // this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
-        this.isViewed = (this.isViewed) ? false : true;    
-      });
+        this.isSaveSucceed = false;
+        this.isViewed = false;   
+        } else {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        } 
+        },(err: HttpErrorResponse) => {
+          this.blockScreen = false;
+           if (err.status === 0) {
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          }
+        });
   }
 
   onClear() {
