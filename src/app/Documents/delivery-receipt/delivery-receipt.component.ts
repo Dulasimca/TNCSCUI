@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -124,6 +125,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
+  @ViewChild('f') form;
   
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -675,8 +677,9 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    this.blockScreen = true;
     if(this.isViewed) {
-      this.onSave('2');
+      this.onSave('2', );
     }
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
@@ -693,7 +696,9 @@ export class DeliveryReceiptComponent implements OnInit {
         doc.save(filename + '.pdf');
         this.isSaveSucceed = false;
         this.isViewed = false;
+        this.blockScreen = false;
       } else {
+        this.blockScreen = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } 
       },(err: HttpErrorResponse) => {
@@ -717,6 +722,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
+    this.isViewed = false;
   }
 
   getDocByDoNo() {
@@ -728,6 +734,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.rowId = res.Table[0].RowId;
         this.DeliveryOrderNo = res.Table[0].Dono;
         this.DeliveryDate = new Date(res.Table[0].DoDate);
         this.trCode = res.Table[0].TransactionCode;
@@ -760,9 +767,9 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeName: i.SCName,
             Rate: (i.Rate * 1),
             Total: (i.Total * 1),
-            ItemCode: i.ItemCode,
+            ItemCode: i.Itemcode,
             Scheme: i.Scheme,
-            Rcode: i.RCode
+            Rcode: i.Rcode
           });
         })
       }
@@ -776,8 +783,8 @@ export class DeliveryReceiptComponent implements OnInit {
             MarginRate: (i.MarginRate * 1),
             MarginAmount: (i.MarginAmount * 1),
             ItemCode: i.ItemCode,
-            Scheme: i.SchemeCode,
-            Rcode: i.RCode
+            SchemeCode: i.SchemeCode,
+            Rcode: i.Rcode
           });
         })
       }
@@ -817,6 +824,11 @@ export class DeliveryReceiptComponent implements OnInit {
       }
     });
   }
+
+  resetForm(deliveryForm: NgForm){
+    deliveryForm.form.markAsUntouched();
+    deliveryForm.form.markAsPristine();
+ }
 
   onSave(type) {
     this.messageService.clear();

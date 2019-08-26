@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown, Messages } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -761,6 +762,11 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
+  resetForm(issueMemoForm: NgForm){
+    issueMemoForm.form.markAsUntouched();
+    issueMemoForm.form.markAsPristine();
+ }
+
   onClear() {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
@@ -778,6 +784,7 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
+    this.isViewed = false;
   }
 
   openNext() {
@@ -789,6 +796,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     }
@@ -805,9 +813,11 @@ export class IssueReceiptComponent implements OnInit {
         doc.setFontSize(9);
         doc.text(data, 2, 2);
         doc.save(filename + '.pdf');
+        this.blockScreen = false;
         this.isSaveSucceed = false;
         this.isViewed = false;
       } else {
+        this.blockScreen = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } 
       },(err: HttpErrorResponse) => {

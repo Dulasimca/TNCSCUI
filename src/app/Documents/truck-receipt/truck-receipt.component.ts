@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import * as jsPDF from 'jspdf';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -564,6 +565,7 @@ export class TruckReceiptComponent implements OnInit {
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
+    this.isViewed = false;
   }
 
   onCalculateWt() {
@@ -689,6 +691,11 @@ export class TruckReceiptComponent implements OnInit {
     }
     });
   }
+
+  resetForm(truckMemoForm: NgForm){
+    truckMemoForm.form.markAsUntouched();
+    truckMemoForm.form.markAsPristine();
+ }
 
   getDocBySTNo() {
     this.messageService.clear();
@@ -849,7 +856,7 @@ export class TruckReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
           this.isSaveSucceed = true;
-          this.isViewed = true;
+          this.isViewed = false;
           this.blockScreen = false;
         } else {
           this.blockScreen = false;
@@ -871,6 +878,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onPrint() {
+    this.blockScreen = true;
     if(this.isViewed) {
       this.onSave('2');
     }
@@ -887,9 +895,11 @@ export class TruckReceiptComponent implements OnInit {
         doc.setFontSize(9);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
+        this.blockScreen = false;
         this.isSaveSucceed = false;
         this.isViewed = false;
       } else {
+        this.blockScreen = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } 
       },(err: HttpErrorResponse) => {

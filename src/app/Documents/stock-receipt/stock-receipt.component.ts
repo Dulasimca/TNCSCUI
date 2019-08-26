@@ -12,6 +12,7 @@ import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { saveAs } from 'file-saver';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -574,6 +575,7 @@ export class StockReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
           this.isViewed = false;
+          this.isSaveSucceed = false;
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
@@ -671,7 +673,13 @@ export class StockReceiptComponent implements OnInit {
     });
   }
 
+  resetForm(receiptForm: NgForm){
+    receiptForm.form.markAsUntouched();
+    receiptForm.form.markAsPristine();
+ }
+
   onPrint() {
+    this.blockScreen = true;
     if(this.isViewed) {
       this.onSave('2');
     }
@@ -689,9 +697,11 @@ export class StockReceiptComponent implements OnInit {
         doc.setFontSize(9);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
+        this.blockScreen = false;
         this.isSaveSucceed = false;
         this.isViewed = false;   
         } else {
+          this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } 
         },(err: HttpErrorResponse) => {
@@ -720,6 +730,7 @@ export class StockReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = this.SRDate = this.OrderDate = new Date();
+    this.isViewed = false;
   }
 
   openNext() {

@@ -41,8 +41,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="IdentNo" id="float-input" pInputText [(ngModel)]="IndentNo" autocomplete="off" required>
-                        <label for="IdentNo" class="float-input" style="padding-top: 10px;">Indent No</label>
+                        <input name="ident_no" id="float-input" pInputText [(ngModel)]="IndentNo" autocomplete="off" required>
+                        <label for="ident_no" class="float-input" style="padding-top: 10px;">Indent No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-right: 10px;">
@@ -545,15 +545,15 @@
             </p-tabView>
             <div class="ui-g-3 ui-md-8"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
+              <button style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || (isViewed && !f.dirty) || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0')" label=Save
-                (click)="onSave('1')"></button>
+                [disabled]="(!f.valid || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0' || (isViewed && !f.dirty))" label=Save
+                (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed))" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed))" label=Print
                 (click)="onPrint()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
