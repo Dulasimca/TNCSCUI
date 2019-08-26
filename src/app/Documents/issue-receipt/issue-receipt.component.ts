@@ -796,18 +796,26 @@ export class IssueReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     this.http.get(filepath, { responseType: 'text' })
       .subscribe(data => {
+        if(data !== null && data !== undefined) {
         var doc = new jsPDF({
           orientation: 'potrait',
         })
         doc.setFont('courier');
         doc.setFontSize(8);
         doc.text(data, 2, 2);
-        doc.output(filename + '.pdf');
+        doc.save(filename + '.pdf');
         //  var w = window.open(path + filename); //Required full file path.
         //  w.print();
-        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
-        this.isViewed = (this.isViewed) ? false : true;
-      });
-  }
+        this.isSaveSucceed = false;
+        this.isViewed = false;
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } 
+      },(err: HttpErrorResponse) => {
+        this.blockScreen = false;
+         if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });  }
 
 }

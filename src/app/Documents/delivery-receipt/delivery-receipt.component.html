@@ -553,7 +553,7 @@
                 (click)="onSave('1')"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed))" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty && !f.valid) || (!isViewed && !isSaveSucceed))" label=Print
                 (click)="onPrint()"></button>
             </div>
           </form>

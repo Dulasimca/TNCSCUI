@@ -684,6 +684,7 @@ export class DeliveryReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
+        if(data !== undefined && data !== null) {
         var doc = new jsPDF({
           orientation: 'potrait',
         })
@@ -691,10 +692,17 @@ export class DeliveryReceiptComponent implements OnInit {
         doc.setFontSize(8);
         doc.text(data, 2, 2)
         doc.save(filename + '.pdf');
-        this.isSaveSucceed = (this.isSaveSucceed) ? false : true;
-        this.isViewed = (this.isViewed) ? false : true;
-      });
-  }
+        this.isSaveSucceed = false;
+        this.isViewed = false;
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } 
+      },(err: HttpErrorResponse) => {
+        this.blockScreen = false;
+         if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });  }
 
   onClear() {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
@@ -704,7 +712,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
     this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.transactionOptions = []; this.partyNameOptions = [];
-    this.receivorTypeOptions = [];
+    this.receivorTypeOptions = [];  
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
