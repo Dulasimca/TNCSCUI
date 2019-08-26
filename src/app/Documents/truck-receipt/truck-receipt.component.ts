@@ -853,15 +853,16 @@ export class TruckReceiptComponent implements OnInit {
           this.blockScreen = false;
         } else {
           this.blockScreen = false;
+          this.isSaveSucceed = false;
           this.isViewed = true;
           this.STTDetails = [];
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
     },(err: HttpErrorResponse) => {
-      this.isSaveSucceed = true;
-      this.isViewed = true;
-      this.blockScreen = true;
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+      this.blockScreen = false;
        if (err.status === 0) {
         this.STTDetails = [];
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });

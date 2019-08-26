@@ -641,6 +641,7 @@ export class IssueReceiptComponent implements OnInit {
           this.onClear();
         } else {
           this.isViewed = false;
+          this.isSaveSucceed = false;
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }

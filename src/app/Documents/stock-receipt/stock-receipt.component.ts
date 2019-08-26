@@ -579,8 +579,8 @@ export class StockReceiptComponent implements OnInit {
         }
       }
     }, (err: HttpErrorResponse) => {
-      this.isSaveSucceed = false;
           this.isViewed = false;
+          this.isSaveSucceed = false;
           this.blockScreen = false;
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
