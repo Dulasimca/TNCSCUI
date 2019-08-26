@@ -849,7 +849,7 @@ export class TruckReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
           this.isSaveSucceed = true;
-          this.isViewed = true;
+          this.isViewed = false;
           this.blockScreen = false;
         } else {
           this.blockScreen = false;

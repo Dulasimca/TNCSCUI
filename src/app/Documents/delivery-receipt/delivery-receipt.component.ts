@@ -728,6 +728,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.rowId = res.Table[0].RowId;
         this.DeliveryOrderNo = res.Table[0].Dono;
         this.DeliveryDate = new Date(res.Table[0].DoDate);
         this.trCode = res.Table[0].TransactionCode;
@@ -760,9 +761,9 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeName: i.SCName,
             Rate: (i.Rate * 1),
             Total: (i.Total * 1),
-            ItemCode: i.ItemCode,
+            ItemCode: i.Itemcode,
             Scheme: i.Scheme,
-            Rcode: i.RCode
+            Rcode: i.Rcode
           });
         })
       }
@@ -776,8 +777,8 @@ export class DeliveryReceiptComponent implements OnInit {
             MarginRate: (i.MarginRate * 1),
             MarginAmount: (i.MarginAmount * 1),
             ItemCode: i.ItemCode,
-            Scheme: i.SchemeCode,
-            Rcode: i.RCode
+            SchemeCode: i.SchemeCode,
+            Rcode: i.Rcode
           });
         })
       }

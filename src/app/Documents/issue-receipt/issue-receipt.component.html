@@ -431,7 +431,7 @@
           <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || (isViewed && !f.dirty) || itemData.length=='0' || issueData.length=='0')" label=Save (click)="onSave('1')"></button>
+          <button name="save" style="margin-top:5px" pButton type="button" [disabled]="((!f.valid || itemData.length=='0' || issueData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save (click)="onSave('1')"></button>
         </div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty)  || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed))" label=Print (click)="onPrint()"></button>
