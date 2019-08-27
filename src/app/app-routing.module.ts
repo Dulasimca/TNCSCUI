@@ -43,14 +43,6 @@ import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
 import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
-import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
-import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
-import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
-import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
-import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
-import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
-import { DemandDraftComponent } from './DeliveryOrderReport/demand-draft/demand-draft.component';
-import { MarginAmountComponent } from './DeliveryOrderReport/margin-amount/margin-amount.component';
 import { ReceiptSchemeComponent } from './Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -73,7 +65,6 @@ import { StockstatementreportComponent } from './reports/stockstatementreport/st
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
-import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
@@ -85,6 +76,15 @@ import { OtherMasterComponent } from './UserMaster/other-master/other-master.com
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
+import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
+import { SPLPDSComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
+import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
+import { AanComponent } from './reports/DeliveryOrderReport/aan/aan.component';
+import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
+import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
+import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
+import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
+import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 
 
 const routes: Routes = [
@@ -158,7 +158,7 @@ const routes: Routes = [
   { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
   { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },
-  { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
+  // { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
   { path: 'Transaction Status', component: TransactionStatusComponent },
@@ -171,7 +171,7 @@ const routes: Routes = [
   { path: 'Other Master', component: OtherMasterComponent },
   { path: 'Cnc Correction', component: CncCorrectionComponent },
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
-  { path: 'DD Receipt Entry', component: StackReceiptEntryComponent },
+  { path: 'DD Receipt Entry', component: DDChequeEntryComponent },
   { path: 'Society Master Entry', component: SocietyMasterNewComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

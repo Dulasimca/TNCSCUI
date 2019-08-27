@@ -6,11 +6,11 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
-  selector: 'app-stack-receipt-entry',
-  templateUrl: './stack-receipt-entry.component.html',
-  styleUrls: ['./stack-receipt-entry.component.css']
+  selector: 'app-DD-cheque-entry',
+  templateUrl: './DD-cheque-entry.component.html',
+  styleUrls: ['./DD-cheque-entry.component.css']
 })
-export class StackReceiptEntryComponent implements OnInit {
+export class DDChequeEntryComponent implements OnInit {
   stackReceiptCols: any;
   stackReceiptData: any;
   isViewDisabled: boolean;

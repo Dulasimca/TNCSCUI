@@ -83,7 +83,7 @@ export class DailyDocumentIssueComponent implements OnInit {
       'GodownCode': (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode,
       'RegionCode': this.g_cd.rcode,
       'RoleId': this.roleId,
-      'DocumentDate': this.datepipe.transform(this.DocumentDate, 'dd/MM/yyyy')
+      'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
     };
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_ISSUE_POST, params).subscribe(res => {
       this.DailyDocumentIssueData = res;
@@ -99,7 +99,7 @@ export class DailyDocumentIssueComponent implements OnInit {
       }
       let sno = 0;
       this.DailyDocumentIssueData.forEach(data => {
-        data.DocDate = this.datepipe.transform(data.DocDate, 'MM/dd/yyyy');
+        data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');
         sno += 1;
         data.SlNo = sno;
       });
