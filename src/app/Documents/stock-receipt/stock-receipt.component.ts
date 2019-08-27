@@ -70,7 +70,7 @@ export class StockReceiptComponent implements OnInit {
   freightOptions: SelectItem[];
   TransType: string = 'R';
   godownNo: any;
-  OrderNo: any;
+  OrderNo: any = '-';
   OrderDate: Date = new Date();
   StackBalance: any = 0;
   viewPane: boolean;
@@ -85,11 +85,11 @@ export class StockReceiptComponent implements OnInit {
   Trcode: any;
   DepositorType: any;
   DepositorCode: any;
-  TruckMemoNo: any;
+  TruckMemoNo: any = '-';
   TruckMemoDate: Date = new Date();
-  ManualDocNo: any;
-  LNo: any;
-  LFrom: any;
+  ManualDocNo: any = '-';
+  LNo: any = '-';
+  LFrom: any = '-';
   //SR-Item Details
   TStockNo: any;
   Scheme: any;
@@ -99,7 +99,7 @@ export class StockReceiptComponent implements OnInit {
   GKgs: number;
   NKgs: number;
   WTCode: any;
-  Moisture: string;
+  Moisture: string = '0';
   //SR-Freight Details
   TransporterName: string;
   LWBillNo: any;
@@ -122,7 +122,7 @@ export class StockReceiptComponent implements OnInit {
   RRNo: any;
   LDate: Date = new Date();
   WNo: any;
-  Remarks: string;
+  Remarks: string = '-';
   username: any;
   UnLoadingSlip: any;
   curMonth: any;

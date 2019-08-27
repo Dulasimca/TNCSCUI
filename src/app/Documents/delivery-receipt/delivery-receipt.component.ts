@@ -75,7 +75,7 @@ export class DeliveryReceiptComponent implements OnInit {
   pCode: any;
   RTCode: any;
   rtCode: any;
-  Remarks: string;
+  Remarks: string = '-';
   Scheme: any;
   schemeCode: any;
   MarginScheme: any;

@@ -63,11 +63,11 @@ export class TruckReceiptComponent implements OnInit {
   Trcode: any;
   trCode: any;
   transType: string = "I";
-  OrderNo: any;
+  OrderNo: any = '-';
   OrderDate: Date = new Date();
-  RNo: any;
+  RNo: any = '-';
   RDate: Date = new Date();
-  LorryNo: any;
+  LorryNo: any = '-';
   RHCode: any;
   rhCode: any;
   RTCode: any;
@@ -76,7 +76,7 @@ export class TruckReceiptComponent implements OnInit {
   RCode: any;
   GCode: any;
   RRCode: any;
-  ManualDocNo: any;
+  ManualDocNo: any = '-';
   Scheme: any;
   schemeCode: any;
   TStockNo: any;
@@ -93,7 +93,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: any;
   WTCode: any;
   wtCode: any;
-  Moisture: string;
+  Moisture: string = '0';
   StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
@@ -117,7 +117,7 @@ export class TruckReceiptComponent implements OnInit {
   LDate: Date = new Date();
   WNo: any = '-';
   RailFreightAmt: any = 0;
-  Remarks: string;
+  Remarks: string = '-';
   IssueSlip: any;
   STTDetails: any = [];
   isViewed: boolean = false;
