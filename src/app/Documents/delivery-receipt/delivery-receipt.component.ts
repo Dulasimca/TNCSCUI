@@ -645,7 +645,7 @@ export class DeliveryReceiptComponent implements OnInit {
       Type: 2,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
-      DoNo: (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : 0,
+      DoNo: (this.PrevOrderNo !== undefined && this.PrevOrderNo !== null) ? this.PrevOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
         ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
