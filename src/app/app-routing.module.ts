@@ -158,7 +158,6 @@ const routes: Routes = [
   { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
   { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },
-  { path: 'Stack Receipt Entry', component: StackReceiptEntryComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
   { path: 'Transaction Status', component: TransactionStatusComponent },

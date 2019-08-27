@@ -614,15 +614,15 @@ export class TableConstants {
     ];
 
     this.DoDemandDraft = [
-      { field: '', header: 'SOCIETY' },
-      { field: '', header: 'DONO' },
-      { field: '', header: 'DO DATE' },
-      { field: '', header: 'DD.NO' },
-      { field: '', header: 'DD DATE' },
-      { field: '', header: 'BANK' },
-      { field: '', header: 'AMOUNT' },
-      { field: '', header: 'CEREAL' },
-      { field: '', header: 'NON-CEREAL' }
+      { field: 'Society', header: 'SOCIETY' },
+      { field: 'Dono', header: 'DONO' },
+      { field: 'Dodate', header: 'DO DATE' },
+      { field: 'Chequeno', header: 'DD.NO' },
+      { field: 'Chequedate', header: 'DD DATE' },
+      { field: 'Bank', header: 'BANK' },
+      { field: 'PaymentAmount', header: 'AMOUNT' },
+      { field: 'Cereal', header: 'CEREAL' },
+      { field: 'NonCereal', header: 'NON-CEREAL' }
     ];
 
     this.DoMarginAmount = [

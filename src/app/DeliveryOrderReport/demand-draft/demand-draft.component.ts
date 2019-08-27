@@ -30,10 +30,11 @@ export class DemandDraftComponent implements OnInit {
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
+  username: any;
   loading: boolean = false;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -43,27 +44,31 @@ export class DemandDraftComponent implements OnInit {
     this.DemandDraftCols = this.tableConstants.DoDemandDraft;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
+
   }
 
   onSelect() {
     let options = [];
-    if (this.DemandDraftData !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
+    this.data = this.roleBasedService.instance;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
     }
-    if(this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    const params = {
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.g_cd.value,
+      'UserName': this.username.user,
+    }
+    this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
       this.DemandDraftData = res;
       let sno = 0;
       this.DemandDraftData.forEach(data => {
@@ -71,18 +76,19 @@ export class DemandDraftComponent implements OnInit {
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
-      })
+      });
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
+        this.loading = false;
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
-    }
-    })
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
   }
   onDateSelect() {
     this.checkValidDateSelection();
@@ -100,20 +106,21 @@ export class DemandDraftComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Invalid Date', detail: 'Please select a valid date range' });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
+
   onResetTable() {
     this.DemandDraftData = [];
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.DemandDraftData, 'DO_DEMAND_DRAFT_DATA',this.DemandDraftCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.DemandDraftData, 'DO_DEMAND_DRAFT_DATA', this.DemandDraftCols);
+  }
 }
