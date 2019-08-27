@@ -643,7 +643,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.messageService.clear();
     const params = {
       Type: 2,
-      DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
+      DoDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       DoNo: (this.PrevOrderNo !== undefined && this.PrevOrderNo !== null) ? this.PrevOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?

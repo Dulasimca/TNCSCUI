@@ -100,7 +100,7 @@ export class DailyDocumentsComponent implements OnInit {
       // }
       let sno = 0;
       this.DailyDocumentReceiptData.forEach(data => {
-        data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');
+        data.DocDate = this.datepipe.transform(data.DocDate, 'MM/dd/yyyy');
         sno += 1;
         data.SlNo = sno;
       });

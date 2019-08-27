@@ -454,7 +454,7 @@
                   <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                      (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !PName)" 
+                      (click)="getPreviousBalance()" [disabled]="(!PrevOrderNo || !PrevOrderDate || !PName)" 
                       tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
