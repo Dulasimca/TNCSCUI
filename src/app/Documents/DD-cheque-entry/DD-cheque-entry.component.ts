@@ -69,7 +69,6 @@ export class DDChequeEntryComponent implements OnInit {
           receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
         })
         this.receivedFromOptions = receivorNameList;
-        this.receivedFromOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
       }
     });
   }
