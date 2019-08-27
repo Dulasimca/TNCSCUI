@@ -40,9 +40,9 @@
           <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="isActionDisabled"></button>
         </div>
         <div class="ui-g-12 ui-md-12">
-          <p-table [columns]="receiptROPurchaseCols" [value]="receiptROPurchaseData" [scrollable]="true" [rows]="20"
+          <p-table [columns]="receiptROPurchaseCols" [value]="receiptROPurchaseData" [rows]="20"
             [loading]="loading" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-            autoLayout="true" [loading]="loading">
+            autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">

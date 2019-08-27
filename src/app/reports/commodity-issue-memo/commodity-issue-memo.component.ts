@@ -112,8 +112,8 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode.value,
       'TRCode': this.ITCode.value
     }

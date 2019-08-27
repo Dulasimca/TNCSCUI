@@ -125,8 +125,8 @@ export class CommodityReceiptComponent implements OnInit {
     this.loading = true;
     this.commodityReceiptData = [];
     const params = {
-      'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode.value,
       'RCode': this.RCode.value,
       'TRCode': this.TrCode.value,
