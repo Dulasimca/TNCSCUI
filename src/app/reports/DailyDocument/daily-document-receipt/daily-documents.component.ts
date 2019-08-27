@@ -79,6 +79,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   ontime() {
+    if(this.godownOptions !== undefined) {
     this.loading = true;
     const params = {
       'GodownCode': (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode,
@@ -89,16 +90,14 @@ export class DailyDocumentsComponent implements OnInit {
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       this.DailyDocumentReceiptData = res;
       this.filterArray = res;
-      if(this.roleId !== 1) {
-      this.DailyDocumentTotalData = this.gdata
-      this.DailyDocumentTotalData.forEach(s => {
-        s.RCode = this.g_cd.rcode,
-          s.GCode = this.g_cd.value,
-          s.GName = this.g_cd.label,
-          s.RName,
-          s.NoDocument = res.length
-      });
-    }
+      // if (this.roleId !== 1) {
+        this.DailyDocumentTotalData = this.gdata
+            this.DailyDocumentTotalData.RCode ,
+            this.DailyDocumentTotalData.GCode,
+            this.DailyDocumentTotalData.GName,
+            this.DailyDocumentTotalData.RName,
+            this.DailyDocumentTotalData.NoDocument = res.length
+      // }
       let sno = 0;
       this.DailyDocumentReceiptData.forEach(data => {
         data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');
@@ -120,6 +119,7 @@ export class DailyDocumentsComponent implements OnInit {
       }
     });
   }
+}
 
   onResetTable() {
     this.DailyDocumentReceiptData = [];

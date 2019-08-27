@@ -54,15 +54,15 @@
               <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="JRDate"
                 [(ngModel)]="formUser.JRDate"></p-calendar>
             </div>
-            <!-- <div>
+            <div>
               <span style="padding: 0px 0px 0px 40px;">
-                <p-radioButton name="JRType" value="J" label="Join" [(ngModel)]="Join" binary="showTrue"></p-radioButton>
+                <p-radioButton name="JRType" value="J" label="Join" [(ngModel)]="Join"></p-radioButton>
               </span>
               <span style="padding: 0px 0px 0px 40px;">
-                <p-radioButton name="JRType" value="R" label="Relieve" [(ngModel)]="Join" binary="showTrue"></p-radioButton>
+                <p-radioButton name="JRType" value="R" label="Relieve" [(ngModel)]="Relieve"></p-radioButton>
               </span>
-            </div> -->
-            <div> 
+            </div>
+            <!-- <div> 
               <span style="padding: 0px 5px 0px 46px;">
                 <p-checkbox name="JRType" [(ngModel)]="Join" value="J" label="Join" binary="showTrue"></p-checkbox>
               </span>
@@ -70,7 +70,7 @@
                 <p-checkbox name="JRType" [(ngModel)]="Relieve" value="R" label="Relieve" binary="showTrue">
                 </p-checkbox>
               </span>
-            </div>
+            </div> -->
             <div class="bottom" style="padding-left: 95px">
               <div>
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
