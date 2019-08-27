@@ -81,12 +81,12 @@ export class IssueReceiptComponent implements OnInit {
   DeliveryOrderNo: any;
   RTCode: any;
   RNCode: any;
-  WNo: any;
-  TransporterCharges: any;
-  VehicleNo: any;
-  TransporterName: string;
-  ManualDocNo: any;
-  Remarks: string;
+  WNo: any = '-';
+  TransporterCharges: any = 0;
+  VehicleNo: any = '-';
+  TransporterName: string = '-';
+  ManualDocNo: any = '-';
+  Remarks: string = '-';
   //Issue item
   Scheme: any;
   ICode: any;
@@ -98,7 +98,7 @@ export class IssueReceiptComponent implements OnInit {
   GKgs: any;
   NKgs: any;
   WTCode: any;
-  Moisture: string;
+  Moisture: string = '0';
   NewBale: any = 0;
   SServiceable: any = 0;
   SPatches: any = 0;

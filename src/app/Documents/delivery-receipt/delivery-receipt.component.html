@@ -454,7 +454,7 @@
                   <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                      (click)="getPreviousBalance()" [disabled]="(!DeliveryDate || !PName)" 
+                      (click)="getPreviousBalance()" [disabled]="(!PrevOrderNo || !PrevOrderDate || !PName)" 
                       tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -469,7 +469,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjusmentAmount" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
-                        type="number" [readonly]="true" autocomplete="off" >
+                        type="number" autocomplete="off" >
                         <label for="PrvAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
@@ -549,7 +549,7 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || itemSchemeData.length=='0' || paymentBalData.length=='0' || (isViewed && !f.dirty))" label=Save
+                [disabled]="(!f.valid || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || paymentBalData.length=='0' || (isViewed && !f.dirty))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">

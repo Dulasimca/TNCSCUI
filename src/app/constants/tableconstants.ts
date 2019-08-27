@@ -37,7 +37,7 @@ export class TableConstants {
   GunnyReport: any;
   StackCardOpeningEntryReport: any;
   StackCardClosingEntryReport: any;
-  StackReceiptEntryReport: any;
+  DDChequeEntryReport: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
   TruckTransit: any;
@@ -802,14 +802,14 @@ export class TableConstants {
 
     this.StackCardClosingEntryReport = [];
 
-    this.StackReceiptEntryReport = [
+    this.DDChequeEntryReport = [
       { field: 'Id', header: 'ID' },
-      { field: '', header: 'CHE/DD' },
-      { field: '', header: 'CHE/DD No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'AMOUNT' },
-      { field: '', header: 'BANK' },
-      { field: '', header: 'TO WHOM' },
+      { field: 'paymentType', header: 'CHE/DD' },
+      { field: 'chequeNo', header: 'CHE/DD No' },
+      { field: 'chequeDate', header: 'Date' },
+      { field: 'amount', header: 'AMOUNT' },
+      { field: 'bank', header: 'BANK' },
+      { field: 'receivedFrom', header: 'TO WHOM' },
     ];
 
     this.TruckMemoItemDetails = [

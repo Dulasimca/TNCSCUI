@@ -18,6 +18,7 @@
            <p-tabView [activeIndex]="index">
             <p-tabPanel header="Issue Details">
               <div class="ui-g-12 ui-md-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12 dasboard">
                 <div class="ui-g-12 ui-md-2 no-pad-top">
                     <label for="SINo" class="label-fontsize">Stock Issue No</label>
                     <input name="SINo" type="text" id="float-input" size="20" pInputText [readOnly]="true" [(ngModel)]="SINo"
@@ -35,19 +36,31 @@
                   </span> 
                 </div>
                 <div class="ui-g-12 ui-md-2 dashboard">
-                  <div class="ui-g-12 ui-fluid no-pad-top">
+                  <!-- <div class="ui-g-12 ui-fluid no-pad-top"> -->
                     <label for="DODate" class="label-fontsize">Delivery Date</label>
                   <p-calendar name="DODate" [(ngModel)]="DeliveryOrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate"
                     [showIcon]="true"></p-calendar>
-                  </div>
-                  <div class="ui-g-12" style="margin-top: 17px">
+                  <!-- </div> -->
+                  <!-- <div class="ui-g-12" style="margin-top: 17px">
                       <span class="ui-float-label">
                           <input name="WCNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
                           <label for="WCNo" class="float-input">Weigment Certificate No</label>
                         </span>
+                  </div> -->
+                </div>
+                <div class="ui-g-2 ui-md-1" style="margin-top: 13px">
+                    <button name="DelvieryEntry" pButton type="button" label="Enter"
+                    [disabled]="(!SIDate || !DeliveryOrderDate || !DeliveryOrderNo)"
+                    (click)="onIssueDetailsEnter()"></button>
+                </div>
+                <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
+                    <span class="ui-float-label">
+                      <input name="RegionName" id="float-input" [readOnly]="true" [(ngModel)]="regionName" pInputText autocomplete="off" required>
+                      <label for="RegionName" class="float-input">Region Name</label>
+                    </span>
                   </div>
                 </div>
-                <div class="ui-g-4 ui-md-1 ui-fluid dashboard" style="margin-top: 13px">
+                <!-- <div class="ui-g-4 ui-md-1 ui-fluid dashboard" style="margin-top: 13px">
                   <div class="ui-g-12 ui-fluid">
                   <button name="DelvieryEntry" pButton type="button" label="Enter"
                     [disabled]="(!SIDate || !DeliveryOrderDate || !DeliveryOrderNo)"
@@ -61,8 +74,8 @@
                             <label for="IssueRegAdv" class="float-input">Reg/Adv</label>
                           </span>
                     </div>
-                </div>
-                <div class="ui-g-12 ui-md-3 ui-fluid">
+                </div> -->
+                <!-- <div class="ui-g-12 ui-md-3 ui-fluid">
                   <div class="ui-g-12 ui-fluid">
                     <span class="ui-float-label">
                       <input name="RegionName" id="float-input" [readOnly]="true" [(ngModel)]="regionName" pInputText autocomplete="off" required>
@@ -76,9 +89,9 @@
                       <label for="GodownName" class="float-input">Issuing Godown Name</label>
                     </span>
                   </div>
-                </div>
-                <div class="ui-g-12 ui-md-10 ui-fluid dashboard" style="margin-top: -5px">
-                  <div class="ui-g-12 ui-md-7 no-pad-top"  style="margin-top: -40px; max-height: 80px;">
+                </div> -->
+                <div class="ui-g-12 ui-md-12 ui-fluid dashboard">
+                  <div class="ui-g-12 ui-md-6"  style="max-height: 80px;">
                   <p-table tabindex="-1" [columns]="issueCols" [value]="issueData" [responsive]="true"  [scrollable]="true" scrollHeight="50px" [style]="{width:'500px'}">
                     <ng-template pTemplate="colgroup" let-columns>
                       <colgroup>
@@ -101,7 +114,28 @@
                     </ng-template>
                   </p-table>
                 </div>
-                  
+                <div class="ui-g-6 ui-md-2 no-left-pad">
+                    <span class="ui-float-label">
+                        <input name="WCNo" id="float-input" type="text" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText autocomplete="off" required>
+                        <label for="WCNo" class="float-input">Weigment Certificate No</label>
+                      </span>
+                </div>
+                <div class="ui-g-6 ui-md-1">
+                    <span class="ui-float-label">
+                        <input name="IssueRegAdv" id="float-input" type="text" onkeypress="return /[A&R]/i.test(event.key)"
+                          style="text-transform: uppercase !important" maxlength="1"
+                          (onChange)="onIssueTextChange($event)" [(ngModel)]="RegularAdvance" pInputText
+                          autocomplete="off" required>
+                        <label for="IssueRegAdv" class="float-input">Reg/Adv</label>
+                      </span>
+                </div>
+                <div class="ui-g-6 ui-md-2">
+                    <span class="ui-float-label">
+                        <input name="GodownName" id="float-input" [readOnly]="true" [(ngModel)]="issuingGodownName" pInputText
+                          autocomplete="off" required>
+                        <label for="GodownName" class="float-input">Issuing Godown Name</label>
+                      </span>
+                </div>
                 </div>
                 <div class="ui-g-12">
                   <div class="ui-g-12 ui-md-3 no-left-pad" style="margin-top: -18px">

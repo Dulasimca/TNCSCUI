@@ -92,14 +92,6 @@ import { OpeningBalanceComponent } from './opening-balance/opening-balance.compo
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
-import { AllSchemeComponent } from './DeliveryOrderReport/all-scheme/all-scheme.component';
-import { SPLPDSComponent } from './DeliveryOrderReport/splpds/splpds.component';
-import { OapComponent } from './DeliveryOrderReport/oap/oap.component';
-import { AanComponent } from './DeliveryOrderReport/aan/aan.component';
-import { OtherSchemeComponent } from './DeliveryOrderReport/other-scheme/other-scheme.component';
-import { SocietyAbstractComponent } from './DeliveryOrderReport/society-abstract/society-abstract.component';
-import { DemandDraftComponent } from './DeliveryOrderReport/demand-draft/demand-draft.component';
-import { MarginAmountComponent } from './DeliveryOrderReport/margin-amount/margin-amount.component';
 import { ReceiptSchemeComponent } from './Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -123,7 +115,6 @@ import { TransactionStatusComponent } from './reports/transaction-status/transac
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
 import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
-import { StackReceiptEntryComponent } from './Documents/StackCard/stack-receipt-entry/stack-receipt-entry.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
@@ -136,6 +127,15 @@ import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correcti
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 import { StatusMessage } from './constants/Messages';
+import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
+import { SPLPDSComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
+import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
+import { AanComponent } from './reports/DeliveryOrderReport/aan/aan.component';
+import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
+import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
+import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
+import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
+import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 
 @NgModule({
   declarations: [
@@ -215,7 +215,7 @@ import { StatusMessage } from './constants/Messages';
     UserMasterComponent,
     OpeningBalanceCurrentYearComponent,
     StackCardClosingComponent,
-    StackReceiptEntryComponent,
+    DDChequeEntryComponent,
     DuplicateIssueMemoComponent,
     StockstatementreportComponent,
     TransactionStatusComponent,

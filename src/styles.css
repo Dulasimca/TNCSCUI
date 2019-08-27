@@ -738,9 +738,16 @@ h3 a {
 .cursor-pointer{
   cursor: pointer !important;
 }
+@media screen and (min-width: 1189px) and (max-width: 1299px){
 .content {
- min-height: 554px;
+ min-height: 610px;
 }
+}
+@media screen and (min-width: 1300px) and (max-width: 1510px){
+  .content {
+   min-height: 554px;
+  }
+  }
 
 .footer {
   position:unset;

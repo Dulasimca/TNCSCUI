@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StackReceiptEntryComponent } from './stack-receipt-entry.component';
+import { DDChequeEntryComponent } from './DD-cheque-entry.component';
 
-describe('StackReceiptEntryComponent', () => {
-  let component: StackReceiptEntryComponent;
-  let fixture: ComponentFixture<StackReceiptEntryComponent>;
+describe('DDChequeEntryComponent', () => {
+  let component: DDChequeEntryComponent;
+  let fixture: ComponentFixture<DDChequeEntryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StackReceiptEntryComponent ]
+      declarations: [ DDChequeEntryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StackReceiptEntryComponent);
+    fixture = TestBed.createComponent(DDChequeEntryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
