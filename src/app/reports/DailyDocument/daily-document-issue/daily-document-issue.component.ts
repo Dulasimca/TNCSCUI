@@ -78,7 +78,6 @@ export class DailyDocumentIssueComponent implements OnInit {
   }
 
   ontime() {
-    this.loading = true;
     const params = {
       'GodownCode': (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode,
       'RegionCode': this.g_cd.rcode,
@@ -106,14 +105,11 @@ export class DailyDocumentIssueComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
-        this.loading = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
       this.DailyDocumentIssueData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-        this.loading = false;
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });

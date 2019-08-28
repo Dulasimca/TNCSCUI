@@ -85,6 +85,7 @@ import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
+import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
 
 
 const routes: Routes = [
@@ -134,10 +135,10 @@ const routes: Routes = [
   { path: 'Do Splpds', component: SPLPDSComponent },
   { path: 'Do OAP', component: OapComponent },
   { path: 'Do Annapoorna', component: AanComponent },
-  { path: 'Do OtherSchemes', component: OtherSchemeComponent },
+  { path: 'Do Other Schemes', component: OtherSchemeComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent },
   { path: 'Demand Draft with Bankname', component: DemandDraftComponent },
-  { path: 'Do MArgin Amountdetails', component: MarginAmountComponent },
+  { path: 'Do Margin Amount Details', component: MarginAmountComponent },
   { path: 'Scheme Abstract Receipt', component: ReceiptSchemeComponent },
   { path: 'Scheme Abstract Issues- All', component: IssueSchemeComponent },
   { path: 'Scheme Abstract Issue- Only Crs', component: IssueSchemeCrsComponent },
@@ -172,6 +173,7 @@ const routes: Routes = [
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
   { path: 'DD Receipt Entry', component: DDChequeEntryComponent },
   { path: 'Society Master Entry', component: SocietyMasterNewComponent },
+  { path: 'Issuer Master Report', component: IssuerMasterComponent},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

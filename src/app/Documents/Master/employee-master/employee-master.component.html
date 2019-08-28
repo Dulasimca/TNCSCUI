@@ -21,7 +21,8 @@
               <label for="Empno">EEPF Number</label>
             </div>
             <div class="ui-float-label" style="margin-bottom: 20px">
-              <input class="icon2" size="30" pInputText [(ngModel)]="Empname" name="Empname" autocomplete="off" required>
+              <input class="icon2" size="30" pInputText [(ngModel)]="Empname" name="Empname" autocomplete="off"
+                required>
               <label for="Empname">Employee Name</label>
             </div>
             <!-- <div class="ui-float-label" style="margin-bottom: 20px">
@@ -32,7 +33,7 @@
             <div class="ui-g dashboard" style="margin-bottom: 20px">
               <label class="ui-g label-fontsize-large" for="DesignationName">Designation</label>
               <p-dropdown class="ui-g-12 ui-fluid dashboard" id="float-input" [options]="designationOptions"
-                [(ngModel)]="d_cd" (onChange)="onChange($event)" (onClick)="onDesignation()" filter="true" (keydown.enter)="onDesignation()"
+                [(ngModel)]="d_cd" (onClick)="onDesignation()" filter="true" (keydown.enter)="onDesignation()"
                 optionLabel="label" [showClear]="true" name="DesignationName" required>
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
@@ -40,26 +41,28 @@
               </p-dropdown>
             </div>
             <div class="ui-float-label" style="margin-bottom: 10px">
-              <input class="icon2" type="Refno" size="30" pInputText [(ngModel)]="Refno" name="Refno"
-               autocomplete="off" required>
+              <input class="icon2" type="Refno" size="30" pInputText [(ngModel)]="Refno" name="Refno" autocomplete="off"
+                required>
               <label for="Refno">Reference No</label>
             </div>
             <div style="padding: 0px 15px 10px 24px;">
-              <label class="ui-g-10 label-fontsize dashboard" for="Refdate" style="text-align: center">Reference Date</label>
+              <label class="ui-g-10 label-fontsize dashboard" for="Refdate" style="text-align: center">Reference
+                Date</label>
               <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="Refdate"
                 [(ngModel)]="Refdate"></p-calendar>
             </div>
             <div style="padding: 0px 15px 10px 24px;">
-              <label class="ui-g-10 label-fontsize dashboard" for="Jrdate" style="text-align: center">J or R Date</label>
-              <p-calendar [showIcon]="true" name="Jrdate"
-                [(ngModel)]="Jrdate"></p-calendar>
+              <label class="ui-g-10 label-fontsize dashboard" for="Jrdate" style="text-align: center">J or R
+                Date</label>
+              <p-calendar [showIcon]="true" name="Jrdate" [(ngModel)]="Jrdate"></p-calendar>
             </div>
             <div>
               <span style="padding: 0px 0px 0px 40px;">
                 <p-radioButton name="Jrtype" value="J" label="Join" for="Jrtype" [(ngModel)]="Jrtype"></p-radioButton>
               </span>
               <span style="padding: 0px 0px 0px 40px;">
-                <p-radioButton name="Jrtype" value="R" label="Relieve" for="Jrtype" [(ngModel)]="Jrtype"></p-radioButton>
+                <p-radioButton name="Jrtype" value="R" label="Relieve" for="Jrtype" [(ngModel)]="Jrtype">
+                </p-radioButton>
               </span>
             </div>
             <!-- <div> 
@@ -105,27 +108,28 @@
       </div> -->
 
       <div class="ui-g-12 ui-fluid">
-          <p-table #table [columns]="EmployeeCols" [value]="EmployeeData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)">
+        <p-table #table [columns]="EmployeeCols" [value]="EmployeeData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+          [paginator]="true" (onRowSelect)="onRowSelect($event)">
           <ng-template pTemplate="colgroup" let-columns>
-              <colgroup>
-                <col *ngFor="let col of columns" style="width:80px">
-              </colgroup>
-            </ng-template>
-            <ng-template pTemplate="header" let-columns>
-              <tr>
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr [pSelectableRow]="rowData">
-                <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
-                </td>
-              </tr>
-            </ng-template>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:80px">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
         </p-table>
       </div>
       <div>

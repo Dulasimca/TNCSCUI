@@ -94,6 +94,7 @@ export class TableConstants {
   SchemeCommodity: any;
   EmployeeMaster: any;
   SocietyMasterNewEntry: any;
+  IssuerMaster: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -996,6 +997,14 @@ export class TableConstants {
       { field: 'Jrdate', header: 'Join Date' },
       { field: 'Refno', header: 'Reference No' },
       { field: 'Refdate', header: 'Reference Date' }
+    ];
+
+    this.IssuerMaster = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'ITCode', header: 'Issuer Code' },
+      { field: 'ITDescription', header: 'Issuer Name' },
+      { field: 'GRName', header: 'Acs Code' },
+      { field: 'ItemType', header: 'Active' },
     ];
   }
 }
