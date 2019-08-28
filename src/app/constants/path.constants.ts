@@ -88,6 +88,8 @@ export class PathConstants {
   public static readonly SOCIETY_MASTER_NEW_ENTRY_GET = '/api/SocietyMasterNew/Get';
   public static readonly SOCIETY_MASTER_NEW_ENTRY_POST = '/api/SocietyMasterNew/Post';
   public static readonly DESIGNATION_MASTER = '/api/DesignationMaster';
+  public static readonly DD_CHEQUE_ENTRY_POST = '/api/DDChequeEntry/Post';
+  public static readonly DD_CHEQUE_ENTRY_GET = '/api/DDChequeEntry/Get';
   public static readonly DEMAND_DRAFT_POST = '/api/DemandDraft/Post';
 
 }
