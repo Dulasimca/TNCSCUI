@@ -27,18 +27,20 @@ export class EmployeeMasterComponent implements OnInit {
   rCode: any;
   gCode: any;
   roleId: any;
+  fromDate: any;
+  toDate: any;
   designationOptions: SelectItem[];
   d_cd: any;
   desig: any = [];
   designationSelection: any[] = [];
   formUser = [];
-  EmpName: any;
+  Empname: any;
   Empno: any;
   Designation: any;
-  JRType: Boolean;
-  JRDate: Date;
+  Jrtype: Boolean;
+  Jrdate: Date;
   Refno: any;
-  RefDate: Date;
+  Refdate: Date;
   Join: any;
   Relieve: any;
   userdata: any;
@@ -99,21 +101,29 @@ export class EmployeeMasterComponent implements OnInit {
     this.Join = this.Relieve = false;
   }
 
-  onRowSelect(formUser) {
+  onRowSelect(event) {
     this.disableOkButton = false;
-    this.selectedRow = formUser.data;
+    this.selectedRow = event.data;
+  }
+
+  onDateSelect() {
+    this.checkValidDateSelection();
   }
 
   showSelectedData() {
     this.viewPane = false;
     this.isViewed = true;
-    // this.commodityOptions = [{ 'label': this.selectedRow.ITDescription, 'value': this.selectedRow.CommodityCode }];
-    // this.c_cd = this.selectedRow.ITDescription;
-    // this.commodityCd = this.selectedRow.CommodityCode;
+    this.designationOptions = [{ 'label': this.selectedRow.DESIGNATIONNAME, 'value': this.selectedRow.DESGINATIONCODE }];
+    this.d_cd = this.selectedRow.DESIGNATIONNAME;
+    this.d_cd = this.selectedRow.DESGINATIONCODE;
     this.Empno = this.selectedRow.Empno;
-    this.EmpName = this.selectedRow.EmpName;
+    this.Empname = this.selectedRow.Empname;
+    this.d_cd = this.selectedRow.Designation;
     this.Designation = this.selectedRow.Designation;
     this.Refno = this.selectedRow.Refno;
+    this.Refdate = this.selectedRow.Refdate;
+    this.Jrdate = this.selectedRow.Jrdate;
+    this.Jrtype = this.selectedRow.Jrtype;
   }
 
   onDesignation() {
@@ -149,18 +159,37 @@ export class EmployeeMasterComponent implements OnInit {
     }
   }
 
-  onSubmit(formUser) {
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
+      }
+      return this.fromDate, this.toDate;
+    }
+  }
+
+  onSubmit() {
     const params = {
       'Gcode': this.gCode,
       'Roleid': this.roleId,
-      'Empno': formUser.Empno,
-      'Empname': formUser.EmpName,
+      'Empno': this.Empno,
+      'Empname': this.Empname,
       'Designation': this.d_cd.value,
       // 'Jrtype': (this.Join === true) ? 'J' : 'R',
-      'Jrtype': (this.Join || this.Relieve),
-      'Jrdate': this.datepipe.transform(formUser.JRDate, 'MM/dd/yyyy'),
-      'Refno': formUser.Refno,
-      'Refdate': this.datepipe.transform(formUser.RefDate, 'MM/dd/yyyy'),
+      // 'Jrtype': (this.Join || this.Relieve),
+      'Jrtype': this.Jrtype,
+      'Jrdate': this.datepipe.transform(this.Jrdate, 'MM/dd/yyyy'),
+      'Refno': this.Refno,
+      'Refdate': this.datepipe.transform(this.Refdate, 'MM/dd/yyyy'),
       'RCode': this.rCode
     };
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
