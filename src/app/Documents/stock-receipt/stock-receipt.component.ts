@@ -235,7 +235,6 @@ export class StockReceiptComponent implements OnInit {
           });
           this.schemeOptions = schemeSelection;
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          // this.isItemDescEnabled = (this.Scheme !== null && this.Scheme !== undefined) ? false : true;
         } else {
           this.schemeOptions = schemeSelection;
         }
@@ -379,7 +378,7 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         this.depositorNameOptions = [];
         this.DepositorCode = null; this.depositorCode = null;
-        break;
+        break;  
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
         this.iCode = null; this.ICode = null; this.TStockNo = null;
