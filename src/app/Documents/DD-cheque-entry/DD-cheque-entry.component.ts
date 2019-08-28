@@ -3,10 +3,11 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
-import { SelectItem } from 'primeng/api';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -15,7 +16,9 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 })
 export class DDChequeEntryComponent implements OnInit {
   DDChequeCols: any;
-  DDChequeData: any;
+  DDChequeData: any = [];
+  ChequeReceiptNoCols: any;
+  ChequeReceiptNoData: any = [];
   receiptDate: any = new Date();
   receiptNo: any;
   canShowMenu: boolean;
@@ -38,13 +41,17 @@ export class DDChequeEntryComponent implements OnInit {
   godownName: any;
   GCode: any;
   RCode: any;
+  viewDate: Date = new Date();
+  viewPane: boolean;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
-    private authService: AuthService, private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private datepipe: DatePipe,
+    private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.DDChequeCols = this.tableConstants.DDChequeEntryReport;
+    this.DDChequeCols = this.tableConstants.DDChequeEntryCols;
+    this.ChequeReceiptNoCols = this.tableConstants.ChequeReceiptNoCols;
     this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.paymentTypeOptions = [{ label: '-select-', value: null }, { label: 'Cash', value: 'CA' },
@@ -83,6 +90,23 @@ export class DDChequeEntryComponent implements OnInit {
     }
   }
 
+  onView() {
+    this.viewPane = true;
+    const params = new HttpParams().set('GCode', this.GCode).append('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy'));
+    this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe(res => {
+      if(res !== undefined && res !== null && res.length !== 0){
+        this.ChequeReceiptNoData = res;
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
+    },(err: HttpErrorResponse) => {
+      // this.blockScreen = false;
+       if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
+
   onEnter() {
     this.DDChequeData.push({
       paymentType: this.paymentType.label,
@@ -93,7 +117,7 @@ export class DDChequeEntryComponent implements OnInit {
     })
   }
 
-  viewSelectedRow(index, data) {
+  getDocByReceiptNo(index, data) {
   }
 
 

@@ -37,7 +37,7 @@ export class TableConstants {
   GunnyReport: any;
   StackCardOpeningEntryReport: any;
   StackCardClosingEntryReport: any;
-  DDChequeEntryReport: any;
+  DDChequeEntryCols: any;
   StackWiseBreakupDetails: any;
   SchemeWiseBreakupDetails: any;
   TruckTransit: any;
@@ -94,6 +94,7 @@ export class TableConstants {
   SchemeCommodity: any;
   EmployeeMaster: any;
   SocietyMasterNewEntry: any;
+  ChequeReceiptNoCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -802,7 +803,7 @@ export class TableConstants {
 
     this.StackCardClosingEntryReport = [];
 
-    this.DDChequeEntryReport = [
+    this.DDChequeEntryCols = [
       { field: 'Id', header: 'ID' },
       { field: 'paymentType', header: 'CHE/DD' },
       { field: 'chequeNo', header: 'CHE/DD No' },
@@ -810,6 +811,12 @@ export class TableConstants {
       { field: 'amount', header: 'AMOUNT' },
       { field: 'bank', header: 'BANK' },
       { field: 'receivedFrom', header: 'TO WHOM' },
+    ];
+
+    this.ChequeReceiptNoCols = [
+      { field: 'SNo', header: 'SI.No.' },
+      { field: 'receiptNo', header: 'Receipt No' },
+      { field: 'receivedFrom', header: 'Whom Received' },
     ];
 
     this.TruckMemoItemDetails = [
