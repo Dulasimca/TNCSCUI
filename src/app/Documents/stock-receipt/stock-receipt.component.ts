@@ -51,7 +51,7 @@ export class StockReceiptComponent implements OnInit {
   packingTypeOptions: SelectItem[];
   // isDepositorTypeDisabled: boolean = true;
   // isDepositorNameDisabled: boolean = true;
-  locationNo: any;
+  locationNo: string;
   depositorType: string;
   trCode: string;
   wtCode: string;
@@ -101,33 +101,35 @@ export class StockReceiptComponent implements OnInit {
   WTCode: any;
   Moisture: string = '0';
   //SR-Freight Details
-  TransporterName: string;
-  LWBillNo: any;
+  TransporterName: string = '-';
+  LWBillNo: any = '-';
   LWBillDate: Date = new Date();
-  Kilometers: number;
-  FreightAmount: number;
+  Kilometers: number = 0;
+  FreightAmount: number = 0;
   WHDNo: any;
-  WCharges: number;
-  HCharges: number;
-  GUnserviceable: any;
-  GServiceable: any;
-  GPatches: any;
+  WCharges: number = 0;
+  HCharges: number = 0;
+  GUnserviceable: any = 0;
+  GServiceable: any = 0;
+  GPatches: any = 0;
   FCode: string;
   VCode: string;
-  Gunnyutilised: any;
-  GunnyReleased: any;
-  mno: any;
+  Gunnyutilised: any = 0;
+  GunnyReleased: any = 0;
+  mno: any = 0;
   TStation: string;
   FStation: string;
-  RRNo: any;
+  RRNo: any = 0;
   LDate: Date = new Date();
-  WNo: any;
+  WNo: any = 0;
   Remarks: string = '-';
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
   isViewed: boolean = false;
   blockScreen: boolean;
+  stackCompartment: string = '';
+  checkTrType: boolean = true;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -224,6 +226,8 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
+        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
+          this.Trcode.value === 'TR023') ? false : true;
         break;
       case 'sc':
         if (type === 'enter') {
@@ -493,10 +497,29 @@ export class StockReceiptComponent implements OnInit {
     })
   }
 
+  onStackInput(event) {
+    let value = event.data;
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+    }
+      if(this.stackCompartment !== null && !this.checkTrType) {
+        let length = this.stackCompartment.length;
+        let index = this.locationNo.length;
+        // let trimmedValue = this.stackCompartment.slice(length - 1, length).trim();
+        this.locationNo = this.locationNo.toString().trim() + this.stackCompartment;
+      } 
+      }
+
   onEnter() {
     let stackBalance;
     this.itemData.push({
-      'TStockNo': (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      'TStockNo': (this.TStockNo.value !== undefined) ? (this.TStockNo.value.trim() + this.stackCompartment)
+      : (this.TStockNo + this.stackCompartment),
       'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
@@ -521,7 +544,7 @@ export class StockReceiptComponent implements OnInit {
       this.GKgs = null; this.NKgs = null; this.WTCode = null; this.tareWt = null;
       this.godownNo = null; this.locationNo = null; this.stackYear = null;
       this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-      this.packingTypeOptions = []; this.wmtOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
     }
   }
 
@@ -562,7 +585,9 @@ export class StockReceiptComponent implements OnInit {
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
-      'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip
+      'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip,
+      'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
+      'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-'
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {

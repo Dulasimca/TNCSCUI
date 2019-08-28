@@ -178,9 +178,6 @@
                         </ng-template>
                       </p-dropdown>
                     </div>
-                    <div class="ui-g-12 ui-md-1"  style="margin-top: -6px">
-                        <input name="stack_add_no" pInputText [(ngModel)]="stackCompartment" [readOnly]="checkTrType">
-                      </div>
                     <div class="ui-g-4 ui-md-1" style="margin-top: -22px">
                           <label for="Godown" class="label-fontsize">Godown</label>
                           <input name="Godown" [(ngModel)]="GodownNo" pInputText autocomplete="off"
@@ -191,7 +188,7 @@
                         <input name="LocNo" pInputText [(ngModel)]="LocationNo" autocomplete="off"
                           [readonly]="true">
                     </div>
-                    <div class="ui-g-4 ui-md-1 ui-fluid">
+                    <div class="ui-g-4 ui-md-2 ui-fluid">
                         <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
                       </div>
                   </div>
