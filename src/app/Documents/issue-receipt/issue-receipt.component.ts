@@ -481,10 +481,13 @@ export class IssueReceiptComponent implements OnInit {
       index = this.TStockNo.value.toString().indexOf('/', 2);
       const totalLength = this.TStockNo.value.length;
       this.godownNo = this.TStockNo.value.toString().slice(0, index);
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
-    }
-        this.locationNo = this.locationNo.toString().trim() + this.stackCompartment;
-      } 
+      if (this.stackCompartment !== undefined && this.stackCompartment !== null) {
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim() + this.stackCompartment.toUpperCase();
+      } else {
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim();
+      }
+    }    
+  } 
 
   onIssueDetailsEnter() {
     this.DNo = this.DeliveryOrderNo;
@@ -510,7 +513,9 @@ export class IssueReceiptComponent implements OnInit {
   onItemDetailsEnter() {
     this.messageService.clear();
     this.itemData.push({
-      TStockNo: (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      TStockNo: (this.TStockNo.value !== undefined) ? 
+      this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '') 
+      : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
@@ -551,7 +556,7 @@ export class IssueReceiptComponent implements OnInit {
         this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
         this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-        this.packingTypeOptions = []; this.wmtOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
       }
 
     }

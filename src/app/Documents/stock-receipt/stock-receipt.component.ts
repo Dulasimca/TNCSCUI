@@ -226,7 +226,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
+        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
           this.Trcode.value === 'TR023') ? false : true;
         break;
       case 'sc':
@@ -294,7 +294,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
-         if (this.Scheme !== undefined && this.Scheme !== null) {
+        if (this.Scheme !== undefined && this.Scheme !== null) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
             || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -316,7 +316,7 @@ export class StockReceiptComponent implements OnInit {
       case 'st_no':
         if (type === 'enter') {
           this.stackNoPanel.overlayVisible = true;
-        } 
+        }
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
@@ -339,7 +339,7 @@ export class StockReceiptComponent implements OnInit {
         // if (this.packingTypeOptions === undefined) {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
-        } 
+        }
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -358,7 +358,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
-         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
@@ -382,7 +382,7 @@ export class StockReceiptComponent implements OnInit {
       case 'dt':
         this.depositorNameOptions = [];
         this.DepositorCode = null; this.depositorCode = null;
-        break;  
+        break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
         this.iCode = null; this.ICode = null; this.TStockNo = null;
@@ -505,29 +505,30 @@ export class StockReceiptComponent implements OnInit {
       index = this.TStockNo.value.toString().indexOf('/', 2);
       const totalLength = this.TStockNo.value.length;
       this.godownNo = this.TStockNo.value.toString().slice(0, index);
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
-    }
-      if(this.stackCompartment !== null && !this.checkTrType) {
-        // let trimmedValue = this.stackCompartment.slice(length - 1, length).trim();
-        this.locationNo = this.locationNo.toString().trim() + this.stackCompartment;
-      } 
+      if (this.stackCompartment !== undefined && this.stackCompartment !== null) {
+        this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim() + this.stackCompartment.toUpperCase();
+      } else {
+        this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim();
       }
+    }
+  }
 
   onEnter() {
     let stackBalance;
     this.itemData.push({
-      'TStockNo': (this.TStockNo.value !== undefined) ? (this.TStockNo.value.trim() + this.stackCompartment)
-      : (this.TStockNo + this.stackCompartment),
-      'Scheme': (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
-      'ICode': (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
-      'IPCode': (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
-      'NoPacking': this.NoPacking, 'GKgs': this.GKgs, 'Nkgs': this.NKgs,
-      'WTCode': (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
-      'Moisture': this.Moisture,
-      'CommodityName': (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
-      'SchemeName': (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
-      'PackingName': (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
-      'WmtType': (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
+      TStockNo: (this.TStockNo.value !== undefined) ? 
+      this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '') 
+      : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
+      Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
+      IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
+      NoPacking: this.NoPacking, GKgs: this.GKgs, Nkgs: this.NKgs,
+      WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
+      Moisture: this.Moisture,
+      CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
+      SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
+      PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
+      WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
     if (this.itemData.length !== 0) {
       stackBalance = (stackBalance !== undefined) ? (stackBalance * 1) : 0;
@@ -603,9 +604,9 @@ export class StockReceiptComponent implements OnInit {
         }
       }
     }, (err: HttpErrorResponse) => {
-          this.isViewed = false;
-          this.isSaveSucceed = false;
-          this.blockScreen = false;
+      this.isViewed = false;
+      this.isSaveSucceed = false;
+      this.blockScreen = false;
       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
@@ -695,43 +696,43 @@ export class StockReceiptComponent implements OnInit {
     });
   }
 
-  resetForm(receiptForm: NgForm){
+  resetForm(receiptForm: NgForm) {
     receiptForm.form.markAsUntouched();
     receiptForm.form.markAsPristine();
- }
+  }
 
   onPrint() {
     this.blockScreen = true;
-    if(this.isViewed) {
+    if (this.isViewed) {
       this.onSave('2');
     }
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
     //saveAs(filepath, filename);
-    this.http.get(filepath, {responseType: 'text'})
+    this.http.get(filepath, { responseType: 'text' })
       .subscribe(data => {
-        if(data !== null && data !== undefined) {
-        var doc = new jsPDF({
-          orientation: 'potrait',
-        })
-        doc.setFont('courier');
-        doc.setFontSize(9);
-        doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
-        this.blockScreen = false;
-        this.isSaveSucceed = false;
-        this.isViewed = false;   
+        if (data !== null && data !== undefined) {
+          var doc = new jsPDF({
+            orientation: 'potrait',
+          })
+          doc.setFont('courier');
+          doc.setFontSize(9);
+          doc.text(data, 2, 2)
+          doc.save(filename + '.pdf');
+          this.blockScreen = false;
+          this.isSaveSucceed = false;
+          this.isViewed = false;
         } else {
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        } 
-        },(err: HttpErrorResponse) => {
-          this.blockScreen = false;
-           if (err.status === 0) {
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-          }
-        });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
   }
 
   onClear() {
