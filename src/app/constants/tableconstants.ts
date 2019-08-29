@@ -1008,10 +1008,13 @@ export class TableConstants {
 
     this.IssuerMaster = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'ITCode', header: 'Issuer Code' },
-      { field: 'ITDescription', header: 'Issuer Name' },
-      { field: 'GRName', header: 'Acs Code' },
-      { field: 'ItemType', header: 'Active' },
+      { field: 'IssuerCode', header: 'Issuer Code' },
+      { field: 'IssuerNo', header: 'Issuer No' },
+      { field: 'Issuername', header: 'Issuer Name' },
+      { field: 'Godcode', header: 'Godown Code' },
+      { field: 'ACSCode', header: 'Acs Code' },
+      { field: 'Activeflag', header: 'Active' },
+      { header: 'Save'}
     ];
   }
 }

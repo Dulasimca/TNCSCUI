@@ -6,8 +6,9 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { HttpParams } from '@angular/common/http';
-
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-Issuer-master',
@@ -17,42 +18,93 @@ import { HttpParams } from '@angular/common/http';
 export class IssuerMasterComponent implements OnInit {
   IssuerMasterCols: any;
   IssuerMasterData: any;
+  IssuerMasterAlterData: any;
+  ACSCode: any;
+  Activeflag: any;
+  IssuerCode: any;
+  Godcode: any;
   canShowMenu: boolean;
   items: any;
   filterArray: any;
   gCode: any;
+  disableOkButton: boolean = true;
+  selectedRow: any;
   loading: boolean = false;
+  viewPane: boolean;
+  isViewed: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService,
+    private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.IssuerMasterCols = this.tableConstants.IssuerMaster;
+    this.loading = true;
     this.gCode = this.authService.getUserAccessible().gCode;
-    const params = new HttpParams().set('GCode', this.gCode);
-    this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(value => {
-      if (value !== undefined) {
-        this.loading = false;
-        this.IssuerMasterData = value;
-        this.filterArray = value;
-        let sno = 0;
-        this.IssuerMasterData.forEach(data => {
-          sno += 1;
-          data.SlNo = sno;
-        });
+    {
+      const params = {
+        'GCode': this.gCode,
+        'Type': '2'
+      };
+      this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(value => {
+        if (value) {
+          this.IssuerMasterData = value;
+          this.loading = false;
+          this.filterArray = value;
+          let sno = 0;
+          this.IssuerMasterData.forEach(data => {
+            sno += 1;
+            data.SlNo = sno;
+          });
+        }
+        this.items = [
+          {
+            label: 'Excel', icon: 'fa fa-table', command: () => {
+              this.exportAsXLSX();
+            }
+          },
+          {
+            label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+              this.exportAsPDF();
+            }
+          }];
+      });
+    }
+  }
+
+  onRowSelect(event) {
+    this.disableOkButton = false;
+    this.selectedRow = event.data;
+  }
+
+  showSelectedData() {
+    this.viewPane = false;
+    this.isViewed = true;
+    this.ACSCode = this.selectedRow.ACSCode;
+    this.Activeflag = this.selectedRow.Activeflag;
+    this.IssuerCode = this.selectedRow.IssuerCode;
+    this.Godcode = this.selectedRow.Godcode;
+  }
+  onSave() {
+    const params = {
+      'IssuerCode': this.selectedRow.IssuerCode,
+      'ACSCode': this.selectedRow.ACSCode,
+      'Activeflag': this.selectedRow.Activeflag,
+      'Godcode': this.selectedRow.Godcode
+    };
+    this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(ress => {
+      if (ress) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-      this.items = [
-        {
-          label: 'Excel', icon: 'fa fa-table', command: () => {
-            this.exportAsXLSX();
-          }
-        },
-        {
-          label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-            this.exportAsPDF();
-          }
-        }];
-    });
+    }
+      , (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
   }
 
   onSearch(value) {
@@ -61,18 +113,18 @@ export class IssuerMasterComponent implements OnInit {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.IssuerMasterData.filter(item => {
         // if (item.DepositorName.toString().startsWith(value)) {
-        return item.ITDescription.toString().startsWith(value);
+        return item.IssuerCode.toString().startsWith(value);
         // }
       });
     }
   }
 
   exportAsXLSX(): void {
-    var ItemMaster = [];
+    var IssuerMaster = [];
     this.IssuerMasterData.forEach(data => {
-      ItemMaster.push({ SlNo: data.SlNo, Item_Code: data.ITCode, Item_Name: data.ITDescription, Group: data.GRName, ItemType: data.ItemType })
+      IssuerMaster.push({ SlNo: data.SlNo, Issuer_Code: data.IssuerCode, Issuer_No: data.IssuerNo, Issuer_Name: data.Issuername, Godown_Code: data.Godcode, ACSCode: data.ACSCode, Activeflag: data.Activeflag })
     });
-    this.excelService.exportAsExcelFile(ItemMaster, 'ItemMaster', this.IssuerMasterCols);
+    this.excelService.exportAsExcelFile(IssuerMaster, 'Issuer_Master', this.IssuerMasterCols);
   }
 
   exportAsPDF() {
@@ -83,10 +135,10 @@ export class IssuerMasterComponent implements OnInit {
     var col = this.IssuerMasterCols;
     var rows = [];
     this.IssuerMasterData.forEach(element => {
-      var temp = [element.SlNo, element.ITCode, element.ITDescription, element.GRName, element.ItemType];
+      var temp = [element.SlNo, element.IssuerCode, element.IssuerNo, element.Issuername, element.Godcode, element.ACSCode, element.Activeflag];
       rows.push(temp);
     });
     doc.autoTable(col, rows);
-    doc.save('Commodity_Break.pdf');
+    doc.save('Issuer_Master_Report.pdf');
   }
 }
