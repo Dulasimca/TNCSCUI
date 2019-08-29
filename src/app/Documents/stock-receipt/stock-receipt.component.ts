@@ -101,7 +101,7 @@ export class StockReceiptComponent implements OnInit {
   WTCode: any;
   Moisture: string = '0';
   //SR-Freight Details
-  TransporterName: string = '-';
+  TransporterName: any = '-';
   LWBillNo: any = '-';
   LWBillDate: Date = new Date();
   Kilometers: number = 0;
