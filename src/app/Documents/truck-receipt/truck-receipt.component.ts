@@ -855,7 +855,7 @@ export class TruckReceiptComponent implements OnInit {
         if (res.Item1) {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
-          this.isSaveSucceed = true;
+          this.isSaveSucceed = (type !== '2') ? true : false;
           this.isViewed = false;
           this.blockScreen = false;
         } else {

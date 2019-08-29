@@ -111,6 +111,8 @@ export class IssueReceiptComponent implements OnInit {
   Loadingslip: any;
   isViewed: boolean = false;
   blockScreen: boolean;
+  checkTrType: boolean = true;
+  stackCompartment: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -207,6 +209,8 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
+        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
+          this.Trcode.value === 'TR024') ? false : true;
         break;
       case 'sc':
         if (type === 'enter') {
@@ -469,6 +473,21 @@ export class IssueReceiptComponent implements OnInit {
     })
   }
 
+  onStackInput(event) {
+    let value = event.data;
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      if (this.stackCompartment !== undefined && this.stackCompartment !== null) {
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim() + this.stackCompartment.toUpperCase();
+      } else {
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim();
+      }
+    }    
+  } 
 
   onIssueDetailsEnter() {
     this.DNo = this.DeliveryOrderNo;
@@ -494,7 +513,9 @@ export class IssueReceiptComponent implements OnInit {
   onItemDetailsEnter() {
     this.messageService.clear();
     this.itemData.push({
-      TStockNo: (this.TStockNo.value !== undefined) ? this.TStockNo.value : this.TStockNo,
+      TStockNo: (this.TStockNo.value !== undefined) ? 
+      this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '') 
+      : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
@@ -535,7 +556,7 @@ export class IssueReceiptComponent implements OnInit {
         this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
         this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-        this.packingTypeOptions = []; this.wmtOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
       }
 
     }
@@ -635,7 +656,7 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = true;
+          this.isSaveSucceed = (type !== '2') ? true : false;
           this.isViewed = false;
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
@@ -810,7 +831,7 @@ export class IssueReceiptComponent implements OnInit {
           orientation: 'potrait',
         })
         doc.setFont('courier');
-        doc.setFontSize(9);
+        doc.setFontSize(8.5);
         doc.text(data, 2, 2);
         doc.save(filename + '.pdf');
         this.blockScreen = false;

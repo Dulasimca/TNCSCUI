@@ -175,7 +175,7 @@
             <p-tabPanel header="Item Details">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
                 <div class="ui-g-12 ui-md-12 ui-fluid">
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -10px">
                     <label for="scheme" class="label-fontsize">Scheme</label>
                     <p-dropdown #sc name="scheme" [options]="schemeOptions" [(ngModel)]="Scheme"
                       (onClick)="onSelect('sc', 'click')" (keydown.enter)="onSelect('sc', 'enter')" (onChange)="refreshSelect('sc')"
@@ -185,7 +185,7 @@
                       </ng-template>
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -10px">
                     <label for="commodity" class="label-fontsize">Item Description</label>
                     <p-dropdown #i_desc name="commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                       (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')" (onChange)="refreshSelect('i_desc')" 
@@ -195,7 +195,7 @@
                       </ng-template>
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -10px">
                     <label for="stock_no" class="label-fontsize">Stack No.</label>
                     <p-dropdown #st_no name="stock_no" [options]="stackOptions" [(ngModel)]="TStockNo"
                       (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')" (onChange)="onStackNoChange($event)" filter="true"
@@ -205,18 +205,20 @@
                       </ng-template>
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-12 ui-md-1" style="margin-top: 12px">
-                      <input name="stack_add_no" pInputText [(ngModel)]="stackCompartment" [readOnly]="checkTrType">
+                  <div class="ui-g-12 ui-md-1" style="margin-top: 10px">
+                      <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
+                     maxlength="3" onkeypress="return /[G&0-9]/i.test(event.key)" (input)="onStackInput($event)" 
+                     style="text-transform: uppercase !important" [readOnly]="checkTrType">
                     </div>
-                  <div class="ui-g-12 ui-md-1">
+                  <div class="ui-g-12 ui-md-1" style="margin-top: -10px">
                     <label for="godown_no" class="label-fontsize">Godown No</label>
                     <input name="godown_no" pInputText [(ngModel)]="godownNo" [readOnly]="true">
                   </div>
-                  <div class="ui-g-12 ui-md-1" style="margin-top: -10px">
+                  <div class="ui-g-12 ui-md-2" style="margin-top: -10px">
                     <label for="loc_no" class="label-fontsize">Location+Formation No.</label>
                     <input name="loc_no" pInputText [(ngModel)]="locationNo" [readOnly]="true">
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 22px;">
+                  <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 22px;">
                     <label for="stack_year" class="ui-g-12 ui-md-10 label-fontsize-large"><b>Stack Year -
                         <b>{{stackYear}}</b></b></label>
                   </div>
@@ -347,14 +349,14 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="tName" pInputText [(ngModel)]="TransporterName" [disabled]="true"
+                      <input name="tName" pInputText [(ngModel)]="TransporterName"
                         autocomplete="off">
                       <label for="tName" class="float-input">Transporter Name</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="LWBNo" pInputText [(ngModel)]="LWBillNo" [disabled]="true" autocomplete="off">
+                      <input name="LWBNo" pInputText [(ngModel)]="LWBillNo" autocomplete="off">
                       <label for="LWBNo" class="float-input">Lorry Way Bill No</label>
                     </span>
                   </div>

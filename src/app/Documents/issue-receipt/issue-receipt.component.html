@@ -227,20 +227,21 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div class="ui-g-12 ui-md-1">
-                  <!-- <label for="godown_no" class="label-fontsize"></label> -->
-                  <input name="StackExtraNo" pInputText [(ngModel)]="stackCompartment" [readOnly]="checkTrType">
+              <div class="ui-g-12 ui-md-1" style="margin-top: 10px">
+                  <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
+                 maxlength="3" (input)="onStackInput($event)" 
+                 style="text-transform: uppercase !important" [readOnly]="checkTrType">
                 </div>
               <div class="ui-g-6 ui-md-1 ui-fluid">
                 <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
               </div>
               <div class="ui-g-6 ui-md-1">
                   <label for="GodownNo" class="label-fontsize">Godown No</label>
-                  <input name="GodownNo" [(ngModel)]="godownNo" pInputText autocomplete="off" [readonly]="true">
+                  <input name="GodownNo" tabindex="-1" [(ngModel)]="godownNo" pInputText autocomplete="off" [readonly]="true">
               </div>
               <div class="ui-g-6 ui-md-1">
                   <label for="LocNo" class="label-fontsize">Location+Formation No.</label>
-                  <input name="LocNo" [(ngModel)]="locationNo" pInputText autocomplete="off" [readonly]="true">
+                  <input name="LocNo" tabindex="-1" [(ngModel)]="locationNo" pInputText autocomplete="off" [readonly]="true">
               </div>
             </div>
             <div class="ui-g-12 ui-fluid">

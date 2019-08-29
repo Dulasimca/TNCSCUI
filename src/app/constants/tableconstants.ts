@@ -806,12 +806,12 @@ export class TableConstants {
 
     this.DDChequeEntryCols = [
       { field: 'Id', header: 'ID' },
-      { field: 'paymentType', header: 'CHE/DD' },
-      { field: 'chequeNo', header: 'CHE/DD No' },
-      { field: 'chequeDate', header: 'Date' },
-      { field: 'amount', header: 'AMOUNT' },
-      { field: 'bank', header: 'BANK' },
-      { field: 'receivedFrom', header: 'TO WHOM' },
+      { field: 'PaymentType', header: 'CHE/DD' },
+      { field: 'ChequeNo', header: 'CHE/DD No' },
+      { field: 'ChequeDate', header: 'Date' },
+      { field: 'Amount', header: 'AMOUNT' },
+      { field: 'Bank', header: 'BANK' },
+      { field: 'ReceivedFrom', header: 'TO WHOM' },
     ];
 
     this.ChequeReceiptNoCols = [
