@@ -210,7 +210,7 @@ export class IssueReceiptComponent implements OnInit {
           }
         })
         this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
-          this.Trcode.value === 'TR023') ? false : true;
+          this.Trcode.value === 'TR024') ? false : true;
         break;
       case 'sc':
         if (type === 'enter') {
