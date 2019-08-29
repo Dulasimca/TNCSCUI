@@ -808,7 +808,7 @@ export class TableConstants {
       { field: 'Id', header: 'ID' },
       { field: 'PaymentType', header: 'CHE/DD' },
       { field: 'ChequeNo', header: 'CHE/DD No' },
-      { field: 'ChequeDate', header: 'Date' },
+      { field: 'ChDate', header: 'Date' },
       { field: 'Amount', header: 'AMOUNT' },
       { field: 'Bank', header: 'BANK' },
       { field: 'ReceivedFrom', header: 'TO WHOM' },
@@ -816,8 +816,8 @@ export class TableConstants {
 
     this.ChequeReceiptNoCols = [
       { field: 'SNo', header: 'SI.No.' },
-      { field: 'receiptNo', header: 'Receipt No' },
-      { field: 'receivedFrom', header: 'Whom Received' },
+      { field: 'vrno', header: 'Receipt No' },
+      { field: 'cdwhom', header: 'Whom Received' },
     ];
 
     this.TruckMemoItemDetails = [
