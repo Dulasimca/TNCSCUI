@@ -227,9 +227,10 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div class="ui-g-12 ui-md-1">
-                  <!-- <label for="godown_no" class="label-fontsize"></label> -->
-                  <input name="StackExtraNo" pInputText [(ngModel)]="stackCompartment" [readOnly]="checkTrType">
+              <div class="ui-g-12 ui-md-1" style="margin-top: 10px">
+                  <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
+                 maxlength="3" onkeypress="return /[G&0-9]/i.test(event.key)" (input)="onStackInput($event)" 
+                 style="text-transform: uppercase !important" [readOnly]="checkTrType">
                 </div>
               <div class="ui-g-6 ui-md-1 ui-fluid">
                 <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>

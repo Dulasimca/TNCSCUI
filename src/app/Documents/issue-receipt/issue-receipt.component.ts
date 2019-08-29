@@ -111,6 +111,8 @@ export class IssueReceiptComponent implements OnInit {
   Loadingslip: any;
   isViewed: boolean = false;
   blockScreen: boolean;
+  checkTrType: boolean = true;
+  stackCompartment: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -207,6 +209,8 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
+        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
+          this.Trcode.value === 'TR023') ? false : true;
         break;
       case 'sc':
         if (type === 'enter') {
@@ -469,6 +473,18 @@ export class IssueReceiptComponent implements OnInit {
     })
   }
 
+  onStackInput(event) {
+    let value = event.data;
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      index = this.TStockNo.value.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.value.length;
+      this.godownNo = this.TStockNo.value.toString().slice(0, index);
+      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+    }
+        this.locationNo = this.locationNo.toString().trim() + this.stackCompartment;
+      } 
 
   onIssueDetailsEnter() {
     this.DNo = this.DeliveryOrderNo;
@@ -635,7 +651,7 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = true;
+          this.isSaveSucceed = (type !== '2') ? true : false;
           this.isViewed = false;
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
@@ -810,7 +826,7 @@ export class IssueReceiptComponent implements OnInit {
           orientation: 'potrait',
         })
         doc.setFont('courier');
-        doc.setFontSize(9);
+        doc.setFontSize(8.5);
         doc.text(data, 2, 2);
         doc.save(filename + '.pdf');
         this.blockScreen = false;

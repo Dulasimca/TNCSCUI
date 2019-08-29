@@ -508,8 +508,6 @@ export class StockReceiptComponent implements OnInit {
       this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
     }
       if(this.stackCompartment !== null && !this.checkTrType) {
-        let length = this.stackCompartment.length;
-        let index = this.locationNo.length;
         // let trimmedValue = this.stackCompartment.slice(length - 1, length).trim();
         this.locationNo = this.locationNo.toString().trim() + this.stackCompartment;
       } 
@@ -592,7 +590,7 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = true;
+          this.isSaveSucceed = (type !== '2') ? true : false;
           this.isViewed = false;
           this.blockScreen = false;
           this.onClear();

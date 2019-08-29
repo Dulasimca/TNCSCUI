@@ -23,7 +23,7 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="rNo" class="label-fontsize">Receipt No</label>
                 <input type="text" name="rNo" size="20" [(ngModel)]="receiptNo" maxlength="20" pInputText
-                  autocomplete="off">
+                  [readonly]="true" autocomplete="off">
               </div>
               <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
                 <button pButton type="button" label=View (click)="onView()"></button>
@@ -33,15 +33,15 @@
             <div class="ui-g-12 ui-md-12">
               <div class="ui-g-12 ui-md-6">
                 <span class="ui-float-label">
-                  <textarea rows="3" cols="110" pInputTextarea></textarea>
+                  <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea [(ngModel)]="details"></textarea>
                   <label class="float-input">Details</label>
                 </span>
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize">Recevior Type</label>
                 <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
-                  (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true" optionLabel="label"
-                  [showClear]="true" required> 
+                  filter="true" optionLabel="label"
+                 (onChange)="onLoadReceivor()" [showClear]="true" required> 
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -51,10 +51,10 @@
                 <label for="recvdFrom" class="label-fontsize">Received from</label>
                 <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
-                  required>
+                 (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
                     <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                      <div style="font-size:14px;margin:10px 10px 0 0">{{data}}</div>
+                      <div style="font-size:14px;margin:10px 10px 0 0">{{data.label}}</div>
                     </div>
                   </ng-template>
                 </p-autoComplete>
@@ -64,7 +64,7 @@
               <div class="ui-g-4 ui-md-2">
                 <label for="payType" class="label-fontsize">CA/DD/CH</label>
                 <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType"
-                  (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true" optionLabel="label"
+                  filter="true" optionLabel="label"
                   [showClear]="true" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -73,7 +73,7 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="chNo" class="label-fontsize">CHE/DD. No.</label>
-                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" maxlength="4" autocomplete="off"
+                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="20" autocomplete="off"
                   required>
               </div>
               <div class="ui-g-4 ui-md-2">
@@ -88,8 +88,8 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="chAmnt" class="label-fontsize">CA/CH/DD Amt</label>
-                <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="20" pInputText
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="10" pInputText
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   autocomplete="off" required>
               </div>
               <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
@@ -100,7 +100,7 @@
               <!-- <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="ui-g-12 label-fontsize dashboard">Recevior Type</label>
                 <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
-                  (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true" optionLabel="label"
+                  filter="true" optionLabel="label"
                   [showClear]="true" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -141,8 +141,8 @@
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
               </div> -->
             </div>
-            <div class="ui-g-12">
-              <p-table [columns]="DDChequeCols" [value]="DDChequeData" [rows]="20" autoLayout="true"
+            <div class="ui-g-12" style="text-align: center !important">
+              <p-table [columns]="DDChequeCols" [value]="DDChequeData" [rows]="10" autoLayout="true"
                 [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true">
                 <ng-template pTemplate="header" let-columns>
                   <tr style="text-align: center;">
@@ -151,8 +151,8 @@
                     </th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                  <tr>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                  <tr (dblclick)="viewSelectedRow(rowData, rowIndex)">
                     <td *ngFor="let col of columns">
                       <div *ngIf="col.field === 'Amount'">
                         <div style="text-align: end !important">
