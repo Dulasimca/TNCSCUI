@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IssuerMasterComponent } from './master.component';
+import { IssuerMasterComponent } from './Issuer-master.component';
+
 
 describe('IssuerMasterComponent', () => {
   let component: IssuerMasterComponent;
