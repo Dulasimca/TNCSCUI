@@ -57,19 +57,19 @@
                 </p-cellEditor>
               </td>
               <td pEditableColumn>
-                <p-cellEditor>
+                <p-cellEditor (keydown.enter)="onSave(rowData)">
                   <ng-template pTemplate="input">
-                    <input #rowData pInputText type="text" (keyup.enter)="onSave(rowData.Activeflag)" [(ngModel)]="rowData.Activeflag">
+                    <input pInputText type="text" [(ngModel)]="rowData.Activeflag">
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{rowData.Activeflag}}
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td>
+              <!-- <td>
                 <button pButton type="button" icon="pi pi-check" class="ui-button-success" style="margin-right: .5em"
                   (click)="onSave(rowData)" ></button>
-              </td>
+              </td> -->
             </tr>
           </ng-template>
         </p-table>

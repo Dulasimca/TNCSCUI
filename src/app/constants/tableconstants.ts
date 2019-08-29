@@ -1014,7 +1014,7 @@ export class TableConstants {
       { field: 'Godcode', header: 'Godown Code' },
       { field: 'ACSCode', header: 'Acs Code' },
       { field: 'Activeflag', header: 'Active' },
-      { header: 'Save'}
+      // { header: 'Save'}
     ];
   }
 }

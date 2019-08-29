@@ -85,7 +85,7 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerCode = this.selectedRow.IssuerCode;
     this.Godcode = this.selectedRow.Godcode;
   }
-  onSave() {
+  onSave(selectedRow) {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
       'ACSCode': this.selectedRow.ACSCode,
