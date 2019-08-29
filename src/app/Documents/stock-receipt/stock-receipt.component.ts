@@ -580,13 +580,15 @@ export class StockReceiptComponent implements OnInit {
       'ItemList': this.itemData,
       'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '-',
       'GodownName': this.godownName,
-      'TransactionType': (this.DepositorType.label !== undefined && this.DepositorType.label !== null) ? this.DepositorType.label : this.DepositorType,
+      'TransactionName':  (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
       'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip,
       'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
-      'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-'
+      'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
+      'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
+      'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
