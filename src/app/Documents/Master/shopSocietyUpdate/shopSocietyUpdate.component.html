@@ -19,6 +19,9 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
+        <button pButton type="button" label=View [disabled]="(!t_cd)" (click)="onView()"></button>
+      </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Society</label>
         <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onChange)="onSo()" (onClick)="onSo()"
@@ -41,11 +44,10 @@
         <label class="ui-g-7 label-fontsize dashboard">Ccs Shop Code</label>
         <input type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off">
       </div> -->
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View [disabled]="(!t_cd)" (click)="onView()"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Update [disabled]="(!t_cd || !s_cd || !Iss_cd)" (click)="onUpdate()"></button>
+
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
+        <button pButton type="button" label=Update [disabled]="(!t_cd || !s_cd || !Iss_cd)"
+          (click)="onUpdate()"></button>
       </div>
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">

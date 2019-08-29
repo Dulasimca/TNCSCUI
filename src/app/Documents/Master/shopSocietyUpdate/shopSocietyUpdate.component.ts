@@ -26,6 +26,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
   t_cd: any;
   Iss_cd: any;
   Iss: any;
+  SOCData: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   canShowMenu: boolean;
@@ -53,20 +54,30 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
       });
     }
   }
-  onSo() {
-    let SocietySelection = [];
-    // if (this.societyOptions === undefined) {
-    const params = new HttpParams().set('GCode', this.gCode);
-    this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-      if (res !== undefined) {
-        res.forEach(x => {
-          SocietySelection.push({ 'label': x.Societyname });
-          this.societyOptions = SocietySelection;
-        });
-      }
-    });
-    // }
-  }
+  // onSo() {
+  //   this.ontype();
+  //   let SocietySelection = [];
+  //   if (this.societyOptions === undefined) {
+  //     const params = new HttpParams().set('GCode', this.gCode);
+  //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+  //       this.SOCData = res;
+  //       if (this.t_cd.label === 'CRS') {
+  //         // SocietySelection.push({ 'label': x.Societyname });
+  //         SocietySelection.push({ 'label': 'CRS' });
+  //         this.societyOptions = SocietySelection;
+  //         this.societyOptions.slice();
+  //       }
+  //       if (this.t_cd.label === 'COOPERATIVES LEADING') {
+  //         res.forEach(y => {
+  //           SocietySelection.push({ 'label': y.Societyname, 'value': y.Societyname === this.t_cd.label });
+  //           this.societyOptions = SocietySelection;
+  //           this.societyOptions.slice();
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
+
   onIss() {
     let IssuerSelection = [];
     // if (this.IssuerOptions === undefined) {
@@ -82,49 +93,33 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
     // }
   }
 
-  // onSelect(item) {
-  //   let TypeSelection = [];
-  //   let SocietySelection = [];
-  //   let IssuerSelection = [];
-  //   switch (item) {
-  //     case 't':
-  //       if (this.typeOptions === undefined) {
-  //         const params = new HttpParams().set('GCode', this.gCode);
-  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-  //           if (res !== undefined) {
-  //             this.typeOptions = TypeSelection;
-  //             this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COOPERATIVES LEADING', 'value': this.typeOptions }, { 'label': 'COOPERATIVES PRIMARY', 'value': this.typeOptions });
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     case 's':
-  //       if (this.societyOptions === undefined) {
-  //         const params = new HttpParams().set('GCode', this.gCode);
-  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-  //           if (res !== undefined) {
-  //             res.forEach(x => {
-  //               SocietySelection.push({ 'label': x.Societyname });
-  //               this.societyOptions = SocietySelection;
-  //             });
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     case 'Iss':
-  //       if (this.IssuerOptions === undefined) {
-  //         const params = new HttpParams().set('GCode', this.gCode);
-  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-  //           if (res !== undefined) {
-  //             res.forEach(x => {
-  //               IssuerSelection.push({ 'label': x.Issuername });
-  //               this.IssuerOptions = IssuerSelection;
-  //             });
-  //           }
-  //         });
-  //       }
-  //   }
-  // }
+  onSo() {
+    let SocietySelection = [];
+          const params = new HttpParams().set('GCode', this.gCode);
+          this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+            if (res !== undefined) {
+              res.forEach(x => {
+                SocietySelection.push({ 'label': x.Societyname });
+                this.societyOptions = SocietySelection;
+              });
+            }
+  });
+}
+
+//   onSo() {
+//       let SocietySelection = [];
+//       const params = new HttpParams().set('GCode', this.gCode);
+//       this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+//       SocietySelection = res.filter((value) => { return value.Societyname === this.t_cd.label })
+//                       // .map((value) => { return { label: value.Tyname, value: value.Tyname } });
+//                       // this.societyOptions = SocietySelection;
+//                       res.forEach(y => {
+//                                   SocietySelection.push({ 'label': y.Societyname, 'value': y.Societyname === this.t_cd.label });
+//                                   this.societyOptions = SocietySelection;
+//                                   this.societyOptions.slice(this.societyOptions.Societyname);
+//                                 });
+//                     });  
+// }
 
   onResetTable() {
     this.SocietyMasterEntryData = [];
@@ -181,3 +176,47 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
     // this.onClear();
   }
 }
+
+// onSelect(item) {
+  //   let TypeSelection = [];
+  //   let SocietySelection = [];
+  //   let IssuerSelection = [];
+  //   switch (item) {
+  //     case 't':
+  //       if (this.typeOptions === undefined) {
+  //         const params = new HttpParams().set('GCode', this.gCode);
+  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+  //           if (res !== undefined) {
+  //             this.typeOptions = TypeSelection;
+  //             this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COOPERATIVES LEADING', 'value': this.typeOptions }, { 'label': 'COOPERATIVES PRIMARY', 'value': this.typeOptions });
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     case 's':
+  //       if (this.societyOptions === undefined) {
+  //         const params = new HttpParams().set('GCode', this.gCode);
+  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+  //           if (res !== undefined) {
+  //             res.forEach(x => {
+  //               SocietySelection.push({ 'label': x.Societyname });
+  //               this.societyOptions = SocietySelection;
+  //             });
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     case 'Iss':
+  //       if (this.IssuerOptions === undefined) {
+  //         const params = new HttpParams().set('GCode', this.gCode);
+  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+  //           if (res !== undefined) {
+  //             res.forEach(x => {
+  //               IssuerSelection.push({ 'label': x.Issuername });
+  //               this.IssuerOptions = IssuerSelection;
+  //             });
+  //           }
+  //         });
+  //       }
+  //   }
+  // }

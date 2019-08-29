@@ -136,6 +136,7 @@ import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
+import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
 
 @NgModule({
   declarations: [
@@ -230,6 +231,7 @@ import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-en
     CncCorrectionComponent,
     SchemeCommodityComponent,
     SocietyMasterNewComponent,
+    IssuerMasterComponent,
   ],
   imports: [
     BrowserModule,
