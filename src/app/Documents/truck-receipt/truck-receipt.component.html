@@ -488,7 +488,7 @@
               <button style="margin-top:5px" pButton type="button" [disabled]="((!f.valid || itemData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed))" (click)="onPrint()"></button>
+              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" (click)="onPrint()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
                 <button style="margin-top:5px" pButton type="button"
