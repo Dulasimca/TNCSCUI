@@ -17,6 +17,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 export class ShopSocietUpdateMasterComponent implements OnInit {
   SocietyMasterEntryCols: any;
   SocietyMasterEntryData: any;
+  IssuerData: any;
   data?: any;
   typeOptions: SelectItem[];
   societyOptions: SelectItem[];
@@ -54,72 +55,75 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
       });
     }
   }
-  // onSo() {
-  //   this.ontype();
-  //   let SocietySelection = [];
-  //   if (this.societyOptions === undefined) {
+
+  // onIss() {
+  //   // this.SocietyMasterEntryData = this.IssuerData;
+  //   let IssuerSelection = [];
+  //   if (this.IssuerOptions === undefined) {
   //     const params = new HttpParams().set('GCode', this.gCode);
   //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-  //       this.SOCData = res;
-  //       if (this.t_cd.label === 'CRS') {
-  //         // SocietySelection.push({ 'label': x.Societyname });
-  //         SocietySelection.push({ 'label': 'CRS' });
-  //         this.societyOptions = SocietySelection;
-  //         this.societyOptions.slice();
-  //       }
-  //       if (this.t_cd.label === 'COOPERATIVES LEADING') {
-  //         res.forEach(y => {
-  //           SocietySelection.push({ 'label': y.Societyname, 'value': y.Societyname === this.t_cd.label });
-  //           this.societyOptions = SocietySelection;
-  //           this.societyOptions.slice();
-  //         });
-  //       }
+  //       this.IssuerData = res;
+  //       res.forEach(s => {
+  //         if (s.Tyname === this.t_cd) {
+  //           // IssuerSelection = s.filter((value: { Issuername: any; }) => { return value.Issuername === this.t_cd });
+  //           return s;
+  //         }
+  //       });
+  //       this.IssuerOptions = IssuerSelection;
   //     });
   //   }
+  //   // if (this.s_cd !== undefined) {
+  //   //   IssuerSelection.forEach(s => {
+  //   //     this.IssuerOptions = IssuerSelection.filter((value: { Issuername: any; }) => { return value.Issuername === this.s_cd.label });
+  //   //   });
+  //   // }
   // }
 
   onIss() {
     let IssuerSelection = [];
-    // if (this.IssuerOptions === undefined) {
-    const params = new HttpParams().set('GCode', this.gCode);
-    this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-      if (res !== undefined) {
-        res.forEach(x => {
-          IssuerSelection.push({ 'label': x.Issuername });
-          this.IssuerOptions = IssuerSelection;
-        });
-      }
-    });
-    // }
+    if (this.IssuerOptions === undefined) {
+      const params = new HttpParams().set('GCode', this.gCode);
+      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+        if (res !== undefined) {
+          res.forEach(x => {
+            IssuerSelection.push({ 'label': x.Issuername });
+            this.IssuerOptions = IssuerSelection;
+          });
+        }
+      });
+    }
   }
 
   onSo() {
     let SocietySelection = [];
-          const params = new HttpParams().set('GCode', this.gCode);
-          this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-            if (res !== undefined) {
-              res.forEach(x => {
-                SocietySelection.push({ 'label': x.Societyname });
-                this.societyOptions = SocietySelection;
-              });
-            }
-  });
-}
+    if (this.societyOptions === undefined) {
+      const params = new HttpParams().set('GCode', this.gCode);
+      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+        if (res !== undefined) {
+          var result = Array.from(new Set(res.map((item: any) => item.Societyname))); //Get distinct values from array
+          for (var index in result) {
+            SocietySelection.push({ 'label': result[index] });
+          }
+          this.societyOptions = SocietySelection;
+        }
+      });
+    }
+  }
 
-//   onSo() {
-//       let SocietySelection = [];
-//       const params = new HttpParams().set('GCode', this.gCode);
-//       this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-//       SocietySelection = res.filter((value) => { return value.Societyname === this.t_cd.label })
-//                       // .map((value) => { return { label: value.Tyname, value: value.Tyname } });
-//                       // this.societyOptions = SocietySelection;
-//                       res.forEach(y => {
-//                                   SocietySelection.push({ 'label': y.Societyname, 'value': y.Societyname === this.t_cd.label });
-//                                   this.societyOptions = SocietySelection;
-//                                   this.societyOptions.slice(this.societyOptions.Societyname);
-//                                 });
-//                     });  
-// }
+  //   onSo() {
+  //       let SocietySelection = [];
+  //       const params = new HttpParams().set('GCode', this.gCode);
+  //       this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
+  //       SocietySelection = res.filter((value) => { return value.Societyname === this.t_cd.label })
+  //                       // .map((value) => { return { label: value.Tyname, value: value.Tyname } });
+  //                       // this.societyOptions = SocietySelection;
+  //                       res.forEach(y => {
+  //                                   SocietySelection.push({ 'label': y.Societyname, 'value': y.Societyname === this.t_cd.label });
+  //                                   this.societyOptions = SocietySelection;
+  //                                   this.societyOptions.slice(this.societyOptions.Societyname);
+  //                                 });
+  //                     });  
+  // }
 
   onResetTable() {
     this.SocietyMasterEntryData = [];

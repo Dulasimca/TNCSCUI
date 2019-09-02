@@ -4,10 +4,19 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Issuer Master</div>
-        <div class="ui-g-8 dashboard" style="text-align: end !important;">
-          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by IssuerCode"
-            (ngModelChange)="onSearch($event)">
+        <div class="ui-g-12 ui-md-4 dashboard">Issuer Master</div>
+        <div class="ui-g-12 ui-md-1 dashboard">Active/In-Active</div>
+        <div class="ui-g-12 ui-md-2 dashboard" style="text-align: center">
+            <p-dropdown [options]="IssuerOptions" [(ngModel)]="I_cd" (onChange)="onView()" (onClick)="onIssuer()"
+              filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        <div class="ui-g-5 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
+            placeholder="Search by IssuerCode" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             styleClass="ui-button-danger"></p-splitButton>
@@ -18,6 +27,19 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
+      <!-- <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-5"></div>
+        <div class="ui-g-12 ui-md-2" style="text-align: center">
+          <label class="ui-g label-fontsize dashboard">Active/In-Active</label>
+          <p-dropdown [options]="IssuerOptions" [(ngModel)]="I_cd" (onChange)="onView()" (onClick)="onIssuer()"
+            filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-5"></div>
+      </div> -->
       <div class="table-screen-size">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"

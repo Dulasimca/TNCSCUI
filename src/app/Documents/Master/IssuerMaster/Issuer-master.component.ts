@@ -7,7 +7,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
@@ -27,6 +27,9 @@ export class IssuerMasterComponent implements OnInit {
   items: any;
   filterArray: any;
   gCode: any;
+  I_cd: any;
+  Type: any;
+  IssuerOptions: SelectItem[];
   disableOkButton: boolean = true;
   selectedRow: any;
   loading: boolean = false;
@@ -49,6 +52,10 @@ export class IssuerMasterComponent implements OnInit {
       this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(value => {
         if (value) {
           this.IssuerMasterData = value;
+          this.Type = value;
+          if (this.IssuerOptions !== undefined) {
+            this.IssuerMasterData = value.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd });
+          }
           this.loading = false;
           this.filterArray = value;
           let sno = 0;
@@ -85,6 +92,26 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerCode = this.selectedRow.IssuerCode;
     this.Godcode = this.selectedRow.Godcode;
   }
+
+  onIssuer() {
+    let type = [];
+    let IssuerSelection = [];
+    if (this.IssuerOptions === undefined) {
+      this.IssuerOptions = IssuerSelection;
+    }
+    this.IssuerOptions.unshift({ 'label': 'A', 'value': this.IssuerOptions }, { 'label': 'I', 'value': this.IssuerOptions });
+    this.IssuerMasterData;
+  }
+
+  onView() {
+    this.IssuerMasterData = this.filterArray;
+    if (this.I_cd !== undefined) {
+      this.IssuerMasterData.forEach(s => {
+        this.IssuerMasterData = this.Type.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd.label });
+      });
+    }
+  }
+
   onSave(selectedRow) {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
@@ -112,7 +139,6 @@ export class IssuerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.IssuerMasterData.filter(item => {
-        // if (item.DepositorName.toString().startsWith(value)) {
         return item.IssuerCode.toString().startsWith(value);
         // }
       });

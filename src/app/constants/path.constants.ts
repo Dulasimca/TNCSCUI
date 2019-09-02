@@ -82,6 +82,7 @@ export class PathConstants {
   public static readonly ISSUER_MASTER_PUT = '/api/IssuerMaster/Put';
   public static readonly EMPLOYEE_MASTER_GET = '/api/EmployeeMaster/Get';
   public static readonly EMPLOYEE_MASTER_POST = '/api/EmployeeMaster/Post';
+  public static readonly SOCIETY_MASTER = '/api/SocietyMaster';
   public static readonly SOCIETY_MASTER_ENTRY_GET = '/api/SocietyMasterEntry/Get';
   public static readonly SOCIETY_MASTER_ENTRY_PUT = '/api/SocietyMasterEntry/Put';
   public static readonly SOCIETY_MASTER_NEW_ENTRY_GET = '/api/SocietyMasterNew/Get';
@@ -90,5 +91,6 @@ export class PathConstants {
   public static readonly DD_CHEQUE_ENTRY_POST = '/api/DDChequeEntry/Post';
   public static readonly DD_CHEQUE_ENTRY_GET = '/api/DDChequeEntry/Get';
   public static readonly DEMAND_DRAFT_POST = '/api/DemandDraft/Post';
+  public static readonly DELIVERY_ORDER_SCHEMEWISE = '/api/SchemeWise/Post';
 
 }
