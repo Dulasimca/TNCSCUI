@@ -4,8 +4,8 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-12 ui-md-4 dashboard">Issuer Master</div>
-        <div class="ui-g-12 ui-md-1 dashboard">Active/In-Active</div>
+        <div class="ui-g-12 ui-md-3 dashboard">Issuer Master</div>
+        <div class="ui-g-12 ui-md-2 dashboard" style="text-align: end">Active/In-Active</div>
         <div class="ui-g-12 ui-md-2 dashboard" style="text-align: center">
             <p-dropdown [options]="IssuerOptions" [(ngModel)]="I_cd" (onChange)="onView()" (onClick)="onIssuer()"
               filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
@@ -69,9 +69,9 @@
                 {{rowData.Godcode}}
               </td>
               <td pEditableColumn>
-                <p-cellEditor>
+                <p-cellEditor (keydown.enter)="onSave(rowData)">
                   <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="rowData.ACSCode">
+                    <input pInputText type="text" maxlength="12" [(ngModel)]="rowData.ACSCode">
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{rowData.ACSCode}}
