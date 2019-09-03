@@ -148,7 +148,7 @@ export class IssuerMasterComponent implements OnInit {
   exportAsXLSX(): void {
     var IssuerMaster = [];
     this.IssuerMasterData.forEach(data => {
-      IssuerMaster.push({ SlNo: data.SlNo, Issuer_Code: data.IssuerCode, Issuer_No: data.IssuerNo, Issuer_Name: data.Issuername, Godown_Code: data.Godcode, ACSCode: data.ACSCode, Activeflag: data.Activeflag })
+      IssuerMaster.push({ SlNo: data.SlNo, Issuer_Code: data.IssuerCode, Issuer_Name: data.Issuername, Godown_Code: data.Godcode, ACSCode: data.ACSCode, Activeflag: data.Activeflag })
     });
     this.excelService.exportAsExcelFile(IssuerMaster, 'Issuer_Master', this.IssuerMasterCols);
   }
@@ -161,7 +161,7 @@ export class IssuerMasterComponent implements OnInit {
     var col = this.IssuerMasterCols;
     var rows = [];
     this.IssuerMasterData.forEach(element => {
-      var temp = [element.SlNo, element.IssuerCode, element.IssuerNo, element.Issuername, element.Godcode, element.ACSCode, element.Activeflag];
+      var temp = [element.SlNo, element.IssuerCode, element.Issuername, element.Godcode, element.ACSCode, element.Activeflag];
       rows.push(temp);
     });
     doc.autoTable(col, rows);
