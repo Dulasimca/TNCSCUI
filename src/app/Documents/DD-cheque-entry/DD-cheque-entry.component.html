@@ -109,7 +109,7 @@
                   [disabled]="(!receiptDate || DDChequeData.length=='0' || !details)" label=Save (click)="onSave()"></button>
               </div>
               <div class="ui-g-2 ui-md-1">
-                <button style="margin-top:5px" pButton type="button" [disabled]="(!saveSucceed)" label=Print
+                <button style="margin-top:5px" pButton type="button" [disabled]="(!isSaveSucceed)" label=Print
                   (click)="onPrint()"></button>
               </div></div>
               <div class="ui-g-12 no-pad-top">
