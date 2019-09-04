@@ -40,6 +40,7 @@ export class DDChequeEntryComponent implements OnInit {
   UserID: any;
   regionName: any;
   godownName: any;
+  amount : any;
   GCode: any;
   RCode: any;
   viewDate: Date = new Date();
@@ -56,19 +57,16 @@ export class DDChequeEntryComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.DDChequeCols = this.tableConstants.DDChequeEntryCols;
     this.ChequeReceiptNoCols = this.tableConstants.ChequeReceiptNoCols;
-    this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.paymentTypeOptions = [{ label: '-select-', value: null }, { label: 'Cash', value: 'CA' },
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
     this.receivorTypeOptions = [{ label: '-select-', value: null }, { label: 'BULK CONSUMERS', value: 'TY001' },
     { label: 'COOPERATIVES LEADING', value: 'TY002' }, { label: 'COOPERATIVES PRIMARY', value: 'TY003' },
     { label: 'CRS', value: 'TY004' }];
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.godownName = this.data[0].GName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onLoadReceivor() {
@@ -108,8 +106,7 @@ export class DDChequeEntryComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
-    this.ChequeReceiptNoData = [];
-    const params = new HttpParams().set('GCode', this.GCode).append('Type', '1').append('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy'));
+    const params = new HttpParams().set('GCode', this.GCode).append('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type','1');
     this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.ChequeReceiptNoData = res;
@@ -128,7 +125,24 @@ export class DDChequeEntryComponent implements OnInit {
       }
     });
   }
-
+  onRowSelect(event) {
+    this.receiptNo = event.data.receiptNo;
+  }
+  getDocByReceiptNo() {
+    const params = new HttpParams().set('GCode', this.GCode).append('value', this.receiptNo).append('Type','2');
+    this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe((res: any) => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        // this.ChequeReceiptNoData = res;
+      } else {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    }, (err: HttpErrorResponse) => {
+      // this.blockScreen = false;
+      if (err.status === 0) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
   onEnter() {
     this.CashReceiptData = [];
     this.CashReceiptData.push({
@@ -155,14 +169,36 @@ export class DDChequeEntryComponent implements OnInit {
       Bank: this.bank,
       Flag: 'N'
     })
+    if (this.DDChequeData.length !== 0) {
+      this.paymentType = null; 
+      this.paymentTypeOptions = [];
+      this.chequeAmount = 0; 
+      this.chequeDate = new Date();
+      this.chequeNo = null; 
+      this.bank = null;
+      this.receivorType = null; 
+      this.receivedFrom = null;
+     
+    }
+   
   }
 
-  onSave(){
+  onClear() {
+    this.CashReceiptData = []; this.DDChequeData = []; this.ChequeReceiptNoData = [];
+    this.receivorType = null; this.details = '-';
+  }
+
+  onSave()
+  {
     const params = {
       'GCode': this.GCode,
       'ReceiptNo': (this.receiptNo !== undefined && this.receiptNo !== null) ? this.receiptNo : 0,
       'Details': (this.details !== undefined && this.details !== null) ? this.details : '-',
-      'DDChequeItems': this.DDChequeData
+      'GodownName' : this.godownName,
+      'RegionName' : this.regionName,
+      'UserID' : this.UserID.user,
+      'Total' : "12345",
+      'DDChequeItems': this.CashReceiptData
     }
     this.restApiService.post(PathConstants.DD_CHEQUE_ENTRY_POST, params).subscribe((res: any) => {
       if (res.Item1) {
@@ -170,40 +206,6 @@ export class DDChequeEntryComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
-      }
-    }, (err: HttpErrorResponse) => {
-      // this.blockScreen = false;
-      if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-  }
-
-  onClear() {
-    this.CashReceiptData = []; this.DDChequeData = []; this.ChequeReceiptNoData = [];
-    this.receivorType = null; this.details = '-';
-    this.paymentType = null;
-    this.chequeAmount = 0; this.chequeDate = new Date();
-    this.chequeNo = null; this.bank = null; this.receivedFrom = null;
-  }
-
-  onRowSelect(event) {
-    // this.rowId = event.data.RowId;
-    this.receiptNo = event.data.vrno;
-  }
-
-  getDocByReceiptNo() {
-    this.viewPane = false;
-    const params = new HttpParams().set('value', this.receiptNo).append('Type', '2');
-    this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        // this.ChequeReceiptNoData = res;
-        res.forEach(x => {
-          x.ChequeDate = this.datepipe.transform(x.ChequeDate, 'dd/MM/yyyy');
-        })
-        this.DDChequeData = res;
-      } else {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       // this.blockScreen = false;

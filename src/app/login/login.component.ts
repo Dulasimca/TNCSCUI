@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   roleId: number;
   godownCode: any;
   regionCode: any;
+  godownName: any;
+  regionName: any;
   openPanel: boolean;
   userName: string;
   password: any;
@@ -63,9 +65,18 @@ export class LoginComponent implements OnInit {
         this.roleId = credentials[0].RoleId;
         this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
         this.regionCode = (credentials[0].Regioncode !== '' && credentials[0].Regioncode !== undefined) ? credentials[0].Regioncode : 0;
+        this.godownName = (credentials[0].GodownName !== null && credentials[0].GodownName !== undefined) ? credentials[0].GodownName : '';
+        this.regionName = (credentials[0].RegionName !== null && credentials[0].RegionName !== undefined) ? credentials[0].RegionName : '';
         this.loginService.setValue(this.roleId);
         this.loginService.setUsername(this.userName);
-        this.authService.login(this.loginForm.value, this.roleId, this.godownCode, this.regionCode);
+        const params = {
+          RoleId: this.roleId,
+          GCode: this.godownCode,
+          RCode: this.regionCode,
+          GName: this.godownName,
+          RName: this.regionName
+        }
+        this.authService.login(this.loginForm.value, params);
       } else {
         this.clearFields();
         this.messageService.add({key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});

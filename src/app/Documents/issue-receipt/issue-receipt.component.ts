@@ -136,7 +136,6 @@ export class IssueReceiptComponent implements OnInit {
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
     this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
-    this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -144,12 +143,10 @@ export class IssueReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.issuingGodownName = this.data[0].GName;
-      this.IssuingCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.issuingGodownName = this.authService.getUserAccessible().gName;
+    this.IssuingCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
   onSelect(selectedItem, type) {
     let transactoinSelection = [];

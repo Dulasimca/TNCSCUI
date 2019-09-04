@@ -30,7 +30,7 @@
               </div>
               <div class="ui-g-3"></div>
             </div>
-            <div class="ui-g-12 ui-md-12">
+            <div class="ui-g-12 ui-md-12 dashboard">
               <div class="ui-g-12 ui-md-6">
                 <span class="ui-float-label">
                   <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
@@ -59,6 +59,10 @@
                   </ng-template>
                 </p-autoComplete>
               </div>
+             
+            </div>
+            <div class="ui-g-12 ui-md-12 dashboard">
+              <hr style="border: 1px solid #18c5a9">
             </div>
             <div class="ui-g-12">
               <div class="ui-g-4 ui-md-2">
@@ -93,6 +97,10 @@
               </div>
               <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
+              </div>
+
+              <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
+                <button pButton type="button" label=Save (click)="onSave()" [disabled]="(!f.valid && !DDChequeData)"></button>
               </div>
             </div>
             <div class="ui-g-12 ui-md-12">

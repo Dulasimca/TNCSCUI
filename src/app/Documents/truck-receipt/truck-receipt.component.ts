@@ -149,7 +149,6 @@ export class TruckReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCols = this.tableConstants.TruckMemoItemDetails;
     this.truckMemoViewCol = this.tableConstants.TruckMemoViewDocumentCols;
-    this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.godowns = this.roleBasedService.getGodowns();
     this.username = JSON.parse(this.authService.getCredentials());
@@ -163,12 +162,10 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = '-';
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.VCode = '-';
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.godownName = this.data[0].GName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onSelect(selectedItem, type) {

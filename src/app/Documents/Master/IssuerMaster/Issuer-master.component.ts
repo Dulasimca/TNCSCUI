@@ -7,7 +7,7 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
@@ -27,6 +27,9 @@ export class IssuerMasterComponent implements OnInit {
   items: any;
   filterArray: any;
   gCode: any;
+  I_cd: any;
+  Type: any;
+  IssuerOptions: SelectItem[];
   disableOkButton: boolean = true;
   selectedRow: any;
   loading: boolean = false;
@@ -49,6 +52,10 @@ export class IssuerMasterComponent implements OnInit {
       this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(value => {
         if (value) {
           this.IssuerMasterData = value;
+          this.Type = value;
+          if (this.IssuerOptions !== undefined) {
+            this.IssuerMasterData = value.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd });
+          }
           this.loading = false;
           this.filterArray = value;
           let sno = 0;
@@ -85,7 +92,27 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerCode = this.selectedRow.IssuerCode;
     this.Godcode = this.selectedRow.Godcode;
   }
-  onSave() {
+
+  onIssuer() {
+    let type = [];
+    let IssuerSelection = [];
+    if (this.IssuerOptions === undefined) {
+      this.IssuerOptions = IssuerSelection;
+    }
+    this.IssuerOptions.unshift({ 'label': 'A', 'value': this.IssuerOptions }, { 'label': 'I', 'value': this.IssuerOptions });
+    this.IssuerMasterData;
+  }
+
+  onView() {
+    this.IssuerMasterData = this.filterArray;
+    if (this.I_cd !== undefined) {
+      this.IssuerMasterData.forEach(s => {
+        this.IssuerMasterData = this.Type.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd.label });
+      });
+    }
+  }
+
+  onSave(selectedRow) {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
       'ACSCode': this.selectedRow.ACSCode,
@@ -112,7 +139,6 @@ export class IssuerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.IssuerMasterData.filter(item => {
-        // if (item.DepositorName.toString().startsWith(value)) {
         return item.IssuerCode.toString().startsWith(value);
         // }
       });
@@ -122,7 +148,7 @@ export class IssuerMasterComponent implements OnInit {
   exportAsXLSX(): void {
     var IssuerMaster = [];
     this.IssuerMasterData.forEach(data => {
-      IssuerMaster.push({ SlNo: data.SlNo, Issuer_Code: data.IssuerCode, Issuer_No: data.IssuerNo, Issuer_Name: data.Issuername, Godown_Code: data.Godcode, ACSCode: data.ACSCode, Activeflag: data.Activeflag })
+      IssuerMaster.push({ SlNo: data.SlNo, Issuer_Code: data.IssuerCode, Issuer_Name: data.Issuername, Godown_Code: data.Godcode, ACSCode: data.ACSCode, Activeflag: data.Activeflag })
     });
     this.excelService.exportAsExcelFile(IssuerMaster, 'Issuer_Master', this.IssuerMasterCols);
   }
@@ -135,7 +161,7 @@ export class IssuerMasterComponent implements OnInit {
     var col = this.IssuerMasterCols;
     var rows = [];
     this.IssuerMasterData.forEach(element => {
-      var temp = [element.SlNo, element.IssuerCode, element.IssuerNo, element.Issuername, element.Godcode, element.ACSCode, element.Activeflag];
+      var temp = [element.SlNo, element.IssuerCode, element.Issuername, element.Godcode, element.ACSCode, element.Activeflag];
       rows.push(temp);
     });
     doc.autoTable(col, rows);
