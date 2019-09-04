@@ -134,7 +134,6 @@ export class DeliveryReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
-    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.deliveryViewCols = this.tableConstants.DeliveryDocumentViewCols;
@@ -148,12 +147,10 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.AdjusmentAmount = 0; this.OtherAmount = 0; this.Balance = 0; this.PAmount = 0;
-    setTimeout(() => {
-      this.GodownName = this.data[0].GName;
-      this.RegionName = this.data[0].RName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 300);
+    this.RegionName = this.authService.getUserAccessible().rName;
+    this.GodownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onSelect(selectedItem, type) {

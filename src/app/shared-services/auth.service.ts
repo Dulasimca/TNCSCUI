@@ -31,13 +31,15 @@ export class AuthService {
     localStorage.setItem('MENU', JSON.stringify(data));
   }
 
-   public login(userInfo: User, id, g_cd, r_cd) {
-     if (userInfo !== undefined && id !== undefined) {
+   public login(userInfo: User, obj) {
+     if (userInfo !== undefined && obj.RoleId !== undefined) {
        this.isSignedIn = true;
        localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
-       localStorage.setItem('ID', id);
-       localStorage.setItem('GCODE', g_cd);
-       localStorage.setItem('RCODE', r_cd);
+       localStorage.setItem('ID', obj.RoleId);
+       localStorage.setItem('GCODE', obj.GCode);
+       localStorage.setItem('RCODE', obj.RCode);
+       localStorage.setItem('GNAME', obj.GName);
+       localStorage.setItem('RNAME', obj.RName);
      }
    }
 
@@ -81,9 +83,12 @@ export class AuthService {
     let roleId = localStorage.getItem('ID');
     let gCode = localStorage.getItem('GCODE');
     let rCode = localStorage.getItem('RCODE');
+    let gName = localStorage.getItem('GNAME');
+    let rName = localStorage.getItem('RNAME');
+
     if (roleId !== undefined && roleId !== '' && gCode !== undefined && gCode !== ''
     && rCode !== undefined && rCode !== '') {
-      return {roleId, gCode, rCode};
+      return {roleId, gCode, rCode, gName, rName};
     }
   }
 

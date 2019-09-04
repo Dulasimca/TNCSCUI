@@ -57,19 +57,16 @@ export class DDChequeEntryComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.DDChequeCols = this.tableConstants.DDChequeEntryCols;
     this.ChequeReceiptNoCols = this.tableConstants.ChequeReceiptNoCols;
-    this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.paymentTypeOptions = [{ label: '-select-', value: null }, { label: 'Cash', value: 'CA' },
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
     this.receivorTypeOptions = [{ label: '-select-', value: null }, { label: 'BULK CONSUMERS', value: 'TY001' },
     { label: 'COOPERATIVES LEADING', value: 'TY002' }, { label: 'COOPERATIVES PRIMARY', value: 'TY003' },
     { label: 'CRS', value: 'TY004' }];
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.godownName = this.data[0].GName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onLoadReceivor() {
