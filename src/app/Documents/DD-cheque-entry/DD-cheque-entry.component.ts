@@ -163,6 +163,7 @@ export class DDChequeEntryComponent implements OnInit {
               paymentName = y.label;
             }
           })
+          this.totalAmount += (x.Amount * 1);
           this.DDChequeData.push({
           PaymentType: x.PaymentType,
           Payment: paymentName,

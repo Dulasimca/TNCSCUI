@@ -16,7 +16,7 @@
             <div class="ui-g-12 ui-md-12">
               <div class="ui-g-3"></div>
               <div class="ui-g-6 ui-md-2">
-                <label class="label-fontsize-large">Receipt Date</label>
+                <label for="rDate" class="label-fontsize-large">Receipt Date</label>
                 <p-calendar [(ngModel)]="receiptDate" [maxDate]="maxDate" [showIcon]="true" name="rDate"
                   dateFormat="dd/mm/yy"></p-calendar>
               </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="ui-g-12 ui-md-12 dashboard">
               <div class="ui-g-12 ui-md-6">
-                <label class="label-fontsize-large">Details</label>
+                <label for="detailsText" class="label-fontsize-large">Details</label>
                 <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
                     [(ngModel)]="details"></textarea>
               </div>
@@ -149,9 +149,9 @@
   [(visible)]="viewPane" [style]="{width: '85% !important', height: '50% !important'}">
   <div class="ui-g-12">
     <div class="ui-g-6 ui-md-8 no-pad-top">
-      <label class="label-fontsize-large">Date</label>
+      <label for="date" class="label-fontsize-large">Date</label>
       <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate"
-        (ngModelChange)="onView()"></p-calendar>
+       name="date" (ngModelChange)="onView()"></p-calendar>
     </div>
     <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-12 dashboard" pButton label=OK [disabled]="ChequeReceiptNoData.length=='0'"
