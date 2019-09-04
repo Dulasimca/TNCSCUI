@@ -673,38 +673,6 @@ export class DeliveryReceiptComponent implements OnInit {
     });
   }
 
-  onPrint() {
-    this.blockScreen = true;
-    if(this.isViewed) {
-      this.onSave('2', );
-    }
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
-    let filepath = path + filename + ".txt";
-    this.http.get(filepath, {responseType: 'text'})
-      .subscribe(data => {
-        if(data !== undefined && data !== null) {
-        var doc = new jsPDF({
-          orientation: 'potrait',
-        })
-        doc.setFont('courier');
-        doc.setFontSize(9);
-        doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
-        this.isSaveSucceed = false;
-        this.isViewed = false;
-        this.blockScreen = false;
-      } else {
-        this.blockScreen = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } 
-      },(err: HttpErrorResponse) => {
-        this.blockScreen = false;
-         if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });  }
-
   onClear() {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
     this.paymentBalData = []; this.paymentData = [];
@@ -865,8 +833,14 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
+          if(type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          } 
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -886,4 +860,44 @@ export class DeliveryReceiptComponent implements OnInit {
       }
     });
   }
+
+  onPrint() {
+    this.blockScreen = true;
+    if (this.isViewed) {
+      this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+    }
+    }
+
+  loadDocument() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        if(data !== undefined && data !== null) {
+        var doc = new jsPDF({
+          orientation: 'potrait',
+        })
+        doc.setFont('courier');
+        doc.setFontSize(9);
+        doc.text(data, 2, 2)
+        doc.save(filename + '.pdf');
+        this.isSaveSucceed = false;
+        this.isViewed = false;
+        this.blockScreen = false;
+      } else {
+        this.blockScreen = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } 
+      },(err: HttpErrorResponse) => {
+        this.blockScreen = false;
+         if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+      }
 }

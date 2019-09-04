@@ -852,8 +852,14 @@ export class TruckReceiptComponent implements OnInit {
         if (res.Item1) {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
+          if(type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          }
           this.blockScreen = false;
         } else {
           this.blockScreen = false;
@@ -874,11 +880,7 @@ export class TruckReceiptComponent implements OnInit {
     });
   }
 
-  onPrint() {
-    this.blockScreen = true;
-    if(this.isViewed) {
-      this.onSave('2');
-    }
+  loadDocument() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockTruckMemoDocument;
     let filepath = path + filename + ".txt";
@@ -905,5 +907,16 @@ export class TruckReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
+  }
+
+  onPrint() {
+    this.blockScreen = true;
+    if (this.isViewed) {
+      this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+    }
   }
 }
