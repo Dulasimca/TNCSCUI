@@ -24,10 +24,11 @@ export class DDChequeEntryComponent implements OnInit {
   ChequeReceiptNoData: any = [];
   receiptDate: any = new Date();
   receiptNo: any;
+  ReceiptDt: any;
   canShowMenu: boolean;
   maxDate: Date = new Date();
   paymentTypeOptions: SelectItem[];
-  paymentTypeList: any = [];
+  paymentList: any = [];
   paymentType: any;
   rowId: any = 0;
   receivedFromOptions: SelectItem[];
@@ -54,6 +55,7 @@ export class DDChequeEntryComponent implements OnInit {
   totalAmount: any = 0;
   isSaveSucceed: boolean;
   isViewed: boolean;
+  isSelectedReceivor: boolean;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
     private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,
@@ -64,10 +66,6 @@ export class DDChequeEntryComponent implements OnInit {
     this.DDChequeCols = this.tableConstants.DDChequeEntryCols;
     this.ChequeReceiptNoCols = this.tableConstants.ChequeReceiptNoCols;
     this.UserID = JSON.parse(this.authService.getCredentials());
-    this.paymentTypeList.push({ label: 'Cash', value: 'CA' },
-    { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' });
-    this.paymentTypeOptions = this.paymentTypeList.slice(0);
-    this.paymentTypeOptions.unshift({ label: '-select-', value: null });
     this.receivorTypeOptions = [{ label: '-select-', value: null }, { label: 'BULK CONSUMERS', value: 'TY001' },
     { label: 'COOPERATIVES LEADING', value: 'TY002' }, { label: 'COOPERATIVES PRIMARY', value: 'TY003' },
     { label: 'CRS', value: 'TY004' }];
@@ -76,6 +74,15 @@ export class DDChequeEntryComponent implements OnInit {
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
     this.chequeAmount = 0;
+  }
+
+  onSelect() {
+    let paymentTypeList = [];
+    paymentTypeList.push({ label: 'Cash', value: 'CA' },
+    { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' });
+    this.paymentTypeOptions = paymentTypeList.slice(0);
+    this.paymentList = paymentTypeList.slice(0);
+    this.paymentTypeOptions.unshift({ label: '-select-', value: null });
   }
 
   onLoadReceivor() {
@@ -138,8 +145,10 @@ export class DDChequeEntryComponent implements OnInit {
   onRowSelect(event) {
     this.receiptNo = event.data.receiptNo;
   }
+
   getDocByReceiptNo() {
     this.viewPane = false;
+    this.isSelectedReceivor = true;
     this.DDChequeData = [];
     const params = new HttpParams().set('GCode', this.GCode).append('value', this.receiptNo).append('Type', '2');
     this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe((res: any) => {
@@ -148,7 +157,7 @@ export class DDChequeEntryComponent implements OnInit {
         this.isSaveSucceed = false;
         res.forEach(x => {
           let paymentName;
-          this.paymentTypeList.forEach(y => { 
+          this.paymentList.forEach(y => { 
             if(x.PaymentType === y.value) {
               paymentName = y.label;
             }
@@ -163,6 +172,7 @@ export class DDChequeEntryComponent implements OnInit {
           Bank: x.Bank,
           ReceivedFrom: x.ReceivedFrom,
           ReceivorCode: x.ReceivorCode,
+          ReceiptDate: this.datepipe.transform(x.ReceiptDate, 'MM/dd/yyyy'),
           RowId: x.RowId
           })
         });
@@ -170,7 +180,9 @@ export class DDChequeEntryComponent implements OnInit {
         this.chequeDate = this.datepipe.transform(res[0].ChequeDate, 'dd/MM/yyyy');
         this.receiptNo = res[0].ReceiptNo;
         this.details = (res[0].Detail !== undefined && res[0].Detail !== null) ? res[0].Detail : '-';
-        this.receiptDate = (res[0].ReceiptDate !== undefined && res[0].ReceiptDate !== null) ? res[0].ReceiptDate : new Date();
+        this.receiptDate = (res[0].ReceiptDate !== undefined && res[0].ReceiptDate !== null) ? 
+        this.datepipe.transform(res[0].ReceiptDate, 'dd/MM/yyyy') : new Date();
+        this.ReceiptDt = this.datepipe.transform(res[0].ReceiptDate, 'MM/dd/yyyy');
       } else if (res.length === 0) {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       } else {
@@ -183,13 +195,13 @@ export class DDChequeEntryComponent implements OnInit {
       }
     });
   }
+
   onEnter() {
-    this.CashReceiptData = [];
     this.CashReceiptData.push({
       PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : this.paymentType,
       ChequeDate: this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
       ChequeNo: this.chequeNo,
-      ReceiptDate: (typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy'),
+      ReceiptDate: (this.isViewed) ? this.ReceiptDt : ((typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       ReceivedFrom: (this.receivedFrom.label !== undefined && this.receivedFrom.label !== null) ? this.receivedFrom.label : this.receivedFrom,
       ReceivorCode: (this.receivorCode !== undefined && this.receivorCode !== null) ? this.receivorCode : '-',
       Amount: this.chequeAmount,
@@ -209,7 +221,12 @@ export class DDChequeEntryComponent implements OnInit {
       Bank: this.bank,
       Flag: 'N'
     })
-    this.DDChequeData.forEach(i => this.totalAmount += (i.Amount * 1));
+    let sno = 0;
+    this.DDChequeData.forEach(i => {
+      this.totalAmount += (i.Amount * 1);
+      sno += 1;
+      i.SNo = sno;
+    });
     if (this.DDChequeData.length !== 0) {
       this.paymentType = null;
       this.paymentTypeOptions = [];
@@ -218,8 +235,7 @@ export class DDChequeEntryComponent implements OnInit {
       this.chequeNo = null;
       this.bank = null;
       this.receivorType = null;
-      this.receivedFrom = null;
-
+      this.isSelectedReceivor = true;
     }
 
   }
@@ -227,6 +243,7 @@ export class DDChequeEntryComponent implements OnInit {
   onClear() {
     this.CashReceiptData = []; this.DDChequeData = []; this.ChequeReceiptNoData = [];
     this.receivorType = null; this.details = '-';
+    this.isSelectedReceivor = false; this.receivedFrom = null;
   }
 
   onSave() {
@@ -266,7 +283,7 @@ export class DDChequeEntryComponent implements OnInit {
      this.paymentTypeOptions = [{ label: data.PaymentType, value: data.PaymentCode }];
    } else {
       let paymentType;
-      this.paymentTypeList.filter(x => {
+      this.paymentList.filter(x => {
         if (data.PaymentType === x.value)
           paymentType = x.value;
       })
@@ -277,7 +294,6 @@ export class DDChequeEntryComponent implements OnInit {
     this.receivedFrom = data.ReceivedFrom;
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
     this.details = (data.Detail !== undefined && data.Detail !== null) ? data.Detail : '-';
-    this.receiptDate = data.ReceiptDate;
     this.DDChequeData.splice(index, 1);
   }
 

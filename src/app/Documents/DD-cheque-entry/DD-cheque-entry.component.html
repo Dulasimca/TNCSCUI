@@ -47,7 +47,7 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvdFrom" class="label-fontsize">Received from</label>
-                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames"
+                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" readonly="isSelectedReceivor"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
                   (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
@@ -66,7 +66,7 @@
               <div class="ui-g-4 ui-md-2">
                 <label for="payType" class="label-fontsize">CA/DD/CH</label>
                 <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
-                  optionLabel="label" [showClear]="true" required>
+                  optionLabel="label" [showClear]="true" (onClick)="onSelect()" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -74,7 +74,7 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="chNo" class="label-fontsize">CHE/DD. No.</label>
-                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="20"
+                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="12"
                   autocomplete="off" required>
               </div>
               <div class="ui-g-4 ui-md-2">
