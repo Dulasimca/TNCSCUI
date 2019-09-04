@@ -238,7 +238,9 @@ export class DDChequeEntryComponent implements OnInit {
 
   onClear() {
     this.DDChequeData = []; this.ChequeReceiptNoData = [];
-    this.receivorType = null; this.details = '-';
+    this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
+    this.receiptNo = null; this.bank = null; this.paymentType = null;
+    this.chequeDate = new Date(); this.chequeAmount = 0;
     this.isSelectedReceivor = false; this.receivedFrom = null;
   }
 
@@ -257,8 +259,14 @@ export class DDChequeEntryComponent implements OnInit {
     this.restApiService.post(PathConstants.DD_CHEQUE_ENTRY_POST, params).subscribe((res: any) => {
       if (res.Item1) {
         this.onClear();
-        this.isSaveSucceed = true;
-        this.isViewed = false;
+        if(type !== '2') {
+          this.isSaveSucceed = true;
+          this.isViewed = false;
+        } else {
+          this.isSaveSucceed = false;
+          this.loadDocument();
+          this.isViewed = false;
+        }
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
@@ -294,38 +302,41 @@ export class DDChequeEntryComponent implements OnInit {
     this.DDChequeData.splice(index, 1);
   }
 
-  onPrint(){
-    // this.blockScreen = true;
-    if(this.isViewed) {
-      this.onSave('2');
-    }
+  loadDocument() {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
-    let filepath = path + filename + ".txt";
-    if(this.isSaveSucceed) {
+    let filepath = path + filename + ".txt"; 
     this.http.get(filepath, {responseType: 'text'})
-      .subscribe(data => {
-        if(data !== undefined && data !== null) {
-        var doc = new jsPDF({
-          orientation: 'potrait',
-        })
-        doc.setFont('courier');
-        doc.setFontSize(9);
-        doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
-        this.isSaveSucceed = false;
-        this.isViewed = false;
-        // this.blockScreen = false;
-      } else {
-        // this.blockScreen = false;
+    .subscribe(data => {
+      if(data !== undefined && data !== null) {
+      var doc = new jsPDF({
+        orientation: 'potrait',
+      })
+      doc.setFont('courier');
+      doc.setFontSize(9);
+      doc.text(data, 2, 2)
+      doc.save(filename + '.pdf');
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+      // this.blockScreen = false;
+    } else {
+      // this.blockScreen = false;
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    } 
+    },(err: HttpErrorResponse) => {
+      // this.blockScreen = false;
+       if (err.status === 0) {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } 
-      },(err: HttpErrorResponse) => {
-        // this.blockScreen = false;
-         if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+      }
+    });
+  }
+
+  onPrint(){
+    // this.blockScreen = true;
+      if(this.isViewed) {
+      this.onSave('2');
+    } else { 
+      this.loadDocument();
     }
   }
 }
