@@ -302,6 +302,7 @@ export class DDChequeEntryComponent implements OnInit {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
     let filepath = path + filename + ".txt";
+    if(this.isSaveSucceed) {
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
         if(data !== undefined && data !== null) {
@@ -325,6 +326,6 @@ export class DDChequeEntryComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
-
+    }
   }
 }
