@@ -25,7 +25,7 @@
                 <input type="text" name="rNo" size="20" [(ngModel)]="receiptNo" maxlength="20" pInputText
                   [readonly]="true" autocomplete="off">
               </div>
-              <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
+              <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 18px">
                 <button pButton type="button" label=View (click)="onView()"></button>
               </div>
               <div class="ui-g-3"></div>
@@ -93,7 +93,7 @@
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   autocomplete="off" required>
               </div>
-              <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
+              <div class="ui-g-1 ui-fluid" style="margin-top: 18px">
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
               </div>
             </div>
