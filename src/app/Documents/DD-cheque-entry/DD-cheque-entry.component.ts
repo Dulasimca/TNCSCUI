@@ -316,8 +316,6 @@ export class DDChequeEntryComponent implements OnInit {
       doc.setFontSize(9);
       doc.text(data, 2, 2)
       doc.save(filename + '.pdf');
-      this.isSaveSucceed = false;
-      this.isViewed = false;
       // this.blockScreen = false;
     } else {
       // this.blockScreen = false;
@@ -331,12 +329,13 @@ export class DDChequeEntryComponent implements OnInit {
     });
   }
 
-  onPrint(){
-    // this.blockScreen = true;
-      if(this.isViewed) {
+  onPrint() {
+    if (this.isViewed) {
       this.onSave('2');
-    } else { 
+    } else {
       this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
     }
   }
 }
