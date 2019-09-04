@@ -16,12 +16,12 @@
             <div class="ui-g-12 ui-md-12">
               <div class="ui-g-3"></div>
               <div class="ui-g-6 ui-md-2">
-                <label class="label-fontsize">Receipt Date</label>
+                <label class="label-fontsize-large">Receipt Date</label>
                 <p-calendar [(ngModel)]="receiptDate" [maxDate]="maxDate" [showIcon]="true" name="rDate"
                   dateFormat="dd/mm/yy"></p-calendar>
               </div>
               <div class="ui-g-6 ui-md-2">
-                <label for="rNo" class="label-fontsize">Receipt No</label>
+                <label for="rNo" class="label-fontsize-large">Receipt No</label>
                 <input type="text" name="rNo" size="20" [(ngModel)]="receiptNo" maxlength="20" pInputText
                   [readonly]="true" autocomplete="off">
               </div>
@@ -37,7 +37,7 @@
                     [(ngModel)]="details"></textarea>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="recvrType" class="label-fontsize">Recevior Type</label>
+                <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
                 <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
                   filter="true" optionLabel="label" (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
@@ -46,7 +46,7 @@
                 </p-dropdown>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="recvdFrom" class="label-fontsize">Received from</label>
+                <label for="recvdFrom" class="label-fontsize-large">Received from</label>
                 <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" readonly="isSelectedReceivor"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
                   (onSelect)="onReceivorSelection($event)" required>
@@ -64,7 +64,7 @@
             </div>
             <div class="ui-g-12">
               <div class="ui-g-4 ui-md-2">
-                <label for="payType" class="label-fontsize">CA/DD/CH</label>
+                <label for="payType" class="label-fontsize-large">CA/DD/CH</label>
                 <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
                   optionLabel="label" [showClear]="true" (onClick)="onSelect()" required>
                   <ng-template let-item pTemplate="selectedItem">
@@ -73,22 +73,22 @@
                 </p-dropdown>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="chNo" class="label-fontsize">CHE/DD. No.</label>
+                <label for="chNo" class="label-fontsize-large">CHE/DD. No.</label>
                 <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="12"
                   autocomplete="off" required>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="chDate" class="label-fontsize">CHE/DD Date</label>
+                <label for="chDate" class="label-fontsize-large">CHE/DD Date</label>
                 <p-calendar [(ngModel)]="chequeDate" [maxDate]="maxDate" [showIcon]="true" name="chDate"
                   dateFormat="dd/mm/yy" required></p-calendar>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="bankName" class="label-fontsize">Bank</label>
+                <label for="bankName" class="label-fontsize-large">Bank</label>
                 <input type="text" size="20" name="bankName" [(ngModel)]="bank" minlength="1" maxlength="90" pInputText
                   autocomplete="off" required>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="chAmnt" class="label-fontsize">CA/CH/DD Amt</label>
+                <label for="chAmnt" class="label-fontsize-large">CA/CH/DD Amt</label>
                 <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="10" pInputText
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   autocomplete="off" required>
