@@ -297,7 +297,7 @@ export class DDChequeEntryComponent implements OnInit {
   onPrint(){
     // this.blockScreen = true;
     if(this.isViewed) {
-      this.onSave('2', );
+      this.onSave('2');
     }
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
