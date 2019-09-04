@@ -10,6 +10,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import * as jsPDF from 'jspdf';
 import { GolbalVariable } from 'src/app/common/globalvariable';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -19,7 +20,6 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 export class DDChequeEntryComponent implements OnInit {
   DDChequeCols: any;
   DDChequeData: any = [];
-  CashReceiptData: any = [];
   ChequeReceiptNoCols: any;
   ChequeReceiptNoData: any = [];
   receiptDate: any = new Date();
@@ -199,17 +199,6 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
   onEnter() {
-    // this.CashReceiptData.push({
-    //   PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : this.paymentType,
-    //   ChequeDate: this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
-    //   ChequeNo: this.chequeNo,
-    //   ReceiptDate: (this.isViewed) ? this.ReceiptDt : ((typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
-    //   ReceivedFrom: (this.receivedFrom.label !== undefined && this.receivedFrom.label !== null) ? this.receivedFrom.label : this.receivedFrom,
-    //   ReceivorCode: (this.receivorCode !== undefined && this.receivorCode !== null) ? this.receivorCode : '-',
-    //   Amount: this.chequeAmount,
-    //   Bank: this.bank,
-    //   Flag: 'N'
-    // })
     this.DDChequeData.push({
       PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : null,
       Payment: (this.paymentType.label !== undefined && this.paymentType.label !== null) ? this.paymentType.label : this.paymentType,
@@ -239,17 +228,22 @@ export class DDChequeEntryComponent implements OnInit {
       this.receivorType = null;
       this.isSelectedReceivor = true;
     }
-
   }
 
+  resetForm(ddChequeForm: NgForm){
+    ddChequeForm.form.markAsUntouched();
+    ddChequeForm.form.markAsPristine();
+ }
+
   onClear() {
-    this.CashReceiptData = []; this.DDChequeData = []; this.ChequeReceiptNoData = [];
+    this.DDChequeData = []; this.ChequeReceiptNoData = [];
     this.receivorType = null; this.details = '-';
     this.isSelectedReceivor = false; this.receivedFrom = null;
   }
 
-  onSave() {
+  onSave(type) {
     const params = {
+      'Type': type,
       'GCode': this.GCode,
       'ReceiptNo': (this.receiptNo !== undefined && this.receiptNo !== null) ? this.receiptNo : 0,
       'Details': (this.details !== undefined && this.details !== null) ? this.details : '-',
@@ -301,9 +295,9 @@ export class DDChequeEntryComponent implements OnInit {
 
   onPrint(){
     // this.blockScreen = true;
-    // if(this.isViewed) {
-    //   this.onSave('2', );
-    // }
+    if(this.isViewed) {
+      this.onSave('2', );
+    }
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
     let filepath = path + filename + ".txt";

@@ -26,7 +26,7 @@
                   [readonly]="true" autocomplete="off">
               </div>
               <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 18px">
-                <button pButton type="button" label=View (click)="onView()"></button>
+                <button pButton type="button" label=View (click)="onView();resetForm(f)"></button>
               </div>
               <div class="ui-g-3"></div>
             </div>
@@ -106,10 +106,10 @@
               <div class="ui-g-10"></div>
               <div class="ui-g-2 ui-md-1">
                 <button style="margin-top:5px" pButton type="button"
-                  [disabled]="(!receiptDate || DDChequeData.length=='0' || !details)" label=Save (click)="onSave()"></button>
+                  [disabled]="(!receiptDate || DDChequeData.length=='0' || !details || (isViewed && !f.dirty))" label=Save (click)="onSave('1');resetForm(f)"></button>
               </div>
               <div class="ui-g-2 ui-md-1">
-                <button style="margin-top:5px" pButton type="button" [disabled]="(!isSaveSucceed)" label=Print
+                <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print
                   (click)="onPrint()"></button>
               </div></div>
               <div class="ui-g-12 no-pad-top">
