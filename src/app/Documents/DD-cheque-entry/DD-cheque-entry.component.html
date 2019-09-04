@@ -32,11 +32,9 @@
             </div>
             <div class="ui-g-12 ui-md-12 dashboard">
               <div class="ui-g-12 ui-md-6">
-                <span class="ui-float-label">
-                  <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
+                <label class="label-fontsize-large">Details</label>
+                <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
                     [(ngModel)]="details"></textarea>
-                  <label class="float-input">Details</label>
-                </span>
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize">Recevior Type</label>
@@ -98,10 +96,6 @@
               <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
               </div>
-
-              <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
-                <button pButton type="button" label=Save (click)="onSave()" [disabled]="(!f.valid && !DDChequeData)"></button>
-              </div>
             </div>
             <div class="ui-g-12 ui-md-12">
             </div>
@@ -112,7 +106,7 @@
               <div class="ui-g-10"></div>
               <div class="ui-g-2 ui-md-1">
                 <button style="margin-top:5px" pButton type="button"
-                  [disabled]="(!receiptDate || (DDChequeData.length=='0' || !f.valid))" label=Save (click)="onSave()"></button>
+                  [disabled]="(!receiptDate || DDChequeData.length=='0' || !details)" label=Save (click)="onSave()"></button>
               </div>
               <div class="ui-g-2 ui-md-1">
                 <button style="margin-top:5px" pButton type="button" [disabled]="(!saveSucceed)" label=Print

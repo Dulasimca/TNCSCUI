@@ -7,4 +7,5 @@ export class GolbalVariable {
     public static readonly StockIssueDocument = 'ISDOC';
     public static readonly StockTruckMemoDocument = 'TMDOC';
     public static readonly DeliveryOrderDocument = 'DODOC';
+    public static readonly DDChequeDocument = 'DDCHE';
 }
