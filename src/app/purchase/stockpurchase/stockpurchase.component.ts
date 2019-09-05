@@ -14,6 +14,8 @@ export class StockPurchaseComponent implements OnInit {
   stockPurchaseData: any;
   stockPurchaseDataCoulmns: any;
   depositorTypeOptions: any[];
+  itemNameOptions: any[];
+  depositorNameOptions: any[];
   depositorName: any;
   depositorType: any;
   itemName: any;

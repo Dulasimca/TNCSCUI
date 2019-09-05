@@ -22,7 +22,8 @@ export class HullingAgenciesComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   loading: boolean = false;
-
+  searchText: any;
+  
   constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {

@@ -18,6 +18,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class CRSDataComponent implements OnInit {
 
+  searchText: any;
   data: any = [];
   column: any;
   errMessage: "Record Not Found";
