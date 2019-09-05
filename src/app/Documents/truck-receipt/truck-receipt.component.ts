@@ -904,7 +904,7 @@ export class TruckReceiptComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.StockTruckMemoDocument;
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
-    w.print();	
+    w.print();
     // this.http.get(filepath, {responseType: 'text'})
     //   .subscribe(data => {
     //     if(data !== null && data !== undefined) {
@@ -931,7 +931,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    this.blockScreen = true;
+    // this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     } else {
