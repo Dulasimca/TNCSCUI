@@ -136,7 +136,6 @@ export class IssueReceiptComponent implements OnInit {
     this.issueCols = this.tableConstants.StockIssueMemoIssueDetailsColumns;
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
     this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
-    this.data = this.roleBasedService.getInstance();
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -144,12 +143,10 @@ export class IssueReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.issuingGodownName = this.data[0].GName;
-      this.IssuingCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.issuingGodownName = this.authService.getUserAccessible().gName;
+    this.IssuingCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
   onSelect(selectedItem, type) {
     let transactoinSelection = [];
@@ -209,7 +206,7 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined && 
+        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
           this.Trcode.value === 'TR024') ? false : true;
         break;
       case 'sc':
@@ -482,12 +479,12 @@ export class IssueReceiptComponent implements OnInit {
       const totalLength = this.TStockNo.value.length;
       this.godownNo = this.TStockNo.value.toString().slice(0, index);
       if (this.stackCompartment !== undefined && this.stackCompartment !== null) {
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim() + this.stackCompartment.toUpperCase();
+        this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim() + this.stackCompartment.toUpperCase();
       } else {
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim();
+        this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength).trim();
       }
-    }    
-  } 
+    }
+  }
 
   onIssueDetailsEnter() {
     this.DNo = this.DeliveryOrderNo;
@@ -513,9 +510,9 @@ export class IssueReceiptComponent implements OnInit {
   onItemDetailsEnter() {
     this.messageService.clear();
     this.itemData.push({
-      TStockNo: (this.TStockNo.value !== undefined) ? 
-      this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '') 
-      : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
+      TStockNo: (this.TStockNo.value !== undefined) ?
+        this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '')
+        : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
@@ -656,8 +653,14 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
+          if (type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          }
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -681,7 +684,6 @@ export class IssueReceiptComponent implements OnInit {
   onView() {
     this.viewPane = true;
     this.messageService.clear();
-    this.issueMemoDocData = [];
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
@@ -691,6 +693,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.issueMemoDocData = res.Table;
       } else {
+        this.issueMemoDocData = [];
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
@@ -783,17 +786,17 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
-  resetForm(issueMemoForm: NgForm){
+  resetForm(issueMemoForm: NgForm) {
     issueMemoForm.form.markAsUntouched();
     issueMemoForm.form.markAsPristine();
- }
+  }
 
   onClear() {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = null; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
-    this.TransporterCharges = null; this.TransporterName = null; this.ManualDocNo = null;
+    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = '-'; this.Remarks = '-';
+    this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
@@ -816,36 +819,44 @@ export class IssueReceiptComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 
-  onPrint() {
-    this.blockScreen = true;
-    if (this.isViewed) {
-      this.onSave('2');
-    }
+  loadDocument() {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
     this.http.get(filepath, { responseType: 'text' })
       .subscribe(data => {
-        if(data !== null && data !== undefined) {
-        var doc = new jsPDF({
-          orientation: 'potrait',
-        })
-        doc.setFont('courier');
-        doc.setFontSize(8.5);
-        doc.text(data, 2, 2);
-        doc.save(filename + '.pdf');
-        this.blockScreen = false;
-        this.isSaveSucceed = false;
-        this.isViewed = false;
-      } else {
-        this.blockScreen = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } 
-      },(err: HttpErrorResponse) => {
-        this.blockScreen = false;
-         if (err.status === 0) {
+        if (data !== null && data !== undefined) {
+          var doc = new jsPDF({
+            orientation: 'potrait',
+          })
+          doc.setFont('courier');
+          doc.setFontSize(8.5);
+          doc.text(data, 2, 2);
+          doc.save(filename + '.pdf');
+          this.blockScreen = false;
+          this.isSaveSucceed = false;
+          this.isViewed = false;
+        } else {
+          this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
-      });  }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+  }
+
+  onPrint() {
+    this.blockScreen = true;
+    if (this.isViewed) {
+      this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+    }
+  }
 
 }

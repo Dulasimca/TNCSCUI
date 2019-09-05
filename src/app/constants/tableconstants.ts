@@ -805,10 +805,10 @@ export class TableConstants {
     this.StackCardClosingEntryReport = [];
 
     this.DDChequeEntryCols = [
-      { field: 'Id', header: 'ID' },
-      { field: 'PaymentType', header: 'CHE/DD' },
+      { field: 'sno', header: 'S.No.' },
+      { field: 'Payment', header: 'CHE/DD' },
       { field: 'ChequeNo', header: 'CHE/DD No' },
-      { field: 'ChequeDate', header: 'Date' },
+      { field: 'ChDate', header: 'Date' },
       { field: 'Amount', header: 'AMOUNT' },
       { field: 'Bank', header: 'BANK' },
       { field: 'ReceivedFrom', header: 'TO WHOM' },

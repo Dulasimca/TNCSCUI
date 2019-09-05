@@ -149,7 +149,6 @@ export class TruckReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCols = this.tableConstants.TruckMemoItemDetails;
     this.truckMemoViewCol = this.tableConstants.TruckMemoViewDocumentCols;
-    this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.godowns = this.roleBasedService.getGodowns();
     this.username = JSON.parse(this.authService.getCredentials());
@@ -163,12 +162,10 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = '-';
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.VCode = '-';
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.godownName = this.data[0].GName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onSelect(selectedItem, type) {
@@ -550,9 +547,9 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
     this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
-    this.OrderNo = null; this.selectedValues = ['Road']; this.RNo = null; this.LorryNo = null;
+    this.OrderNo = '-'; this.selectedValues = ['Road']; this.RNo = '-'; this.LorryNo = '-';
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
-    this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
+    this.RTCode = null; this.RNCode = null; this.ManualDocNo = '-'; this.Remarks = '-';
     this.TransporterName = '-'; this.LWBillNo = '-';
     this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
     this.HCharges = 0; this.TStation = '-'; this.FStation = '-';
@@ -855,8 +852,14 @@ export class TruckReceiptComponent implements OnInit {
         if (res.Item1) {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
+          if(type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          }
           this.blockScreen = false;
         } else {
           this.blockScreen = false;
@@ -877,11 +880,7 @@ export class TruckReceiptComponent implements OnInit {
     });
   }
 
-  onPrint() {
-    this.blockScreen = true;
-    if(this.isViewed) {
-      this.onSave('2');
-    }
+  loadDocument() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockTruckMemoDocument;
     let filepath = path + filename + ".txt";
@@ -908,5 +907,16 @@ export class TruckReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
+  }
+
+  onPrint() {
+    this.blockScreen = true;
+    if (this.isViewed) {
+      this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+    }
   }
 }

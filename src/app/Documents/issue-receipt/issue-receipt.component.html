@@ -227,19 +227,19 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div class="ui-g-12 ui-md-1" style="margin-top: 10px">
+              <div class="ui-g-12 ui-md-1" style="margin-top: 18px">
                   <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
                  maxlength="3" (input)="onStackInput($event)" 
                  style="text-transform: uppercase !important" [readOnly]="checkTrType">
                 </div>
-              <div class="ui-g-6 ui-md-1 ui-fluid">
+              <div class="ui-g-6 ui-md-1 ui-fluid" style="margin-top: 12px">
                 <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
               </div>
               <div class="ui-g-6 ui-md-1">
                   <label for="GodownNo" class="label-fontsize">Godown No</label>
                   <input name="GodownNo" tabindex="-1" [(ngModel)]="godownNo" pInputText autocomplete="off" [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-1">
+              <div class="ui-g-6 ui-md-2">
                   <label for="LocNo" class="label-fontsize">Location+Formation No.</label>
                   <input name="LocNo" tabindex="-1" [(ngModel)]="locationNo" pInputText autocomplete="off" [readonly]="true">
               </div>

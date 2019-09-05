@@ -16,42 +16,43 @@
             <div class="ui-g-12 ui-md-12">
               <div class="ui-g-3"></div>
               <div class="ui-g-6 ui-md-2">
-                <label class="label-fontsize">Receipt Date</label>
-                <p-calendar [(ngModel)]="receiptDate" [maxDate]="maxDate"
-                  [showIcon]="true" name="rDate" dateFormat="dd/mm/yy"></p-calendar>
+                <label for="rDate" class="label-fontsize-large">Receipt Date</label>
+                <p-calendar [(ngModel)]="receiptDate" [maxDate]="maxDate" [showIcon]="true" name="rDate"
+                  dateFormat="dd/mm/yy"></p-calendar>
               </div>
               <div class="ui-g-6 ui-md-2">
-                <label for="rNo" class="label-fontsize">Receipt No</label>
+                <label for="rNo" class="label-fontsize-large">Receipt No</label>
                 <input type="text" name="rNo" size="20" [(ngModel)]="receiptNo" maxlength="20" pInputText
                   [readonly]="true" autocomplete="off">
               </div>
-              <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
-                <button pButton type="button" label=View (click)="onView()"></button>
+              <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 18px">
+                <button pButton type="button" label=View (click)="onView();resetForm(f)"></button>
+              </div>
+              <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 18px">
+                <button pButton type="button" label=Clear (click)="onClear()"></button>
               </div>
               <div class="ui-g-3"></div>
             </div>
-            <div class="ui-g-12 ui-md-12">
+            <div class="ui-g-12 ui-md-12 dashboard">
               <div class="ui-g-12 ui-md-6">
-                <span class="ui-float-label">
-                  <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea [(ngModel)]="details"></textarea>
-                  <label class="float-input">Details</label>
-                </span>
+                <label for="detailsText" class="label-fontsize-large">Details</label>
+                <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
+                    [(ngModel)]="details"></textarea>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="recvrType" class="label-fontsize">Recevior Type</label>
+                <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
                 <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
-                  filter="true" optionLabel="label"
-                 (onChange)="onLoadReceivor()" [showClear]="true" required> 
+                  filter="true" optionLabel="label" (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
                 </p-dropdown>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="recvdFrom" class="label-fontsize">Received from</label>
-                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames"
+                <label for="recvdFrom" class="label-fontsize-large">Received from</label>
+                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" readonly="isSelectedReceivor"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
-                 (onSelect)="onReceivorSelection($event)" required>
+                  (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
                     <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                       <div style="font-size:14px;margin:10px 10px 0 0">{{data.label}}</div>
@@ -59,90 +60,63 @@
                   </ng-template>
                 </p-autoComplete>
               </div>
+             
+            </div>
+            <div class="ui-g-12 ui-md-12 dashboard">
+              <hr style="border: 1px solid #18c5a9">
             </div>
             <div class="ui-g-12">
               <div class="ui-g-4 ui-md-2">
-                <label for="payType" class="label-fontsize">CA/DD/CH</label>
-                <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType"
-                  filter="true" optionLabel="label"
-                  [showClear]="true" required>
+                <label for="payType" class="label-fontsize-large">CA/DD/CH</label>
+                <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
+                  optionLabel="label" [showClear]="true" (onClick)="onSelect()" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
                 </p-dropdown>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="chNo" class="label-fontsize">CHE/DD. No.</label>
-                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="20" autocomplete="off"
-                  required>
+                <label for="chNo" class="label-fontsize-large">CHE/DD. No.</label>
+                <input type="text" name="chNo" pInputText [(ngModel)]="chequeNo" minlength="1" maxlength="12"
+                  autocomplete="off" required>
               </div>
               <div class="ui-g-4 ui-md-2">
-                  <label for="chDate" class="label-fontsize">CHE/DD Date</label>
-                  <p-calendar [(ngModel)]="chequeDate" [maxDate]="maxDate"
-                    [showIcon]="true" name="chDate" dateFormat="dd/mm/yy" required></p-calendar>
+                <label for="chDate" class="label-fontsize-large">CHE/DD Date</label>
+                <p-calendar [(ngModel)]="chequeDate" [maxDate]="maxDate" [showIcon]="true" name="chDate"
+                  dateFormat="dd/mm/yy" required></p-calendar>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="bankName" class="label-fontsize">Bank</label>
+                <label for="bankName" class="label-fontsize-large">Bank</label>
                 <input type="text" size="20" name="bankName" [(ngModel)]="bank" minlength="1" maxlength="90" pInputText
                   autocomplete="off" required>
               </div>
               <div class="ui-g-4 ui-md-2">
-                <label for="chAmnt" class="label-fontsize">CA/CH/DD Amt</label>
+                <label for="chAmnt" class="label-fontsize-large">CA/CH/DD Amt</label>
                 <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="10" pInputText
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   autocomplete="off" required>
               </div>
-              <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
+              <div class="ui-g-1 ui-fluid" style="margin-top: 18px">
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
               </div>
             </div>
             <div class="ui-g-12 ui-md-12">
-              <!-- <div class="ui-g-4 ui-md-2">
-                <label for="recvrType" class="ui-g-12 label-fontsize dashboard">Recevior Type</label>
-                <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
-                  filter="true" optionLabel="label"
-                  [showClear]="true" required>
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-              <div class="ui-g-4 ui-md-2">
-                <label for="recvdFrom" class="ui-g-7 label-fontsize dashboard">Received from</label>
-                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames"
-                  (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
-                  required>
-                  <ng-template let-data pTemplate="item">
-                    <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                      <div style="font-size:14px;margin:10px 10px 0 0">{{data}}</div>
-                    </div>
-                  </ng-template>
-                </p-autoComplete>
-              </div> -->
-              <!-- <div class="ui-g-3 ui-g-2 label-fontsize-large" style="padding-top: 26px">
-                <p-checkbox name="society" value="Society" label="Select Society" [(ngModel)]="SocietyChecked"
-                  binary="true">
-                </p-checkbox>
-              </div> -->
             </div>
             <div class="ui-g-12 ui-md-12">
-              <!-- <div class="ui-g-4 ui-md-2">
-                <label for="bankName" class="ui-g-7 label-fontsize dashboard">Bank</label>
-                <input type="text" size="20" name="bankName" [(ngModel)]="bank" minlength="1" maxlength="90" pInputText
-                  autocomplete="off" required>
-              </div>
-              <div class="ui-g-4 ui-md-2">
-                <label for="chAmnt" class="ui-g-12 label-fontsize dashboard">CA/CH/DD Amt</label>
-                <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="20" pInputText
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  autocomplete="off" required>
-              </div>
-              <div class="ui-g-1 ui-fluid" style="padding-top: 23px">
-                <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>
-              </div> -->
             </div>
             <div class="ui-g-12" style="text-align: center !important">
-              <p-table [columns]="DDChequeCols" [value]="DDChequeData" [rows]="10" autoLayout="true"
+              <div class="ui-g-12 dashboard">
+              <div class="ui-g-10"></div>
+              <div class="ui-g-2 ui-md-1">
+                <button style="margin-top:5px" pButton type="button"
+                  [disabled]="(!receiptDate || DDChequeData.length=='0' || !details || (isViewed && !f.dirty))" label=Save (click)="onSave('1');resetForm(f)"></button>
+              </div>
+              <div class="ui-g-2 ui-md-1">
+                <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print
+                  (click)="onPrint()"></button>
+              </div></div>
+              <div class="ui-g-12 no-pad-top">
+              <p-table [columns]="DDChequeCols" [value]="DDChequeData" [rows]="10"
                 [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true">
                 <ng-template pTemplate="header" let-columns>
                   <tr style="text-align: center;">
@@ -167,6 +141,7 @@
                 </ng-template>
               </p-table>
             </div>
+            </div>
           </form>
         </div>
       </div>
@@ -177,9 +152,9 @@
   [(visible)]="viewPane" [style]="{width: '85% !important', height: '50% !important'}">
   <div class="ui-g-12">
     <div class="ui-g-6 ui-md-8 no-pad-top">
-      <label class="label-fontsize-large">Date</label>
+      <label for="date" class="label-fontsize-large">Date</label>
       <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate"
-        (ngModelChange)="onView()"></p-calendar>
+       name="date" (ngModelChange)="onView()"></p-calendar>
     </div>
     <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-12 dashboard" pButton label=OK [disabled]="ChequeReceiptNoData.length=='0'"

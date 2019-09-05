@@ -151,7 +151,6 @@ export class StockReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
-    this.data = this.roleBasedService.getInstance();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
     this.maxDate = new Date();
@@ -161,12 +160,10 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    setTimeout(() => {
-      this.regionName = this.data[0].RName;
-      this.godownName = this.data[0].GName;
-      this.ReceivingCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 1200);
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.ReceivingCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onSelect(selectedItem, type) {
@@ -593,9 +590,15 @@ export class StockReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
           this.blockScreen = false;
+          if(type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          }
           this.onClear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
@@ -707,7 +710,14 @@ export class StockReceiptComponent implements OnInit {
     this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
     }
+  }
+
+  loadDocument() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
@@ -744,17 +754,17 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.OrderNo = null; this.selectedValues = ['Road']; this.Trcode = null;
-    this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = null;
-    this.LNo = null; this.LFrom = null; this.ManualDocNo = null; this.trCode = null;
+    this.OrderNo = '-'; this.selectedValues = ['Road']; this.Trcode = null;
+    this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = '-';
+    this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = null;
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = [];
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
-    this.TruckMemoDate = this.SRDate = this.OrderDate = new Date();
+    this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
     this.isViewed = false;
   }
 

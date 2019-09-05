@@ -41,7 +41,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="Indent" id="float-input" pInputText [(ngModel)]="IndentNo" autocomplete="off" required>
+                        <input name="Indent" pInputText [(ngModel)]="IndentNo" autocomplete="off" required>
                         <label for="Indent" class="float-input" style="padding-top: 10px;">Indent No</label>
                       </span>
                     </div>
@@ -60,7 +60,7 @@
                   <div class="ui-g-12">
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Month" class="label-fontsize">Month</label>
-                      <p-dropdown #m name="Month" id="float-input" [options]="monthOptions" [(ngModel)]="PMonth"
+                      <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="PMonth"
                         (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
                         filter="true" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
@@ -70,19 +70,19 @@
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Year" class="label-fontsize">Year</label>
-                      <p-dropdown #y name="Year" id="float-input" [options]="yearOptions" [(ngModel)]="PYear"
+                      <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="PYear"
                         (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="RName" id="float-input" pInputText [(ngModel)]="RegionName" [readonly]="true" autocomplete="off" required>
+                        <input name="RName" pInputText [(ngModel)]="RegionName" [readonly]="true" autocomplete="off" required>
                         <label for="RName" class="float-input">Region Name</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <span class="ui-float-label">
-                        <input name="GName" id="float-input" pInputText [(ngModel)]="GodownName" [readonly]="true" autocomplete="off" required>
+                        <input name="GName" pInputText [(ngModel)]="GodownName" [readonly]="true" autocomplete="off" required>
                         <label for="GName" class="float-input">Issuing Godown Name</label>
                       </span>
                     </div>
@@ -329,7 +329,7 @@
                   <div class="ui-g-12">
                     <div class="ui-g-6 ui-md-3 no-left-pad">
                       <span class="ui-float-label">
-                        <input name="GrandTotalAmnt" id="float-input" pInputText [(ngModel)]="GrandTotal"
+                        <input name="GrandTotalAmnt" pInputText [(ngModel)]="GrandTotal"
                           oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off" [readonly]="true" required>
                         <label for="GrandTotalAmnt" class="float-input">Grand Total</label>
@@ -362,7 +362,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="ChqNo" id="float-input" type="text" minlength="1" maxlength="10"
+                        <input name="ChqNo" type="text" minlength="1" maxlength="10"
                           [(ngModel)]="ChequeNo" pInputText autocomplete="off">
                         <label for="ChqNo" class="float-input" style="padding-top: 10px;">CH/DD/PO/OCR No</label>
                       </span>
@@ -375,14 +375,14 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="PayAmnt" id="float-input" [(ngModel)]="PAmount" pInputText autocomplete="off"
+                        <input name="PayAmnt" [(ngModel)]="PAmount" pInputText autocomplete="off"
                         type="number" appDecimalAmount>
                         <label for="PayAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                        <input name="PayAt" type="text" id="float-input" [(ngModel)]="PayableAt" pInputText
+                        <input name="PayAt" type="text" [(ngModel)]="PayableAt" pInputText
                         style="text-transform: uppercase !important" autocomplete="off">
                         <label for="PayAt" class="float-input" style="padding-top: 10px;">Payable At</label>
                       </span>
@@ -390,7 +390,7 @@
                     <div class="ui-g-12 dashboard">
                       <div class="ui-g-6 ui-md-4">
                         <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
-                          <input name="Bank" id="float-input" [(ngModel)]="OnBank"
+                          <input name="Bank" [(ngModel)]="OnBank"
                           style="text-transform: uppercase !important" pInputText autocomplete="off">
                           <label for="Bank" class="float-input" style="padding-top: 10px;">On bank</label>
                         </span>
@@ -404,20 +404,20 @@
                      <!-- <div class="dashboard" style="border: .7px solid #18c5a9"> -->
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="DueAmnt" id="float-input" [(ngModel)]="DueAmount" [readonly]="true" pInputText autocomplete="off">
+                              <input name="DueAmnt" [(ngModel)]="DueAmount" [readonly]="true" pInputText autocomplete="off">
                               <label for="DueAmnt" class="float-input" style="padding-top: 10px;">Amt Due</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="PaidAmnt" id="float-input" [(ngModel)]="PaidAmount" [readonly]="true" pInputText
+                              <input name="PaidAmnt" [(ngModel)]="PaidAmount" [readonly]="true" pInputText
                                 autocomplete="off">
                               <label for="PaidAmnt" class="float-input" style="padding-top: 10px;">Amt Paid</label>
                             </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
                           <span class="ui-float-label"  style="padding-right: 10px;padding-top: 20px;">
-                              <input name="BalAmnt" id="float-input" [(ngModel)]="BalanceAmount" [readonly]="true" pInputText
+                              <input name="BalAmnt" [(ngModel)]="BalanceAmount" [readonly]="true" pInputText
                                 autocomplete="off">
                               <label for="BalAmnt" class="float-input" style="padding-top: 10px;">Balance Amt</label>
                             </span>
@@ -459,7 +459,7 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="PDNo" [(ngModel)]="PrevOrderNo" type="text" id="float-input" pInputText autocomplete="off">
+                        <input name="PDNo" [(ngModel)]="PrevOrderNo" type="text" pInputText autocomplete="off">
                         <label for="PDNo" class="float-input">Previous DoNo</label>
                       </span>
                     </div>
@@ -468,20 +468,20 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="AdjAmnt" id="float-input" [(ngModel)]="AdjusmentAmount" pInputText
+                        <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText
                         type="number" autocomplete="off" >
                         <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="OtherAmnt" id="float-input" type="number" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
+                        <input name="OtherAmnt" type="number" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
                         <label for="OtherAmnt" class="float-input">Other Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="BalAmnt" id="float-input" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
+                        <input name="BalAmnt" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
                         [readonly]="true" >
                         <label for="BalAmnt" class="float-input">Balance</label>
                       </span>

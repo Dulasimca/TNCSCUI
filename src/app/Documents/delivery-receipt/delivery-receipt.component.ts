@@ -64,7 +64,7 @@ export class DeliveryReceiptComponent implements OnInit {
   Trcode: any;
   trCode: any;
   TransType: string = 'I';
-  IndentNo: number;
+  IndentNo: any = '-';
   OrderPeriod: any;
   PermitDate: Date = new Date();
   PMonth: any;
@@ -126,7 +126,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
   @ViewChild('f') form;
-  
+
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe, private http: HttpClient) { }
@@ -134,7 +134,6 @@ export class DeliveryReceiptComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.scheme_data = this.roleBasedService.getSchemeData();
-    this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
     this.deliveryCols = this.tableConstants.DeliveryDocumentcolumns;
     this.deliveryViewCols = this.tableConstants.DeliveryDocumentViewCols;
@@ -148,12 +147,10 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.AdjusmentAmount = 0; this.OtherAmount = 0; this.Balance = 0; this.PAmount = 0;
-    setTimeout(() => {
-      this.GodownName = this.data[0].GName;
-      this.RegionName = this.data[0].RName;
-      this.GCode = this.data[0].GCode;
-      this.RCode = this.data[0].RCode;
-    }, 300);
+    this.RegionName = this.authService.getUserAccessible().rName;
+    this.GodownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   onSelect(selectedItem, type) {
@@ -170,10 +167,10 @@ export class DeliveryReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-          if (type === 'enter') {
-            this.yearPanel.overlayVisible = true;
-          }
-            const year = new Date().getFullYear();
+        if (type === 'enter') {
+          this.yearPanel.overlayVisible = true;
+        }
+        const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
             yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
@@ -187,9 +184,9 @@ export class DeliveryReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-          if (type === 'enter') {
-            this.monthPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.monthPanel.overlayVisible = true;
+        }
         this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
         { 'label': 'Feb', 'value': 2 }, { 'label': 'Mar', 'value': 3 }, { 'label': 'Apr', 'value': 4 },
         { 'label': 'May', 'value': 5 }, { 'label': 'Jun', 'value': 6 }, { 'label': 'Jul', 'value': 7 },
@@ -198,20 +195,20 @@ export class DeliveryReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-          if (type === 'enter') {
-            this.transactionPanel.overlayVisible = true;
-          } 
-          transactoinSelection.push({ label: 'SALES', value: 'TR014'}, 
-          { label: 'CREDIT SALES', value: 'TR019'}, { label: 'FREE SCHEME', value: 'TR022'});
-          this.transactionOptions = transactoinSelection;
-          this.transactionOptions.unshift({ 'label': '-select', 'value': null });
-        this.checkTransactionType = ((this.Trcode !== undefined && this.Trcode !== null)?
-        ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode): false) ? true : false;
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        transactoinSelection.push({ label: 'SALES', value: 'TR014' },
+          { label: 'CREDIT SALES', value: 'TR019' }, { label: 'FREE SCHEME', value: 'TR022' });
+        this.transactionOptions = transactoinSelection;
+        this.transactionOptions.unshift({ 'label': '-select', 'value': null });
+        this.checkTransactionType = ((this.Trcode !== undefined && this.Trcode !== null) ?
+          ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode) : false) ? true : false;
         break;
       case 'scheme':
-          if (type === 'enter') {
-            this.schemePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -223,9 +220,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_scheme':
-          if (type === 'enter') {
-            this.marginSchemePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.marginSchemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             marginSchemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -237,9 +234,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-          if (type === 'enter') {
-            this.receivorTypePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.receivorTypePanel.overlayVisible = true;
+        }
         if (this.Trcode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null) ||
             (this.trCode !== null && this.trCode !== undefined)) {
@@ -260,9 +257,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'pn':
-          if (type === 'enter') {
-            this.partyNamePanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.partyNamePanel.overlayVisible = true;
+        }
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.RTCode.value !== undefined) || (this.rtCode !== undefined && this.trCode !== null)) {
             const params = new HttpParams().set('TyCode', (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode)
@@ -282,9 +279,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'commodity':
-          if (type === 'enter') {
-            this.commodityPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.commodityPanel.overlayVisible = true;
+        }
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
@@ -312,9 +309,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_commodity':
-          if (type === 'enter') {
-            this.marginCommodityPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.marginCommodityPanel.overlayVisible = true;
+        }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
           if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
             const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
@@ -342,9 +339,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'wmt':
-          if (type === 'enter') {
-            this.weighmentPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.weighmentPanel.overlayVisible = true;
+        }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -358,9 +355,9 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'margin_wmt':
-          if (type === 'enter') {
-            this.marginWeighmentPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.marginWeighmentPanel.overlayVisible = true;
+        }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -374,14 +371,14 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'pay':
-          if (type === 'enter') {
-            this.paymentPanel.overlayVisible = true;
-          }
+        if (type === 'enter') {
+          this.paymentPanel.overlayVisible = true;
+        }
         this.paymentOptions = [
           { label: 'Adjustment', value: 'Adjustment' }, { label: 'Cash', value: 'Cash' },
           { label: 'Cheque', value: 'Cheque' }, { label: 'Draft', value: 'Draft' }, { label: 'Ocr', value: 'Ocr' },
           { label: 'PayOrder', value: 'PayOrder' }];
-          this.paymentOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.paymentOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
   }
@@ -560,7 +557,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.PaidAmount += (this.PAmount * 1);
           this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
+            ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.ChequeDate = new Date();
           this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
           this.OnBank = null; this.PAmount = 0;
@@ -571,7 +568,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.paymentBalData.push({
           AdjustedDoNo: this.PrevOrderNo,
           AdjustDate: (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
-          AdjustedDate:  (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
+          AdjustedDate: (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
           Amount: (this.AdjusmentAmount * 1).toFixed(2),
           AdjustmentType: this.AdjustmentType,
           Rcode: this.RCode,
@@ -666,57 +663,26 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
-          res.Table.forEach(data => {
+        res.Table.forEach(data => {
           data.DoDate = this.datepipe.transform(data.DoDate, 'dd/MM/yyyy');
         })
         this.deliveryViewData = res.Table;
       } else {
+        this.deliveryViewData = [];
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
   }
-
-  onPrint() {
-    this.blockScreen = true;
-    if(this.isViewed) {
-      this.onSave('2', );
-    }
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
-    let filepath = path + filename + ".txt";
-    this.http.get(filepath, {responseType: 'text'})
-      .subscribe(data => {
-        if(data !== undefined && data !== null) {
-        var doc = new jsPDF({
-          orientation: 'potrait',
-        })
-        doc.setFont('courier');
-        doc.setFontSize(9);
-        doc.text(data, 2, 2)
-        doc.save(filename + '.pdf');
-        this.isSaveSucceed = false;
-        this.isViewed = false;
-        this.blockScreen = false;
-      } else {
-        this.blockScreen = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } 
-      },(err: HttpErrorResponse) => {
-        this.blockScreen = false;
-         if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });  }
 
   onClear() {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
     this.paymentBalData = []; this.paymentData = [];
     this.BalanceAmount = 0; this.DueAmount = 0; this.PaidAmount = 0; this.GrandTotal = 0;
     this.Balance = 0; this.AdjusmentAmount = 0; this.OtherAmount = 0;
-    this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
-    this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
+    this.Trcode = null; this.trCode = null; this.IndentNo = '-'; this.RTCode = null;
+    this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null;
     this.transactionOptions = []; this.partyNameOptions = [];
-    this.receivorTypeOptions = [];  
+    this.receivorTypeOptions = [];
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
@@ -774,8 +740,8 @@ export class DeliveryReceiptComponent implements OnInit {
         })
       }
       if (res.Table1 !== undefined && res.Table1.length !== 0 && res.Table1 !== null) {
-        res.Table1.forEach(i => { 
-        this.itemSchemeData.push({
+        res.Table1.forEach(i => {
+          this.itemSchemeData.push({
             ITDescription: i.ITDescription,
             MarginNkgs: (i.MarginNkgs * 1),
             MarginWtype: i.MarginWtype,
@@ -801,11 +767,11 @@ export class DeliveryReceiptComponent implements OnInit {
             RCode: i.Rcode
           });
         })
-        if(this.paymentData.length !== 0) {
+        if (this.paymentData.length !== 0) {
           this.paymentData.forEach(x => {
-          this.PaidAmount += (x.PaymentAmount * 1) ;
-        })
-        this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+            this.PaidAmount += (x.PaymentAmount * 1);
+          })
+          this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
@@ -825,10 +791,10 @@ export class DeliveryReceiptComponent implements OnInit {
     });
   }
 
-  resetForm(deliveryForm: NgForm){
+  resetForm(deliveryForm: NgForm) {
     deliveryForm.form.markAsUntouched();
     deliveryForm.form.markAsPristine();
- }
+  }
 
   onSave(type) {
     this.messageService.clear();
@@ -868,8 +834,14 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.isSaveSucceed = (type !== '2') ? true : false;
-          this.isViewed = false;
+          if (type !== '2') {
+            this.isSaveSucceed = true;
+            this.isViewed = false;
+          } else {
+            this.isSaveSucceed = false;
+            this.loadDocument();
+            this.isViewed = false;
+          }
           this.blockScreen = false;
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -888,5 +860,45 @@ export class DeliveryReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
+  }
+
+  onPrint() {
+    this.blockScreen = true;
+    if (this.isViewed) {
+      this.onSave('2');
+    } else {
+      this.loadDocument();
+      this.isSaveSucceed = false;
+      this.isViewed = false;
+    }
+  }
+
+  loadDocument() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
+    let filepath = path + filename + ".txt";
+    this.http.get(filepath, { responseType: 'text' })
+      .subscribe(data => {
+        if (data !== undefined && data !== null) {
+          var doc = new jsPDF({
+            orientation: 'potrait',
+          })
+          doc.setFont('courier');
+          doc.setFontSize(9);
+          doc.text(data, 2, 2)
+          doc.save(filename + '.pdf');
+          this.isSaveSucceed = false;
+          this.isViewed = false;
+          this.blockScreen = false;
+        } else {
+          this.blockScreen = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
   }
 }
