@@ -106,8 +106,8 @@ export class AllSchemeComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.gCode,
-      'SCode': this.s_cd.label,
-      'SchCode': this.sch_cd.label
+      'SCode': this.s_cd,
+      'SchCode': this.sch_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       this.AllSchemeData = res;
