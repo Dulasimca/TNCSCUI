@@ -547,9 +547,9 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
     this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
-    this.OrderNo = null; this.selectedValues = ['Road']; this.RNo = null; this.LorryNo = null;
+    this.OrderNo = '-'; this.selectedValues = ['Road']; this.RNo = '-'; this.LorryNo = '-';
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
-    this.RTCode = null; this.RNCode = null; this.ManualDocNo = null; this.Remarks = null;
+    this.RTCode = null; this.RNCode = null; this.ManualDocNo = '-'; this.Remarks = '-';
     this.TransporterName = '-'; this.LWBillNo = '-';
     this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
     this.HCharges = 0; this.TStation = '-'; this.FStation = '-';
