@@ -90,6 +90,7 @@ export class DemandDraftComponent implements OnInit {
       }
     });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
     if (this.fromDate !== undefined && this.toDate !== undefined
@@ -97,6 +98,7 @@ export class DemandDraftComponent implements OnInit {
       this.isViewDisabled = false;
     }
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -123,4 +125,6 @@ export class DemandDraftComponent implements OnInit {
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.DemandDraftData, 'DO_DEMAND_DRAFT_DATA', this.DemandDraftCols);
   }
+
+  onPrint() {}
 }

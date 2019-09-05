@@ -100,7 +100,6 @@ import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
-import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
 import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
@@ -204,7 +203,6 @@ import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-ma
     ReceiptIssueCommodityComponent,
     ReceiptIssueOtherItemsComponent,
     SocietMasterComponent,
-    ShopWiseAllotmentComponent,
     OpeningBalanceDetailsComponent,
     DepositorCustomerMasterComponent,
     EmployeeMasterComponent,

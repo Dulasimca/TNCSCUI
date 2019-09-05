@@ -24,17 +24,18 @@ export class GodownProfileComponent implements OnInit {
   roleId: any;
   g_cd: any;
   gCode: any;
-  Gname: any[];
-  designation: any[];
-  address1: any[];
-  address2: any[];
+  Gname: string;
+  designation: any = [];
+  address1: any = {};
+  address2: {};
   address3: any[];
   telno: any[];
-  phone: any[];
+  phone: any;
   fax: any[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
   formUser = [];
+  loading: boolean = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
@@ -67,7 +68,8 @@ export class GodownProfileComponent implements OnInit {
   }
 
   onClear() {
-    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
+    this.Gname = '';
+    this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
   }
 
   //   onSubmit(formUser) {

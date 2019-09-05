@@ -51,7 +51,6 @@ import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
-import { ShopWiseAllotmentComponent } from './Documents/Master/shop-wise-allotment/shop-wise-allotment.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
 import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
@@ -146,7 +145,6 @@ const routes: Routes = [
   { path: 'Qty A/c Receipt/Issue - Commodity', component: ReceiptIssueCommodityComponent },
   { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent },
   { path: 'Society Master', component: SocietMasterComponent },
-  { path: 'Shop Wise Allotment Master', component: ShopWiseAllotmentComponent },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent },
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent },
