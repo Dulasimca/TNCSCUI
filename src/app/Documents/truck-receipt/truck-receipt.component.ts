@@ -903,7 +903,7 @@ export class TruckReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockTruckMemoDocument;
     let filepath = path + filename + ".txt";
-    var w = window.open(filepath + '.pdf');
+    var w = window.open(filepath);
     w.print();	
     // this.http.get(filepath, {responseType: 'text'})
     //   .subscribe(data => {
