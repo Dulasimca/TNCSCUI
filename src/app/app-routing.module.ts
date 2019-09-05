@@ -64,7 +64,6 @@ import { UserMasterComponent } from './Documents/Master/user-master/user-master.
 import { StockstatementreportComponent } from './reports/stockstatementreport/stockstatementreport.component';
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
-import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
@@ -158,7 +157,6 @@ const routes: Routes = [
   { path: 'Commodity Break', component: ItemMasterModificationComponent },
   { path: 'Godown Customer List', component: CustomerListComponent },
   { path: 'Stack Card Opening Entry', component: StackCardOpeningEntryComponent },
-  { path: 'Stack Card Closing Entry', component: StackCardClosingComponent },
   { path: 'Dulpicate Issue Memo', component: DuplicateIssueMemoComponent },
   { path: 'Stock Statement', component: StockstatementreportComponent, canActivate: [AuthGuard] },
   { path: 'Transaction Status', component: TransactionStatusComponent },

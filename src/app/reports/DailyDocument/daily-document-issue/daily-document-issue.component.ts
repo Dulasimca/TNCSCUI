@@ -37,6 +37,7 @@ export class DailyDocumentIssueComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  searchText: any;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -155,4 +156,6 @@ export class DailyDocumentIssueComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('Daily_Issue.pdf');
   }
+
+  onPrint() { }
 }

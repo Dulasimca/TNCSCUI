@@ -114,7 +114,6 @@ import { StockstatementreportComponent } from './reports/stockstatementreport/st
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
-import { StackCardClosingComponent } from './Documents/StackCard/stack-card-closing/stack-card-closing.component';
 import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
@@ -215,7 +214,6 @@ import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-ma
     CustomerListComponent,
     UserMasterComponent,
     OpeningBalanceCurrentYearComponent,
-    StackCardClosingComponent,
     DDChequeEntryComponent,
     DuplicateIssueMemoComponent,
     StockstatementreportComponent,

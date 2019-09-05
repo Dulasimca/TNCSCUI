@@ -16,6 +16,7 @@ export class CncCorrectionComponent implements OnInit {
   CncCorrectionData: any;
   canShowMenu: boolean;
   data: any;
+  loading: boolean;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,  private messageService: MessageService, private authService: AuthService) { }
 

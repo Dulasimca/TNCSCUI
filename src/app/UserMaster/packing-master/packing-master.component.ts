@@ -16,6 +16,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 export class PackingMasterComponent implements OnInit {
   canShowMenu: boolean;
   data: any;
+  selectedValue: string[];
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
