@@ -61,19 +61,9 @@ export class TruckTransitComponent implements OnInit {
 
   onTransfer() {
     let transfers = [];
-    const params = {
-      'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value
-    }
     if (this.transferOptions === undefined) {
-      this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
-        this.response = res;
-        transfers.push({ 'label': this.response.Transfertype, 'value': res.RGCODE });
-        this.transferOptions = transfers;
-        this.transferOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'TRANSFER', 'value': this.transferOptions }, { 'label': 'INTERNAL TRANSFER', 'value': this.transferOptions });
-
-      })
+      transfers.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'TRANSFER', 'value': null }, { 'label': 'INTERNAL TRANSFER', 'value': null });
+      this.transferOptions = transfers;
     }
   }
 
@@ -86,11 +76,6 @@ export class TruckTransitComponent implements OnInit {
       this.TruckTransitData = res;
       if (this.TruckTransitData !== undefined && this.TruckTransitData !== 0) {
         this.TruckTransitData = res.filter((value: { Transfertype: any; }) => { return value.Transfertype === this.tr_cd.label });
-        // if (value.Transfertype === this.tr_cd.label) {
-        // this.TruckTransitData.push(value);
-        // this.totalRecords = this.TruckTransitData.length;
-        // }
-        // })
       }
       let sno = 0;
       this.TruckTransitData.forEach(data => {
@@ -99,7 +84,7 @@ export class TruckTransitComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
         this.loading = false;
-      })
+      });
       if (this.TruckTransitData !== undefined && this.TruckTransitData.length !== 0) {
         this.isActionDisabled = false;
       } else {
@@ -108,9 +93,9 @@ export class TruckTransitComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
   onDateSelect() {
     this.checkValidDateSelection();
@@ -144,7 +129,7 @@ export class TruckTransitComponent implements OnInit {
       if (data.Transfertype == "INTERNAL TRANSFER" || data.Transfertype == "TRANSFER") {
         TruckTransit.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, Region: data.Region, TNCSName: data.TNCSName, LNo: data.LNo, NoPacking: data.NoPacking, Nkgs: data.Nkgs, ACKNO: data.ACKNO, ReceiverDate: data.STDate, DepositorName: data.DepositorName, Bags: data.NoPacking, Quantity: data.Nkgs, TransferType: data.Transfertype })
       }
-    })
+    });
     this.excelService.exportAsExcelFile(TruckTransit, 'Truck_Transit', this.TruckTransitCols);
   }
 }

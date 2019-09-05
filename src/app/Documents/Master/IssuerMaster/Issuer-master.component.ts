@@ -29,14 +29,14 @@ export class IssuerMasterComponent implements OnInit {
   gCode: any;
   I_cd: any;
   Type: any;
+  searchText: any;
   IssuerOptions: SelectItem[];
   disableOkButton: boolean = true;
   selectedRow: any;
   loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
-  searchText: any;
-  
+
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
 
@@ -88,8 +88,10 @@ export class IssuerMasterComponent implements OnInit {
   showSelectedData() {
     this.viewPane = false;
     this.isViewed = true;
+    // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
+    // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
     this.ACSCode = this.selectedRow.ACSCode;
-    this.Activeflag = this.selectedRow.Activeflag;
+    this.Activeflag =  this.selectedRow.Activeflag;
     this.IssuerCode = this.selectedRow.IssuerCode;
     this.Godcode = this.selectedRow.Godcode;
   }
@@ -116,8 +118,8 @@ export class IssuerMasterComponent implements OnInit {
   onSave(selectedRow) {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
+      'Activeflag': (this.selectedRow.Activeflag == 'I') ? (this.selectedRow.ACSCode = "-",this.selectedRow.Activeflag = 'I') : this.selectedRow.Activeflag,
       'ACSCode': this.selectedRow.ACSCode,
-      'Activeflag': this.selectedRow.Activeflag,
       'Godcode': this.selectedRow.Godcode
     };
     this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(ress => {
