@@ -129,4 +129,6 @@ export class StackCardOpeningComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(StackData, 'STACK_CARD_OPENING_REPORT', this.StackCardOpeningCols);
   }
+
+  onPrint() { }
 }

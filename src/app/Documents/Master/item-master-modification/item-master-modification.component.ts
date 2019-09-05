@@ -18,6 +18,7 @@ export class ItemMasterModificationComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  searchText: any;
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -84,4 +85,6 @@ export class ItemMasterModificationComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('Commodity_Break.pdf');
   }
+
+  onPrint() { }
 }

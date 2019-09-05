@@ -235,4 +235,7 @@ export class CBStatementComponent implements OnInit {
     doc.save('CRS_DATA.pdf');
   }
 
+  onSearch() { }
+
+  onPrint() { }
 }

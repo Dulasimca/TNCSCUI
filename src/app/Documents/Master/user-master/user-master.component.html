@@ -10,8 +10,9 @@
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g-3"></div>
     <div class="ui-g-12 ui-md-2">
-      <label class="ui-g label-fontsize dashboard" for="regionCode">Region</label>
-      <p-dropdown class="ui-g ui-fluid" [options]="regionOptions" [(ngModel)]="r_cd" (onClick)="onSelect()" filter="true" optionLabel="label"
+      <label class="ui-g label-fontsize dashboard" for="rCode">Region</label>
+      <p-dropdown #region class="ui-g ui-fluid" name="rCode" [options]="regionOptions" [(ngModel)]="regionCode" 
+      (onClick)="onSelect('click', 'reg')" (keydown.enter)="onSelect('enter', 'reg')" filter="true" optionLabel="label"
         [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
@@ -19,9 +20,10 @@
       </p-dropdown>
     </div>
     <div class="ui-g-12 ui-md-2">
-      <label class="ui-g label-fontsize dashboard" for="godownCode">Godown Name</label>
-      <p-dropdown class="ui-g ui-fluid" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" filter="true" optionLabel="label"
-        [showClear]="true" placeholder="-select-">
+      <label class="ui-g label-fontsize dashboard" for="gCode">Godown Name</label>
+      <p-dropdown #godown class="ui-g ui-fluid" [options]="godownOptions" [(ngModel)]="godownCode"
+      (onClick)="onSelect('click', 'gd')" (keydown.enter)="onSelect('enter', 'gd')" filter="true" optionLabel="label"
+        name="gCode" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>
@@ -29,7 +31,8 @@
     </div>
     <div class="ui-g-12 ui-md-2">
       <label class="ui-g label-fontsize dashboard" for="roleId">Role</label>
-      <p-dropdown class="ui-g ui-fluid" [options]="roleId" [(ngModel)]="role" (onClick)="onSelect()" filter="true" optionLabel="label"
+      <p-dropdown #role class="ui-g ui-fluid" [options]="roleIdOptions" [(ngModel)]="roleId"
+      (onClick)="onSelect('click', 'role')" (keydown.enter)="onSelect('enter', 'role')" filter="true" optionLabel="label"
         [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>

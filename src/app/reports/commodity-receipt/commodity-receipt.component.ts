@@ -196,6 +196,8 @@ export class CommodityReceiptComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
+  onDownload() { }
+
   exportAsXLSX(): void {
     var CommodityReceiptData = [];
     this.commodityReceiptData.forEach(data => {

@@ -22,4 +22,10 @@ export class RegionAllotmentComponent implements OnInit {
     
   }
 
+  search(event) { }
+
+  onView() { }
+
+  onSave() { }
+
 }
