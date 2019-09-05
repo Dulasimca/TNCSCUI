@@ -428,18 +428,28 @@ export class IssueReceiptComponent implements OnInit {
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
-        this.TStockNo.value : this.TStockNo;
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
+      this.TStockNo.value : this.TStockNo;
+      if(this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
       index = TStockNo.toString().indexOf('/', 2);
       const totalLength = TStockNo.length;
       this.godownNo = TStockNo.toString().slice(0, index);
       this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
-    } else {
+      } else {
+      this.godownNo = this.stackYear = this.locationNo = null;
+      }
+     } else {
       this.godownNo = this.stackYear = this.locationNo = null;
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
+    let ind;
+    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+    ind = stockNo.indexOf('/', 2);
+    const totalLength = stockNo.length;
+    this.godownNo = stockNo.slice(0, ind);
+    this.locationNo = stockNo.slice(ind + 1, totalLength);
     const params = {
-      TStockNo: (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no,
+      TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.IssuingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,

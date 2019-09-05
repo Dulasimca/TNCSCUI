@@ -467,22 +467,34 @@ export class StockReceiptComponent implements OnInit {
       this.NKgs = this.GKgs = this.tareWt = 0;
     }
   }
-  
+
   onStackNoChange(event) {
     this.messageService.clear();
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      index = this.TStockNo.value.toString().indexOf('/', 2);
-      const totalLength = this.TStockNo.value.length;
-      this.godownNo = this.TStockNo.value.toString().slice(0, index);
-      this.locationNo = this.TStockNo.value.toString().slice(index + 1, totalLength);
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+        this.TStockNo.value : this.TStockNo;
+      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
+        index = TStockNo.toString().indexOf('/', 2);
+        const totalLength = TStockNo.length;
+        this.godownNo = TStockNo.toString().slice(0, index);
+        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
+      } else {
+        this.godownNo = this.stackYear = this.locationNo = null;
+      }
     } else {
       this.godownNo = this.stackYear = this.locationNo = null;
     }
-    let stack_data = event.value;
+    let stack_data = (event.value !== undefined) ? event.value : event;
+    let ind;
+    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+    ind = stockNo.indexOf('/', 2);
+    const totalLength = stockNo.length;
+    this.godownNo = stockNo.slice(0, ind);
+    this.locationNo = stockNo.slice(ind + 1, totalLength);
     const params = {
-      TStockNo: stack_data.value,
+      TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.ReceivingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -515,9 +527,9 @@ export class StockReceiptComponent implements OnInit {
   onEnter() {
     let stackBalance;
     this.itemData.push({
-      TStockNo: (this.TStockNo.value !== undefined) ? 
-      this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '') 
-      : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
+      TStockNo: (this.TStockNo.value !== undefined) ?
+        this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '')
+        : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
       Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
@@ -579,7 +591,7 @@ export class StockReceiptComponent implements OnInit {
       'ItemList': this.itemData,
       'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '-',
       'GodownName': this.godownName,
-      'TransactionName':  (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
+      'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
@@ -593,7 +605,7 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.blockScreen = false;
-          if(type !== '2') {
+          if (type !== '2') {
             this.isSaveSucceed = true;
             this.isViewed = false;
           } else {
