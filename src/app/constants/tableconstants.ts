@@ -471,6 +471,7 @@ export class TableConstants {
     ];
 
     this.StockIssueMemoViewBySINOCols = [
+      { field: 'sno', header: 'S.No:'},
       { field: 'SINo', header: 'Issue Memo No' },
       { field: 'SIDate', header: 'Issue Memo Date' },
       { field: 'DNo', header: 'Delivery Order No' },
@@ -695,6 +696,7 @@ export class TableConstants {
       { field: '', header: 'TOTAL' }
     ];
     this.StockReceiptDocumentViewCols = [
+      { field: 'sno', header: 'S.No:'},
       { field: 'SRNo', header: 'SR No.' },
       { field: 'SRDate', header: 'SR Date' },
       { field: 'OrderNo', header: 'Order No.' },
@@ -805,7 +807,7 @@ export class TableConstants {
     this.StackCardClosingEntryReport = [];
 
     this.DDChequeEntryCols = [
-      { field: 'sno', header: 'S.No.' },
+      { field: 'Sno', header: 'S.No.' },
       { field: 'Payment', header: 'CHE/DD' },
       { field: 'ChequeNo', header: 'CHE/DD No' },
       { field: 'ChDate', header: 'Date' },
@@ -833,6 +835,7 @@ export class TableConstants {
     ];
 
     this.TruckMemoViewDocumentCols = [
+      { field: 'sno', header: 'S.No:'},
       { field: 'STNo', header: 'Truck Memo No' },
       { field: 'STDate', header: 'Truck Memo Date' },
       { field: 'MNo', header: 'Movement Order No' },
@@ -956,6 +959,7 @@ export class TableConstants {
     ];
 
     this.DeliveryDocumentViewCols = [
+      { field: 'sno', header: 'S.No:'},
       { field: 'Dono', header: 'Delivery Order No' },
       { field: 'DoDate', header: 'Delivery Order Date' },
       { field: 'TRName', header: 'Transaction Name' },

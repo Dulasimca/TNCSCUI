@@ -558,6 +558,10 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = '-'; this.VCode = '-'; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
     this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
     this.transactionOptions = []; this.toRailHeadOptions = [];
+    this.schemeOptions = []; this.itemDescOptions = [];
+    this.schemeCode = null; this.Scheme = null; this.ICode = null;
+    this.iCode = null; this.GodownNo = null; this.LocationNo = null;
+    this.stackOptions = []; this.TStockNo = null;
     this.freightOptions = [{ label: '-', value: '-' }];
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
@@ -581,10 +585,14 @@ export class TruckReceiptComponent implements OnInit {
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
       this.TStockNo.value : this.TStockNo;
+      if(this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
       index = TStockNo.toString().indexOf('/', 2);
       const totalLength = TStockNo.length;
       this.GodownNo = TStockNo.toString().slice(0, index);
       this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
+      } else {
+      this.GodownNo = this.stackYear = this.LocationNo = null;
+      }
     } else {
       this.GodownNo = this.stackYear = this.LocationNo = null;
     }
@@ -615,6 +623,7 @@ export class TruckReceiptComponent implements OnInit {
         this.isValidStackBalance = true;
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
       }
     }
@@ -678,8 +687,11 @@ export class TruckReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        let sno = 1;
         res.forEach(data => {
+        data.sno = sno;
         data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
+        sno += 1;
       })
       this.truckMemoViewData = res;
     } else {
@@ -702,6 +714,7 @@ export class TruckReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
+        this.onClear();
         this.STNo = res[0].STNo;
         this.RowId = res[0].RowId;
         this.STDate = new Date(res[0].STDate);

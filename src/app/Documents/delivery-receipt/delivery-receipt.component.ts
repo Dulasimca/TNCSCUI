@@ -663,8 +663,11 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
+        let sno = 1;
         res.Table.forEach(data => {
+          data.sno = sno;
           data.DoDate = this.datepipe.transform(data.DoDate, 'dd/MM/yyyy');
+          sno += 1;
         })
         this.deliveryViewData = res.Table;
       } else {
@@ -700,6 +703,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.DeliveryOrderNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.onClear();
         this.rowId = res.Table[0].RowId;
         this.DeliveryOrderNo = res.Table[0].Dono;
         this.DeliveryDate = new Date(res.Table[0].DoDate);

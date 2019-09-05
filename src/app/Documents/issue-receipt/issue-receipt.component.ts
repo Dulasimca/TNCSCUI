@@ -688,9 +688,12 @@ export class IssueReceiptComponent implements OnInit {
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
+        let sno = 1;
         res.Table.forEach(data => {
+          data.sno = sno;
           data.SIDate = this.datepipe.transform(data.SIDate, 'dd-MM-yyyy');
           data.DDate = this.datepipe.transform(data.DDate, 'dd-MM-yyyy');
+          sno += 1;
         })
         this.issueMemoDocData = res.Table;
       } else {
@@ -713,6 +716,7 @@ export class IssueReceiptComponent implements OnInit {
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.onClear();
         this.RowId = res.Table[0].RowId;
         this.TransporterName = res.Table[0].TransporterName;
         this.TransporterCharges = res.Table[0].TransportingCharge;
@@ -801,13 +805,14 @@ export class IssueReceiptComponent implements OnInit {
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
+    this.godownNo = null; this.locationNo = null;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.packingTypeOptions = []; this.transactionOptions = [];
-    this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
+    this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.isViewed = false;
   }
