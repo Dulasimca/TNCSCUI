@@ -558,6 +558,10 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = '-'; this.VCode = '-'; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
     this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
     this.transactionOptions = []; this.toRailHeadOptions = [];
+    this.schemeOptions = []; this.itemDescOptions = [];
+    this.schemeCode = null; this.Scheme = null; this.ICode = null;
+    this.iCode = null; this.GodownNo = null; this.LocationNo = null;
+    this.stackOptions = []; this.TStockNo = null;
     this.freightOptions = [{ label: '-', value: '-' }];
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
@@ -581,10 +585,14 @@ export class TruckReceiptComponent implements OnInit {
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
       this.TStockNo.value : this.TStockNo;
+      if(this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
       index = TStockNo.toString().indexOf('/', 2);
       const totalLength = TStockNo.length;
       this.GodownNo = TStockNo.toString().slice(0, index);
       this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
+      } else {
+      this.GodownNo = this.stackYear = this.LocationNo = null;
+      }
     } else {
       this.GodownNo = this.stackYear = this.LocationNo = null;
     }

@@ -68,7 +68,7 @@
                       <label for="RailHead" class="label-fontsize" style="padding-top: 10px;">To The Rail Head</label>
                       <p-dropdown #rail name="RailHead" [options]="toRailHeadOptions" [disabled]="disableRailHead"
                         [(ngModel)]="RHCode" (onClick)="onSelect('rh', 'click')" (keydown.enter)="onSelect('rh', 'enter')"
-                        [showClear]="true"  filter="true" optionLabel="label" required>
+                        [showClear]="true"  filter="true" [resetFilterOnHide]="true" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
