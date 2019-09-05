@@ -174,20 +174,18 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
     };
     this.restAPIService.put(PathConstants.SOCIETY_MASTER_ENTRY_PUT, params).subscribe(val => {
       if (val) {
-        this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Updated Successfully!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
-        this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
-    // this.onClear();
   }
-  // }
 
   onSelect() {
     if (this.typeOptions === undefined && this.societyOptions === undefined && this.IssuerOptions === undefined) {
@@ -197,19 +195,17 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
         if (res !== undefined) {
           var result = Array.from(new Set(res.map((item: any) => item.Tyname))); //Get distinct values from array
           var code = Array.from(new Set(res.map((item: any) => item.Tycode)));
-          for (var index in result) {
-            this.TypeSelection.push({ 'label': result[index] });
-          }
-          for(var Code in code){
-            this.TypeSelection.push({ 'value': code[Code]})
+          for (var index in result && code) {
+            this.TypeSelection.push({ 'label': result[index], 'value': code[index] });
           }
           this.typeOptions = this.TypeSelection;
           // this.typeOptions = this.TypeSelection;
           // this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': res.Tycode },
           //   { 'label': 'COOPERATIVES LEADING', 'value': res.Tycode }, { 'label': 'COOPERATIVES PRIMARY', 'value': res.Tycode });
           var result = Array.from(new Set(res.map((item: any) => item.Societyname))); //Get distinct values from array
-          for (var index in result) {
-            this.SocietySelection.push({ 'label': result[index], 'value': res.SocietyCode });
+          var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+          for (var index in result && code) {
+            this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
           }
           this.societyOptions = this.SocietySelection;
           res.forEach(x => {
