@@ -24,6 +24,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   items: any;
+  val1: any;
   loading: boolean = false;
 
   constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -137,6 +138,8 @@ export class DepositorCustomerMasterComponent implements OnInit {
       }
     }
   }
+
+  print() { }
 
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');

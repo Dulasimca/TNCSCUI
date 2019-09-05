@@ -12,7 +12,7 @@
       <div class="ui-g-12 dashboard" style="text-align: center">
           <p-fieldset legend="GODOWN PROFILE DATA">
             <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
-              [loading]="loading" [totalRecords]="totalRecords">
+              [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
