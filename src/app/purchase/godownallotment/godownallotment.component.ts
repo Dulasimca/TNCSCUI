@@ -25,4 +25,9 @@ godownName: any;
     
   }
 
+  onView() { }
+
+  onSave() { }
+
+
 }

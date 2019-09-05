@@ -12,7 +12,8 @@
       <div class="ui-g-2"></div>
         <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard">GODOWN</label>
-            <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()"
+            <p-dropdown #godown [options]="godownOptions" [(ngModel)]="godownCode"
+             (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
               filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -20,16 +21,16 @@
             </p-dropdown>
           </div>
           <div class="ui-g-12 ui-md-2" style="padding-top: 24px">
-          <p-checkbox name="group1" value="New York" label="Active only" [(ngModel)]="selectedCities" inputId="ny"></p-checkbox>
+          <p-checkbox name="active" value="Active" label="Active only" [(ngModel)]="isActive" binary="true" ></p-checkbox>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+            <button pButton type="button" label=View (click)="onView()" [disabled]="(!godownCode || godownCode==null)"></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="!isSaveSucceed"></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(CustomerData.length=='0')"></button>
           </div>
           <div class="ui-g-12 dashboard">
     <p-table [columns]="CustomerCols" [value]="CustomerData" [rows]="20"

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { Dropdown, SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-customer-list',
@@ -9,16 +10,32 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 })
 export class CustomerListComponent implements OnInit {
   CustomerCols: any;
-  CustomerData: any;
-
+  CustomerData: any = [];
+  isActive: boolean;
+  godownOptions: SelectItem[];
+  godownCode: any;
   canShowMenu: Boolean;
+  loading: boolean;
+  isSaveSucceed: boolean;
+  @ViewChild('godown') godownPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private authService: AuthService,) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.CustomerCols = this.tableConstants.GodownCustomerList;
-
   }
+
+  onSelect(type) {
+    if (type === 'enter') {
+      this.godownPanel.overlayVisible = true;
+    }
+  }
+
+  onView() { }
+
+  exportAsXLSX() { }
+
+  onPrint() { }
 
 }

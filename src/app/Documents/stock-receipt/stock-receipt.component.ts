@@ -117,6 +117,7 @@ export class StockReceiptComponent implements OnInit {
   Gunnyutilised: any = 0;
   GunnyReleased: any = 0;
   mno: any = 0;
+  StockNo: any;
   TStation: string;
   FStation: string;
   RRNo: any = 0;

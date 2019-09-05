@@ -8,12 +8,21 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 })
 export class RateMasterComponent implements OnInit {
   canShowMenu: Boolean;
+  effectiveDate: Date;
+  orderNo: any;
 
   constructor(private authService: AuthService,) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-
   }
+
+  onDateSelect() { }
+
+  onAdd() { }
+
+  onView() { }
+
+  onCancel() { }
 
 }

@@ -464,6 +464,7 @@ export class IssueReceiptComponent implements OnInit {
           this.isValidStackBalance = true;
           this.CurrentDocQtv = 0;
           this.NetStackBalance = 0;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
       }

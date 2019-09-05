@@ -16,7 +16,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class OpeningBalanceCurrentYearComponent implements OnInit {
   OpeningBalanceDetailCols: any;
-  OpeningBalanceDetailData: any;
+  OpeningBalanceDetailData: any = [];
   data: any;
   g_cd: any;
   c_cd: any;
@@ -120,6 +120,8 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
     this.disableOkButton = false;
     this.selectedRow = event.data;
   }
+
+  showSelectedData() { }
 
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =

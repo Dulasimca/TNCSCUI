@@ -111,7 +111,7 @@
                     <label for="depositor_type" class="label-fontsize">Depositor Type</label>
                     <p-dropdown #dt name="depositor_type" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
                       (onClick)="onSelect('dt', 'click')" (keydown.enter)="onSelect('dt', 'enter')" (onChange)="refreshSelect('dt')" 
-                      filter="true" [disabled]="isDepositorTypeDisabled" optionLabel="label"
+                      filter="true" optionLabel="label"
                       [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -125,7 +125,7 @@
                   <div class="ui-g-12 ui-md-2" style="margin-top: -18px">
                     <label for="depositor_name" class="label-fontsize">Depositor Name</label>
                     <p-dropdown #dn name="depositor_name" [options]="depositorNameOptions" [(ngModel)]="DepositorCode"
-                      (onClick)="onSelect('dn', 'click')" (keydown.enter)="onSelect('dn', 'enter')" filter="true" [disabled]="isDepositorNameDisabled" optionLabel="label"
+                      (onClick)="onSelect('dn', 'click')" (keydown.enter)="onSelect('dn', 'enter')" filter="true" optionLabel="label"
                       [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -476,8 +476,8 @@
                   <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top: -18px">
                     <label class="label-fontsize">From Station</label>
                     <p-dropdown #fs name="FStation" [options]="fromStationOptions" [disabled]="true"
-                      [(ngModel)]="FStation" (onClick)="onSelect('fs')" filter="true" optionLabel="label"
-                      (keydown.enter)="onSelect('fs')" [showClear]="true" placeholder="-select-">
+                      [(ngModel)]="FStation" (onClick)="onSelect('fs', 'click')" filter="true" optionLabel="label"
+                      (keydown.enter)="onSelect('fs', 'enter')" [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>
@@ -486,7 +486,7 @@
                   <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top: -18px">
                     <label class="label-fontsize">To Station</label>
                     <p-dropdown #ts name="TStation" [options]="toStationOptions" [disabled]="true"
-                      [(ngModel)]="TStation" (onClick)="onSelect('ts')" (keydown.enter)="onSelect('ts')" filter="true" optionLabel="label"
+                      [(ngModel)]="TStation" (onClick)="onSelect('ts', 'click')" (keydown.enter)="onSelect('ts', 'enter')" filter="true" optionLabel="label"
                       [showClear]="true" placeholder="-select-">
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
