@@ -754,17 +754,17 @@ export class StockReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.OrderNo = null; this.selectedValues = ['Road']; this.Trcode = null;
-    this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = null;
-    this.LNo = null; this.LFrom = null; this.ManualDocNo = null; this.trCode = null;
+    this.OrderNo = '-'; this.selectedValues = ['Road']; this.Trcode = null;
+    this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = '-';
+    this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = null;
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = [];
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
-    this.TruckMemoDate = this.SRDate = this.OrderDate = new Date();
+    this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
     this.isViewed = false;
   }
 

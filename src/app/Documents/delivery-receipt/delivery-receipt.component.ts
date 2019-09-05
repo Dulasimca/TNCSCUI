@@ -64,7 +64,7 @@ export class DeliveryReceiptComponent implements OnInit {
   Trcode: any;
   trCode: any;
   TransType: string = 'I';
-  IndentNo: number;
+  IndentNo: any = '-';
   OrderPeriod: any;
   PermitDate: Date = new Date();
   PMonth: any;
@@ -679,8 +679,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.paymentBalData = []; this.paymentData = [];
     this.BalanceAmount = 0; this.DueAmount = 0; this.PaidAmount = 0; this.GrandTotal = 0;
     this.Balance = 0; this.AdjusmentAmount = 0; this.OtherAmount = 0;
-    this.Trcode = null; this.trCode = null; this.IndentNo = null; this.RTCode = null;
-    this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null;
+    this.Trcode = null; this.trCode = null; this.IndentNo = '-'; this.RTCode = null;
+    this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null;
     this.transactionOptions = []; this.partyNameOptions = [];
     this.receivorTypeOptions = [];
     this.curMonth = "0" + (new Date().getMonth() + 1);

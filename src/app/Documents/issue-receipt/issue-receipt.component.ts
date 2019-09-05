@@ -795,8 +795,8 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = null; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
-    this.TransporterCharges = null; this.TransporterName = null; this.ManualDocNo = null;
+    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = '-'; this.Remarks = '-';
+    this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
