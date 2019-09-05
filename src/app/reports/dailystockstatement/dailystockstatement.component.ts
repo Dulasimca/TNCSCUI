@@ -33,6 +33,7 @@ export class DailyStockStatementComponent implements OnInit {
   dailyStockTable: ElementRef;
   selectedRow = 0;
   loading: boolean;
+  searchText: any;
 
   constructor(private tableConstants: TableConstants,private excelService: ExcelService,
      private restApiService: RestAPIService, private router: Router,

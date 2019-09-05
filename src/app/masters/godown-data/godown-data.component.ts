@@ -21,6 +21,7 @@ export class GodownDataComponent implements OnInit {
   items: any;
   canShowMenu: boolean;
   filterArray: any;
+  searchText: any;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService,
     private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }

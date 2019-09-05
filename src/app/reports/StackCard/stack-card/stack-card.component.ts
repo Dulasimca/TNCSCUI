@@ -156,4 +156,6 @@ export class StackCardComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(StackCardData, 'STACK_CARD_REPORT', this.StackCardCols);
   }
+
+  onPrint() { }
 }

@@ -461,7 +461,9 @@
     </div>
   </div>
     <div class="ui-g-12 ui-fluid">
-        <p-table tabindex="-1" [columns]="issueMemoDocCols" [value]="issueMemoDocData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+        <p-table tabindex="-1" [columns]="issueMemoDocCols" [value]="issueMemoDocData"
+        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+         selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">

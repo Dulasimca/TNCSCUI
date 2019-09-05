@@ -36,7 +36,8 @@ export class IssuerMasterComponent implements OnInit {
   loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
-
+  searchText: any;
+  
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
 
@@ -170,4 +171,6 @@ export class IssuerMasterComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('Issuer_Master_Report.pdf');
   }
+
+  print() { }
 }

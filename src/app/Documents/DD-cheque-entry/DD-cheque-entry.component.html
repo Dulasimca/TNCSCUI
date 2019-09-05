@@ -41,7 +41,8 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
-                <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
+                <p-dropdown #receivor name="recvrType" [options]="receivorTypeOptions"
+                 [(ngModel)]="receivorType" (onClick)="onSelect('click','rt')" (keydown.enter)="onSelect('enter','rt')"
                   filter="true" optionLabel="label" (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -50,7 +51,7 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvdFrom" class="label-fontsize-large">Received from</label>
-                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" readonly="isSelectedReceivor"
+                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" [disabled]="isSelectedReceivor"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
                   (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
@@ -68,8 +69,9 @@
             <div class="ui-g-12">
               <div class="ui-g-4 ui-md-2">
                 <label for="payType" class="label-fontsize-large">CA/DD/CH</label>
-                <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
-                  optionLabel="label" [showClear]="true" (onClick)="onSelect()" required>
+                <p-dropdown #pay name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
+                  optionLabel="label" [showClear]="true" (keydown.enter)="onSelect('enter', 'pay')"
+                  (onClick)="onSelect('click', 'pay')" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -165,7 +167,8 @@
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table tabindex="-1" [columns]="ChequeReceiptNoCols" [value]="ChequeReceiptNoData" selectionMode="single"
+    <p-table tabindex="-1" [columns]="ChequeReceiptNoCols" [value]="ChequeReceiptNoData"
+     selectionMode="single" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
       [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>

@@ -8,6 +8,13 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 })
 export class RegionAllotmentComponent implements OnInit {
   canShowMenu: boolean;
+  regionName: any;
+  orderNumberOptions: any[];
+  orderNumber: any;
+  regionNameOptions: any[];
+  quantity: any;
+  remarks: any;
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {

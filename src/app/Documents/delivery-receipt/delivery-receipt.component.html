@@ -582,7 +582,9 @@
     </div>
   </div>
     <div class="ui-g-12 ui-fluid">
-        <p-table [columns]="deliveryViewCols" [value]="deliveryViewData" selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+        <p-table [columns]="deliveryViewCols" [value]="deliveryViewData" selectionMode="single" 
+        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+        [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">

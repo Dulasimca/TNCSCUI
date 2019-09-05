@@ -38,7 +38,8 @@ export class DailyDocumentsComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
-
+  searchText: any;
+  
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -157,4 +158,6 @@ export class DailyDocumentsComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('Daily_Receipt.pdf');
   }
+
+  onPrint() { }
 }
