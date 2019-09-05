@@ -684,7 +684,6 @@ export class IssueReceiptComponent implements OnInit {
   onView() {
     this.viewPane = true;
     this.messageService.clear();
-    this.issueMemoDocData = [];
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
@@ -694,6 +693,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.issueMemoDocData = res.Table;
       } else {
+        this.issueMemoDocData = [];
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
