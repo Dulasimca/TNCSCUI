@@ -41,7 +41,8 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
-                <p-dropdown #type name="recvrType" [options]="receivorTypeOptions" [(ngModel)]="receivorType"
+                <p-dropdown #receivor name="recvrType" [options]="receivorTypeOptions"
+                 [(ngModel)]="receivorType" (onClick)="onSelect('click','rt')" (keydown.enter)="onSelect('enter','rt')"
                   filter="true" optionLabel="label" (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -68,8 +69,9 @@
             <div class="ui-g-12">
               <div class="ui-g-4 ui-md-2">
                 <label for="payType" class="label-fontsize-large">CA/DD/CH</label>
-                <p-dropdown #type name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
-                  optionLabel="label" [showClear]="true" (onClick)="onSelect()" required>
+                <p-dropdown #pay name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
+                  optionLabel="label" [showClear]="true" (keydown.enter)="onSelect('enter', 'pay')"
+                  (onClick)="onSelect('click', 'pay')" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>

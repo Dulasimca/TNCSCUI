@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -6,11 +6,11 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse, HttpResponse, HttpClient } from '@angular/common/http';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
-import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import * as jsPDF from 'jspdf';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { NgForm } from '@angular/forms';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -56,6 +56,8 @@ export class DDChequeEntryComponent implements OnInit {
   isSaveSucceed: boolean;
   isViewed: boolean;
   isSelectedReceivor: boolean;
+  @ViewChild('receivor') receivorTypePanel: Dropdown;
+  @ViewChild('pay') paymentTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
     private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,
@@ -78,12 +80,25 @@ export class DDChequeEntryComponent implements OnInit {
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
   }
 
-  onSelect() {
-    let paymentTypeList = [];
-    paymentTypeList.push({ label: 'Cash', value: 'CA' },
-    { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' });
-    this.paymentTypeOptions = paymentTypeList.slice(0);
-    this.paymentTypeOptions.unshift({ label: '-select-', value: null });
+
+  onSelect(type, id) {
+    switch (id) {
+      case 'rt':
+        if(type === 'enter') {
+          this.receivorTypePanel.overlayVisible = true;
+        }
+        break;
+      case 'pay':
+        if(type === 'enter') {
+          this.paymentTypePanel.overlayVisible = true;
+        }
+        let paymentTypeList = [];
+        paymentTypeList.push({ label: 'Cash', value: 'CA' },
+          { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' });
+        this.paymentTypeOptions = paymentTypeList.slice(0);
+        this.paymentTypeOptions.unshift({ label: '-select-', value: null });
+        break;
+    }
   }
 
   onLoadReceivor() {
@@ -180,6 +195,7 @@ export class DDChequeEntryComponent implements OnInit {
           })
         });
         this.rowId = res[0].RowId;
+        this.receivedFrom = res[0].ReceivedFrom;
         this.chequeDate = this.datepipe.transform(res[0].ChequeDate, 'dd/MM/yyyy');
         this.receiptNo = res[0].ReceiptNo;
         this.details = (res[0].Detail !== undefined && res[0].Detail !== null) ? res[0].Detail : '-';
