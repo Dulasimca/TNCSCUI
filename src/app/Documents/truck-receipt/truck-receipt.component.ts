@@ -615,6 +615,7 @@ export class TruckReceiptComponent implements OnInit {
         this.isValidStackBalance = true;
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
       }
     }
@@ -678,8 +679,11 @@ export class TruckReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        let sno = 1;
         res.forEach(data => {
+        data.sno = sno;
         data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
+        sno += 1;
       })
       this.truckMemoViewData = res;
     } else {
@@ -702,6 +706,7 @@ export class TruckReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
+        this.onClear();
         this.STNo = res[0].STNo;
         this.RowId = res[0].RowId;
         this.STDate = new Date(res[0].STDate);

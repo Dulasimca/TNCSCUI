@@ -467,6 +467,7 @@ export class StockReceiptComponent implements OnInit {
       this.NKgs = this.GKgs = this.tareWt = 0;
     }
   }
+  
   onStackNoChange(event) {
     this.messageService.clear();
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
@@ -625,9 +626,12 @@ export class StockReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.ReceivingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        let sno = 1;
         res.forEach(data => {
+          data.sno = sno;
           data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
           data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
+          sno += 1;
         })
         this.documentViewData = res;
       } else {
@@ -649,6 +653,7 @@ export class StockReceiptComponent implements OnInit {
     const params = new HttpParams().set('sValue', this.SRNo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        this.onClear();
         this.SRNo = res[0].SRNO;
         this.SRDate = new Date(res[0].SRDate);
         this.RowId = res[0].RowId;
