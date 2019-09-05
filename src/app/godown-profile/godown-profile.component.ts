@@ -24,14 +24,14 @@ export class GodownProfileComponent implements OnInit {
   roleId: any;
   g_cd: any;
   gCode: any;
-  Gname: any;
-  designation: any;
-  address1: any;
-  address2: any;
-  address3: any;
-  telno: any;
-  phone: any;
-  fax: any;
+  Gname: any[];
+  designation: any[];
+  address1: any[];
+  address2: any[];
+  address3: any[];
+  telno: any[];
+  phone: any[];
+  fax: any[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
   formUser = [];
@@ -67,7 +67,7 @@ export class GodownProfileComponent implements OnInit {
   }
 
   onClear() {
-    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = "";
+    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
   }
 
   //   onSubmit(formUser) {

@@ -29,6 +29,7 @@ export class IssuerMasterComponent implements OnInit {
   gCode: any;
   I_cd: any;
   Type: any;
+  searchText: any;
   IssuerOptions: SelectItem[];
   disableOkButton: boolean = true;
   selectedRow: any;
@@ -144,6 +145,8 @@ export class IssuerMasterComponent implements OnInit {
       });
     }
   }
+
+  print() {}
 
   exportAsXLSX(): void {
     var IssuerMaster = [];
