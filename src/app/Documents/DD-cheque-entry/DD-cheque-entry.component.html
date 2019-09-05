@@ -50,7 +50,7 @@
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvdFrom" class="label-fontsize-large">Received from</label>
-                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" readonly="isSelectedReceivor"
+                <p-autoComplete [(ngModel)]="receivedFrom" [suggestions]="filteredNames" [disabled]="isSelectedReceivor"
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
                   (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
