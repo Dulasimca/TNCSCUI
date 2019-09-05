@@ -519,6 +519,7 @@
     <div class="ui-g-12 ui-md-12 ui-fluid">
         <p-table #dt tabindex="-1" [columns]="truckMemoViewCol" [value]="truckMemoViewData" 
         selectionMode="single" [responsive]="true" autoLayout="true" 
+        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
         (onRowSelect)="onRowSelect($event)">
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>

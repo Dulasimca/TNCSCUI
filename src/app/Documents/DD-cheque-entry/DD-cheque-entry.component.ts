@@ -236,14 +236,6 @@ export class DDChequeEntryComponent implements OnInit {
     ddChequeForm.form.markAsPristine();
  }
 
-  onClear() {
-    this.DDChequeData = []; this.ChequeReceiptNoData = [];
-    this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
-    this.receiptNo = null; this.bank = null; this.paymentType = null;
-    this.chequeDate = new Date(); this.chequeAmount = 0;
-    this.isSelectedReceivor = false; this.receivedFrom = null;
-  }
-
   onSave(type) {
     const params = {
       'Type': type,
@@ -338,4 +330,13 @@ export class DDChequeEntryComponent implements OnInit {
       this.isViewed = false;
     }
   }
+
+  onClear() {
+    this.DDChequeData = []; this.ChequeReceiptNoData = [];
+    this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
+    this.receiptNo = null; this.bank = null; this.paymentType = null;
+    this.chequeDate = new Date(); this.chequeAmount = 0;
+    this.isSelectedReceivor = false; this.receivedFrom = null;
+  }
+
 }

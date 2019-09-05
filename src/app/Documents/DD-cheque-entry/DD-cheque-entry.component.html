@@ -165,7 +165,8 @@
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table tabindex="-1" [columns]="ChequeReceiptNoCols" [value]="ChequeReceiptNoData" selectionMode="single"
+    <p-table tabindex="-1" [columns]="ChequeReceiptNoCols" [value]="ChequeReceiptNoData"
+     selectionMode="single" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
       [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
