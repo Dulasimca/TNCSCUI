@@ -881,7 +881,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
     let filepath = path + filename + ".txt";
-    var w = window.open(filename);
+    var w = window.open(filepath);
         w.print();
     // this.http.get(filepath, { responseType: 'text' })
     //   .subscribe(data => {

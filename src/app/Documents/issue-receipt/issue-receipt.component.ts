@@ -842,7 +842,7 @@ export class IssueReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
-    var w = window.open(filename);
+    var w = window.open(filepath);
         w.print();
     // this.http.get(filepath, { responseType: 'text' })
     //   .subscribe(data => {
