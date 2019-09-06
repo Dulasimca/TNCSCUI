@@ -207,7 +207,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-1" style="margin-top: 8px">
                       <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
-                     maxlength="3" onkeypress="return /[G&R0-9]/i.test(event.key)" (input)="onStackInput($event)" 
+                     maxlength="3" onkeypress="return /[G&R&U0-9]/i.test(event.key)" (input)="onStackInput($event)" 
                      style="text-transform: uppercase !important" [readOnly]="checkTrType">
                     </div>
                   <div class="ui-g-12 ui-md-1" style="margin-top: -10px">
