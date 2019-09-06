@@ -779,7 +779,7 @@ export class StockReceiptComponent implements OnInit {
     this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = [];
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
