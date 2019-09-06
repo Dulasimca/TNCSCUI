@@ -691,7 +691,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
-    this.isViewed = false;
+    //this.isViewed = false;
   }
 
   getDocByDoNo() {

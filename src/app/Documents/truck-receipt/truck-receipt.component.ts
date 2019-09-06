@@ -566,7 +566,7 @@ export class TruckReceiptComponent implements OnInit {
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
-    this.isViewed = false;
+    //this.isViewed = false;
   }
 
   onCalculateWt() {

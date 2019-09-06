@@ -460,7 +460,7 @@ export class IssueReceiptComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
         this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0) {
+        if (this.StackBalance > 0 || !this.checkTrType) {
           this.isValidStackBalance = false;
           this.CurrentDocQtv = this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
@@ -752,6 +752,7 @@ export class IssueReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
         this.Trcode = res.Table[0].TRName;
         this.trCode = res.Table[0].Trcode;
+        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? false : true;
         this.receiverTypeOptions = [{ label: res.Table[0].ReceivorType, value: res.Table[0].issuetype1 }];
         this.RTCode = res.Table[0].ReceivorType;
         this.rtCode = res.Table[0].issuetype1;
@@ -817,6 +818,7 @@ export class IssueReceiptComponent implements OnInit {
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
     this.godownNo = null; this.locationNo = null;
+    this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
@@ -825,7 +827,7 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
-    this.isViewed = false;
+    // this.isViewed = false;
   }
 
   openNext() {

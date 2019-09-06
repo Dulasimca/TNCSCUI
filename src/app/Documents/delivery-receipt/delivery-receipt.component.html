@@ -549,7 +549,7 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || (paymentData.length=='0' && !checkTransactionType)|| itemData.length=='0' || paymentBalData.length=='0' || (isViewed && !f.dirty))" label=Save
+                [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">

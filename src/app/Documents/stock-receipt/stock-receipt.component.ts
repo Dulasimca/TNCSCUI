@@ -785,7 +785,7 @@ export class StockReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
-    this.isViewed = false;
+    //this.isViewed = false;
   }
 
   openNext() {
