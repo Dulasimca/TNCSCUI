@@ -319,7 +319,7 @@ export class StockReceiptComponent implements OnInit {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
-                                          .append('TRCode',(this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(s => {
@@ -488,7 +488,7 @@ export class StockReceiptComponent implements OnInit {
       }
     } else {
       this.godownNo = null; this.stackYear = null;
-        this.locationNo = null; this.stackCompartment = null;
+      this.locationNo = null; this.stackCompartment = null;
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
