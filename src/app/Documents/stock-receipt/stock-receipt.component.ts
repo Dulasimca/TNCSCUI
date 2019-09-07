@@ -224,7 +224,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
+        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) ||
           this.Trcode.value === 'TR023') ? false : true;
         break;
       case 'sc':

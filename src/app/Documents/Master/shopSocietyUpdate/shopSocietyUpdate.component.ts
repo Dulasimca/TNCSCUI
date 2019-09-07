@@ -199,9 +199,6 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
             this.TypeSelection.push({ 'label': result[index], 'value': code[index] });
           }
           this.typeOptions = this.TypeSelection;
-          // this.typeOptions = this.TypeSelection;
-          // this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': res.Tycode },
-          //   { 'label': 'COOPERATIVES LEADING', 'value': res.Tycode }, { 'label': 'COOPERATIVES PRIMARY', 'value': res.Tycode });
           var result = Array.from(new Set(res.map((item: any) => item.Societyname))); //Get distinct values from array
           var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
           for (var index in result && code) {

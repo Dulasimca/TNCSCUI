@@ -132,6 +132,8 @@ export class TruckTransitComponent implements OnInit {
     });
     this.excelService.exportAsExcelFile(TruckTransit, 'Truck_Transit', this.TruckTransitCols);
   }
+
+  onPrint() { }
 }
 
 // exportAsXLSX(): void {

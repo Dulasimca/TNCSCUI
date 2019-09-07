@@ -135,6 +135,7 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
+import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 
 @NgModule({
   declarations: [
@@ -228,6 +229,7 @@ import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-ma
     SchemeCommodityComponent,
     SocietyMasterNewComponent,
     IssuerMasterComponent,
+    CashReceiptRegisterComponent,
   ],
   imports: [
     BrowserModule,

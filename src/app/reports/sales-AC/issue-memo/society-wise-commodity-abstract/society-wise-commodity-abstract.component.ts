@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { TableConstants } from 'src/app/constants/tableconstants';
+import { DatePipe } from '@angular/common';
+import { AuthService } from 'src/app/shared-services/auth.service';
+import { ExcelService } from 'src/app/shared-services/excel.service';
+import { Router } from '@angular/router';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-society-wise-commodity-abstract',
@@ -17,12 +24,23 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   godownOptions: SelectItem[];
   a_cd: string;
   g_cd: any;
-  data: any; 
+  data: any;
+  fromDate: any;
+  toDate: any;
+  isActionDisabled: boolean;
+  deliveryReceiptRegCols: any;
+  maxDate: Date;
 
-  constructor(private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
+    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
+    this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
+    this.isActionDisabled = true;
+    this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
+    this.maxDate = new Date();
   }
 
   onSelect(selectedItem) {
@@ -32,12 +50,12 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         break;
       case 'godown':
         this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-                this.godownOptions = godownSelection;
-              });
-            }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
         break;
       case 'abstract':
         this.abstractOptions = [{ 'label': 'Society Wise Commodity Breakup', 'value': 'society_c_a' },
@@ -46,6 +64,33 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         { 'label': 'Society Wise Scheme Wise Commodity Abstract', 'value': 'scheme_c_a' }];
         this.showPane();
         break;
+    }
+  }
+
+  onResetTable() {
+    this.isActionDisabled = true;
+  }
+
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable();
+  }
+
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
+      }
+      return this.fromDate, this.toDate;
     }
   }
 
@@ -78,6 +123,4 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
     }
 
   }
-
-
 }

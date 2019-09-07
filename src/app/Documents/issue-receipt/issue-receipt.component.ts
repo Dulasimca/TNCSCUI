@@ -647,6 +647,7 @@ export class IssueReceiptComponent implements OnInit {
       'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
       'Receivorcode': (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
       'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
+      'IssuerName': (this.RTCode.label !== undefined) ? this.RTCode.label : this.RTCode,
       'TransporterName': this.TransporterName,
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
@@ -758,7 +759,7 @@ export class IssueReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
         this.Trcode = res.Table[0].TRName;
         this.trCode = res.Table[0].Trcode;
-        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? false : true;
+        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? true : false;
         this.receiverTypeOptions = [{ label: res.Table[0].ReceivorType, value: res.Table[0].issuetype1 }];
         this.RTCode = res.Table[0].ReceivorType;
         this.rtCode = res.Table[0].issuetype1;
