@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Dropdown } from 'primeng/primeng';
 
 
@@ -26,10 +26,11 @@ export class CustomerDetailsComponent implements OnInit {
   receiverOptions: SelectItem[];
   godownOptions: SelectItem[];
   societyOptions: SelectItem[];
+  transactionOptions: SelectItem[];
   s_cd: any;
   r_cd: any;
   g_cd: any;
-  Type: any;
+  t_cd: any;
   gCode: any;
   data: any;
   fromDate: any;
@@ -40,8 +41,10 @@ export class CustomerDetailsComponent implements OnInit {
   SocietySelection = [];
   TypeSelection = [];
   ReceiverSelection = [];
+  TransactionSelection = [];
   Trcode: any;
   trCode: any;
+  loading: boolean;
   @ViewChild('receiver') receivorTypePanel: Dropdown;
   @ViewChild('society') partyNamePanel: Dropdown;
 
@@ -69,70 +72,45 @@ export class CustomerDetailsComponent implements OnInit {
     }
   }
 
-  // onSelect(item) {
-  //   let godownSelection = [];
-  //   let typeSelection = [];
-  //   switch (item) {
-  //     case 'gd':
-  //       this.data = this.roleBasedService.instance;
-  //       if (this.data !== undefined) {
-  //         this.data.forEach(x => {
-  //           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-  //           this.godownOptions = godownSelection;
-  //         });
-  //       }
-  //       break;
-  //     case 'receiver':
-  //       if (this.receiverOptions === undefined) {
-  //         const params = new HttpParams().set('GCode', this.g_cd.value);
-  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //           this.Type = res;
-  //           if (this.Type !== undefined && this.Type !== 0) {
-  //             this.Type = res.filter((value: { Tyname: any; }) => { return res.Tyname === this.receiverOptions });
-  //             this.receiverOptions = typeSelection;
-  //             this.receiverOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.receiverOptions }, { 'label': 'COPERATIVES LEADING', 'value': this.receiverOptions });
-  //           }
-  //         });
-  //       }
-  //       break;
-  //       case 'society':
-  //         if (this.societyOptions === undefined) {
-  //           const params = new HttpParams().set('GCode', this.g_cd.value);
-  //           this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //             this.Type = res;
-  //             if (this.Type !== undefined && this.Type !== 0) {
-  //               this.Type = res.filter((value: { Tyname: any; }) => { return res.Tyname === this.societyOptions });
-  //               this.societyOptions = typeSelection;
-  //               this.societyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.societyOptions }, { 'label': 'COPERATIVES LEADING', 'value': this.societyOptions });
-  //             }
-  //           });
-  //         }
-  //         break;
-  //   }
-  // }
+  onSelect(item) {
+    switch (item) {
+      case 't':
+        if (this.transactionOptions === undefined && this.receiverOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+            s.forEach(c => {
+              if (c.TransType === 'I') {
+                this.TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+              }
+              this.transactionOptions = this.TransactionSelection;
+            });
+          });
+        }
+        break;
+      case 'r':
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            this.ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = this.ReceiverSelection;
+        });
+        break;
+    }
+  }
 
-  // onSelect() {
-  //   if (this.societyOptions === undefined && this.receiverOptions === undefined) {
-  //     const params = new HttpParams().set('GCode', this.gCode);
-  //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_ENTRY_GET, params).subscribe(res => {
-
-  //       if (res !== undefined) {
-  //         var result = Array.from(new Set(res.map((item: any) => item.Tyname))); //Get distinct values from array
-  //         var code = Array.from(new Set(res.map((item: any) => item.Tycode)));
-  //         for (var index in result && code) {
-  //           this.ReceiverSelection.push({ 'label': result[index], 'value': code[index] });
-  //         }
-  //         this.receiverOptions = this.ReceiverSelection;
-  //         var result = Array.from(new Set(res.map((item: any) => item.Societyname))); //Get distinct values from array
-  //         var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-  //         for (var index in result && code) {
-  //           this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
-  //         }
-  //         this.societyOptions = this.SocietySelection;
-  //       }
-  //     });
-  //   }
-  // }
+  onSociety() {
+    if (this.societyOptions === undefined) {
+      const params = new HttpParams().set('GCode', this.g_cd.value);
+      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+        var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
+        var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+        for (var index in result && code) {
+          this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
+        }
+        this.societyOptions = this.SocietySelection;
+      });
+    }
+  }
 
   // onView() {
   //   const params = {
@@ -211,20 +189,37 @@ export class CustomerDetailsComponent implements OnInit {
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-      this.IssueData = res;
-      if (res !== undefined) {
         this.IssueMemoCustomerDetailsData = res;
-      }
-    });
-  }
+        let sno = 0;
+        this.IssueMemoCustomerDetailsData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+          sno += 1;
+          data.SlNo = sno;
+        });
+        if (res !== undefined && res.length !== 0) {
+          this.isActionDisabled = false;
+        } else {
+          this.loading = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+        this.loading = false;
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.loading = false;
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        }
+      });
+    }
 
   onResetTable() {
     this.isActionDisabled = true;
+    this.TransactionSelection = [];
+    this.ReceiverSelection = [];
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.IssueMemoCustomerDetailsData = [];
   }
 
   checkValidDateSelection() {
