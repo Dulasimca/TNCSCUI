@@ -84,6 +84,7 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
+import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 
 
 const routes: Routes = [
@@ -169,7 +170,8 @@ const routes: Routes = [
   { path: 'Scheme Commodity', component: SchemeCommodityComponent },
   { path: 'DD Receipt Entry', component: DDChequeEntryComponent },
   { path: 'Society Master Entry', component: SocietyMasterNewComponent },
-  { path: 'Issuer Master Report', component: IssuerMasterComponent},
+  { path: 'Issuer Master Report', component: IssuerMasterComponent },
+  { path: 'Cash Receipt Register Report', component: CashReceiptRegisterComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -92,5 +92,6 @@ export class PathConstants {
   public static readonly DD_CHEQUE_ENTRY_GET = '/api/DDChequeEntry/Get';
   public static readonly DEMAND_DRAFT_POST = '/api/DemandDraft/Post';
   public static readonly DELIVERY_ORDER_SCHEMEWISE = '/api/SchemeWise/Post';
+  public static readonly ISSUE_MEMO_CUTOMER_DETAILS_POST = '/api/Sales/Post';
 
 }

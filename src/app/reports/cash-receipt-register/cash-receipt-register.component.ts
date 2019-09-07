@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { TableConstants } from 'src/app/constants/tableconstants';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { DatePipe } from '@angular/common';
-import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
+import { TableConstants } from 'src/app/constants/tableconstants';
+import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
-import { saveAs } from 'file-saver';
-import { GolbalVariable } from 'src/app/common/globalvariable';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-delivery-order-register',
-  templateUrl: './delivery-order-register.component.html',
-  styleUrls: ['./delivery-order-register.component.css']
+  selector: 'app-cash-receipt-register',
+  templateUrl: './cash-receipt-register.component.html',
+  styleUrls: ['./cash-receipt-register.component.css']
 })
-export class DeliveryOrderRegisterComponent implements OnInit {
-  deliveryReceiptRegCols: any;
-  deliveryReceiptRegData: any;
+export class CashReceiptRegisterComponent implements OnInit {
+  CashReceiptRegCols: any;
+  CashReceiptRegData: any;
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
@@ -43,7 +42,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
     this.isActionDisabled = true;
-    this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
+    this.CashReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
   }
@@ -69,9 +68,9 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       'GCode': this.g_cd.value
     };
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
-      this.deliveryReceiptRegData = res;
+      this.CashReceiptRegData = res;
       let sno = 0;
-      this.deliveryReceiptRegData.forEach(data => {
+      this.CashReceiptRegData.forEach(data => {
         data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd/MM/yyyy');
         sno += 1;
         data.SlNo = sno;
@@ -86,13 +85,13 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
   onResetTable() {
-    this.deliveryReceiptRegData = [];
+    this.CashReceiptRegData = [];
     this.isActionDisabled = true;
   }
 
@@ -121,16 +120,16 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   exportAsXLSX(): void {
     var DeliveryData = [];
-    this.deliveryReceiptRegData.forEach(data => {
+    this.CashReceiptRegData.forEach(data => {
       DeliveryData.push({
         SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
         Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
         PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
         Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
         PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
-      })
-    })
-    this.excelService.exportAsExcelFile(DeliveryData, 'DELIVERY_ORDER_REGISTER_REPORT', this.deliveryReceiptRegCols);
+      });
+    });
+    this.excelService.exportAsExcelFile(DeliveryData, 'DELIVERY_ORDER_REGISTER_REPORT', this.CashReceiptRegCols);
   }
 
   onPrint() {

@@ -70,7 +70,7 @@
                   <label for="order_date" class=" label-fontsize-large" style="padding-left: 10px">Allotment/Release Order
                     Date</label><br>
                   <div class="ui-g-12 ui-fluid" style="padding-top: 15px">
-                    <p-calendar name="order_date" class="ui-g-12" dateFormat="dd/mm/yy" [(ngModel)]="OrderDate" [maxDate]="maxDate" [showIcon]="true">
+                    <p-calendar name="order_date" class="ui-g-12" dateFormat="dd/mm/yy" [(ngModel)]="OrderDate" [maxDate]="maxDate" maxlength="20" [showIcon]="true">
                     </p-calendar>
                   </div>
                 </div>
@@ -137,7 +137,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input name="truck_no" type="text" size="20" maxlength="20" [(ngModel)]="TruckMemoNo" pInputText
-                        autocomplete="off" required>
+                        autocomplete="off" maxlength="10" required>
                       <label for="truck_no" class="float-input">Truck Memo No</label>
                     </span>
                   </div>
@@ -148,19 +148,19 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input name="vehicle_no" type="text" maxlength="13" size="10" [(ngModel)]="LNo" pInputText
-                      autocomplete="off" style="text-transform: uppercase !important" required>
+                      autocomplete="off" maxlength="10" style="text-transform: uppercase !important" required>
                       <label for="vehicle_no" class="float-input">Vehicle No</label>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-4 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="lorry_from" type="text" size="25" maxlength="20" [(ngModel)]="LFrom" pInputText autocomplete="off" required>
+                      <input name="lorry_from" type="text" size="25" maxlength="50" [(ngModel)]="LFrom" pInputText autocomplete="off" required>
                       <label for="lorry_from" class="float-input">From</label>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="manual_doc_no" type="text" size="20" pInputText maxlength="15" [(ngModel)]="ManualDocNo"
+                      <input name="manual_doc_no" type="text" size="20" pInputText maxlength="12" [(ngModel)]="ManualDocNo"
                         autocomplete="off" required>
                       <label for="manual_doc_no" class="float-input">Manual Document No</label>
                     </span>
@@ -349,14 +349,14 @@
                 <div class="ui-g-12 ui-fluid">
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="tName" pInputText [(ngModel)]="TransporterName"
+                      <input name="tName" pInputText [(ngModel)]="TransporterName" maxlength="35"
                         autocomplete="off">
                       <label for="tName" class="float-input">Transporter Name</label>
                     </span>
                   </div>
                   <div class="ui-g-6 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
-                      <input name="LWBNo" pInputText [(ngModel)]="LWBillNo" autocomplete="off">
+                      <input name="LWBNo" pInputText [(ngModel)]="LWBillNo" maxlength="15" autocomplete="off">
                       <label for="LWBNo" class="float-input">Lorry Way Bill No</label>
                     </span>
                   </div>

@@ -96,6 +96,8 @@ export class TableConstants {
   SocietyMasterNewEntry: any;
   IssuerMaster: any;
   ChequeReceiptNoCols: any;
+  CashReceiptRegister: any;
+  IssueMemoCustomerDeatil: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -471,7 +473,7 @@ export class TableConstants {
     ];
 
     this.StockIssueMemoViewBySINOCols = [
-      { field: 'sno', header: 'S.No:'},
+      { field: 'sno', header: 'S.No:' },
       { field: 'SINo', header: 'Issue Memo No' },
       { field: 'SIDate', header: 'Issue Memo Date' },
       { field: 'DNo', header: 'Delivery Order No' },
@@ -696,7 +698,7 @@ export class TableConstants {
       { field: '', header: 'TOTAL' }
     ];
     this.StockReceiptDocumentViewCols = [
-      { field: 'sno', header: 'S.No:'},
+      { field: 'sno', header: 'S.No:' },
       { field: 'SRNo', header: 'SR No.' },
       { field: 'SRDate', header: 'SR Date' },
       { field: 'OrderNo', header: 'Order No.' },
@@ -835,7 +837,7 @@ export class TableConstants {
     ];
 
     this.TruckMemoViewDocumentCols = [
-      { field: 'sno', header: 'S.No:'},
+      { field: 'sno', header: 'S.No:' },
       { field: 'STNo', header: 'Truck Memo No' },
       { field: 'STDate', header: 'Truck Memo Date' },
       { field: 'MNo', header: 'Movement Order No' },
@@ -959,7 +961,7 @@ export class TableConstants {
     ];
 
     this.DeliveryDocumentViewCols = [
-      { field: 'sno', header: 'S.No:'},
+      { field: 'sno', header: 'S.No:' },
       { field: 'Dono', header: 'Delivery Order No' },
       { field: 'DoDate', header: 'Delivery Order Date' },
       { field: 'TRName', header: 'Transaction Name' },
@@ -1018,6 +1020,30 @@ export class TableConstants {
       { field: 'ACSCode', header: 'Acs Code' },
       { field: 'Activeflag', header: 'Active' },
       // { header: 'Save'}
+    ];
+
+    this.CashReceiptRegister = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: '', header: 'REC. No' },
+      { field: '', header: 'Date' },
+      { field: '', header: 'From Whom Received' },
+      { field: '', header: 'DD/CH' },
+      { field: '', header: 'DD Date' },
+      { field: '', header: 'DD Amount' },
+      { field: '', header: 'Bank' },
+    ];
+
+    this.IssueMemoCustomerDeatil = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Ackno', header: 'Iss. No' },
+      { field: 'Date', header: 'Date' },
+      { field: 'tyname', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: '', header: 'Rate' },
+      { field: '', header: 'Value' },
     ];
   }
 }
