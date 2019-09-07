@@ -317,27 +317,29 @@ export class DDChequeEntryComponent implements OnInit {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
     let filepath = path + filename + ".txt";
-    this.http.get(filepath, { responseType: 'text' })
-      .subscribe(data => {
-        if (data !== undefined && data !== null) {
-          var doc = new jsPDF({
-            orientation: 'potrait',
-          })
-          doc.setFont('courier');
-          doc.setFontSize(9);
-          doc.text(data, 2, 2)
-          doc.save(filename + '.pdf');
-          // this.blockScreen = false;
-        } else {
-          // this.blockScreen = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      }, (err: HttpErrorResponse) => {
-        // this.blockScreen = false;
-        if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    var w = window.open(filepath);
+    w.print();
+    // this.http.get(filepath, { responseType: 'text' })
+    //   .subscribe(data => {
+    //     if (data !== undefined && data !== null) {
+    //       var doc = new jsPDF({
+    //         orientation: 'potrait',
+    //       })
+    //       doc.setFont('courier');
+    //       doc.setFontSize(9);
+    //       doc.text(data, 2, 2)
+    //       doc.save(filename + '.pdf');
+    //       // this.blockScreen = false;
+    //     } else {
+    //       // this.blockScreen = false;
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   }, (err: HttpErrorResponse) => {
+    //     // this.blockScreen = false;
+    //     if (err.status === 0) {
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   });
   }
 
   onPrint() {
@@ -359,3 +361,4 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
 }
+ 

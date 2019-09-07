@@ -206,7 +206,7 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
+        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) ||
           this.Trcode.value === 'TR024') ? false : true;
         break;
       case 'sc':
@@ -297,7 +297,8 @@ export class IssueReceiptComponent implements OnInit {
         }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
-            const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
+            const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
+                                          .append('TRCode',(this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(s => {
@@ -459,7 +460,7 @@ export class IssueReceiptComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
         this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0) {
+        if (this.StackBalance > 0 || !this.checkTrType) {
           this.isValidStackBalance = false;
           this.CurrentDocQtv = this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
@@ -641,6 +642,7 @@ export class IssueReceiptComponent implements OnInit {
       'Trcode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
       'Receivorcode': (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
       'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
+      'IssuerName': (this.RTCode.label !== undefined) ? this.RTCode.label : this.RTCode,
       'TransporterName': this.TransporterName,
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
@@ -728,6 +730,7 @@ export class IssueReceiptComponent implements OnInit {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
         this.onClear();
         this.RowId = res.Table[0].RowId;
+        this.SINo = res.Table[0].SINo;
         this.TransporterName = res.Table[0].TransporterName;
         this.TransporterCharges = res.Table[0].TransportingCharge;
         this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
@@ -751,6 +754,7 @@ export class IssueReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
         this.Trcode = res.Table[0].TRName;
         this.trCode = res.Table[0].Trcode;
+        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? true : false;
         this.receiverTypeOptions = [{ label: res.Table[0].ReceivorType, value: res.Table[0].issuetype1 }];
         this.RTCode = res.Table[0].ReceivorType;
         this.rtCode = res.Table[0].issuetype1;
@@ -815,7 +819,8 @@ export class IssueReceiptComponent implements OnInit {
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
-    this.godownNo = null; this.locationNo = null;
+    this.godownNo = null; this.locationNo = null; this.stackCompartment = null;
+    this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
@@ -824,7 +829,7 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
-    this.isViewed = false;
+    // this.isViewed = false;
   }
 
   openNext() {
@@ -839,33 +844,35 @@ export class IssueReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
-    this.http.get(filepath, { responseType: 'text' })
-      .subscribe(data => {
-        if (data !== null && data !== undefined) {
-          var doc = new jsPDF({
-            orientation: 'potrait',
-          })
-          doc.setFont('courier');
-          doc.setFontSize(8.5);
-          doc.text(data, 2, 2);
-          doc.save(filename + '.pdf');
-          this.blockScreen = false;
-          this.isSaveSucceed = false;
-          this.isViewed = false;
-        } else {
-          this.blockScreen = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      }, (err: HttpErrorResponse) => {
-        this.blockScreen = false;
-        if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    var w = window.open(filepath);
+        w.print();
+    // this.http.get(filepath, { responseType: 'text' })
+    //   .subscribe(data => {
+    //     if (data !== null && data !== undefined) {
+    //       var doc = new jsPDF({
+    //         orientation: 'potrait',
+    //       })
+    //       doc.setFont('courier');
+    //       doc.setFontSize(8.5);
+    //       doc.text(data, 2, 2);
+    //       doc.save(filename + '.pdf');
+    //       this.blockScreen = false;
+    //       this.isSaveSucceed = false;
+    //       this.isViewed = false;
+    //     } else {
+    //       this.blockScreen = false;
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   }, (err: HttpErrorResponse) => {
+    //     this.blockScreen = false;
+    //     if (err.status === 0) {
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   });
   }
 
   onPrint() {
-    this.blockScreen = true;
+    // this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     } else {

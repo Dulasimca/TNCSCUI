@@ -224,7 +224,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
+        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) ||
           this.Trcode.value === 'TR023') ? false : true;
         break;
       case 'sc':
@@ -318,7 +318,8 @@ export class StockReceiptComponent implements OnInit {
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
-            const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
+            const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
+                                          .append('TRCode',(this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(s => {
@@ -725,7 +726,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    this.blockScreen = true;
+    // this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     } else {
@@ -739,30 +740,31 @@ export class StockReceiptComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.ReceivingCode + GolbalVariable.StockReceiptDocument;
     let filepath = path + filename + ".txt";
-    //saveAs(filepath, filename);
-    this.http.get(filepath, { responseType: 'text' })
-      .subscribe(data => {
-        if (data !== null && data !== undefined) {
-          var doc = new jsPDF({
-            orientation: 'potrait',
-          })
-          doc.setFont('courier');
-          doc.setFontSize(9);
-          doc.text(data, 2, 2)
-          doc.save(filename + '.pdf');
-          this.blockScreen = false;
-          this.isSaveSucceed = false;
-          this.isViewed = false;
-        } else {
-          this.blockScreen = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      }, (err: HttpErrorResponse) => {
-        this.blockScreen = false;
-        if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    var w = window.open(filepath);
+    w.print();
+    // this.http.get(filepath, { responseType: 'text' })
+    //   .subscribe(data => {
+    //     if (data !== null && data !== undefined) {
+    //       var doc = new jsPDF({
+    //         orientation: 'potrait',
+    //       })
+    //       doc.setFont('courier');
+    //       doc.setFontSize(9);
+    //       doc.text(data, 2, 2)
+    //       doc.save(filename + '.pdf');
+    //       this.blockScreen = false;
+    //       this.isSaveSucceed = false;
+    //       this.isViewed = false;
+    //     } else {
+    //       this.blockScreen = false;
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   }, (err: HttpErrorResponse) => {
+    //     this.blockScreen = false;
+    //     if (err.status === 0) {
+    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+    //     }
+    //   });
   }
 
   onClear() {
@@ -777,13 +779,13 @@ export class StockReceiptComponent implements OnInit {
     this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = [];
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
-    this.isViewed = false;
+    //this.isViewed = false;
   }
 
   openNext() {
