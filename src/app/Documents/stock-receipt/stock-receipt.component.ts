@@ -224,8 +224,10 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) ||
+        if(this.Trcode !== undefined && this.Trcode !== null) {
+        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
           this.Trcode.value === 'TR023') ? false : true;
+        }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -319,7 +321,7 @@ export class StockReceiptComponent implements OnInit {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.ReceivingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
-                                          .append('TRCode',(this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(s => {
@@ -471,6 +473,7 @@ export class StockReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
+    this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
@@ -482,10 +485,12 @@ export class StockReceiptComponent implements OnInit {
         this.godownNo = TStockNo.toString().slice(0, index);
         this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
       } else {
-        this.godownNo = this.stackYear = this.locationNo = null;
+        this.godownNo = null; this.stackYear = null;
+        this.locationNo = null; this.stackCompartment = null;
       }
     } else {
-      this.godownNo = this.stackYear = this.locationNo = null;
+      this.godownNo = null; this.stackYear = null;
+      this.locationNo = null; this.stackCompartment = null;
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
@@ -687,6 +692,8 @@ export class StockReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
+        this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
+        res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
@@ -781,7 +788,8 @@ export class StockReceiptComponent implements OnInit {
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
-    this.depositorNameOptions = []; this.depositorTypeOptions = [];
+    this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
+    this.WTCode = null; this.Moisture = '0';
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
