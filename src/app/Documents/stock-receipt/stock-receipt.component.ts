@@ -224,8 +224,10 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) ||
+        if(this.Trcode !== undefined && this.Trcode !== null) {
+        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
           this.Trcode.value === 'TR023') ? false : true;
+        }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -690,6 +692,8 @@ export class StockReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
+        this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
+        res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
