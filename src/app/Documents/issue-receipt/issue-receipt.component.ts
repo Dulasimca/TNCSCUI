@@ -819,7 +819,7 @@ export class IssueReceiptComponent implements OnInit {
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
-    this.godownNo = null; this.locationNo = null;
+    this.godownNo = null; this.locationNo = null; this.stackCompartment = null;
     this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
