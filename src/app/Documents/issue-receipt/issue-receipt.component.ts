@@ -111,7 +111,7 @@ export class IssueReceiptComponent implements OnInit {
   Loadingslip: any;
   isViewed: boolean = false;
   blockScreen: boolean;
-  checkTrType: boolean = true;
+  checkTrType: boolean;
   stackCompartment: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
@@ -206,8 +206,10 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
+        if(this.Trcode !== undefined && this.Trcode !== null) {
         this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
           this.Trcode.value === 'TR024') ? false : true;
+        }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -426,6 +428,7 @@ export class IssueReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
+    this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
@@ -437,10 +440,12 @@ export class IssueReceiptComponent implements OnInit {
       this.godownNo = TStockNo.toString().slice(0, index);
       this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
       } else {
-      this.godownNo = this.stackYear = this.locationNo = null;
+      this.godownNo = null; this.stackYear = null;
+      this.locationNo = null; this.stackCompartment = null;
       }
      } else {
-      this.godownNo = this.stackYear = this.locationNo = null;
+      this.godownNo = null; this.stackYear = null;
+      this.locationNo = null; this.stackCompartment = null;
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
@@ -825,6 +830,7 @@ export class IssueReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
+    this.Moisture = '0';
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];

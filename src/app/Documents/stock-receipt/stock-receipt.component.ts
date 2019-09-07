@@ -471,6 +471,7 @@ export class StockReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
+    this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
@@ -482,10 +483,12 @@ export class StockReceiptComponent implements OnInit {
         this.godownNo = TStockNo.toString().slice(0, index);
         this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
       } else {
-        this.godownNo = this.stackYear = this.locationNo = null;
+        this.godownNo = null; this.stackYear = null;
+        this.locationNo = null; this.stackCompartment = null;
       }
     } else {
-      this.godownNo = this.stackYear = this.locationNo = null;
+      this.godownNo = null; this.stackYear = null;
+        this.locationNo = null; this.stackCompartment = null;
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
@@ -781,7 +784,8 @@ export class StockReceiptComponent implements OnInit {
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
-    this.depositorNameOptions = []; this.depositorTypeOptions = [];
+    this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
+    this.WTCode = null; this.Moisture = '0';
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
