@@ -125,7 +125,6 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
-  @ViewChild('f') form;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,

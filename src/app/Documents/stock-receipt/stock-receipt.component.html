@@ -101,8 +101,8 @@
                     <label for="transaction" class="label-fontsize">Transaction Code</label>
                     <p-dropdown #tr name="transaction" [options]="transactionOptions" [(ngModel)]="Trcode"
                      (onClick)="onSelect('tr', 'click')" (keydown.enter)="onSelect('tr', 'enter')"
-                     (onChange)="refreshSelect('tr')" filter="true" optionLabel="label"
-                     resetFilterOnHide="true" [showClear]="true" required>
+                     (onChange)="refreshSelect('tr')" [filter]="true" optionLabel="label"
+                     resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>

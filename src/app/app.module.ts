@@ -92,13 +92,6 @@ import { OpeningBalanceComponent } from './opening-balance/opening-balance.compo
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
-import { ReceiptSchemeComponent } from './Quantity/receipt-scheme/receipt-scheme.component';
-import { IssueSchemeComponent } from './Quantity/IssueScheme/issue-scheme/issue-scheme.component';
-import { IssueSchemeCrsComponent } from './Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
-import { IssueSchemeCoOpComponent } from './Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
-import { TruckMemoComponent } from './Quantity/truck-memo/truck-memo.component';
-import { ReceiptIssueCommodityComponent } from './Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
-import { ReceiptIssueOtherItemsComponent } from './Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
@@ -136,7 +129,14 @@ import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amou
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
-import { IssueTypeAbstractComponent } from './Quantity/issue-type-abstract/issue-type-abstract.component';
+import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receipt-scheme.component';
+import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
+import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
+import { IssueSchemeCoOpComponent } from './reports/Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
+import { TruckMemoComponent } from './reports/Quantity/truck-memo/truck-memo.component';
+import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
+import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
+import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 
 @NgModule({
   declarations: [
