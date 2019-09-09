@@ -12,8 +12,8 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g label-fontsize dashboard">Godown</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
-          (onClick)="onGodown()" (keydown.enter)="onSelect('godown')" (ngModelChange)="onResetTable()" 
-          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (onClick)="onGodown()" (keydown.enter)="onSelect('godown')" (ngModelChange)="onResetTable()" filter="true"
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -85,7 +85,12 @@
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table [columns]="(IssueMemoCustomerDetailsCols || AbstractCols)" [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
+        <!-- <p-table [columns]="(IssueMemoCustomerDetailsCols || AbstractCols)"
+          [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
+          autoLayout="true"> -->
+          <p-table [columns]="((!IssueMemoCustomerDetailsCols || AbstractCols) && (IssueMemoCustomerDetailsCols || !AbstractCols))"
+          [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
           autoLayout="true">
           <ng-template pTemplate="header" let-columns>
