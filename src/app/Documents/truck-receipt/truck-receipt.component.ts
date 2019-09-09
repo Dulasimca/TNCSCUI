@@ -526,14 +526,23 @@ export class TruckReceiptComponent implements OnInit {
     this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
-        let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
-      this.GKgs = this.NKgs = this.TKgs = 0;
+      this.GKgs = this.NKgs = this.TKgs = null;
     }
   }
 
+  onCalculateWt() {
+    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
+    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt);
+      }
+  }
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
@@ -567,15 +576,6 @@ export class TruckReceiptComponent implements OnInit {
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
     //this.isViewed = false;
-  }
-
-  onCalculateWt() {
-    if (this.GKgs !== undefined && this.NKgs !== undefined)  {
-      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
-    }
-    if (this.GKgs < this.NKgs) {
-      this.NKgs = this.GKgs = this.TKgs = 0;
-    }
   }
 
   onStackNoChange(event) {

@@ -247,7 +247,8 @@
               <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top:-12px">
                 <label for="PackingType" class="label-fontsize">Packing Type</label>
                 <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
-                  (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')" filter="true" optionLabel="label" [showClear]="true">
+                  (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')"
+                   filter="true" filterBy="label" optionLabel="label" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                   </ng-template>

@@ -96,6 +96,7 @@ export class StockReceiptComponent implements OnInit {
   ICode: any;
   IPCode: any;
   NoPacking: number;
+  PWeight: any;
   GKgs: number;
   NKgs: number;
   WTCode: any;
@@ -211,6 +212,12 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
+        //   this.transactionPanel.onFilter(event)
+        this.transactionPanel.resetFilterOnHide = true;
+        // this.transactionPanel.onFilter(event => {
+        //  this.transactionOptions = this.transactionOptions.filter(x => { return x.label.startsWith(event);});
+        // })
+
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -224,15 +231,12 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        if(this.Trcode !== undefined && this.Trcode !== null) {
-        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
-          this.Trcode.value === 'TR023') ? false : true;
-        }
         break;
       case 'sc':
         if (type === 'enter') {
           this.schemePanel.overlayVisible = true;
         }
+        this.schemePanel.resetFilterOnHide = true;
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -247,6 +251,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.depositorTypePanel.overlayVisible = true;
         }
+        this.depositorTypePanel.resetFilterOnHide = true;
         if (this.Trcode !== undefined && this.Trcode !== null) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null)
             || (this.trCode !== undefined && this.trCode !== null)) {
@@ -270,6 +275,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.depositorNamePanel.overlayVisible = true;
         }
+        this.depositorNamePanel.resetFilterOnHide = true;
         if (this.Trcode !== undefined && this.Trcode !== null && this.DepositorType !== null && this.DepositorType !== undefined) {
           if ((this.DepositorType.value !== undefined && this.DepositorType.value !== null)
             || (this.depositorType !== null && this.depositorType !== undefined)) {
@@ -294,6 +300,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
+        this.commodityPanel.resetFilterOnHide = true;
         if (this.Scheme !== undefined && this.Scheme !== null) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
             || (this.schemeCode !== undefined && this.schemeCode !== null)) {
@@ -317,6 +324,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.stackNoPanel.overlayVisible = true;
         }
+        this.stackNoPanel.resetFilterOnHide = true;
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
@@ -341,6 +349,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
+        this.packingPanel.resetFilterOnHide = true;
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -359,6 +368,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
+        this.weightmentPanel.resetFilterOnHide = true;
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {
@@ -401,6 +411,7 @@ export class StockReceiptComponent implements OnInit {
     this.IPCode = data.PackingName; this.ipCode = data.IPCode;
     this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
+    this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
     this.Moisture = (data.Moisture * 1).toFixed(2);
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
@@ -453,21 +464,24 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
+    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
-      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
-      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
+      && this.IPCode !== undefined && this.IPCode !== null) {
+      let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
-      this.GKgs = this.NKgs = this.tareWt = 0;
+      this.GKgs = this.NKgs = this.tareWt = null;
     }
   }
 
   onCalculateWt() {
-    if (this.GKgs !== undefined && this.NKgs !== undefined) {
-      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
-    }
-    if (this.GKgs < this.NKgs) {
-      this.NKgs = this.GKgs = this.tareWt = 0;
+    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
+    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+    if (grossWt < netWt) {
+      this.NKgs = null; this.GKgs = null; this.tareWt = null;
+    } else {
+      this.tareWt = (grossWt - netWt);
     }
   }
 
@@ -475,6 +489,8 @@ export class StockReceiptComponent implements OnInit {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
+        this.Trcode.value === 'TR023') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
@@ -540,6 +556,7 @@ export class StockReceiptComponent implements OnInit {
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking, GKgs: this.GKgs, Nkgs: this.NKgs,
+      PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
       Moisture: this.Moisture,
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
@@ -693,7 +710,7 @@ export class StockReceiptComponent implements OnInit {
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
         this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
-        res[0].Trcode === 'TR023') ? false : true;
+          res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
@@ -712,7 +729,10 @@ export class StockReceiptComponent implements OnInit {
             Scheme: i.Scheme,
             ICode: i.ICode,
             IPCode: i.IPCode,
-            NoPacking: i.NoPacking, GKgs: i.GKgs, Nkgs: i.Nkgs,
+            NoPacking: i.NoPacking,
+            PWeight: i.PWeight,
+            GKgs: i.GKgs,
+            Nkgs: i.Nkgs,
             WTCode: i.WTCode,
             Moisture: i.Moisture,
             CommodityName: i.ITName,

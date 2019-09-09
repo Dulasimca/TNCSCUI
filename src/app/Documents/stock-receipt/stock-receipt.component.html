@@ -45,10 +45,10 @@
                     <label for="mnth" class="label-fontsize">Month</label>
                     <p-dropdown #m name="mnth" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                      optionLabel="label" required>
-                      <ng-template let-item pTemplate="selectedItem">
+                      optionLabel="label" resetFilterOnHide="true" required>
+                      <!-- <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
-                      </ng-template>
+                      </ng-template> -->
                     </p-dropdown>
                   </div>
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">

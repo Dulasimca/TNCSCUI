@@ -111,7 +111,7 @@ export class IssueReceiptComponent implements OnInit {
   Loadingslip: any;
   isViewed: boolean = false;
   blockScreen: boolean;
-  checkTrType: boolean;
+  checkTrType: boolean = true;
   stackCompartment: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
@@ -206,10 +206,6 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
-        if(this.Trcode !== undefined && this.Trcode !== null) {
-        this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
-          this.Trcode.value === 'TR024') ? false : true;
-        }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -300,7 +296,7 @@ export class IssueReceiptComponent implements OnInit {
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
-                                          .append('TRCode',(this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(s => {
@@ -413,37 +409,40 @@ export class IssueReceiptComponent implements OnInit {
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
     } else {
-      this.GKgs = this.NKgs = this.TKgs = 0;
+      this.GKgs = this.NKgs = this.TKgs = null;
     }
   }
 
   onCalculateWt() {
-    if (this.GKgs !== undefined && this.NKgs !== undefined) {
-      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
-    }
-    if (this.GKgs < this.NKgs) {
-      this.NKgs = this.GKgs = this.TKgs = 0;
-    }
+    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
+    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt);
+      }
   }
 
   onStackNoChange(event) {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
+        this.Trcode.value === 'TR024') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
-      this.TStockNo.value : this.TStockNo;
-      if(this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
-      index = TStockNo.toString().indexOf('/', 2);
-      const totalLength = TStockNo.length;
-      this.godownNo = TStockNo.toString().slice(0, index);
-      this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+        this.TStockNo.value : this.TStockNo;
+      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
+        index = TStockNo.toString().indexOf('/', 2);
+        const totalLength = TStockNo.length;
+        this.godownNo = TStockNo.toString().slice(0, index);
+        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
       } else {
-      this.godownNo = null; this.stackYear = null;
-      this.locationNo = null; this.stackCompartment = null;
+        this.godownNo = null; this.stackYear = null;
+        this.locationNo = null; this.stackCompartment = null;
       }
-     } else {
+    } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
     }
@@ -851,7 +850,7 @@ export class IssueReceiptComponent implements OnInit {
     const filename = this.IssuingCode + GolbalVariable.StockIssueDocument;
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
-        w.print();
+    w.print();
     // this.http.get(filepath, { responseType: 'text' })
     //   .subscribe(data => {
     //     if (data !== null && data !== undefined) {
