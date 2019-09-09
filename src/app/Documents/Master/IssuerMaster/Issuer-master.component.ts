@@ -91,7 +91,7 @@ export class IssuerMasterComponent implements OnInit {
     // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
     // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
     this.ACSCode = this.selectedRow.ACSCode;
-    this.Activeflag =  this.selectedRow.Activeflag;
+    this.Activeflag = this.selectedRow.Activeflag;
     this.IssuerCode = this.selectedRow.IssuerCode;
     this.Godcode = this.selectedRow.Godcode;
   }
@@ -118,20 +118,23 @@ export class IssuerMasterComponent implements OnInit {
   onSave(selectedRow) {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
-      'Activeflag': (this.selectedRow.Activeflag == 'I') ? (this.selectedRow.ACSCode = "-",this.selectedRow.Activeflag = 'I') : this.selectedRow.Activeflag,
+      'Activeflag': (this.selectedRow.Activeflag == 'I') ? (this.selectedRow.ACSCode = "-", this.selectedRow.Activeflag = 'I') : this.selectedRow.Activeflag,
       'ACSCode': this.selectedRow.ACSCode,
       'Godcode': this.selectedRow.Godcode
     };
     this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(ress => {
       if (ress) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0) {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });

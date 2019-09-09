@@ -69,17 +69,17 @@ export class CommodityReceiptComponent implements OnInit {
     let transactionSelection = [];
     switch (item) {
       case 'reg':
-          if(this.roleId === 3) {
-            this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-          });
-          for (let i = 0; i < regionSelection.length - 1;) {
-            if(regionSelection[i].value === regionSelection[i+1].value) {
-              regionSelection.splice(i+1, 1);
+        if (this.roleId === 3) {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
             }
-          }
           }
           this.regionOptions = regionSelection;
         } else {
@@ -100,9 +100,9 @@ export class CommodityReceiptComponent implements OnInit {
             this.godownOptions = godownSelection;
           });
           if (this.roleId !== 3) {
-          this.godownOptions.unshift({ label: 'All', value: 'All' });
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
-      }
         break;
       case 'tr':
         if (this.transactionOptions === undefined) {
@@ -145,12 +145,14 @@ export class CommodityReceiptComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
@@ -158,14 +160,14 @@ export class CommodityReceiptComponent implements OnInit {
 
   filterCommodity(event) {
     let selectedItem = event.value;
-    if(selectedItem !== undefined && selectedItem !== null) {
-    this.commodityReceiptData = this.commodityReceiptData.filter(f => {
-      return f.Commodity === selectedItem.label;
-    })
-  } else {
-    this.commodityReceiptData = this.loadedData;
-  }
-    
+    if (selectedItem !== undefined && selectedItem !== null) {
+      this.commodityReceiptData = this.commodityReceiptData.filter(f => {
+        return f.Commodity === selectedItem.label;
+      })
+    } else {
+      this.commodityReceiptData = this.loadedData;
+    }
+
   }
 
   onDateSelect() {
@@ -184,6 +186,7 @@ export class CommodityReceiptComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }

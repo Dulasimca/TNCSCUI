@@ -437,6 +437,7 @@ export class DeliveryReceiptComponent implements OnInit {
           x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1));
         })
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
@@ -459,7 +460,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
         let sno = 1;
-        this.itemData.forEach(x => { x.sno = sno; sno += 1;});
+        this.itemData.forEach(x => { x.sno = sno; sno += 1; });
         break;
       case 'scheme':
         this.marginSchemeCode = data.SchemeCode;
@@ -476,7 +477,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
         this.itemSchemeData.splice(index, 1);
         let slno = 1;
-        this.itemSchemeData.forEach(x => { x.sno = slno; slno += 1;});
+        this.itemSchemeData.forEach(x => { x.sno = slno; slno += 1; });
         break;
       case 'payment':
         this.Payment = data.PaymentMode;
@@ -490,7 +491,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         this.paymentData.splice(index, 1);
         let psno = 1;
-        this.paymentData.forEach(x => {x.sno = psno; psno += 1;});
+        this.paymentData.forEach(x => { x.sno = psno; psno += 1; });
         break;
       case 'prevBal':
         this.PrevOrderNo = data.AdjustedDoNo;
@@ -501,7 +502,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.AdjustmentType = data.AdjustmentType;
         this.paymentBalData.splice(index, 1);
         let sNo = 1;
-        this.paymentBalData.forEach(x => {x.sno = sNo; sNo += 1;});
+        this.paymentBalData.forEach(x => { x.sno = sNo; sNo += 1; });
         break;
     }
   }
@@ -595,7 +596,7 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         if (this.paymentBalData.length !== 0) {
           let sno = 1;
-          this.paymentBalData.forEach(x => {x.sno = sno; sno += 1;});
+          this.paymentBalData.forEach(x => { x.sno = sno; sno += 1; });
           this.PrevOrderDate = new Date();
           this.PrevOrderNo = null;
           this.AdjusmentAmount = 0; this.AdjustmentType = null;
@@ -672,6 +673,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     })
@@ -692,6 +694,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.deliveryViewData = res.Table;
       } else {
         this.deliveryViewData = [];
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     });
@@ -881,12 +884,14 @@ export class DeliveryReceiptComponent implements OnInit {
             this.isViewed = false;
           }
           this.blockScreen = false;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
@@ -895,6 +900,7 @@ export class DeliveryReceiptComponent implements OnInit {
       this.isSaveSucceed = false;
       this.blockScreen = false;
       if (err.status === 0) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
@@ -916,7 +922,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.DeliveryOrderDocument;
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
-        w.print();
+    w.print();
     // this.http.get(filepath, { responseType: 'text' })
     //   .subscribe(data => {
     //     if (data !== undefined && data !== null) {

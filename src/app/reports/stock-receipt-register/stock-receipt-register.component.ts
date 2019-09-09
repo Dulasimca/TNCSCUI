@@ -79,13 +79,15 @@ export class StockReceiptRegisterComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }
@@ -106,6 +108,7 @@ export class StockReceiptRegisterComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }

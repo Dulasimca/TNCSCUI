@@ -39,6 +39,7 @@ export class CRSDataComponent implements OnInit {
         this.data = response;
         this.filterArray = response;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [

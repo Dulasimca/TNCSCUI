@@ -57,20 +57,20 @@ export class IssueTypeAbstractComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-        if(type === 'enter') {
+        if (type === 'enter') {
           this.godownPanel.overlayVisible = true;
         }
-          if(this.roleId === 3) {
-            this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-          });
-          for (let i = 0; i < regionSelection.length - 1;) {
-            if(regionSelection[i].value === regionSelection[i+1].value) {
-              regionSelection.splice(i+1, 1);
+        if (this.roleId === 3) {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
             }
-          }
           }
           this.regionOptions = regionSelection;
         } else {
@@ -84,19 +84,16 @@ export class IssueTypeAbstractComponent implements OnInit {
         }
         break;
       case 'gd':
-          if(type === 'enter') {
-            this.regionPanel.overlayVisible = true;
-          }
-          this.data = this.roleBasedService.instance;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             this.godownOptions = godownSelection;
           });
-          if (this.roleId !== 3) {
-          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
-      }
         break;
     }
   }
@@ -106,28 +103,30 @@ export class IssueTypeAbstractComponent implements OnInit {
     this.loading = true;
     const params = {
       FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      ToDate : this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       RCode: this.RCode,
       UserId: this.userId.user
-
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
-      this.IssueAbstractData = res;
-      let sno = 0;
-      this.IssueAbstractData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      });
       if (res !== undefined && res.length !== 0) {
+        this.IssueAbstractCols = res;
+        this.IssueAbstractData = res;
+        let sno = 0;
+        this.IssueAbstractData.forEach(data => {
+          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
@@ -148,13 +147,14 @@ export class IssueTypeAbstractComponent implements OnInit {
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
-  
+
   onResetTable() {
     this.IssueAbstractData = [];
   }

@@ -95,84 +95,87 @@ export class AllSchemeComponent implements OnInit {
             this.SocietyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           });
         }
-    break;
+        break;
       case 'Sch':
-    // if (this.SchemeOptions === undefined) {
-    this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-      if (data !== undefined) {
-        data.forEach(y => {
-          SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
-          this.SchemeOptions = SchemeSelection;
+        // if (this.SchemeOptions === undefined) {
+        this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
+          if (data !== undefined) {
+            data.forEach(y => {
+              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+              this.SchemeOptions = SchemeSelection;
+            });
+          }
         });
+        // }
+        break;
+    }
+  }
+
+  onView() {
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {
+      'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.gCode,
+      'SCode': this.s_cd.value,
+      'SchCode': this.sch_cd.value
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
+      this.AllSchemeData = res;
+      let sno = 0;
+      this.AllSchemeData.forEach(data => {
+        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Nkgs = (data.Nkgs * 1).toFixed(3);
+        sno += 1;
+        data.SlNo = sno;
+      });
+      if (res !== undefined && res.length !== 0) {
+        this.isActionDisabled = false;
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    // }
-    break;
   }
-}
+  onDateSelect() {
+    this.checkValidDateSelection();
+    if (this.fromDate !== undefined && this.toDate !== undefined
+      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
+      this.isViewDisabled = false;
+    }
+  }
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
+      }
+      return this.fromDate, this.toDate;
+    }
+  }
+  onResetTable() {
+    this.AllSchemeData = [];
+    this.isActionDisabled = true;
+  }
 
-onView() {
-  this.checkValidDateSelection();
-  this.loading = true;
-  const params = {
-    'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
-    'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-    'GCode': this.gCode,
-    'SCode': this.s_cd.value,
-    'SchCode': this.sch_cd.value
-  };
-  this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
-    this.AllSchemeData = res;
-    let sno = 0;
-    this.AllSchemeData.forEach(data => {
-      data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-      data.Nkgs = (data.Nkgs * 1).toFixed(3);
-      sno += 1;
-      data.SlNo = sno;
-    });
-    if (res !== undefined && res.length !== 0) {
-      this.isActionDisabled = false;
-    } else {
-      this.loading = false;
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-    }
-  }, (err: HttpErrorResponse) => {
-    if (err.status === 0) {
-      this.loading = false;
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    }
-  });
-}
-onDateSelect() {
-  this.checkValidDateSelection();
-  if (this.fromDate !== undefined && this.toDate !== undefined
-    && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-    this.isViewDisabled = false;
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
   }
-}
-checkValidDateSelection() {
-  if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-    let selectedFromDate = this.fromDate.getDate();
-    let selectedToDate = this.toDate.getDate();
-    let selectedFromMonth = this.fromDate.getMonth();
-    let selectedToMonth = this.toDate.getMonth();
-    let selectedFromYear = this.fromDate.getFullYear();
-    let selectedToYear = this.toDate.getFullYear();
-    if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-      (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-      this.fromDate = this.toDate = '';
-    }
-    return this.fromDate, this.toDate;
-  }
-}
-onResetTable() {
-  this.AllSchemeData = [];
-  this.isActionDisabled = true;
-}
-
-exportAsXLSX(): void {
-  this.excelService.exportAsExcelFile(this.AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
-}
 }

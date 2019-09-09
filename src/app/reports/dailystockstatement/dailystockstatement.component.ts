@@ -29,14 +29,14 @@ export class DailyStockStatementComponent implements OnInit {
   items: any;
   filterArray: any;
   totalRecords: number;
-  @ViewChild('dailyStockTable') 
+  @ViewChild('dailyStockTable')
   dailyStockTable: ElementRef;
   selectedRow = 0;
   loading: boolean;
   searchText: any;
 
-  constructor(private tableConstants: TableConstants,private excelService: ExcelService,
-     private restApiService: RestAPIService, private router: Router,
+  constructor(private tableConstants: TableConstants, private excelService: ExcelService,
+    private restApiService: RestAPIService, private router: Router,
     private authService: AuthService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -124,7 +124,7 @@ export class DailyStockStatementComponent implements OnInit {
                   'children': regionData,
                 },
               );
-              index ++;
+              index++;
               regionData = [];
             });
             for (let i = 0; i < this.treeData.length; i++) {
@@ -132,16 +132,17 @@ export class DailyStockStatementComponent implements OnInit {
             }
             this.treeData = [];
             setTimeout(() => {
-            this.loading = false;
-            this.totalRecords = tempArray.length;
-            this.dailyStockData = tempArray;
+              this.loading = false;
+              this.totalRecords = tempArray.length;
+              this.dailyStockData = tempArray;
             }, 1700);
             this.filterArray = tempArray;
           }, (err: HttpErrorResponse) => {
             if (err.status === 0) {
               this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
+              this.messageService.clear();
+              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+            }
           })
         }
       }
@@ -150,26 +151,27 @@ export class DailyStockStatementComponent implements OnInit {
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
           this.exportAsXLSX();
-      }},
+        }
+      },
       {
-        label: 'PDF', icon: "fa fa-file-pdf-o" , command: () => {
-         this.exportAsPDF();
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
         }
       }]
   }
-onRowSelect(i) {
-  this.selectedRow = i;
-}
+  onRowSelect(i) {
+    this.selectedRow = i;
+  }
   onSearch(value) {
     this.dailyStockData = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.dailyStockData = this.dailyStockData.filter(item => {
-          return item.data.Name.toString().startsWith(value);
+        return item.data.Name.toString().startsWith(value);
       });
     }
   }
-  exportAsXLSX():void{
+  exportAsXLSX(): void {
     let tempArray = [];
     this.dailyStockData.forEach(x => {
       tempArray.push(x.data);
@@ -178,31 +180,31 @@ onRowSelect(i) {
         tempArray.push(y.data);
       })
     })
-    this.excelService.exportAsExcelFile(tempArray,'DAILY_STOCK_STATEMENT_REPORT', this.dailyStockDataColumns);
+    this.excelService.exportAsExcelFile(tempArray, 'DAILY_STOCK_STATEMENT_REPORT', this.dailyStockDataColumns);
   }
   exportAsPDF() {
-    var doc = new jsPDF('landscape','pt','a4');
-    doc.text('Tamil Nadu Civil Supplies Corporation - Head Office',200,30);
+    var doc = new jsPDF('landscape', 'pt', 'a4');
+    doc.text('Tamil Nadu Civil Supplies Corporation - Head Office', 200, 30);
     var col = this.dailyStockDataColumns;
     var rows = [];
     this.dailyStockData.forEach(element => {
-      var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+      var temp = [element.data.serialNo, element.data.Name, element.data.OpeningBalance, element.data.TotalReceipt, element.data.Receipt, element.data.IssueSales, element.data.IssueOthers, element.data.TotalIssue, element.data.ClosingBalance, element.data.CSBalance, element.data.Shortage, element.data.PhycialBalance];
       rows.push(temp);
       let regionData = element.children;
       regionData.forEach(element => {
         let godownData = element.children;
-        var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+        var temp = [element.data.serialNo, element.data.Name, element.data.OpeningBalance, element.data.TotalReceipt, element.data.Receipt, element.data.IssueSales, element.data.IssueOthers, element.data.TotalIssue, element.data.ClosingBalance, element.data.CSBalance, element.data.Shortage, element.data.PhycialBalance];
         rows.push(temp);
         godownData.forEach(element => {
-          var temp = [element.data.serialNo,element.data.Name,element.data.OpeningBalance,element.data.TotalReceipt,element.data.Receipt,element.data.IssueSales,element.data.IssueOthers,element.data.TotalIssue,element.data.ClosingBalance,element.data.CSBalance,element.data.Shortage,element.data.PhycialBalance];
+          var temp = [element.data.serialNo, element.data.Name, element.data.OpeningBalance, element.data.TotalReceipt, element.data.Receipt, element.data.IssueSales, element.data.IssueOthers, element.data.TotalIssue, element.data.ClosingBalance, element.data.CSBalance, element.data.Shortage, element.data.PhycialBalance];
           rows.push(temp);
         })
       })
     });
-      doc.autoTable(col,rows);
-      doc.save('DailyStocksStatement.pdf');
+    doc.autoTable(col, rows);
+    doc.save('DailyStocksStatement.pdf');
   }
-  print(){
+  print() {
     window.print();
   }
 }

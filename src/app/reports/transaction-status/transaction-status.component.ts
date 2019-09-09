@@ -88,6 +88,7 @@ export class TransactionStatusComponent implements OnInit {
             this.remarks = this.TransactionStatusData[0].remarks
           this.RoleId = this.roleId
         } else {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
         }
       }, (err: HttpErrorResponse) => {
@@ -116,6 +117,7 @@ export class TransactionStatusComponent implements OnInit {
           if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
             this.isActionDisabled = false;
           } else {
+            this.messageService.clear();
             this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
           }
         }, (err: HttpErrorResponse) => {
@@ -163,12 +165,15 @@ export class TransactionStatusComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.TRANSACTION_STATUS_POST, params).subscribe(res => {
       if (res) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })

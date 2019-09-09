@@ -45,7 +45,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   validationErr: boolean = false;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
-     private excelService: ExcelService, private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
+    private excelService: ExcelService, private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -64,7 +64,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   calculateCS() {
-    if (this.BookBalanceWeight  !== undefined && this.PhysicalBalanceWeight !== undefined) {
+    if (this.BookBalanceWeight !== undefined && this.PhysicalBalanceWeight !== undefined) {
       if (this.BookBalanceWeight < this.PhysicalBalanceWeight) {
         this.showErr = true;
         this.PhysicalBalanceWeight = this.CumulativeShortage = null;
@@ -76,7 +76,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     } else {
       this.CumulativeShortage = 0;
     }
-   
+
   }
 
   calculateBagS() {
@@ -85,7 +85,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.validationErr = true;
         this.PhysicalBalanceBags = null;
       } else {
-          this.validationErr = false;
+        this.validationErr = false;
       }
     }
   }
@@ -125,6 +125,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       if (selectedItem !== null) {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       } else {
@@ -158,7 +159,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onView() {
-    this.openingBalanceData =  this.opening_balance = [];
+    this.openingBalanceData = this.opening_balance = [];
     const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -169,7 +170,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
           sno += 1;
           this.openingBalanceData.push({
             'SlNo': sno, 'ITDescription': x.ITDescription, 'CommodityCode': x.CommodityCode,
-            'BookBalanceBags': x.BookBalanceBags, 
+            'BookBalanceBags': x.BookBalanceBags,
             'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
             'PhysicalBalanceBags': x.PhysicalBalanceBags,
             'PhysicalBalanceWeight': (x.PhysicalBalanceWeight * 1).toFixed(3),
@@ -179,6 +180,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     })
@@ -186,7 +188,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   onClear() {
     this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-    this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
+      this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
     this.commodityOptions = [];
   }
 
@@ -204,12 +206,15 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    },(err: HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })

@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private roleBasedService: RoleBasedService,
-    private restApiService: RestAPIService, private loginService: LoginService, 
+    private restApiService: RestAPIService, private loginService: LoginService,
     private messageService: MessageService) {
 
   }
@@ -52,53 +52,56 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn() {
-    this.messageService.clear();
     if (this.loginForm.invalid) {
-      this.messageService.add({ key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
-    let username = new HttpParams().append('userName', this.userName);
-    this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
-      if (credentials !== undefined && credentials !== null && credentials.length !== 0) {
-      if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
-        this.router.navigate(['Home']);
-        this.roleId = credentials[0].RoleId;
-        this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
-        this.regionCode = (credentials[0].Regioncode !== '' && credentials[0].Regioncode !== undefined) ? credentials[0].Regioncode : 0;
-        this.godownName = (credentials[0].GodownName !== null && credentials[0].GodownName !== undefined) ? credentials[0].GodownName : '';
-        this.regionName = (credentials[0].RegionName !== null && credentials[0].RegionName !== undefined) ? credentials[0].RegionName : '';
-        this.loginService.setValue(this.roleId);
-        this.loginService.setUsername(this.userName);
-        const params = {
-          RoleId: this.roleId,
-          GCode: this.godownCode,
-          RCode: this.regionCode,
-          GName: this.godownName,
-          RName: this.regionName
+      let username = new HttpParams().append('userName', this.userName);
+      this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
+        if (credentials !== undefined && credentials !== null && credentials.length !== 0) {
+          if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
+            this.router.navigate(['Home']);
+            this.roleId = credentials[0].RoleId;
+            this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
+            this.regionCode = (credentials[0].Regioncode !== '' && credentials[0].Regioncode !== undefined) ? credentials[0].Regioncode : 0;
+            this.godownName = (credentials[0].GodownName !== null && credentials[0].GodownName !== undefined) ? credentials[0].GodownName : '';
+            this.regionName = (credentials[0].RegionName !== null && credentials[0].RegionName !== undefined) ? credentials[0].RegionName : '';
+            this.loginService.setValue(this.roleId);
+            this.loginService.setUsername(this.userName);
+            const params = {
+              RoleId: this.roleId,
+              GCode: this.godownCode,
+              RCode: this.regionCode,
+              GName: this.godownName,
+              RName: this.regionName
+            }
+            this.authService.login(this.loginForm.value, params);
+          } else {
+            this.clearFields();
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
+          }
+        } else {
+          // this.clearFields();
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
         }
-        this.authService.login(this.loginForm.value, params);
-      } else {
-        this.clearFields();
-        this.messageService.add({key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
-      }
-    } else {
-     // this.clearFields();
-      this.messageService.add({key: 't-err', severity:StatusMessage.SEVERITY_ERROR, summary:StatusMessage.SUMMARY_ERROR, detail:StatusMessage.ValidCredentialsErrorMessage});
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
     }
-    },(err: HttpErrorResponse) => {
-      if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-  }
   }
 
   toggleVisibility(e) {
     this.authService.isKeepMeLoggedIn(e.target.checked);
     let check: any = this.authService.checkLoggedIn();
-    this.isChecked = (check !== undefined && 
-    check !== null) ? check : false;
-   
+    this.isChecked = (check !== undefined &&
+      check !== null) ? check : false;
+
   }
 
   clearFields() {

@@ -104,13 +104,15 @@ export class StackCardOpeningComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }
@@ -125,7 +127,8 @@ export class StackCardOpeningComponent implements OnInit {
     this.StackCardOpeningData.forEach(data => {
       StackData.push({
         SlNo: data.SlNo, Stackno: data.Stackno, StackBalanceBags: data.StackBalanceBags, Stackbalanceweight: data.Stackbalanceweight,
-        Date: data.obstackdate, Formationyear: data.Formationyear, Status: data.Status })
+        Date: data.obstackdate, Formationyear: data.Formationyear, Status: data.Status
+      })
     })
     this.excelService.exportAsExcelFile(StackData, 'STACK_CARD_OPENING_REPORT', this.StackCardOpeningCols);
   }
