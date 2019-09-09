@@ -98,6 +98,8 @@ export class TableConstants {
   ChequeReceiptNoCols: any;
   CashReceiptRegister: any;
   IssueMemoCustomerDeatil: any;
+  IssueMemoAbstract: any;
+  IssueTypeAbstract: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1042,8 +1044,27 @@ export class TableConstants {
       { field: 'Scheme', header: 'Scheme' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'Quantity', header: 'Quantity' },
+      { field: 'Society', header: 'Society' },
       { field: '', header: 'Rate' },
       { field: '', header: 'Value' },
+    ];
+
+    this.IssueMemoAbstract = [
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'society', header: 'Society' }
+    ];
+
+    this.IssueTypeAbstract = [
+      { field: 'Quantity', header: 'Commodity' },
+      { field: 'Quantity', header: 'Bulk Consumer' },
+      { field: 'Commodity', header: 'Cooperative Leading' },
+      { field: 'society', header: 'Cooperative Primary' },
+      { field: 'Quantity', header: 'CRS' },
+      { field: 'Commodity', header: 'Fire' },
+      { field: 'society', header: 'Godown' },
+      { field: 'Quantity', header: 'Noon Meal Center' },
+      { field: 'Commodity', header: 'Total' },
     ];
   }
 }
