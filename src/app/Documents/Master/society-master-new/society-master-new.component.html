@@ -13,7 +13,8 @@
       <div class="ui-g-6 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Society Type</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="typeOptions" [(ngModel)]="t_cd" (onClick)="ontype()"
-          (onChange)="ontype()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (onChange)="ontype()" filter="true" optionLabel="label" 
+          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

@@ -13,7 +13,7 @@
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g label-fontsize dashboard">Co-operative Type</label>
         <p-dropdown [options]="typeOptions" [(ngModel)]="t_cd" (onClick)="onSelect()" filter="true"
-          (ngModelChange)="onResetTable()" optionLabel="label" [showClear]="true" placeholder="-select-">
+        resetFilterOnHide="true" (ngModelChange)="onResetTable()" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -25,7 +25,8 @@
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Society</label>
         <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onClick)="onSelect()"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true"
+          resetFilterOnHide="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -34,7 +35,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g label-fontsize dashboard">Select Shop Name for the Selected Society</label>
         <p-dropdown [options]="IssuerOptions" [(ngModel)]="Iss_cd" (onClick)="onSelect()"
-          filter="true" optionLabel="label" (ngModelChange)="onResetTable()" [showClear]="true" placeholder="-select-">
+          filter="true" optionLabel="label" (ngModelChange)="onResetTable()" 
+          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

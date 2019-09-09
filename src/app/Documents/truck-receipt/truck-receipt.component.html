@@ -31,7 +31,7 @@
                       <label for="Trcd" class="label-fontsize">Transaction Code</label>
                       <p-dropdown #tr name="Trcd" [options]="transactionOptions" [(ngModel)]="Trcode"
                         (onClick)="onSelect('tr', 'click')" (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true"
-                        (onChange)="refreshSelect('tr')" optionLabel="label" required>
+                        (onChange)="refreshSelect('tr')" optionLabel="label" filter="true" resetFilterOnHide="true" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -68,7 +68,7 @@
                       <label for="RailHead" class="label-fontsize" style="padding-top: 10px;">To The Rail Head</label>
                       <p-dropdown #rail name="RailHead" [options]="toRailHeadOptions" [disabled]="disableRailHead"
                         [(ngModel)]="RHCode" (onClick)="onSelect('rh', 'click')" (keydown.enter)="onSelect('rh', 'enter')"
-                        [showClear]="true"  filter="true" [resetFilterOnHide]="true" optionLabel="label" required>
+                        [showClear]="true"  filter="true" resetFilterOnHide="true" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -78,7 +78,7 @@
                         <label for="ReceivorRegion" class="label-fontsize" style="padding-top: 10px;">Receivor Region</label>
                         <p-dropdown #rr name="ReceivorRegion" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
                           (onClick)="onSelect('rr', 'click')" (keydown.enter)="onSelect('rr', 'enter')"
-                          optionLabel="label" filter="true" [disabled]="enableReceivorRegn"
+                          optionLabel="label" filter="true" resetFilterOnHide="true" [disabled]="enableReceivorRegn"
                           (onChange)="refreshSelect('rr')" [showClear]="true" required>
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
@@ -89,7 +89,8 @@
                       <label for="ReceivorType" class="label-fontsize" style="padding-top: 10px;">Receivor Type</label>
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
                         (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
-                        (onChange)="refreshSelect('rt')" optionLabel="label" [showClear]="true" filter="true" required>
+                        (onChange)="refreshSelect('rt')" optionLabel="label" [showClear]="true" 
+                        filter="true" resetFilterOnHide="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -99,7 +100,7 @@
                       <label for="ReceivorName" class="label-fontsize" style="padding-top: 10px;">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receivorNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')"
-                        [showClear]="true" optionLabel="label" filter="true" required>
+                        [showClear]="true" optionLabel="label" filter="true" resetFilterOnHide="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -151,7 +152,7 @@
                       <label for="Schemes" class="label-fontsize">Scheme</label>
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('sc', 'click')" (keydown.enter)="onSelect('sc', 'enter')"
-                        optionLabel="label" (onChange)="refreshSelect('sc')" [showClear]="true" filter="true">
+                        optionLabel="label" (onChange)="refreshSelect('sc')" resetFilterOnHide="true" [showClear]="true" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -161,7 +162,7 @@
                       <label for="ITDesc" class="label-fontsize">Item Description</label>
                       <p-dropdown #i_desc name="ITDesc" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
-                        (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" optionLabel="label">
+                        (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -172,7 +173,7 @@
                       <p-dropdown #st_no name="StockNo" [options]="stackOptions"
                         [(ngModel)]="TStockNo" (onClick)="onSelect('st_no', 'click')" (onChange)="onStackNoChange($event)"
                         (keydown.enter)="onSelect('st_no', 'enter')"
-                        filter="true" optionLabel="label" [showClear]="true">
+                        filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -197,7 +198,7 @@
                       <label for="PackingType" class="label-fontsize">Packing Type</label>
                       <p-dropdown #pt name="PackingType" [options]="packingTypeOptions"
                         [(ngModel)]="IPCode" (onClick)="onSelect('pt', 'click')"
-                        (keydown.enter)="onSelect('pt', 'enter')" optionLabel="label" filter="true" [showClear]="true">
+                        (keydown.enter)="onSelect('pt', 'enter')" optionLabel="label" filter="true" resetFilterOnHide="true" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -254,7 +255,7 @@
                       <label for="WmtType" class="label-fontsize">WmtType</label>
                       <p-dropdown #wmt name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                         (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')"
-                        [showClear]="true" [readonly]="isValidStackBalance" filter="true" optionLabel="label">
+                        [showClear]="true" [readonly]="isValidStackBalance" filter="true" resetFilterOnHide="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -421,8 +422,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="FromStation" class="label-fontsize" style="padding-top: 10px;">From Station</label>
                       <p-dropdown #fs name="FromStation" [options]="fromStationOptions" [(ngModel)]="FStation"
-                        (onClick)="onSelect('fs', 'click')" (keydown.enter)="onSelect('fs', 'enter')"
-                         [disabled]="disableRailHead" [showClear]="true" filter="true" optionLabel="label" required>
+                        (onClick)="onSelect('fs', 'click')" (keydown.enter)="onSelect('fs', 'enter')" filter="true"
+                         [disabled]="disableRailHead" [showClear]="true" optionLabel="label" resetFilterOnHide="true"  required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -432,7 +433,7 @@
                       <label for="ToStation" class="label-fontsize" style="padding-top: 10px;">To Station</label>
                       <p-dropdown #ts name="ToStation" [options]="toStationOptions" [(ngModel)]="TStation"
                         (onClick)="onSelect('ts', 'click')" (keydown.enter)="onSelect('ts', 'enter')"
-                        [disabled]="disableRailHead" [showClear]="true" filter="true"  optionLabel="label" required>
+                        [disabled]="disableRailHead" [showClear]="true" filter="true" resetFilterOnHide="true" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

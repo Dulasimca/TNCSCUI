@@ -167,10 +167,6 @@ export class StockReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
   }
 
-  onFilter(event) {
-    console.log(event);
-  }
-
   onSelect(selectedItem, type) {
     let transactoinSelection: any = [];
     let schemeSelection: any = [];
@@ -215,13 +211,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
-        //   this.transactionPanel.onFilter(event)
-          // this.transactionPanel.resetFilterOnHide = true;
-        //  this.transactionPanel.filterMatchMode="startsWith"
-        // this.transactionPanel.onFilter(event => {
-        //  this.transactionOptions = this.transactionOptions.filter(x => { return x.label.startsWith(event);});
-        // })
-
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -240,7 +229,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.schemePanel.overlayVisible = true;
         }
-        this.schemePanel.resetFilterOnHide = true;
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -255,7 +243,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.depositorTypePanel.overlayVisible = true;
         }
-        this.depositorTypePanel.resetFilterOnHide = true;
         if (this.Trcode !== undefined && this.Trcode !== null) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null)
             || (this.trCode !== undefined && this.trCode !== null)) {
@@ -279,7 +266,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.depositorNamePanel.overlayVisible = true;
         }
-        this.depositorNamePanel.resetFilterOnHide = true;
         if (this.Trcode !== undefined && this.Trcode !== null && this.DepositorType !== null && this.DepositorType !== undefined) {
           if ((this.DepositorType.value !== undefined && this.DepositorType.value !== null)
             || (this.depositorType !== null && this.depositorType !== undefined)) {
@@ -304,7 +290,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
-        this.commodityPanel.resetFilterOnHide = true;
         if (this.Scheme !== undefined && this.Scheme !== null) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
             || (this.schemeCode !== undefined && this.schemeCode !== null)) {
@@ -328,7 +313,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.stackNoPanel.overlayVisible = true;
         }
-        this.stackNoPanel.resetFilterOnHide = true;
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null)
             || (this.iCode !== undefined && this.iCode !== null)) {
@@ -353,7 +337,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        this.packingPanel.resetFilterOnHide = true;
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -372,7 +355,6 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
-        this.weightmentPanel.resetFilterOnHide = true;
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {

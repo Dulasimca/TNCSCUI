@@ -24,7 +24,7 @@
           <div class="ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
             <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="GCode" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
-              filter="true" optionLabel="label" [readonly]="nonEditable">
+              filter="true" resetFilterOnHide="true" optionLabel="label" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -33,7 +33,7 @@
           <div class="form-group ui-g-12 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
             <p-dropdown [options]="commodityOptions" [(ngModel)]="ICode" (keydown.enter)="onSelect('cd')"
-             (onChange)="onSelect('cd')" filter="true"
+             (onChange)="onSelect('cd')" filter="true" resetFilterOnHide="true" 
               optionLabel="label" name="CommodityName" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -107,7 +107,7 @@
        <div class="ui-g-12 ui-md-3 no-left-pad">
         <label class="ui-g-6 label-fontsize-large">Current Year</label>
         <p-dropdown id="float-input" [options]="curYearOptions" [(ngModel)]="CurYear"
-           (onChange)="onChange($event)" filter="true" [showClear]="true" name="curyear">
+           (onChange)="onChange($event)" filter="true" resetFilterOnHide="true"  [showClear]="true" name="curyear">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

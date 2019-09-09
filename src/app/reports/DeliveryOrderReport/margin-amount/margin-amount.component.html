@@ -11,7 +11,8 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" 
+        (ngModelChange)="onResetTable()" resetFilterOnHide="true" 
           filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
