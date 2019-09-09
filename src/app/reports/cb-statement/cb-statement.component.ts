@@ -47,7 +47,7 @@ export class CBStatementComponent implements OnInit {
   record: any;
   items: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService,private messageService: MessageService,
+  constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private tableConstants: TableConstants, private router: Router, private excelService: ExcelService) { }
 
   ngOnInit() {
@@ -196,7 +196,8 @@ export class CBStatementComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });        
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }

@@ -32,7 +32,7 @@ export class GunnyGuGrComponent implements OnInit {
   selectedValue: string = 'GR';
   loading: boolean;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -50,16 +50,16 @@ export class GunnyGuGrComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params =  {
+    const params = {
       'GCode': this.g_cd.value,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
@@ -78,13 +78,15 @@ export class GunnyGuGrComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }
@@ -103,10 +105,11 @@ export class GunnyGuGrComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -116,12 +119,12 @@ export class GunnyGuGrComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  onExportExcel():void{
+  onExportExcel(): void {
     var GunnyData = [];
     this.GunnyRepData.forEach(data => {
-      GunnyData.push({SlNo: data.SlNo, Ackno: data.Ackno,Date: data.Date, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity, stackno: data.stackno, Year: data.Year})
+      GunnyData.push({ SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity, stackno: data.stackno, Year: data.Year })
     });
-    this.excelService.exportAsExcelFile(GunnyData, 'GUNNY_REPORT',this.GunnyRepCols);
-}
+    this.excelService.exportAsExcelFile(GunnyData, 'GUNNY_REPORT', this.GunnyRepCols);
+  }
 
 }

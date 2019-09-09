@@ -50,8 +50,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
   curYear_data: any;
   cardExits: boolean;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, 
-    private datepipe: DatePipe, private restAPIService: RestAPIService, 
+  constructor(private tableConstants: TableConstants, private messageService: MessageService,
+    private datepipe: DatePipe, private restAPIService: RestAPIService,
     private roleBasedService: RoleBasedService, private authService: AuthService,
     private confirmationService: ConfirmationService) { }
 
@@ -61,9 +61,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.gdata = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
-      if (data !== null && data !== undefined){
+      if (data !== null && data !== undefined) {
         this.curYear_data = data;
-      } 
+      }
     });
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
@@ -76,14 +76,14 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
       })
     }
-  
+
   }
 
   calculateStackNo() {
     if (this.Location !== undefined && this.Location !== null && this.Formation !== undefined && this.Formation !== null) {
       this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation;
-      this.StackNo =this.StackNo.replace("//","/");
-      if  (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
+      this.StackNo = this.StackNo.replace("//", "/");
+      if (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
         this.stackOpeningData.forEach(x => {
           if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'R') {
             this.confirmationService.confirm({
@@ -99,15 +99,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
               }
             });
           } else if (x.StackNo.toString().trim() === this.StackNo && x.Flag1 === 'C') {
-            if(this.curYear_data !== undefined && this.curYear_data !== null) {
-            this.curYear_data.forEach(cy => {
-              if ((this.Date >= new Date(Date.parse(cy.FromDate))) && (this.Date <= new Date(Date.parse(cy.ToDate)))) {
-                if (cy.ShortYear === x.CurYear) {
-                  this.cardExits = true;
-                } else { this.cardExits = false; }
-              }
-            });
-          }
+            if (this.curYear_data !== undefined && this.curYear_data !== null) {
+              this.curYear_data.forEach(cy => {
+                if ((this.Date >= new Date(Date.parse(cy.FromDate))) && (this.Date <= new Date(Date.parse(cy.ToDate)))) {
+                  if (cy.ShortYear === x.CurYear) {
+                    this.cardExits = true;
+                  } else { this.cardExits = false; }
+                }
+              });
+            }
           } else {
             this.StackNo = this.StackNo;
             this.newEntry = false;
@@ -130,31 +130,27 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   keyPress(event) {
-     if((event.keyCode>=32 && event.keyCode <=46)|| (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >=91 && event.keyCode <= 96) || (event.keyCode >=123 && event.keyCode <= 127))
-    {
+    if ((event.keyCode >= 32 && event.keyCode <= 46) || (event.keyCode >= 58 && event.keyCode <= 64) || (event.keyCode >= 91 && event.keyCode <= 96) || (event.keyCode >= 123 && event.keyCode <= 127)) {
       return false;
     }
-     else if(event.target.value.length == 0 && event.keyCode == 47) {
+    else if (event.target.value.length == 0 && event.keyCode == 47) {
       return false;
-    } 
-    else if ((event.target.value.length  >= 1) && event.keyCode == 47) 
-    {
-      let index =this.Location.indexOf('/');
-      if(index<0)
-      {
-        this.isSlash=false;
+    }
+    else if ((event.target.value.length >= 1) && event.keyCode == 47) {
+      let index = this.Location.indexOf('/');
+      if (index < 0) {
+        this.isSlash = false;
       }
-     if(event.keyCode == 47 && !this.isSlash)
-     {
-      this.isSlash=true;
-      return true;
-     }
-     else { return false; }
-    } 
-    else{
+      if (event.keyCode == 47 && !this.isSlash) {
+        this.isSlash = true;
+        return true;
+      }
+      else { return false; }
+    }
+    else {
       return true;
     }
-    
+
   }
 
   onSelect(selectedItem) {
@@ -169,21 +165,21 @@ export class StackCardOpeningEntryComponent implements OnInit {
           });
           this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
-        case 'cd':
-          this.messageService.clear();
-            if (this.ICode !== undefined && this.ICode.value !== null) {
-                this.onView();
-            } else {
-              this.openView = false;
-            }
-          break;
-          case 'cy':
-            if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
-              this.stackOpeningData = this.stackOpeningData.filter(x => {
-                return x.CurYear === this.CurYear
-              })
-            }
-            break;
+      case 'cd':
+        this.messageService.clear();
+        if (this.ICode !== undefined && this.ICode.value !== null) {
+          this.onView();
+        } else {
+          this.openView = false;
+        }
+        break;
+      case 'cy':
+        if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
+          this.stackOpeningData = this.stackOpeningData.filter(x => {
+            return x.CurYear === this.CurYear
+          })
+        }
+        break;
     }
   }
 
@@ -192,71 +188,73 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.ClosingDate = null;
     if (this.selectedRow !== undefined) {
       if (this.selectedRow.Flag1 === 'R') {
-      this.nonEditable = true;
-      this.RowId = this.selectedRow.RowId;
-      this.Date = new Date(this.selectedRow.StackDate);
-      this.StackNo = this.selectedRow.StackNo.toUpperCase();
-      let index;
-      index = this.StackNo.toString().indexOf('/', 1);
-      const totalLength = this.StackNo.toString().length;
-      const trimmedValue = this.StackNo.toString().slice(0, index + 1);
-      const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
-      let nextIndex = nextValue.toString().indexOf('/', 1);
-      const locNo = nextValue.toString().slice(0, nextIndex);
-      this.Location = trimmedValue + locNo;
-      this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
-      this.Bags = (this.selectedRow.StackBalanceBags * 1);
-      this.Weights = (this.selectedRow.StackBalanceWeight * 1); 
-    } else {
-      this.onClear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+        this.nonEditable = true;
+        this.RowId = this.selectedRow.RowId;
+        this.Date = new Date(this.selectedRow.StackDate);
+        this.StackNo = this.selectedRow.StackNo.toUpperCase();
+        let index;
+        index = this.StackNo.toString().indexOf('/', 1);
+        const totalLength = this.StackNo.toString().length;
+        const trimmedValue = this.StackNo.toString().slice(0, index + 1);
+        const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
+        let nextIndex = nextValue.toString().indexOf('/', 1);
+        const locNo = nextValue.toString().slice(0, nextIndex);
+        this.Location = trimmedValue + locNo;
+        this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
+        this.Bags = (this.selectedRow.StackBalanceBags * 1);
+        this.Weights = (this.selectedRow.StackBalanceWeight * 1);
+      } else {
+        this.onClear();
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+      }
     }
-  } 
   }
 
   onView() {
-      this.openView = true;
-      this.stackOpeningData = [];
-      const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
-      this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
-        if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-          this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
-          let sno = 0;
-          res.Table.forEach(i => {
-            sno += 1;
-            this.stackOpeningData.push({
-              SlNo: sno,
-              RowId: i.RowId,
-              ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
-              StackDate: i.ObStackDate,
-              CommodityName: i.CommodityName,
-              StackNo: i.StackNo,
-              StackBalanceBags: (i.StackBalanceBags * 1),
-              StackBalanceWeight: (i.StackBalanceWeight * 1),
-              CurYear: i.CurYear,
-              Flag1: i.Flag1
-            })
-          });
-          if (res.Table1 !== undefined && res.Table1 !== null) {
-            res.Table1.forEach(cy => {
-              this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
-            })
-          }
-          // this.stackOpeningData.forEach(x => {
-          // });
-          this.Opening_Balance = this.stackOpeningData.slice(0);
-        } else {
-          this.openView = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+    this.openView = true;
+    this.stackOpeningData = [];
+    const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
+    this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
+      if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+        this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+        let sno = 0;
+        res.Table.forEach(i => {
+          sno += 1;
+          this.stackOpeningData.push({
+            SlNo: sno,
+            RowId: i.RowId,
+            ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
+            StackDate: i.ObStackDate,
+            CommodityName: i.CommodityName,
+            StackNo: i.StackNo,
+            StackBalanceBags: (i.StackBalanceBags * 1),
+            StackBalanceWeight: (i.StackBalanceWeight * 1),
+            CurYear: i.CurYear,
+            Flag1: i.Flag1
+          })
+        });
+        if (res.Table1 !== undefined && res.Table1 !== null) {
+          res.Table1.forEach(cy => {
+            this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
+          })
         }
-      });
+        // this.stackOpeningData.forEach(x => {
+        // });
+        this.Opening_Balance = this.stackOpeningData.slice(0);
+      } else {
+        this.openView = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
+    });
   }
 
   onClear() {
     this.nonEditable = false;
     this.Location = this.Formation = this.StackNo = null;
-      this.Bags = this.Weights = 0;
-      this.newEntry = this.cardExits = false;
+    this.Bags = this.Weights = 0;
+    this.newEntry = this.cardExits = false;
   }
 
   onSave() {
@@ -265,67 +263,79 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.stackOpeningData.forEach(x => {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.RunningStackCardErrMessage });
-        } 
+        }
       });
     } else if (this.cardExits) {
+      this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
       this.onClear();
     } else {
-    this.postData();
-} }
+      this.postData();
+    }
+  }
 
-postData() {
-  if (!this.nonEditable) {
-    const params = {
-      'GodownCode': this.GCode.value,
-      'CommodityCode': this.ICode.value,
-      'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
-      'Location': this.Location,
-      'Formation': this.Formation,
-      'StackNo': this.StackNo,
-      'Bags': this.Bags,
-      'Weights': this.Weights,
-      'RegionCode': this.GCode.rcode,
-      'clstackdate': new Date()
-    };
-    this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
-      if(res.Item1) {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExistingStackCardErrMessage });
-      }else if (res.Item2) {
-        this.onView();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
-      } else {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    })
-    this.onClear();
-  } else {
-    if(this.ClosingDate < this.Date) {
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
+  postData() {
+    if (!this.nonEditable) {
+      const params = {
+        'GodownCode': this.GCode.value,
+        'CommodityCode': this.ICode.value,
+        'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
+        'Location': this.Location,
+        'Formation': this.Formation,
+        'StackNo': this.StackNo,
+        'Bags': this.Bags,
+        'Weights': this.Weights,
+        'RegionCode': this.GCode.rcode,
+        'clstackdate': new Date()
+      };
+      this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
+        if (res.Item1) {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExistingStackCardErrMessage });
+        } else if (res.Item2) {
+          this.onView();
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        } else {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      })
+      this.onClear();
     } else {
-    const closingParams = {
-      'ClosedDate': this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'), 
-      'RowId': this.RowId };
-    this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
-      if (res) {
-        this.onView();
-        this.onClear();
-        this.nonEditable = false;
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackCardClosedSucceesMessage });
+      if (this.ClosingDate < this.Date) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
       } else {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        const closingParams = {
+          'ClosedDate': this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'),
+          'RowId': this.RowId
+        };
+        this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
+          if (res) {
+            this.onView();
+            this.onClear();
+            this.nonEditable = false;
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackCardClosedSucceesMessage });
+          } else {
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          }
+        }, (err: HttpErrorResponse) => {
+          if (err.status === 0) {
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          }
+        })
       }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    })
+    }
   }
-  }
-}
 }

@@ -85,9 +85,8 @@ export class StackCardComponent implements OnInit {
         }
         break;
       case 's':
-         if(this.g_cd.value !== undefined && this.g_cd.value !== null && this.Year.label !== undefined && this.Year.label !== null
-           && this.c_cd.value !== undefined &&  this.c_cd.value !== null) 
-         {
+        if (this.g_cd.value !== undefined && this.g_cd.value !== null && this.Year.label !== undefined && this.Year.label !== null
+          && this.c_cd.value !== undefined && this.c_cd.value !== null) {
           const params = {
             'GCode': this.g_cd.value,
             'StackDate': this.Year.label,
@@ -98,16 +97,16 @@ export class StackCardComponent implements OnInit {
             this.StackCardNoData = res;
             if (this.StackCardNoData !== undefined) {
               this.StackCardNoData.forEach(s => {
-                StackSelection.push({ 'label': s.StackNo,'value' : s.StackDate });
+                StackSelection.push({ 'label': s.StackNo, 'value': s.StackDate });
                 this.stackOptions = StackSelection;
               })
             }
           })
-         }
-         else{
+        }
+        else {
           this.stackOptions = StackSelection;
-         }
-        
+        }
+
     }
   }
 
@@ -121,7 +120,7 @@ export class StackCardComponent implements OnInit {
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-     
+
       if (res) {
         this.StackCardData = res;
         this.StackCardData.forEach(data => {
@@ -129,13 +128,14 @@ export class StackCardComponent implements OnInit {
           data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
           data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
           data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
-         
+
         });
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      
+
     });
     this.loading = false;
   }

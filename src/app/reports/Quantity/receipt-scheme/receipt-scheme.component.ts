@@ -12,13 +12,14 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-issue-scheme-co-op',
-  templateUrl: './issue-scheme-co-op.component.html',
-  styleUrls: ['./issue-scheme-co-op.component.css']
+  selector: 'app-receipt-scheme',
+  templateUrl: './receipt-scheme.component.html',
+  styleUrls: ['./receipt-scheme.component.css']
 })
-export class IssueSchemeCoOpComponent implements OnInit {
-  IssueSchemeCoOpCols: any;
-  IssueSchemeCoOpData: any;
+export class ReceiptSchemeComponent implements OnInit {
+
+  ReceiptSchemeCols: any;
+  ReceiptSchemeData: any;
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
@@ -33,14 +34,14 @@ export class IssueSchemeCoOpComponent implements OnInit {
   loading: boolean = false;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.IssueSchemeCoOpCols = this.tableConstants.SchemeAbstractIssueCoOp;
+    this.ReceiptSchemeCols = this.tableConstants.SchemeAbstractReceipt;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
@@ -51,12 +52,12 @@ export class IssueSchemeCoOpComponent implements OnInit {
       && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
       this.isViewDisabled = false;
     }
-    if(this.data.godownData !== undefined) {
+    if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
+        options.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = options;
+      });
+    }
   }
 
   onView() {
@@ -64,9 +65,9 @@ export class IssueSchemeCoOpComponent implements OnInit {
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
-      this.IssueSchemeCoOpData = res;
+      this.ReceiptSchemeData = res;
       let sno = 0;
-      this.IssueSchemeCoOpData.forEach(data => {
+      this.ReceiptSchemeData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
@@ -75,12 +76,14 @@ export class IssueSchemeCoOpComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
-      this.loading = false;
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }
@@ -100,20 +103,21 @@ export class IssueSchemeCoOpComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
   onResetTable() {
-    this.IssueSchemeCoOpData = [];
+    this.ReceiptSchemeData = [];
     this.isActionDisabled = true;
   }
 
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.IssueSchemeCoOpData, 'SCHEME_ABSTRACT_ISSUE_COOP',this.IssueSchemeCoOpCols);
-}
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.ReceiptSchemeData, 'SCHEME_ABSTRACT_RECEIPT', this.ReceiptSchemeCols);
+  }
 }

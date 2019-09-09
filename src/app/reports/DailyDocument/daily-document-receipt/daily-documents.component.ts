@@ -39,7 +39,7 @@ export class DailyDocumentsComponent implements OnInit {
   items: any;
   filterArray: any;
   searchText: any;
-  
+
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -108,15 +108,17 @@ export class DailyDocumentsComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.DailyDocumentReceiptData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-}
+  }
 
   onResetTable() {
     this.DailyDocumentReceiptData = [];

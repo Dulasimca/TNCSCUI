@@ -334,21 +334,21 @@ export class StockReceiptComponent implements OnInit {
         break;
       case 'pt':
         if (this.packingTypeOptions === undefined) {
-        if (type === 'enter') {
-          this.packingPanel.overlayVisible = true;
-        }
-        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-          if (res !== undefined && res !== null && res.length !== 0) {
-            res.Table.forEach(p => {
-              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
-            })
-            this.packingTypeOptions = packingTypes;
-            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          } else {
-            this.packingTypeOptions = packingTypes;
+          if (type === 'enter') {
+            this.packingPanel.overlayVisible = true;
           }
-        });
-       }
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.Table.forEach(p => {
+                packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+              })
+              this.packingTypeOptions = packingTypes;
+              this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            } else {
+              this.packingTypeOptions = packingTypes;
+            }
+          });
+        }
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
@@ -417,7 +417,7 @@ export class StockReceiptComponent implements OnInit {
       ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
-    this.itemData.forEach(x => { x.sno = sno; sno += 1;})
+    this.itemData.forEach(x => { x.sno = sno; sno += 1; })
   }
 
   parseMoisture(event) {
@@ -628,11 +628,13 @@ export class StockReceiptComponent implements OnInit {
             this.isViewed = false;
           }
           this.onClear();
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
@@ -641,6 +643,7 @@ export class StockReceiptComponent implements OnInit {
       this.isSaveSucceed = false;
       this.blockScreen = false;
       if (err.status === 0) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
@@ -662,6 +665,7 @@ export class StockReceiptComponent implements OnInit {
         this.documentViewData = res;
       } else {
         this.documentViewData = [];
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
@@ -736,6 +740,7 @@ export class StockReceiptComponent implements OnInit {
           sno += 1;
         });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
@@ -778,11 +783,13 @@ export class StockReceiptComponent implements OnInit {
     //       this.isViewed = false;
     //     } else {
     //       this.blockScreen = false;
+    this.messageService.clear();
     //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
     //     }
     //   }, (err: HttpErrorResponse) => {
     //     this.blockScreen = false;
     //     if (err.status === 0) {
+    this.messageService.clear();
     //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
     //     }
     //   });

@@ -177,14 +177,14 @@ export class TruckReceiptComponent implements OnInit {
     let schemeSelection = [];
     let receivorTypeList = [];
     let packingTypes = [];
-    let receivorNameList: any = []; 
+    let receivorNameList: any = [];
     let weighment = [];
     let regionsData = [];
     let itemDesc = [];
     switch (selectedItem) {
       case 'tr':
-        if(type === 'enter') {
-        this.transactionPanel.overlayVisible = true;
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
         }
         transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': this.transType },
           { 'label': 'Internal Transfer', 'value': 'TR021', 'transType': this.transType });
@@ -193,9 +193,9 @@ export class TruckReceiptComponent implements OnInit {
         this.enableReceivorRegn = (this.Trcode.value === 'TR021' || this.trCode === 'TR021') ? true : false;
         break;
       case 'sc':
-          if(type === 'enter') {
-            this.schemePanel.overlayVisible = true;
-            }
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -207,69 +207,69 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-          if(type === 'enter') {
-            this.receivorTypePanel.overlayVisible = true;
-            }if (this.Trcode !== null && this.Trcode !== undefined) {
-        if ((this.Trcode.value !== undefined && this.Trcode.value !== null) || (this.trCode !== null && this.trCode !== undefined)) {
-          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        res.forEach(rt => {
-              if (this.Trcode.label === 'Transfer') {
-                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
-              } else {
-                receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+        if (type === 'enter') {
+          this.receivorTypePanel.overlayVisible = true;
+        } if (this.Trcode !== null && this.Trcode !== undefined) {
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null) || (this.trCode !== null && this.trCode !== undefined)) {
+            const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
+            this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(rt => {
+                  if (this.Trcode.label === 'Transfer') {
+                    receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+                  } else {
+                    receivorTypeList.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+                  }
+                });
+                this.receivorTypeOptions = receivorTypeList;
               }
+              // this.isReceivorNameDisabled = false;
+              this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
-            this.receivorTypeOptions = receivorTypeList;
           }
-            // this.isReceivorNameDisabled = false;
-            this.receivorTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+        } else {
+          this.receivorTypeOptions = receivorTypeList;
         }
-      } else {
-        this.receivorTypeOptions = receivorTypeList;
-      }
         break;
       case 'rn':
-          if(type === 'enter') {
-            this.receivorNamePanel.overlayVisible = true;
-            }
-        if(this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
-        if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
-          this.RTCode.value !== undefined && this.RTCode.value !== null) || 
-          (this.trCode !== undefined && this.trCode !== null)) {
+        if (type === 'enter') {
+          this.receivorNamePanel.overlayVisible = true;
+        }
+        if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
+          if ((this.Trcode.value !== undefined && this.Trcode.value !== null &&
+            this.RTCode.value !== undefined && this.RTCode.value !== null) ||
+            (this.trCode !== undefined && this.trCode !== null)) {
             const params = new HttpParams().set('TyCode', this.RTCode.value).append('TRType', this.transType)
-            .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+              .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(rn => {
-                  if ((this.Trcode.value === 'TR004' || this.trCode === 'TR004') 
-                  && (this.RRCode !== null && this.RRCode !== undefined)) {
-                    if(rn.RCode === this.RRCode.value) {
-                    receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
+                  if ((this.Trcode.value === 'TR004' || this.trCode === 'TR004')
+                    && (this.RRCode !== null && this.RRCode !== undefined)) {
+                    if (rn.RCode === this.RRCode.value) {
+                      receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
                     }
                   } else {
                     receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
                   }
                 })
-              this.receivorNameOptions = receivorNameList;
+                this.receivorNameOptions = receivorNameList;
               }
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             });
           }
-      } else {
-        this.receivorNameOptions = receivorNameList;
-      }
+        } else {
+          this.receivorNameOptions = receivorNameList;
+        }
         break;
       case 'rr':
-        if(type === 'enter') {
+        if (type === 'enter') {
           this.receivorRegionPanel.overlayVisible = true;
-          }
+        }
         if (this.regions !== undefined && this.regions !== null) {
           this.regions.forEach(r => {
             if (r.RCode !== this.RCode) {
-            regionsData.push({ 'label': r.RName, 'value': r.RCode });
+              regionsData.push({ 'label': r.RName, 'value': r.RCode });
             }
           })
           this.receivorRegionOptions = regionsData;
@@ -280,145 +280,145 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'rh':
         // if (this.toRailHeadOptions === undefined) {
-          if(type === 'enter') {
-            this.railHeadPanel.overlayVisible = true;
-            }
-          const rail_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
+        if (type === 'enter') {
+          this.railHeadPanel.overlayVisible = true;
+        }
+        const rail_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
           .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, rail_params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(rh => {
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, rail_params).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(rh => {
               railHeads.push({ 'label': rh.DepositorName, 'value': rh.DepositorCode });
             })
             this.toRailHeadOptions = railHeads;
           }
-            this.toRailHeadOptions.unshift({ label: '-select-', value: null });
-          });
+          this.toRailHeadOptions.unshift({ label: '-select-', value: null });
+        });
         // }
         break;
       case 'fs':
         // if (this.fromStationOptions === undefined) {
-          if(type === 'enter') {
-            this.fromStationPanel.overlayVisible = true;
-            }
-          const fromStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
+        if (type === 'enter') {
+          this.fromStationPanel.overlayVisible = true;
+        }
+        const fromStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
           .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, fromStation_params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(fs => {
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, fromStation_params).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(fs => {
               fromStation.push({ 'label': fs.DepositorName, 'value': fs.DepositorCode });
             })
             this.fromStationOptions = fromStation;
           }
-            this.fromStationOptions.unshift({ label: '-select-', value: null });
-          });
+          this.fromStationOptions.unshift({ label: '-select-', value: null });
+        });
         // }
         break;
       case 'ts':
         // if (this.toStationOptions === undefined) {
-          if(type === 'enter') {
-            this.toStationPanel.overlayVisible = true;
-            }
-          const toStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
+        if (type === 'enter') {
+          this.toStationPanel.overlayVisible = true;
+        }
+        const toStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
           .append('GCode', this.GCode).append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, toStation_params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(ts => {
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, toStation_params).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(ts => {
               toStation.push({ 'label': ts.DepositorName, 'value': ts.DepositorCode });
             })
             this.toStationOptions = toStation;
           }
-            this.toStationOptions.unshift({ label: '-select-', value: null });
-          });
+          this.toStationOptions.unshift({ label: '-select-', value: null });
+        });
         // }
         break;
       case 'i_desc':
-        if(type === 'enter') {
+        if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
-          }
-        if (this.Scheme !== undefined && this.Scheme !== null) {
-        if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)){
-          const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
-          this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(i => {
-              itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-            })
-            this.itemDescOptions = itemDesc;
-          }
-            this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
         }
+        if (this.Scheme !== undefined && this.Scheme !== null) {
+          if ((this.Scheme.value !== undefined && this.Scheme.value !== null) || (this.schemeCode !== undefined && this.schemeCode !== null)) {
+            const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
+            this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(i => {
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                })
+                this.itemDescOptions = itemDesc;
+              }
+              this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            });
+          }
         } else {
           this.itemDescOptions = itemDesc;
         }
         break;
       case 'st_no':
-        if(type === 'enter') {
+        if (type === 'enter') {
           this.stackPanel.overlayVisible = true;
-          }
-        if (this.RCode !== undefined && this.ICode !== undefined  && this.ICode !== null) {
-        if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== null && this.iCode !== undefined)) {
-          const params = new HttpParams().set('GCode', this.GCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
-          this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(s => {
-              stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
-            })
-            this.stackOptions = stackNo;
-          }
-            this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
-          });
         }
-      } else {
-        this.stackOptions = stackNo;
-      }
+        if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
+          if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== null && this.iCode !== undefined)) {
+            const params = new HttpParams().set('GCode', this.GCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode);
+            this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(s => {
+                  stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
+                })
+                this.stackOptions = stackNo;
+              }
+              this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
+            });
+          }
+        } else {
+          this.stackOptions = stackNo;
+        }
         break;
       case 'pt':
-          if(type === 'enter') {
-            this.packingPanel.overlayVisible = true;
-            }
+        if (type === 'enter') {
+          this.packingPanel.overlayVisible = true;
+        }
         // if (this.packingTypeOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.Table.forEach(p => {
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
             })
             this.packingTypeOptions = packingTypes;
           }
-            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+          this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        });
         // } 
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
-          if(type === 'enter') {
-            this.weighmentPanel.overlayVisible = true;
-            }
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.Table1.forEach(w => {
+        if (type === 'enter') {
+          this.weighmentPanel.overlayVisible = true;
+        }
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
             })
             this.wmtOptions = weighment;
           }
-            this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          });
+          this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        });
         // }
         break;
       case 'fc':
-          if(type === 'enter') {
-            this.freightPanel.overlayVisible = true;
-            }
+        if (type === 'enter') {
+          this.freightPanel.overlayVisible = true;
+        }
         // if (this.freightOptions === undefined) {
         this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
         // }
         break;
       case 'vc':
         // if(this.vehicleOptions === undefined) {
-          if(type === 'enter') {
-            this.vehiclePanel.overlayVisible = true;
-            }
+        if (type === 'enter') {
+          this.vehiclePanel.overlayVisible = true;
+        }
         this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },
         { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT' }];
         // }
@@ -436,7 +436,7 @@ export class TruckReceiptComponent implements OnInit {
         this.itemDescOptions = []; this.stackOptions = [];
         this.iCode = null; this.ICode = null; this.TStockNo = null;
         break;
-        case 'i_desc':
+      case 'i_desc':
         this.stackOptions = [];
         this.TStockNo = null;
         break;
@@ -444,7 +444,7 @@ export class TruckReceiptComponent implements OnInit {
         this.receivorNameOptions = []; this.receivorTypeOptions = [];
         this.rnCode = null; this.RTCode = null; this.RNCode = null;
         break;
-        case 'rt':
+      case 'rt':
         this.receivorNameOptions = [];
         this.rnCode = null; this.RNCode = null;
         break;
@@ -464,34 +464,34 @@ export class TruckReceiptComponent implements OnInit {
   deleteRow(data, index) {
     let sno = 1;
     this.TStockNo = data.TStockNo;
-        this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
-        this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
-        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme}];
-        this.StackDate = data.StackDate;
-        this.ICode = data.ITDescription; this.iCode = data.ICode;
-        this.itemDescOptions = [{ label: data.ITDescription, value: data.ICode }];
-        this.IPCode = data.PackingType; this.ipCode = data.IPCode;
-        this.PWeight = (data.PWeight * 1);
-        this.packingTypeOptions = [{ label: data.PackingType, value: data.IPCode }];
-        this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-        this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
-        this.NoPacking = (data.NoPacking * 1),
-        this.GKgs = (data.GKgs * 1).toFixed(3);
-        this.NKgs = (data.Nkgs * 1).toFixed(3);
-        this.Moisture = (data.Moisture * 1).toFixed(2);
-        if (this.TStockNo !== undefined && this.TStockNo !== null) {
-          let index;
-          index = this.TStockNo.toString().indexOf('/', 2);
-          const totalLength = this.TStockNo.length;
-          this.GodownNo = this.TStockNo.toString().slice(0, index);
-          this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
-        }
-        this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
-        this.itemData.splice(index, 1);
-        this.itemData.forEach(x => {x.sno = sno; sno += 1;})
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
-        this.onStackNoChange(list);
-        }
+    this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
+    this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
+    this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
+    this.StackDate = data.StackDate;
+    this.ICode = data.ITDescription; this.iCode = data.ICode;
+    this.itemDescOptions = [{ label: data.ITDescription, value: data.ICode }];
+    this.IPCode = data.PackingType; this.ipCode = data.IPCode;
+    this.PWeight = (data.PWeight * 1);
+    this.packingTypeOptions = [{ label: data.PackingType, value: data.IPCode }];
+    this.WTCode = data.WmtType; this.wtCode = data.WTCode;
+    this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
+    this.NoPacking = (data.NoPacking * 1),
+      this.GKgs = (data.GKgs * 1).toFixed(3);
+    this.NKgs = (data.Nkgs * 1).toFixed(3);
+    this.Moisture = (data.Moisture * 1).toFixed(2);
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      let index;
+      index = this.TStockNo.toString().indexOf('/', 2);
+      const totalLength = this.TStockNo.length;
+      this.GodownNo = this.TStockNo.toString().slice(0, index);
+      this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+    }
+    this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+    this.itemData.splice(index, 1);
+    this.itemData.forEach(x => { x.sno = sno; sno += 1; })
+    const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
+    this.onStackNoChange(list);
+  }
 
   parseMoisture(event) {
     let totalLength = event.target.value.length;
@@ -507,7 +507,7 @@ export class TruckReceiptComponent implements OnInit {
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
         let checkValue: any = this.Moisture.toString().slice(0, 2);
-      checkValue = (checkValue * 1);
+        checkValue = (checkValue * 1);
         if (checkValue > 25) {
           let startValue = this.Moisture.toString().slice(0, 1);
           let endValue = this.Moisture.toString().slice(1, totalLength);
@@ -518,7 +518,7 @@ export class TruckReceiptComponent implements OnInit {
           endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
           this.Moisture = startValue + '.' + endValue;
         }
-      } 
+      }
     } else {
       return true;
     }
@@ -539,11 +539,11 @@ export class TruckReceiptComponent implements OnInit {
   onCalculateWt() {
     let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
     let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
-      if (grossWt < netWt) {
-        this.NKgs = null; this.GKgs = null; this.TKgs = null;
-      } else {
-        this.TKgs = (grossWt - netWt).toFixed(3);
-      }
+    if (grossWt < netWt) {
+      this.NKgs = null; this.GKgs = null; this.TKgs = null;
+    } else {
+      this.TKgs = (grossWt - netWt).toFixed(3);
+    }
   }
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
@@ -554,7 +554,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onClear() {
-    this.itemData = []; this.STTDetails =  [];
+    this.itemData = []; this.STTDetails = [];
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
     this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
@@ -585,15 +585,15 @@ export class TruckReceiptComponent implements OnInit {
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackYear = this.TStockNo.stack_yr;
       let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? 
-      this.TStockNo.value : this.TStockNo;
-      if(this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
-      index = TStockNo.toString().indexOf('/', 2);
-      const totalLength = TStockNo.length;
-      this.GodownNo = TStockNo.toString().slice(0, index);
-      this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+        this.TStockNo.value : this.TStockNo;
+      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
+        index = TStockNo.toString().indexOf('/', 2);
+        const totalLength = TStockNo.length;
+        this.GodownNo = TStockNo.toString().slice(0, index);
+        this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
       } else {
-      this.GodownNo = this.stackYear = this.LocationNo = null;
+        this.GodownNo = this.stackYear = this.LocationNo = null;
       }
     } else {
       this.GodownNo = this.stackYear = this.LocationNo = null;
@@ -616,25 +616,26 @@ export class TruckReceiptComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
         this.StackBalance = (this.StackBalance * 1);
-      if (this.StackBalance > 0) {
-        this.isValidStackBalance = false;
-        this.CurrentDocQtv = this.NetStackBalance = 0;
-        if(this.itemData.length !== 0) {
-          this.itemData.forEach(x => {
-            if(x.TStockNo === stack_data.value) {
-              this.CurrentDocQtv += (x.Nkgs * 1);
-              this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-            }
-          })
+        if (this.StackBalance > 0) {
+          this.isValidStackBalance = false;
+          this.CurrentDocQtv = this.NetStackBalance = 0;
+          if (this.itemData.length !== 0) {
+            this.itemData.forEach(x => {
+              if (x.TStockNo === stack_data.value) {
+                this.CurrentDocQtv += (x.Nkgs * 1);
+                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+              }
+            })
+          }
+        } else {
+          this.isValidStackBalance = true;
+          this.CurrentDocQtv = 0;
+          this.NetStackBalance = 0;
+          this.messageService.clear();
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
-      } else {
-        this.isValidStackBalance = true;
-        this.CurrentDocQtv = 0;
-        this.NetStackBalance = 0;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
       }
-    }
     })
   }
 
@@ -652,9 +653,9 @@ export class TruckReceiptComponent implements OnInit {
       GKgs: this.GKgs, Nkgs: this.NKgs, Moisture: (this.Moisture === undefined) ? 0 : this.Moisture,
       SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
       Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
-      PWeight: (this.IPCode.weight  !== undefined) ? this.IPCode.weight : this.PWeight,
+      PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
-       new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode
+        new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode
     })
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
@@ -675,16 +676,17 @@ export class TruckReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-      this.GKgs = null; this.NKgs = null; this.GodownNo = null; this.LocationNo = null;
-      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
-      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-      this.packingTypeOptions = []; this.wmtOptions = [];
+        this.GKgs = null; this.NKgs = null; this.GodownNo = null; this.LocationNo = null;
+        this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+        this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+        this.packingTypeOptions = []; this.wmtOptions = [];
       }
-      }
+    }
   }
 
   onRowSelect(event) {
@@ -700,26 +702,27 @@ export class TruckReceiptComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         let sno = 1;
         res.forEach(data => {
-        data.sno = sno;
-        data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
-        sno += 1;
-      })
-      this.truckMemoViewData = res;
-    } else {
-      this.truckMemoViewData = [];
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-    }
+          data.sno = sno;
+          data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
+          sno += 1;
+        })
+        this.truckMemoViewData = res;
+      } else {
+        this.truckMemoViewData = [];
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
     });
   }
 
-  resetForm(truckMemoForm: NgForm){
+  resetForm(truckMemoForm: NgForm) {
     truckMemoForm.form.markAsUntouched();
     truckMemoForm.form.markAsPristine();
- }
+  }
 
   getDocBySTNo() {
     this.messageService.clear();
-    this.itemData = []; 
+    this.itemData = [];
     this.viewPane = false;
     this.isViewed = true;
     const params = new HttpParams().set('sValue', this.STNo).append('Type', '2').append('GCode', this.GCode);
@@ -729,7 +732,7 @@ export class TruckReceiptComponent implements OnInit {
         this.STNo = res[0].STNo;
         this.RowId = res[0].RowId;
         this.STDate = new Date(res[0].STDate);
-        this.transactionOptions = [{label: res[0].TransactionName, value: res[0].TrCode}];
+        this.transactionOptions = [{ label: res[0].TransactionName, value: res[0].TrCode }];
         this.Trcode = res[0].TransactionName;
         this.trCode = res[0].TrCode;
         this.enableReceivorRegn = (this.Trcode.value === 'TR021' || this.trCode === 'TR021') ? true : false;
@@ -748,13 +751,14 @@ export class TruckReceiptComponent implements OnInit {
           this.disableRailHead = false;
         }
         if (res[0].RailHead !== null) {
-        this.toRailHeadOptions = [{label: res[0].RHName, value: res[0].RailHead}];
-        this.RHCode = res[0].RHName;
-        this.rhCode = res[0].RailHead }
-        this.receivorNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivingCode}];
+          this.toRailHeadOptions = [{ label: res[0].RHName, value: res[0].RailHead }];
+          this.RHCode = res[0].RHName;
+          this.rhCode = res[0].RailHead
+        }
+        this.receivorNameOptions = [{ label: res[0].ReceivorName, value: res[0].ReceivingCode }];
         this.RNCode = res[0].ReceivorName,
-        this.rnCode = res[0].ReceivingCode,
-        this.ManualDocNo = res[0].Flag1;
+          this.rnCode = res[0].ReceivingCode,
+          this.ManualDocNo = res[0].Flag1;
         this.TransporterName = res[0].TransporterName;
         this.LWBillDate = new Date(res[0].LWBillDate);
         this.LWBillNo = res[0].LWBillNo;
@@ -768,12 +772,12 @@ export class TruckReceiptComponent implements OnInit {
         this.freightOptions = [{ label: res[0].FCode, value: res[0].FCode }];
         this.FCode = res[0].FCode;
         this.vehicleOptions = [{ label: res[0].Vcode, value: res[0].Vcode }],
-        this.VCode = res[0].Vcode;
+          this.VCode = res[0].Vcode;
         this.fromStationOptions = [{ label: res[0].FromStation, value: res[0].FStation }],
-        this.FStation = res[0].FromStation;
+          this.FStation = res[0].FromStation;
         this.fStationCode = res[0].FStation;
         this.toStationOptions = [{ label: res[0].ToStation, value: res[0].TStation }],
-        this.TStation = res[0].ToStation;
+          this.TStation = res[0].ToStation;
         this.tStationCode = res[0].TStation;
         this.RRNo = res[0].RRNo;
         this.RailFreightAmt = res[0].RFreightAmount;
@@ -805,6 +809,7 @@ export class TruckReceiptComponent implements OnInit {
           sno += 1;
         });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
@@ -867,8 +872,8 @@ export class TruckReceiptComponent implements OnInit {
       'ReceivingName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
       'ManualDocNo': this.ManualDocNo,
       'RegionName': this.regionName,
-      'RailHeadName': (this.RHCode !== undefined && this.RHCode !== null) ?  
-      ((this.RHCode.label !== undefined) ? this.RHCode.label : this.RHCode) : '-',
+      'RailHeadName': (this.RHCode !== undefined && this.RHCode !== null) ?
+        ((this.RHCode.label !== undefined) ? this.RHCode.label : this.RHCode) : '-',
       'IssueSlip': this.IssueSlip,
       'UserID': this.username.user,
       'documentSTItemDetails': this.itemData,
@@ -877,9 +882,10 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
-          if(type !== '2') {
+          if (type !== '2') {
             this.isSaveSucceed = true;
             this.isViewed = false;
           } else {
@@ -893,15 +899,17 @@ export class TruckReceiptComponent implements OnInit {
           this.isSaveSucceed = false;
           this.isViewed = true;
           this.STTDetails = [];
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
-    },(err: HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       this.isSaveSucceed = false;
       this.isViewed = false;
       this.blockScreen = false;
-       if (err.status === 0) {
+      if (err.status === 0) {
         this.STTDetails = [];
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
@@ -928,11 +936,13 @@ export class TruckReceiptComponent implements OnInit {
     //     this.isViewed = false;
     //   } else {
     //     this.blockScreen = false;
+    this.messageService.clear();
     //     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
     //   } 
     //   },(err: HttpErrorResponse) => {
     //     this.blockScreen = false;
     //      if (err.status === 0) {
+    this.messageService.clear();
     //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
     //     }
     //   });

@@ -88,9 +88,9 @@ export class SocietyMasterNewComponent implements OnInit {
           // this.SocietyData.push({ 'label': x.SocietyCode, 'value': x.Societyname });
           // this.SocietyOptions = this.SocietyData;
           this.typeOptions = TypeSelection;
-          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, 
-          { 'label': 'CRS', 'value': 'TY004' },
-           { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
+          this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true },
+            { 'label': 'CRS', 'value': 'TY004' },
+            { 'label': 'COOPERATIVES LEADING', 'value': 'TY002' }, { 'label': 'COOPERATIVES PRIMARY', 'value': 'TY003' });
           // });
         }
       });
@@ -111,12 +111,14 @@ export class SocietyMasterNewComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning!', detail: 'No record for this combination' });
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message!', detail: 'Please contact administrator' });
       }
     });
@@ -133,6 +135,7 @@ export class SocietyMasterNewComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.SOCIETY_MASTER_NEW_ENTRY_POST, params).subscribe(value => {
       if (value) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: 'success', summary: 'Success Message', detail: 'Updated Successfully!' });
         const params = new HttpParams().set('GCode', this.gCode);
         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_NEW_ENTRY_GET, params).subscribe(res => {
@@ -144,6 +147,7 @@ export class SocietyMasterNewComponent implements OnInit {
           });
         });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
       }
     });

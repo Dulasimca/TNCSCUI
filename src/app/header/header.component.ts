@@ -66,7 +66,8 @@ export class HeaderComponent implements OnInit {
 
   onForgetPswd() {
     if (this.ChangeForm.invalid) {
-      this.messageService.add({ key:'t-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
       let username = new HttpParams().append('userName', this.userName);
@@ -80,7 +81,8 @@ export class HeaderComponent implements OnInit {
           }
         } else {
           this.onClear();
-          this.messageService.add({ key:'t-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
         }
       });
     }
@@ -104,14 +106,17 @@ export class HeaderComponent implements OnInit {
     if (this.OldPassword === head) {
       this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
         if (res) {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.PasswordChangeSuccessMessage });
           // setTimeout(this.onTime, 3000);
         } else {
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
       // this.router.navigate(['login']);
     } else {
+      this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.PasswordMatchErrorMessage });
     }
     this.onClear();

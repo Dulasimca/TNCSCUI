@@ -416,11 +416,11 @@ export class IssueReceiptComponent implements OnInit {
   onCalculateWt() {
     let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
     let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
-      if (grossWt < netWt) {
-        this.NKgs = null; this.GKgs = null; this.TKgs = null;
-      } else {
-        this.TKgs = (grossWt - netWt).toFixed(3);
-      }
+    if (grossWt < netWt) {
+      this.NKgs = null; this.GKgs = null; this.TKgs = null;
+    } else {
+      this.TKgs = (grossWt - netWt).toFixed(3);
+    }
   }
 
   onStackNoChange(event) {
@@ -551,11 +551,11 @@ export class IssueReceiptComponent implements OnInit {
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
+        x.sno = sno;
         if (x.TStockNo === stock_no) {
-          x.sno = sno;
           this.CurrentDocQtv += (x.Nkgs * 1);
-          sno += 1;
         }
+        sno += 1;
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
@@ -565,6 +565,7 @@ export class IssueReceiptComponent implements OnInit {
         this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
@@ -614,7 +615,7 @@ export class IssueReceiptComponent implements OnInit {
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
         this.itemData.splice(index, 1);
         let sno = 1;
-        this.itemData.forEach(x => {x.sno = sno; sno += 1;});
+        this.itemData.forEach(x => { x.sno = sno; sno += 1; });
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
         break;
@@ -684,12 +685,14 @@ export class IssueReceiptComponent implements OnInit {
             this.isViewed = false;
           }
           this.blockScreen = false;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
+          this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }
@@ -719,6 +722,7 @@ export class IssueReceiptComponent implements OnInit {
         this.issueMemoDocData = res.Table;
       } else {
         this.issueMemoDocData = [];
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     });
