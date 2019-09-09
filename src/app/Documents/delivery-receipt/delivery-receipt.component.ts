@@ -712,6 +712,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
+    this.selectedItem = null; this.PrevOrderNo = null;
+    this.PrevOrderDate = new Date();
     //this.isViewed = false;
   }
 
@@ -805,7 +807,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.paymentData.forEach(x => {
             this.PaidAmount += (x.PaymentAmount * 1);
           })
-          this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+          // this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
