@@ -33,8 +33,8 @@
       <div class="ui-g-12 ui-md-2">
         <label for="ReceivorType" class="ui-g label-fontsize dashboard">Receiver Type</label>
         <p-dropdown #receiver name="ReceivorType" class="ui-g-12 ui-fluid dashboard" [options]="receiverOptions"
-          [(ngModel)]="r_cd" (onClick)="onSelect('r')" (keydown.enter)="onSelect('r')" (ngModelChange)="onResetTable()"
-          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          [(ngModel)]="r_cd" (onChange)="onSelect('r')" (onClick)="onSelect('r')" (ngModelChange)="onResetTable()"
+          filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -71,8 +71,12 @@
       <div class="ui-g-5"></div> -->
       <div class="ui-g-12 ui-md-4"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !r_cd || !s_cd || !fromDate || !toDate || !t_cd)"></button>
+        <button pButton type="button" label=View (click)="onView()"></button>
       </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid">
+        <button pButton type="button" label="View Abstract" (click)="onAbstract()"></button>
+      </div>
+      <!-- [disabled]="(!g_cd || !r_cd || !s_cd || !fromDate || !toDate || !t_cd)" -->
       <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div>
@@ -81,7 +85,7 @@
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table [columns]="IssueMemoCustomerDetailsCols" [value]="IssueMemoCustomerDetailsData" [rows]="20"
+        <p-table [columns]="(IssueMemoCustomerDetailsCols || AbstractCols)" [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
           autoLayout="true">
           <ng-template pTemplate="header" let-columns>

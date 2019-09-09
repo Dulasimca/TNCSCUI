@@ -21,7 +21,8 @@ import { Dropdown } from 'primeng/primeng';
 export class CustomerDetailsComponent implements OnInit {
   IssueMemoCustomerDetailsData: any;
   IssueMemoCustomerDetailsCols: any;
-  IssueData: any;
+  AbstractData: any;
+  AbstractCols: any;
   canShowMenu: boolean;
   receiverOptions: SelectItem[];
   godownOptions: SelectItem[];
@@ -57,7 +58,6 @@ export class CustomerDetailsComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.gCode = this.authService.getUserAccessible().gCode;
     this.isActionDisabled = true;
-    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
     this.maxDate = new Date();
   }
 
@@ -75,7 +75,7 @@ export class CustomerDetailsComponent implements OnInit {
   onSelect(item) {
     switch (item) {
       case 't':
-        if (this.transactionOptions === undefined && this.receiverOptions === undefined) {
+        if (this.transactionOptions === undefined && this.receiverOptions === undefined && this.societyOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
             s.forEach(c => {
               if (c.TransType === 'I') {
@@ -87,14 +87,26 @@ export class CustomerDetailsComponent implements OnInit {
         }
         break;
       case 'r':
-        const params = new HttpParams().set('TRCode', this.t_cd.value);
-        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
-          res.forEach(s => {
-            this.ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+        {
+          const params = new HttpParams().set('TRCode', this.t_cd.value);
+          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+            res.forEach(s => {
+              this.ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+            });
+            this.receiverOptions = this.ReceiverSelection;
           });
-          this.receiverOptions = this.ReceiverSelection;
-        });
+        }
         break;
+      //   case 's':
+      //     const params = new HttpParams().set('GCode', this.g_cd.value);
+      //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+      //       var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
+      //       var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+      //       for (var index in result && code) {
+      //         this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
+      //       }
+      //       this.societyOptions = this.SocietySelection;
+      //     });
     }
   }
 
@@ -181,6 +193,7 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   onView() {
+    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
     const params = {
       'GCode': this.gCode,
       'SCode': this.s_cd.value,
@@ -189,32 +202,68 @@ export class CustomerDetailsComponent implements OnInit {
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-        this.IssueMemoCustomerDetailsData = res;
-        let sno = 0;
-        this.IssueMemoCustomerDetailsData.forEach(data => {
-          data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
-          sno += 1;
-          data.SlNo = sno;
-        });
-        if (res !== undefined && res.length !== 0) {
-          this.isActionDisabled = false;
-        } else {
-          this.loading = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-        }
-        this.loading = false;
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0) {
-          this.loading = false;
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
-        }
+      this.IssueMemoCustomerDetailsData = res;
+      let sno = 0;
+      this.IssueMemoCustomerDetailsData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+        sno += 1;
+        data.SlNo = sno;
       });
-    }
+      if (res !== undefined && res.length !== 0) {
+        this.isActionDisabled = false;
+      } else {
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+    this.onClear();
+  }
+
+  onAbstract() {
+    this.AbstractCols = this.tableConstants.IssueMemoAbstract;
+    const params = {
+      'GCode': this.gCode,
+      'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy')
+    };
+    this.restAPIService.getByParameters(PathConstants.ISSUE_MEMO_CUTOMER_ABSTRACT_GET, params).subscribe(res => {
+      this.AbstractData = res; let sno = 0;
+      this.IssueMemoCustomerDetailsData.forEach(data => {
+        data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+        sno += 1;
+        data.SlNo = sno;
+      });
+      if (res !== undefined && res.length !== 0) {
+        this.isActionDisabled = false;
+      } else {
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0) {
+        this.loading = false;
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+    this.onClear();
+  }
 
   onResetTable() {
     this.isActionDisabled = true;
     this.TransactionSelection = [];
     this.ReceiverSelection = [];
+  }
+
+  onClear() {
+    this.AbstractData = this.AbstractCols = [];
+    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {
