@@ -57,7 +57,7 @@ export class TruckReceiptComponent implements OnInit {
   canShowMenu: boolean;
   RowId: any;
   MTransport: any;
-  TKgs: number;
+  TKgs: any;
   STNo: any;
   STDate: Date = new Date();
   Trcode: any;
@@ -528,7 +528,7 @@ export class TruckReceiptComponent implements OnInit {
       && this.IPCode !== undefined && this.IPCode !== null) {
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
-      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
+      this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = this.NKgs = this.TKgs = null;
     }
@@ -540,7 +540,7 @@ export class TruckReceiptComponent implements OnInit {
       if (grossWt < netWt) {
         this.NKgs = null; this.GKgs = null; this.TKgs = null;
       } else {
-        this.TKgs = (grossWt - netWt);
+        this.TKgs = (grossWt - netWt).toFixed(3);
       }
   }
   openNext() {

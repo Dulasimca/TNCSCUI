@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
@@ -11,7 +11,6 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { saveAs } from 'file-saver';
 import { NgForm } from '@angular/forms';
 
 
@@ -41,7 +40,7 @@ export class StockReceiptComponent implements OnInit {
   yearOptions: SelectItem[];
   year: any;
   isSaveSucceed: boolean = false;
-  tareWt: number;
+  tareWt: any;
   maxDate: Date = new Date();
   enableActions: boolean = true;
   viewDate: Date = new Date();
@@ -168,6 +167,10 @@ export class StockReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
   }
 
+  onFilter(event) {
+    console.log(event);
+  }
+
   onSelect(selectedItem, type) {
     let transactoinSelection: any = [];
     let schemeSelection: any = [];
@@ -213,7 +216,8 @@ export class StockReceiptComponent implements OnInit {
           this.transactionPanel.overlayVisible = true;
         }
         //   this.transactionPanel.onFilter(event)
-        this.transactionPanel.resetFilterOnHide = true;
+          // this.transactionPanel.resetFilterOnHide = true;
+        //  this.transactionPanel.filterMatchMode="startsWith"
         // this.transactionPanel.onFilter(event => {
         //  this.transactionOptions = this.transactionOptions.filter(x => { return x.label.startsWith(event);});
         // })
@@ -345,7 +349,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        // if (this.packingTypeOptions === undefined) {
+        if (this.packingTypeOptions === undefined) {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
@@ -361,7 +365,7 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-        // }
+       }
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
@@ -469,7 +473,7 @@ export class StockReceiptComponent implements OnInit {
       && this.IPCode !== undefined && this.IPCode !== null) {
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
-      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
+      this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = this.NKgs = this.tareWt = null;
     }
@@ -481,7 +485,7 @@ export class StockReceiptComponent implements OnInit {
     if (grossWt < netWt) {
       this.NKgs = null; this.GKgs = null; this.tareWt = null;
     } else {
-      this.tareWt = (grossWt - netWt);
+      this.tareWt = (grossWt - netWt).toFixed(3);
     }
   }
 
