@@ -57,7 +57,7 @@ export class TruckReceiptComponent implements OnInit {
   canShowMenu: boolean;
   RowId: any;
   MTransport: any;
-  TKgs: number;
+  TKgs: any;
   STNo: any;
   STDate: Date = new Date();
   Trcode: any;
@@ -462,6 +462,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
+    let sno = 1;
     this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
@@ -487,6 +488,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
         this.itemData.splice(index, 1);
+        this.itemData.forEach(x => {x.sno = sno; sno += 1;})
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
         this.onStackNoChange(list);
         }
@@ -526,14 +528,23 @@ export class TruckReceiptComponent implements OnInit {
     this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
-        let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
-      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
+      this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
-      this.GKgs = this.NKgs = this.TKgs = 0;
+      this.GKgs = this.NKgs = this.TKgs = null;
     }
   }
 
+  onCalculateWt() {
+    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
+    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt).toFixed(3);
+      }
+  }
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
@@ -567,15 +578,6 @@ export class TruckReceiptComponent implements OnInit {
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
     //this.isViewed = false;
-  }
-
-  onCalculateWt() {
-    if (this.GKgs !== undefined && this.NKgs !== undefined)  {
-      this.TKgs = (this.GKgs * 1) - (this.NKgs * 1);
-    }
-    if (this.GKgs < this.NKgs) {
-      this.NKgs = this.GKgs = this.TKgs = 0;
-    }
   }
 
   onStackNoChange(event) {
@@ -657,11 +659,14 @@ export class TruckReceiptComponent implements OnInit {
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
+        x.sno = sno;
         if (x.TStockNo === stock_no) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
+        sno += 1;
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
@@ -776,8 +781,10 @@ export class TruckReceiptComponent implements OnInit {
         this.WNo = res[0].Wno;
         this.Remarks = res[0].Remarks;
         this.IssueSlip = res[0].IssueSlip;
+        let sno = 1;
         res.forEach(i => {
           this.itemData.push({
+            sno: sno,
             TStockNo: i.TStockNo,
             ICode: i.ICode,
             IPCode: i.IPCode,
@@ -795,6 +802,7 @@ export class TruckReceiptComponent implements OnInit {
             StackDate: i.StackDate,
             RCode: i.RCode
           })
+          sno += 1;
         });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });

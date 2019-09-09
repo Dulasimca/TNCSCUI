@@ -12,7 +12,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (keydown.enter)="onSelect()"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" 
+          optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -32,7 +33,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Transfer Type</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="transferOptions" [(ngModel)]="tr_cd" (keydown.enter)="onTransfer()"
           (onClick)="onTransfer()" (ngModelChange)="onResetTable()" filter="true" optionLabel="label"
-          [showClear]="true">
+          resetFilterOnHide="true" [showClear]="true">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

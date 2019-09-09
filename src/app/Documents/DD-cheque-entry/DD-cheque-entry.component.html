@@ -43,7 +43,8 @@
                 <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
                 <p-dropdown #receivor name="recvrType" [options]="receivorTypeOptions"
                  [(ngModel)]="receivorType" (onClick)="onSelect('click','rt')" (keydown.enter)="onSelect('enter','rt')"
-                  filter="true" optionLabel="label" (onChange)="onLoadReceivor()" [showClear]="true">
+                  filter="true" optionLabel="label"  resetFilterOnHide="true" 
+                  (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>

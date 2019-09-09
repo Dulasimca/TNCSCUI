@@ -21,7 +21,7 @@
               <label class="ui-g-7 label-fontsize dashboard">Transaction</label>
               <p-dropdown class="ui-g-12 ui-fluid dashboard" id="float-input" [options]="transactionOptions" [(ngModel)]="tr_cd"
               (onClick)="onSelect('transaction')" (keydown.enter)="onSelect('transaction')" (ngModelChange)="onResetTable()"
-              filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template></p-dropdown>

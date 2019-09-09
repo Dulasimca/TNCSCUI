@@ -206,6 +206,7 @@ export class TableConstants {
     ]
 
     this.DeliveryItemColumns = [
+      { field: 'sno', header: 'S.No:' },
       { field: 'ITDescription', header: 'IT Description' },
       { field: 'NetWeight', header: 'Net Weight' },
       { field: 'Wtype', header: 'Unit Measure' },
@@ -215,6 +216,7 @@ export class TableConstants {
     ]
 
     this.DeliveryItemSchemeColumns = [
+      { field: 'sno', header: 'S.No:' },
       { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'ITDescription', header: 'Item Name' },
       { field: 'MarginNkgs', header: 'Net Weight' },
@@ -224,6 +226,7 @@ export class TableConstants {
     ];
 
     this.DeliveryPaymentcolumns = [
+      { field: 'sno', header: 'S.No:' },
       { field: 'PaymentMode', header: 'Payment Mode' },
       { field: 'ChequeNo', header: 'CH/DD/PO No' },
       { field: 'ChequeDate', header: 'CH/DD/PO Date' },
@@ -233,6 +236,7 @@ export class TableConstants {
     ]
 
     this.DeliveryPaymentBalanceCols = [
+      { field: 'sno', header: 'S.No:' },
       { field: 'AdjustedDoNo', header: 'Previous DO' },
       { field: 'AdjustedDate', header: 'DO Date' },
       { field: 'Amount', header: 'Adj. Amt' },
@@ -462,6 +466,7 @@ export class TableConstants {
     ];
 
     this.StockReceiptItemColumns = [
+      { field: 'sno', header: 'SI.No.' },
       { field: 'TStockNo', header: 'Stack No.' },
       { field: 'CommodityName', header: 'Item Description' },
       { field: 'PackingName', header: 'Packing Type' },
@@ -491,6 +496,7 @@ export class TableConstants {
       { field: 'IssueMemoDate', header: 'SI Date' }];
 
     this.StockIssueMemoItemDetailsColumns = [
+      { field: 'sno', header: 'S.No:' },
       { field: 'TStockNo', header: 'Stack No.' },
       { field: 'CommodityName', header: 'Item Description' },
       { field: 'PackingName', header: 'Packing Type' },
@@ -827,6 +833,7 @@ export class TableConstants {
     ];
 
     this.TruckMemoItemDetails = [
+      { field: 'sno', header: 'SI.No.' },
       { header: 'Stack No.', field: 'TStockNo' },
       { header: 'Item Description', field: 'ITDescription' },
       { header: 'Packing Type', field: 'PackingType' },

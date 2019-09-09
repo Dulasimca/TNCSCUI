@@ -14,7 +14,7 @@
             <label class="ui-g-7 label-fontsize dashboard">GODOWN</label>
             <p-dropdown #godown [options]="godownOptions" [(ngModel)]="godownCode"
              (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
-              filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+              filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>

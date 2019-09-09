@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
@@ -11,7 +11,6 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { saveAs } from 'file-saver';
 import { NgForm } from '@angular/forms';
 
 
@@ -41,7 +40,7 @@ export class StockReceiptComponent implements OnInit {
   yearOptions: SelectItem[];
   year: any;
   isSaveSucceed: boolean = false;
-  tareWt: number;
+  tareWt: any;
   maxDate: Date = new Date();
   enableActions: boolean = true;
   viewDate: Date = new Date();
@@ -96,6 +95,7 @@ export class StockReceiptComponent implements OnInit {
   ICode: any;
   IPCode: any;
   NoPacking: number;
+  PWeight: any;
   GKgs: number;
   NKgs: number;
   WTCode: any;
@@ -224,10 +224,6 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-        if(this.Trcode !== undefined && this.Trcode !== null) {
-        this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
-          this.Trcode.value === 'TR023') ? false : true;
-        }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -337,7 +333,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        // if (this.packingTypeOptions === undefined) {
+        if (this.packingTypeOptions === undefined) {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
@@ -352,7 +348,7 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-        // }
+       }
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
@@ -396,11 +392,13 @@ export class StockReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
+    let sno = 1;
     this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
     this.ICode = data.CommodityName; this.iCode = data.ICode;
     this.IPCode = data.PackingName; this.ipCode = data.IPCode;
     this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
+    this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
     this.Moisture = (data.Moisture * 1).toFixed(2);
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
@@ -419,6 +417,7 @@ export class StockReceiptComponent implements OnInit {
       ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
+    this.itemData.forEach(x => { x.sno = sno; sno += 1;})
   }
 
   parseMoisture(event) {
@@ -453,21 +452,24 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
+    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
-      && this.IPCode !== undefined && this.IPCode.weight !== undefined) {
-      this.GKgs = this.NKgs = this.NoPacking * this.IPCode.weight;
-      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
+      && this.IPCode !== undefined && this.IPCode !== null) {
+      let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
+      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
-      this.GKgs = this.NKgs = this.tareWt = 0;
+      this.GKgs = this.NKgs = this.tareWt = null;
     }
   }
 
   onCalculateWt() {
-    if (this.GKgs !== undefined && this.NKgs !== undefined) {
-      this.tareWt = (this.GKgs * 1) - (this.NKgs * 1);
-    }
-    if (this.GKgs < this.NKgs) {
-      this.NKgs = this.GKgs = this.tareWt = 0;
+    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
+    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+    if (grossWt < netWt) {
+      this.NKgs = null; this.GKgs = null; this.tareWt = null;
+    } else {
+      this.tareWt = (grossWt - netWt).toFixed(3);
     }
   }
 
@@ -475,6 +477,8 @@ export class StockReceiptComponent implements OnInit {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
+        this.Trcode.value === 'TR023') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
@@ -540,6 +544,7 @@ export class StockReceiptComponent implements OnInit {
       ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
       IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking, GKgs: this.GKgs, Nkgs: this.NKgs,
+      PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
       Moisture: this.Moisture,
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
@@ -547,12 +552,15 @@ export class StockReceiptComponent implements OnInit {
       PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
       WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
+    let sno = 1;
     if (this.itemData.length !== 0) {
       stackBalance = (stackBalance !== undefined) ? (stackBalance * 1) : 0;
       this.itemData.forEach(x => {
+        x.sno = sno;
         if (x.TStockNo === this.TStockNo.value) {
           stackBalance += (x.Nkgs * 1);
         }
+        sno += 1;
       });
       this.StackBalance += stackBalance;
       this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
@@ -693,7 +701,7 @@ export class StockReceiptComponent implements OnInit {
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
         this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
-        res[0].Trcode === 'TR023') ? false : true;
+          res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
         this.DepositorType = res[0].DepositorType;
         this.depositorType = res[0].IssuerType;
@@ -706,13 +714,18 @@ export class StockReceiptComponent implements OnInit {
         this.ManualDocNo = res[0].Flag1;
         this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
         this.UnLoadingSlip = res[0].UnLoadingSlip;
+        let sno = 1;
         res.forEach(i => {
           this.itemData.push({
+            sno: sno,
             TStockNo: i.TStockNo,
             Scheme: i.Scheme,
             ICode: i.ICode,
             IPCode: i.IPCode,
-            NoPacking: i.NoPacking, GKgs: i.GKgs, Nkgs: i.Nkgs,
+            NoPacking: i.NoPacking,
+            PWeight: i.PWeight,
+            GKgs: i.GKgs,
+            Nkgs: i.Nkgs,
             WTCode: i.WTCode,
             Moisture: i.Moisture,
             CommodityName: i.ITName,
@@ -720,6 +733,7 @@ export class StockReceiptComponent implements OnInit {
             PackingName: i.PName,
             WmtType: i.WEType
           })
+          sno += 1;
         });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });

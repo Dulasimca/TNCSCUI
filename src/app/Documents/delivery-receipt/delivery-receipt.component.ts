@@ -459,6 +459,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.TotalAmount = (data.Total * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
         this.itemData.splice(index, 1);
+        let sno = 1;
+        this.itemData.forEach(x => { x.sno = sno; sno += 1;});
         break;
       case 'scheme':
         this.marginSchemeCode = data.SchemeCode;
@@ -474,6 +476,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
         this.itemSchemeData.splice(index, 1);
+        let slno = 1;
+        this.itemSchemeData.forEach(x => { x.sno = slno; slno += 1;});
         break;
       case 'payment':
         this.Payment = data.PaymentMode;
@@ -486,6 +490,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PaidAmount = this.PaidAmount - (this.paymentData[index].PaymentAmount * 1);
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         this.paymentData.splice(index, 1);
+        let psno = 1;
+        this.paymentData.forEach(x => {x.sno = psno; psno += 1;});
         break;
       case 'prevBal':
         this.PrevOrderNo = data.AdjustedDoNo;
@@ -495,6 +501,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Balance = (data.Balance * 1);
         this.AdjustmentType = data.AdjustmentType;
         this.paymentBalData.splice(index, 1);
+        let sNo = 1;
+        this.paymentBalData.forEach(x => {x.sno = sNo; sNo += 1;});
         break;
     }
   }
@@ -512,7 +520,12 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         if (this.itemData.length !== 0) {
           this.totalAmount = 0;
-          this.itemData.forEach(x => this.totalAmount += (x.Total * 1));
+          let sno = 1;
+          this.itemData.forEach(x => {
+            x.sno = sno;
+            this.totalAmount += (x.Total * 1);
+            sno += 1;
+          });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
           this.DueAmount = this.GrandTotal;
           this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
@@ -535,7 +548,12 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         if (this.itemSchemeData.length !== 0) {
           this.marginTotal = 0;
-          this.itemSchemeData.forEach(y => this.marginTotal += (y.MarginAmount * 1));
+          let sno = 1;
+          this.itemSchemeData.forEach(y => {
+            y.sno = sno;
+            this.marginTotal += (y.MarginAmount * 1);
+            sno += 1;
+          });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
           this.DueAmount = this.GrandTotal;
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
@@ -554,7 +572,8 @@ export class DeliveryReceiptComponent implements OnInit {
         })
         let lastIndex = this.paymentData.length;
         if (this.paymentData.length !== 0) {
-          this.PaidAmount += (this.PAmount * 1);
+          let sno = 1;
+          this.paymentData.forEach(x => { x.sno = sno; sno += 1; }); this.PaidAmount += (this.PAmount * 1);
           this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
             ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
@@ -576,6 +595,8 @@ export class DeliveryReceiptComponent implements OnInit {
           Balance: (this.Balance * 1).toFixed(2)
         });
         if (this.paymentBalData.length !== 0) {
+          let sno = 1;
+          this.paymentBalData.forEach(x => {x.sno = sno; sno += 1;});
           this.PrevOrderDate = new Date();
           this.PrevOrderNo = null;
           this.AdjusmentAmount = 0; this.AdjustmentType = null;
@@ -691,6 +712,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
+    this.selectedItem = null; this.PrevOrderNo = null;
+    this.PrevOrderDate = new Date();
     //this.isViewed = false;
   }
 
@@ -729,8 +752,10 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
+        let i_sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
+            sno: i_sno,
             ITDescription: i.ITDescription,
             NetWeight: (i.NetWeight * 1),
             Wtype: i.Wtype,
@@ -741,11 +766,14 @@ export class DeliveryReceiptComponent implements OnInit {
             Scheme: i.Scheme,
             Rcode: i.Rcode
           });
+          i_sno += 1;
         })
       }
       if (res.Table1 !== undefined && res.Table1.length !== 0 && res.Table1 !== null) {
+        let m_sno = 1;
         res.Table1.forEach(i => {
           this.itemSchemeData.push({
+            sno: m_sno,
             ITDescription: i.ITDescription,
             MarginNkgs: (i.MarginNkgs * 1),
             MarginWtype: i.MarginWtype,
@@ -756,11 +784,14 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeCode: i.SchemeCode,
             Rcode: i.Rcode
           });
+          m_sno += 1;
         })
       }
       if (res.Table3 !== undefined && res.Table3.length !== 0 && res.Table3 !== null) {
+        let p_sno = 1;
         res.Table3.forEach(i => {
           this.paymentData.push({
+            sno: p_sno,
             PaymentMode: i.PaymentMode,
             ChequeNo: i.ChequeNo,
             ChequeDate: this.datepipe.transform(i.ChDate, 'dd/MM/yyyy'),
@@ -770,17 +801,20 @@ export class DeliveryReceiptComponent implements OnInit {
             bank: i.bank,
             RCode: i.Rcode
           });
+          p_sno += 1;
         })
         if (this.paymentData.length !== 0) {
           this.paymentData.forEach(x => {
             this.PaidAmount += (x.PaymentAmount * 1);
           })
-          this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+          // this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
+        let pb_sno = 1;
         res.Table2.forEach(i => {
           this.paymentBalData.push({
+            sno: pb_sno,
             AdjustedDoNo: i.AdjustedDoNo,
             AdjustedDate: this.datepipe.transform(i.AdjustDate, 'dd/MM/yyyy'),
             AdjustDate: this.datepipe.transform(i.AdjustDate, 'MM/dd/yyyy'),
@@ -790,6 +824,7 @@ export class DeliveryReceiptComponent implements OnInit {
             Balance: (i.Balance !== null) ? i.Balance : 0,
             RCode: i.Rcode
           });
+          pb_sno += 1;
         });
       }
     });

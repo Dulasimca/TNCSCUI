@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-2 dashboard" style="text-align: end">Active/In-Active</div>
         <div class="ui-g-12 ui-md-2 dashboard" style="text-align: center">
           <p-dropdown [options]="IssuerOptions" [(ngModel)]="I_cd" (onChange)="onView()" (onClick)="onIssuer()"
-            filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+            filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>

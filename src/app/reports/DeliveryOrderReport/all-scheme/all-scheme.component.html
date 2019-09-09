@@ -12,7 +12,8 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" 
+          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -21,7 +22,7 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Society Type</label>
         <p-dropdown id="float-input" [options]="SocietyOptions" [(ngModel)]="s_cd" (onClick)="onSelect('type')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -30,7 +31,7 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
         <p-dropdown id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" [showClear]="true">
+          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

@@ -33,7 +33,7 @@
                       <label for="Transaction" class="label-fontsize" style="padding-top: 10px;">Transaction Code</label>
                       <p-dropdown #tr name="Transaction" [options]="transactionOptions" (keydown.enter)="onSelect('tr', 'enter')"
                         [(ngModel)]="Trcode" (onClick)="onSelect('tr', 'click')" filter="true" optionLabel="label"
-                        [showClear]="true" (onChange)="refreshSelect('tr')" required>
+                        resetFilterOnHide="true" [showClear]="true" (onChange)="refreshSelect('tr')" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -91,7 +91,7 @@
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
                         (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
                         (onChange)="refreshSelect('rt')" filter="true" optionLabel="label"
-                        [showClear]="true" required>
+                        resetFilterOnHide="true" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -101,7 +101,7 @@
                       <label for="PartyName" class="label-fontsize">Party Name</label>
                       <p-dropdown #pn name="PartyName" [options]="partyNameOptions" [(ngModel)]="PName"
                         (onClick)="onSelect('pn', 'click')" (keydown.enter)="onSelect('pn', 'enter')"
-                        filter="true" optionLabel="label" [showClear]="true" required>
+                        filter="true"  resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -159,7 +159,7 @@
                       <label class="label-fontsize" for="Schemes" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('scheme', 'click')" (keydown.enter)="onSelect('scheme', 'enter')"
-                         filter="true" optionLabel="label" (onChange)="refreshSelect('sc')" [showClear]="true">
+                         filter="true"  resetFilterOnHide="true" optionLabel="label" (onChange)="refreshSelect('sc')" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -169,7 +169,7 @@
                       <label class="label-fontsize" for="Commodity" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('commodity', 'click')" (keydown.enter)="onSelect('commodity', 'enter')"
-                         filter="true" optionLabel="label" [showClear]="true">
+                         filter="true" optionLabel="label"  resetFilterOnHide="true" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -187,8 +187,8 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="Rate">Rate In Term Of</label>
                       <p-dropdown #rate name="Rate" [options]="rateInTermsOptions" [(ngModel)]="RateTerm"
-                        (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')" filter="true" optionLabel="label"
-                        [showClear]="true">
+                        (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')"
+                         filter="true"  resetFilterOnHide="true" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -245,7 +245,8 @@
                       <label class="label-fontsize" for="MScheme" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
                         (onClick)="onSelect('margin_scheme', 'click')" (keydown.enter)="onSelect('margin_scheme', 'enter')"
-                        filter="true" name="MScheme" (onChange)="refreshSelect('msc')" optionLabel="label" [showClear]="true">
+                        filter="true" name="MScheme" (onChange)="refreshSelect('msc')" 
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -255,7 +256,7 @@
                       <label class="label-fontsize" for="MItem" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #margin_id name="MItem" [options]="marginItemDescOptions" [(ngModel)]="MICode"
                         (onClick)="onSelect('margin_commodity', 'click')" (keydown.enter)="onSelect('margin_commodity', 'enter')"
-                        filter="true" optionLabel="label" [showClear]="true">
+                        filter="true"  resetFilterOnHide="true" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -274,7 +275,8 @@
                       <label class="label-fontsize" for="MRateTerms">Rate In Term Of</label>
                       <p-dropdown #margin_rate name="MRateTerms" [options]="marginRateInTermsOptions"
                         (keydown.enter)="onSelect('margin_wmt', 'enter')" [(ngModel)]="MarginRateInTerms" 
-                        (onClick)="onSelect('margin_wmt', 'click')" filter="true" optionLabel="label" [showClear]="true">
+                        (onClick)="onSelect('margin_wmt', 'click')" filter="true"
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -354,7 +356,7 @@
                         <p-dropdown #pay [options]="paymentOptions" [(ngModel)]="Payment"
                           (onClick)="onSelect('pay', 'click')" autoDisplayFirst="true" 
                           (keydown.enter)="onSelect('pay', 'enter')" filter="true" name="PaymentMode"
-                          [showClear]="true">
+                          resetFilterOnHide="true" [showClear]="true">
                           <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle">{{item.label}}</span>
                           </ng-template>
@@ -481,9 +483,9 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="BalAmnt" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
+                        <input name="Bal" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
                         [readonly]="true" >
-                        <label for="BalAmnt" class="float-input">Balance</label>
+                        <label for="Bal" class="float-input">Balance</label>
                       </span>
                     </div>
                   </div>
@@ -553,7 +555,7 @@
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print
+              <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || !f.valid || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print
                 (click)="onPrint()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
