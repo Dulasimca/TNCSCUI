@@ -392,6 +392,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
+    let sno = 1;
     this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
     this.ICode = data.CommodityName; this.iCode = data.ICode;
     this.IPCode = data.PackingName; this.ipCode = data.IPCode;
@@ -416,6 +417,7 @@ export class StockReceiptComponent implements OnInit {
       ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
     this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
+    this.itemData.forEach(x => { x.sno = sno; sno += 1;})
   }
 
   parseMoisture(event) {
@@ -550,12 +552,15 @@ export class StockReceiptComponent implements OnInit {
       PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
       WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
     });
+    let sno = 1;
     if (this.itemData.length !== 0) {
       stackBalance = (stackBalance !== undefined) ? (stackBalance * 1) : 0;
       this.itemData.forEach(x => {
+        x.sno = sno;
         if (x.TStockNo === this.TStockNo.value) {
           stackBalance += (x.Nkgs * 1);
         }
+        sno += 1;
       });
       this.StackBalance += stackBalance;
       this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
@@ -709,8 +714,10 @@ export class StockReceiptComponent implements OnInit {
         this.ManualDocNo = res[0].Flag1;
         this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
         this.UnLoadingSlip = res[0].UnLoadingSlip;
+        let sno = 1;
         res.forEach(i => {
           this.itemData.push({
+            sno: sno,
             TStockNo: i.TStockNo,
             Scheme: i.Scheme,
             ICode: i.ICode,
@@ -726,6 +733,7 @@ export class StockReceiptComponent implements OnInit {
             PackingName: i.PName,
             WmtType: i.WEType
           })
+          sno += 1;
         });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });

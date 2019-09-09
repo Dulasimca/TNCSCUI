@@ -462,6 +462,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
+    let sno = 1;
     this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
@@ -487,6 +488,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
         this.itemData.splice(index, 1);
+        this.itemData.forEach(x => {x.sno = sno; sno += 1;})
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate} 
         this.onStackNoChange(list);
         }
@@ -657,11 +659,14 @@ export class TruckReceiptComponent implements OnInit {
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
+        x.sno = sno;
         if (x.TStockNo === stock_no) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
+        sno += 1;
       });
       let lastIndex = this.itemData.length;
       if (this.CurrentDocQtv > this.StackBalance) {
@@ -776,8 +781,10 @@ export class TruckReceiptComponent implements OnInit {
         this.WNo = res[0].Wno;
         this.Remarks = res[0].Remarks;
         this.IssueSlip = res[0].IssueSlip;
+        let sno = 1;
         res.forEach(i => {
           this.itemData.push({
+            sno: sno,
             TStockNo: i.TStockNo,
             ICode: i.ICode,
             IPCode: i.IPCode,
@@ -795,6 +802,7 @@ export class TruckReceiptComponent implements OnInit {
             StackDate: i.StackDate,
             RCode: i.RCode
           })
+          sno += 1;
         });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });

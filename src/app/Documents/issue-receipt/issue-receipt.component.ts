@@ -548,10 +548,13 @@ export class IssueReceiptComponent implements OnInit {
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
         if (x.TStockNo === stock_no) {
+          x.sno = sno;
           this.CurrentDocQtv += (x.Nkgs * 1);
+          sno += 1;
         }
       });
       let lastIndex = this.itemData.length;
@@ -610,6 +613,8 @@ export class IssueReceiptComponent implements OnInit {
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
         this.itemData.splice(index, 1);
+        let sno = 1;
+        this.itemData.forEach(x => {x.sno = sno; sno += 1;});
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
         break;
@@ -770,8 +775,10 @@ export class IssueReceiptComponent implements OnInit {
         this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
         this.Remarks = res.Table[0].Remarks;
+        let sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
+            sno: sno,
             TStockNo: i.TStockNo,
             ICode: i.ICode,
             IPCode: i.IPCode,
@@ -789,6 +796,7 @@ export class IssueReceiptComponent implements OnInit {
             StackDate: i.StackDate,
             RCode: i.RCode
           })
+          sno += 1;
         })
         res.Table1.forEach(j => {
           this.issueData.push({
@@ -830,7 +838,9 @@ export class IssueReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.Moisture = '0';
+    this.Moisture = null; this.schemeCode = null; this.Scheme = null;
+    this.ipCode = null; this.IPCode = null; this.tStockCode = null;
+    this.TStockNo = null; this.stackYear = null;
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
