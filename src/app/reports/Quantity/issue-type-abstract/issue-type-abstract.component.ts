@@ -43,7 +43,6 @@ export class IssueTypeAbstractComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    // this.IssueAbstractCols = this.tableConstants.IssueTypeAbstract;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
@@ -112,12 +111,10 @@ export class IssueTypeAbstractComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
-        // for (let key of res) {
           for(var i in res[0]){
             columns.push({ header: i, field: i });
           }
           columns.unshift({ header: 'S.No:', field: 'sno' });
-        //  }
         this.IssueAbstractCols = columns;
         this.IssueAbstractData = res;
         let sno = 0;
@@ -126,6 +123,7 @@ export class IssueTypeAbstractComponent implements OnInit {
           sno += 1;
         });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
