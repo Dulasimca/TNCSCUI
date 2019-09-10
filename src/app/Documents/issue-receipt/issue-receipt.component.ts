@@ -552,7 +552,7 @@ export class IssueReceiptComponent implements OnInit {
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
         x.sno = sno;
-        if (x.TStockNo === stock_no) {
+        if (x.TStockNo.trim() === stock_no.trim()) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
         sno += 1;
