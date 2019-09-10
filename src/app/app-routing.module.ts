@@ -86,6 +86,7 @@ import { TruckMemoComponent } from './reports/Quantity/truck-memo/truck-memo.com
 import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
+import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 
 
 const routes: Routes = [
@@ -174,6 +175,7 @@ const routes: Routes = [
   { path: 'Issuer Master Report', component: IssuerMasterComponent },
   { path: 'Cash Receipt Register Report', component: CashReceiptRegisterComponent },
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent },
+  { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

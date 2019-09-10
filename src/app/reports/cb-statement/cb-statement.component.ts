@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
@@ -14,6 +14,8 @@ import * as Rx from 'rxjs';
 import * as _ from 'lodash';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown, SelectItem } from 'primeng/primeng';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 
 @Component({
   selector: 'app-cb-statement',
@@ -46,9 +48,19 @@ export class CBStatementComponent implements OnInit {
   loading: boolean;
   record: any;
   items: any;
-
+  regionOptions: SelectItem[];
+  godownOptions: SelectItem[];
+  regions: any;
+  RCode: any;
+  GCode: any;
+  Date: any;
+  roleId: any;
+  maxDate: Date;@ViewChild('gd') godownPanel: Dropdown;
+  @ViewChild('reg') regionPanel: Dropdown;
+  
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private tableConstants: TableConstants, private router: Router, private excelService: ExcelService) { }
+    private tableConstants: TableConstants, private router: Router, private excelService: ExcelService,
+    private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.items = [
@@ -63,8 +75,61 @@ export class CBStatementComponent implements OnInit {
         }
       }];
     this.rowGroupMetadata = {};
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.maxDate = new Date();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
+  }
+
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.data = this.roleBasedService.regionsData;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
+        break;
+    }
+  }
+
+  onView() {
     this.loading = true;
     this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
       if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
@@ -204,6 +269,10 @@ export class CBStatementComponent implements OnInit {
 
   public getColor(name: string): string {
     return name === 'TOTAL' ? "#53aae5" : "white";
+  }
+
+  onResetTable() {
+    this.cbData = [];
   }
 
   exportAsXLSX(): void {

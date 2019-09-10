@@ -10,6 +10,8 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-stack-card',
@@ -18,14 +20,13 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class StackCardComponent implements OnInit {
   StackCardCols: any;
-  StackCardData: any;
-  StackCardNoData: any;
-  isActionDisabled: any;
+  StackCardData: any = [];
   data: any;
   g_cd: any;
   c_cd: any;
   Year: any;
   s_cd: any;
+  userId: any;
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -39,9 +40,9 @@ export class StackCardComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.StackCardCols = this.tableConstants.StackCard;
     this.data = this.roleBasedService.getInstance();
+    this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
@@ -94,9 +95,8 @@ export class StackCardComponent implements OnInit {
             'Type': 3
           }
           this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-            this.StackCardNoData = res;
-            if (this.StackCardNoData !== undefined) {
-              this.StackCardNoData.forEach(s => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              res.forEach(s => {
                 StackSelection.push({ 'label': s.StackNo, 'value': s.StackDate });
                 this.stackOptions = StackSelection;
               })
@@ -120,17 +120,14 @@ export class StackCardComponent implements OnInit {
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-
       if (res) {
         this.StackCardData = res;
         this.StackCardData.forEach(data => {
-          data.AckDate = (data.AckDate !== 'Total') ? this.datePipe.transform(data.AckDate, 'dd-MM-yyyy') : data.AckDate;
+          data.AckDate = (data.AckDate).toString().replace('00:00:00', '');
           data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
           data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
           data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
-
         });
-        this.isActionDisabled = false;
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -142,7 +139,6 @@ export class StackCardComponent implements OnInit {
 
   onResetTable() {
     this.StackCardData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
@@ -157,5 +153,9 @@ export class StackCardComponent implements OnInit {
     this.excelService.exportAsExcelFile(StackCardData, 'STACK_CARD_REPORT', this.StackCardCols);
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.g_cd.value + GolbalVariable.StackCardDetailsReport + ".txt";
+    saveAs(path + filename, filename);
+   }
 }

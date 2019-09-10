@@ -17,6 +17,37 @@
         </div>
       </div>
     </p-header>
+    <div class="ui-g">
+      <div class="ui-g-6 ui-md-2">
+        <label class="label-fontsize dashboard">Date</label>
+        <p-calendar class="ui-fluid dashboard" [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+        (ngModelChange)="onResetTable()"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="label-fontsize dashboard">Region</label>
+        <p-dropdown class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+          (onClick)="onSelect('reg')" (keydown.enter)="onSelect('reg')" (ngModelChange)="onResetTable()" filter="true"
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="label-fontsize dashboard">Godown</label>
+        <p-dropdown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+          (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')" (ngModelChange)="onResetTable()"
+          optionLabel="label" filter="true" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-2" style="margin-top: 20px">
+          <button class="ui-fluid dashboard" pButton type="button" label=View (click)="onView()" 
+          [disabled]="(!Date || !GCode || !RCode)"></button>
+      </div>
+    </div>
     <div class="ui-g ui-md-12">
       <p-toast position="center" key="t-err"></p-toast>
       <p-table [value]="cbData" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
@@ -43,11 +74,11 @@
               </div>
               <div *ngIf="col.field === 'TNCSName'">
                 {{data[col.field]}}
-            </div>
+              </div>
             </td>
           </tr>
         </ng-template>
       </p-table>
-    </div>
+  </div>
   </p-panel>
 </div>

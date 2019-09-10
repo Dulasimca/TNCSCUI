@@ -10,4 +10,5 @@ export class GolbalVariable {
     public static readonly DDChequeDocument = 'DDCHE';
     public static readonly QuantityACForIssue = 'ISQAC';
     public static readonly QuantityACForReceipt = 'REQAC';
+    public static readonly StackCardDetailsReport = '';
 }

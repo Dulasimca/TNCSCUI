@@ -95,4 +95,5 @@ export class PathConstants {
   public static readonly ISSUE_MEMO_CUTOMER_DETAILS_POST = '/api/Sales/Post';
   public static readonly ISSUE_MEMO_CUTOMER_ABSTRACT_GET = '/api/Sales/Get';
   public static readonly QUANTITY_ACCOUNT_ISSUE_REPORT = '/api/IssuesForQuantityAccount/Post';
+  public static readonly QUANTITY_ACCOUNT_RECEIPT_REPORT = '/api/ReceiptForQuantityAccount/Post';
 }

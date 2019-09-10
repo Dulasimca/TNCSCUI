@@ -54,10 +54,10 @@
         <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !c_cd || !s_cd || !Year)"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-12 dashboard">

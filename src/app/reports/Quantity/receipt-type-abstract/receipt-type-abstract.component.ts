@@ -108,7 +108,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
