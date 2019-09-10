@@ -98,7 +98,7 @@ export class IssueReceiptComponent implements OnInit {
   GKgs: any;
   NKgs: any;
   WTCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   NewBale: any = 0;
   SServiceable: any = 0;
   SPatches: any = 0;

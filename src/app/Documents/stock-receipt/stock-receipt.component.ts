@@ -96,10 +96,10 @@ export class StockReceiptComponent implements OnInit {
   IPCode: any;
   NoPacking: number;
   PWeight: any;
-  GKgs: number;
-  NKgs: number;
+  GKgs: any;
+  NKgs: any;
   WTCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   //SR-Freight Details
   TransporterName: any = '-';
   LWBillNo: any = '-';
@@ -333,22 +333,22 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
-          if (type === 'enter') {
-            this.packingPanel.overlayVisible = true;
-          }
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.Table.forEach(p => {
-                packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
-              })
-              this.packingTypeOptions = packingTypes;
-              this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            } else {
-              this.packingTypeOptions = packingTypes;
-            }
-          });
+        // if (this.packingTypeOptions === undefined) {
+        if (type === 'enter') {
+          this.packingPanel.overlayVisible = true;
         }
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.Table.forEach(p => {
+              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+            })
+            this.packingTypeOptions = packingTypes;
+            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.packingTypeOptions = packingTypes;
+          }
+        });
+        //}
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
@@ -452,11 +452,11 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
-    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
+      let NoOfPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = this.NKgs = this.tareWt = null;
@@ -810,7 +810,7 @@ export class StockReceiptComponent implements OnInit {
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
-    this.WTCode = null; this.Moisture = '0';
+    this.WTCode = null; this.Moisture = null;
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();

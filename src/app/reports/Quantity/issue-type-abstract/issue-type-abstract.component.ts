@@ -104,12 +104,13 @@ export class IssueTypeAbstractComponent implements OnInit {
     const params = {
       FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      GCode: this.GCode,
-      RCode: this.RCode,
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
       UserId: this.userId.user
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
+        this.loading = false;
         this.IssueAbstractCols = res;
         this.IssueAbstractData = res;
         let sno = 0;

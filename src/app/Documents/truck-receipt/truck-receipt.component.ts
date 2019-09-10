@@ -93,7 +93,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: any;
   WTCode: any;
   wtCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
