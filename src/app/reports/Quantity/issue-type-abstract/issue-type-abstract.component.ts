@@ -111,14 +111,19 @@ export class IssueTypeAbstractComponent implements OnInit {
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
-        this.IssueAbstractCols = res;
+        let columns: Array<any> = [];
+        // for (let key of res) {
+          for(var i in res[0]){
+            columns.push({ header: i, field: i });
+          }
+          columns.unshift({ header: 'S.No:', field: 'sno' });
+        //  }
+        this.IssueAbstractCols = columns;
         this.IssueAbstractData = res;
         let sno = 0;
         this.IssueAbstractData.forEach(data => {
-          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          data.sno = sno;
           sno += 1;
-          data.SlNo = sno;
         });
       } else {
         this.messageService.clear();
@@ -159,6 +164,8 @@ export class IssueTypeAbstractComponent implements OnInit {
   onResetTable() {
     this.IssueAbstractData = [];
   }
+
+  onPrint() { }
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.IssueAbstractData, 'ISSUE_TYPE_ABSTRACT', this.IssueAbstractCols);
