@@ -1,27 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
-import { TableConstants } from 'src/app/constants/tableconstants';
+import { SelectItem } from 'primeng/api';
+import { Dropdown, MessageService } from 'primeng/primeng';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { Router } from '@angular/router';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
-import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { Router } from '@angular/router';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-issue-type-abstract',
-  templateUrl: './issue-type-abstract.component.html',
-  styleUrls: ['./issue-type-abstract.component.css']
+  selector: 'app-receipt-type-abstract',
+  templateUrl: './receipt-type-abstract.component.html',
+  styleUrls: ['./receipt-type-abstract.component.css']
 })
-export class IssueTypeAbstractComponent implements OnInit {
-  IssueAbstractCols: any;
-  IssueAbstractData: any = [];
+export class ReceiptTypeAbstractComponent implements OnInit {
+  ReceiptAbstractCols: any;
+  ReceiptAbstractData: any = [];
   fromDate: any;
   toDate: any;
   regionOptions: SelectItem[];
@@ -117,10 +116,10 @@ export class IssueTypeAbstractComponent implements OnInit {
             columns.push({ header: i, field: i });
           }
           columns.unshift({ header: 'S.No:', field: 'sno' });
-        this.IssueAbstractCols = columns;
-        this.IssueAbstractData = res;
+        this.ReceiptAbstractCols = columns;
+        this.ReceiptAbstractData = res;
         let sno = 1;
-        this.IssueAbstractData.forEach(data => {
+        this.ReceiptAbstractData.forEach(data => {
           data.sno = sno;
           sno += 1;
         });
@@ -162,7 +161,7 @@ export class IssueTypeAbstractComponent implements OnInit {
   }
 
   onResetTable() {
-    this.IssueAbstractData = [];
+    this.ReceiptAbstractData = [];
   }
 
   onPrint() { 
@@ -172,6 +171,7 @@ export class IssueTypeAbstractComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.IssueAbstractData, 'QUANTITY_ISSUE_ABSTRACT', this.IssueAbstractCols);
+    this.excelService.exportAsExcelFile(this.ReceiptAbstractData, 'QUANTITY_RECEIPT_ABSTRACT', this.ReceiptAbstractCols);
   }
 }
+

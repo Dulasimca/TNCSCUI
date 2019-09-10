@@ -137,6 +137,7 @@ import { TruckMemoComponent } from './reports/Quantity/truck-memo/truck-memo.com
 import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
+import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 
 @NgModule({
   declarations: [
@@ -232,6 +233,7 @@ import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstra
     IssuerMasterComponent,
     CashReceiptRegisterComponent,
     IssueTypeAbstractComponent,
+    ReceiptTypeAbstractComponent,
   ],
   imports: [
     BrowserModule,
