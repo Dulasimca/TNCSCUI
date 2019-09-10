@@ -7,10 +7,12 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-issue-type-abstract',
@@ -165,7 +167,11 @@ export class IssueTypeAbstractComponent implements OnInit {
     this.IssueAbstractData = [];
   }
 
-  onPrint() { }
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForIssue + ".txt";
+    saveAs(path + filename, filename);
+  }
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.IssueAbstractData, 'ISSUE_TYPE_ABSTRACT', this.IssueAbstractCols);

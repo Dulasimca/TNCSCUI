@@ -67,21 +67,12 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr style="text-align: center;">
                   <td *ngFor="let col of columns">
                     {{rowData[col.field]}}
                   </td>
                 </tr>
               </ng-template>
-              <!-- <ng-template pTemplate="footer" let-rowData let-columns>
-                <tr style="text-align: center;">
-                  <th colspan="2">TOTAL</th>
-                </tr>
-                <tr>
-                  <td *ngFor="let col of columns">
-                     {{rowData[col.field]}} 
-                  </td>
-              </ng-template> -->
             </p-table>
         </div>
     </div>
