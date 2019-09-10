@@ -75,11 +75,11 @@
               </ng-template>
               <ng-template pTemplate="footer" let-rowData let-columns>
                 <tr style="text-align: center;">
-                  <td colspan="2">TOTAL</td>
+                  <th colspan="2">TOTAL</th>
                 </tr>
                 <tr>
                   <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
+                    <!-- {{rowData[col.field]}} -->
                   </td>
               </ng-template>
             </p-table>

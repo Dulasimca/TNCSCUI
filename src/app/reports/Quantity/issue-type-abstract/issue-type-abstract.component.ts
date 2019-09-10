@@ -116,8 +116,6 @@ export class IssueTypeAbstractComponent implements OnInit {
           for(var i in res[0]){
             if(res[0].length) {
             columns.push({ header: i, field: i });
-            } else {
-            columns.push({ header: 'Total'+ i, field: 'Total' + i });
             }
           }
           columns.unshift({ header: 'S.No:', field: 'sno' });
