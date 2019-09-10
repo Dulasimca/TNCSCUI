@@ -174,6 +174,6 @@ export class IssueTypeAbstractComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.IssueAbstractData, 'ISSUE_TYPE_ABSTRACT', this.IssueAbstractCols);
+    this.excelService.exportAsExcelFile(this.IssueAbstractData, 'QUANTITY_ISSUE_ABSTRACT', this.IssueAbstractCols);
   }
 }

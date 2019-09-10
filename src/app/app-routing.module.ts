@@ -173,7 +173,7 @@ const routes: Routes = [
   { path: 'Society Master Entry', component: SocietyMasterNewComponent },
   { path: 'Issuer Master Report', component: IssuerMasterComponent },
   { path: 'Cash Receipt Register Report', component: CashReceiptRegisterComponent },
-  { path: 'Issue Type Abstract', component: IssueTypeAbstractComponent },
+  { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
