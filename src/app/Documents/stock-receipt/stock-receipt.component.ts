@@ -333,7 +333,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
+       /// if (this.packingTypeOptions === undefined) {
           if (type === 'enter') {
             this.packingPanel.overlayVisible = true;
           }
@@ -348,7 +348,7 @@ export class StockReceiptComponent implements OnInit {
               this.packingTypeOptions = packingTypes;
             }
           });
-        }
+      //  }
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
