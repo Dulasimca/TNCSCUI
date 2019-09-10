@@ -938,6 +938,7 @@ export class TableConstants {
     ];
 
     this.StackCard = [
+      { field: 'SlNo', header: 'SlNo' },
       { field: 'AckDate', header: 'Date' },
       { field: 'ReceiptBags', header: 'Bags' },
       { field: 'ReceiptQuantity', header: 'Quantity' },

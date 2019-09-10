@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stack-card',
@@ -22,10 +23,10 @@ export class StackCardComponent implements OnInit {
   StackCardCols: any;
   StackCardData: any = [];
   data: any;
-  g_cd: any;
-  c_cd: any;
+  GCode: any;
+  ITCode: any;
   Year: any;
-  s_cd: any;
+  TStockNo: any;
   userId: any;
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
@@ -34,6 +35,10 @@ export class StackCardComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  @ViewChild('godown') GodownPanel: Dropdown;
+  @ViewChild('commodity') CommodityPanel: Dropdown;
+  @ViewChild('stackYear') StackYearPanel: Dropdown;
+  @ViewChild('stockNo') StockNoPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -46,13 +51,14 @@ export class StackCardComponent implements OnInit {
     this.maxDate = new Date();
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let godownSelection = [];
     let YearSelection = [];
     let commoditySelection = [];
     let StackSelection = [];
     switch (item) {
       case 'gd':
+        if(type === 'enter') { this.GodownPanel.overlayVisible = true; }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
@@ -62,7 +68,8 @@ export class StackCardComponent implements OnInit {
         }
         break;
       case 'cd':
-        if (this.commodityOptions === undefined) {
+          if(type === 'enter') { this.CommodityPanel.overlayVisible = true; }
+          if (this.commodityOptions === undefined) {
           this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -73,8 +80,9 @@ export class StackCardComponent implements OnInit {
           })
         }
         break;
-      case 'y':
-        if (this.YearOptions === undefined) {
+      case 'st_yr':
+          if(type === 'enter') { this.StackYearPanel.overlayVisible = true; }
+          if (this.YearOptions === undefined) {
           this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -85,13 +93,14 @@ export class StackCardComponent implements OnInit {
           })
         }
         break;
-      case 's':
-        if (this.g_cd.value !== undefined && this.g_cd.value !== null && this.Year.label !== undefined && this.Year.label !== null
-          && this.c_cd.value !== undefined && this.c_cd.value !== null) {
+      case 'st_no':
+          if(type === 'enter') { this.StockNoPanel.overlayVisible = true; }
+          if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year.label !== undefined && this.Year.label !== null
+          && this.ITCode.value !== undefined && this.ITCode.value !== null) {
           const params = {
-            'GCode': this.g_cd.value,
+            'GCode': this.GCode.value,
             'StackDate': this.Year.label,
-            'ICode': this.c_cd.value,
+            'ICode': this.ITCode.value,
             'Type': 3
           }
           this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -113,20 +122,23 @@ export class StackCardComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
-      'GCode': this.g_cd.value,
-      'StackDate': this.s_cd.value,
-      'ICode': this.c_cd.value,
-      'TStockNo': this.s_cd.label,
+      'GCode': this.GCode.value,
+      'StackDate': this.TStockNo.value,
+      'ICode': this.ITCode.value,
+      'TStockNo': this.TStockNo.label,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res) {
         this.StackCardData = res;
+        let sno = 1;
         this.StackCardData.forEach(data => {
+          data.SlNo = (data.AckDate !== 'Total') ? sno : '';
           data.AckDate = (data.AckDate).toString().replace('00:00:00', '');
           data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
           data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
           data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+          sno += 1;
         });
       } else {
         this.messageService.clear();
@@ -145,17 +157,16 @@ export class StackCardComponent implements OnInit {
     var StackCardData = [];
     this.StackCardData.forEach(data => {
       StackCardData.push({
-        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
-        Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
-        Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno
-      })
+        SlNo: data.SlNo, AckDate: data.AckDate, ReceiptBags: data.ReceiptBags,
+        ReceiptQuantity: data.ReceiptQuantity, IssuesBags: data.IssuesBags,
+        IssuesQuantity: data.IssuesQuantity, ClosingBalance: data.ClosingBalance })
     })
     this.excelService.exportAsExcelFile(StackCardData, 'STACK_CARD_REPORT', this.StackCardCols);
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.g_cd.value + GolbalVariable.StackCardDetailsReport + ".txt";
+    const filename = this.GCode.value + GolbalVariable.StackCardDetailsReport + ".txt";
     saveAs(path + filename, filename);
    }
 }
