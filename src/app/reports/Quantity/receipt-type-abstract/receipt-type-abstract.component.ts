@@ -166,7 +166,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
 
   onPrint() { 
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode.value + GolbalVariable.QuantityACForIssue + ".txt";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForReceipt + ".txt";
     saveAs(path + filename, filename);
   }
 

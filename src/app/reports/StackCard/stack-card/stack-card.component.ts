@@ -124,7 +124,7 @@ export class StackCardComponent implements OnInit {
       if (res) {
         this.StackCardData = res;
         this.StackCardData.forEach(data => {
-          data.AckDate = this.datePipe.transform(data.AckDate, 'dd-MM-yyyy');
+          data.AckDate = (data.AckDate !== 'Total') ? this.datePipe.transform(data.AckDate, 'dd-MM-yyyy') : data.AckDate;
           data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
           data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
           data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
