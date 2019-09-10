@@ -105,19 +105,25 @@ export class IssueTypeAbstractComponent implements OnInit {
       ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       GCode: this.GCode.value,
       RCode: this.RCode.value,
-      UserId: this.userId.user
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
           for(var i in res[0]){
+            if(res[0].length) {
             columns.push({ header: i, field: i });
+            } else {
+            columns.push({ header: 'Total'+ i, field: 'Total' + i });
+            }
           }
           columns.unshift({ header: 'S.No:', field: 'sno' });
         this.IssueAbstractCols = columns;
         this.IssueAbstractData = res;
-        let sno = 0;
+        let sno = 1;
         this.IssueAbstractData.forEach(data => {
           data.sno = sno;
           sno += 1;
