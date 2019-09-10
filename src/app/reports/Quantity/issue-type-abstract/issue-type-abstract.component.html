@@ -57,8 +57,8 @@
             <button pButton type="button" label=Excel (click)="exportAsXLSX()"></button>
           </div>
           <div class="ui-g-12 dashboard">
-            <p-table [columns]="IssueAbstractCols" [value]="IssueAbstractData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-              autoLayout="true" [loading]="loading">
+            <p-table [columns]="IssueAbstractCols" [value]="IssueAbstractData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+            [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
@@ -73,15 +73,15 @@
                   </td>
                 </tr>
               </ng-template>
-              <ng-template pTemplate="footer" let-rowData let-columns>
+              <!-- <ng-template pTemplate="footer" let-rowData let-columns>
                 <tr style="text-align: center;">
                   <th colspan="2">TOTAL</th>
                 </tr>
                 <tr>
                   <td *ngFor="let col of columns">
-                    <!-- {{rowData[col.field]}} -->
+                     {{rowData[col.field]}} 
                   </td>
-              </ng-template>
+              </ng-template> -->
             </p-table>
         </div>
     </div>

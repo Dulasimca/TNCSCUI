@@ -114,9 +114,7 @@ export class IssueTypeAbstractComponent implements OnInit {
         this.loading = false;
         let columns: Array<any> = [];
           for(var i in res[0]){
-            if(res[0].length) {
             columns.push({ header: i, field: i });
-            }
           }
           columns.unshift({ header: 'S.No:', field: 'sno' });
         this.IssueAbstractCols = columns;
