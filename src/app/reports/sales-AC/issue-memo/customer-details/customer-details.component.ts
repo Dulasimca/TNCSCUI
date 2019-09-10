@@ -193,7 +193,6 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   onView() {
-    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
     const params = {
       'GCode': this.gCode,
       'SCode': this.s_cd.value,
@@ -201,6 +200,7 @@ export class CustomerDetailsComponent implements OnInit {
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
     };
+    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       this.IssueMemoCustomerDetailsData = res;
       let sno = 0;
@@ -224,20 +224,21 @@ export class CustomerDetailsComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.onClear();
+    this.AbstractCols = this.AbstractData = [];
   }
 
   onAbstract() {
-    this.AbstractCols = this.tableConstants.IssueMemoAbstract;
     const params = {
       'GCode': this.gCode,
-      'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy')
     };
+    this.AbstractCols = this.tableConstants.IssueMemoAbstract;
     this.restAPIService.getByParameters(PathConstants.ISSUE_MEMO_CUTOMER_ABSTRACT_GET, params).subscribe(res => {
-      this.AbstractData = res; let sno = 0;
+      this.AbstractData = res;
+      let sno = 0;
       this.IssueMemoCustomerDetailsData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+        // data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
         sno += 1;
         data.SlNo = sno;
       });
@@ -256,18 +257,19 @@ export class CustomerDetailsComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.onClear();
+    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onResetTable() {
     this.isActionDisabled = true;
-    this.TransactionSelection = [];
-    this.ReceiverSelection = [];
+    // this.TransactionSelection = [];
+    // this.ReceiverSelection = [];
+    // this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onClear() {
-    this.AbstractData = this.AbstractCols = [];
-    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+    //  this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+    // this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {
