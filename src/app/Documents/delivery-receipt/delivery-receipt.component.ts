@@ -758,6 +758,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
+        this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         let i_sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
@@ -812,8 +813,8 @@ export class DeliveryReceiptComponent implements OnInit {
         if (this.paymentData.length !== 0) {
           this.paymentData.forEach(x => {
             this.PaidAmount += (x.PaymentAmount * 1);
-          })
-          // this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+      })
+           this.BalanceAmount = ((this.DueAmount * 1) - (this.PaidAmount * 1));
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
