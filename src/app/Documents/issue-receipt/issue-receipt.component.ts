@@ -636,11 +636,14 @@ export class IssueReceiptComponent implements OnInit {
         }
       })
     }
+    this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
+    this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
+    this.Loadingslip =  (this.SINo === undefined || this.SINo === null) ? 'N' : this.Loadingslip;
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
       'Type': type,
-      'SINo': (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
+      'SINo': this.SINo,
+      'RowId': this.RowId,
       'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
       'IRelates': this.IRelates,
       'DNo': (this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : this.DNo,
@@ -671,7 +674,7 @@ export class IssueReceiptComponent implements OnInit {
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'ReceiverName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
       'UserID': this.UserID.user,
-      'Loadingslip': (this.SINo === undefined || this.SINo === null) ? 'N' : this.Loadingslip,
+      'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
     }
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {

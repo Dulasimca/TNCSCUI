@@ -850,6 +850,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
       ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
+    this.UnLoadingSlip = (this.DeliveryOrderNo === undefined || this.DeliveryOrderNo === null) ? 'N' : this.UnLoadingSlip;
     const params = {
       'Type': type,
       'Dono': this.DeliveryOrderNo,
@@ -870,7 +871,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'GodownName': this.GodownName,
       'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'RegionName': this.RegionName,
-      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UnLoadingSlip': this.UnLoadingSlip,
       'UserID': this.username.user,
       'documentDeliveryItems': this.itemData,
       'deliveryMarginDetails': this.itemSchemeData,

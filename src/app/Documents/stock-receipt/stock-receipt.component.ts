@@ -584,10 +584,13 @@ export class StockReceiptComponent implements OnInit {
         this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
       }
     }
-    const params = {
+    this.SRNo = (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0;
+    this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
+    this.UnLoadingSlip = (this.SRNo !== 0) ? this.UnLoadingSlip : 'N';
+     const params = {
       'Type': type,
-      'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
-      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
+      'SRNo': this.SRNo,
+      'RowId': this.RowId,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'PAllotment': this.PAllotment,
       'OrderNo': this.OrderNo,
@@ -610,7 +613,7 @@ export class StockReceiptComponent implements OnInit {
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
-      'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UnLoadingSlip': this.UnLoadingSlip,
       'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
       'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
