@@ -896,7 +896,8 @@ export class IssueReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
-      this.isSaveSucceed = false;
+      const params = { DOCNumber: this.SINo }
+      this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});this.isSaveSucceed = false;
       this.isViewed = false;
     }
   }

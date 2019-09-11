@@ -24,6 +24,7 @@ export class PathConstants {
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';
   public static readonly STOCK_TRUCK_MEMO_VIEW_DOCUMENT = '/api/StockTruckMemo/Get';
+  public static readonly TRUCK_MEMO_DUPLICATE_DOCUMENT = '/api/StockTruckMemo/Put'
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrders/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_REPORT = '/api/StockDeliveryOrders/Get';
   public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
@@ -49,6 +50,7 @@ export class PathConstants {
   public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
   public static readonly STOCK_RECEIPT_DOCUMENT = '/api/StockReceipt/Post';
   public static readonly STOCK_RECEIPT_VIEW_DOCUMENT = '/api/StockReceipt/Get'; 
+  public static readonly STOCK_RECEIPT_DUPLICATE_DOCUMENT = '/api/StockReceipt/Put';
   public static readonly STOCK_DELIVERY_ORDER_DOCUMENT = '/api/StockDeliveryOrder/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_DOCUMENT = '/api/StockDeliveryOrder/Get';
   public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
@@ -59,6 +61,7 @@ export class PathConstants {
   public static readonly OPENING_BALANCE_MASTER_PUT = '/api/OpeningBalanceMaster/Put';
   public static readonly STOCK_ISSUE_MEMO_DOCUMENTS = '/api/StockIssueMemo/Post';
   public static readonly STOCK_ISSUE_VIEW_DOCUMENTS = '/api/StockIssueMemo/Get';
+  public static readonly STOCK_ISSUE_DUPLICATE_DOCUMENT = '/api/StockIssueMemo/Put';
   public static readonly STACK_OPENING_ENTRY_REPORT_POST = '/api/StackOpeningEntry/Post';
   public static readonly STACK_OPENING_ENTRY_REPORT_GET = '/api/StackOpeningEntry/Get';
   public static readonly STOCK_STATEMENT_REPORT = '/api/StockStatement/Post';

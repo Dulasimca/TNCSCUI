@@ -757,6 +757,8 @@ export class StockReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
+      const params = { DOCNumber: this.SRNo }
+      this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});
       this.isSaveSucceed = false;
       this.isViewed = false;
     }
