@@ -957,7 +957,9 @@ export class TruckReceiptComponent implements OnInit {
     } else {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
-      this.restAPIService.put(PathConstants.TRUCK_MEMO_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {}); this.isSaveSucceed = false;
+      this.restAPIService.put(PathConstants.TRUCK_MEMO_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      }); this.isSaveSucceed = false;
       this.isViewed = false;
     }
   }

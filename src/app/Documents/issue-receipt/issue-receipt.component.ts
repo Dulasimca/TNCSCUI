@@ -780,6 +780,7 @@ export class IssueReceiptComponent implements OnInit {
         this.VehicleNo = res.Table[0].LorryNo;
         this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
+        this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks;
         let sno = 1;
         res.Table.forEach(i => {
@@ -899,7 +900,10 @@ export class IssueReceiptComponent implements OnInit {
     } else {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
-      this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});this.isSaveSucceed = false;
+      this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      });
+      this.isSaveSucceed = false;
       this.isViewed = false;
     }
   }

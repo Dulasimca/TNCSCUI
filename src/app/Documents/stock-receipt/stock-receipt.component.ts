@@ -760,7 +760,9 @@ export class StockReceiptComponent implements OnInit {
     } else {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
-      this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});
+      this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      });
       this.isSaveSucceed = false;
       this.isViewed = false;
     }
