@@ -816,7 +816,7 @@ export class TableConstants {
     this.StackCardClosingEntryReport = [];
 
     this.DDChequeEntryCols = [
-      { field: 'Sno', header: 'S.No.' },
+      { field: 'SNo', header: 'S.No.' },
       { field: 'Payment', header: 'CHE/DD' },
       { field: 'ChequeNo', header: 'CHE/DD No' },
       { field: 'ChDate', header: 'Date' },

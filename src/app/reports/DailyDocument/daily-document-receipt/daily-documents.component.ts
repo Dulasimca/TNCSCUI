@@ -30,7 +30,6 @@ export class DailyDocumentsComponent implements OnInit {
   DocumentDate: Date;
   roleId: any;
   gdata: any;
-  isActionDisabled: any;
   userid: any;
   maxDate: Date;
   loading: boolean;
@@ -39,13 +38,13 @@ export class DailyDocumentsComponent implements OnInit {
   items: any;
   filterArray: any;
   searchText: any;
+  noOfDocs: any;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.gdata = this.roleBasedService.getInstance();
-    this.isActionDisabled = true;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport;
     this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceipt;
@@ -73,7 +72,6 @@ export class DailyDocumentsComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
             this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
     }
@@ -87,26 +85,39 @@ export class DailyDocumentsComponent implements OnInit {
       'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
     };
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
-      this.DailyDocumentReceiptData = res;
-      // this.filterArray = res;
-      if (this.roleId !== 1) {
-        this.DailyDocumentTotalData = this.gdata
-        this.DailyDocumentTotalData.forEach(s => {
-          s.RCode = this.g_cd.rcode,
-            s.GCode = this.g_cd.value,
-            s.GName = this.g_cd.label,
-            s.RName,
-            s.NoDocument = res.length
-        });
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.DailyDocumentReceiptData = res;
+      let sno = 1;
+      for(let i = 0; i < this.DailyDocumentReceiptData.length; i++){
+        if(this.DailyDocumentReceiptData[i+1] !== undefined) {
+          if(this.DailyDocumentReceiptData[i].DocNo !== this.DailyDocumentReceiptData[i+1].DocNo) {
+            this.DailyDocumentReceiptData[i].SlNo = sno;
+            sno += 1;
+            this.noOfDocs = sno;
+          } else {
+            this.DailyDocumentReceiptData[i].SlNo = sno;
+          }
+        } else { this.DailyDocumentReceiptData[i].SlNo = sno; }
       }
-      let sno = 0;
-      this.DailyDocumentReceiptData.forEach(data => {
-        data.DocDate = this.datepipe.transform(data.DocDate, 'dd/MM/yyyy');
-        sno += 1;
-        data.SlNo = sno;
+      for(let i = 0; i < this.DailyDocumentReceiptData.length; i++){
+        if(this.DailyDocumentReceiptData[i+1] !== undefined) {
+          if(this.DailyDocumentReceiptData[i].SlNo === this.DailyDocumentReceiptData[i+1].SlNo) {
+            this.DailyDocumentReceiptData[i+1].SlNo = '';
+            this.DailyDocumentReceiptData[i+1].DocNo = '';
+          } else if(this.DailyDocumentReceiptData[i].SlNo === '' && this.DailyDocumentReceiptData[i-1].SlNo === this.DailyDocumentReceiptData[i+1].SlNo){
+            this.DailyDocumentReceiptData[i+1].SlNo = '';
+            this.DailyDocumentReceiptData[i+1].DocNo = '';
+          } 
+        }
+      }
+      this.DailyDocumentTotalData = this.gdata;
+      this.DailyDocumentTotalData.forEach(s => {
+        s.RCode = this.g_cd.rcode,
+          s.GCode = this.g_cd.value,
+          s.GName = this.g_cd.label,
+          s.RName,
+          s.NoDocument = this.noOfDocs
       });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -123,7 +134,6 @@ export class DailyDocumentsComponent implements OnInit {
   onResetTable() {
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
-    this.isActionDisabled = true;
   }
 
   onSearch(value) {

@@ -717,7 +717,7 @@ export class StockReceiptComponent implements OnInit {
         this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
         this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
-        this.UnLoadingSlip = res[0].UnLoadingSlip;
+        this.UnLoadingSlip = res[0].Unloadingslip;
         let sno = 1;
         res.forEach(i => {
           this.itemData.push({
