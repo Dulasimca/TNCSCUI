@@ -123,6 +123,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
+  DOCNumber: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
@@ -684,6 +685,7 @@ export class IssueReceiptComponent implements OnInit {
             this.loadDocument();
             this.isViewed = false;
           }
+          this.DOCNumber = res.Item3; 
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
@@ -896,7 +898,7 @@ export class IssueReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
-      const params = { DOCNumber: this.SINo }
+      const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});this.isSaveSucceed = false;
       this.isViewed = false;
     }

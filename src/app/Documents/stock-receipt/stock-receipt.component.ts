@@ -131,6 +131,7 @@ export class StockReceiptComponent implements OnInit {
   blockScreen: boolean;
   stackCompartment: string = '';
   checkTrType: boolean = true;
+  DOCNumber: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -619,6 +620,7 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.blockScreen = false;
+          this.DOCNumber = res.Item3; 
           if (type !== '2') {
             this.isSaveSucceed = true;
             this.isViewed = false;
@@ -757,7 +759,7 @@ export class StockReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
-      const params = { DOCNumber: this.SRNo }
+      const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {});
       this.isSaveSucceed = false;
       this.isViewed = false;

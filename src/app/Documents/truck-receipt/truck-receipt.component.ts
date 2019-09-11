@@ -136,6 +136,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc') freightPanel: Dropdown;
   @ViewChild('vc') vehiclePanel: Dropdown;
   @ViewChild('rh') railHeadPanel: Dropdown;
+  DOCNumber: any;
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -882,6 +883,7 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
+          this.DOCNumber = res.Item3; 
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -954,7 +956,7 @@ export class TruckReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
-      const params = { DOCNumber: this.STNo }
+      const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.TRUCK_MEMO_DUPLICATE_DOCUMENT, params).subscribe((res: any) => {}); this.isSaveSucceed = false;
       this.isViewed = false;
     }
