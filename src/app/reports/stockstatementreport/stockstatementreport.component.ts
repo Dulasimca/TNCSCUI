@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -23,15 +24,20 @@ export class StockstatementreportComponent implements OnInit {
   stockDataColumns: any;
   stockData: any = [];
   godownOptions: SelectItem[];
-  g_cd: any;
+  regionOptions: SelectItem[];
+  GCode: any;
   maxDate: Date = new Date();
   loading: boolean;
   fromDate: any;
   toDate: any;
   username: any;
-  rCode: any;
+  RCode: any;
   data: any;
   items: any;
+  roleId: any;
+  regions: any;
+  @ViewChild('gd') godownPanel: Dropdown;
+  @ViewChild('reg') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe,
@@ -41,7 +47,9 @@ export class StockstatementreportComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockDataColumns = this.tableConstants.StockStatementReport;
     this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
     this.username = JSON.parse(this.authService.getCredentials());
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.items = [
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
@@ -55,26 +63,63 @@ export class StockstatementreportComponent implements OnInit {
       }]
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        if(this.RCode === undefined || this.RCode === null) { this.GCode = null; }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
-    this.rCode = this.data.rCode;
     this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.g_cd.value,
-      'RCode': this.g_cd.rcode,
+      'GCode': this.GCode,
+      'RCode': this.RCode,
       'UserName': this.username.user
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {

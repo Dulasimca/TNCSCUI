@@ -3,7 +3,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
@@ -16,6 +16,7 @@ import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown, SelectItem } from 'primeng/primeng';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cb-statement',
@@ -50,16 +51,18 @@ export class CBStatementComponent implements OnInit {
   items: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
-  regions: any;
   RCode: any;
   GCode: any;
   Date: any;
   roleId: any;
-  maxDate: Date;@ViewChild('gd') godownPanel: Dropdown;
+  disbaleGodown: boolean;
+  maxDate: Date; 
+  regions: any;
+  @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
-  
+
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private tableConstants: TableConstants, private router: Router, private excelService: ExcelService,
+    private tableConstants: TableConstants, private datepipe: DatePipe, private excelService: ExcelService,
     private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -89,7 +92,7 @@ export class CBStatementComponent implements OnInit {
     switch (item) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.data = this.roleBasedService.instance;
@@ -105,25 +108,42 @@ export class CBStatementComponent implements OnInit {
           }
           this.regionOptions = regionSelection;
         } else {
-          this.data = this.roleBasedService.regionsData;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
           }
           this.regionOptions = regionSelection;
+          this.regionOptions.unshift({ label: 'All', value: 'All' });
+          if (this.RCode !== undefined && this.RCode !== null) {
+            if (this.RCode === 'All') {
+              this.godownOptions = [{ label: 'All', value: 'All ' }];
+              this.GCode = 'All';
+              this.disbaleGodown = true;
+            } else {
+              this.disbaleGodown = false;
+            }
+          } else {
+            this.GCode = null; 
+          }
         }
         break;
       case 'gd':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
           });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
     }
@@ -131,7 +151,8 @@ export class CBStatementComponent implements OnInit {
 
   onView() {
     this.loading = true;
-    this.restApiService.get(PathConstants.CB_STATEMENT_REPORT).subscribe(response => {
+    const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.GCode).append('RCode', this.RCode);
+    this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe(response => {
       if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
         this.cbData = response.Table;
         this.record = response.Table.slice(0);
@@ -256,6 +277,8 @@ export class CBStatementComponent implements OnInit {
         }
         this.loading = false;
       } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
         this.loading = false;
       }
     }, (err: HttpErrorResponse) => {
