@@ -149,14 +149,14 @@ export class DDChequeEntryComponent implements OnInit {
           sno += 1;
         })
       } else {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
       // this.blockScreen = false;
       if (err.status === 0) {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -182,8 +182,9 @@ export class DDChequeEntryComponent implements OnInit {
             }
           })
           this.totalAmount += (x.Amount * 1);
+          this.totalAmount = (this.totalAmount * 1).toFixed(2);
           this.DDChequeData.push({
-            Sno: sno,
+            SNo: sno,
             PaymentType: x.PaymentType,
             Payment: paymentName,
             ChequeNo: x.ChequeNo,
@@ -208,17 +209,17 @@ export class DDChequeEntryComponent implements OnInit {
           this.datepipe.transform(res[0].ReceiptDate, 'dd/MM/yyyy') : new Date();
         this.ReceiptDt = this.datepipe.transform(res[0].ReceiptDate, 'MM/dd/yyyy');
       } else if (res.length === 0) {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       } else {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       // this.blockScreen = false;
       if (err.status === 0) {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -237,12 +238,14 @@ export class DDChequeEntryComponent implements OnInit {
       Bank: this.bank,
       Flag: 'N'
     })
-    let sno = 0;
+    let sno = 1;
+    this.totalAmount = 0;
     this.DDChequeData.forEach(i => {
       this.totalAmount += (i.Amount * 1);
       i.SNo = sno;
       sno += 1;
     });
+    this.totalAmount = (this.totalAmount * 1).toFixed(2);
     if (this.DDChequeData.length !== 0) {
       this.paymentType = null;
       this.paymentTypeOptions = [];
@@ -283,23 +286,24 @@ export class DDChequeEntryComponent implements OnInit {
           this.loadDocument();
           this.isViewed = false;
         }
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
       }
     }, (err: HttpErrorResponse) => {
       // this.blockScreen = false;
       if (err.status === 0) {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
   viewSelectedRow(data, index) {
     this.chequeAmount = (data.Amount * 1);
+    this.totalAmount = ((this.totalAmount * 1) - (this.chequeAmount * 1));
     this.chequeNo = data.ChequeNo;
     this.chequeDate = data.ChequeDate;
     if (data.Payment !== undefined && data.Payment !== null) {
@@ -361,12 +365,11 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.DDChequeData = []; this.ChequeReceiptNoData = [];
+    this.DDChequeData = []; this.ChequeReceiptNoData = []; this.paymentTypeOptions = [];
     this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
     this.receiptNo = null; this.bank = null; this.paymentType = null;
-    this.chequeDate = new Date(); this.chequeAmount = 0;
-    this.isSelectedReceivor = false; this.receivedFrom = null;
+    this.chequeDate = new Date(); this.chequeAmount = 0; this.totalAmount = 0;
+    this.isSelectedReceivor = false; this.receivedFrom = null; this.chequeNo = null;
   }
 
 }
- 

@@ -96,10 +96,10 @@ export class StockReceiptComponent implements OnInit {
   IPCode: any;
   NoPacking: number;
   PWeight: any;
-  GKgs: number;
-  NKgs: number;
+  GKgs: any;
+  NKgs: any;
   WTCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   //SR-Freight Details
   TransporterName: any = '-';
   LWBillNo: any = '-';
@@ -131,6 +131,7 @@ export class StockReceiptComponent implements OnInit {
   blockScreen: boolean;
   stackCompartment: string = '';
   checkTrType: boolean = true;
+  DOCNumber: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -333,22 +334,22 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (this.packingTypeOptions === undefined) {
-          if (type === 'enter') {
-            this.packingPanel.overlayVisible = true;
-          }
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.Table.forEach(p => {
-                packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
-              })
-              this.packingTypeOptions = packingTypes;
-              this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-            } else {
-              this.packingTypeOptions = packingTypes;
-            }
-          });
+        // if (this.packingTypeOptions === undefined) {
+        if (type === 'enter') {
+          this.packingPanel.overlayVisible = true;
         }
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.Table.forEach(p => {
+              packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
+            })
+            this.packingTypeOptions = packingTypes;
+            this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.packingTypeOptions = packingTypes;
+          }
+        });
+        //}
         break;
       case 'wmt':
         // if (this.wmtOptions === undefined) {
@@ -452,11 +453,11 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onCalculateKgs() {
-    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
+      let NoOfPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = this.NKgs = this.tareWt = null;
@@ -583,10 +584,13 @@ export class StockReceiptComponent implements OnInit {
         this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
       }
     }
-    const params = {
+    this.SRNo = (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0;
+    this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
+    this.UnLoadingSlip = (this.SRNo !== 0) ? this.UnLoadingSlip : 'N';
+     const params = {
       'Type': type,
-      'SRNo': (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
-      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
+      'SRNo': this.SRNo,
+      'RowId': this.RowId,
       'SRDate': this.datepipe.transform(this.SRDate, 'MM/dd/yyyy'),
       'PAllotment': this.PAllotment,
       'OrderNo': this.OrderNo,
@@ -609,7 +613,7 @@ export class StockReceiptComponent implements OnInit {
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
-      'UnLoadingSlip': (this.SRNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UnLoadingSlip': this.UnLoadingSlip,
       'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
       'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
@@ -619,6 +623,7 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.blockScreen = false;
+          this.DOCNumber = res.Item3; 
           if (type !== '2') {
             this.isSaveSucceed = true;
             this.isViewed = false;
@@ -717,7 +722,7 @@ export class StockReceiptComponent implements OnInit {
         this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
         this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
-        this.UnLoadingSlip = res[0].UnLoadingSlip;
+        this.UnLoadingSlip = res[0].Unloadingslip;
         let sno = 1;
         res.forEach(i => {
           this.itemData.push({
@@ -757,6 +762,10 @@ export class StockReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
+      const params = { DOCNumber: this.DOCNumber }
+      this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      });
       this.isSaveSucceed = false;
       this.isViewed = false;
     }
@@ -810,7 +819,7 @@ export class StockReceiptComponent implements OnInit {
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
-    this.WTCode = null; this.Moisture = '0';
+    this.WTCode = null; this.Moisture = null;
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();

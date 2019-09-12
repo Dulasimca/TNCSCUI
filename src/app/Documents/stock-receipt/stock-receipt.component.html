@@ -137,7 +137,7 @@
                   <div class="ui-g-12 ui-md-2 ui-fluid">
                     <span class="ui-float-label">
                       <input name="truck_no" type="text" size="20" maxlength="20" [(ngModel)]="TruckMemoNo" pInputText
-                        autocomplete="off" maxlength="10" required>
+                        autocomplete="off" required>
                       <label for="truck_no" class="float-input">Truck Memo No</label>
                     </span>
                   </div>
@@ -213,13 +213,13 @@
                     </div>
                   <div class="ui-g-12 ui-md-1" style="margin-top: -10px">
                     <label for="godown_no" class="label-fontsize">Godown No</label>
-                    <input name="godown_no" pInputText [(ngModel)]="godownNo" [readOnly]="true">
+                    <input name="godown_no" pInputText [(ngModel)]="godownNo" tabindex="-1" [readOnly]="true">
                   </div>
                   <div class="ui-g-12 ui-md-2" style="margin-top: -10px">
                     <label for="loc_no" class="label-fontsize">Location+Formation No.</label>
-                    <input name="loc_no" pInputText [(ngModel)]="locationNo" [readOnly]="true">
+                    <input name="loc_no" pInputText [(ngModel)]="locationNo" tabindex="-1" [readOnly]="true">
                   </div>
-                  <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 8px;">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 8px;">
                     <label for="stack_year" class="ui-g-12 ui-md-10 label-fontsize-large"><b>Stack Year -
                         <b>{{stackYear}}</b></b></label>
                   </div>
@@ -538,7 +538,7 @@
             <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save (click)="onSave('1');resetForm(f)"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || !f.valid || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print (click)="onPrint()"></button>
+            <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print (click)="onPrint()"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button"

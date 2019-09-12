@@ -11,7 +11,8 @@
       <p-toast position="center" key="t-err"></p-toast>
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')" (keydown.enter)="onSelect('gd')"
+        <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" 
+        [(ngModel)]="GCode" (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
           (ngModelChange)="onResetTable()" filter="true" optionLabel="label" 
           resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
@@ -21,9 +22,9 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect('cd')"
-          (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable()" filter="true" 
-          resetFilterOnHide="true" optionLabel="label" [showClear]="true"
+        <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+         [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')"
+         (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
           placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -32,9 +33,9 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Stack Year</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true" (onClick)="onSelect('y')"
-          (keydown.enter)="onSelect('y')" (ngModelChange)="onResetTable()" placeholder="-select-" 
-          filter="true" resetFilterOnHide="true" optionLabel="label">
+        <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year" [showClear]="true" 
+        (onClick)="onSelect('st_yr', 'click')" (keydown.enter)="onSelect('st_yr', 'enter')" (ngModelChange)="onResetTable()"
+         placeholder="-select-" filter="true" resetFilterOnHide="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -42,8 +43,9 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Select Stack</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="stackOptions" [(ngModel)]="s_cd" [showClear]="true" (onClick)="onSelect('s')"
-          (keydown.enter)="onSelect('s')" (ngModelChange)="onResetTable()" placeholder="-select-" 
+        <p-dropdown #stockNo class="ui-g-12 ui-fluid dashboard" [options]="stackOptions" [(ngModel)]="TStockNo"
+         [showClear]="true" (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')"
+         (ngModelChange)="onResetTable()" placeholder="-select-" 
           filter="true" optionLabel="label" resetFilterOnHide="true">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -51,13 +53,13 @@
         </p-dropdown>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !c_cd || !s_cd || !Year)"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!GCode || !ITCode || !TStockNo || !Year)"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-12 dashboard">
@@ -65,6 +67,7 @@
           [paginator]="true" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
+              <th colspan="1" rowspan="2">S.No:</th>
               <th rowspan="2">Date</th>
 
               <th colspan="2">Receipt</th>

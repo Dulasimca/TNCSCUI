@@ -7,10 +7,12 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-issue-type-abstract',
@@ -19,7 +21,7 @@ import { Dropdown } from 'primeng/primeng';
 })
 export class IssueTypeAbstractComponent implements OnInit {
   IssueAbstractCols: any;
-  IssueAbstractData: any;
+  IssueAbstractData: any = [];
   fromDate: any;
   toDate: any;
   regionOptions: SelectItem[];
@@ -37,13 +39,11 @@ export class IssueTypeAbstractComponent implements OnInit {
   @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+  constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    // this.IssueAbstractCols = this.tableConstants.IssueTypeAbstract;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
@@ -52,7 +52,6 @@ export class IssueTypeAbstractComponent implements OnInit {
   }
 
   onSelect(item, type) {
-    let options = [];
     let regionSelection = [];
     let godownSelection = [];
     switch (item) {
@@ -104,22 +103,29 @@ export class IssueTypeAbstractComponent implements OnInit {
     const params = {
       FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      GCode: this.GCode,
-      RCode: this.RCode,
-      UserId: this.userId.user
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
-        this.IssueAbstractCols = res;
+        this.loading = false;
+        let columns: Array<any> = [];
+          for(var i in res[0]){
+            columns.push({ header: i, field: i });
+          }
+          columns.unshift({ header: 'S.No:', field: 'sno' });
+        this.IssueAbstractCols = columns;
         this.IssueAbstractData = res;
-        let sno = 0;
+        let sno = 1;
         this.IssueAbstractData.forEach(data => {
-          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          data.sno = sno;
           sno += 1;
-          data.SlNo = sno;
         });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -159,7 +165,13 @@ export class IssueTypeAbstractComponent implements OnInit {
     this.IssueAbstractData = [];
   }
 
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForIssue + ".txt";
+    saveAs(path + filename, filename);
+  }
+
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.IssueAbstractData, 'ISSUE_TYPE_ABSTRACT', this.IssueAbstractCols);
+    this.excelService.exportAsExcelFile(this.IssueAbstractData, 'QUANTITY_ISSUE_ABSTRACT', this.IssueAbstractCols);
   }
 }

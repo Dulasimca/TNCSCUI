@@ -8,4 +8,7 @@ export class GolbalVariable {
     public static readonly StockTruckMemoDocument = 'TMDOC';
     public static readonly DeliveryOrderDocument = 'DODOC';
     public static readonly DDChequeDocument = 'DDCHE';
+    public static readonly QuantityACForIssue = 'ISQAC';
+    public static readonly QuantityACForReceipt = 'REQAC';
+    public static readonly StackCardDetailsReport = '';
 }

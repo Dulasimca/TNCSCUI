@@ -37,7 +37,7 @@
               <div class="ui-g-12 ui-md-6">
                 <label for="detailsText" class="label-fontsize-large">Details</label>
                 <textarea name="detailsText" rows="3" cols="110" maxlength="250" pInputTextarea
-                    [(ngModel)]="details"></textarea>
+                autoResize="true" [(ngModel)]="details"></textarea>
               </div>
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
@@ -107,14 +107,17 @@
             </div>
             <div class="ui-g-12 ui-md-12">
             </div>
-            <div class="ui-g-12" style="text-align: center !important">
+            <div class="ui-g-12 no-pad-top" style="text-align: center !important">
               <div class="ui-g-12 dashboard">
-              <div class="ui-g-10"></div>
-              <div class="ui-g-2 ui-md-1">
+              <div class="ui-g-8"></div>
+              <div class="ui-g-4 ui-md-2">
+                <label style="margin-top:5px"><b>TOTAL:</b>{{totalAmount}}</label>
+              </div>
+              <div class="ui-g-4 ui-md-1">
                 <button style="margin-top:5px" pButton type="button"
                   [disabled]="(!receiptDate || DDChequeData.length=='0' || !details || (isViewed && !f.dirty))" label=Save (click)="onSave('1');resetForm(f)"></button>
               </div>
-              <div class="ui-g-2 ui-md-1">
+              <div class="ui-g-4 ui-md-1">
                 <button style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print
                   (click)="onPrint()"></button>
               </div></div>

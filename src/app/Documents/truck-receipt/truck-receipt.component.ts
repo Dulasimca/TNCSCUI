@@ -93,7 +93,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: any;
   WTCode: any;
   wtCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
@@ -136,6 +136,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc') freightPanel: Dropdown;
   @ViewChild('vc') vehiclePanel: Dropdown;
   @ViewChild('rh') railHeadPanel: Dropdown;
+  DOCNumber: any;
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -850,7 +851,7 @@ export class TruckReceiptComponent implements OnInit {
     })
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
-    this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
+    this.IssueSlip = (this.STNo === undefined || this.STNo === null) ? 'N' : this.IssueSlip;
     const params = {
       'Type': type,
       'STNo': this.STNo,
@@ -882,6 +883,7 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
+          this.DOCNumber = res.Item3; 
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -954,7 +956,10 @@ export class TruckReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
-      this.isSaveSucceed = false;
+      const params = { DOCNumber: this.DOCNumber }
+      this.restAPIService.put(PathConstants.TRUCK_MEMO_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      }); this.isSaveSucceed = false;
       this.isViewed = false;
     }
   }

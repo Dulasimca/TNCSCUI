@@ -98,7 +98,7 @@ export class IssueReceiptComponent implements OnInit {
   GKgs: any;
   NKgs: any;
   WTCode: any;
-  Moisture: string = '0';
+  Moisture: string;
   NewBale: any = 0;
   SServiceable: any = 0;
   SPatches: any = 0;
@@ -123,6 +123,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
+  DOCNumber: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
@@ -552,7 +553,7 @@ export class IssueReceiptComponent implements OnInit {
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       this.itemData.forEach(x => {
         x.sno = sno;
-        if (x.TStockNo === stock_no) {
+        if (x.TStockNo.trim() === stock_no.trim()) {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
         sno += 1;
@@ -635,11 +636,14 @@ export class IssueReceiptComponent implements OnInit {
         }
       })
     }
+    this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
+    this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
+    this.Loadingslip =  (this.SINo === undefined || this.SINo === null) ? 'N' : this.Loadingslip;
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
       'Type': type,
-      'SINo': (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-      'RowId': (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0,
+      'SINo': this.SINo,
+      'RowId': this.RowId,
       'SIDate': this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
       'IRelates': this.IRelates,
       'DNo': (this.DeliveryOrderNo !== null) ? this.DeliveryOrderNo : this.DNo,
@@ -670,7 +674,7 @@ export class IssueReceiptComponent implements OnInit {
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'ReceiverName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
       'UserID': this.UserID.user,
-      'Loadingslip': (this.SINo === undefined || this.SINo === null) ? 'N' : this.Loadingslip,
+      'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
     }
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
@@ -684,6 +688,7 @@ export class IssueReceiptComponent implements OnInit {
             this.loadDocument();
             this.isViewed = false;
           }
+          this.DOCNumber = res.Item3; 
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
@@ -778,6 +783,7 @@ export class IssueReceiptComponent implements OnInit {
         this.VehicleNo = res.Table[0].LorryNo;
         this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
+        this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks;
         let sno = 1;
         res.Table.forEach(i => {
@@ -896,6 +902,10 @@ export class IssueReceiptComponent implements OnInit {
       this.onSave('2');
     } else {
       this.loadDocument();
+      const params = { DOCNumber: this.DOCNumber }
+      this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe(res => {
+        if(res) { this.DOCNumber = null; }
+      });
       this.isSaveSucceed = false;
       this.isViewed = false;
     }

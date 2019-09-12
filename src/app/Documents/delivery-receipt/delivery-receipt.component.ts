@@ -458,6 +458,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
+        this.DueAmount = (this.GrandTotal * 1);
         this.itemData.splice(index, 1);
         let sno = 1;
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });
@@ -475,6 +476,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginRate = (data.MarginRate * 1).toFixed(2);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
+        this.DueAmount = (this.GrandTotal * 1);
         this.itemSchemeData.splice(index, 1);
         let slno = 1;
         this.itemSchemeData.forEach(x => { x.sno = slno; slno += 1; });
@@ -705,6 +707,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.paymentBalData = []; this.paymentData = [];
     this.BalanceAmount = 0; this.DueAmount = 0; this.PaidAmount = 0; this.GrandTotal = 0;
     this.Balance = 0; this.AdjusmentAmount = 0; this.OtherAmount = 0;
+    this.PayableAt = null; this.Payment = null; this.ChequeNo = null;
+    this.PAmount = null; this.PrevOrderNo = null;
     this.Trcode = null; this.trCode = null; this.IndentNo = '-'; this.RTCode = null;
     this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null;
     this.transactionOptions = []; this.partyNameOptions = [];
@@ -754,6 +758,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
+        this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         let i_sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
@@ -808,8 +813,8 @@ export class DeliveryReceiptComponent implements OnInit {
         if (this.paymentData.length !== 0) {
           this.paymentData.forEach(x => {
             this.PaidAmount += (x.PaymentAmount * 1);
-          })
-          // this.BalanceAmount = ((this.DueAmount) - (this.PaidAmount * 1));
+      })
+           this.BalanceAmount = ((this.DueAmount * 1) - (this.PaidAmount * 1));
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
@@ -845,6 +850,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
       ? this.DeliveryOrderNo : 0;
     this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
+    this.UnLoadingSlip = (this.DeliveryOrderNo === undefined || this.DeliveryOrderNo === null) ? 'N' : this.UnLoadingSlip;
     const params = {
       'Type': type,
       'Dono': this.DeliveryOrderNo,
@@ -865,7 +871,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'GodownName': this.GodownName,
       'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'RegionName': this.RegionName,
-      'UnLoadingSlip': (this.DeliveryOrderNo === 0) ? 'N' : this.UnLoadingSlip,
+      'UnLoadingSlip': this.UnLoadingSlip,
       'UserID': this.username.user,
       'documentDeliveryItems': this.itemData,
       'deliveryMarginDetails': this.itemSchemeData,

@@ -1,61 +1,63 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
-import { TableConstants } from 'src/app/constants/tableconstants';
+import { SelectItem } from 'primeng/api';
+import { Dropdown, MessageService } from 'primeng/primeng';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { Router } from '@angular/router';
-import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
+import { PathConstants } from 'src/app/constants/path.constants';
+import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-commodity-issue-memo',
-  templateUrl: './commodity-issue-memo.component.html',
-  styleUrls: ['./commodity-issue-memo.component.css']
+  selector: 'app-receipt-type-abstract',
+  templateUrl: './receipt-type-abstract.component.html',
+  styleUrls: ['./receipt-type-abstract.component.css']
 })
-export class CommodityIssueMemoComponent implements OnInit {
-  commodityIssueMemoCols: any;
-  commodityIssueMemoData: any;
+export class ReceiptTypeAbstractComponent implements OnInit {
+  ReceiptAbstractCols: any;
+  ReceiptAbstractData: any = [];
   fromDate: any;
   toDate: any;
-  isActionDisabled: any;
-  data: any;
-  RCode: any;
-  GCode: any;
-  ITCode: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
-  commodityOptions: SelectItem[];
-  truckName: string;
-  canShowMenu: boolean;
+  regions: any;
+  RCode: any;
+  GCode: any;
+  data: any;
+  roleId: any;
   maxDate: Date;
-  loading: boolean;
-  @ViewChild('region') regionPanel: Dropdown;
-  roleId: number;
+  canShowMenu: boolean;
+  isShowErr: boolean;
+  loading: boolean = false;
+  userId: any;
+  @ViewChild('gd') godownPanel: Dropdown;
+  @ViewChild('reg') regionPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
-    this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
-    this.data = this.roleBasedService.getInstance();
-    this.maxDate = new Date();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.userId = JSON.parse(this.authService.getCredentials());
+    this.maxDate = new Date();
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let commoditySelection = [];
-
     switch (item) {
       case 'reg':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.roleId === 3) {
           this.data = this.roleBasedService.instance;
           if (this.data !== undefined) {
@@ -80,74 +82,63 @@ export class CommodityIssueMemoComponent implements OnInit {
         }
         break;
       case 'gd':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            }
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
           });
-          this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
-        }
-        break;
-      case 'cd':
-        if (this.commodityOptions === undefined) {
-          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                this.commodityOptions = commoditySelection;
-              });
-            }
-          })
         }
         break;
     }
   }
 
   onView() {
-    this.messageService.clear();
-    this.commodityIssueMemoData = [];
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'RCode': this.RCode,
-      'GCode': this.GCode,
-      'TRCode': this.ITCode
-    }
-    this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
-      this.commodityIssueMemoData = res;
-      let sno = 0;
-      this.commodityIssueMemoData.forEach(data => {
-        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
+    };
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+        this.loading = false;
+        let columns: Array<any> = [];
+          for(var i in res[0]){
+            columns.push({ header: i, field: i });
+          }
+          columns.unshift({ header: 'S.No:', field: 'sno' });
+        this.ReceiptAbstractCols = columns;
+        this.ReceiptAbstractData = res;
+        let sno = 1;
+        this.ReceiptAbstractData.forEach(data => {
+          data.sno = sno;
+          sno += 1;
+        });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
   }
 
   checkValidDateSelection() {
@@ -170,19 +161,17 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   onResetTable() {
-    this.commodityIssueMemoData = [];
-    this.isActionDisabled = true;
+    this.ReceiptAbstractData = [];
+  }
+
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForReceipt + ".txt";
+    saveAs(path + filename, filename);
   }
 
   exportAsXLSX(): void {
-    var CommodityIssueData = [];
-    this.commodityIssueMemoData.forEach(data => {
-      CommodityIssueData.push({
-        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
-        Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
-        Lorryno: data.Lorryno, Stackno: data.Stackno
-      })
-    });
-    this.excelService.exportAsExcelFile(CommodityIssueData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
+    this.excelService.exportAsExcelFile(this.ReceiptAbstractData, 'QUANTITY_RECEIPT_ABSTRACT', this.ReceiptAbstractCols);
   }
 }
+

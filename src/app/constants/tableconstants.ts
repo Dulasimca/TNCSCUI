@@ -99,7 +99,7 @@ export class TableConstants {
   CashReceiptRegister: any;
   IssueMemoCustomerDeatil: any;
   IssueMemoAbstract: any;
-  IssueTypeAbstract: any;
+  DemandDraftDetailsReportCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -817,7 +817,7 @@ export class TableConstants {
     this.StackCardClosingEntryReport = [];
 
     this.DDChequeEntryCols = [
-      { field: 'Sno', header: 'S.No.' },
+      { field: 'SNo', header: 'S.No.' },
       { field: 'Payment', header: 'CHE/DD' },
       { field: 'ChequeNo', header: 'CHE/DD No' },
       { field: 'ChDate', header: 'Date' },
@@ -939,6 +939,7 @@ export class TableConstants {
     ];
 
     this.StackCard = [
+      { field: 'SlNo', header: 'SlNo' },
       { field: 'AckDate', header: 'Date' },
       { field: 'ReceiptBags', header: 'Bags' },
       { field: 'ReceiptQuantity', header: 'Quantity' },
@@ -1063,16 +1064,15 @@ export class TableConstants {
       { field: 'Quantity', header: 'Quantity' }
     ];
 
-    this.IssueTypeAbstract = [
-      { field: 'Quantity', header: 'Commodity' },
-      { field: 'Quantity', header: 'Bulk Consumer' },
-      { field: 'Commodity', header: 'Cooperative Leading' },
-      { field: 'society', header: 'Cooperative Primary' },
-      { field: 'Quantity', header: 'CRS' },
-      { field: 'Commodity', header: 'Fire' },
-      { field: 'society', header: 'Godown' },
-      { field: 'Quantity', header: 'Noon Meal Center' },
-      { field: 'Commodity', header: 'Total' },
+    this.DemandDraftDetailsReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Society', header: 'Society' },
+      { field: 'DONO', header: 'DONO' },
+      { field: 'DDNo', header: 'DD.NO.' },
+      { field: 'DDate', header: 'DD Date' },
+      { field: 'Bank', header: 'Bank' },
+      { field: 'Amount', header: 'Amount' },
     ];
+
   }
 }
