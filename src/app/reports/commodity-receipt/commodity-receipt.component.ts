@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-commodity-receipt',
@@ -38,6 +39,10 @@ export class CommodityReceiptComponent implements OnInit {
   maxDate: Date;
   loading: boolean;
   roleId: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('commodity') commodityPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -63,12 +68,14 @@ export class CommodityReceiptComponent implements OnInit {
     }
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
     let transactionSelection = [];
+    let commoditySelection = [];
     switch (item) {
       case 'reg':
+        if(type === 'enter') { this.regionPanel.overlayVisible = true; }
         if (this.roleId === 3) {
           this.data = this.roleBasedService.instance;
           if (this.data !== undefined) {
@@ -93,7 +100,8 @@ export class CommodityReceiptComponent implements OnInit {
         }
         break;
       case 'gd':
-        this.data = this.roleBasedService.instance;
+          if(type === 'enter') { this.godownPanel.overlayVisible = true; }
+          this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
@@ -107,7 +115,8 @@ export class CommodityReceiptComponent implements OnInit {
         }
         break;
       case 'tr':
-        if (this.transactionOptions === undefined) {
+          if(type === 'enter') { this.transactionPanel.overlayVisible = true; }
+          if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -118,7 +127,19 @@ export class CommodityReceiptComponent implements OnInit {
           })
         }
         break;
-    }
+        case 'cd':
+        if(type === 'enter') { this.commodityPanel.overlayVisible = true; }
+        if (this.commodityOptions === undefined) {
+              this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+                if (data !== undefined) {
+                  data.forEach(y => {
+                    commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                    this.commodityOptions = commoditySelection;
+                  });
+                }
+              })
+            }
+            break;   }
   }
 
   onView() {

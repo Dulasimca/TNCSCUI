@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -41,14 +40,9 @@ export class CBStatementComponent implements OnInit {
   data = [];
   column?: any;
   canShowMenu: boolean;
-  searchText: string;
-  filterArray: any;
-  filteredItem: any;
   rowGroupMetadata: any;
-  totalMetaData: any;
   loading: boolean;
   record: any;
-  items: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   RCode: any;
@@ -66,17 +60,6 @@ export class CBStatementComponent implements OnInit {
     private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          this.exportAsXLSX();
-        }
-      },
-      {
-        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-          this.exportAsPDF();
-        }
-      }];
     this.rowGroupMetadata = {};
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
@@ -311,24 +294,5 @@ export class CBStatementComponent implements OnInit {
     this.excelService.exportAsExcelFile(ClosingBalanceData, 'CLOSING_BALANCE_STATEMENT_REPORT', this.column);
   }
 
-  exportAsPDF() {
-    var doc = new jsPDF('p', 'pt', 'a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
-    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
-    var col = this.column;
-    var rows = [];
-    this.cbData.forEach(element => {
-      var temp = [element.TNCSName, element.TNCSCapacity, element.boiledRice, element.rawRice, element.totalRice,
-      element.SUGAR, element.WHEAT, element.toorDhall, element.kanadaToorDhall, element.totalDhall,
-      element.uridDhall, element.palmoil, element.cement];
-      rows.push(temp);
-    });
-    doc.autoTable(col, rows);
-    doc.save('CRS_DATA.pdf');
-  }
-
-  onSearch() { }
-
-  onPrint() { }
+  
 }

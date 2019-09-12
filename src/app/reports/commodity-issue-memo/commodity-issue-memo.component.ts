@@ -19,7 +19,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class CommodityIssueMemoComponent implements OnInit {
   commodityIssueMemoCols: any;
-  commodityIssueMemoData: any;
+  commodityIssueMemoData: any = [];
   fromDate: any;
   toDate: any;
   isActionDisabled: any;
@@ -34,9 +34,11 @@ export class CommodityIssueMemoComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
-  @ViewChild('region') regionPanel: Dropdown;
   roleId: number;
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('commodity') commodityPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
@@ -49,14 +51,14 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
     let commoditySelection = [];
-
     switch (item) {
       case 'reg':
-        if (this.roleId === 3) {
+          if(type === 'enter') { this.regionPanel.overlayVisible = true; }
+          if (this.roleId === 3) {
           this.data = this.roleBasedService.instance;
           if (this.data !== undefined) {
             this.data.forEach(x => {
@@ -80,6 +82,7 @@ export class CommodityIssueMemoComponent implements OnInit {
         }
         break;
       case 'gd':
+          if(type === 'enter') { this.godownPanel.overlayVisible = true; }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
@@ -94,7 +97,8 @@ export class CommodityIssueMemoComponent implements OnInit {
         }
         break;
       case 'cd':
-        if (this.commodityOptions === undefined) {
+          if(type === 'enter') { this.commodityPanel.overlayVisible = true; }
+          if (this.commodityOptions === undefined) {
           this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -126,6 +130,7 @@ export class CommodityIssueMemoComponent implements OnInit {
       this.commodityIssueMemoData.forEach(data => {
         data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
         data.Quantity = (data.Quantity * 1).toFixed(3);
+        data.Lorryno = data.Lorryno.toString().toUpperCase();
         sno += 1;
         data.SlNo = sno;
       })

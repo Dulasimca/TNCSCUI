@@ -18,7 +18,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class DemandDraftDetailsComponent implements OnInit {
   DemandDraftDetailsCols: any;
-  DemandDraftDetailsData: any;
+  DemandDraftDetailsData: any = [];
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
