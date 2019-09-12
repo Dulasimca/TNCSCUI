@@ -67,12 +67,13 @@ export class DemandDraftComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.g_cd.value,
       'UserName': this.username.user,
-    }
+    };
     this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
       this.DemandDraftData = res;
       let sno = 0;
       this.DemandDraftData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Chequedate = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;

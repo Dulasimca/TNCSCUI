@@ -627,6 +627,7 @@ export class TableConstants {
     ];
 
     this.DoDemandDraft = [
+      { field: 'SlNo', header: 'S.No' },
       { field: 'Society', header: 'SOCIETY' },
       { field: 'Dono', header: 'DONO' },
       { field: 'Dodate', header: 'DO DATE' },
@@ -639,14 +640,15 @@ export class TableConstants {
     ];
 
     this.DoMarginAmount = [
-      { field: '', header: 'SOCIETY' },
-      { field: '', header: 'DONO' },
-      { field: '', header: 'DO DATE' },
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Scheme', header: 'SCHEME' },
-      { field: '', header: 'NET WEIGHT' },
-      { field: '', header: 'RATE' },
-      { field: '', header: 'AMOUNT' }
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Coop', header: 'Society' },
+      { field: 'Dono', header: 'DONO' },
+      { field: 'Dodate', header: 'DO DATE' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Net Wt' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' }
     ];
 
     this.SchemeAbstractReceipt = [

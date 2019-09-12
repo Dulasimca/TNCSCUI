@@ -106,7 +106,6 @@ import { StockstatementreportComponent } from './reports/stockstatementreport/st
 import { TransactionStatusComponent } from './reports/transaction-status/transaction-status.component';
 import { DailyDocumentsComponent } from './reports/DailyDocument/daily-document-receipt/daily-documents.component';
 import { StackCardOpeningEntryComponent } from './Documents/StackCard/stack-card-opening-entry/stack-card-opening-entry.component';
-import { DuplicateIssueMemoComponent } from './Documents/StackCard/duplicate-issue-memo/duplicate-issue-memo.component';
 import { DailyDocumentIssueComponent } from './reports/DailyDocument/daily-document-issue/daily-document-issue.component';
 import { AmountDecimalDirective } from './directives/DecimalForAmount.directive';
 import { StackCardOpeningComponent } from './reports/StackCard/stack-card-opening/stack-card-opening.component';
@@ -138,7 +137,6 @@ import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
-import { DemandDraftDetailsComponent } from './reports/demand-draft-details/demand-draft-details.component';
 
 @NgModule({
   declarations: [
@@ -217,7 +215,6 @@ import { DemandDraftDetailsComponent } from './reports/demand-draft-details/dema
     UserMasterComponent,
     OpeningBalanceCurrentYearComponent,
     DDChequeEntryComponent,
-    DuplicateIssueMemoComponent,
     StockstatementreportComponent,
     TransactionStatusComponent,
     DailyDocumentsComponent,
@@ -235,7 +232,6 @@ import { DemandDraftDetailsComponent } from './reports/demand-draft-details/dema
     CashReceiptRegisterComponent,
     IssueTypeAbstractComponent,
     ReceiptTypeAbstractComponent,
-    DemandDraftDetailsComponent,
   ],
   imports: [
     BrowserModule,
