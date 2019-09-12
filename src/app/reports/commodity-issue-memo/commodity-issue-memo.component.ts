@@ -83,9 +83,11 @@ export class CommodityIssueMemoComponent implements OnInit {
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
           });
+          this.godownOptions = godownSelection;
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
@@ -114,8 +116,9 @@ export class CommodityIssueMemoComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode.value,
-      'TRCode': this.ITCode.value
+      'RCode': this.RCode,
+      'GCode': this.GCode,
+      'TRCode': this.ITCode
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
       this.commodityIssueMemoData = res;

@@ -99,6 +99,7 @@ export class TableConstants {
   CashReceiptRegister: any;
   IssueMemoCustomerDeatil: any;
   IssueMemoAbstract: any;
+  DemandDraftDetailsReportCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1060,6 +1061,16 @@ export class TableConstants {
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'society', header: 'Society' }
+    ];
+
+    this.DemandDraftDetailsReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Society', header: 'Society' },
+      { field: 'DONO', header: 'DONO' },
+      { field: 'DDNo', header: 'DD.NO.' },
+      { field: 'DDate', header: 'DD Date' },
+      { field: 'Bank', header: 'Bank' },
+      { field: 'Amount', header: 'Amount' },
     ];
 
   }

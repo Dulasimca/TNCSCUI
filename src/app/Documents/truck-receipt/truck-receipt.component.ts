@@ -851,7 +851,7 @@ export class TruckReceiptComponent implements OnInit {
     })
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
-    this.IssueSlip = (this.STNo !== 0) ? this.IssueSlip : 'N'
+    this.IssueSlip = (this.STNo === undefined || this.STNo === null) ? 'N' : this.IssueSlip;
     const params = {
       'Type': type,
       'STNo': this.STNo,

@@ -138,6 +138,7 @@ import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
+import { DemandDraftDetailsComponent } from './reports/demand-draft-details/demand-draft-details.component';
 
 @NgModule({
   declarations: [
@@ -234,6 +235,7 @@ import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-ab
     CashReceiptRegisterComponent,
     IssueTypeAbstractComponent,
     ReceiptTypeAbstractComponent,
+    DemandDraftDetailsComponent,
   ],
   imports: [
     BrowserModule,

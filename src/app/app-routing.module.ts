@@ -87,6 +87,7 @@ import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
+import { DemandDraftDetailsComponent } from './reports/demand-draft-details/demand-draft-details.component';
 
 
 const routes: Routes = [
@@ -176,6 +177,7 @@ const routes: Routes = [
   { path: 'Cash Receipt Register Report', component: CashReceiptRegisterComponent },
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent },
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent },
+  { path: 'Demand Draft Report', component: DemandDraftDetailsComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
