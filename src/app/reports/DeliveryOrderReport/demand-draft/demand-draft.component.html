@@ -9,7 +9,8 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
           filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
@@ -28,8 +29,14 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
+      <!-- <div class="ui-g-3 ui-md-2" style="padding-top: 25px">
         <button pButton type="button" label="View Bank Order" (click)="onView()" [disabled]="isViewDisabled"></button>
+      </div> -->
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
+        <!-- <label class="ui-g-7 label-fontsize dashboard">View Bank Order</label> -->
+        <button pButton type="button" (click)="onView()" [disabled]="isViewDisabled">
+          <label class="ui-g-12 label-fontsize" style="color: aliceblue">View Bank Order</label>
+        </button>
       </div>
       <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 15px">
         <button pButton type="button" label="View Number Order" (click)="onViewNo()" [disabled]="isViewDisabled"></button>
@@ -42,12 +49,13 @@
         <button pButton type="button" label="Print Date Order" (click)="onPrintDate()"
           [disabled]="isActionDisabled"></button>
       </div> -->
-      <div class="ui-g-3 ui-md-1" style="padding-top: 25px">
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 25px">
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
       </div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="DemandDraftCols" [value]="DemandDraftData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
