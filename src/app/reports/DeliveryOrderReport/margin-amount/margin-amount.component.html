@@ -11,9 +11,17 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" 
-        (ngModelChange)="onResetTable()" resetFilterOnHide="true" 
-          filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
+          resetFilterOnHide="true" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+        <label class="ui-g-7 label-fontsize dashboard">Society</label>
+        <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onClick)="onSociety()" (ngModelChange)="onResetTable()"
+          resetFilterOnHide="true" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -31,7 +39,7 @@
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !s_cd || !fromDate || !toDate)"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>

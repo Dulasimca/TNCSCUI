@@ -71,12 +71,12 @@
       <div class="ui-g-5"></div> -->
       <div class="ui-g-12 ui-md-4"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid">
-        <button pButton type="button" label=View (click)="onView()"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !r_cd || !s_cd || !fromDate || !toDate || !t_cd)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid">
-        <button pButton type="button" label="View Abstract" (click)="onAbstract()"></button>
+        <button pButton type="button" label="View Abstract" (click)="onAbstract()"[disabled]="(!g_cd || !fromDate || !toDate)"></button>
       </div>
-      <!-- [disabled]="(!g_cd || !r_cd || !s_cd || !fromDate || !toDate || !t_cd)" -->
+      <!--  -->
       <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div>
@@ -85,14 +85,10 @@
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <!-- <p-table [columns]="(IssueMemoCustomerDetailsCols || AbstractCols)"
-          [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
-          autoLayout="true"> -->
-          <p-table [columns]="((!IssueMemoCustomerDetailsCols || AbstractCols) && (IssueMemoCustomerDetailsCols || !AbstractCols))"
-          [value]="(IssueMemoCustomerDetailsData || AbstractData)" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"
-          autoLayout="true">
+        <p-table [columns]="(AbstractCols || IssueMemoCustomerDetailsCols)"
+          [value]="(AbstractData || IssueMemoCustomerDetailsData)" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -103,14 +99,7 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Quantity'">
-                  <div style="text-align: end !important">
-                    {{rowData[col.field]}}
-                  </div>
-                </div>
-                <div *ngIf="col.field !== 'Quantity'">
-                  {{rowData[col.field]}}
-                </div>
+                {{rowData[col.field]}}
               </td>
             </tr>
           </ng-template>

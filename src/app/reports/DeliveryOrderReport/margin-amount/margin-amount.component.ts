@@ -22,7 +22,9 @@ export class MarginAmountComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
+  societyOptions: SelectItem[];
   g_cd: any;
+  s_cd: any;
   data: any;
   isViewDisabled: boolean;
   isActionDisabled: boolean;
@@ -45,28 +47,45 @@ export class MarginAmountComponent implements OnInit {
   }
 
   onSelect() {
-    let options = [];
-    if (this.MarginAmountData !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
+    let godownSelection = [];
+    this.data = this.roleBasedService.instance;
+    if (this.data !== undefined) {
+      this.data.forEach(x => {
+        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+        this.godownOptions = godownSelection;
+      });
     }
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
+  }
+
+  onSociety() {
+    let SocietySelection = [];
+    if (this.societyOptions === undefined) {
+      const params = new HttpParams().set('GCode', this.g_cd.value);
+      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+        var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
+        var code = Array.from(new Set(res.map((item: any) => item.SocietyType)));
+        for (var index in result && code) {
+          SocietySelection.push({ 'label': result[index], 'value': code[index] });
+        }
+        this.societyOptions = SocietySelection;
       });
     }
   }
 
   onView() {
-    this.checkValidDateSelection();
-    this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    // this.checkValidDateSelection();
+    // this.loading = true;
+    const params = {
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
+      'ToDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
+      'GCode': this.g_cd.value,
+      'SCode': this.s_cd.value
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
       this.MarginAmountData = res;
       let sno = 0;
       this.MarginAmountData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
@@ -88,10 +107,6 @@ export class MarginAmountComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
   }
 
   checkValidDateSelection() {
@@ -112,6 +127,7 @@ export class MarginAmountComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
   onResetTable() {
     this.MarginAmountData = [];
     this.isActionDisabled = true;

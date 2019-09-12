@@ -11,6 +11,8 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Dropdown } from 'primeng/primeng';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 @Component({
@@ -28,6 +30,7 @@ export class CustomerDetailsComponent implements OnInit {
   godownOptions: SelectItem[];
   societyOptions: SelectItem[];
   transactionOptions: SelectItem[];
+  filterArray: any;
   s_cd: any;
   r_cd: any;
   g_cd: any;
@@ -194,82 +197,86 @@ export class CustomerDetailsComponent implements OnInit {
 
   onView() {
     const params = {
-      'GCode': this.gCode,
+      'GCode': this.g_cd.value,
       'SCode': this.s_cd.value,
       'TCode': this.r_cd.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
     };
-    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-      this.IssueMemoCustomerDetailsData = res;
-      let sno = 0;
-      this.IssueMemoCustomerDetailsData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
-        sno += 1;
-        data.SlNo = sno;
-      });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
-      } else {
+      if (res !== undefined) {
+        this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
         this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-      }
-      this.loading = false;
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
+        this.IssueMemoCustomerDetailsData = res;
+        this.filterArray = res;
+        let sno = 0;
+        this.IssueMemoCustomerDetailsData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+          sno += 1;
+          data.SlNo = sno;
+        });
+        if (res !== undefined && res.length !== 0) {
+          this.isActionDisabled = false;
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
         this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
       }
     });
-    this.AbstractCols = this.AbstractData = [];
+    this.onClear();
   }
 
   onAbstract() {
     const params = {
-      'GCode': this.gCode,
-      'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy')
+      'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'Gcode': this.g_cd.value,
     };
-    this.AbstractCols = this.tableConstants.IssueMemoAbstract;
     this.restAPIService.getByParameters(PathConstants.ISSUE_MEMO_CUTOMER_ABSTRACT_GET, params).subscribe(res => {
-      this.AbstractData = res;
-      let sno = 0;
-      this.IssueMemoCustomerDetailsData.forEach(data => {
-        // data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
-        sno += 1;
-        data.SlNo = sno;
-      });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
-      } else {
+      if (res !== undefined) {
+        this.AbstractCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-      }
-      this.loading = false;
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
+        this.AbstractData = res;
+        this.filterArray = res;
+        let sno = 0;
+        this.AbstractData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
+          sno += 1;
+          data.SlNo = sno;
+        });
+        if (res !== undefined && res.length !== 0) {
+          this.isActionDisabled = false;
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
         this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
       }
     });
-    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+    this.onClear();
   }
 
   onResetTable() {
     this.isActionDisabled = true;
-    // this.TransactionSelection = [];
-    // this.ReceiverSelection = [];
-    // this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onClear() {
-    //  this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
-    // this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+    this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = null;
   }
 
   onDateSelect() {
@@ -295,4 +302,56 @@ export class CustomerDetailsComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+  exportAsXLSX(): void {
+    var IssueMemo = [];
+    var AbstractData = [];
+    if (this.AbstractData || this.IssueMemoCustomerDetailsData) {
+      if (this.AbstractData) {
+        this.AbstractData.forEach(data => {
+          AbstractData.push({ SlNo: data.SlNo, Society: data.society, Commodity: data.Commodity, Quantity: data.Quantity });
+        });
+        this.excelService.exportAsExcelFile(AbstractData, 'Issue_Memo_Abstract', this.AbstractCols);
+      } else if (this.IssueMemoCustomerDetailsData) {
+        this.IssueMemoCustomerDetailsData.forEach(data => {
+          IssueMemo.push({
+            SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type_name: data.tyname,
+            Coop: data.Coop, Scheme: data.Scheme, Commodity: data.Commodity, Quantity: data.Quantity,
+            Society: data.Society, Rate: data.Rate, value: data.value
+          });
+        });
+        this.excelService.exportAsExcelFile(IssueMemo, 'Issue_Memo_Customer_Details_Data', this.IssueMemoCustomerDetailsCols);
+      }
+    }
+  }
+
+  print() { }
+
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    if (this.IssueMemoCustomerDetailsData || this.AbstractData) {
+      if (this.AbstractData) {
+        var col = this.AbstractCols;
+        var rows = [];
+        this.AbstractData.forEach(element => {
+          var temp = [element.SlNo, element.society, element.Commodity, element.Quantity];
+          rows.push(temp);
+        });
+        doc.autoTable(col, rows);
+        doc.save('Issue_Memo_Abstract.pdf');
+      } else if (this.IssueMemoCustomerDetailsData) {
+        var col = this.IssueMemoCustomerDetailsCols;
+        var rows = [];
+        this.IssueMemoCustomerDetailsData.forEach(element => {
+          var temp = [element.SlNo, element.Ackno, element.Date, element.tyname, element.Coop, element.Scheme, element.Commodity, element.Quantity, element.Society, element.Rate, element.value];
+          rows.push(temp);
+        });
+        doc.autoTable(col, rows);
+        doc.save('Issue_Memo_Customer_Details_Data.pdf');
+      }
+    }
+  }
 }
+

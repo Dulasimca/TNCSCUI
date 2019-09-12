@@ -457,7 +457,7 @@ export class TableConstants {
       { field: 'LNo', header: 'Lorry No' },
       { field: 'NoPacking', header: 'Bags' },
       { field: 'Nkgs', header: 'Quantity' },
-      { field: 'ACKNO', header: 'AckNo' },
+      { field: 'Ackno', header: 'AckNo' },
       { field: 'STDate', header: 'Receiver Date' },
       { field: 'DepositorName', header: 'Receiver Godown' },
       { field: 'NoPacking', header: 'Bags Received' },
@@ -1057,9 +1057,10 @@ export class TableConstants {
     ];
 
     this.IssueMemoAbstract = [
-      { field: 'Quantity', header: 'Quantity' },
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'society', header: 'Society' },
       { field: 'Commodity', header: 'Commodity' },
-      { field: 'society', header: 'Society' }
+      { field: 'Quantity', header: 'Quantity' }
     ];
 
     this.IssueTypeAbstract = [
