@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 
 @Component({
@@ -21,18 +22,18 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class StockReceiptRegisterComponent implements OnInit {
   stockReceiptRegCols: any;
-  stockReceiptRegData: any;
+  stockReceiptRegData: any = [];
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
-  g_cd: any;
+  GCode: any;
   data: any;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
   username: any;
+  @ViewChild('godown') godownPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -40,15 +41,15 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.maxDate = new Date();
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect() {
+  onSelect(type) {
     let options = [];
+    if(type === 'enter') { this.godownPanel.overlayVisible = true; }
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
@@ -65,10 +66,11 @@ export class StockReceiptRegisterComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
-      'GCode': this.g_cd.value
+      'GCode': this.GCode
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
-      this.stockReceiptRegData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.stockReceiptRegData = res;
       let sno = 0;
       this.stockReceiptRegData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -76,8 +78,6 @@ export class StockReceiptRegisterComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -117,7 +117,6 @@ export class StockReceiptRegisterComponent implements OnInit {
   }
   onResetTable() {
     this.stockReceiptRegData = [];
-    this.isActionDisabled = true;
   }
 
   onExportExcel(): void {
@@ -134,7 +133,7 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.g_cd.value + GolbalVariable.StockReceiptRegFilename + ".txt";
+    const filename = this.GCode + GolbalVariable.StockReceiptRegFilename + ".txt";
     saveAs(path + filename, filename);
   }
 
