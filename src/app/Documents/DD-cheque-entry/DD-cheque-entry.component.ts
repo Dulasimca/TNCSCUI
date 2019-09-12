@@ -160,6 +160,7 @@ export class DDChequeEntryComponent implements OnInit {
       }
     });
   }
+
   onRowSelect(event) {
     this.receiptNo = event.data.receiptNo;
   }
@@ -173,6 +174,7 @@ export class DDChequeEntryComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.isViewed = true;
         this.isSaveSucceed = false;
+        this.totalAmount = 0;
         let sno = 1;
         res.forEach(x => {
           let paymentName;
@@ -182,7 +184,6 @@ export class DDChequeEntryComponent implements OnInit {
             }
           })
           this.totalAmount += (x.Amount * 1);
-          this.totalAmount = (this.totalAmount * 1).toFixed(2);
           this.DDChequeData.push({
             SNo: sno,
             PaymentType: x.PaymentType,
@@ -200,6 +201,7 @@ export class DDChequeEntryComponent implements OnInit {
           })
           sno += 1;
         });
+        this.totalAmount = (this.totalAmount * 1).toFixed(2);
         this.rowId = res[0].RowId;
         this.receivedFrom = res[0].ReceivedFrom;
         this.chequeDate = this.datepipe.transform(res[0].ChequeDate, 'dd/MM/yyyy');

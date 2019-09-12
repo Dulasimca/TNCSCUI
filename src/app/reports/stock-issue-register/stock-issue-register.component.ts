@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stock-issue-register',
@@ -24,10 +25,9 @@ export class StockIssueRegisterComponent implements OnInit {
   username: any;
   fromDate: any;
   toDate: any;
-  isActionDisabled: any;
   data: any;
   record: any = [];
-  g_cd: any;
+  GCode: any;
   godownOptions: SelectItem[];
   godownName: string;
   canShowMenu: boolean;
@@ -38,7 +38,7 @@ export class StockIssueRegisterComponent implements OnInit {
   loading: boolean = false;
   canFetch: boolean;
   totalRecords: number;
-
+  @ViewChild('godown') godownPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -47,7 +47,6 @@ export class StockIssueRegisterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.canFetch = true;
-    this.isActionDisabled = true;
     this.stockIssueRegCols = this.tableConstants.StockIssueRegisterReport;
     this.maxDate = new Date();
     this.stockIssueRegData = [];
@@ -55,8 +54,9 @@ export class StockIssueRegisterComponent implements OnInit {
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect() {
+  onSelect(type) {
     let options = [];
+    if(type === 'enter') { this.godownPanel.overlayVisible = true; }
     this.canFetch = true;
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
@@ -72,7 +72,7 @@ export class StockIssueRegisterComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       'StartIndex': this.startIndex,
       'TotalRecord': this.recordRange,
       'Position': this.position,
@@ -105,7 +105,6 @@ export class StockIssueRegisterComponent implements OnInit {
             }, 500);
           } else {
             this.canFetch = false;
-            this.isActionDisabled = false;
           }
         } else {
           this.loading = false;
@@ -125,7 +124,6 @@ export class StockIssueRegisterComponent implements OnInit {
   onResetTable() {
     this.record = [];
     this.stockIssueRegData = [];
-    this.isActionDisabled = true;
   }
 
   onDateSelect() {
@@ -167,7 +165,7 @@ export class StockIssueRegisterComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.g_cd.value + GolbalVariable.StockIssueRegFilename + ".txt";
+    const filename = this.GCode + GolbalVariable.StockIssueRegFilename + ".txt";
     saveAs(path + filename, filename);
   }
 }
