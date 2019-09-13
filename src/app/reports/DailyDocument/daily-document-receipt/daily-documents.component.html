@@ -10,9 +10,9 @@
             placeholder="Search by Commodity" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
-            styleClass="ui-button-danger"></p-splitButton>
+          [disabled]="(DailyDocumentReceiptData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
           <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
-            (click)="onPrint()"></button>
+          [disabled]="(DailyDocumentReceiptData.length=='0')" (click)="onPrint()"></button>
         </div>
       </div>
     </p-header>
