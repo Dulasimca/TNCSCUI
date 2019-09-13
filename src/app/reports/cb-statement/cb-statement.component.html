@@ -5,15 +5,9 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-12 ui-md-4 dashboard">CB STATEMENT</div>
-        <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
-            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
-              [disabled]="(!Date || !GCode || !RCode)"></button>
-            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
-               [disabled]="(cbData.length=='0')"></button>
-          </div>
       </div>
     </p-header>
-    <div class="ui-g">
+    <div class="ui-g-12">
       <div class="ui-g-6 ui-md-2">
         <label class="label-fontsize dashboard">Date</label>
         <p-calendar class="ui-fluid dashboard" [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
@@ -39,6 +33,13 @@
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
+      </div>
+      <div class="ui-g-3"></div> 
+      <div class="ui-g-6 ui-md-2" style="padding-top: 25px">
+        <button class="ui-g-5 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+          [disabled]="(!Date || !GCode || !RCode)"></button>
+        <button class="ui-g-5 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+           [disabled]="(cbData.length=='0')"></button>
       </div>
     </div>
     <div class="ui-g ui-md-12">

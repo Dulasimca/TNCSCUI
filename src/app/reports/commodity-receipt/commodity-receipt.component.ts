@@ -43,6 +43,7 @@ export class CommodityReceiptComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
+  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -55,17 +56,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
-    let commoditySelection = [];
-    if (this.commodityOptions === undefined) {
-      this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-        if (data !== undefined) {
-          data.forEach(y => {
-            commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-            this.commodityOptions = commoditySelection;
-          });
-        }
-      })
-    }
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -144,7 +135,6 @@ export class CommodityReceiptComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
-    this.ITCode = null;
     this.loading = true;
     this.commodityReceiptData = [];
     const params = {
@@ -152,7 +142,9 @@ export class CommodityReceiptComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
       'RCode': this.RCode,
+      'ITCode': this.ITCode,
       'TRCode': this.TrCode,
+      'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
       this.loadedData = res;
@@ -179,18 +171,6 @@ export class CommodityReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
-  }
-
-  filterCommodity(event) {
-    let selectedItem = event.value;
-    if (selectedItem !== undefined && selectedItem !== null) {
-      this.commodityReceiptData = this.commodityReceiptData.filter(f => {
-        return f.Commodity === selectedItem.label;
-      })
-    } else {
-      this.commodityReceiptData = this.loadedData;
-    }
-
   }
 
   onDateSelect() {
@@ -222,7 +202,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.isActionDisabled = true;
   }
 
-  onDownload() { }
+  onPrint() { }
 
   exportAsXLSX(): void {
     var CommodityReceiptData = [];
