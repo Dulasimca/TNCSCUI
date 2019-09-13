@@ -5,7 +5,6 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import 'rxjs/add/observable/from';
 import 'rxjs/Rx';

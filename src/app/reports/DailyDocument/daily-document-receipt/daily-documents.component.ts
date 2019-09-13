@@ -7,11 +7,14 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import 'rxjs/add/observable/from';
+import 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-daily-documents',
@@ -20,9 +23,9 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class DailyDocumentsComponent implements OnInit {
   DailyDocumentTotalCols: any;
-  DailyDocumentTotalData: any;
+  DailyDocumentTotalData: any = [];
   DailyDocumentReceiptCols: any;
-  DailyDocumentReceiptData: any;
+  DailyDocumentReceiptData: any = [];
   g_cd: any;
   gCode: any;
   rCode: any;
@@ -69,7 +72,7 @@ export class DailyDocumentsComponent implements OnInit {
       case 'gd':
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             this.godownOptions = godownSelection;
           });
         }
@@ -79,45 +82,70 @@ export class DailyDocumentsComponent implements OnInit {
 
   ontime() {
     const params = {
-      'GodownCode': (this.g_cd.value !== null && this.g_cd.value !== undefined) ? this.g_cd.value : this.gCode,
+      'GodownCode': this.g_cd.value,
       'RegionCode': this.g_cd.rcode,
       'RoleId': this.roleId,
       'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
     };
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.DailyDocumentReceiptData = res;
+         this.DailyDocumentReceiptData = res;
       let sno = 1;
-      for(let i = 0; i < this.DailyDocumentReceiptData.length; i++){
-        if(this.DailyDocumentReceiptData[i+1] !== undefined) {
-          if(this.DailyDocumentReceiptData[i].DocNo !== this.DailyDocumentReceiptData[i+1].DocNo) {
-            this.DailyDocumentReceiptData[i].SlNo = sno;
-            sno += 1;
-            this.noOfDocs = sno;
-          } else {
-            this.DailyDocumentReceiptData[i].SlNo = sno;
-          }
-        } else { this.DailyDocumentReceiptData[i].SlNo = sno; }
-      }
-      for(let i = 0; i < this.DailyDocumentReceiptData.length; i++){
-        if(this.DailyDocumentReceiptData[i+1] !== undefined) {
-          if(this.DailyDocumentReceiptData[i].SlNo === this.DailyDocumentReceiptData[i+1].SlNo) {
-            this.DailyDocumentReceiptData[i+1].SlNo = '';
-            this.DailyDocumentReceiptData[i+1].DocNo = '';
-          } else if(this.DailyDocumentReceiptData[i].SlNo === '' && this.DailyDocumentReceiptData[i-1].SlNo === this.DailyDocumentReceiptData[i+1].SlNo){
-            this.DailyDocumentReceiptData[i+1].SlNo = '';
-            this.DailyDocumentReceiptData[i+1].DocNo = '';
-          } 
+      ///Distinct value groupby of an array
+      let groupedData;
+      Rx.Observable.from(this.DailyDocumentReceiptData)
+      .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
+      .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+      .map(g => {// mapping 
+        return {
+          DocNo: g[0].DocNo,//take the first name because we grouped them by name
+          CommodityName: g[0].CommodityName,
+          DocDate: g[0].DocDate, // using lodash to sum quantity
+          GROSSWT: g[0].GROSSWT,
+          GodownName: g[0].GodownName,
+          Moisture: g[0].Moisture,
+          NETWT: g[0].NETWT,
+          NOOfPACKING: g[0].NOOfPACKING,
+          ORDERDate: g[0].ORDERDate,
+          OrderNo: g[0].OrderNo,
+          PERIODALLOT: g[0].PERIODALLOT,
+          PackingType: g[0].PackingType,
+          ReceivedFrom: g[0].ReceivedFrom,
+          SCHEME: g[0].SCHEME,
+          StackNo: g[0].StackNo,
+          TNCSCode: g[0].TNCSCode,
+          Transactiontype: g[0].Transactiontype,
+          TRUCKDate: g[0].TRUCKDate,
+          TruckMemoNo: g[0].TruckMemoNo,
         }
+      })
+      .toArray() //.toArray because I guess you want to loop on it with ngFor      
+      .subscribe(d => groupedData = d);
+      ///End
+
+      ///Duplicate value replacin
+      let j = 0;
+      for(let i = 0; i < this.DailyDocumentReceiptData.length; i ++) {
+          if(j < groupedData.length && this.DailyDocumentReceiptData[i].DocNo === groupedData[j].DocNo) {
+            this.DailyDocumentReceiptData[i].SlNo = sno;
+            this.noOfDocs = sno;
+            sno += 1;
+            j += 1;
+          } else {
+            this.DailyDocumentReceiptData[i].SlNo = '';
+          }
       }
-      this.DailyDocumentTotalData = this.gdata;
-      this.DailyDocumentTotalData.forEach(s => {
-        s.RCode = this.g_cd.rcode,
-          s.GCode = this.g_cd.value,
-          s.GName = this.g_cd.label,
-          s.RName,
-          s.NoDocument = this.noOfDocs
-      });
+      ///End
+
+      ///No.Of Document 
+      this.DailyDocumentTotalData.push({
+        NoDocument: this.noOfDocs,
+        GCode: this.g_cd.value,
+        GName: this.g_cd.label,
+        RName: this.g_cd.rname,
+        RCode: this.g_cd.rcode
+      })
+      ///End
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });

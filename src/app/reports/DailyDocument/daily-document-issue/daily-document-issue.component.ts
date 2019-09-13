@@ -11,6 +11,10 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import 'rxjs/add/observable/from';
+import 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-daily-document-issue',
@@ -19,9 +23,9 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class DailyDocumentIssueComponent implements OnInit {
   DailyDocumentTotalCols: any;
-  DailyDocumentTotalData: any;
+  DailyDocumentTotalData: any = [];
   DailyDocumentIssueCols: any;
-  DailyDocumentIssueData: any;
+  DailyDocumentIssueData: any = [];
   g_cd: any;
   gCode: any;
   rCode: any;
@@ -68,9 +72,9 @@ export class DailyDocumentIssueComponent implements OnInit {
       case 'gd':
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
-            this.godownOptions = godownSelection;
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
           });
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -87,36 +91,54 @@ export class DailyDocumentIssueComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.DailyDocumentIssueData = res;
       let sno = 1;
-      for(let i = 0; i < this.DailyDocumentIssueData.length; i++){
-        if(this.DailyDocumentIssueData[i+1] !== undefined) {
-          if(this.DailyDocumentIssueData[i].DocNo !== this.DailyDocumentIssueData[i+1].DocNo) {
-            this.DailyDocumentIssueData[i].SlNo = sno;
-            sno += 1;
-            this.noOfDocs = sno;
-          } else {
-            this.DailyDocumentIssueData[i].SlNo = sno;
+        ///Distinct value groupby of an array
+        let groupedData;
+        Rx.Observable.from(this.DailyDocumentIssueData)
+        .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
+        .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+        .map(g => {// mapping 
+          return {
+            DocNo: g[0].DocNo,//take the first name because we grouped them by name
+            CommodityName: g[0].CommodityName,
+            DocDate: g[0].DocDate, // using lodash to sum quantity
+            StackNo: g[0].StackNo,
+            Transactiontype: g[0].Transactiontype,
+            NOOfPACKING: g[0].NOOfPACKING,
+            PackingType: g[0].PackingType,
+            GROSSWT: g[0].GROSSWT,
+            GodownName: g[0].GodownName,
+            SCHEME: g[0].SCHEME,
+            NETWT: g[0].NETWT,
+            ReceivedFrom: g[0].ReceivedFrom,
           }
-        } else { this.DailyDocumentIssueData[i].SlNo = sno; }
-      }
-      for(let i = 0; i < this.DailyDocumentIssueData.length; i++){
-        if(this.DailyDocumentIssueData[i+1] !== undefined) {
-          if(this.DailyDocumentIssueData[i].SlNo === this.DailyDocumentIssueData[i+1].SlNo) {
-            this.DailyDocumentIssueData[i+1].SlNo = '';
-            this.DailyDocumentIssueData[i+1].DocNo = '';
-          } else if(this.DailyDocumentIssueData[i].SlNo === '' && this.DailyDocumentIssueData[i-1].SlNo === this.DailyDocumentIssueData[i+1].SlNo){
-            this.DailyDocumentIssueData[i+1].SlNo = '';
-            this.DailyDocumentIssueData[i+1].DocNo = '';
-          } 
+        })
+        .toArray() //.toArray because I guess you want to loop on it with ngFor      
+        .subscribe(d => groupedData = d);
+        ///End
+  
+        ///Duplicate value replacing
+        let j = 0;
+        for(let i = 0; i < this.DailyDocumentIssueData.length; i ++) {
+            if(j < groupedData.length && this.DailyDocumentIssueData[i].DocNo === groupedData[j].DocNo) {
+              this.DailyDocumentIssueData[i].SlNo = sno;
+              this.noOfDocs = sno;
+              sno += 1;
+              j += 1;
+            } else {
+              this.DailyDocumentIssueData[i].SlNo = '';
+            }
         }
-      }
-      this.DailyDocumentTotalData = this.gdata
-        this.DailyDocumentTotalData.forEach(s => {
-          s.RCode = this.g_cd.rcode,
-            s.GCode = this.g_cd.value,
-            s.GName = this.g_cd.label,
-            s.RName,
-            s.NoDocument = this.noOfDocs
-        });
+        ///End
+  
+        ///No.Of Document 
+        this.DailyDocumentTotalData.push({
+          NoDocument: this.noOfDocs,
+          GCode: this.g_cd.value,
+          GName: this.g_cd.label,
+          RName: this.g_cd.rname,
+          RCode: this.g_cd.rcode
+        })
+        ///End
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });

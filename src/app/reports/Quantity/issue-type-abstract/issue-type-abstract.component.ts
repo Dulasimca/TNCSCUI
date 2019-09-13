@@ -113,10 +113,12 @@ export class IssueTypeAbstractComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
-          for(var i in res[0]){
-            columns.push({ header: i, field: i });
-          }
-          columns.unshift({ header: 'S.No:', field: 'sno' });
+        for (var i in res[0]) {
+          columns.push({ header: i, field: i });
+        }
+        columns.unshift({ header: 'S.No:', field: 'sno' });
+        let index = columns.length;
+        columns.splice(index, 0, { field: 'Total', header: 'TOTAL' });
         this.IssueAbstractCols = columns;
         this.IssueAbstractData = res;
         let sno = 1;
@@ -124,6 +126,17 @@ export class IssueTypeAbstractComponent implements OnInit {
           data.sno = sno;
           sno += 1;
         });
+        for (let i = 0; i < this.IssueAbstractData.length; i++) {
+          let total = 0;
+          this.IssueAbstractCols.forEach(x => {
+            let field = x.field;
+            if (field !== 'COMMODITY' && field !== 'sno') {
+              total += (((this.IssueAbstractData[i][field] !== null && this.IssueAbstractData[i][field] !== undefined) ?
+                this.IssueAbstractData[i][field] : 0) * 1);
+            }
+          })
+          this.IssueAbstractData[i].Total = total;
+        }
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -165,7 +178,7 @@ export class IssueTypeAbstractComponent implements OnInit {
     this.IssueAbstractData = [];
   }
 
-  onPrint() { 
+  onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode.value + GolbalVariable.QuantityACForIssue + ".txt";
     saveAs(path + filename, filename);
