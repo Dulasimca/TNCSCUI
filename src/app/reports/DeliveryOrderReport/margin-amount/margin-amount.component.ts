@@ -73,11 +73,11 @@ export class MarginAmountComponent implements OnInit {
   }
 
   onView() {
-    // this.checkValidDateSelection();
-    // this.loading = true;
+    this.checkValidDateSelection();
+    this.loading = true;
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
-      'ToDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
       'GCode': this.g_cd.value,
       'SCode': this.s_cd.value
     };
@@ -85,13 +85,14 @@ export class MarginAmountComponent implements OnInit {
       this.MarginAmountData = res;
       let sno = 0;
       this.MarginAmountData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       });
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
+        this.loading = false;
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -134,7 +135,11 @@ export class MarginAmountComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.MarginAmountData, 'DO_MARGIN_AMOUNT', this.MarginAmountCols);
+    var MarginAmountData = [];
+    this.MarginAmountData.forEach(data => {
+      MarginAmountData.push({ SlNo: data.SlNo, Coop: data.Coop, Dono: data.Dono, Dodate: data.Dodate, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount });
+    });
+    this.excelService.exportAsExcelFile(MarginAmountData, 'DO_MARGIN_AMOUNT', this.MarginAmountCols);
   }
 
   onPrint() { }

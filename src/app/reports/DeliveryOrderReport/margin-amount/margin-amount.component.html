@@ -37,13 +37,13 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !s_cd || !fromDate || !toDate)"></button>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
       </div>
       <div class="ui-g-12 dashboard">

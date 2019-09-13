@@ -30,7 +30,6 @@ export class DemandDraftComponent implements OnInit {
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
-  username: any;
   loading: boolean = false;
 
 
@@ -44,7 +43,6 @@ export class DemandDraftComponent implements OnInit {
     this.DemandDraftCols = this.tableConstants.DoDemandDraft;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
-    this.username = JSON.parse(this.authService.getCredentials());
 
   }
 
@@ -66,13 +64,12 @@ export class DemandDraftComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.g_cd.value,
-      'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
       this.DemandDraftData = res;
       let sno = 0;
       this.DemandDraftData.forEach(data => {
-        data.Chequedate = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+        data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
         data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
@@ -127,7 +124,11 @@ export class DemandDraftComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.DemandDraftData, 'DO_DEMAND_DRAFT_DATA', this.DemandDraftCols);
+    var DemandDraftData = [];
+    this.DemandDraftData.forEach(data => {
+      DemandDraftData.push({ SlNo: data.SlNo, Society: data.Society, Dono: data.Dono, Dodate: data.Dodate, Chequeno: data.Chequeno, Chequedate: data.Chequedate, Bank: data.Bank, PaymentAmount: data.PaymentAmount, Cereal: data.Cereal, NonCereal: data.NonCereal });
+    });
+    this.excelService.exportAsExcelFile(DemandDraftData, 'DO_DEMAND_DRAFT_DATA', this.DemandDraftCols);
   }
 
   onPrint() { }

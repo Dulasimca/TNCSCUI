@@ -9,6 +9,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-employee-master',
@@ -49,7 +50,7 @@ export class EmployeeMasterComponent implements OnInit {
   isViewed: boolean = false;
 
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -78,6 +79,10 @@ export class EmployeeMasterComponent implements OnInit {
       if (res !== undefined) {
         this.EmployeeCols = this.tableConstant.EmployeeMaster;
         this.EmployeeData = res;
+        this.EmployeeData.forEach(s => {
+          s.Jrdate = this.datepipe.transform(s.Jrdate, 'dd/MM/yyyy');
+          s.Refdate = this.datepipe.transform(s.Refdate, 'dd/MM/yyyy');
+        });
       }
     });
   }
@@ -89,9 +94,17 @@ export class EmployeeMasterComponent implements OnInit {
       'Roleid': this.roleId
     };
     this.restApiService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
-      if (res !== undefined) {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.viewPane = true;
         this.EmployeeCols = this.tableConstant.EmployeeMaster;
         this.EmployeeData = res;
+        let sno = 0;
+        this.EmployeeData.forEach(s => {
+          s.Jrdate = this.datepipe.transform(s.Jrdate, 'dd/MM/yyyy');
+          s.Refdate = this.datepipe.transform(s.Refdate, 'dd/MM/yyyy');
+          sno += 1;
+          s.SlNo = sno;
+        });
       }
     });
   }
@@ -106,19 +119,12 @@ export class EmployeeMasterComponent implements OnInit {
     this.selectedRow = event.data;
   }
 
-  onDateSelect() {
-    this.checkValidDateSelection();
-  }
-
   showSelectedData() {
     this.viewPane = false;
     this.isViewed = true;
     this.designationOptions = [{ 'label': this.selectedRow.DESIGNATIONNAME, 'value': this.selectedRow.DESGINATIONCODE }];
-    this.d_cd = this.selectedRow.DESIGNATIONNAME;
-    this.d_cd = this.selectedRow.DESGINATIONCODE;
     this.Empno = this.selectedRow.Empno;
     this.Empname = this.selectedRow.Empname;
-    this.d_cd = this.selectedRow.Designation;
     this.Designation = this.selectedRow.Designation;
     this.Refno = this.selectedRow.Refno;
     this.Refdate = this.selectedRow.Refdate;
@@ -127,36 +133,25 @@ export class EmployeeMasterComponent implements OnInit {
   }
 
   onDesignation() {
-    let designationSelection = [];
     this.restApiService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         res.forEach(s => {
-          designationSelection.push({ 'label': s.DESIGNATIONNAME, 'value': s.DESGINATIONCODE });
+          this.designationSelection.push({ 'label': s.DESIGNATIONNAME, 'value': s.DESGINATIONCODE });
         });
-        this.designationOptions = designationSelection;
-        this.designationOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
       }
+      this.designationOptions = this.designationSelection;
+      this.designationOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
     });
   }
-
-  // onChange(e) {
-  //   if (this.designationOptions !== undefined) {
-  //     const selectedItem = e.value;
-  //     if (selectedItem !== null) {
-  //       this.EmployeeData = this.EmployeeData.filter(x => { return x.ITDescription === selectedItem.label });
-  //       if (this.EmployeeData.length === 0) {
-  //         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-  //       }
-  //     } else {
-  //       this.EmployeeData = this.desig;
-  //     }
-  //   }
-  // }
 
   onCommodityClicked() {
     if (this.designationOptions !== undefined && this.designationOptions.length <= 1) {
       this.designationOptions = this.designationSelection;
     }
+  }
+
+  onDateSelect() {
+    this.checkValidDateSelection();
   }
 
   checkValidDateSelection() {
@@ -210,5 +205,13 @@ export class EmployeeMasterComponent implements OnInit {
         }
       });
     this.onClear();
+  }
+
+  exportAsXLSX(): void {
+    var EmployeeData = [];
+    this.EmployeeData.forEach(data => {
+      EmployeeData.push({ SlNo: data.SlNo, EmployeeName: data.Empname, EmployeeNo: data.Empno, Designation: data.DESIGNATIONNAME, Jrtype: data.Jrtype, Jrdate: data.Jrdate, Refno: data.Refno, Refdate: data.Refdate });
+    });
+    this.excelService.exportAsExcelFile(EmployeeData, 'Employee_Details', this.EmployeeCols);
   }
 }

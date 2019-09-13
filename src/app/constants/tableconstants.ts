@@ -418,8 +418,8 @@ export class TableConstants {
       { field: 'Ackno', header: 'ACK. NO' },
       { field: 'Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Bags', header: 'BAGS' },
-      { field: 'Quantity', header: 'QUANTITY' },
+      { field: 'Quantity', header: 'BAGS' },
+      { field: 'Bags', header: 'QUANTITY' },
       { field: 'stackno', header: 'STACK NO' },
       { field: 'Year', header: 'S.YEAR' }
     ];
@@ -509,16 +509,17 @@ export class TableConstants {
     ];
 
     this.DoAllScheme = [
-      { field: '', header: 'Do.No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Type' },
-      { field: '', header: 'Co_op' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Amount' },
-      { field: '', header: 'C/NC' }
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Dono', header: 'Do.No' },
+      { field: 'Dodate', header: 'Date' },
+      { field: 'Type', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'C_Nc', header: 'C/NC' }
     ];
 
     this.DoSPLPDS = [
@@ -1015,9 +1016,10 @@ export class TableConstants {
     ];
 
     this.EmployeeMaster = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Empname', header: 'Employee Name' },
       { field: 'Empno', header: 'Employee No' },
-      { field: 'Designation', header: 'Designation' },
+      { field: 'DESIGNATIONNAME', header: 'Designation' },
       { field: 'Jrtype', header: 'Join Type' },
       { field: 'Jrdate', header: 'Join Date' },
       { field: 'Refno', header: 'Reference No' },
