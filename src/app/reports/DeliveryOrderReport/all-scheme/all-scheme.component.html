@@ -12,26 +12,38 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" 
-          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-3">
-        <label class="ui-g-7 label-fontsize dashboard">Society Type</label>
-        <p-dropdown id="float-input" [options]="SocietyOptions" [(ngModel)]="s_cd" (onClick)="onSelect('type')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true">
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Transaction Type</label>
+        <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="onSelect('t')"
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true"
+          [showClear]="true">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-3">
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Society Type</label>
+        <p-dropdown id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="onSelect('r')"
+          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true"
+          [showClear]="true">
+          <ng-template let-item pTemplate="selectedItems">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
         <p-dropdown id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch')"
-          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true">
+          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" optionLabel="label"
+          [showClear]="true">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -47,21 +59,12 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
-      </div>
       <div class="ui-g-12 dashboard">
-        <!-- <div class="ui-g-4"></div> -->
+        <div class="ui-g-12 ui-md-2"></div>
         <div class="ui-g-12 ui-md-2">
           <!-- <p-inputSwitch class="ui-g-12 ui-md-4" [(ngModel)]="checked1"></p-inputSwitch>
-                      <label class="ui-g-12 ui-md-8">Society Type</label>
-                      <p-radioButton name="group1" value="Option 1" label="Society Type" [(ngModel)]="val1" inputId="opt1"></p-radioButton> -->
+                        <label class="ui-g-12 ui-md-8">Society Type</label>
+                        <p-radioButton name="group1" value="Option 1" label="Society Type" [(ngModel)]="val1" inputId="opt1"></p-radioButton> -->
           <p-checkbox class="ui-g-2" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
           <label class="ui-g-8">Society Type</label>
         </div>
@@ -69,7 +72,29 @@
           <p-checkbox class="ui-g-1" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
           <label class="ui-g-8">Society + Commodity</label>
         </div>
+        <div class="ui-g-3 ui-md-1">
+          <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1">
+          <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
       </div>
+      <!-- <div class="ui-g-12 ui-md-4"></div>
+      <div class="ui-g-3 ui-md-1">
+        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1">
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+      </div>
+      <div class="ui-g-12 ui-md-4"></div> -->
+
       <div class="ui-g-12 dashboard">
         <p-table [columns]="AllSchemeCols" [value]="AllSchemeData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"

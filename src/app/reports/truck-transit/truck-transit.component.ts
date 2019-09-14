@@ -79,6 +79,7 @@ export class TruckTransitComponent implements OnInit {
       }
       let sno = 0;
       this.TruckTransitData.forEach(data => {
+        data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;

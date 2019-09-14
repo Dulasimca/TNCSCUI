@@ -23,7 +23,9 @@ export class AllSchemeComponent implements OnInit {
   toDate: any;
   godownOptions: SelectItem[];
   SchemeOptions: SelectItem[];
-  SocietyOptions: SelectItem[];
+  transactionOptions: SelectItem[];
+  receiverOptions: SelectItem[];
+  t_cd: any;
   g_cd: any;
   s_cd: any;
   sch_cd: any;
@@ -57,7 +59,8 @@ export class AllSchemeComponent implements OnInit {
   }
 
   onSelect(item) {
-    let SocietySelection = [];
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
     let godownSelection = [];
     let SchemeSelection = [];
     switch (item) {
@@ -73,40 +76,35 @@ export class AllSchemeComponent implements OnInit {
           }
         }
         break;
-      case 'type':
-        let SocietySelection = [];
-        if (this.SocietyOptions === undefined) {
-          // const params = new HttpParams().set('TRCode', this.gCode);
-          // this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
-          //   if (res !== undefined) {
-          //     this.SocietyOptions = SocietySelection;
-          //     this.SocietyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': res., 'value': null });
-          //   }
-          // });
-          const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trcode).append('GCode', this.gCode);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-              res.forEach(dt => {
-                SocietySelection.push({ 'label': dt.Tyname, 'value': dt.Tycode });
-              });
-              this.SocietyOptions = SocietySelection;
+      case 't':
+        // if (this.transactionOptions === undefined && this.receiverOptions === undefined) {
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+          s.forEach(c => {
+            if (c.TransType === 'I') {
+              TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
             }
-            // this.isReceivorNameDisabled = false;
-            this.SocietyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            this.transactionOptions = TransactionSelection;
           });
-        }
-        break;
-      case 'Sch':
-        // if (this.SchemeOptions === undefined) {
-        this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-          if (data !== undefined) {
-            data.forEach(y => {
-              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
-              this.SchemeOptions = SchemeSelection;
-            });
-          }
         });
         // }
+        break;
+      case 'r':
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = ReceiverSelection;
+        });
+        break;
+      case 'Sch':
+        this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
+          data.forEach(y => {
+            SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+            this.SchemeOptions = SchemeSelection;
+          });
+          this.SchemeOptions.unshift({ label: '-select-', value: null, disabled: true });
+        });
         break;
     }
   }
@@ -117,7 +115,7 @@ export class AllSchemeComponent implements OnInit {
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.gCode,
+      'GCode': this.g_cd.value,
       'SCode': this.s_cd.value,
       'SchCode': this.sch_cd.value
     };
@@ -125,13 +123,14 @@ export class AllSchemeComponent implements OnInit {
       this.AllSchemeData = res;
       let sno = 0;
       this.AllSchemeData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+        data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       });
       if (res !== undefined && res.length !== 0) {
         this.isActionDisabled = false;
+        this.loading = false;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -176,6 +175,10 @@ export class AllSchemeComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
+    var AllSchemeData = [];
+    this.AllSchemeData.forEach(data => {
+      AllSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
+    });
+    this.excelService.exportAsExcelFile(AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
   }
 }
