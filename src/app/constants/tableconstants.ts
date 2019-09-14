@@ -76,8 +76,10 @@ export class TableConstants {
   TransactionStatus: any;
   OpeningBalanceCurYearEntry: any;
   DailyDocumentTotalReport: any;
-  DailyDocumentReceipt: any;
-  DailyDocumentIssue: any;
+  DailyDocumentReceiptReport: any;
+  DetailDailyDocumentReceiptReport: any;
+  DailyDocumentIssueReport: any;
+  DetailDailyDocumentIssueReport: any;
   StockIssueMemoViewBySINOCols: any;
   StackCardOpening: any;
   StackCard: any;
@@ -894,7 +896,15 @@ export class TableConstants {
       { field: 'GName', header: 'Godown Name' }
     ];
 
-    this.DailyDocumentReceipt = [
+    this.DailyDocumentReceiptReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc_Date' },
+      { field: 'Transactiontype', header: 'Transaction Type' },
+      { field: 'ReceivedFrom', header: 'Received From' },
+    ];
+
+    this.DetailDailyDocumentReceiptReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'DocNo', header: 'Doc No' },
       { field: 'DocDate', header: 'Doc_Date' },
@@ -915,7 +925,16 @@ export class TableConstants {
       { field: 'TRUCKDate', header: 'Truck Date' },
     ];
 
-    this.DailyDocumentIssue = [
+
+    this.DailyDocumentIssueReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'TransactionType', header: 'Transaction Type' },
+      { field: 'ReceivedFrom', header: 'Issued To' },
+    ];
+
+    this.DetailDailyDocumentIssueReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'DocNo', header: 'Doc No' },
       { field: 'DocDate', header: 'Doc Date' },

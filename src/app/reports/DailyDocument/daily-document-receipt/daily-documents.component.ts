@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -15,6 +15,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-daily-documents',
@@ -26,10 +27,11 @@ export class DailyDocumentsComponent implements OnInit {
   DailyDocumentTotalData: any = [];
   DailyDocumentReceiptCols: any;
   DailyDocumentReceiptData: any = [];
-  g_cd: any;
-  gCode: any;
-  rCode: any;
-  r_cd: any;
+  AllReceiptDocuments: any = [];
+  ReceiptDocumentDetailData: any = [];
+  ReceiptDocumentDetailCols: any;
+  GCode: any;
+  RCode: any;
   DocumentDate: Date;
   roleId: any;
   gdata: any;
@@ -37,11 +39,16 @@ export class DailyDocumentsComponent implements OnInit {
   maxDate: Date;
   loading: boolean;
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   canShowMenu: boolean;
   items: any;
   filterArray: any;
   searchText: any;
   noOfDocs: any;
+  regionData: any;
+  viewPane: boolean;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -50,7 +57,9 @@ export class DailyDocumentsComponent implements OnInit {
     this.gdata = this.roleBasedService.getInstance();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport;
-    this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceipt;
+    this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceiptReport;
+    this.ReceiptDocumentDetailCols = this.tableConstants.DetailDailyDocumentReceiptReport;
+    this.regionData = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
@@ -66,34 +75,66 @@ export class DailyDocumentsComponent implements OnInit {
       }]
   }
 
-  onSelect(selectedItem) {
+  onSelect(selectedItem, type) {
     let godownSelection = [];
+    let regionSelection = [];
     switch (selectedItem) {
+      case 'reg':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regionData = this.roleBasedService.instance;
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regionData = this.roleBasedService.regionsData;
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
       case 'gd':
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
+            if(x.RCode === this.RCode.value) {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-            this.godownOptions = godownSelection;
+            }
           });
+          this.godownOptions = godownSelection;
         }
         break;
     }
   }
 
-  ontime() {
+  onView() {
+    this.onResetTable();
     const params = {
-      'GodownCode': this.g_cd.value,
-      'RegionCode': this.g_cd.rcode,
+      'GodownCode': this.GCode.value,
+      'RegionCode': this.RCode.value,
       'RoleId': this.roleId,
       'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
     };
+    this.loading = true;
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-         this.DailyDocumentReceiptData = res;
-      let sno = 1;
+         this.AllReceiptDocuments = res;
+         this.loading = false;
       ///Distinct value groupby of an array
       let groupedData;
-      Rx.Observable.from(this.DailyDocumentReceiptData)
+      Rx.Observable.from(this.AllReceiptDocuments)
       .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
       .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
       .map(g => {// mapping 
@@ -120,48 +161,57 @@ export class DailyDocumentsComponent implements OnInit {
         }
       })
       .toArray() //.toArray because I guess you want to loop on it with ngFor      
-      .subscribe(d => groupedData = d);
-      ///End
-
-      ///Duplicate value replacin
-      let j = 0;
-      for(let i = 0; i < this.DailyDocumentReceiptData.length; i ++) {
-          if(j < groupedData.length && this.DailyDocumentReceiptData[i].DocNo === groupedData[j].DocNo) {
-            this.DailyDocumentReceiptData[i].SlNo = sno;
-            this.noOfDocs = sno;
-            sno += 1;
-            j += 1;
-          } else {
-            this.DailyDocumentReceiptData[i].SlNo = '';
-          }
-      }
+      .subscribe(d =>  groupedData = d);
+      this.DailyDocumentReceiptData = groupedData;
+      this.noOfDocs = groupedData.length;
+      let sno = 1;
+      this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
       ///End
 
       ///No.Of Document 
       this.DailyDocumentTotalData.push({
         NoDocument: this.noOfDocs,
-        GCode: this.g_cd.value,
-        GName: this.g_cd.label,
-        RName: this.g_cd.rname,
-        RCode: this.g_cd.rcode
+        GCode: this.GCode.value,
+        GName: this.GCode.label,
+        RName: this.RCode.value,
+        RCode: this.RCode.label
       })
       ///End
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.DailyDocumentReceiptData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
+  viewDetailsOfDocument(selectedRow) {
+    this.ReceiptDocumentDetailData = [];
+    this.viewPane = true;
+    this.AllReceiptDocuments.forEach(data => {
+      if(data.DocNo === selectedRow.DocNo) {
+        this.ReceiptDocumentDetailData.push(data);
+      }
+    })
+    let slno = 1;
+    this.ReceiptDocumentDetailData.forEach(s => {
+      s.SlNo = slno;
+      slno += 1;
+    })
+  }
+
+
   onResetTable() {
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
+    this.ReceiptDocumentDetailData = [];
+    this.AllReceiptDocuments = [];
   }
 
   onSearch(value) {
