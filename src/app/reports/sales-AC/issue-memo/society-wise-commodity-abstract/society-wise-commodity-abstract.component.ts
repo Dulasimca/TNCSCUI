@@ -21,9 +21,11 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   showSchemeCommodityBreakup: boolean = false;
   showSchemeAbstract: boolean = false;
   abstractOptions: SelectItem[];
+  customerOptions: SelectItem[];
   godownOptions: SelectItem[];
   a_cd: string;
   g_cd: any;
+  c_cd: any;
   data: any;
   fromDate: any;
   toDate: any;
@@ -124,4 +126,6 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
     }
 
   }
+
+  onView() {}
 }

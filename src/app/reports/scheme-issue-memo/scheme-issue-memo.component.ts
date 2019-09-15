@@ -28,6 +28,7 @@ export class SchemeIssueMemoComponent implements OnInit {
   scheme_data: any;
   g_cd: any;
   schemeOptions: SelectItem[];
+  selectedValues: any;
   sc_cd: any;
   godownOptions: SelectItem[];
   truckName: string;

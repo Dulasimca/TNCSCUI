@@ -22,6 +22,7 @@ export class IssueSchemeComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
+  selectedValues: any;
   g_cd: any;
   s_cd: any;
   data: any;

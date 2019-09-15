@@ -41,7 +41,7 @@ import { ReceiptROPurchaseComponent } from './reports/purchase-AC/receipt-ro-pur
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
+// import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
@@ -67,9 +67,6 @@ import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correcti
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
-import { SPLPDSComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
-import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
-import { AanComponent } from './reports/DeliveryOrderReport/aan/aan.component';
 import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
 import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
@@ -129,12 +126,9 @@ const routes: Routes = [
   { path: 'Issue Memo Customer Details', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Issue Memo Society Wise', component: SocietyWiseCommodityAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Gunny_GUGR', component: GunnyGuGrComponent, canActivate: [AuthGuard] },
-  { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
+  // { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'Do All Scheme', component: AllSchemeComponent },
-  { path: 'Do Splpds', component: SPLPDSComponent },
-  { path: 'Do OAP', component: OapComponent },
-  { path: 'Do Annapoorna', component: AanComponent },
   { path: 'Do Other Schemes', component: OtherSchemeComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent },
   { path: 'Demand Draft', component: DemandDraftComponent },

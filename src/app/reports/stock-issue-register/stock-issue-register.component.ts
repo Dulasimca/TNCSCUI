@@ -151,7 +151,7 @@ export class StockIssueRegisterComponent implements OnInit {
     }
   }
 
-  onExportExcel(): void {
+  exportAsXLSX(): void {
     var StockIssueData = [];
     this.stockIssueRegData.forEach(data => {
       StockIssueData.push({

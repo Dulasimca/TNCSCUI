@@ -88,7 +88,7 @@ import { ReceiptRONOPurchaseComponent } from './reports/purchase-AC/receipt-rono
 import { CustomerDetailsComponent } from './reports/sales-AC/issue-memo/customer-details/customer-details.component';
 import { SocietyWiseCommodityAbstractComponent } from './reports/sales-AC/issue-memo/society-wise-commodity-abstract/society-wise-commodity-abstract.component';
 import { GunnyGuGrComponent } from './reports/gunny-gu-gr/gunny-gu-gr.component';
-import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
+// import { OpeningBalanceComponent } from './opening-balance/opening-balance.component';
 import { PrintService } from './print.service';
 import { TruckTransitComponent } from './reports/truck-transit/truck-transit.component';
 import { DecimalDirective } from './directives/decimal.directive';
@@ -118,9 +118,6 @@ import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/sc
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 import { StatusMessage } from './constants/Messages';
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
-import { SPLPDSComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
-import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
-import { AanComponent } from './reports/DeliveryOrderReport/aan/aan.component';
 import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
 import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
@@ -186,13 +183,10 @@ import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-ab
     SocietyWiseCommodityAbstractComponent,
     GunnyGuGrComponent,
     StackCardOpeningEntryComponent,
-    OpeningBalanceComponent,
+    // OpeningBalanceComponent,
     TruckTransitComponent,
     DecimalDirective,
     AllSchemeComponent,
-    SPLPDSComponent,
-    OapComponent,
-    AanComponent,
     OtherSchemeComponent,
     SocietyAbstractComponent,
     DemandDraftComponent,

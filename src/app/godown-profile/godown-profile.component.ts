@@ -24,7 +24,7 @@ export class GodownProfileComponent implements OnInit {
   roleId: any;
   g_cd: any;
   gCode: any;
-  Gname: string;
+  Gname: any;
   designation: any = [];
   address1: any = {};
   address2: {};

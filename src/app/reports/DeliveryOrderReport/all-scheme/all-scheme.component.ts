@@ -25,6 +25,7 @@ export class AllSchemeComponent implements OnInit {
   SchemeOptions: SelectItem[];
   transactionOptions: SelectItem[];
   receiverOptions: SelectItem[];
+  selectedValues: any;
   t_cd: any;
   g_cd: any;
   s_cd: any;
