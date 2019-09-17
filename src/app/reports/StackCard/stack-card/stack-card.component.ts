@@ -23,11 +23,15 @@ export class StackCardComponent implements OnInit {
   StackCardCols: any;
   StackCardData: any = [];
   data: any;
+  roleId: any;
+  regions: any;
   GCode: any;
+  RCode: any;
   ITCode: any;
   Year: any;
   TStockNo: any;
   userId: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -35,6 +39,7 @@ export class StackCardComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  @ViewChild('region') RegionPanel: Dropdown;
   @ViewChild('godown') GodownPanel: Dropdown;
   @ViewChild('commodity') CommodityPanel: Dropdown;
   @ViewChild('stackYear') StackYearPanel: Dropdown;
@@ -46,6 +51,8 @@ export class StackCardComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.StackCardCols = this.tableConstants.StackCard;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.data = this.roleBasedService.getInstance();
     this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
@@ -55,16 +62,47 @@ export class StackCardComponent implements OnInit {
     let godownSelection = [];
     let YearSelection = [];
     let commoditySelection = [];
+    let regionSelection = [];
     let StackSelection = [];
     switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.RegionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
       case 'gd':
-        if(type === 'enter') { this.GodownPanel.overlayVisible = true; }
-        this.data = this.roleBasedService.instance;
+        if (type === 'enter') {
+          this.GodownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
           });
+          this.godownOptions = godownSelection;
         }
         break;
       case 'cd':
@@ -149,7 +187,8 @@ export class StackCardComponent implements OnInit {
     this.loading = false;
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.StackCardData = [];
   }
 

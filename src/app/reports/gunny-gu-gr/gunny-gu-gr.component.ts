@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-gunny-gu-gr',
@@ -18,41 +19,82 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class GunnyGuGrComponent implements OnInit {
   GunnyRepCols: any;
-  GunnyRepData: any;
-  fromDate: any;
-  toDate: any;
+  GunnyRepData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
+  RCode: any;
+  regionOptions: SelectItem[];
+  GCode: any;
   godownOptions: SelectItem[];
-  g_cd: any;
+  roleId: any;
+  regions: any;
   data: any;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   username: any;
   selectedValue: string = 'GR';
   loading: boolean;
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.GunnyRepCols = this.tableConstants.GunnyReport;
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -60,28 +102,28 @@ export class GunnyGuGrComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
       'Type': this.selectedValue
     }
     this.restAPIService.post(PathConstants.GUNNY_REPORT, params).subscribe(res => {
-      this.GunnyRepData = res;
-      let sno = 0;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.GunnyRepData = res;
+        this.loading = false;
+        let sno = 0;
       this.GunnyRepData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
         data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
-        this.messageService.clear();
+      this.loading = false;
+      this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
@@ -93,7 +135,7 @@ export class GunnyGuGrComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -114,9 +156,9 @@ export class GunnyGuGrComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.GunnyRepData = [];
-    this.isActionDisabled = true;
   }
 
   onExportExcel(): void {

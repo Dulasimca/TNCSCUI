@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { TableConstants } from 'src/app/constants/tableconstants';
@@ -10,6 +10,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stack-card-opening',
@@ -18,50 +19,93 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class StackCardOpeningComponent implements OnInit {
   StackCardOpeningCols: any;
-  StackCardOpeningData: any;
-  isActionDisabled: any;
+  StackCardOpeningData: any = [];
   data: any;
-  g_cd: any;
-  c_cd: any;
+  GCode: any;
+  ITCode: any;
+  RCode: any;
   Year: any;
+  regions: any;
+  roleId: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
   commodityOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  @ViewChild('region') RegionPanel: Dropdown;
+  @ViewChild('godown') GodownPanel: Dropdown;
+  @ViewChild('commodity') CommodityPanel: Dropdown;
+  @ViewChild('stackYear') StackYearPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.StackCardOpeningCols = this.tableConstants.StackCardOpening;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let godownSelection = [];
     let YearSelection = [];
+    let regionSelection = [];
     let commoditySelection = [];
     switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.RegionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
       case 'gd':
-        this.data = this.roleBasedService.instance;
+        if (type === 'enter') {
+          this.GodownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
           });
+          this.godownOptions = godownSelection;
         }
         break;
       case 'y':
+        if (type === 'enter') {
+          this.StackYearPanel.overlayVisible = true;
+        }
         if (this.YearOptions === undefined) {
           this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                YearSelection.push({ 'label': y.ShortYear });
+                YearSelection.push({ 'label': y.ShortYear, 'value': y.ShortYear });
                 this.YearOptions = YearSelection;
               });
             }
@@ -69,6 +113,9 @@ export class StackCardOpeningComponent implements OnInit {
         }
         break;
       case 'cd':
+        if (type === 'enter') {
+          this.CommodityPanel.overlayVisible = true;
+        }
         if (this.commodityOptions === undefined) {
           this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
@@ -86,28 +133,28 @@ export class StackCardOpeningComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
-      'GCode': this.g_cd.value,
-      'StackDate': this.Year.label,
-      'ICode': this.c_cd.value,
+      'GCode': this.GCode,
+      'StackDate': this.Year,
+      'ICode': this.ITCode,
       'Type': 2
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      this.StackCardOpeningData = res;
-      let sno = 0;
-      this.StackCardOpeningData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.StackCardOpeningData = res;
+        this.loading = false;
+        let sno = 0;
+        this.StackCardOpeningData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
@@ -117,9 +164,9 @@ export class StackCardOpeningComponent implements OnInit {
     })
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.StackCardOpeningData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
