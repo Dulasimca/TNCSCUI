@@ -22,7 +22,7 @@ import { Dropdown } from 'primeng/primeng';
 })
 export class DeliveryOrderRegisterComponent implements OnInit {
   deliveryReceiptRegCols: any;
-  deliveryReceiptRegData: any;
+  deliveryReceiptRegData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
@@ -89,7 +89,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       case 'godown':
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if(x.RCode === this.RCode.value) {
+            if(x.RCode === this.RCode) {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
