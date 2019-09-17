@@ -102,6 +102,7 @@ export class TableConstants {
   IssueMemoCustomerDeatil: any;
   IssueMemoAbstract: any;
   DemandDraftDetailsReportCols: any;
+  StackCardRegister: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1097,5 +1098,23 @@ export class TableConstants {
       { field: 'Amount', header: 'Amount' },
     ];
 
+    this.StackCardRegister = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Stackno', header: 'Stackno' },
+      { field: 'Fdate', header: 'From Date' },
+      { field: 'Tdate', header: 'To Date' },
+      { field: 'OBags', header: 'Opening Bags' },
+      { field: 'Quantity', header: 'Balance Quantity' },
+      { field: 'Bags', header: 'Receipt Bags' },
+      { field: 'Fdate', header: 'GU' },
+      { field: 'Tdate', header: 'Receipt Quantity' },
+      { field: 'OBags', header: 'Issue Bags' },
+      { field: 'Bank', header: 'GR' },
+      { field: 'Amount', header: 'Issue Quantity' },
+      { field: 'Bank', header: 'Balance Bags' },
+      { field: 'Bank', header: 'Balance Quantity' },
+      { field: 'Bank', header: 'Stack Status' },
+      { field: 'Bank', header: 'W/OFF Quantity' }
+    ];
   }
 }
