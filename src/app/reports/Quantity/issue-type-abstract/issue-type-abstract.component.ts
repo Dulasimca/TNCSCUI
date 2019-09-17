@@ -153,6 +153,7 @@ export class IssueTypeAbstractComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -174,7 +175,8 @@ export class IssueTypeAbstractComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.IssueAbstractData = [];
   }
 

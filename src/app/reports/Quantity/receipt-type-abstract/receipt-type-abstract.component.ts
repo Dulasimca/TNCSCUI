@@ -152,6 +152,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -173,7 +174,8 @@ export class ReceiptTypeAbstractComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.ReceiptAbstractData = [];
   }
 

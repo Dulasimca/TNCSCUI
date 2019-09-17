@@ -34,7 +34,7 @@ export class GodownProfileComponent implements OnInit {
   fax: any[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
-  formUser = [];
+  formUser: any = [];
   loading: boolean = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
