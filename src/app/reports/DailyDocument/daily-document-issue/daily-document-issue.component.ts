@@ -120,7 +120,7 @@ export class DailyDocumentIssueComponent implements OnInit {
   }
 
   onView() {
-    this.onResetTable();
+    this.onResetTable('');
     const params = {
       'GodownCode': this.GCode.value,
       'RegionCode': this.RCode.value,
@@ -144,7 +144,7 @@ export class DailyDocumentIssueComponent implements OnInit {
             CommodityName: g[0].CommodityName,
             DocDate: g[0].DocDate, // using lodash to sum quantity
             StackNo: g[0].StackNo,
-            Transactiontype: g[0].Transactiontype,
+            TransactionType: g[0].TransactionType,
             NOOfPACKING: g[0].NOOfPACKING,
             PackingType: g[0].PackingType,
             GROSSWT: g[0].GROSSWT,
@@ -201,7 +201,8 @@ export class DailyDocumentIssueComponent implements OnInit {
 
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.DailyDocumentIssueData = [];
     this.DailyDocumentTotalData = [];
     this.IssueDocumentDetailData = [];

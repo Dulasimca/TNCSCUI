@@ -120,7 +120,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onView() {
-    this.onResetTable();
+    this.onResetTable('');
     const params = {
       'GodownCode': this.GCode.value,
       'RegionCode': this.RCode.value,
@@ -207,7 +207,8 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
     this.ReceiptDocumentDetailData = [];
