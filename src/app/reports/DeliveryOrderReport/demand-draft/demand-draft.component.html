@@ -9,7 +9,6 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">
         <label class="label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -41,6 +40,7 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
         <button pButton type="button" (click)="onView()" [disabled]="(!RCode || !GCode || !fromDate || !toDate)">
           <label class="ui-g-12 label-fontsize" style="color: aliceblue">View Bank Order</label>
