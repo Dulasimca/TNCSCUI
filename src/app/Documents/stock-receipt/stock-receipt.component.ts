@@ -478,8 +478,9 @@ export class StockReceiptComponent implements OnInit {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
-      this.checkTrType = ((this.Trcode.value !== null && this.Trcode.value !== undefined) &&
-        this.Trcode.value === 'TR023') ? false : true;
+      let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+      this.Trcode.value : this.trCode;
+      this.checkTrType = (trcode === 'TR023') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?

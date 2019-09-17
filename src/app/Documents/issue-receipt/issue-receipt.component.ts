@@ -428,8 +428,9 @@ export class IssueReceiptComponent implements OnInit {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
-      this.checkTrType = (this.Trcode.value !== null && this.Trcode.value !== undefined &&
-        this.Trcode.value === 'TR024') ? false : true;
+      let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+      this.Trcode.value : this.trCode;
+      this.checkTrType = (trcode === 'TR024') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
@@ -772,7 +773,7 @@ export class IssueReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
         this.Trcode = res.Table[0].TRName;
         this.trCode = res.Table[0].Trcode;
-        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? true : false;
+        this.checkTrType = (res.Table[0].Trcode === 'TR024') ? false : true;
         this.receiverTypeOptions = [{ label: res.Table[0].ReceivorType, value: res.Table[0].issuetype1 }];
         this.RTCode = res.Table[0].ReceivorType;
         this.rtCode = res.Table[0].issuetype1;
