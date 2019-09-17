@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-hulling-details',
@@ -18,47 +19,90 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class HullingDetailsComponent implements OnInit {
   hullingDetailsCols: any;
-  hullingDetailsData: any;
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  hullingDetailsData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
-  g_cd: any;
+  RCode: any;
+  regionOptions: SelectItem[];
+  GCode: any;
   godownOptions: SelectItem[];
+  roleId: any;
+  regions: any;
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean = false;
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,
     private excelService: ExcelService, private restAPIService: RestAPIService,
-    private roleBasedService: RoleBasedService, private router: Router) { }
+    private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.hullingDetailsCols = this.tableConstants.HullingDetailsReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.HULLING_DETAILS_REPORT, params).subscribe(res => {
-      this.hullingDetailsData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.hullingDetailsData = res;
       let sno = 0;
       this.hullingDetailsData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -66,8 +110,6 @@ export class HullingDetailsComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -81,14 +123,14 @@ export class HullingDetailsComponent implements OnInit {
     })
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.hullingDetailsData = [];
-    this.isActionDisabled = true;
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
