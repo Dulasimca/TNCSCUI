@@ -90,6 +90,7 @@ h1 {
     background-attachment: inherit;
     position: relative;
     height: 95.6vh;
+    overflow: hidden;
   /* width: 100%; */
 }
 
