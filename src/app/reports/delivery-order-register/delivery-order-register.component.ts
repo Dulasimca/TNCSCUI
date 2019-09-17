@@ -40,7 +40,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   username: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -61,7 +61,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     switch (item) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.regionsData = this.roleBasedService.instance;
@@ -87,10 +87,13 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         }
         break;
       case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if(x.RCode === this.RCode) {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;

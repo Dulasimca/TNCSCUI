@@ -48,7 +48,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
     this.regionsData = this.roleBasedService.getRegions();
-    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);this.maxDate = new Date();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
@@ -59,7 +59,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     switch (item) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.regionsData = this.roleBasedService.instance;
@@ -85,10 +85,13 @@ export class StockReceiptRegisterComponent implements OnInit {
         }
         break;
       case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if(x.RCode === this.RCode) {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -109,13 +112,13 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.stockReceiptRegData = res;
-      let sno = 0;
-      this.stockReceiptRegData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.NetWt = (data.NetWt * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.stockReceiptRegData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.NetWt = (data.NetWt * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -154,7 +157,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     }
   }
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null;}
+    if (item === 'reg') { this.GCode = null; }
     this.stockReceiptRegData = [];
   }
 

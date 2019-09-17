@@ -51,8 +51,8 @@ export class CBStatementComponent implements OnInit {
   disbaleGodown: boolean;
   maxDate: Date = new Date();  
   regions: any;
-  @ViewChild('gd') godownPanel: Dropdown;
-  @ViewChild('reg') regionPanel: Dropdown;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private tableConstants: TableConstants, private datepipe: DatePipe, private excelService: ExcelService,

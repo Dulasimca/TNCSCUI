@@ -22,7 +22,7 @@
         </div>  
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-          <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+          <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
             (keydown.enter)="onSelect('godown', 'click')" (onClick)="onSelect('godown', 'enter')"
             (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
              [showClear]="true" placeholder="-select-">

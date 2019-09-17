@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-transaction-receipt',
@@ -19,46 +20,88 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class TransactionReceiptComponent implements OnInit {
   transactionReceiptCols: any;
-  transactionReceiptData: any;
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  transactionReceiptData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
-  g_cd: any;
+  RCode: any;
+  regionOptions: SelectItem[];
+  GCode: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
-  tr_cd: any;
+  TrCode: any;
   transactionOptions: SelectItem[];
   loading: boolean = false;
+  regionsData: any;
+  roleId: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.transactionReceiptCols = this.tableConstants.TransactionReceiptReport;
     this.data = this.roleBasedService.getInstance();
+    this.regionsData = this.roleBasedService.getRegions();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.maxDate = new Date();
   }
 
-  onSelect(item) {
+  onSelect(item, type) {
     let godownSelection = [];
     let transactoinSelection = [];
+    let regionSelection = [];
     switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regionsData = this.roleBasedService.instance;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regionsData = this.roleBasedService.regionsData;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
       case 'godown':
-        this.data = this.roleBasedService.instance;
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
           });
+          this.godownOptions = godownSelection;
         }
         break;
       case 'transaction':
-        if (this.transactionOptions === undefined) {
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+         if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -78,11 +121,12 @@ export class TransactionReceiptComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
-      'TRCode': this.tr_cd.value
+      'GCode': this.GCode,
+      'TRCode': this.TrCode
     }
     this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
-      this.transactionReceiptData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.transactionReceiptData = res;
       let sno = 0;
       this.transactionReceiptData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -90,8 +134,6 @@ export class TransactionReceiptComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -101,19 +143,19 @@ export class TransactionReceiptComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
-        this.router.navigate(['pageNotFound']);
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.transactionReceiptData = [];
-    this.isActionDisabled = true;
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {

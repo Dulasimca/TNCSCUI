@@ -64,7 +64,7 @@ export class StockIssueRegisterComponent implements OnInit {
     switch (item) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.regionsData = this.roleBasedService.instance;
@@ -90,10 +90,13 @@ export class StockIssueRegisterComponent implements OnInit {
         }
         break;
       case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if(x.RCode === this.RCode) {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;

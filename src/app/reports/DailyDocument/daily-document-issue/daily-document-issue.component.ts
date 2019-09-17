@@ -49,7 +49,7 @@ export class DailyDocumentIssueComponent implements OnInit {
   viewPane: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -80,7 +80,7 @@ export class DailyDocumentIssueComponent implements OnInit {
     switch (selectedItem) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.regionData = this.roleBasedService.instance;
@@ -106,10 +106,13 @@ export class DailyDocumentIssueComponent implements OnInit {
         }
         break;
       case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
-            if(x.RCode === this.RCode.value) {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -135,31 +138,31 @@ export class DailyDocumentIssueComponent implements OnInit {
         ///Distinct value groupby of an array
         let groupedData;
         Rx.Observable.from(this.AllIssueDocuments)
-        .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
-        .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
-        .map(g => {// mapping 
-          return {
-            DocNo: g[0].DocNo,//take the first name because we grouped them by name
-            CommodityName: g[0].CommodityName,
-            DocDate: g[0].DocDate, // using lodash to sum quantity
-            StackNo: g[0].StackNo,
-            TransactionType: g[0].TransactionType,
-            NOOfPACKING: g[0].NOOfPACKING,
-            PackingType: g[0].PackingType,
-            GROSSWT: g[0].GROSSWT,
-            GodownName: g[0].GodownName,
-            SCHEME: g[0].SCHEME,
-            NETWT: g[0].NETWT,
-            ReceivedFrom: g[0].ReceivedFrom,
-          }
-        })
-        .toArray() //.toArray because I guess you want to loop on it with ngFor      
-        .subscribe(d => groupedData = d);
+          .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
+          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+          .map(g => {// mapping 
+            return {
+              DocNo: g[0].DocNo,//take the first name because we grouped them by name
+              CommodityName: g[0].CommodityName,
+              DocDate: g[0].DocDate, // using lodash to sum quantity
+              StackNo: g[0].StackNo,
+              TransactionType: g[0].TransactionType,
+              NOOfPACKING: g[0].NOOfPACKING,
+              PackingType: g[0].PackingType,
+              GROSSWT: g[0].GROSSWT,
+              GodownName: g[0].GodownName,
+              SCHEME: g[0].SCHEME,
+              NETWT: g[0].NETWT,
+              ReceivedFrom: g[0].ReceivedFrom,
+            }
+          })
+          .toArray() //.toArray because I guess you want to loop on it with ngFor      
+          .subscribe(d => groupedData = d);
         this.DailyDocumentIssueData = groupedData;
         this.noOfDocs = groupedData.length;
         this.DailyDocumentIssueData.forEach(x => { x.SlNo = sno; sno += 1; })
         ///End
-       
+
         ///No.Of Document 
         this.DailyDocumentTotalData.push({
           NoDocument: this.noOfDocs,
@@ -188,7 +191,7 @@ export class DailyDocumentIssueComponent implements OnInit {
     this.IssueDocumentDetailData = [];
     this.viewPane = true;
     this.AllIssueDocuments.forEach(data => {
-      if(data.DocNo === selectedRow.DocNo) {
+      if (data.DocNo === selectedRow.DocNo) {
         this.IssueDocumentDetailData.push(data);
       }
     })
@@ -201,7 +204,7 @@ export class DailyDocumentIssueComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.DailyDocumentIssueData = [];
     this.DailyDocumentTotalData = [];
     this.IssueDocumentDetailData = [];

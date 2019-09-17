@@ -81,7 +81,7 @@ export class DailyDocumentsComponent implements OnInit {
     switch (selectedItem) {
       case 'reg':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
           this.regionData = this.roleBasedService.instance;
@@ -107,7 +107,10 @@ export class DailyDocumentsComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (this.gdata !== undefined) {
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+          if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
             if(x.RCode === this.RCode.value) {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
