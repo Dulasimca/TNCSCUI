@@ -22,6 +22,8 @@ export class OtherSchemeComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
+  SocietyOptions: SelectItem[];
+  selectedValues: any;
   g_cd: any;
   s_cd: any;
   data: any;
@@ -58,6 +60,8 @@ export class OtherSchemeComponent implements OnInit {
       });
     }
   }
+
+  onSociety() {}
 
   onView() {
     this.checkValidDateSelection();

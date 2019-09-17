@@ -119,7 +119,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.stockReceiptRegData = [];
   }
 
-  onExportExcel(): void {
+  exportAsXLSX(): void {
     var StockReceiptData = [];
     this.stockReceiptRegData.forEach(data => {
       StockReceiptData.push({
