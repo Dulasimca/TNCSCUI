@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-receipt-rono-purchase',
@@ -18,18 +19,23 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class ReceiptRONOPurchaseComponent implements OnInit {
   receiptHOPurchaseCols: any;
-  receiptHOPurchaseData: any;
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  receiptHOPurchaseData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
-  g_cd: any;
+  GCode: any;
+  RCode: any;
+  roleId: any;
+  regions: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
-  loading: boolean = false;
-  orderNo: any;
   username: any;
+  orderNo: any;
+  loading: boolean;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -37,21 +43,58 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.receiptHOPurchaseCols = this.tableConstants.ReceiptRONOPurchaseReport;
     this.username = JSON.parse(this.authService.getCredentials());
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
-  onSelect() {
+  onSelect(item, type) {
+    let regionSelection = [];
     let godownSelection = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = godownSelection;
-      });
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -59,27 +102,26 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'OrderNo': this.orderNo,
       'UserName': this.username.user
     }
     this.restAPIService.post(PathConstants.RECEIPT_RONO_PURCHASE_REPORT, params).subscribe(res => {
-      this.receiptHOPurchaseData = res;
+      if (res !== undefined && res.length !== 0  && res !== null) {
+        this.receiptHOPurchaseData = res;
+      this.loading = false;
       let sno = 0;
       this.receiptHOPurchaseData.forEach(data => {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
@@ -91,7 +133,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -113,9 +155,9 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.receiptHOPurchaseData = [];
-    this.isActionDisabled = true;
   }
 
   onExportExcel(): void {

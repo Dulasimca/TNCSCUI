@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-receipt-ro-purchase',
@@ -18,39 +19,81 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class ReceiptROPurchaseComponent implements OnInit {
   receiptROPurchaseCols: any;
-  receiptROPurchaseData: any;
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  receiptROPurchaseData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
-  g_cd: any;
+  GCode: any;
+  RCode: any;
+  roleId: any;
+  regions: any;
+  regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
   username: any;
   loading: boolean;
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.receiptROPurchaseCols = this.tableConstants.ReceiptROPurchaseReport;
     this.username = JSON.parse(this.authService.getCredentials());
     this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
   }
 
-  onSelect() {
+  onSelect(item, type) {
+    let regionSelection = [];
     let godownSelection = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = godownSelection;
-      });
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -58,13 +101,15 @@ export class ReceiptROPurchaseComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.RECEIPT_REGION_PURCHASE_REPORT, params).subscribe(res => {
-      this.receiptROPurchaseData = res;
+      if (res !== undefined && this.receiptROPurchaseData.length !== 0) {
+        this.receiptROPurchaseData = res;
+        this.loading = false;
       let sno = 0;
       this.receiptROPurchaseData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -72,13 +117,11 @@ export class ReceiptROPurchaseComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && this.receiptROPurchaseData.length !== 0) {
-        this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0) {
         this.loading = false;
@@ -90,7 +133,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -112,9 +155,9 @@ export class ReceiptROPurchaseComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.receiptROPurchaseData = [];
-    this.isActionDisabled = true;
   }
 
   onExportExcel(): void {
