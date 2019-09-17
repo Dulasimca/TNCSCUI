@@ -135,13 +135,14 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     });
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.deliveryReceiptRegData = [];
   }
 
-  onDateSelect() {
+  onDateSelect(date) {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {

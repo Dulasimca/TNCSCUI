@@ -25,7 +25,7 @@
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
           (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true"
-          [disabled]="disbaleGodown" [showClear]="true" placeholder="-select-">
+           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -44,7 +44,7 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
         <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="ITCode"
-         (onClick)="onSelect('cd')" (keydown.enter)="onSelect('cd')" (ngModelChange)="onResetTable('cd')" 
+         (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')" (ngModelChange)="onResetTable('cd')" 
           filter="true" resetFilterOnHide="true" 
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">

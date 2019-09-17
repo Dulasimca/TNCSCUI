@@ -147,7 +147,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     })
   }
 
-  onDateSelect() {
+  onDateSelect(event) {
     this.checkValidDateSelection();
     this.onResetTable();
   }

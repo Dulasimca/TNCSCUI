@@ -37,7 +37,7 @@
           <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
             (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
             (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true"
-            [disabled]="disbaleGodown" [showClear]="true" placeholder="-select-">
+             [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
