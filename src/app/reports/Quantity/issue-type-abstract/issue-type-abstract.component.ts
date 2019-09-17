@@ -22,8 +22,8 @@ import { saveAs } from 'file-saver';
 export class IssueTypeAbstractComponent implements OnInit {
   IssueAbstractCols: any;
   IssueAbstractData: any = [];
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   regions: any;

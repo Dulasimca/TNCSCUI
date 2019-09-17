@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-demand-draft',
@@ -19,41 +20,79 @@ import { StatusMessage } from 'src/app/constants/Messages';
 export class DemandDraftComponent implements OnInit {
 
   DemandDraftCols: any;
-  DemandDraftData: any;
-  fromDate: any;
-  toDate: any;
+  DemandDraftData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
-  g_cd: any;
+  GCode: any;
+  regionOptions: SelectItem[];
+  RCode: any;
+  roleId: any;
+  regions: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
-
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
     this.DemandDraftCols = this.tableConstants.DoDemandDraft;
-    this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions(); this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
-
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -63,10 +102,12 @@ export class DemandDraftComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
     };
     this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
-      this.DemandDraftData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.DemandDraftData = res;
+      this.loading = false;
       let sno = 0;
       this.DemandDraftData.forEach(data => {
         data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
@@ -75,10 +116,8 @@ export class DemandDraftComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
-        this.loading = false;
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -93,10 +132,7 @@ export class DemandDraftComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -118,9 +154,9 @@ export class DemandDraftComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.DemandDraftData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {

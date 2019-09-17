@@ -63,13 +63,14 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
+      <div class="ui-g-9"></div>
+      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
         <button pButton type="button" label=View (click)="onView()" [disabled]="(!RCode || !GCode || !ITCode || !TStockNo || !Year)"></button>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
+      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
+      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(StackCardData.length=='0')"></button>
       </div>
       <div class="ui-g-1"></div>

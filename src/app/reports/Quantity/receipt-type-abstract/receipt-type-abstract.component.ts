@@ -21,8 +21,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 export class ReceiptTypeAbstractComponent implements OnInit {
   ReceiptAbstractCols: any;
   ReceiptAbstractData: any = [];
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   regions: any;
