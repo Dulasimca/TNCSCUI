@@ -23,13 +23,16 @@ export class StockIssueRegisterComponent implements OnInit {
   stockIssueRegCols: any;
   stockIssueRegData: any = [];
   username: any;
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
   record: any = [];
   GCode: any;
   godownOptions: SelectItem[];
-  godownName: string;
+  regionOptions: SelectItem[];
+  RCode: any;
+  regionsData: any;
+  roleId: number;
   canShowMenu: boolean;
   maxDate: Date;
   startIndex: any = 0;
@@ -39,6 +42,7 @@ export class StockIssueRegisterComponent implements OnInit {
   canFetch: boolean;
   totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -54,16 +58,50 @@ export class StockIssueRegisterComponent implements OnInit {
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect(type) {
-    let options = [];
-    if(type === 'enter') { this.godownPanel.overlayVisible = true; }
-    this.canFetch = true;
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let godownSelection = [];
+    let regionSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regionsData = this.roleBasedService.instance;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regionsData = this.roleBasedService.regionsData;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -121,14 +159,15 @@ export class StockIssueRegisterComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.record = [];
     this.stockIssueRegData = [];
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
     this.canFetch = true;
   }
 

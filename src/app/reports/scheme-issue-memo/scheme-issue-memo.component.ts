@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-scheme-issue-memo',
@@ -18,51 +19,91 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class SchemeIssueMemoComponent implements OnInit {
   schemeIssueMemoCols: any;
-  schemeIssueMemoData: any;
+  schemeIssueMemoData: any = [];
   username: any;
-  fromDate: any;
-  toDate: any;
-  isViewDisabled: any;
-  isActionDisabled: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godown_data: any;
   scheme_data: any;
-  g_cd: any;
+  region_data: any;
+  GCode: any;
   schemeOptions: SelectItem[];
+  regionOptions: SelectItem[];
   selectedValues: any;
-  sc_cd: any;
+  Scheme: any;
+  RCode: any;
+  roleId: any;
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean = false;
-  data: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('scheme') schemePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
     this.schemeIssueMemoCols = this.tableConstants.SchemeIssueMemoReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
-    this.data = this.roleBasedService.getInstance();
+    this.godown_data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.region_data = this.roleBasedService.getRegions();
     this.maxDate = new Date();
   }
 
-  onSelect(item) {
-    let godownSelection = [];
-    let schemeSelection = [];
-    switch (item) {
-      case 'godown':
-        this.godown_data = this.roleBasedService.instance;
-        if (this.godown_data !== undefined) {
-          this.godown_data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
-          });
+  onSelect(item, type) {
+      let regionSelection = [];
+      let godownSelection = [];
+      let schemeSelection = [];
+      switch (item) {
+        case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.region_data = this.roleBasedService.instance;
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.region_data = this.roleBasedService.regionsData;
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
         }
         break;
+        case 'gd':
+          if (type === 'enter') {
+            this.godownPanel.overlayVisible = true;
+          } 
+          if (this.godown_data !== undefined) {
+            this.godown_data.forEach(x => {
+              if(x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              }
+            });
+            this.godownOptions = godownSelection;
+          }
+          break;
       case 'scheme':
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
         if (this.scheme_data !== undefined) {
           this.scheme_data.forEach(y => {
             schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
@@ -70,11 +111,6 @@ export class SchemeIssueMemoComponent implements OnInit {
           });
         }
         break;
-    }
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null
-      && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
-      this.isViewDisabled = false;
     }
   }
 
@@ -85,11 +121,12 @@ export class SchemeIssueMemoComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.g_cd.value,
-      'TRCode': this.sc_cd.value
+      'GCode': this.GCode,
+      'TRCode': this.Scheme
     };
     this.restAPIService.post(PathConstants.SCHEME_ISSUE_MEMO_REPORT, params).subscribe(res => {
-      this.schemeIssueMemoData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.schemeIssueMemoData = res;
       let sno = 0;
       this.schemeIssueMemoData.forEach(data => {
         data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
@@ -97,8 +134,6 @@ export class SchemeIssueMemoComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -116,18 +151,14 @@ export class SchemeIssueMemoComponent implements OnInit {
     })
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.schemeIssueMemoData = [];
-    this.isActionDisabled = true;
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null
-      && this.sc_cd.value !== undefined && this.sc_cd.value !== '' && this.sc_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {

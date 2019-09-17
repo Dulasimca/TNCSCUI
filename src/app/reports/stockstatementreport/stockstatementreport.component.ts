@@ -28,8 +28,8 @@ export class StockstatementreportComponent implements OnInit {
   GCode: any;
   maxDate: Date = new Date();
   loading: boolean;
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   username: any;
   RCode: any;
   data: any;
@@ -156,7 +156,7 @@ export class StockstatementreportComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -177,7 +177,8 @@ export class StockstatementreportComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.stockData = [];
   }
 

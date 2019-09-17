@@ -20,9 +20,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 export class CommodityIssueMemoComponent implements OnInit {
   commodityIssueMemoCols: any;
   commodityIssueMemoData: any = [];
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
   RCode: any;
   GCode: any;
@@ -44,7 +43,6 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.commodityIssueMemoCols = this.tableConstants.CommodityIssueMemoReport;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -125,17 +123,16 @@ export class CommodityIssueMemoComponent implements OnInit {
       'TRCode': this.ITCode
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
-      this.commodityIssueMemoData = res;
-      let sno = 0;
-      this.commodityIssueMemoData.forEach(data => {
-        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        data.Lorryno = data.Lorryno.toString().toUpperCase();
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.commodityIssueMemoData = res;
+        let sno = 0;
+        this.commodityIssueMemoData.forEach(data => {
+          data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          data.Lorryno = data.Lorryno.toString().toUpperCase();
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -176,7 +173,6 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   onResetTable() {
     this.commodityIssueMemoData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {

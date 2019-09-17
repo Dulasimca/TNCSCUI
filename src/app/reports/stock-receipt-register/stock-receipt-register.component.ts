@@ -23,9 +23,11 @@ import { Dropdown } from 'primeng/primeng';
 export class StockReceiptRegisterComponent implements OnInit {
   stockReceiptRegCols: any;
   stockReceiptRegData: any = [];
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
+  RCode: any;
   GCode: any;
   data: any;
   maxDate: Date;
@@ -33,7 +35,10 @@ export class StockReceiptRegisterComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   username: any;
+  regionsData: any;
+  roleId: any;
   @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -42,20 +47,56 @@ export class StockReceiptRegisterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
-    this.maxDate = new Date();
+    this.regionsData = this.roleBasedService.getRegions();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect(type) {
-    let options = [];
-    if(type === 'enter') { this.godownPanel.overlayVisible = true; }
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let godownSelection = [];
+    let regionSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regionsData = this.roleBasedService.instance;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regionsData = this.roleBasedService.regionsData;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -71,13 +112,13 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.stockReceiptRegData = res;
-      let sno = 0;
-      this.stockReceiptRegData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.NetWt = (data.NetWt * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.stockReceiptRegData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.NetWt = (data.NetWt * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -94,7 +135,7 @@ export class StockReceiptRegisterComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -115,7 +156,8 @@ export class StockReceiptRegisterComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.stockReceiptRegData = [];
   }
 

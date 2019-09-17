@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-truck-to-region',
@@ -19,58 +20,99 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class TruckToRegionComponent implements OnInit {
   TruckToRegionCols: any;
-  TruckToRegionData: any;
-  fromDate: any;
-  toDate: any;
+  TruckToRegionData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
-  g_cd: any;
+  regionOptions: SelectItem[];
+  GCode: any;
+  RCode: any;
+  regions: any;
+  roleId: any;
   data: any;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
-
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.TruckToRegionCols = this.tableConstants.TruckToRegionReport;
     this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
-    // this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    this.loading = true;
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
-      this.TruckToRegionData = res;
-      let sno = 0;
-      this.TruckToRegionData.forEach(data => {
-        data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.TruckToRegionData = res;
+        this.loading = false;
+        let sno = 0;
+        this.TruckToRegionData.forEach(data => {
+          data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -84,7 +126,7 @@ export class TruckToRegionComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
@@ -104,9 +146,9 @@ export class TruckToRegionComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.TruckToRegionData = [];
-    this.isActionDisabled = true;
   }
 
   onExportExcel(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-truck-memo-register',
@@ -20,19 +21,24 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class TruckMemoRegisterComponent implements OnInit {
   truckMemoRegCols: any;
-  truckMemoRegData: any;
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  truckMemoRegData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
   godownOptions: SelectItem[];
-  g_cd: any;
+  regionOptions: SelectItem[];
+  regionsData: any;
+  GCode: any;
   truckOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
+  RCode: any;
+  roleId: any;
   username: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService, private router: Router,
@@ -40,21 +46,58 @@ export class TruckMemoRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
+    this.regionsData = this.roleBasedService.getRegions();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.truckMemoRegCols = this.tableConstants.TruckMemoRegisterReport;
     this.maxDate = new Date();
     this.data = this.roleBasedService.getInstance();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let godownSelection = [];
+    let regionSelection = [];
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regionsData = this.roleBasedService.instance;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regionsData = this.roleBasedService.regionsData;
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
@@ -65,19 +108,18 @@ export class TruckMemoRegisterComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
-      'GCode': this.g_cd.value
+      'GCode': this.GCode
     }
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
-      this.truckMemoRegData = res;
-      let sno = 0;
-      this.truckMemoRegData.forEach(data => {
-        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-        data.NetWt = (data.NetWt * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.truckMemoRegData = res;
+        let sno = 0;
+        this.truckMemoRegData.forEach(data => {
+          data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+          data.NetWt = (data.NetWt * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -94,7 +136,7 @@ export class TruckMemoRegisterComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -116,9 +158,9 @@ export class TruckMemoRegisterComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.truckMemoRegData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
@@ -131,7 +173,7 @@ export class TruckMemoRegisterComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.g_cd.value + GolbalVariable.StocTruckMemoRegFilename + ".txt";
+    const filename = this.GCode + GolbalVariable.StocTruckMemoRegFilename + ".txt";
     saveAs(path + filename, filename);
   }
 }

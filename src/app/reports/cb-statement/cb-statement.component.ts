@@ -46,13 +46,13 @@ export class CBStatementComponent implements OnInit {
   godownOptions: SelectItem[];
   RCode: any;
   GCode: any;
-  Date: any;
+  Date: any = new Date();
   roleId: any;
   disbaleGodown: boolean;
-  maxDate: Date; 
+  maxDate: Date = new Date();  
   regions: any;
-  @ViewChild('gd') godownPanel: Dropdown;
-  @ViewChild('reg') regionPanel: Dropdown;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private tableConstants: TableConstants, private datepipe: DatePipe, private excelService: ExcelService,
@@ -63,7 +63,6 @@ export class CBStatementComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
-    this.maxDate = new Date();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
   }
@@ -276,7 +275,8 @@ export class CBStatementComponent implements OnInit {
     return name === 'TOTAL' ? "#53aae5" : "white";
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.cbData = [];
   }
 

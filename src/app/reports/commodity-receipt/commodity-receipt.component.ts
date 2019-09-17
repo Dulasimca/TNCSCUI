@@ -21,9 +21,8 @@ export class CommodityReceiptComponent implements OnInit {
   commodityReceiptCols: any;
   commodityReceiptData: any = [];
   loadedData: any = [];
-  fromDate: any;
-  toDate: any;
-  isActionDisabled: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   data: any;
   regions: any;
   RCode: any;
@@ -50,7 +49,6 @@ export class CommodityReceiptComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
@@ -66,7 +64,7 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'reg':
-        if(type === 'enter') { this.regionPanel.overlayVisible = true; }
+        if (type === 'enter') { this.regionPanel.overlayVisible = true; }
         if (this.roleId === 3) {
           this.data = this.roleBasedService.instance;
           if (this.data !== undefined) {
@@ -91,8 +89,8 @@ export class CommodityReceiptComponent implements OnInit {
         }
         break;
       case 'gd':
-          if(type === 'enter') { this.godownPanel.overlayVisible = true; }
-          this.data = this.roleBasedService.instance;
+        if (type === 'enter') { this.godownPanel.overlayVisible = true; }
+        this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
@@ -106,8 +104,8 @@ export class CommodityReceiptComponent implements OnInit {
         }
         break;
       case 'tr':
-          if(type === 'enter') { this.transactionPanel.overlayVisible = true; }
-          if (this.transactionOptions === undefined) {
+        if (type === 'enter') { this.transactionPanel.overlayVisible = true; }
+        if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -118,19 +116,20 @@ export class CommodityReceiptComponent implements OnInit {
           })
         }
         break;
-        case 'cd':
-        if(type === 'enter') { this.commodityPanel.overlayVisible = true; }
+      case 'cd':
+        if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
         if (this.commodityOptions === undefined) {
-              this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-                if (data !== undefined) {
-                  data.forEach(y => {
-                    commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                    this.commodityOptions = commoditySelection;
-                  });
-                }
-              })
+          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                this.commodityOptions = commoditySelection;
+              });
             }
-            break;   }
+          })
+        }
+        break;
+    }
   }
 
   onView() {
@@ -147,18 +146,17 @@ export class CommodityReceiptComponent implements OnInit {
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
-      this.loadedData = res;
-      this.commodityReceiptData = res;
-      let sno = 0;
-      this.commodityReceiptData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loadedData = res;
+        this.commodityReceiptData = res;
+        let sno = 0;
+        this.commodityReceiptData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -199,7 +197,6 @@ export class CommodityReceiptComponent implements OnInit {
 
   onResetTable() {
     this.commodityReceiptData = [];
-    this.isActionDisabled = true;
   }
 
   onPrint() { }

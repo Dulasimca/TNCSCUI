@@ -10,17 +10,28 @@
     <div class="ui-g">
       <!-- <div style="text-align: center"> -->
         <p-toast position="center" key="t-err"></p-toast>
-        <div class="ui-g-1"></div>
-      <div class="ui-g-12 ui-md-3">
-        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
-          (onClick)="onSelect('godown', 'click')" (keydown.enter)="onSelect('godown', 'enter')" (ngModelChange)="onResetTable()"
-          filter="true" optionLabel="label" [showClear]="true" resetFilterOnHide="true" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Region</label>
+          <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
+           (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+            [showClear]="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>  
+          </p-dropdown>
+        </div>  
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+            (keydown.enter)="onSelect('godown', 'click')" (onClick)="onSelect('godown', 'enter')"
+            (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
+             [showClear]="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">From</label>
         <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
@@ -31,15 +42,16 @@
         <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true"
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
+      <div class="ui-g-1"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!fromDate || !toDate || !g_cd)"></button>
+          [disabled]="(!fromDate || !toDate || !GCode)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(truckMemoRegData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(truckMemoRegData.length=='0')"></button>
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-12 dashboard">

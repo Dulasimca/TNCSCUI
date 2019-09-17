@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from '../../constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from '../../shared-services/excel.service';
@@ -10,6 +10,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-truck-transit',
@@ -20,62 +21,105 @@ export class TruckTransitComponent implements OnInit {
   TruckTransitCols: any;
   TruckTransitData: any = [];
   response: any;
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   transferOptions: SelectItem[];
   transferOption = [];
-  g_cd: any;
-  tr_cd: any;
+  GCode: any;
+  TrCode: any;
+  RCode: any;
+  regions: any;
+  roleId: any;
   data: any;
   transferData: any;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
   totalRecords: number;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isActionDisabled = true;
     this.TruckTransitCols = this.tableConstants.TruckTransit;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
-    }
-  }
-
-  onTransfer() {
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
     let transfers = [];
-    if (this.transferOptions === undefined) {
-      transfers.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'TRANSFER', 'value': null }, { 'label': 'INTERNAL TRANSFER', 'value': null });
-      this.transferOptions = transfers;
+    switch (item) {
+      case 'reg':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 3) {
+          this.regions = this.roleBasedService.instance;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            for (let i = 0; i < regionSelection.length - 1;) {
+              if (regionSelection[i].value === regionSelection[i + 1].value) {
+                regionSelection.splice(i + 1, 1);
+              }
+            }
+          }
+          this.regionOptions = regionSelection;
+        } else {
+          this.regions = this.roleBasedService.regionsData;
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+          }
+          this.regionOptions = regionSelection;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
+        case 'transaction':
+            if (type === 'enter') {
+              this.transactionPanel.overlayVisible = true;
+            } 
+             if (this.transferOptions === undefined) {
+              transfers.push({ label: 'TRANSFER', value: null }, { label: 'INTERNAL TRANSFER', value: null });
+              this.transferOptions = transfers;
+            }
+            break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
-    this.onTransfer();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
-      this.TruckTransitData = res;
+      if (res !== undefined && res.length !== 0 && res!==null) {
+        this.TruckTransitData = res;
+        this.loading = false;
       if (this.TruckTransitData !== undefined && this.TruckTransitData !== 0) {
-        this.TruckTransitData = res.filter((value: { Transfertype: any; }) => { return value.Transfertype === this.tr_cd.label });
+        this.TruckTransitData = res.filter((value: { Transfertype: any; }) => { return value.Transfertype === this.TrCode.label });
       }
       let sno = 0;
       this.TruckTransitData.forEach(data => {
@@ -84,11 +128,9 @@ export class TruckTransitComponent implements OnInit {
         data.Nkgs = (data.Nkgs * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
-        this.loading = false;
       });
-      if (this.TruckTransitData !== undefined && this.TruckTransitData.length !== 0) {
-        this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -102,7 +144,7 @@ export class TruckTransitComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
@@ -122,9 +164,10 @@ export class TruckTransitComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+  
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.TruckTransitData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
