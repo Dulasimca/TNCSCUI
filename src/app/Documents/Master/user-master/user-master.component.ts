@@ -13,7 +13,7 @@ export class UserMasterComponent implements OnInit {
   username: any;
   userdata: any;
   canShowMenu: boolean;
-  formUser = [];
+  formUser:any = [];
   roleId: any;
   roleIdOptions: SelectItem[];
   godownCode: any;

@@ -44,7 +44,7 @@
     <div class="ui-g-4"></div>
     <div class="head-main" style="margin:0px auto">
       <div>
-        <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+        <form #userMasterForm="ngForm" (ngSubmit)="onSubmit(userMasterForm.value)">
           <div></div>
           <div class="ui-float-label" style="margin:0px auto 20px auto; width:40vh">
             <input class="icon2" type="username" size="30" pInputText [(ngModel)]="formUser.username" name="username"
@@ -72,8 +72,8 @@
             <label for="empId">Employee Id</label>
           </div>
           <div class="bottom" style="margin:27px 30vh auto">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(form)"
-              label=Submit [disabled]="!templateForm.form.valid"></button>
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(userMasterForm)"
+              label=Submit [disabled]="!userMasterForm.form.valid"></button>
           </div>
         </form>
       </div>

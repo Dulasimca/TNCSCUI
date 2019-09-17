@@ -173,7 +173,7 @@ export class EmployeeMasterComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(form) {
     const params = {
       'Gcode': this.gCode,
       'Roleid': this.roleId,

@@ -156,7 +156,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.schemeIssueMemoData = [];
   }
 
-  onDateSelect() {
+  onDateSelect(event) {
     this.checkValidDateSelection();
     this.onResetTable('');
   }
