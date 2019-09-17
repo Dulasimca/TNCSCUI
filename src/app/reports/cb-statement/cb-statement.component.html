@@ -11,13 +11,13 @@
       <div class="ui-g-6 ui-md-2">
         <label class="label-fontsize dashboard">Date</label>
         <p-calendar class="ui-fluid dashboard" [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-        (ngModelChange)="onResetTable()"></p-calendar>
+        (ngModelChange)="onResetTable('date')"></p-calendar>
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="label-fontsize dashboard">Region</label>
         <p-dropdown class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" placeholder="-select-">
+          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -27,7 +27,7 @@
         <label class="label-fontsize dashboard">Godown</label>
         <p-dropdown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true"
+          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true"
           [disabled]="disbaleGodown" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>

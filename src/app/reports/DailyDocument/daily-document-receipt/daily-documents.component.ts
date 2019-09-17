@@ -32,7 +32,7 @@ export class DailyDocumentsComponent implements OnInit {
   ReceiptDocumentDetailCols: any;
   GCode: any;
   RCode: any;
-  DocumentDate: Date;
+  DocumentDate: Date = new Date();
   roleId: any;
   gdata: any;
   userid: any;

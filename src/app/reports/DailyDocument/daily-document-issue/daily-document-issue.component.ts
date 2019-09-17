@@ -32,11 +32,11 @@ export class DailyDocumentIssueComponent implements OnInit {
   IssueDocumentDetailCols: any;
   GCode: any;
   RCode: any;
-  DocumentDate: Date;
+  DocumentDate: Date = new Date();
   roleId: any;
   gdata: any;
   userid: any;
-  maxDate: Date;
+  maxDate: Date = new Date();
   loading: boolean;
   godownOptions: SelectItem[];
   regionOptions: SelectItem[];
@@ -59,7 +59,6 @@ export class DailyDocumentIssueComponent implements OnInit {
     this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport;
     this.DailyDocumentIssueCols = this.tableConstants.DailyDocumentIssueReport;
     this.IssueDocumentDetailCols = this.tableConstants.DetailDailyDocumentIssueReport;
-    this.maxDate = new Date();
     this.regionData = this.roleBasedService.getRegions();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
