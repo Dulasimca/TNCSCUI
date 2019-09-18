@@ -139,7 +139,7 @@ export class SchemeReceiptComponent implements OnInit {
       }
       this.loading = false;
     }, (err: HttpErrorResponse) => {
-      if (err.status === 0) {
+      if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });

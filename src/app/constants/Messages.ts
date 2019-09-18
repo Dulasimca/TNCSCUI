@@ -22,4 +22,9 @@ export class StatusMessage {
     public static readonly ValidCredentialsErrorMessage = 'Please Enter Valid Credentials!';
     public static readonly PasswordChangeSuccessMessage = 'Password changed Successfully!';
     public static readonly PasswordMatchErrorMessage = 'Password did not match!';
+    public static readonly NoRecordForCBChart = 'No Record found for CB!';
+    public static readonly NoRecordForReceiptChart = 'No Record found for Receipt!';
+    public static readonly NoRecordForIssueChart = 'No Record found for Issue!';
+    public static readonly DashboardNoRecord = 'No Record found today!';
+
 }

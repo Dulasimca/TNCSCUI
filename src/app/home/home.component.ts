@@ -6,6 +6,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
+import { MessageService } from 'primeng/api';
+import { StatusMessage } from '../constants/Messages';
 
 @Component({
   selector: 'app-home',
@@ -60,7 +62,7 @@ export class HomeComponent implements OnInit {
   isIssueClicked: boolean = false;
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
-    private router: Router, private locationStrategy: LocationStrategy) { }
+    private router: Router, private locationStrategy: LocationStrategy, private messageService: MessageService) { }
 
   ngOnInit() {
     this.preventBackButton();
@@ -68,7 +70,7 @@ export class HomeComponent implements OnInit {
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
     this.restApiService.get(PathConstants.DASHBOARD).subscribe(res => {
-      if (res !== undefined) {
+      if (res !== undefined && res !== null && res.length !== 0) {
         this.godownCount = (res[0] !== undefined && res[0] !== '') ? res[0] : 0;
         this.mrmCount = (res[1] !== undefined && res[1] !== '') ? res[1] : 0;
         this.aadsCount = (res[2] !== undefined && res[2] !== '') ? res[2] : 0;
@@ -80,12 +82,18 @@ export class HomeComponent implements OnInit {
         this.schemeCount = (res[8] !== undefined && res[8] !== '') ? res[8] : 0;
         this.notifications = (res[9] !== undefined && res[9] !== '') ? res[9] : 0;
       } else {
-        this.errMessage = 'Record not found';
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
     this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response !== null && response.length !== 0) {
         this.chartLabels = response[1];
         this.CBRiceData = {
           title: {
@@ -244,10 +252,18 @@ export class HomeComponent implements OnInit {
             shadow: false
           },
         };
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordForCBChart });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
     this.restApiService.getByParameters(PathConstants.CHART_RECEIPT, params).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response.length !== 0 && response !== null) {
         this.receiptQuantity = response;
         this.chartLabels = response[1];
         this.ReceiptRiceData = {
@@ -408,10 +424,18 @@ export class HomeComponent implements OnInit {
             shadow: false
           },
         };
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordForReceiptChart });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
     this.restApiService.getByParameters(PathConstants.CHART_ISSUE, params).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response.length !== 0 && response !== null) {
         this.chartLabels = response[1];
         this.issueQuantity = response;
         this.IssueRiceData = {
@@ -571,10 +595,18 @@ export class HomeComponent implements OnInit {
             shadow: false
           },
         };
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordForIssueChart });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
     this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
-      if (data !== undefined) {
+      if (data !== undefined && data !== null) {
         this.rawRiceCB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
         this.rawRicePB = this.rawRiceCB;
         this.boiledRiceCB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
@@ -587,6 +619,14 @@ export class HomeComponent implements OnInit {
         this.wheatPB = this.wheatCB;
         this.sugarCB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
         this.sugarPB = this.sugarCB;
+      }else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
