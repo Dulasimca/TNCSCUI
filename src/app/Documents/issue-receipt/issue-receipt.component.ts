@@ -639,7 +639,7 @@ export class IssueReceiptComponent implements OnInit {
     }
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
-    this.Loadingslip =  (this.SINo === undefined || this.SINo === null) ? 'N' : this.Loadingslip;
+    this.Loadingslip =  (this.SINo !== 0) ? this.Loadingslip : 'N';
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
       'Type': type,

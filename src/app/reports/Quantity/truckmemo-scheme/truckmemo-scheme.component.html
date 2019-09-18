@@ -4,10 +4,10 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Godown Issue Type Abstract</div>
+        <div class="ui-g-4 dashboard">Truck Memo - Scheme Godown Wise</div>
       </div>
     </p-header>
-    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-2">
             <label class="ui-g-7 label-fontsize dashboard">From</label>
@@ -39,26 +39,18 @@
             </ng-template>
           </p-dropdown>
         </div>
-          <!-- <div class="ui-g-6 ui-md-2" style="padding-top: 18px">
-            <p-checkbox class="ui-g-2" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-8">Godown</label>
-          </div>
-          <div class="ui-g-6 ui-md-2" style="padding-top: 18px">
-            <p-checkbox class="ui-g-2" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
-            <label class="ui-g-8">Commodity</label>
-          </div> -->
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
             <button pButton type="button" label=View (click)="onView()" 
             [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(IssueAbstractData.length=='0')"></button>
+            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(truckMemoSchemeData.length=='0')"></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(IssueAbstractData.length=='0')"></button>
+            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(truckMemoSchemeData.length=='0')"></button>
           </div>
           <div class="ui-g-12 dashboard">
-            <p-table [columns]="IssueAbstractCols" [value]="IssueAbstractData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+            <p-table [columns]="truckMemoSchemeCols" [value]="truckMemoSchemeData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">

@@ -1,26 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SelectItem } from 'primeng/api';
-import { Dropdown, MessageService } from 'primeng/primeng';
+import { SelectItem, MessageService } from 'primeng/api';
+import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { RoleBasedService } from 'src/app/common/role-based.service';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { Router } from '@angular/router';
-import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { PathConstants } from 'src/app/constants/path.constants';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { saveAs } from 'file-saver';
+import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
-  selector: 'app-receipt-type-abstract',
-  templateUrl: './receipt-type-abstract.component.html',
-  styleUrls: ['./receipt-type-abstract.component.css']
+  selector: 'app-truckmemo-scheme',
+  templateUrl: './truckmemo-scheme.component.html',
+  styleUrls: ['./truckmemo-scheme.component.css']
 })
-export class ReceiptTypeAbstractComponent implements OnInit {
-  ReceiptAbstractCols: any;
-  ReceiptAbstractData: any = [];
+export class TruckMemoSchemeComponent implements OnInit {
+  truckMemoSchemeCols: any;
+  truckMemoSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   regionOptions: SelectItem[];
@@ -108,7 +109,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
@@ -118,23 +119,23 @@ export class ReceiptTypeAbstractComponent implements OnInit {
         columns.unshift({ header: 'S.No:', field: 'sno' });
         let index = columns.length;
         columns.splice(index, 0, { field: 'Total', header: 'TOTAL' });
-        this.ReceiptAbstractCols = columns;
-        this.ReceiptAbstractData = res;
+        this.truckMemoSchemeCols = columns;
+        this.truckMemoSchemeData = res;
         let sno = 1;
-        this.ReceiptAbstractData.forEach(data => {
+        this.truckMemoSchemeData.forEach(data => {
           data.sno = sno;
           sno += 1;
         });
-        for (let i = 0; i < this.ReceiptAbstractData.length; i++) {
+        for (let i = 0; i < this.truckMemoSchemeData.length; i++) {
           let total = 0;
-          this.ReceiptAbstractCols.forEach(x => {
+          this.truckMemoSchemeCols.forEach(x => {
             let field = x.field;
             if (field !== 'COMMODITY' && field !== 'sno') {
-              total += (((this.ReceiptAbstractData[i][field] !== null && this.ReceiptAbstractData[i][field] !== undefined) ?
-                this.ReceiptAbstractData[i][field] : 0) * 1);
+              total += (((this.truckMemoSchemeData[i][field] !== null && this.truckMemoSchemeData[i][field] !== undefined) ?
+                this.truckMemoSchemeData[i][field] : 0) * 1);
             }
           })
-          this.ReceiptAbstractData[i].Total = total;
+          this.truckMemoSchemeData[i].Total = total;
         }
       } else {
         this.loading = false;
@@ -176,17 +177,16 @@ export class ReceiptTypeAbstractComponent implements OnInit {
 
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
-    this.ReceiptAbstractData = [];
+    this.truckMemoSchemeData = [];
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode.value + GolbalVariable.QuantityACForReceipt + ".txt";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForTruckMemoScheme + ".txt";
     saveAs(path + filename, filename);
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.ReceiptAbstractData, 'QUANTITY_RECEIPT_ABSTRACT', this.ReceiptAbstractCols);
+    this.excelService.exportAsExcelFile(this.truckMemoSchemeData, 'SCHEME_TRUCK_MEMO', this.truckMemoSchemeCols);
   }
 }
-
