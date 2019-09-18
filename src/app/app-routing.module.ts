@@ -78,11 +78,11 @@ import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receip
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
 import { IssueSchemeCoOpComponent } from './reports/Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
-import { TruckMemoComponent } from './reports/Quantity/truck-memo/truck-memo.component';
 import { ReceiptIssueCommodityComponent } from './reports/Quantity/receipt-issue-commodity/receipt-issue-commodity.component';
 import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
+import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
 
 
 const routes: Routes = [
@@ -137,7 +137,7 @@ const routes: Routes = [
   { path: 'Scheme Abstract Issues- All', component: IssueSchemeComponent },
   { path: 'Scheme Abstract Issue- Only Crs', component: IssueSchemeCrsComponent },
   { path: 'Scheme Abstract Issue- Only Coop', component: IssueSchemeCoOpComponent },
-  { path: 'Scheme Abstract Truck', component: TruckMemoComponent },
+  { path: 'Scheme Abstract Truck', component: TruckMemoSchemeComponent },
   { path: 'Qty A/c Receipt/Issue - Commodity', component: ReceiptIssueCommodityComponent },
   { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent },
   { path: 'Society Master', component: SocietMasterComponent },

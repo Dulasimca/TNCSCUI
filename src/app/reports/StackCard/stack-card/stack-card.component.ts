@@ -133,12 +133,12 @@ export class StackCardComponent implements OnInit {
         break;
       case 'st_no':
           if(type === 'enter') { this.StockNoPanel.overlayVisible = true; }
-          if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year.label !== undefined && this.Year.label !== null
-          && this.ITCode.value !== undefined && this.ITCode.value !== null) {
+          if (this.GCode !== undefined && this.GCode !== null && this.Year.label !== undefined && this.Year.label !== null
+          && this.ITCode !== undefined && this.ITCode !== null) {
           const params = {
-            'GCode': this.GCode.value,
+            'GCode': this.GCode,
             'StackDate': this.Year.label,
-            'ICode': this.ITCode.value,
+            'ICode': this.ITCode,
             'Type': 3
           }
           this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -160,15 +160,16 @@ export class StackCardComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
-      'GCode': this.GCode.value,
+      'GCode': this.GCode,
       'StackDate': this.TStockNo.value,
-      'ICode': this.ITCode.value,
+      'ICode': this.ITCode,
       'TStockNo': this.TStockNo.label,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res) {
         this.StackCardData = res;
+        this.loading = false;
         let sno = 1;
         this.StackCardData.forEach(data => {
           data.SlNo = (data.AckDate !== 'Total') ? sno : '';
@@ -179,12 +180,16 @@ export class StackCardComponent implements OnInit {
           sno += 1;
         });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
     });
-    this.loading = false;
   }
 
   onResetTable(item) {
@@ -205,7 +210,7 @@ export class StackCardComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode.value + GolbalVariable.StackCardDetailsReport + ".txt";
+    const filename = this.GCode + GolbalVariable.StackCardDetailsReport + ".txt";
     saveAs(path + filename, filename);
    }
 }

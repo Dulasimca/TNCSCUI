@@ -195,11 +195,13 @@ export class AllSchemeComponent implements OnInit {
         } else {
           this.loading = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, 
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+          });
         }
       }, (err: HttpErrorResponse) => {
-        if (err.status === 0) {
+        if (err.status === 0 || err.status === 400) {
           this.loading = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -207,6 +209,7 @@ export class AllSchemeComponent implements OnInit {
       });
     }
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
     if (this.fromDate !== undefined && this.toDate !== undefined

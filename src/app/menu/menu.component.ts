@@ -25,8 +25,7 @@ export class MenuComponent implements OnInit {
   canShowMenu: boolean;
   homeLink: any;
 
-  constructor(private router: Router, private menuService: MenuService,
-    private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();

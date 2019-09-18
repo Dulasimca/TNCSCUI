@@ -1,70 +1,68 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TableConstants } from 'src/app/constants/tableconstants';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/constants/path.constants';
+import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { Router } from '@angular/router';
-import { saveAs } from 'file-saver';
-import { GolbalVariable } from 'src/app/common/globalvariable';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { RoleBasedService } from 'src/app/common/role-based.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
-
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
-  selector: 'app-stock-receipt-register',
-  templateUrl: './stock-receipt-register.component.html',
-  styleUrls: ['./stock-receipt-register.component.css']
+  selector: 'app-truckmemo-scheme',
+  templateUrl: './truckmemo-scheme.component.html',
+  styleUrls: ['./truckmemo-scheme.component.css']
 })
-export class StockReceiptRegisterComponent implements OnInit {
-  stockReceiptRegCols: any;
-  stockReceiptRegData: any = [];
+export class TruckMemoSchemeComponent implements OnInit {
+  truckMemoSchemeCols: any;
+  truckMemoSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
-  godownOptions: SelectItem[];
   regionOptions: SelectItem[];
+  godownOptions: SelectItem[];
+  regions: any;
   RCode: any;
   GCode: any;
   data: any;
+  roleId: any;
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
-  username: any;
-  regionsData: any;
-  roleId: any;
+  userId: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+  constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService, private router: Router,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.stockReceiptRegCols = this.tableConstants.StockReceiptRegisterReport;
-    this.regionsData = this.roleBasedService.getRegions();
-    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
-    this.username = JSON.parse(this.authService.getCredentials());
+    this.regions = this.roleBasedService.getRegions();
+    this.userId = JSON.parse(this.authService.getCredentials());
+    this.maxDate = new Date();
   }
 
   onSelect(item, type) {
-    let godownSelection = [];
     let regionSelection = [];
+    let godownSelection = [];
     switch (item) {
       case 'reg':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         if (this.roleId === 3) {
-          this.regionsData = this.roleBasedService.instance;
-          if (this.regionsData !== undefined) {
-            this.regionsData.forEach(x => {
+          this.data = this.roleBasedService.instance;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
             for (let i = 0; i < regionSelection.length - 1;) {
@@ -75,26 +73,25 @@ export class StockReceiptRegisterComponent implements OnInit {
           }
           this.regionOptions = regionSelection;
         } else {
-          this.regionsData = this.roleBasedService.regionsData;
-          if (this.regionsData !== undefined) {
-            this.regionsData.forEach(x => {
+          this.data = this.roleBasedService.regionsData;
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
           }
           this.regionOptions = regionSelection;
         }
         break;
-      case 'godown':
+      case 'gd':
         if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
+        this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-            }
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
           });
-          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -104,33 +101,54 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'UserName': this.username.user,
-      'GCode': this.GCode
-    }
-    this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-        this.stockReceiptRegData = res;
-        let sno = 0;
-        this.stockReceiptRegData.forEach(data => {
-          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-          data.NetWt = (data.NetWt * 1).toFixed(3);
+      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
+    };
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0) {
+        this.loading = false;
+        let columns: Array<any> = [];
+        for (var i in res[0]) {
+          columns.push({ header: i, field: i });
+        }
+        columns.unshift({ header: 'S.No:', field: 'sno' });
+        let index = columns.length;
+        columns.splice(index, 0, { field: 'Total', header: 'TOTAL' });
+        this.truckMemoSchemeCols = columns;
+        this.truckMemoSchemeData = res;
+        let sno = 1;
+        this.truckMemoSchemeData.forEach(data => {
+          data.sno = sno;
           sno += 1;
-          data.SlNo = sno;
-        })
+        });
+        for (let i = 0; i < this.truckMemoSchemeData.length; i++) {
+          let total = 0;
+          this.truckMemoSchemeCols.forEach(x => {
+            let field = x.field;
+            if (field !== 'COMMODITY' && field !== 'sno') {
+              total += (((this.truckMemoSchemeData[i][field] !== null && this.truckMemoSchemeData[i][field] !== undefined) ?
+                this.truckMemoSchemeData[i][field] : 0) * 1);
+            }
+          })
+          this.truckMemoSchemeData[i].Total = total;
+        }
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
 
   onDateSelect() {
@@ -156,27 +174,19 @@ export class StockReceiptRegisterComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable(item) {
-    if (item === 'reg') { this.GCode = null; }
-    this.stockReceiptRegData = [];
-  }
 
-  exportAsXLSX(): void {
-    var StockReceiptData = [];
-    this.stockReceiptRegData.forEach(data => {
-      StockReceiptData.push({
-        SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, TruckMemoNo: data.TruckMemoNo,
-        Lorryno: data.Lorryno, From_Whom_Received: data.From_Whom_Received, Stackno: data.Stackno, Scheme: data.Scheme,
-        NoPacking: data.NoPacking, Commodity: data.Commodity, NetWt: data.NetWt
-      })
-    })
-    this.excelService.exportAsExcelFile(StockReceiptData, 'STOCK_RECEIPT_REGISTER_REPORT', this.stockReceiptRegCols);
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
+    this.truckMemoSchemeData = [];
   }
 
   onPrint() {
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockReceiptRegFilename + ".txt";
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForTruckMemoScheme + ".txt";
     saveAs(path + filename, filename);
   }
 
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.truckMemoSchemeData, 'SCHEME_TRUCK_MEMO', this.truckMemoSchemeCols);
+  }
 }
