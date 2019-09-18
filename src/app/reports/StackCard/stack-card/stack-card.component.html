@@ -34,7 +34,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
         <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
          [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')"
-         (ngModelChange)="onResetTable('cd')" filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
+         (ngModelChange)="onResetTable('cd')" filter="true" resetFilterOnHide="true" [showClear]="true"
           placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
