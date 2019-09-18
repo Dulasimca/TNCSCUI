@@ -5,12 +5,19 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Stack Card Opening</div>
-      </div>
+        <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+              [disabled]="(!GCode || !RCode || !Year || !ITCode || !Status)"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+               [disabled]="(StackCardOpeningData.length=='0')"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
+              (click)="onPrint()" [disabled]="true"></button>
+          </div> 
+         </div>
     </p-header>
     <div class="ui-g">
       <!-- <div style="text-align: center"> -->
       <p-toast position="center" key="t-err"></p-toast>
-      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -32,7 +39,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Stack Formation Year</label>
         <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year"
           [showClear]="true" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
@@ -43,7 +50,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Commodity</label>
         <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="ITCode"
           (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')"
@@ -54,32 +61,15 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-6 ui-md-2">
       <label class="ui-g-12 label-fontsize dashboard">Status</label>
-      <p-dropdown [options]="statusOptions" [(ngModel)]="s_cd" (onClick)="onStatus()" (keydown.enter)="onStatus()"
+      <p-dropdown [options]="statusOptions" [(ngModel)]="Status" (onClick)="onStatus()" (keydown.enter)="onStatus()"
         filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>
       </p-dropdown>
     </div>
-    <div class="ui-g-12 ui-md-1"></div>
-    <div class="ui-g-12 dashboard">
-    <div class="ui-g-12 ui-md-5"></div>
-    <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-      <button pButton type="button" label=View (click)="onView()"
-        [disabled]="(!GCode || !RCode || !Year || !ITCode || !s_cd)"></button>
-    </div>
-    <!-- <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-      <button pButton type="button" label=Print (click)="onPrint()"
-        [disabled]="(StackCardOpeningData.length=='0')"></button>
-    </div> -->
-    <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 22px">
-      <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-        [disabled]="(StackCardOpeningData.length=='0')"></button>
-    </div>
-    <div class="ui-g-12 ui-md-4"></div>
-  </div>
     <div class="ui-g-12 dashboard">
       <p-table [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading" [rows]="20"
         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">

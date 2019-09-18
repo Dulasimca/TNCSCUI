@@ -5,7 +5,15 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Stack Card</div>
-      </div>
+        <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+              [disabled]="(!RCode || !GCode || !ITCode || !TStockNo || !Year)"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+               [disabled]="(StackCardData.length=='0')"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
+              (click)="onPrint()" [disabled]="true"></button>
+          </div> 
+           </div>
     </p-header>
     <div class="ui-g">
       <p-toast position="center" key="t-err"></p-toast>
@@ -63,17 +71,6 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-9"></div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!RCode || !GCode || !ITCode || !TStockNo || !Year)"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 10px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(StackCardData.length=='0')"></button>
-      </div>
-      <div class="ui-g-1"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
           [paginator]="true" [responsive]="true" autoLayout="true">

@@ -20,8 +20,9 @@
       </div>
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Society</label>
-        <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onClick)="onSociety()" (ngModelChange)="onResetTable()"
-          resetFilterOnHide="true" filter="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+        <p-dropdown [options]="societyOptions" [(ngModel)]="s_cd" (onClick)="onSociety()"
+          (ngModelChange)="onResetTable()" resetFilterOnHide="true" filter="true" optionLabel="label" [showClear]="true"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -38,39 +39,41 @@
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!g_cd || !s_cd || !fromDate || !toDate)"></button>
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!g_cd || !s_cd || !fromDate || !toDate)"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
+          [disabled]="(MarginAmountData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
       </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="MarginAmountCols" [value]="MarginAmountData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  <div *ngIf="col.field === 'Amount' || col.field === 'Quantity' || col.field === 'Rate'">
-                    <div style="text-align: end !important">
-                      {{rowData[col.field]}}
-                    </div>
-                  </div>
-                  <div *ngIf="col.field !== 'Amount' && col.field !== 'Quantity' && col.field !== 'Rate'">
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Amount' || col.field === 'Quantity' || col.field === 'Rate'">
+                  <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
-                </td>
-              </tr>
-            </ng-template>
+                </div>
+                <div *ngIf="col.field !== 'Amount' && col.field !== 'Quantity' && col.field !== 'Rate'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template>
         </p-table>
       </div>
     </div>

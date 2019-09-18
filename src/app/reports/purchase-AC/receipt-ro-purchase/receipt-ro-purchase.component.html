@@ -44,13 +44,13 @@
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
-        <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div> -->
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
           <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="(receiptROPurchaseData.length=='0')"></button>
         </div>
-        <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
+          <div class="ui-g-12 ui-md-12">
           <p-table [columns]="receiptROPurchaseCols" [value]="receiptROPurchaseData" [rows]="20"
             [loading]="loading" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
             autoLayout="true">

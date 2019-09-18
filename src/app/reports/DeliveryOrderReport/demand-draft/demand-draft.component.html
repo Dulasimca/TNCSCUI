@@ -58,12 +58,12 @@
           [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(DemandDraftData.length=='0')"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(DemandDraftData.length=='0')"></button>
       </div>
-      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(DemandDraftData.length=='0')"></button>
+        </div>
+          <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="DemandDraftCols" [value]="DemandDraftData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"

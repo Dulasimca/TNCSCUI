@@ -5,7 +5,14 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Date Wise Receipt Transaction</div>
-      </div>
+        <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+              [disabled]="(!fromDate || !toDate || !GCode || !RCode || !TrCode)"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+               [disabled]="(transactionReceiptData.length=='0')"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
+              (click)="onPrint()" [disabled]="true"></button>
+          </div> </div>
     </p-header>
     <div class="ui-g">
       <p-toast position="center" key="t-err"></p-toast>
@@ -51,15 +58,6 @@
               <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate"
                 dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
             </div>
-        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode || !TrCode)"></button>
-        </div>
-        <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div> -->
-        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(transactionReceiptData.length=='0')"></button>
-        </div>
         <div class="ui-g-12 dashboard">
           <p-table [columns]="transactionReceiptCols" [value]="transactionReceiptData" [rows]="20"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading" [responsive]="true"

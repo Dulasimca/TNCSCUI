@@ -182,4 +182,7 @@ export class SchemeReceiptComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(SchemeReceiptData, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
   }
+
+  onPrint() { }
+  
 }

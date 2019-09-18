@@ -24,7 +24,7 @@ export class StackCardOpeningComponent implements OnInit {
   ITCode: any;
   RCode: any;
   Year: any;
-  s_cd: any;
+  Status: any;
   regions: any;
   roleId: any;
   regionOptions: SelectItem[];
@@ -152,7 +152,7 @@ export class StackCardOpeningComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.StackCardOpeningData = res.filter((value: { Status: any; }) => { return value.Status === this.s_cd.label });
+        this.StackCardOpeningData = res.filter((value: { Status: any; }) => { return value.Status === this.Status.label });
         this.loading = false;
         let sno = 0;
         this.StackCardOpeningData.forEach(data => {

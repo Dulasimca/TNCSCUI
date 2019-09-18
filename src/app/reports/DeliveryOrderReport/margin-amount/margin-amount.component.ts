@@ -17,9 +17,9 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class MarginAmountComponent implements OnInit {
   MarginAmountCols: any;
-  MarginAmountData: any;
-  fromDate: any;
-  toDate: any;
+  MarginAmountData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
   societyOptions: SelectItem[];
   g_cd: any;

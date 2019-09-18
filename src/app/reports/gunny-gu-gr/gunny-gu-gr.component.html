@@ -10,18 +10,6 @@
     <div class="ui-g ui-md-12">
       <div>
         <p-toast position="center" key="t-err"></p-toast>
-        <div class="ui-g-12 ui-md-2" style="padding-top: 10px">
-          <div class="ui-g-6 ui-md-6">
-            <p-radioButton class="ui-g-5 ui-md-3" name="groupname" value="GR" [(ngModel)]="selectedValue">
-            </p-radioButton>
-            <label class="ui-g-6" style="padding-top: 10px; padding-right: 5px;">GR</label>
-          </div>
-          <div class="ui-g-6 ui-md-6">
-            <p-radioButton class="ui-g-5 ui-md-3" name="groupname" value="GU" [(ngModel)]="selectedValue">
-            </p-radioButton>
-            <label class="ui-g-6" style="padding-top: 10px; padding-right: 5px;">GU</label>
-          </div>
-        </div>
         <div class="ui-g-6 ui-md-2">
           <label class="label-fontsize dashboard">Region</label>
           <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -53,12 +41,24 @@
           <p-calendar class="ui-fluid dashboard" [maxDate]="maxDate" [(ngModel)]="toDate" [showIcon]="true"
             dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
-        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
+        <div class="ui-g-6 ui-md-1">
+            <div class="ui-g-6 ui-md-12 no-pad-top">
+              <p-radioButton class="ui-fluid dashboard" name="gunnyRelease" value="GR" [(ngModel)]="selectedValue">
+              </p-radioButton>
+              <label class="label-fontsize-large dashboard" style="padding-right: 5px;">GR</label>
+            </div>
+            <div class="ui-g-6 ui-md-12 no-pad-top">
+              <p-radioButton class="ui-fluid dashboard" name="gunnyUtilization" value="GU" [(ngModel)]="selectedValue">
+              </p-radioButton>
+              <label class="label-fontsize-large dashboard" style="padding-right: 5px;">GU</label>
+            </div>
+          </div>
+          <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
-        <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div> -->
+        <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
           <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="(GunnyRepData.length=='0')"></button>
         </div>

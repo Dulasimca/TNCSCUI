@@ -10,8 +10,8 @@
               [disabled]="(!fromDate || !toDate || !ITCode || !GCode || !RCode)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
                [disabled]="(commodityIssueMemoData.length=='0')"></button>
-            <!-- <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
-              (click)="onPrint()" [disabled]="(commodityIssueMemoData.length=='0')"></button> -->
+             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
+              (click)="onPrint()" [disabled]="true"></button>
           </div></div>
     </p-header>
     <div class="ui-g">

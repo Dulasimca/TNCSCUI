@@ -54,13 +54,13 @@
           <button pButton type="button" label=View (click)="onView()"
             [disabled]="(!fromDate || !toDate || !GCode || !RCode )"></button>
         </div>
-        <!-- <div class="ui-g-1 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div> -->
         <div class="ui-g-1 ui-fluid" style="padding-top: 23px;">
           <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(TruckFromRegionData.length=='0')"></button>
         </div>
-        <div class="ui-g-12 dashboard">
+         <div class="ui-g-1 ui-fluid" style="padding-top: 23px;">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
+          <div class="ui-g-12 dashboard">
           <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>

@@ -46,13 +46,12 @@
         <button pButton type="button" label=View (click)="onView()"
           [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
-      <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div> -->
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(hullingDetailsData.length=='0')"></button>
       </div>
-      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="hullingDetailsCols" [value]="hullingDetailsData" [responsive]="true" [loading]="loading"
           [scrollable]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
