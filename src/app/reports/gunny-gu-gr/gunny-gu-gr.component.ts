@@ -115,6 +115,7 @@ export class GunnyGuGrComponent implements OnInit {
       this.GunnyRepData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
         data.Quantity = (data.Quantity * 1).toFixed(3);
+        data.Year = (data.Year === null) ? '-' : data.Year;
         sno += 1;
         data.SlNo = sno;
       })
