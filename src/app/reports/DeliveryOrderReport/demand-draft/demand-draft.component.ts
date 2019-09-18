@@ -36,7 +36,7 @@ export class DemandDraftComponent implements OnInit {
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -107,15 +107,15 @@ export class DemandDraftComponent implements OnInit {
     this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.DemandDraftData = res;
-      this.loading = false;
-      let sno = 0;
-      this.DemandDraftData.forEach(data => {
-        data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
-        data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      });
+        this.loading = false;
+        let sno = 0;
+        this.DemandDraftData.forEach(data => {
+          data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
+          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -155,7 +155,7 @@ export class DemandDraftComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.DemandDraftData = [];
   }
 

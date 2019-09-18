@@ -97,7 +97,6 @@ export class IssuerMasterComponent implements OnInit {
   }
 
   onIssuer() {
-    let type = [];
     let IssuerSelection = [];
     if (this.IssuerOptions === undefined) {
       this.IssuerOptions = IssuerSelection;
