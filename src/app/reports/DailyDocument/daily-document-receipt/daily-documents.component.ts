@@ -14,7 +14,6 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
-import * as _ from 'lodash';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({

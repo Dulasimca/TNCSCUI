@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
-import { DatePipe } from '@angular/common';
-import { RoleBasedService } from '../common/role-based.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { Router } from '@angular/router';
-import { FileUploadModule } from 'primeng/fileupload';
 import { StatusMessage } from '../constants/Messages';
 
 @Component({
@@ -36,7 +33,7 @@ export class HeaderComponent implements OnInit {
   seconds: any;
   data: any;
   roleId: any;
-  constructor(private roleBasedService: RoleBasedService, private router: Router, private restApiService: RestAPIService, private messageService: MessageService, private fb: FormBuilder, private authService: AuthService, private datePipe: DatePipe) { }
+  constructor(private router: Router, private restApiService: RestAPIService, private messageService: MessageService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
     // this.data = this.roleBasedService.getInstance();

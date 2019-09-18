@@ -6,7 +6,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -34,7 +33,7 @@ export class SocietMasterComponent implements OnInit {
   filterArray: any;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private router: Router, private excelService: ExcelService, private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

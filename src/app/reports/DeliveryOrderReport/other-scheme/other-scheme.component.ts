@@ -4,7 +4,6 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -36,7 +35,7 @@ export class OtherSchemeComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {

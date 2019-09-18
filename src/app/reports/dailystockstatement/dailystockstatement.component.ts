@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
@@ -36,8 +35,7 @@ export class DailyStockStatementComponent implements OnInit {
   searchText: any;
 
   constructor(private tableConstants: TableConstants, private excelService: ExcelService,
-    private restApiService: RestAPIService, private router: Router,
-    private authService: AuthService, private messageService: MessageService) { }
+    private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

@@ -4,12 +4,11 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { Dropdown, Messages } from 'primeng/primeng';
-import * as jsPDF from 'jspdf';
+import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 
@@ -126,8 +125,7 @@ export class IssueReceiptComponent implements OnInit {
   DOCNumber: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
-    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe,
-    private confirmationService: ConfirmationService, private http: HttpClient) {
+    private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }
@@ -872,29 +870,6 @@ export class IssueReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
-    // this.http.get(filepath, { responseType: 'text' })
-    //   .subscribe(data => {
-    //     if (data !== null && data !== undefined) {
-    //       var doc = new jsPDF({
-    //         orientation: 'potrait',
-    //       })
-    //       doc.setFont('courier');
-    //       doc.setFontSize(8.5);
-    //       doc.text(data, 2, 2);
-    //       doc.save(filename + '.pdf');
-    //       this.blockScreen = false;
-    //       this.isSaveSucceed = false;
-    //       this.isViewed = false;
-    //     } else {
-    //       this.blockScreen = false;
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   }, (err: HttpErrorResponse) => {
-    //     this.blockScreen = false;
-    //     if (err.status === 0) {
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   });
   }
 
   onPrint() {

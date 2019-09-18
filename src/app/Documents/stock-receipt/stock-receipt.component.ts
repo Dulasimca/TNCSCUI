@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
-import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 
@@ -48,8 +47,6 @@ export class StockReceiptComponent implements OnInit {
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
   packingTypeOptions: SelectItem[];
-  // isDepositorTypeDisabled: boolean = true;
-  // isDepositorNameDisabled: boolean = true;
   locationNo: string;
   depositorType: string;
   trCode: string;
@@ -147,7 +144,7 @@ export class StockReceiptComponent implements OnInit {
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private datepipe: DatePipe, private messageService: MessageService, private http: HttpClient) {
+    private datepipe: DatePipe, private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -820,7 +817,7 @@ export class StockReceiptComponent implements OnInit {
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
-    this.WTCode = null; this.Moisture = null;
+    this.WTCode = null; this.Moisture = null; this.godownNo = null; this.locationNo = null;
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();

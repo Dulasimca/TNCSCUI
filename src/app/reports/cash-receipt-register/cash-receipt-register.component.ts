@@ -4,7 +4,6 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -39,7 +38,7 @@ export class CashReceiptRegisterComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {

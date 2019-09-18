@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { Router } from '@angular/router';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -38,7 +37,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
-  constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService, private router: Router,
+  constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {

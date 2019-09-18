@@ -7,7 +7,6 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { reject } from 'q';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({

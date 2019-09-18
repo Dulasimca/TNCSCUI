@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Column } from 'jspdf-autotable';
 
 @Injectable({
   providedIn: 'root'

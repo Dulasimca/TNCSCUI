@@ -1,5 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { HEADER_OFFSET } from '@angular/core/src/render3/interfaces/view';
 
 export class TableConstants {
   DailyStockStatement: any;

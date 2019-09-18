@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { Router } from '@angular/router';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService, SelectItem } from 'primeng/api';
 import { ExcelService } from 'src/app/shared-services/excel.service';
@@ -45,8 +43,7 @@ export class StackCardComponent implements OnInit {
   @ViewChild('stackYear') StackYearPanel: Dropdown;
   @ViewChild('stockNo') StockNoPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

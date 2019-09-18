@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-fcidata',
@@ -25,7 +22,8 @@ export class FCIDataComponent implements OnInit {
   filterArray: any;
   filteredItem: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private http: HttpClient, private loginService: LoginService, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService,
+    private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

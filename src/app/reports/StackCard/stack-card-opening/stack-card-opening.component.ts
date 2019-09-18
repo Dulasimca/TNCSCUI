@@ -4,7 +4,6 @@ import { DatePipe } from '@angular/common';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { Router } from '@angular/router';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -40,7 +39,8 @@ export class StackCardOpeningComponent implements OnInit {
   @ViewChild('stackYear') StackYearPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

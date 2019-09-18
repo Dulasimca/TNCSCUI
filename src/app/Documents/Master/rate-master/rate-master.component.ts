@@ -24,7 +24,7 @@ export class RateMasterComponent implements OnInit {
   commodityOptions: SelectItem[];
   loading: boolean = false;
 
-  constructor(private authService: AuthService, ) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

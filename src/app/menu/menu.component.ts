@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
-import { MenuService } from './menu.service';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { HttpParams } from '@angular/common/http';
-import { LoginService } from '../login/login.service';
 
 
 @Component({

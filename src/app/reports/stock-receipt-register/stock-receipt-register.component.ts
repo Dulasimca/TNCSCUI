@@ -8,7 +8,6 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -41,7 +40,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {

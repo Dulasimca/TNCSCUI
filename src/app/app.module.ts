@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { DataTableModule, SharedModule, ButtonModule, MenubarModule } from 'primeng/primeng';
+import { DataTableModule, ButtonModule, MenubarModule } from 'primeng/primeng';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -15,19 +15,14 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { CarouselModule } from 'ngx-bootstrap';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
-import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FieldsetModule} from 'primeng/fieldset';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
-import {InputSwitchModule} from 'primeng/inputswitch';
-import {KeyFilterModule} from 'primeng/keyfilter';
-import { FileUploadModule } from 'primeng/fileupload';
 import {TooltipModule} from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
 
@@ -41,7 +36,6 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { ConfirmationService } from 'primeng/api';
 import { AuthService } from './shared-services/auth.service';
-import { MenuService } from './menu/menu.service';
 import { TableConstants } from './constants/tableconstants';
 import { DailyStockStatementComponent } from './reports/dailystockstatement/dailystockstatement.component';
 import { StockPurchaseComponent } from './purchase/stockpurchase/stockpurchase.component';
@@ -57,7 +51,6 @@ import { AADSDataComponent } from './masters/aadsdata/aadsdata.component';
 import { FCIDataComponent } from './masters/fcidata/fcidata.component';
 import { SchemesComponent } from './masters/schemes/schemes.component';
 import { PathConstants } from './constants/path.constants';
-import { LoginService } from './login/login.service';
 import { NotificationsComponent } from './masters/notifications/notifications.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ExcelService } from './shared-services/excel.service';
@@ -134,6 +127,7 @@ import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issu
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
+import { LoginService } from './login/login.service';
 
 @NgModule({
   declarations: [
@@ -243,7 +237,6 @@ import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/tr
     CheckboxModule,
     RadioButtonModule,
     DropdownModule,
-    SharedModule,
     ButtonModule,
     FieldsetModule,
     CalendarModule,
@@ -251,22 +244,17 @@ import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/tr
     HighchartsChartModule,
     PanelModule,
     TreeTableModule,
-    CarouselModule,
     SplitButtonModule,
     AutoCompleteModule,
     ToastModule,
     InputTextModule,
-    MatDatepickerModule,
     TabViewModule,
-    InputSwitchModule,
     TooltipModule,
-    KeyFilterModule,
-    FileUploadModule,
     TooltipModule,
     BlockUIModule
   ],
-  providers: [MenuService, AuthService, ConfirmationService, TableConstants, StatusMessage,
-    DatePipe, RestAPIService, PathConstants, LoginService, ExcelService, MessageService, RoleBasedService, PrintService],
+  providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
+    DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

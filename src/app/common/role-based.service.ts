@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { PathConstants } from '../constants/path.constants';
 import { AuthService } from '../shared-services/auth.service';

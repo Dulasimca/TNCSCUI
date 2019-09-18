@@ -4,8 +4,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { TableConstants } from 'src/app/constants/tableconstants';
+import { HttpParams } from '@angular/common/http';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 
@@ -44,7 +43,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isActionDisabled: boolean;
   canShowMenu: boolean;
 
-  constructor(private authService: AuthService, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
+  constructor(private authService: AuthService, private excelService: ExcelService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

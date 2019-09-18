@@ -8,7 +8,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -46,7 +45,7 @@ export class StockIssueRegisterComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
-    private excelService: ExcelService, private messageService: MessageService, private router: Router) { }
+    private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TreeNode } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
-import { LoginService } from 'src/app/login/login.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -23,8 +21,8 @@ export class GodownDataComponent implements OnInit {
   filterArray: any;
   searchText: any;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private loginService: LoginService,
-    private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService,
+     private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

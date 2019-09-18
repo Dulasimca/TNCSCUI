@@ -8,7 +8,6 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
@@ -37,7 +36,7 @@ export class WriteOffComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private router: Router,
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {

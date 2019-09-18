@@ -5,10 +5,9 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import * as jsPDF from 'jspdf';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
@@ -140,8 +139,7 @@ export class TruckReceiptComponent implements OnInit {
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
-    private datepipe: DatePipe, private http: HttpClient,
-    private messageService: MessageService) {
+    private datepipe: DatePipe, private messageService: MessageService) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
 
   }

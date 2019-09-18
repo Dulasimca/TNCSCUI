@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { Dropdown } from 'primeng/primeng';
 

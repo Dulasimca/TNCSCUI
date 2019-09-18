@@ -6,7 +6,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 

@@ -8,7 +8,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
@@ -38,7 +37,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService, private router: Router,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {

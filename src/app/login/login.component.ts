@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
@@ -8,7 +7,6 @@ import { PathConstants } from '../constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from './login.service';
 import { MessageService } from 'primeng/api';
-import { RoleBasedService } from '../common/role-based.service';
 import { StatusMessage } from '../constants/Messages';
 
 
@@ -30,7 +28,7 @@ export class LoginComponent implements OnInit {
   isChecked: boolean;
   @Output() loggingIn = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private roleBasedService: RoleBasedService,
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
     private restApiService: RestAPIService, private loginService: LoginService,
     private messageService: MessageService) {
 

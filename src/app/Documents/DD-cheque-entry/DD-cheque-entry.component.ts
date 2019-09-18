@@ -3,11 +3,10 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse, HttpResponse, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
-import * as jsPDF from 'jspdf';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { NgForm } from '@angular/forms';
 import { Dropdown } from 'primeng/primeng';
@@ -60,7 +59,7 @@ export class DDChequeEntryComponent implements OnInit {
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
-    private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,
+    private authService: AuthService, private datepipe: DatePipe,
     private messageService: MessageService) { }
 
   ngOnInit() {
@@ -333,27 +332,6 @@ export class DDChequeEntryComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
-    // this.http.get(filepath, { responseType: 'text' })
-    //   .subscribe(data => {
-    //     if (data !== undefined && data !== null) {
-    //       var doc = new jsPDF({
-    //         orientation: 'potrait',
-    //       })
-    //       doc.setFont('courier');
-    //       doc.setFontSize(9);
-    //       doc.text(data, 2, 2)
-    //       doc.save(filename + '.pdf');
-    //       // this.blockScreen = false;
-    //     } else {
-    //       // this.blockScreen = false;
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   }, (err: HttpErrorResponse) => {
-    //     // this.blockScreen = false;
-    //     if (err.status === 0) {
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   });
   }
 
   onPrint() {

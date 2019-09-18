@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from '../../constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from '../../shared-services/excel.service';
-import { Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/shared-services/auth.service';

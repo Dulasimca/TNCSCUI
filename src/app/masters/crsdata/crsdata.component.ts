@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { LoginService } from 'src/app/login/login.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -27,7 +25,8 @@ export class CRSDataComponent implements OnInit {
   filterArray: any;
   loading: boolean = false;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService, private loginService: LoginService, private http: HttpClient, private tableConstants: TableConstants, private excelService: ExcelService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService,
+    private messageService: MessageService, private tableConstants: TableConstants, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;

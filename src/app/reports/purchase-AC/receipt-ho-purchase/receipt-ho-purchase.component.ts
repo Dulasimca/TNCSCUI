@@ -8,7 +8,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 

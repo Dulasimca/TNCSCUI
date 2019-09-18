@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
+import { SelectItem, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
-import * as jsPDF from 'jspdf';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 
@@ -108,7 +107,6 @@ export class DeliveryReceiptComponent implements OnInit {
   DueAmount: any = 0;
   PaidAmount: any = 0;
   BalanceAmount: any = 0;
-  MarginItem: string;
   curMonth: any;
   checkTransactionType: boolean = true;
   isViewed: boolean = false;
@@ -128,7 +126,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
-    private messageService: MessageService, private datepipe: DatePipe, private http: HttpClient) { }
+    private messageService: MessageService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -710,16 +708,21 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PayableAt = null; this.Payment = null; this.ChequeNo = null;
     this.PAmount = null; this.PrevOrderNo = null;
     this.Trcode = null; this.trCode = null; this.IndentNo = '-'; this.RTCode = null;
-    this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null;
-    this.transactionOptions = []; this.partyNameOptions = [];
-    this.receivorTypeOptions = [];
+    this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null; this.OnBank = null;
+    this.transactionOptions = []; this.partyNameOptions = []; this.receivorTypeOptions = [];
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
-    this.PYear = new Date().getFullYear();
+    this.PYear = new Date().getFullYear(); this.AdjustmentType = null;
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.selectedItem = null; this.PrevOrderNo = null;
-    this.PrevOrderDate = new Date();
+    this.PrevOrderDate = new Date(); this.ICode = null;
+    this.schemeCode = null; this.Scheme = null; this.iCode = null;
+    this.NKgs = 0; this.MarginNKgs = 0; this.Rate = 0; this.MarginRate = 0;
+    this.RateTerm = null; this.MarginRateInTerms = null;
+    this.schemeOptions = []; this.marginSchemeOptions = [];
+    this.marginRateInTermsOptions = []; this.rateInTermsOptions = [];
+    this.itemDescOptions = []; this.marginItemDescOptions = [];
     //this.isViewed = false;
   }
 
@@ -929,28 +932,5 @@ export class DeliveryReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
-    // this.http.get(filepath, { responseType: 'text' })
-    //   .subscribe(data => {
-    //     if (data !== undefined && data !== null) {
-    //       var doc = new jsPDF({
-    //         orientation: 'potrait',
-    //       })
-    //       doc.setFont('courier');
-    //       doc.setFontSize(9);
-    //       doc.text(data, 2, 2)
-    //       doc.save(filename + '.pdf');
-    //       this.isSaveSucceed = false;
-    //       this.isViewed = false;
-    //       this.blockScreen = false;
-    //     } else {
-    //       this.blockScreen = false;
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   }, (err: HttpErrorResponse) => {
-    //     this.blockScreen = false;
-    //     if (err.status === 0) {
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   });
   }
 }
