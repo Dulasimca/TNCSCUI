@@ -24,12 +24,14 @@ export class StackCardOpeningComponent implements OnInit {
   ITCode: any;
   RCode: any;
   Year: any;
+  s_cd: any;
   regions: any;
   roleId: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
   commodityOptions: SelectItem[];
+  statusOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
   loading: boolean;
@@ -105,9 +107,9 @@ export class StackCardOpeningComponent implements OnInit {
           this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                YearSelection.push({ 'label': y.ShortYear, 'value': y.ShortYear });
-                this.YearOptions = YearSelection;
+                YearSelection.push({ 'label': y.ShortYear });
               });
+              this.YearOptions = YearSelection;
             }
           })
         }
@@ -121,26 +123,36 @@ export class StackCardOpeningComponent implements OnInit {
             if (data !== undefined) {
               data.forEach(y => {
                 commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                this.commodityOptions = commoditySelection;
               });
+              this.commodityOptions = commoditySelection;
             }
-          })
+          });
         }
         break;
     }
   }
 
+  onStatus() {
+    let StatusSelection = [];
+    if (this.statusOptions === undefined) {
+      this.statusOptions = StatusSelection;
+    }
+    this.statusOptions.unshift({ 'label': 'R', 'value': this.statusOptions }, { 'label': 'C', 'value': this.statusOptions });
+    this.StackCardOpeningData;
+  }
+
+
   onView() {
     this.loading = true;
     const params = {
       'GCode': this.GCode,
-      'StackDate': this.Year,
+      'StackDate': this.Year.label,
       'ICode': this.ITCode,
       'Type': 2
-    }
+    };
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.StackCardOpeningData = res;
+        this.StackCardOpeningData = res.filter((value: { Status: any; }) => { return value.Status === this.s_cd.label });
         this.loading = false;
         let sno = 0;
         this.StackCardOpeningData.forEach(data => {
@@ -149,7 +161,9 @@ export class StackCardOpeningComponent implements OnInit {
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
-        })
+        });
+        // if (this.statusOptions !== undefined) {
+        // }
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -161,7 +175,7 @@ export class StackCardOpeningComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
 
   onResetTable(item) {
