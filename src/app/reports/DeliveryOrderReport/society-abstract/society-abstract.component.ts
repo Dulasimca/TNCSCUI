@@ -21,13 +21,10 @@ export class SocietyAbstractComponent implements OnInit {
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];
-  g_cd: any;
+  GCode: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
 
 
@@ -37,7 +34,6 @@ export class SocietyAbstractComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
     this.SocietyAbstractCols = this.tableConstants.DoSocietyAbstract;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -45,10 +41,6 @@ export class SocietyAbstractComponent implements OnInit {
 
   onSelect() {
     let options = [];
-    if (this.SocietyAbstractData !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
     if (this.data.godownData !== undefined) {
       this.data.godownData.forEach(x => {
         options.push({ 'label': x.GName, 'value': x.GCode });
@@ -60,9 +52,11 @@ export class SocietyAbstractComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
-      this.SocietyAbstractData = res;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.SocietyAbstractData = res;
+        this.loading = false;
       let sno = 0;
       this.SocietyAbstractData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -70,9 +64,8 @@ export class SocietyAbstractComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -84,13 +77,12 @@ export class SocietyAbstractComponent implements OnInit {
       }
     })
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable();
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -109,9 +101,9 @@ export class SocietyAbstractComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
   onResetTable() {
     this.SocietyAbstractData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {

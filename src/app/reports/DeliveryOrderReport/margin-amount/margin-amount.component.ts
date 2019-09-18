@@ -25,8 +25,6 @@ export class MarginAmountComponent implements OnInit {
   g_cd: any;
   s_cd: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
   maxDate: Date;
   canShowMenu: boolean;
   isShowErr: boolean;
@@ -39,7 +37,6 @@ export class MarginAmountComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
     this.MarginAmountCols = this.tableConstants.DoMarginAmount;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -81,18 +78,18 @@ export class MarginAmountComponent implements OnInit {
       'SCode': this.s_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
-      this.MarginAmountData = res;
-      let sno = 0;
-      this.MarginAmountData.forEach(data => {
-        data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      });
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.MarginAmountData = res;
         this.loading = false;
+        let sno = 0;
+        this.MarginAmountData.forEach(data => {
+          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -130,7 +127,6 @@ export class MarginAmountComponent implements OnInit {
 
   onResetTable() {
     this.MarginAmountData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {

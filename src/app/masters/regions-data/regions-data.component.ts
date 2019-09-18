@@ -7,6 +7,9 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PrintService } from 'src/app/print.service';
+import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 
 
@@ -17,30 +20,34 @@ import { PrintService } from 'src/app/print.service';
   styleUrls: ['./regions-data.component.css']
 })
 export class RegionsDataComponent implements OnInit {
-
   data: any;
   column?: any;
-  errMessage: string;
   items: any;
   canShowMenu: boolean;
   searchText: string;
   filterArray: any;
   selectedrow: any;
+  loading: boolean;
 
-  constructor(private restApiService: RestAPIService, private printService: PrintService, private authService: AuthService, private tableConstants: TableConstants, private excelService: ExcelService) {
+  constructor(private restApiService: RestAPIService, private printService: PrintService,
+    private authService: AuthService, private tableConstants: TableConstants,
+    private excelService: ExcelService, private messageService: MessageService) {
     //  this.column = route.snapshot.params['data'].split('',);
   }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.RegionData;
+    this.loading = true;
     this.restApiService.get(PathConstants.REGION).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response !== null) {
         this.data = response;
+        this.loading = false;
         this.filterArray = response;
-      }
-      else {
-        return this.errMessage;
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
         {
@@ -53,9 +60,16 @@ export class RegionsDataComponent implements OnInit {
             this.exportAsPDF();
           }
         }]
-    });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+  });
     // this.data = this.column.map(id => this.print());Promise.all(this.data).then(() => this.printService.onDataReady());
   }
+
   onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {
@@ -65,6 +79,7 @@ export class RegionsDataComponent implements OnInit {
       });
     }
   }
+
   exportAsXLSX(): void {
     var RegionData = [];
     this.data.forEach(value => {
@@ -72,6 +87,7 @@ export class RegionsDataComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(RegionData, 'REGIONS_DATA', this.column);
   }
+
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
@@ -86,6 +102,7 @@ export class RegionsDataComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('REGION_DATA.pdf');
   }
+
   print() {
     const column = this.column;
     this.printService.printDocument(this.data, column);

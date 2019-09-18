@@ -157,4 +157,7 @@ export class TruckToRegionComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(TruckToRegion, 'Truck_To_Region', this.TruckToRegionCols);
   }
+
+  onPrint() { }
+  
 }

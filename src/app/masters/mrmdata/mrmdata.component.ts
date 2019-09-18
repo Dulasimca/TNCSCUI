@@ -6,6 +6,9 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
   selector: 'app-mrmdata',
@@ -15,24 +18,27 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 export class MRMDataComponent implements OnInit {
   data: any;
   column?: any;
-  errMessage: string;
   items: any;
   canShowMenu: boolean;
   filterArray: any;
   searchText: any;
+  loading: boolean;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-     private tableConstants: TableConstants, private excelService: ExcelService) { }
+     private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.MrmData;
+    this.loading = true;
     this.restApiService.get(PathConstants.MRN).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response !== null) {
         this.data = response;
         this.filterArray = response;
       } else {
-        return this.errMessage;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
         {
@@ -45,8 +51,15 @@ export class MRMDataComponent implements OnInit {
             this.exportAsPDF();
           }
         }]
-    });
-  }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+  });
+}
+
   onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {

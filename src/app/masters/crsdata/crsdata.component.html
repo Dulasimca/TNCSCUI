@@ -17,7 +17,8 @@
       </div>
     </p-header>
     <!-- <div class="table-screen-size"> -->
-    <p-table [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+        <p-toast position="center" key="t-err"></p-toast>
+        <p-table [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
       [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
       <ng-template pTemplate="header" let-columns>
         <tr style="text-align: center;">

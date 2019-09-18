@@ -35,7 +35,7 @@ export class GunnyGuGrComponent implements OnInit {
   loading: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -112,16 +112,16 @@ export class GunnyGuGrComponent implements OnInit {
         this.GunnyRepData = res;
         this.loading = false;
         let sno = 0;
-      this.GunnyRepData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        data.Year = (data.Year === null) ? '-' : data.Year;
-        sno += 1;
-        data.SlNo = sno;
-      })
+        this.GunnyRepData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          data.Year = (data.Year === null) ? '-' : data.Year;
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
-      this.loading = false;
-      this.messageService.clear();
+        this.loading = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
@@ -157,7 +157,7 @@ export class GunnyGuGrComponent implements OnInit {
     }
   }
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.GunnyRepData = [];
   }
 
@@ -168,5 +168,7 @@ export class GunnyGuGrComponent implements OnInit {
     });
     this.excelService.exportAsExcelFile(GunnyData, 'GUNNY_REPORT', this.GunnyRepCols);
   }
+
+  onPrint() { }
 
 }

@@ -62,7 +62,8 @@
         </div>
           <div class="ui-g-12 dashboard">
           <p-table [columns]="TruckFromRegionCols" [value]="TruckFromRegionData" [rows]="20"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true" autoLayout="true">
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [paginator]="true"
+             autoLayout="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">

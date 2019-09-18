@@ -18,8 +18,7 @@ export class TransactionStatusComponent implements OnInit {
   TransactionStatusCols: any;
   TransactionStatusData: any;
   TransactionStatusTableData: any;
-  g_cd: any;
-  r_cd: any;
+  GCode: any;
   rCode: any;
   gCode: any;
   data: any;
@@ -37,7 +36,6 @@ export class TransactionStatusComponent implements OnInit {
   roleId: any;
   RoleId: any;
   Transaction_Status: any;
-  isActionDisabled: any;
   maxDate: Date = new Date();
   loading: boolean;
   viewPane: boolean;
@@ -51,7 +49,6 @@ export class TransactionStatusComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.isActionDisabled = true;
     this.userid = JSON.parse(this.authService.getCredentials());
   }
 
@@ -60,7 +57,7 @@ export class TransactionStatusComponent implements OnInit {
     this.data = this.roleBasedService.instance;
     if (this.data !== undefined) {
       this.data.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode, 'RCode': x.RCode });
+        options.push({ 'label': x.GName, 'value': x.GCode, 'rCode': x.RCode });
         this.godownOptions = options;
       });
     }
@@ -69,17 +66,18 @@ export class TransactionStatusComponent implements OnInit {
   // For Checkbox
 
   onView() {
+    this.loading = true;
     if (this.godownOptions !== undefined) {
       const params = {
         'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
-        'Gcode': this.g_cd.value,
+        'Gcode': this.GCode.value,
         'RoleId': this.roleId,
         'Type': 1
       };
       this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
-        this.TransactionStatusData = res;
-        if (this.TransactionStatusData !== undefined && this.TransactionStatusData !== 0) {
-          this.isActionDisabled = false;
+          if (res !== undefined && res.length !== 0 && res !== null) {
+          this.TransactionStatusData = res;
+          this.loading = false;
           this.Srno = this.TransactionStatusData[0].Srno,
             this.Receipt = this.TransactionStatusData[0].Receipt,
             this.Issues = this.TransactionStatusData[0].Issues,
@@ -88,13 +86,15 @@ export class TransactionStatusComponent implements OnInit {
             this.remarks = this.TransactionStatusData[0].remarks
           this.RoleId = this.roleId
         } else {
+          this.loading = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.loading = false;
-        }
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage }); }
       })
     }
   }
@@ -103,21 +103,23 @@ export class TransactionStatusComponent implements OnInit {
   // For Grid
 
   onTable() {
+    this.loading = true;
     if (this.roleId === 2) {
       this.TransactionStatusCols = this.tableConstants.TransactionStatus;
       const params = {
         'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
-        'RCode': this.g_cd.RCode,
+        'RCode': this.GCode.rCode,
         'RoleId': this.roleId,
         'Type': 2
       }
       if (this.godownOptions !== undefined) {
         this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
+         if(res !== undefined && res !== null && res.length !== 0) {
           this.TransactionStatusTableData = res;
-          if (this.TransactionStatusTableData !== undefined && this.TransactionStatusTableData !== 0) {
-            this.isActionDisabled = false;
+          this.loading = false;
           } else {
-            this.messageService.clear();
+          this.loading = false;
+          this.messageService.clear();
             this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
           }
         }, (err: HttpErrorResponse) => {
@@ -130,7 +132,7 @@ export class TransactionStatusComponent implements OnInit {
   }
 
   onClear() {
-    this.Receipt = this.Issues = this.Transfer = this.CB = this.g_cd = this.Docdate = this.remarks = this.TransactionStatusTableData = null;
+    this.Receipt = this.Issues = this.Transfer = this.CB = this.GCode = this.Docdate = this.remarks = this.TransactionStatusTableData = null;
   }
 
   onResetTable() {
@@ -139,7 +141,6 @@ export class TransactionStatusComponent implements OnInit {
     this.Transfer = false;
     this.CB = false;
     this.remarks = '';
-    this.isActionDisabled = true;
   }
 
   showTrue(e: any) {
@@ -152,7 +153,7 @@ export class TransactionStatusComponent implements OnInit {
 
   onSave() {
     const params = {
-      'Gcode': (this.gCode !== undefined) ? this.gCode : this.g_cd.value,
+      'Gcode': (this.gCode !== undefined) ? this.gCode : this.GCode.value,
       'Docdate': this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'),
       'Srno': this.Srno,
       'Receipt': (this.Receipt == true) ? true : false,

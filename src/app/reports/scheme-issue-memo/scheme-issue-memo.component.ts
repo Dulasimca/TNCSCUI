@@ -189,4 +189,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(SchemeIssueData, 'SCHEME_ISSUE_MEMO_REPORT', this.schemeIssueMemoCols);
   }
+
+  onPrint() { }
+  
 }

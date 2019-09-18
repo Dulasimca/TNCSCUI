@@ -6,6 +6,9 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-depositors',
@@ -16,24 +19,29 @@ export class DepositorsComponent implements OnInit {
 
   data: any;
   column?: any;
-  errMessage: string;
   items: any;
   canShowMenu: boolean;
   filterArray: any;
   searchText: any;
+  loading: boolean;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-    private tableConstants: TableConstants, private excelService: ExcelService) { }
+    private tableConstants: TableConstants, private excelService: ExcelService,
+    private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.SupplierData;
+    this.loading = true;
     this.restApiService.get(PathConstants.DEPOSITOR).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response !== null) {
         this.data = response;
+        this.loading = false;
         this.filterArray = response;
-      } else {
-        return this.errMessage;
+      }  else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
       this.items = [
         {
@@ -46,8 +54,15 @@ export class DepositorsComponent implements OnInit {
             this.exportAsPDF();
           }
         }]
-    });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+  });
   }
+
   onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {
@@ -57,6 +72,7 @@ export class DepositorsComponent implements OnInit {
       });
     }
   }
+
   exportAsXLSX(): void {
     var SuppliersData = [];
     this.data.forEach(value => {
@@ -64,6 +80,7 @@ export class DepositorsComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(SuppliersData, 'DEPOSITOR/SUPPLIER_DATA', this.column);
   }
+
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
@@ -78,6 +95,7 @@ export class DepositorsComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('SUPPLIERS_DATA.pdf');
   }
+
   print() {
     window.print();
   }

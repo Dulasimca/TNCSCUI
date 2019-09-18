@@ -12,7 +12,7 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect()" (ngModelChange)="onResetTable()"
-          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          filter="true" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -38,13 +38,13 @@
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !Society)"></button>
       </div>
       <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(AanData.length=='0')"></button>
       </div>
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-2">

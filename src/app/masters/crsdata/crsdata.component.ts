@@ -8,6 +8,7 @@ import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-crsdata',
@@ -19,27 +20,28 @@ export class CRSDataComponent implements OnInit {
   searchText: any;
   data: any = [];
   column: any;
-  errMessage: "Record Not Found";
   items: any;
   canShowMenu: boolean;
   filterArray: any;
   loading: boolean = false;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-    private messageService: MessageService, private tableConstants: TableConstants, private excelService: ExcelService) { }
+    private messageService: MessageService, private tableConstants: TableConstants,
+    private excelService: ExcelService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.loading = true;
     this.column = this.tableConstants.CrsData;
     this.restApiService.get(PathConstants.CRS).subscribe((response: any[]) => {
-      if (response !== undefined) {
+      if (response !== undefined && response !== null) {
         this.loading = false;
         this.data = response;
         this.filterArray = response;
       } else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
       this.items = [
         {
@@ -52,8 +54,15 @@ export class CRSDataComponent implements OnInit {
             this.exportAsPDF();
           }
         }]
-    });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+  });
   }
+
   onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {
@@ -63,6 +72,7 @@ export class CRSDataComponent implements OnInit {
       });
     }
   }
+
   exportAsXLSX(): void {
     var CrsData = [];
     this.data.forEach(value => {
@@ -70,6 +80,7 @@ export class CRSDataComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(CrsData, 'CRS DATA', this.column);
   }
+
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
@@ -84,6 +95,7 @@ export class CRSDataComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('CRS_DATA.pdf');
   }
+
   print() {
     window.print();
   }

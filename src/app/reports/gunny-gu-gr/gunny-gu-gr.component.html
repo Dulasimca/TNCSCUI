@@ -63,7 +63,7 @@
           <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="(GunnyRepData.length=='0')"></button>
         </div>
         <div class="ui-g-12 ui-md-12 dashboard">
-          <p-table [columns]="GunnyRepCols" [value]="GunnyRepData" [rows]="20"
+          <p-table [columns]="GunnyRepCols" [value]="GunnyRepData" [rows]="20" [loading]="loading"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">

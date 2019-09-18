@@ -111,6 +111,7 @@ export class StockReceiptRegisterComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.stockReceiptRegData = res;
+        this.loading = false;
         let sno = 0;
         this.stockReceiptRegData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -119,10 +120,10 @@ export class StockReceiptRegisterComponent implements OnInit {
           data.SlNo = sno;
         })
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;

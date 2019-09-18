@@ -112,6 +112,7 @@ export class TruckMemoRegisterComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.truckMemoRegData = res;
+        this.loading = false;
         let sno = 0;
         this.truckMemoRegData.forEach(data => {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
@@ -120,10 +121,10 @@ export class TruckMemoRegisterComponent implements OnInit {
           data.SlNo = sno;
         })
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;

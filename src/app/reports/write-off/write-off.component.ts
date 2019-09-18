@@ -160,4 +160,7 @@ export class WriteOffComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
   }
+
+  onPrint() { }
+  
 }

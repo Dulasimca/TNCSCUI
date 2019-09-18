@@ -148,6 +148,7 @@ export class CommodityReceiptComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.loadedData = res;
         this.commodityReceiptData = res;
+        this.loading = false;
         let sno = 0;
         this.commodityReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -157,10 +158,10 @@ export class CommodityReceiptComponent implements OnInit {
           data.SlNo = sno;
         });
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;

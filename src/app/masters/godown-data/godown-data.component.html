@@ -16,9 +16,10 @@
         </div>
       </div>
     </p-header>
+    <p-toast position="center" key="t-err"></p-toast>
     <div class="table-screen-size">
       <p-treeTable [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" autoLayout="true" [resizableColumns]="true" styleClass="myTable">
+        [paginator]="true" autoLayout="true" [resizableColumns]="true" styleClass="myTable" [loading]="loading">
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns" ttResizableColumn>

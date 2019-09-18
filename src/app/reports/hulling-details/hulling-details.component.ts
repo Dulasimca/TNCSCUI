@@ -98,10 +98,12 @@ export class HullingDetailsComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.HULLING_DETAILS_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.hullingDetailsData = res;
+        this.loading = false;
       let sno = 0;
       this.hullingDetailsData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -110,6 +112,7 @@ export class HullingDetailsComponent implements OnInit {
         data.SlNo = sno;
       })
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -161,4 +164,7 @@ export class HullingDetailsComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(HullingData, 'HULLING_DETAILS_REPORT', this.hullingDetailsCols);
   }
+
+  onPrint() { }
+  
 }

@@ -6,6 +6,9 @@ import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
+import { MessageService } from 'primeng/api';
+import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-hulling-agencies',
@@ -15,7 +18,6 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 export class HullingAgenciesComponent implements OnInit {
   data: any;
   column?: any;
-  errMessage: string;
   items: any;
   canShowMenu: boolean;
   filterArray: any;
@@ -23,17 +25,21 @@ export class HullingAgenciesComponent implements OnInit {
   searchText: any;
   
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-    private tableConstants: TableConstants, private excelService: ExcelService) { }
+    private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.HullingAgenciesData;
+    this.loading = true;
     this.restApiService.get(PathConstants.HULLING_AGENCIES).subscribe((response: any[]) => {
       if (response !== undefined) {
         this.data = response;
+        this.loading = false;
         this.filterArray = response;
       } else {
-        return this.errMessage;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
         {
@@ -46,8 +52,15 @@ export class HullingAgenciesComponent implements OnInit {
             this.exportAsPDF();
           }
         }]
-    });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+  });
   }
+
   onSearch(value) {
     this.data = this.filterArray;
     if (value !== undefined && value !== '') {
@@ -57,6 +70,7 @@ export class HullingAgenciesComponent implements OnInit {
       });
     }
   }
+
   exportAsXLSX(): void {
     var HullingData = [];
     this.data.forEach(value => {
@@ -64,6 +78,7 @@ export class HullingAgenciesComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(HullingData, 'HULLING_AGENCIES_DATA', this.column);
   }
+
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
@@ -78,6 +93,7 @@ export class HullingAgenciesComponent implements OnInit {
     doc.autoTable(col, rows);
     doc.save('HULLING-AGENCIES_DATA.pdf');
   }
+
   print() {
     window.print();
   }

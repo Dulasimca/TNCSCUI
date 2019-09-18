@@ -187,4 +187,7 @@ export class TransactionReceiptComponent implements OnInit {
   public setAlignment(value) {
     return (value !== '') ? 'right' : 'left';
   }
+
+  onPrint() { }
+  
 }

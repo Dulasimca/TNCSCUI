@@ -170,4 +170,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     })
     this.excelService.exportAsExcelFile(ReceiptRoNo, 'RECEIPT-HO-PURCHASE', this.receiptHOPurchaseCols);
   }
+
+  onPrint() { }
+  
 }
