@@ -17,7 +17,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class SocietyAbstractComponent implements OnInit {
   SocietyAbstractCols: any;
-  SocietyAbstractData: any;
+  SocietyAbstractData: any = [];
   fromDate: any;
   toDate: any;
   godownOptions: SelectItem[];

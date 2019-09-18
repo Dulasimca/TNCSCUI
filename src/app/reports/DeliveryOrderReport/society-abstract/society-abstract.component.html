@@ -30,13 +30,13 @@
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-12 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!GCode || !fromDate || !toDate)"></button>
       </div>
       <!-- <div class="ui-g-12 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-12 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(SocietyAbstractData.length=='0')"></button>
       </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="SocietyAbstractCols" [value]="SocietyAbstractData" [rows]="20"
