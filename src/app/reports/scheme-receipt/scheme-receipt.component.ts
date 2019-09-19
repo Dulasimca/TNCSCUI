@@ -23,7 +23,7 @@ export class SchemeReceiptComponent implements OnInit {
   toDate: any = new Date();
   godown_data: any;
   scheme_data: any;
-  regions_data: any;
+  region_data: any;
   roleId: any;
   GCode: any;
   RCode: any;
@@ -38,6 +38,7 @@ export class SchemeReceiptComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
+  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -47,8 +48,9 @@ export class SchemeReceiptComponent implements OnInit {
     this.schemeReceiptCols = this.tableConstants.SchemeReceiptReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.godown_data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.regions_data = this.roleBasedService.getRegions();
+    this.region_data = this.roleBasedService.getRegions();
     this.maxDate = new Date();
   }
 
@@ -58,31 +60,27 @@ export class SchemeReceiptComponent implements OnInit {
     let schemeSelection = [];
     switch (item) {
       case 'reg':
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 3) {
-          this.regions_data = this.roleBasedService.instance;
-          if (this.regions_data !== undefined) {
-            this.regions_data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
+          this.region_data = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.region_data !== undefined) {
+              this.region_data.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.region_data !== undefined) {
+              this.region_data.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
             }
           }
-          this.regionOptions = regionSelection;
-        } else {
-          this.regions_data = this.roleBasedService.regionsData;
-          if (this.regions_data !== undefined) {
-            this.regions_data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         break;
       case 'gd':
         if (type === 'enter') {

@@ -50,6 +50,7 @@ export class CBStatementComponent implements OnInit {
   roleId: any;
   disbaleGodown: boolean;
   maxDate: Date = new Date();  
+  loggedInRCode: string;
   regions: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -61,6 +62,7 @@ export class CBStatementComponent implements OnInit {
   ngOnInit() {
     this.rowGroupMetadata = {};
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -72,41 +74,25 @@ export class CBStatementComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
+        this.regions = this.roleBasedService.regionsData;
         if (type === 'enter') {
           this.regionPanel.overlayVisible = true;
         }
-        if (this.roleId === 3) {
-          this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
-            }
-          }
-          this.regionOptions = regionSelection;
-        } else {
-          this.regions = this.roleBasedService.regionsData;
+        if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
+            this.regionOptions = regionSelection;
           }
-          this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: 'All', value: 'All' });
-          if (this.RCode !== undefined && this.RCode !== null) {
-            if (this.RCode === 'All') {
-              this.godownOptions = [{ label: 'All', value: 'All ' }];
-              this.GCode = 'All';
-              this.disbaleGodown = true;
-            } else {
-              this.disbaleGodown = false;
-            }
-          } else {
-            this.GCode = null; 
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if(x.RCode === this.loggedInRCode) {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
           }
         }
         break;

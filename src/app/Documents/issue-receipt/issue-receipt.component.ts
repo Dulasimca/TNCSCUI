@@ -80,6 +80,7 @@ export class IssueReceiptComponent implements OnInit {
   DeliveryOrderNo: any;
   RTCode: any;
   RNCode: any;
+  IssuerCode: any;
   WNo: any = '-';
   TransporterCharges: any = 0;
   VehicleNo: any = '-';
@@ -147,6 +148,7 @@ export class IssueReceiptComponent implements OnInit {
     this.IssuingCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
   }
+
   onSelect(selectedItem, type) {
     let transactoinSelection = [];
     let schemeSelection = [];
@@ -256,12 +258,15 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(rn => {
-                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'ACSCode': rn.ACSCode });
                 })
                 this.receiverNameOptions = receivorNameList;
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
+            if(this.RNCode !== undefined && this.RNCode !== null) {
+              this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+            }
           }
         } else {
           this.receiverNameOptions = receivorNameList;
@@ -351,7 +356,8 @@ export class IssueReceiptComponent implements OnInit {
     switch (id) {
       case 'tr':
         this.receiverNameOptions = []; this.receiverTypeOptions = [];
-        this.rtCode = null; this.RTCode = null; this.rnCode = null; this.RNCode = null;
+        this.rtCode = null; this.RTCode = null; this.rnCode = null;
+        this.RNCode = null; this.IssuerCode = null;
         break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
@@ -363,7 +369,7 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'rt':
         this.receiverNameOptions = [];
-        this.rnCode = null; this.RNCode = null;
+        this.rnCode = null; this.RNCode = null; this.IssuerCode = null;
         break;
     }
   }
@@ -372,7 +378,7 @@ export class IssueReceiptComponent implements OnInit {
   parseMoisture(event) {
     let totalLength = event.target.value.length;
     let value = event.target.value;
-    let findDot = this.Moisture.toString().indexOf('.');
+    let findDot = this.Moisture.indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
       || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
@@ -558,6 +564,7 @@ export class IssueReceiptComponent implements OnInit {
         sno += 1;
       });
       let lastIndex = this.itemData.length;
+      if( this.checkTrType) {
       if (this.CurrentDocQtv > this.StackBalance) {
         this.messageService.clear();
         this.itemData = this.itemData.splice(lastIndex, 1);
@@ -575,7 +582,13 @@ export class IssueReceiptComponent implements OnInit {
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
         this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
       }
-
+    } else {
+      this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
+      this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+      this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
+    }
     }
   }
 
@@ -849,7 +862,7 @@ export class IssueReceiptComponent implements OnInit {
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;
-    this.TStockNo = null; this.stackYear = null;
+    this.TStockNo = null; this.stackYear = null; this.IssuerCode = null;
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];

@@ -173,13 +173,19 @@
                         <label for="ManualDocNum" class="float-input">Manual Document No</label>
                       </span>
                 </div>
-                <div class="ui-g-12 ui-md-4 ui-fluid">
-                  <span class="ui-float-label">
-                    <textarea name="RemarksText" rows="2" cols="70" minlength="1" maxlength="150"
-                     [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
-                    <label for="RemarksText" class="float-input">Remarks</label>
-                  </span>
+                <div class="ui-g-6 ui-md-3 ui-fluid">
+                    <label for="IssuerCode" class="label-fontsize-large">Issuer Code:</label>
+                    <span>{{IssuerCode}}</span>
                 </div>
+                </div>
+                <div class="ui-g-12 ui-fluid dashboard">
+                    <div class="ui-g-12 ui-md-4 ui-fluid">
+                        <span class="ui-float-label">
+                          <textarea name="RemarksText" rows="2" cols="70" minlength="1" maxlength="150"
+                           [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
+                          <label for="RemarksText" class="float-input">Remarks</label>
+                        </span>
+                    </div>
                 </div>
               <div class="ui-g-11"></div>
               <div class="ui-g-2 ui-md-1">

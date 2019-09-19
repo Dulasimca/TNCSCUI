@@ -38,6 +38,7 @@ export class TransactionReceiptComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
+  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -46,6 +47,7 @@ export class TransactionReceiptComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.transactionReceiptCols = this.tableConstants.TransactionReceiptReport;
     this.data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.regionsData = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.maxDate = new Date();
@@ -57,31 +59,27 @@ export class TransactionReceiptComponent implements OnInit {
     let regionSelection = [];
     switch (item) {
       case 'reg':
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 3) {
-          this.regionsData = this.roleBasedService.instance;
-          if (this.regionsData !== undefined) {
-            this.regionsData.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
+          this.regionsData = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regionsData !== undefined) {
+              this.regionsData.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regionsData !== undefined) {
+              this.regionsData.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
             }
           }
-          this.regionOptions = regionSelection;
-        } else {
-          this.regionsData = this.roleBasedService.regionsData;
-          if (this.regionsData !== undefined) {
-            this.regionsData.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         break;
       case 'godown':
         if (type === 'enter') {

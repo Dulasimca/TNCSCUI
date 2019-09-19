@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   userName: string;
   password: any;
   isChecked: boolean;
+  form: any[] = [];
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
     })
     this.isChecked = JSON.parse(this.authService.checkLoggedIn());
     // if (this.isChecked) {
-    //   this.userName =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.userName;
+    //   this.loginForm.value.user =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.loginForm.value.user;
     //  }
   }
 
@@ -55,10 +56,10 @@ export class LoginComponent implements OnInit {
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
-      let username = new HttpParams().append('userName', this.userName);
+      let username = new HttpParams().append('userName', this.loginForm.value.user);
       this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
         if (credentials !== undefined && credentials !== null && credentials.length !== 0) {
-          if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
+          if (this.loginForm.value.user.toLowerCase() === credentials[0].UserName.toLowerCase() && this.loginForm.value.pswd === credentials[0].Pwd) {
             this.router.navigate(['Home']);
             this.roleId = credentials[0].RoleId;
             this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
             this.godownName = (credentials[0].GodownName !== null && credentials[0].GodownName !== undefined) ? credentials[0].GodownName : '';
             this.regionName = (credentials[0].RegionName !== null && credentials[0].RegionName !== undefined) ? credentials[0].RegionName : '';
             this.loginService.setValue(this.roleId);
-            this.loginService.setUsername(this.userName);
+            this.loginService.setUsername(this.loginForm.value.user);
             const params = {
               RoleId: this.roleId,
               GCode: this.godownCode,
@@ -103,6 +104,6 @@ export class LoginComponent implements OnInit {
   }
 
   clearFields() {
-    this.userName = this.password = '';
+    this.loginForm.value.user = this.loginForm.value.pswd = '';
   }
 }

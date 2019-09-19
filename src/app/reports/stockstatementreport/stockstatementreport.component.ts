@@ -37,6 +37,7 @@ export class StockstatementreportComponent implements OnInit {
   regions: any;
   @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
+  loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe,
@@ -45,6 +46,7 @@ export class StockstatementreportComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockDataColumns = this.tableConstants.StockStatementReport;
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.username = JSON.parse(this.authService.getCredentials());
@@ -67,31 +69,27 @@ export class StockstatementreportComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 3) {
-          this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
             }
           }
-          this.regionOptions = regionSelection;
-        } else {
-          this.regions = this.roleBasedService.regionsData;
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         if(this.RCode === undefined || this.RCode === null) { this.GCode = null; }
         break;
       case 'gd':

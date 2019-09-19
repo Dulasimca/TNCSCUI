@@ -42,6 +42,7 @@ export class CommodityReceiptComponent implements OnInit {
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
   username: any;
+  loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -52,6 +53,7 @@ export class CommodityReceiptComponent implements OnInit {
     this.commodityReceiptCols = this.tableConstants.CommodityReceiptReport;
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
   }
@@ -63,29 +65,27 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'reg':
-        if (type === 'enter') { this.regionPanel.overlayVisible = true; }
-        if (this.roleId === 3) {
-          this.data = this.roleBasedService.instance;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
             }
           }
-          this.regionOptions = regionSelection;
-        } else {
-          this.data = this.roleBasedService.regionsData;
-          if (this.data !== undefined) {
-            this.data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         break;
       case 'gd':
         if (type === 'enter') { this.godownPanel.overlayVisible = true; }

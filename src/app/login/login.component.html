@@ -66,19 +66,19 @@
                         <div for="userName" class="icon1">
                             <span class="fa fa-user"></span>
                             <input type="text" class="inputxt" formControlName="user" id="userName"
-                              autofocus="true" [(ngModel)]="userName" placeholder="Username" tabindex="0" required="">
+                              autofocus="true" [(ngModel)]="form.userName" placeholder="Username" tabindex="0" required="">
                         </div>
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
-                            <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="password"
+                            <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="form.password"
                                 placeholder="Password" tabindex="0" (keydown.enter)="onSignIn()" required="">
                         </div>
-                        <div class="login-check">
+                    </form>
+                    <div class="login-check">
                             <label class="checkbox"><input type="checkbox" name="checkbox" binary="true"
                                     [(ngModel)]="isChecked" tabindex="0" (change)="toggleVisibility($event)"><i> </i> Keep me logged
                                 in</label>
                         </div>
-                    </form>
                     <div class="bottom">
                         <button class="btn" type="button" tabindex="0" (click)="onSignIn()">Sign In</button>
                     </div>

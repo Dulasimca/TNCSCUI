@@ -34,6 +34,7 @@ export class StackCardOpeningComponent implements OnInit {
   statusOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
+  loggedInRCode: any;
   loading: boolean;
   @ViewChild('region') RegionPanel: Dropdown;
   @ViewChild('godown') GodownPanel: Dropdown;
@@ -48,6 +49,7 @@ export class StackCardOpeningComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.StackCardOpeningCols = this.tableConstants.StackCardOpening;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
@@ -60,31 +62,27 @@ export class StackCardOpeningComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'reg':
-        if (type === 'enter') {
-          this.RegionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 3) {
-          this.regions = this.roleBasedService.instance;
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
-              }
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.RegionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
             }
           }
-          this.regionOptions = regionSelection;
-        } else {
-          this.regions = this.roleBasedService.regionsData;
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         break;
       case 'gd':
         if (type === 'enter') {

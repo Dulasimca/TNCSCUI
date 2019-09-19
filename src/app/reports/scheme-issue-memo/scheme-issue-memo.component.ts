@@ -36,6 +36,7 @@ export class SchemeIssueMemoComponent implements OnInit {
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  loggedInRCode: any;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -49,6 +50,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.schemeIssueMemoCols = this.tableConstants.SchemeIssueMemoReport;
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.godown_data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.region_data = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -60,31 +62,27 @@ export class SchemeIssueMemoComponent implements OnInit {
       let schemeSelection = [];
       switch (item) {
         case 'reg':
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 3) {
-          this.region_data = this.roleBasedService.instance;
-          if (this.region_data !== undefined) {
-            this.region_data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            for (let i = 0; i < regionSelection.length - 1;) {
-              if (regionSelection[i].value === regionSelection[i + 1].value) {
-                regionSelection.splice(i + 1, 1);
+            this.region_data = this.roleBasedService.regionsData;
+            if (type === 'enter') {
+              this.regionPanel.overlayVisible = true;
+            }
+            if (this.roleId === 1) {
+              if (this.region_data !== undefined) {
+                this.region_data.forEach(x => {
+                  regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                });
+                this.regionOptions = regionSelection;
+              }
+            } else {
+              if (this.region_data !== undefined) {
+                this.region_data.forEach(x => {
+                  if(x.RCode === this.loggedInRCode) {
+                  regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                  }
+                });
+                this.regionOptions = regionSelection;
               }
             }
-          }
-          this.regionOptions = regionSelection;
-        } else {
-          this.region_data = this.roleBasedService.regionsData;
-          if (this.region_data !== undefined) {
-            this.region_data.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-          }
-          this.regionOptions = regionSelection;
-        }
         break;
         case 'gd':
           if (type === 'enter') {

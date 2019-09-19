@@ -21,6 +21,7 @@ export class RoleBasedService {
 
     /// All Godowns
     getGodowns() {
+        this.godownsList = [];
         let godowns;
         this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
             res.forEach(x => {
@@ -35,6 +36,7 @@ export class RoleBasedService {
 
     /// All regions
     getRegions() {
+        this.regionsData = [];
         this.restApiService.get(PathConstants.GODOWN_MASTER).subscribe((res: any) => {
             res.forEach(x => {
                 this.regionsData.push({ 'RName': x.Name, 'RCode': x.Code });
