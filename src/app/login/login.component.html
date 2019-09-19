@@ -66,11 +66,11 @@
                         <div for="userName" class="icon1">
                             <span class="fa fa-user"></span>
                             <input type="text" class="inputxt" formControlName="user" id="userName"
-                              autofocus="true" [(ngModel)]="form.userName" placeholder="Username" tabindex="0" required="">
+                              autofocus="true" [(ngModel)]="userName" placeholder="Username" tabindex="0" required="">
                         </div>
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
-                            <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="form.password"
+                            <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="password"
                                 placeholder="Password" tabindex="0" (keydown.enter)="onSignIn()" required="">
                         </div>
                     </form>
