@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   userName: string;
   password: any;
   isChecked: boolean;
-  form: any[] = [];
+  form: any = [];
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
