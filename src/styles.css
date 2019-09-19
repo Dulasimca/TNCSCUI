@@ -741,14 +741,17 @@ h3 a {
 }
 @media screen and (min-width: 1189px) and (max-width: 1299px){
 .content {
- min-height: 610px;
+ min-height: 610px !important;
 }
 }
 @media screen and (min-width: 1300px) and (max-width: 1510px){
   .content {
-   min-height: 554px;
+   min-height: 554px !important;
   }
   }
+  .content {
+    min-height: 550px !important;
+   }
 
 .footer {
   position:unset;
