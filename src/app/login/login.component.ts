@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       user: ['', Validators.required],
       pswd: ['', Validators.required]
     })
-    this.isChecked = JSON.parse(this.authService.checkLoggedIn());
+    this.isChecked = JSON.parse(this.authService.getKeepMeLoggedInStatus());
     // if (this.isChecked) {
     //   this.loginForm.value.user =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.loginForm.value.user;
     //  }
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
 
   toggleVisibility(e) {
     this.authService.isKeepMeLoggedIn(e.target.checked);
-    let check: any = this.authService.checkLoggedIn();
+    let check: any = this.authService.getKeepMeLoggedInStatus();
     this.isChecked = (check !== undefined &&
       check !== null) ? check : false;
 

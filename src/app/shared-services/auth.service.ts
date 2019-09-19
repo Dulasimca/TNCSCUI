@@ -49,18 +49,22 @@ export class AuthService {
    }
 
    public isKeepMeLoggedIn(isLogged) {
-    let userCredentials;
-     if(isLogged) {
-       userCredentials = localStorage.getItem('USER_INFO');
-     }
     localStorage.setItem('KEEP_ME_LOGGED_IN', isLogged);
-    return userCredentials;
    }
 
-   public checkLoggedIn() {
-    let isLoggedInTrue = localStorage.getItem('KEEP_ME_LOGGED_IN');
-       return isLoggedInTrue;
+   public getKeepMeLoggedInStatus() {
+    let isRemembered = JSON.parse(localStorage.getItem('KEEP_ME_LOGGED_IN'));
+    return isRemembered;
    }
+
+   public doRemeberMe() {
+    let isRemembered = JSON.parse(localStorage.getItem('KEEP_ME_LOGGED_IN'));
+    let userCredentials;
+    if(isRemembered) {
+        userCredentials = localStorage.getItem('USER_INFO');
+      }
+      return userCredentials;
+    }
 
 
   public isLoggedIn() {
@@ -93,11 +97,17 @@ export class AuthService {
   }
 
   public logout() {
+    // let isRemembered = JSON.parse(localStorage.getItem('KEEP_ME_LOGGED_IN'));
+    // if(!isRemembered) {
+    //   localStorage.removeItem('USER_INFO');
+    // }
     localStorage.removeItem('USER_INFO');
     localStorage.removeItem('ID');
     localStorage.removeItem('MENU');
     localStorage.removeItem('GCODE');
     localStorage.removeItem('RCODE');
+    localStorage.removeItem('GNAME');
+    localStorage.removeItem('RNAME');
     this.isSignedIn = false;
     this.router.navigateByUrl('');
   }
