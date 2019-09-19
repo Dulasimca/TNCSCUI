@@ -374,6 +374,12 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
+  showIssuerCode() {
+    if(this.RNCode !== undefined && this.RNCode !== null) {
+      this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+    }
+  }
+
 
   parseMoisture(event) {
     let totalLength = event.target.value.length;

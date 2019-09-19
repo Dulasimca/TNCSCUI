@@ -124,7 +124,8 @@
                     <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                     <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode" 
                     (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')"
-                     filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
+                     filter="true" resetFilterOnHide="true" optionLabel="label" 
+                     [showClear]="true" (keydown)="showIssuerCode()" required>
                       <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                       </ng-template>
