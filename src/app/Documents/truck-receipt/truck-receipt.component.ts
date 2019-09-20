@@ -98,7 +98,7 @@ export class TruckReceiptComponent implements OnInit {
   NetStackBalance: any = 0;
   TransporterName: string = '-';
   LWBillNo: any = '-';
-  WHDNo: any = '-';
+  WHDNo: any = 0;
   HCharges: any = 0;
   WCharges: any = 0;
   Kilometers: any = 0;
@@ -112,9 +112,9 @@ export class TruckReceiptComponent implements OnInit {
   fStationCode: any;
   TStation: any;
   tStationCode: any;
-  RRNo: any = '-';
+  RRNo: any = 0;
   LDate: Date = new Date();
-  WNo: any = '-';
+  WNo: any = 0;
   RailFreightAmt: any = 0;
   Remarks: string = '-';
   IssueSlip: any;
@@ -760,29 +760,29 @@ export class TruckReceiptComponent implements OnInit {
           this.ManualDocNo = res[0].Flag1;
         this.TransporterName = (res[0].TransporterName !== undefined && res[0].TransporterName !== null) ? res[0].TransporterName : '-';
         this.LWBillDate = new Date(res[0].LWBillDate);
-        this.LWBillNo = res[0].LWBillNo;
-        this.FreightAmount = res[0].FreightAmount;
-        this.Kilometers = res[0].Kilometers;
-        this.WHDNo = res[0].WHDNo;
-        this.WCharges = res[0].WCharges;
-        this.HCharges = res[0].HCharges;
-        this.GunnyReleased = res[0].GunnyReleased;
-        this.Gunnyutilised = res[0].GunnyUtilised;
-        this.freightOptions = [{ label: res[0].FCode, value: res[0].FCode }];
-        this.FCode = res[0].FCode;
-        this.vehicleOptions = [{ label: res[0].Vcode, value: res[0].Vcode }],
-          this.VCode = res[0].Vcode;
-        this.fromStationOptions = [{ label: res[0].FromStation, value: res[0].FStation }],
-          this.FStation = res[0].FromStation;
-        this.fStationCode = res[0].FStation;
-        this.toStationOptions = [{ label: res[0].ToStation, value: res[0].TStation }],
-          this.TStation = res[0].ToStation;
-        this.tStationCode = res[0].TStation;
-        this.RRNo = res[0].RRNo;
-        this.RailFreightAmt = res[0].RFreightAmount;
+        this.LWBillNo = (res[0].LWBillNo !== null) ? res[0].LWBillNo : 0;
+        this.FreightAmount = (res[0].FreightAmount !== null) ? res[0].FreightAmount : 0;
+        this.Kilometers = (res[0].Kilometers !== null) ? res[0].Kilometers : 0;
+        this.WHDNo = (res[0].WHDNo !== null) ? res[0].WHDNo : 0;
+        this.WCharges = (res[0].WCharges !== null) ? res[0].WCharges : 0;
+        this.HCharges = (res[0].HCharges !== null) ? res[0].HCharges : 0;
+        this.GunnyReleased = (res[0].GunnyReleased !== null) ? res[0].GunnyReleased : 0;
+        this.Gunnyutilised = (res[0].GunnyUtilised !== null) ? res[0].GunnyUtilised : 0;
+        this.FCode = (res[0].FCode !== null && res[0].FCode.trim() !== '') ? res[0].FCode : '-';
+        this.freightOptions = [{ label: this.FCode, value: this.FCode }];
+        this.VCode = (res[0].Vcode !== null && res[0].VCode.trim() !== '') ? res[0].Vcode : '-';
+        this.vehicleOptions = [{ label: this.VCode, value: this.VCode }],
+          this.FStation = (res[0].FromStation !== null && res[0].FromStation.trim() !== '') ? res[0].FromStation : '-';
+        this.fStationCode = (res[0].FStation !== null && res[0].FStation.trim() !== '') ? res[0].FStation : '-';
+        this.fromStationOptions = [{ label: this.FStation, value: this.fStationCode }];
+        this.TStation = (res[0].ToStation !== null && res[0].ToStation.trim() !== '') ? res[0].ToStation : '-';
+        this.tStationCode = (res[0].TStation !== null && res[0].TStation.trim() !== '') ? res[0].TStation : '-';
+        this.toStationOptions = [{ label: this.TStation, value: this.tStationCode }],
+          this.RRNo = (res[0].RRNo !== null) ? res[0].RRNo : 0;
+        this.RailFreightAmt = (res[0].RFreightAmount !== null) ? res[0].RFreightAmount : 0;
         this.LDate = new Date(res[0].LDate);
-        this.WNo = res[0].Wno;
-        this.Remarks = res[0].Remarks;
+        this.WNo = (res[0].Wno !== null) ? res[0].Wno : 0;
+        this.Remarks = (res[0].Remarks !== null && res[0].Remarks.trim() !== '') ? res[0].Remarks.trim() : '-';
         this.IssueSlip = res[0].IssueSlip;
         let sno = 1;
         res.forEach(i => {
@@ -881,7 +881,7 @@ export class TruckReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
-          this.DOCNumber = res.Item3; 
+          this.DOCNumber = res.Item3;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
           this.onClear();
@@ -933,7 +933,7 @@ export class TruckReceiptComponent implements OnInit {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.TRUCK_MEMO_DUPLICATE_DOCUMENT, params).subscribe(res => {
-        if(res) { this.DOCNumber = null; }
+        if (res) { this.DOCNumber = null; }
       }); this.isSaveSucceed = false;
       this.isViewed = false;
     }
