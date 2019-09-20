@@ -329,7 +329,7 @@ export class DDChequeEntryComponent implements OnInit {
 
   loadDocument() {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
-    const filename = this.GCode + GolbalVariable.StockIssueDocument;
+    const filename = this.GCode + GolbalVariable.DDChequeDocument;
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
