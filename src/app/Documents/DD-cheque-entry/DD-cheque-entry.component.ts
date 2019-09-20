@@ -3,13 +3,14 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { NgForm } from '@angular/forms';
 import { Dropdown } from 'primeng/primeng';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -59,8 +60,8 @@ export class DDChequeEntryComponent implements OnInit {
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
-    private authService: AuthService, private datepipe: DatePipe,
-    private messageService: MessageService) { }
+    private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,
+    private messageService: MessageService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -327,12 +328,23 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
   loadDocument() {
-    // const path = "../../assets/Reports/" + this.UserID.user + "/";
-    // const filename = this.GCode + GolbalVariable.DDChequeDocument;
-    // let filepath = path + filename + ".txt";
-    var w = window.open();
-    w.print();
+    const path = "../../assets/Reports/" + this.UserID.user + "/";
+    const filename = this.GCode + GolbalVariable.DDChequeDocument;
+    let filepath = path + filename + ".txt";
+    // const blob = new Blob([data], { type: 'application/octet-stream' });
+    // let fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    // var w = window.open();
+    // w.print();
     // w.close();
+    this.http.get(filepath, {responseType: 'text'})
+      .subscribe(data => {
+        let file = new Blob([data], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+        
+        // window.open(data);
+        window.print();
+      });
   }
 
   onPrint() {
