@@ -338,7 +338,7 @@ export class DDChequeEntryComponent implements OnInit {
     // w.close();
     this.http.get(filepath, {responseType: 'text'})
       .subscribe(data => {
-        let file = new Blob([data], { type: 'application/pdf' });
+        let file = new Blob([data], { type: 'application/octet-stream' });
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
         
