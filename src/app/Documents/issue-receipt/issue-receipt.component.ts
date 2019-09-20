@@ -691,6 +691,7 @@ export class IssueReceiptComponent implements OnInit {
       'RegionName': this.regionName,
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'ReceiverName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
+      'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : '-',
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
@@ -797,6 +798,8 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].Receivorcode }];
         this.RNCode = res.Table[0].ReceivorName;
         this.rnCode = res.Table[0].Receivorcode;
+        let ACSCode = (res.Table[0].ACSCode !== null && res.Table[0].ACSCode.trim() !== '') ? res.Table[0].ACSCode : '';
+        this.IssuerCode = this.rnCode + ACSCode;
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo;
         this.RegularAdvance = res.Table[0].Flag2;
