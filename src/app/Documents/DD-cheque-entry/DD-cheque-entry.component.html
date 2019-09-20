@@ -155,18 +155,18 @@
   </p-panel>
 </div>
 <p-dialog header="Cash-Receipt" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [style]="{width: '85% !important', height: '50% !important'}">
+  [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12">
     <div class="ui-g-6 ui-md-8 no-pad-top">
       <label for="date" class="label-fontsize-large">Date</label>
       <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate"
        name="date" (ngModelChange)="onView()"></p-calendar>
     </div>
-    <div class="ui-g-4 ui-md-1 dashboard">
+    <div class="ui-g-4 ui-md-1 dashboard inline-margin">
       <button class="ui-md-12 dashboard" pButton label=OK [disabled]="ChequeReceiptNoData.length=='0'"
         (click)="getDocByReceiptNo()"></button>
     </div>
-    <div class="ui-g-4 ui-md-1 dashboard">
+    <div class="ui-g-4 ui-md-1 dashboard inline-margin">
       <button class="ui-md-12 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
     </div>
   </div>

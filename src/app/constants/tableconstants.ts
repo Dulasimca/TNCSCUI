@@ -902,6 +902,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc_Date' },
       { field: 'Transactiontype', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Received From' },
+      { field: 'SRTime', header: 'Created Date'}
     ];
 
     this.DetailDailyDocumentReceiptReport = [
@@ -923,6 +924,7 @@ export class TableConstants {
       { field: 'ReceivedFrom', header: 'Received From' },
       { field: 'TruckMemoNo', header: 'Truck Memo No' },
       { field: 'TRUCKDate', header: 'Truck Date' },
+      { field: 'SRTime', header: 'Created Date'}
     ];
 
 
@@ -932,6 +934,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc Date' },
       { field: 'TransactionType', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'SITime', header: 'Created Date'}
     ];
 
     this.DetailDailyDocumentIssueReport = [
@@ -947,6 +950,7 @@ export class TableConstants {
       { field: 'NETWT', header: 'Net Wt' },
       { field: 'SCHEME', header: 'Scheme' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'SITime', header: 'Created Date'}
     ];
 
     this.StackCardOpening = [

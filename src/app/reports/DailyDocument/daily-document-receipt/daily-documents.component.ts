@@ -158,6 +158,7 @@ export class DailyDocumentsComponent implements OnInit {
           Transactiontype: g[0].Transactiontype,
           TRUCKDate: g[0].TRUCKDate,
           TruckMemoNo: g[0].TruckMemoNo,
+          SRTime: g[0].SRTime
         }
       })
       .toArray() //.toArray because I guess you want to loop on it with ngFor      

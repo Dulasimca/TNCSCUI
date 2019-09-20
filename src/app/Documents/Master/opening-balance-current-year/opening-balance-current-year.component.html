@@ -119,7 +119,7 @@
   </p-panel>
 </div>
 <p-dialog header="Opening Balance Current Year Shortage" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
-  [maximizable]="true" [(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-fluid">
     <p-table #table [columns]="OpeningBalanceDetailCols" [value]="OpeningBalanceDetailData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"

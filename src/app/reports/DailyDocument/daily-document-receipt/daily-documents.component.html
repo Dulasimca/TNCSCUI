@@ -104,10 +104,10 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Daily Document Receipts" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-12 ui-fluid">
-        <p-table [columns]="DailyDocumentReceiptCols" [value]="ReceiptDocumentDetailData"
+<p-dialog class="ui-g-10" header="Daily Document Receipts" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [style]="{width: '1000px'}" [responsive]="true">
+    <div>
+        <p-table [columns]="ReceiptDocumentDetailCols" [value]="ReceiptDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" 
         autoLayout="true"> 
           <ng-template pTemplate="colgroup" let-columns>
