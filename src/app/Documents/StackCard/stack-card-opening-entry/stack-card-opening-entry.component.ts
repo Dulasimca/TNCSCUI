@@ -35,13 +35,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
   commodityOptions: SelectItem[];
   curYearOptions: SelectItem[];
   commoditySelection: any[] = [];
-  Weights: number = 0;
-  Bags: number = 0;
+  Weights: any = 0;
+  Bags: any = 0;
   canShowMenu: boolean;
   maxDate: Date;
   gdata: any = [];
-  isActionDisabled: any;
-  isViewDisabled: any;
   allowInput: boolean = true;
   isSlash: boolean = false;
   openView: boolean = false;
