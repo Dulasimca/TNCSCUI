@@ -331,20 +331,9 @@ export class DDChequeEntryComponent implements OnInit {
     const path = "../../assets/Reports/" + this.UserID.user + "/";
     const filename = this.GCode + GolbalVariable.DDChequeDocument;
     let filepath = path + filename + ".txt";
-    
-    // var w = window.open();
-    // w.print();
-    // w.close();
-    this.http.get(filepath, {responseType: 'text'})
-      .subscribe(data => {
-        const blob = new Blob([data], { type: 'application/octet-stream' });
-    let fileUrl: string = window.URL.createObjectURL(blob);
-        //var fileURL = URL.createObjectURL(file);
-       var w = window.open(fileUrl);
-  
-        // window.open(data);
-        w.print();
-      });
+    var w = window.open(filepath);
+    w.print();
+    w.close();
   }
 
   onPrint() {
