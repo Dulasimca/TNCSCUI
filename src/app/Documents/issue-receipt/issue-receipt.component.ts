@@ -767,7 +767,7 @@ export class IssueReceiptComponent implements OnInit {
         this.onClear();
         this.RowId = res.Table[0].RowId;
         this.SINo = res.Table[0].SINo;
-        this.TransporterName = (res[0].Table.TransporterName !== undefined && res[0].Table.TransporterName !== null) ? res[0].Table.TransporterName : '-';
+        this.TransporterName = (res.Table[0].TransporterName !== undefined && res.Table[0].TransporterName !== null) ? res[0].Table.TransporterName : '-';
         this.TransporterCharges = res.Table[0].TransportingCharge;
         this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
         this.SServiceable = (res.Table[0].SoundServiceable !== null && res.Table[0].SoundServiceable !== undefined) ?
