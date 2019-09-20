@@ -612,7 +612,7 @@ export class StockReceiptComponent implements OnInit {
       'UserID': this.username.user,
       'RegionName': this.regionName,
       'UnLoadingSlip': this.UnLoadingSlip,
-      'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
+      'TransporterName': (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
       'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
@@ -707,6 +707,7 @@ export class StockReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
+        this.TransporterName = (res[0].TransporterName !== undefined && res[0].TransporterName !== null) ? res[0].TransporterName : '-';
         this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
           res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
@@ -814,7 +815,8 @@ export class StockReceiptComponent implements OnInit {
     this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
+    this.stackCompartment = null; this.TransporterName = '-';
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
     this.WTCode = null; this.Moisture = null; this.godownNo = null; this.locationNo = null;

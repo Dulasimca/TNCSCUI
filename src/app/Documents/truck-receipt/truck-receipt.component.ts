@@ -758,7 +758,7 @@ export class TruckReceiptComponent implements OnInit {
         this.RNCode = res[0].ReceivorName,
           this.rnCode = res[0].ReceivingCode,
           this.ManualDocNo = res[0].Flag1;
-        this.TransporterName = res[0].TransporterName;
+        this.TransporterName = (res[0].TransporterName !== undefined && res[0].TransporterName !== null) ? res[0].TransporterName : '-';
         this.LWBillDate = new Date(res[0].LWBillDate);
         this.LWBillNo = res[0].LWBillNo;
         this.FreightAmount = res[0].FreightAmount;
@@ -826,7 +826,7 @@ export class TruckReceiptComponent implements OnInit {
     }
     this.STTDetails.push({
       TransportMode: this.MTransport,
-      TransporterName: this.TransporterName,
+      TransporterName: (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       LWBillNo: this.LWBillNo,
       LWBillDate: this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy'),
       FreightAmount: this.FreightAmount,
