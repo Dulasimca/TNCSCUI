@@ -782,7 +782,7 @@ export class TruckReceiptComponent implements OnInit {
         this.RailFreightAmt = (res[0].RFreightAmount !== null) ? res[0].RFreightAmount : 0;
         this.LDate = new Date(res[0].LDate);
         this.WNo = (res[0].Wno !== null) ? res[0].Wno : 0;
-        this.Remarks = (res[0].Remarks !== null && res[0].Remarks.trim() !== '') ? res[0].Remarks.trim() : '-';
+        this.Remarks = res[0].Remarks.trim();
         this.IssueSlip = res[0].IssueSlip;
         let sno = 1;
         res.forEach(i => {
@@ -836,7 +836,7 @@ export class TruckReceiptComponent implements OnInit {
       HCharges: (this.HCharges !== null && this.HCharges !== undefined) ? this.HCharges : 0,
       FStation: (this.FStation !== null && this.FStation !== undefined) ? ((this.FStation.value !== undefined) ? this.FStation.value : this.fStationCode) : '-',
       TStation: (this.TStation !== null && this.TStation !== undefined) ? ((this.TStation.value !== undefined) ? this.TStation.value : this.tStationCode) : '-',
-      Remarks: this.Remarks,
+      Remarks: (this.Remarks.trim() !== '' && this.Remarks !== null) ? this.Remarks.trim() : '-',
       FCode: this.FCode,
       Vcode: this.VCode,
       LDate: this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),

@@ -605,7 +605,7 @@ export class StockReceiptComponent implements OnInit {
       'LNo': (this.LNo !== undefined && this.LNo !== null) ? this.LNo.toString().toUpperCase() : '-',
       'LFrom': (this.LFrom !== undefined && this.LFrom !== null) ? this.LFrom : '-',
       'ItemList': this.itemData,
-      'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '-',
+      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
       'GodownName': this.godownName,
       'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
@@ -720,7 +720,7 @@ export class StockReceiptComponent implements OnInit {
         this.LNo = res[0].LNo;
         this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
-        this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
+        this.Remarks = res[0].Remarks.trim();
         this.UnLoadingSlip = res[0].Unloadingslip;
         let sno = 1;
         res.forEach(i => {

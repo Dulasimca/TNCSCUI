@@ -270,7 +270,7 @@ export class DDChequeEntryComponent implements OnInit {
       'Type': type,
       'GCode': this.GCode,
       'ReceiptNo': (this.receiptNo !== undefined && this.receiptNo !== null) ? this.receiptNo : 0,
-      'Details': (this.details !== undefined && this.details !== null) ? this.details : '-',
+      'Details': (this.details.trim() !== '' && this.details !== null) ? this.details.trim() : '-',
       'GodownName': this.godownName,
       'RegionName': this.regionName,
       'UserID': this.UserID.user,
@@ -323,7 +323,7 @@ export class DDChequeEntryComponent implements OnInit {
     this.bank = data.Bank;
     this.receivedFrom = data.ReceivedFrom;
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
-    this.details = (data.Detail !== undefined && data.Detail !== null) ? data.Detail : '-';
+    this.details = (data.Detail.trim() !== '' && data.Detail !== null) ? data.Detail : '-';
     this.DDChequeData.splice(index, 1);
   }
 

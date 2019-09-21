@@ -686,7 +686,7 @@ export class IssueReceiptComponent implements OnInit {
       'GunnyReleased': (this.GunnyReleased !== undefined && this.GunnyReleased !== null) ? this.GunnyReleased : 0,
       'IssueItemList': this.itemData,
       'SIDetailsList': this.issueData,
-      'Remarks': (this.Remarks !== undefined) ? this.Remarks : '-',
+      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
       'GodownName': this.issuingGodownName,
       'RegionName': this.regionName,
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
@@ -798,14 +798,14 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].Receivorcode }];
         this.RNCode = res.Table[0].ReceivorName;
         this.rnCode = res.Table[0].Receivorcode;
-        let ACSCode = (res.Table[0].ACSCode !== null && res.Table[0].ACSCode.trim() !== '') ? res.Table[0].ACSCode : '';
+        let ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
         this.IssuerCode = this.rnCode + ACSCode;
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo;
         this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
         this.Loadingslip = res.Table[0].Loadingslip;
-        this.Remarks = res.Table[0].Remarks;
+        this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({

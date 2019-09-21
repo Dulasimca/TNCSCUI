@@ -758,7 +758,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.RTCode = res.Table[0].Tyname;
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
-        this.Remarks = (res.Table[0].Remarks.toString().trim() !== '') ? res.Table[0].Remarks : '-';
+        this.Remarks = res.Table[0].Remarks.trim();
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
@@ -869,7 +869,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'GrandTotal': this.GrandTotal,
       'Regioncode': this.RCode,
-      'Remarks': this.Remarks,
+      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
       'deliverytype': '',
       'GodownName': this.GodownName,
       'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
