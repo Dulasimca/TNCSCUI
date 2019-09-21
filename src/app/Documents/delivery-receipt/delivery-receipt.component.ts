@@ -123,6 +123,8 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
+  ChDate: any;
+  AdjustDate: any;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -483,7 +485,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Payment = data.PaymentMode;
         this.paymentOptions = [{ label: data.PaymentMode, value: data.PaymentMode }];
         this.ChequeNo = data.ChequeNo;
-        this.ChequeDate = data.ChequeDate;
+        this.ChequeDate = data.ChequeDate; //String Format
+        this.ChDate = data.ChDate; //Date Format
         this.PAmount = (data.PaymentAmount * 1)
         this.PayableAt = data.payableat;
         this.OnBank = data.bank;
@@ -495,7 +498,8 @@ export class DeliveryReceiptComponent implements OnInit {
         break;
       case 'prevBal':
         this.PrevOrderNo = data.AdjustedDoNo;
-        this.PrevOrderDate = data.AdjustedDate;
+        this.PrevOrderDate = data.AdjustedDate; //String Format
+        this.AdjustDate = data.AdjustDate; //Date Format
         this.AdjusmentAmount = (data.Amount * 1);
         this.OtherAmount = (data.AmountNowAdjusted * 1);
         this.Balance = (data.Balance * 1);
@@ -563,8 +567,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Payment':
         this.paymentData.push({
           PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: (typeof this.ChequeDate === 'string') ? this.ChequeDate : this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
-          ChequeDate: (typeof this.ChequeDate === 'string') ? this.ChequeDate : this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
+          ChDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'MM/dd/yyyy') : this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+          ChequeDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'dd/MM/yyyy') : this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
           Rcode: this.RCode,
           PaymentAmount: (this.PAmount * 1).toFixed(2),
           payableat: this.PayableAt,
@@ -586,8 +590,9 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'Adjustment':
         this.paymentBalData.push({
           AdjustedDoNo: this.PrevOrderNo,
-          AdjustDate: (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
-          AdjustedDate: (typeof this.PrevOrderDate === 'string') ? this.PrevOrderDate : this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
+          AdjustDate: (typeof this.PrevOrderDate === 'string') ? this.datepipe.transform(this.AdjustDate, 'MM/dd/yyyy') : this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+          AdjustedDate: (typeof this.PrevOrderDate === 'string') ? this.datepipe.transform(this.AdjustDate, 'dd/MM/yyyy') : this.datepipe.transform(this.PrevOrderDate, 'dd/MM/yyyy'),
+          convertedDate: new Date(this.PrevOrderDate),
           Amount: (this.AdjusmentAmount * 1).toFixed(2),
           AdjustmentType: this.AdjustmentType,
           Rcode: this.RCode,
