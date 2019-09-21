@@ -103,7 +103,7 @@ export class ReceiptHOPurchaseComponent implements OnInit {
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.RECEIPT_REGION_HO_PURCHASE, params).subscribe(res => {
-      if (res !== undefined && this.receiptHOPurchaseData.length !== 0 && res !== null) {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.receiptHOPurchaseData = res;
         this.loading = false;
         let sno = 0;

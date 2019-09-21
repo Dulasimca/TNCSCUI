@@ -57,27 +57,27 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -104,16 +104,16 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'OrderNo': this.orderNo,
       'UserName': this.username.user
-    }
+    };
     this.restAPIService.post(PathConstants.RECEIPT_RONO_PURCHASE_REPORT, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0  && res !== null) {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.receiptHOPurchaseData = res;
-      this.loading = false;
-      let sno = 0;
-      this.receiptHOPurchaseData.forEach(data => {
-        sno += 1;
-        data.SlNo = sno;
-      })
+        this.loading = false;
+        let sno = 0;
+        this.receiptHOPurchaseData.forEach(data => {
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -125,7 +125,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
 
   onDateSelect() {
@@ -153,7 +153,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.receiptHOPurchaseData = [];
   }
 
@@ -164,11 +164,11 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
         SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type: data.Type,
         Depositor: data.Depositor, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity,
         TruckMen: data.TruckMen, Orderno: data.Orderno, Lorryno: data.Lorryno, Scheme: data.Scheme
-      })
-    })
+      });
+    });
     this.excelService.exportAsExcelFile(ReceiptRoNo, 'RECEIPT-HO-PURCHASE', this.receiptHOPurchaseCols);
   }
 
   onPrint() { }
-  
+
 }

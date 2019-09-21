@@ -9,7 +9,7 @@
     </p-header>
       <div class="ui-g ui-md-12">
         <p-toast position="center" key="t-err"></p-toast>
-        <div class="ui-g-6 ui-md-2">
+        <div class="ui-g-6 ui-md-2 dashboard">
           <label class="label-fontsize dashboard">Region</label>
           <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
             (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
@@ -19,7 +19,7 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="ui-g-6 ui-md-2">
+        <div class="ui-g-6 ui-md-2 dashboard">
           <label class="label-fontsize dashboard">Godown</label>
           <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
             (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
