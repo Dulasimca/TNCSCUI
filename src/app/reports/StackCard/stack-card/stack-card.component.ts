@@ -172,6 +172,7 @@ export class StackCardComponent implements OnInit {
       'ICode': this.ITCode.value,
       'ITName': this.ITCode.label,
       'TStockNo': this.TStockNo.label,
+      'UserName': this.userId.user,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {

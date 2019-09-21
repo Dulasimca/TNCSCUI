@@ -456,8 +456,12 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Rate = (data.Rate * 1).toFixed(2);
         this.RateTerm = data.Wtype;
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
-        this.TotalAmount = (data.Total * 1).toFixed(2);
+        this.TotalAmount = (data.Total * 1);
+        if(this.itemData.length !== 0) {
         this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
+        } else {
+          this.GrandTotal = (this.GrandTotal * 1);
+        }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemData.splice(index, 1);
         let sno = 1;
@@ -475,7 +479,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
         this.MarginRate = (data.MarginRate * 1).toFixed(2);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+        if(this.itemSchemeData.length !== 0) {
         this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
+        } else {
+          this.GrandTotal = (this.GrandTotal * 1);
+        }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemSchemeData.splice(index, 1);
         let slno = 1;
@@ -532,6 +540,8 @@ export class DeliveryReceiptComponent implements OnInit {
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
           this.DueAmount = this.GrandTotal;
+          this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
+          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
           this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
           this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
         }
@@ -560,6 +570,8 @@ export class DeliveryReceiptComponent implements OnInit {
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
           this.DueAmount = this.GrandTotal;
+          this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
+          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
           this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
           this.marginSchemeOptions = this.marginRateInTermsOptions = this.marginItemDescOptions = [];
         }
@@ -724,7 +736,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PrevOrderDate = new Date(); this.ICode = null;
     this.schemeCode = null; this.Scheme = null; this.iCode = null;
     this.NKgs = 0; this.MarginNKgs = 0; this.Rate = 0; this.MarginRate = 0;
-    this.RateTerm = null; this.MarginRateInTerms = null;
+    this.RateTerm = null; this.MarginRateInTerms = null; this.miCode = null;
+    this.TotalAmount = 0; this.GrandTotal = 0; this.MarginAmount = 0;
+    this.MarginScheme = null; this.MICode = null; this.marginSchemeCode = null;
     this.schemeOptions = []; this.marginSchemeOptions = [];
     this.marginRateInTermsOptions = []; this.rateInTermsOptions = [];
     this.itemDescOptions = []; this.marginItemDescOptions = [];
@@ -783,6 +797,9 @@ export class DeliveryReceiptComponent implements OnInit {
           });
           i_sno += 1;
         })
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
       if (res.Table1 !== undefined && res.Table1.length !== 0 && res.Table1 !== null) {
         let m_sno = 1;

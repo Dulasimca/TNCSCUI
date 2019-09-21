@@ -34,9 +34,9 @@ export class IssueTypeAbstractComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   userId: any;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
 
   constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -106,7 +106,7 @@ export class IssueTypeAbstractComponent implements OnInit {
       GName: this.GCode.label
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_REPORT, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0) {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.loading = false;
         let columns: Array<any> = [];
         for (var i in res[0]) {

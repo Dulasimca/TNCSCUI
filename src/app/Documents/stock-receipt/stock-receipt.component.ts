@@ -129,6 +129,7 @@ export class StockReceiptComponent implements OnInit {
   stackCompartment: string = '';
   checkTrType: boolean = true;
   DOCNumber: any;
+  submitted: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -832,5 +833,19 @@ export class StockReceiptComponent implements OnInit {
 
   openPrev() {
     this.index = (this.index === 0) ? 2 : this.index - 1;
+  }
+
+  onSubmit(form) {
+    console.log('f', form);
+    this.submitted = true;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if(form.value[key] === undefined) {
+         console.log('Please fill all the fields' + key);
+       }
+      }
+      // this.messageService.clear();
+      // this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: 'Please fill all the mandatory fields!' });
+    }
   }
 }

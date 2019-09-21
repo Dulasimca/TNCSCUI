@@ -9,6 +9,9 @@ export class GolbalVariable {
     public static readonly StackCardDetailsReport = 'SCARD';
     public static readonly QuantityACForReceiptScheme = '';
     public static readonly QuantityACForTruckMemoScheme = '';
+    public static readonly QuantityACForIssueScheme = '';
+    public static readonly QuantityACForIssueSchemeCRS = '';
+    public static readonly QuantityACForIssueSchemeCOOP = '';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

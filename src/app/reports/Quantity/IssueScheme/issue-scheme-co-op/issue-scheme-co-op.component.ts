@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -9,6 +9,9 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-issue-scheme-co-op',
@@ -16,22 +19,26 @@ import { StatusMessage } from 'src/app/constants/Messages';
   styleUrls: ['./issue-scheme-co-op.component.css']
 })
 export class IssueSchemeCoOpComponent implements OnInit {
-  IssueSchemeCoOpCols: any;
-  IssueSchemeCoOpData: any;
-  fromDate: any;
-  toDate: any;
+  issueSchemeCoOpCols: any;
+  issueSchemeCoOpData: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
+  region: any;
   selectedValues: any;
-  g_cd: any;
-  s_cd: any;
+  GCode: any;
+  RCode: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
+  regions: any;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
-
+  roleId: any;
+  userId: any;
+  loggedInRCode: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
     private authService: AuthService, private excelService: ExcelService,
@@ -39,59 +46,105 @@ export class IssueSchemeCoOpComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
-    this.IssueSchemeCoOpCols = this.tableConstants.SchemeAbstractIssueCoOp;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.regions = this.roleBasedService.getRegions();
+    this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
+            }
+          }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
+        break;
     }
-    if(this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-      options.push({ 'label': x.GName, 'value': x.GCode });
-      this.godownOptions = options;
-    });
-  }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
-      this.IssueSchemeCoOpData = res;
-      let sno = 0;
-      this.IssueSchemeCoOpData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        let columns: Array<any> = [];
+        for (var i in res[0]) {
+          columns.push({ header: i, field: i });
+        }
+        columns.unshift({ header: 'S.No:', field: 'sno' });
+        let index = columns.length;
+        columns.splice(index, 0, { field: 'Total', header: 'TOTAL' });
+        this.issueSchemeCoOpCols = columns;
+        this.issueSchemeCoOpData = res;
+        let sno = 1;
+        this.issueSchemeCoOpData.forEach(data => {
+          data.sno = sno;
+          sno += 1;
+        });
+        for (let i = 0; i < this.issueSchemeCoOpData.length; i++) {
+          let total = 0;
+          this.issueSchemeCoOpCols.forEach(x => {
+            let field = x.field;
+            if (field !== 'COMMODITY' && field !== 'sno') {
+              total += (((this.issueSchemeCoOpData[i][field] !== null && this.issueSchemeCoOpData[i][field] !== undefined) ?
+                this.issueSchemeCoOpData[i][field] : 0) * 1);
+            }
+          })
+          this.issueSchemeCoOpData[i].Total = total;
+        }
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
-      this.loading = false;
-    this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage});
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
@@ -111,12 +164,18 @@ export class IssueSchemeCoOpComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
-    this.IssueSchemeCoOpData = [];
-    this.isActionDisabled = true;
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
+    this.issueSchemeCoOpData = [];
   }
 
   exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.IssueSchemeCoOpData, 'SCHEME_ABSTRACT_ISSUE_COOP',this.IssueSchemeCoOpCols);
+    this.excelService.exportAsExcelFile(this.issueSchemeCoOpData, 'SCHEME_ABSTRACT_ISSUE_COOP',this.issueSchemeCoOpCols);
+}
+
+onPrint() {
+  const path = "../../assets/Reports/" + this.userId.user + "/";
+  const filename = this.GCode.value + GolbalVariable.QuantityACForIssueSchemeCOOP + ".txt";
+  saveAs(path + filename, filename);
 }
 }
