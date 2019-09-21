@@ -644,7 +644,7 @@ export class TruckReceiptComponent implements OnInit {
       TStockNo: (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo,
       ITDescription: (this.ICode.label !== undefined && this.ICode.label !== null) ? this.ICode.label : this.ICode,
       PackingType: (this.IPCode.label !== undefined && this.IPCode.label !== null) ? this.IPCode.label : this.IPCode,
-      IPCode: (this.IPCode.value !== this.IPCode.value !== null) ? this.IPCode.value : this.ipCode,
+      IPCode: (this.IPCode.value !== undefined && this.IPCode.value !== null) ? this.IPCode.value : this.ipCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value) ? this.ICode.value : this.iCode,
       NoPacking: this.NoPacking,
       WmtType: (this.WTCode.label !== undefined && this.WTCode.label !== null) ? this.WTCode.label : this.WTCode,
