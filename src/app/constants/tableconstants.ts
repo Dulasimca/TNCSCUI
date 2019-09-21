@@ -601,16 +601,16 @@ export class TableConstants {
 
     this.ReceiptHOPurchaseReport = [
       { field: 'SlNo', header: 'S.No' },
-      { field: 'Ackno', header: 'Ack. No' },
-      { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE ' },
-      { field: 'Depositor', header: 'DEPOSITOR' },
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Bags', header: 'BAGS' },
-      { field: 'Quantity', header: 'QUANTITY' },
-      { field: 'TruckMen', header: 'TRUCKMEN' },
-      { field: 'Orderno', header: 'ORDER NO' },
-      { field: 'Lorryno', header: 'LORRY NO' },
+      { field: 'Ackno', header: 'Ack No' },
+      { field: 'Date', header: 'Date' },
+      { field: 'Type', header: 'Type' },
+      { field: 'Depositor', header: 'Depositor' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'Bags', header: 'Bags' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'TruckMen', header: 'Truckmen' },
+      { field: 'Orderno', header: 'Order No' },
+      { field: 'Lorryno', header: 'Lorry No' },
     ];
 
     this.ReceiptRONOPurchaseReport = [

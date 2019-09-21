@@ -35,7 +35,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   loggedInRCode: any;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -56,27 +56,27 @@ export class ReceiptROPurchaseComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -102,18 +102,18 @@ export class ReceiptROPurchaseComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
-    }
+    };
     this.restAPIService.post(PathConstants.RECEIPT_REGION_PURCHASE_REPORT, params).subscribe(res => {
-      if (res !== undefined && this.receiptROPurchaseData.length !== 0) {
+      if (res !== undefined && res.length !== 0) {
         this.receiptROPurchaseData = res;
         this.loading = false;
-      let sno = 0;
-      this.receiptROPurchaseData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.receiptROPurchaseData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -125,7 +125,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
 
   onDateSelect() {
@@ -153,7 +153,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.receiptROPurchaseData = [];
   }
 
@@ -164,11 +164,11 @@ export class ReceiptROPurchaseComponent implements OnInit {
         SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type: data.Type,
         Depositor: data.Depositor, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity,
         TruckMen: data.TruckMen, Orderno: data.Orderno, Lorryno: data.Lorryno
-      })
-    })
+      });
+    });
     this.excelService.exportAsExcelFile(ReceiptRo, 'RECEIPT-RO-PURCHASE', this.receiptROPurchaseCols);
   }
 
   onPrint() { }
-  
+
 }
