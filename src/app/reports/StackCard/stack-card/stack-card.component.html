@@ -11,7 +11,7 @@
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
                [disabled]="(StackCardData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
-              (click)="onPrint()" [disabled]="true"></button>
+              (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
           </div> 
            </div>
     </p-header>
@@ -21,7 +21,8 @@
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+          optionLabel="label" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -32,7 +33,7 @@
         <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
           (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true"
-           [showClear]="true" placeholder="-select-">
+           [showClear]="true" placeholder="-select-" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -43,7 +44,7 @@
         <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
          [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')"
          (ngModelChange)="onResetTable('cd')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          placeholder="-select-">
+          placeholder="-select-" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

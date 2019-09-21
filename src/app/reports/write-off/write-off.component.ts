@@ -154,7 +154,7 @@ export class WriteOffComponent implements OnInit {
   exportAsXLSX(): void {
     var WritOffData = [];
     this.writeoffData.forEach(data => {
-      WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Date: data.Date, Issue_Memono: data.Issue_Memono, Commodity: data.Commodity, Quantity: data.Quantity, StackNo: data.StackNo, Remarks: data.Remarks })
+      WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Issue_Date: data.Issue_Date, Issueno: data.Issueno, Commodity: data.Commodity, NetWt: data.NetWt, Stackno: data.Stackno, remarks: data.remarks })
     })
     this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
   }

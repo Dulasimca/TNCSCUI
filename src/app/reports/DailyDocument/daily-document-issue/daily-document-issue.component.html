@@ -102,9 +102,9 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Daily Document Issues" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
-    <div class="ui-g-12 ui-fluid">
+<p-dialog header="Daily Document Issues" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [responsive]="true">
+    <div>
         <p-table [columns]="IssueDocumentDetailCols" [value]="IssueDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" 
         [responsive]="true" autoLayout="true"> 

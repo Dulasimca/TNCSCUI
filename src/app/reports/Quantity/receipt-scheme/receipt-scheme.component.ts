@@ -34,9 +34,9 @@ export class ReceiptSchemeComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   userId: any;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }

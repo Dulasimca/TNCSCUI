@@ -54,15 +54,6 @@ export class TableConstants {
   StockReceiptDocumentViewCols: any;
   DoDemandDraft: any;
   DoMarginAmount: any;
-  SchemeAbstractReceipt: any;
-  SchemeAbstractIssueAll: any;
-  SchemeAbstractIssueCRS: any;
-  SchemeAbstractIssueCoOp: any;
-  SchemeAbstractTruck: any;
-  QtyReceiptCommodity: any;
-  QtyIssueCommodity: any;
-  QtyReceiptOtherItem: any;
-  QtyIssueOtherItem: any;
   SocietyMaster: any;
   ShopWiseAllotmentMaster: any;
   TruckMemoItemDetails: any;
@@ -653,62 +644,6 @@ export class TableConstants {
       { field: 'Amount', header: 'Amount' }
     ];
 
-    this.SchemeAbstractReceipt = [
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN' },
-      { field: '', header: 'PType' },
-      { field: '', header: 'AAY' },
-      { field: '', header: 'BULK' },
-      { field: '', header: 'EXCESS' },
-      { field: '', header: 'HULLING' },
-      { field: '', header: 'OTHERS' },
-      { field: '', header: 'PDS' }
-    ];
-
-    this.SchemeAbstractIssueCRS = [
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN' },
-      { field: '', header: 'PType' },
-      { field: '', header: 'AAY' },
-      { field: '', header: 'OTHERS' },
-      { field: '', header: 'PDS' },
-      { field: '', header: 'POLICE' },
-      { field: '', header: 'SPL PDS' },
-      { field: '', header: 'TOTAL' }
-    ];
-
-    this.SchemeAbstractIssueAll = [
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN' },
-      { field: '', header: 'PType' },
-      { field: '', header: 'AAY' },
-      { field: '', header: 'BULK' },
-      { field: '', header: 'OAP' },
-      { field: '', header: 'OTHERS' },
-      { field: '', header: 'PDS' },
-      { field: '', header: 'POLICE' }
-    ];
-
-    this.SchemeAbstractIssueCoOp = [
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN' },
-      { field: '', header: 'PType' },
-      { field: '', header: 'AAY' },
-      { field: '', header: 'OAP' },
-      { field: '', header: 'PDS' },
-      { field: '', header: 'POLICE' },
-      { field: '', header: 'SPL PDS' },
-      { field: '', header: 'TOTAL' }
-    ];
-
-    this.SchemeAbstractTruck = [
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: '', header: 'GODOWN' },
-      { field: '', header: 'PType' },
-      { field: '', header: 'INTERNAL TRANSFER' },
-      { field: '', header: 'TRANSFER' },
-      { field: '', header: 'TOTAL' }
-    ];
     this.StockReceiptDocumentViewCols = [
       { field: 'sno', header: 'S.No:' },
       { field: 'SRNo', header: 'SR No.' },
@@ -719,39 +654,6 @@ export class TableConstants {
       { field: 'IssuerName', header: 'Issuer Name' },
       { field: 'CreatedDate', header: 'Created Date' }
     ];
-
-    this.QtyReceiptCommodity = [
-      { field: '', header: 'SNo' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Opening' },
-      { field: '', header: 'PDS' },
-      { field: '', header: 'BPL/Prio.' },
-      { field: '', header: 'APL/Tideov.' },
-      { field: '', header: 'AAY' },
-      { field: '', header: 'MMS2GEN' },
-      { field: '', header: 'MMS2SC' },
-      { field: '', header: 'MMS2ST' },
-      { field: '', header: 'SplPds' },
-      { field: '', header: 'Cement' },
-      { field: '', header: 'HO' },
-      { field: '', header: 'Seizure' },
-      { field: '', header: 'Total' },
-      { field: '', header: 'PTNMGRNMP' },
-      { field: '', header: 'SGRY' },
-      { field: '', header: 'AnnaPoorna' },
-      { field: '', header: 'Total' },
-      { field: '', header: 'Free' },
-      { field: '', header: 'Balance' },
-      { field: '', header: 'PURCHASE' },
-      { field: '', header: 'Purchase' },
-      { field: '', header: 'Rice' }
-    ];
-
-    this.QtyIssueCommodity = [];
-
-    this.QtyReceiptOtherItem = [];
-
-    this.QtyIssueOtherItem = [];
 
     this.SocietyMaster = [
       { field: 'SlNo', header: 'S.No', width: '40px' },
@@ -902,6 +804,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc_Date' },
       { field: 'Transactiontype', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Received From' },
+      { field: 'SRTime', header: 'Created Date'}
     ];
 
     this.DetailDailyDocumentReceiptReport = [
@@ -923,6 +826,7 @@ export class TableConstants {
       { field: 'ReceivedFrom', header: 'Received From' },
       { field: 'TruckMemoNo', header: 'Truck Memo No' },
       { field: 'TRUCKDate', header: 'Truck Date' },
+      { field: 'SRTime', header: 'Created Date'}
     ];
 
 
@@ -932,6 +836,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc Date' },
       { field: 'TransactionType', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'SITime', header: 'Created Date'}
     ];
 
     this.DetailDailyDocumentIssueReport = [
@@ -947,6 +852,7 @@ export class TableConstants {
       { field: 'NETWT', header: 'Net Wt' },
       { field: 'SCHEME', header: 'Scheme' },
       { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'SITime', header: 'Created Date'}
     ];
 
     this.StackCardOpening = [

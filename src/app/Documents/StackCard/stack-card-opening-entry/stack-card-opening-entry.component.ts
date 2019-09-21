@@ -35,19 +35,18 @@ export class StackCardOpeningEntryComponent implements OnInit {
   commodityOptions: SelectItem[];
   curYearOptions: SelectItem[];
   commoditySelection: any[] = [];
-  Weights: number = 0;
-  Bags: number = 0;
+  Weights: any = 0;
+  Bags: any = 0;
   canShowMenu: boolean;
   maxDate: Date;
   gdata: any = [];
-  isActionDisabled: any;
-  isViewDisabled: any;
   allowInput: boolean = true;
   isSlash: boolean = false;
   openView: boolean = false;
   newEntry: boolean;
   curYear_data: any;
   cardExits: boolean;
+  flag: boolean;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -92,6 +91,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
               accept: () => {
                 this.nonEditable = true;
                 this.RowId = x.RowId;
+                this.flag = true;
               },
               reject: () => {
                 this.newEntry = true;
@@ -188,6 +188,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.selectedRow !== undefined) {
       if (this.selectedRow.Flag1 === 'R') {
         this.nonEditable = true;
+        this.flag = true;
         this.RowId = this.selectedRow.RowId;
         this.Date = new Date(this.selectedRow.StackDate);
         this.StackNo = this.selectedRow.StackNo.toUpperCase();
@@ -200,8 +201,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
         const locNo = nextValue.toString().slice(0, nextIndex);
         this.Location = trimmedValue + locNo;
         this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
-        this.Bags = (this.selectedRow.StackBalanceBags * 1);
-        this.Weights = (this.selectedRow.StackBalanceWeight * 1);
+        this.Bags = this.selectedRow.StackBalanceBags;
+        this.Weights = this.selectedRow.StackBalanceWeight;
       } else {
         this.onClear();
         this.messageService.clear();
@@ -227,8 +228,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
             StackDate: i.ObStackDate,
             CommodityName: i.CommodityName,
             StackNo: i.StackNo,
-            StackBalanceBags: (i.StackBalanceBags * 1),
-            StackBalanceWeight: (i.StackBalanceWeight * 1),
+            StackBalanceBags: i.StackBalanceBags,
+            StackBalanceWeight: i.StackBalanceWeight,
             CurYear: i.CurYear,
             Flag1: i.Flag1
           })
@@ -251,9 +252,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onClear() {
     this.nonEditable = false;
-    this.Location = this.Formation = this.StackNo = null;
-    this.Bags = this.Weights = 0;
-    this.newEntry = this.cardExits = false;
+    this.Location = null; this.Formation = null; this.StackNo = null;
+    this.Bags = 0; this.Weights = 0;
+    this.newEntry = false; 
+    this.cardExits = false;
+    this.flag = false;
   }
 
   onSave() {

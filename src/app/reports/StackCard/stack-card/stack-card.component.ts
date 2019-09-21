@@ -65,27 +65,31 @@ export class StackCardComponent implements OnInit {
     let StackSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.RegionPanel.overlayVisible = true;
-          }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.RegionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+            this.regionOptions = regionSelection;
           }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          } else {
+            this.regionOptions = regionSelection;
+          }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -93,47 +97,53 @@ export class StackCardComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
       case 'cd':
-          if(type === 'enter') { this.CommodityPanel.overlayVisible = true; }
-          if (this.commodityOptions === undefined) {
+        if (type === 'enter') { this.CommodityPanel.overlayVisible = true; }
+        if (this.commodityOptions === undefined) {
           this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
                 commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
                 this.commodityOptions = commoditySelection;
               });
+            } else {
+              this.commodityOptions = commoditySelection;
             }
           })
         }
         break;
       case 'st_yr':
-          if(type === 'enter') { this.StackYearPanel.overlayVisible = true; }
-          if (this.YearOptions === undefined) {
+        if (type === 'enter') { this.StackYearPanel.overlayVisible = true; }
+        if (this.YearOptions === undefined) {
           this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
                 YearSelection.push({ 'label': y.ShortYear });
-                this.YearOptions = YearSelection;
               });
+              this.YearOptions = YearSelection;
+            } else {
+              this.YearOptions = YearSelection;
             }
           })
         }
         break;
       case 'st_no':
-          if(type === 'enter') { this.StockNoPanel.overlayVisible = true; }
-          if (this.GCode !== undefined && this.GCode !== null && this.Year.label !== undefined && this.Year.label !== null
-          && this.ITCode !== undefined && this.ITCode !== null) {
+        if (type === 'enter') { this.StockNoPanel.overlayVisible = true; }
+        if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year.label !== undefined && this.Year.label !== null
+          && this.ITCode.value !== undefined && this.ITCode.value !== null) {
           const params = {
-            'GCode': this.GCode,
+            'GCode': this.GCode.value,
             'StackDate': this.Year.label,
-            'ICode': this.ITCode,
+            'ICode': this.ITCode.value,
             'Type': 3
           }
           this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -155,10 +165,14 @@ export class StackCardComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
-      'GCode': this.GCode,
+      'GCode': this.GCode.value,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
       'StackDate': this.TStockNo.value,
-      'ICode': this.ITCode,
+      'ICode': this.ITCode.value,
+      'ITName': this.ITCode.label,
       'TStockNo': this.TStockNo.label,
+      'UserName': this.userId.user,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -189,7 +203,7 @@ export class StackCardComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.StackCardData = [];
   }
 
@@ -199,14 +213,15 @@ export class StackCardComponent implements OnInit {
       StackCardData.push({
         SlNo: data.SlNo, AckDate: data.AckDate, ReceiptBags: data.ReceiptBags,
         ReceiptQuantity: data.ReceiptQuantity, IssuesBags: data.IssuesBags,
-        IssuesQuantity: data.IssuesQuantity, ClosingBalance: data.ClosingBalance })
+        IssuesQuantity: data.IssuesQuantity, ClosingBalance: data.ClosingBalance
+      })
     })
     this.excelService.exportAsExcelFile(StackCardData, 'STACK_CARD_REPORT', this.StackCardCols);
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.StackCardDetailsReport + ".txt";
+    const filename = this.GCode.value + GolbalVariable.StackCardDetailsReport + ".txt";
     saveAs(path + filename, filename);
-   }
+  }
 }

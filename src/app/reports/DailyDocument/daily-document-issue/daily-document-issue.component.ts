@@ -151,6 +151,7 @@ export class DailyDocumentIssueComponent implements OnInit {
               SCHEME: g[0].SCHEME,
               NETWT: g[0].NETWT,
               ReceivedFrom: g[0].ReceivedFrom,
+              SITime: g[0].SITime
             }
           })
           .toArray() //.toArray because I guess you want to loop on it with ngFor      

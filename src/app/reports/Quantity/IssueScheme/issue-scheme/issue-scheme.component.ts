@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -9,6 +9,9 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
+import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-issue-scheme',
@@ -16,23 +19,27 @@ import { StatusMessage } from 'src/app/constants/Messages';
   styleUrls: ['./issue-scheme.component.css']
 })
 export class IssueSchemeComponent implements OnInit {
-  IssueSchemeCols: any;
-  IssueSchemeData: any;
-  fromDate: any;
-  toDate: any;
+  issueSchemeCols: any;
+  issueSchemeData: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   selectedValues: any;
-  g_cd: any;
-  s_cd: any;
+  GCode: any;
+  RCode: any;
+  regions: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
-  maxDate: Date;
+  maxDate: Date = new Date();
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
-
-
+  roleId: any;
+  userId: any;
+  loggedInRCode: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+ 
+ 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
@@ -40,42 +47,90 @@ export class IssueSchemeComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
-    this.IssueSchemeCols = this.tableConstants.SchemeAbstractIssueAll;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.regions = this.roleBasedService.getRegions();
+    this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
+            }
+          }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
-      this.IssueSchemeData = res;
-      let sno = 0;
-      this.IssueSchemeData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        let columns: Array<any> = [];
+        for (var i in res[0]) {
+          columns.push({ header: i, field: i });
+        }
+        columns.unshift({ header: 'S.No:', field: 'sno' });
+        let index = columns.length;
+        columns.splice(index, 0, { field: 'Total', header: 'TOTAL' });
+        this.issueSchemeCols = columns;
+        this.issueSchemeData = res;
+        let sno = 1;
+        this.issueSchemeData.forEach(data => {
+          data.sno = sno;
+          sno += 1;
+        });
+        for (let i = 0; i < this.issueSchemeData.length; i++) {
+          let total = 0;
+          this.issueSchemeCols.forEach(x => {
+            let field = x.field;
+            if (field !== 'COMMODITY' && field !== 'sno') {
+              total += (((this.issueSchemeData[i][field] !== null && this.issueSchemeData[i][field] !== undefined) ?
+                this.issueSchemeData[i][field] : 0) * 1);
+            }
+          })
+          this.issueSchemeData[i].Total = total;
+        }
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -85,15 +140,14 @@ export class IssueSchemeComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -112,12 +166,20 @@ export class IssueSchemeComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
-    this.IssueSchemeData = [];
-    this.isActionDisabled = true;
+
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
+    this.issueSchemeData = [];
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.IssueSchemeData, 'SCHEME_ABSTRACT_ISSUE_ALL', this.IssueSchemeCols);
+    this.excelService.exportAsExcelFile(this.issueSchemeData, 'SCHEME_ABSTRACT_ISSUE_ALL', this.issueSchemeCols);
   }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForIssueScheme + ".txt";
+    saveAs(path + filename, filename);
+  }
+
 }

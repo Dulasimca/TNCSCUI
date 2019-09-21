@@ -129,6 +129,7 @@ export class StockReceiptComponent implements OnInit {
   stackCompartment: string = '';
   checkTrType: boolean = true;
   DOCNumber: any;
+  submitted: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -605,14 +606,14 @@ export class StockReceiptComponent implements OnInit {
       'LNo': (this.LNo !== undefined && this.LNo !== null) ? this.LNo.toString().toUpperCase() : '-',
       'LFrom': (this.LFrom !== undefined && this.LFrom !== null) ? this.LFrom : '-',
       'ItemList': this.itemData,
-      'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '-',
+      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
       'GodownName': this.godownName,
       'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'DepositorName': (this.DepositorCode.label !== undefined && this.DepositorCode.label !== null) ? this.DepositorCode.label : this.DepositorCode,
       'UserID': this.username.user,
       'RegionName': this.regionName,
       'UnLoadingSlip': this.UnLoadingSlip,
-      'TransporterName': (this.TransporterName !== undefined && this.TransporterName !== null) ? this.TransporterName : '-',
+      'TransporterName': (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
       'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
@@ -707,6 +708,7 @@ export class StockReceiptComponent implements OnInit {
         this.transactionOptions = [{ label: res[0].TRName, value: res[0].Trcode }];
         this.Trcode = res[0].TRName;
         this.trCode = res[0].Trcode;
+        this.TransporterName = (res[0].TransporterName !== undefined && res[0].TransporterName !== null) ? res[0].TransporterName : '-';
         this.checkTrType = ((res[0].Trcode !== null && res[0].Trcode !== undefined) &&
           res[0].Trcode === 'TR023') ? false : true;
         this.depositorTypeOptions = [{ label: res[0].DepositorType, value: res[0].IssuerType }];
@@ -719,7 +721,7 @@ export class StockReceiptComponent implements OnInit {
         this.LNo = res[0].LNo;
         this.selectedValues = [res[0].TransportMode];
         this.ManualDocNo = res[0].Flag1;
-        this.Remarks = (res[0].Remarks.toString().trim().length !== 0) ? res[0].Remarks : "-";
+        this.Remarks = res[0].Remarks.trim();
         this.UnLoadingSlip = res[0].Unloadingslip;
         let sno = 1;
         res.forEach(i => {
@@ -814,7 +816,8 @@ export class StockReceiptComponent implements OnInit {
     this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = '-'; this.stackCompartment = null;
+    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
+    this.stackCompartment = null; this.TransporterName = '-';
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
     this.WTCode = null; this.Moisture = null; this.godownNo = null; this.locationNo = null;
@@ -830,5 +833,19 @@ export class StockReceiptComponent implements OnInit {
 
   openPrev() {
     this.index = (this.index === 0) ? 2 : this.index - 1;
+  }
+
+  onSubmit(form) {
+    console.log('f', form);
+    this.submitted = true;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if(form.value[key] === undefined) {
+         console.log('Please fill all the fields' + key);
+       }
+      }
+      // this.messageService.clear();
+      // this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: 'Please fill all the mandatory fields!' });
+    }
   }
 }

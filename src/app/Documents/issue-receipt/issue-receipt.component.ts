@@ -675,7 +675,7 @@ export class IssueReceiptComponent implements OnInit {
       'Receivorcode': (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
       'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'IssuerName': (this.RTCode.label !== undefined) ? this.RTCode.label : this.RTCode,
-      'TransporterName': this.TransporterName,
+      'TransporterName': (this.TransporterName.length !==0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
       'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo : '-',
@@ -686,11 +686,12 @@ export class IssueReceiptComponent implements OnInit {
       'GunnyReleased': (this.GunnyReleased !== undefined && this.GunnyReleased !== null) ? this.GunnyReleased : 0,
       'IssueItemList': this.itemData,
       'SIDetailsList': this.issueData,
-      'Remarks': (this.Remarks !== undefined) ? this.Remarks : '-',
+      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
       'GodownName': this.issuingGodownName,
       'RegionName': this.regionName,
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'ReceiverName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
+      'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : '-',
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
@@ -767,7 +768,7 @@ export class IssueReceiptComponent implements OnInit {
         this.onClear();
         this.RowId = res.Table[0].RowId;
         this.SINo = res.Table[0].SINo;
-        this.TransporterName = res.Table[0].TransporterName;
+        this.TransporterName = (res.Table[0].TransporterName !== undefined && res.Table[0].TransporterName !== null) ? res.Table[0].TransporterName : '-';
         this.TransporterCharges = res.Table[0].TransportingCharge;
         this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
         this.SServiceable = (res.Table[0].SoundServiceable !== null && res.Table[0].SoundServiceable !== undefined) ?
@@ -797,12 +798,14 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].Receivorcode }];
         this.RNCode = res.Table[0].ReceivorName;
         this.rnCode = res.Table[0].Receivorcode;
+        let ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
+        this.IssuerCode = this.rnCode + '-' + ACSCode;
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo;
         this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
         this.Loadingslip = res.Table[0].Loadingslip;
-        this.Remarks = res.Table[0].Remarks;
+        this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({

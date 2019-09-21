@@ -9,11 +9,11 @@
       </div>
     </p-header>
     <p-toast position="center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
-    <div class="ibox-body">
+    <form #f="ngForm" name="receiptForm">
+        <div class="ibox-body">
       <div class="row">
         <div class="col-md-1"></div>
         <div id="tabs" #tabs class="col-md-10">
-          <form #f="ngForm" name="receiptForm">
             <p-tabView [activeIndex]="index">
             <p-tabPanel header="Receipt Details">
               <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
@@ -31,7 +31,7 @@
                       </div>
                       <div class="ui-g-12 ui-md-6" style="margin-top: -20px">
                         <label for="receiptDate" class="label-fontsize">Date</label>
-                        <p-calendar name="receiptDate" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="SRDate" required></p-calendar>
+                        <p-calendar name="receiptDate" #receiptDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="SRDate" required></p-calendar>
                       </div>
                     </div>
                   </p-card>
@@ -43,7 +43,7 @@
                   <br>
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label for="mnth" class="label-fontsize">Month</label>
-                    <p-dropdown #m name="mnth" [options]="monthOptions" [(ngModel)]="month"
+                    <p-dropdown #m="ngModel" name="mnth" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
                       resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
                        <!-- <ng-template let-item pTemplate="selectedItem">
@@ -53,7 +53,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label for="year" class="label-fontsize">Year</label>
-                    <p-dropdown #y name="year" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y', 'click')"
+                    <p-dropdown #y="ngModel" name="year" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y', 'click')"
                     (keydown.enter)="onSelect('y', 'enter')" required>
                     </p-dropdown>
                   </div>
@@ -63,7 +63,7 @@
                     Allotment/Release Order No
                   </div><br>
                   <div class="ui-g-12 ui-fluid" style="padding-left:15px">
-                    <input name="order_no" type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off" required>
+                    <input #ordNo="ngModel" name="order_no" type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off" required>
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-3 ui-fluid">
@@ -544,15 +544,17 @@
               <button style="margin-top:5px" pButton type="button"
                 label=Clear (click)="onClear()"></button>
             </div>
-        </form>
         </div>
-      </div>
+        <div class="col-md-1">
+            <button pButton class="ui-button-raised ui-button-rounded" type="button" style="border-radius: 26px; margin-top: 10px;" icon="pi pi-check" (click)="onSubmit(f)" iconPos="left"></button>
+        </div>
+       </div>
     </div>
-    <div class="col-md-1"></div>
-  </p-panel>
+  </form>
+</p-panel>
 </div>
 <p-dialog header="Stock-Receipt" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [style]="{width: '75% !important', height: '50% !important'}">
+[(visible)]="viewPane" [responsive]="true">
     <div>
       <div class="ui-g-6 ui-md-8 no-pad-top">
         <label class="label-fontsize-large">Date</label>

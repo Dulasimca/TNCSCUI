@@ -38,7 +38,6 @@ export class ReceiptIssueCommodityComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.isViewDisabled = this.isActionDisabled = true;
-    this.QtyReceiptCols = this.tableConstants.QtyReceiptCommodity;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
   }

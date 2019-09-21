@@ -10,6 +10,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { NgForm } from '@angular/forms';
 import { Dropdown } from 'primeng/primeng';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -59,8 +60,8 @@ export class DDChequeEntryComponent implements OnInit {
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
-    private authService: AuthService, private datepipe: DatePipe,
-    private messageService: MessageService) { }
+    private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,
+    private messageService: MessageService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -269,7 +270,7 @@ export class DDChequeEntryComponent implements OnInit {
       'Type': type,
       'GCode': this.GCode,
       'ReceiptNo': (this.receiptNo !== undefined && this.receiptNo !== null) ? this.receiptNo : 0,
-      'Details': (this.details !== undefined && this.details !== null) ? this.details : '-',
+      'Details': (this.details.trim() !== '' && this.details !== null) ? this.details.trim() : '-',
       'GodownName': this.godownName,
       'RegionName': this.regionName,
       'UserID': this.UserID.user,
@@ -322,7 +323,7 @@ export class DDChequeEntryComponent implements OnInit {
     this.bank = data.Bank;
     this.receivedFrom = data.ReceivedFrom;
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
-    this.details = (data.Detail !== undefined && data.Detail !== null) ? data.Detail : '-';
+    this.details = (data.Detail.trim() !== '' && data.Detail !== null) ? data.Detail : '-';
     this.DDChequeData.splice(index, 1);
   }
 
@@ -332,6 +333,7 @@ export class DDChequeEntryComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
+  //  w.close();
   }
 
   onPrint() {
