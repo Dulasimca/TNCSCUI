@@ -44,10 +44,10 @@
             [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(issueSchemeData.length=='0')"></button>
+            <button pButton type="button" label=Print (click)="onPrint()" ></button>
           </div>
           <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(issueSchemeData.length=='0')"></button>
+            <button pButton type="button" label=Excel (click)="exportAsXLSX()" ></button>
           </div>
           <div class="ui-g-12 dashboard">
             <p-table [columns]="issueSchemeCoOpCols" [value]="issueSchemeCoOpData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
