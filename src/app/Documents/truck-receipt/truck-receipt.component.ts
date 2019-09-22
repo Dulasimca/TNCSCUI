@@ -770,7 +770,7 @@ export class TruckReceiptComponent implements OnInit {
         this.Gunnyutilised = (res[0].GunnyUtilised !== null) ? res[0].GunnyUtilised : 0;
         this.FCode = (res[0].FCode !== null && res[0].FCode.trim() !== '') ? res[0].FCode : '-';
         this.freightOptions = [{ label: this.FCode, value: this.FCode }];
-        this.VCode = (res[0].Vcode !== null && res[0].VCode.trim() !== '') ? res[0].Vcode : '-';
+        this.VCode = (res[0].Vcode !== null && res[0].Vcode.trim() !== '') ? res[0].Vcode : '-';
         this.vehicleOptions = [{ label: this.VCode, value: this.VCode }],
           this.FStation = (res[0].FromStation !== null && res[0].FromStation.trim() !== '') ? res[0].FromStation : '-';
         this.fStationCode = (res[0].FStation !== null && res[0].FStation.trim() !== '') ? res[0].FStation : '-';
@@ -782,7 +782,7 @@ export class TruckReceiptComponent implements OnInit {
         this.RailFreightAmt = (res[0].RFreightAmount !== null) ? res[0].RFreightAmount : 0;
         this.LDate = new Date(res[0].LDate);
         this.WNo = (res[0].Wno !== null) ? res[0].Wno : 0;
-        this.Remarks = res[0].Remarks.trim();
+        this.Remarks = res[0].Remarks;
         this.IssueSlip = res[0].IssueSlip;
         let sno = 1;
         res.forEach(i => {
@@ -836,7 +836,7 @@ export class TruckReceiptComponent implements OnInit {
       HCharges: (this.HCharges !== null && this.HCharges !== undefined) ? this.HCharges : 0,
       FStation: (this.FStation !== null && this.FStation !== undefined) ? ((this.FStation.value !== undefined) ? this.FStation.value : this.fStationCode) : '-',
       TStation: (this.TStation !== null && this.TStation !== undefined) ? ((this.TStation.value !== undefined) ? this.TStation.value : this.tStationCode) : '-',
-      Remarks: (this.Remarks.trim() !== '' && this.Remarks !== null) ? this.Remarks.trim() : '-',
+      Remarks: (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks.trim() : '-',
       FCode: this.FCode,
       Vcode: this.VCode,
       LDate: this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
