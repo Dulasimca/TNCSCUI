@@ -19,8 +19,8 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
   styleUrls: ['./issue-scheme-crs.component.css']
 })
 export class IssueSchemeCrsComponent implements OnInit {
-  issueSchemeCRSData: any;
-  issueSchemeCRSCols: any = [];
+  issueSchemeCRSData: any = [];
+  issueSchemeCRSCols: any;
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
