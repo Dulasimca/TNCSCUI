@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
-import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { ExcelService } from 'src/app/shared-services/excel.service';
@@ -20,7 +19,7 @@ import { saveAs } from 'file-saver';
 })
 export class IssueSchemeCoOpComponent implements OnInit {
   issueSchemeCoOpCols: any;
-  issueSchemeCoOpData: any;
+  issueSchemeCoOpData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
@@ -40,7 +39,7 @@ export class IssueSchemeCoOpComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, 
+  constructor(private datePipe: DatePipe, 
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -99,8 +98,16 @@ export class IssueSchemeCoOpComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    const params = {
+      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
+    };
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_SCHEME_SOCIETY_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.loading = false;
         let columns: Array<any> = [];
@@ -121,10 +128,13 @@ export class IssueSchemeCoOpComponent implements OnInit {
           let total = 0;
           this.issueSchemeCoOpCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if(typeof this.issueSchemeCoOpData[i][field] !== 'string') {
+
+            // if (field !== 'COMMODITY' && field !== 'PACKINGNAME' && field !== 'sno') {
               total += (((this.issueSchemeCoOpData[i][field] !== null && this.issueSchemeCoOpData[i][field] !== undefined) ?
                 this.issueSchemeCoOpData[i][field] : 0) * 1);
-            }
+            // }
+          }
           })
           this.issueSchemeCoOpData[i].Total = total;
         }

@@ -123,7 +123,7 @@ export class ReceiptSchemeComponent implements OnInit {
           sno += 1;
         });
         for (let i = 0; i < this.receiptSchemeData.length; i++) {
-          let total = 0;
+          let total: any = 0;
           this.receiptSchemeCols.forEach(x => {
             let field = x.field;
             if (field !== 'COMMODITY' && field !== 'sno') {

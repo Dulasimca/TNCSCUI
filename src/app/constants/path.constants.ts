@@ -100,5 +100,9 @@ export class PathConstants {
   public static readonly QUANTITY_ACCOUNT_ISSUE_REPORT = '/api/IssuesForQuantityAccount/Post';
   public static readonly DELIVERY_ORDER_MARGIN_AMOUNT_POST = '/api/MarginAmount/Post';
   public static readonly QUANTITY_ACCOUNT_RECEIPT_REPORT = '/api/ReceiptForQuantityAccount/Post';
-  public static readonly QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT = '/api//Post';
+  public static readonly QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT = '/api/ReceiptForQuantityACAllScheme/Post';
+  public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_SOCIETY_REPORT = '/api/IssuesForQuantityACAllSchemeSociety/Post';
+  public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_CRS_REPORT = '/api/IssuesForQuantityACAllSchemeCRS/Post';
+  public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_REPORT = '/api/IssuesForQuantityACAllScheme/Post';
+  
 }

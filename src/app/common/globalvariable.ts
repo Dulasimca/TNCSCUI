@@ -7,11 +7,11 @@ export class GolbalVariable {
     public static readonly QuantityACForIssue = 'ISQAC';
     public static readonly QuantityACForReceipt = 'REQAC';
     public static readonly StackCardDetailsReport = 'SCARD';
-    public static readonly QuantityACForReceiptScheme = '';
+    public static readonly QuantityACForReceiptScheme = 'REQASCHEME';
     public static readonly QuantityACForTruckMemoScheme = '';
-    public static readonly QuantityACForIssueScheme = '';
-    public static readonly QuantityACForIssueSchemeCRS = '';
-    public static readonly QuantityACForIssueSchemeCOOP = '';
+    public static readonly QuantityACForAllIssueScheme = 'ISQASCHEME';
+    public static readonly QuantityACForIssueSchemeCRS = 'ISQACRS';
+    public static readonly QuantityACForIssueSchemeCOOP = 'ISQASOCIETY';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';
