@@ -105,7 +105,7 @@ export class TruckMemoSchemeComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_TRUCK_SCHEME_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
@@ -126,7 +126,7 @@ export class TruckMemoSchemeComponent implements OnInit {
           let total = 0;
           this.truckMemoSchemeCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if(typeof this.truckMemoSchemeData[i][field] !== 'string') {
               total += (((this.truckMemoSchemeData[i][field] !== null && this.truckMemoSchemeData[i][field] !== undefined) ?
                 this.truckMemoSchemeData[i][field] : 0) * 1);
             }

@@ -104,5 +104,5 @@ export class PathConstants {
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_SOCIETY_REPORT = '/api/IssuesForQuantityACAllSchemeSociety/Post';
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_CRS_REPORT = '/api/IssuesForQuantityACAllSchemeCRS/Post';
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_REPORT = '/api/IssuesForQuantityACAllScheme/Post';
-  
+  public static readonly QUANTITY_ACCOUNT_TRUCK_SCHEME_REPORT = '/api/TruckMemoForQuantityACAllScheme/Post';
 }

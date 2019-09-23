@@ -137,7 +137,7 @@ const routes: Routes = [
   { path: 'Quantity AC All Scheme Issue', component: IssueSchemeComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC All Scheme Issue Crs', component: IssueSchemeCrsComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC All Scheme Issue Coop', component: IssueSchemeCoOpComponent, canActivate: [AuthGuard] },
-  { path: 'Scheme Abstract Truck', component: TruckMemoSchemeComponent, canActivate: [AuthGuard] },
+  { path: 'Quantity AC All Scheme Truck', component: TruckMemoSchemeComponent, canActivate: [AuthGuard] },
   { path: 'Qty A/c Receipt/Issue - Commodity', component: ReceiptIssueCommodityComponent, canActivate: [AuthGuard] },
   { path: 'Qty A/c Receipt/Issue - Otheritems', component: ReceiptIssueOtherItemsComponent, canActivate: [AuthGuard] },
   { path: 'Society Master', component: SocietMasterComponent, canActivate: [AuthGuard] },
