@@ -60,7 +60,7 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr style="text-align: center;">
+                <tr>
                   <td *ngFor="let col of columns">
                       <div *ngIf="col.field === 'sno' || col.field === 'COMMODITY'">
                           {{rowData[col.field]}}
