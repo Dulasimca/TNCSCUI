@@ -116,7 +116,7 @@ export class TruckReceiptComponent implements OnInit {
   LDate: Date = new Date();
   WNo: any = 0;
   RailFreightAmt: any = 0;
-  Remarks: string = '-';
+  Remarks: string;
   IssueSlip: any;
   STTDetails: any = [];
   isViewed: boolean = false;
@@ -490,7 +490,7 @@ export class TruckReceiptComponent implements OnInit {
     this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
     this.itemData.splice(index, 1);
     this.itemData.forEach(x => { x.sno = sno; sno += 1; })
-    const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
+    const list = { stack_no: this.TStockNo, stack_date: this.StackDate, curDocQty: this.NKgs }
     this.onStackNoChange(list);
   }
 
@@ -561,7 +561,7 @@ export class TruckReceiptComponent implements OnInit {
     this.Trcode = null; this.trCode = null; this.rnCode = null;
     this.OrderNo = '-'; this.selectedValues = ['Road']; this.RNo = '-'; this.LorryNo = null;
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
-    this.RTCode = null; this.RNCode = null; this.ManualDocNo = '-'; this.Remarks = '-';
+    this.RTCode = null; this.RNCode = null; this.ManualDocNo = '-'; this.Remarks = null;
     this.TransporterName = '-'; this.LWBillNo = '-';
     this.FreightAmount = 0; this.Kilometers = 0; this.WHDNo = 0; this.WCharges = 0;
     this.HCharges = 0; this.TStation = '-'; this.FStation = '-';
@@ -619,10 +619,10 @@ export class TruckReceiptComponent implements OnInit {
         this.StackBalance = (this.StackBalance * 1);
         if (this.StackBalance > 0) {
           this.isValidStackBalance = false;
-          this.CurrentDocQtv = this.NetStackBalance = 0;
+          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
             this.itemData.forEach(x => {
-              if (x.TStockNo === stack_data.value) {
+              if (x.TStockNo.trim() === stockNo.trim()) {
                 this.CurrentDocQtv += (x.Nkgs * 1);
                 this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
               }
@@ -673,8 +673,15 @@ export class TruckReceiptComponent implements OnInit {
       let lastIndex = this.itemData.length - 1;
       if (this.CurrentDocQtv > this.StackBalance) {
         this.itemData.splice(lastIndex, 1);
-        this.CurrentDocQtv = 0;
-        this.NetStackBalance = 0;
+       ///calculating current document quantity based on stock number after splicing data from table
+       this.CurrentDocQtv = 0;
+       this.itemData.forEach(x => {
+         if (x.TStockNo.trim() === stock_no.trim()) {
+           this.CurrentDocQtv += (x.Nkgs * 1);
+         }
+       });
+       ///end 
+        // this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.clear();

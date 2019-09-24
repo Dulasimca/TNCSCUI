@@ -86,7 +86,7 @@ export class IssueReceiptComponent implements OnInit {
   VehicleNo: any;
   TransporterName: string = '-';
   ManualDocNo: any = '-';
-  Remarks: string = '-';
+  Remarks: string;
   //Issue item
   Scheme: any;
   ICode: any;
@@ -466,7 +466,6 @@ export class IssueReceiptComponent implements OnInit {
     const totalLength = stockNo.length;
     this.godownNo = stockNo.slice(0, ind);
     this.locationNo = stockNo.slice(ind + 1, totalLength);
-    let selectedStackBalance = (stack_data.stackBalance !== undefined && stack_data.value !== null) ? (stack_data.stackBalance * 1) : 0;
     const params = {
       TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
@@ -477,13 +476,13 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1) + (selectedStackBalance * 1);
+        this.StackBalance = (this.StackBalance * 1);
         if (this.StackBalance > 0 || !this.checkTrType) {
           this.isValidStackBalance = false;
-          this.CurrentDocQtv = this.NetStackBalance = 0;
+          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
             this.itemData.forEach(x => {
-              if (x.TStockNo.trim() === stack_data.value) {
+              if (x.TStockNo.trim() === stockNo.trim()) {
                 this.CurrentDocQtv += (x.Nkgs * 1);
                 this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
               }
@@ -564,6 +563,7 @@ export class IssueReceiptComponent implements OnInit {
       this.CurrentDocQtv = 0;
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
+      ///calculating current document quantity based on stock number
       this.itemData.forEach(x => {
         x.sno = sno;
         if (x.TStockNo.trim() === stock_no.trim()) {
@@ -571,13 +571,20 @@ export class IssueReceiptComponent implements OnInit {
         }
         sno += 1;
       });
+      ///end
       let lastIndex = this.itemData.length - 1;
       if( this.checkTrType) {
       if (this.CurrentDocQtv > this.StackBalance) {
         this.messageService.clear();
         this.itemData.splice(lastIndex, 1);
-        this.CurrentDocQtv = 0;
-        this.NetStackBalance = 0;
+      ///calculating current document quantity based on stock number after splicing data from table
+      this.CurrentDocQtv = 0;
+        this.itemData.forEach(x => {
+          if (x.TStockNo.trim() === stock_no.trim()) {
+            this.CurrentDocQtv += (x.Nkgs * 1);
+          }
+        });
+        ///end
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.clear();
@@ -640,7 +647,7 @@ export class IssueReceiptComponent implements OnInit {
         this.itemData.splice(index, 1);
         let sno = 1;
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stackBalance: this.NKgs }
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
         break;
     }
@@ -862,7 +869,7 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = '-';
+    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
