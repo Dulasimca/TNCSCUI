@@ -596,7 +596,7 @@ export class DeliveryReceiptComponent implements OnInit {
             Rcode: this.RCode,
             PaymentAmount: (this.PAmount * 1).toFixed(2),
             payableat: this.PayableAt,
-            bank: this.OnBank
+            bank: this.OnBank.toString().toUpperCase()
           })
           let lastIndex = this.paymentData.length;
           if (this.paymentData.length !== 0) {
