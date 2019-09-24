@@ -111,7 +111,7 @@ import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/sc
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 import { StatusMessage } from './constants/Messages';
 import { OtherSchemesComponent } from './reports/DeliveryOrderReport/Other-schemes/other-schemes.component';
-import { AllSchemeComponent } from './reports/DeliveryOrderReport/All-scheme/all-scheme.component';
+
 import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
@@ -131,6 +131,7 @@ import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-deta
 import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
+import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
 
 @NgModule({
   declarations: [
