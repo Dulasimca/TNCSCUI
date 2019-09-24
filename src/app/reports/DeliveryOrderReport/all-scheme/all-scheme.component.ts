@@ -19,9 +19,9 @@ import { Dropdown } from 'primeng/primeng';
 })
 export class AllSchemeComponent implements OnInit {
   AllSchemeCols: any;
-  AllSchemeData: any;
-  fromDate: any;
-  toDate: any;
+  AllSchemeData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
   SchemeOptions: SelectItem[];
   transactionOptions: SelectItem[];
@@ -40,19 +40,17 @@ export class AllSchemeComponent implements OnInit {
   SchCode: any;
   GCode: any;
   SCode: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
   maxDate: Date;
   roleId: any;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('region') transactionPanel: Dropdown;
   @ViewChild('region') societyPanel: Dropdown;
   @ViewChild('region') schemePanel: Dropdown;
-  loggedInRCode: any;
 
 
 
@@ -63,7 +61,6 @@ export class AllSchemeComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
     this.AllSchemeCols = this.tableConstants.DoAllScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
@@ -76,7 +73,9 @@ export class AllSchemeComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    switch (item) {
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
+    let SchemeSelection = [];switch (item) {
       case 'reg':
           this.regions = this.roleBasedService.regionsData;
           if (type === 'enter') {
@@ -113,58 +112,47 @@ export class AllSchemeComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-    }
+    case 't':
+      if (type === 'enter') {
+        this.transactionPanel.overlayVisible = true;
+      }
+      if (this.transactionOptions === undefined) {
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+          s.forEach(c => {
+            if (c.TransType === 'I') {
+              TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+            }
+            this.transactionOptions = TransactionSelection;
+          });
+        });
+      }
+      break;
+    case 'r':
+      if (type === 'enter') {
+        this.societyPanel.overlayVisible = true;
+      }
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = ReceiverSelection;
+        });
+      break;
+    case 'Sch':
+      if (type === 'enter') {
+        this.schemePanel.overlayVisible = true;
+      }
+      if (this.SchemeOptions === undefined) {
+        this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
+          data.forEach(y => {
+            SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+          });
+          this.SchemeOptions = SchemeSelection;
+        });
+      }
+      break;
   }
-
-  OnType(item, type) {
-    let TransactionSelection = [];
-    let ReceiverSelection = [];
-    let SchemeSelection = [];
-    switch (item) {
-      case 't':
-        if (type === 'enter') {
-          this.transactionPanel.overlayVisible = true;
-        }
-        if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
-            s.forEach(c => {
-              if (c.TransType === 'I') {
-                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
-              }
-              this.transactionOptions = TransactionSelection;
-            });
-          });
-        }
-        break;
-      case 'r':
-        if (type === 'enter') {
-          this.societyPanel.overlayVisible = true;
-        }
-        if (this.receiverOptions === undefined) {
-          const params = new HttpParams().set('TRCode', this.t_cd.value);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
-            res.forEach(s => {
-              ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
-            });
-            this.receiverOptions = ReceiverSelection;
-          });
-        }
-        break;
-      case 'Sch':
-        if (type === 'enter') {
-          this.schemePanel.overlayVisible = true;
-        }
-        if (this.SchemeOptions === undefined) {
-          this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-            data.forEach(y => {
-              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
-              this.SchemeOptions = SchemeSelection;
-            });
-            this.SchemeOptions.unshift({ label: '-select-', value: null, disabled: true });
-          });
-        }
-        break;
-    }
   }
 
   onView() {
@@ -177,9 +165,10 @@ export class AllSchemeComponent implements OnInit {
       'SCode': this.s_cd.value,
       'SchCode': this.sch_cd.value
     };
-    if (this.AllSchemeData === undefined) {
       this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
-        this.AllSchemeData = res;
+        if (res !== undefined && res.length !== 0 && res !== null) {
+          this.AllSchemeData = res;
+          this.loading = false;
         let sno = 0;
         this.AllSchemeData.forEach(data => {
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
@@ -187,9 +176,6 @@ export class AllSchemeComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
-        if (res !== undefined && res.length !== 0) {
-          this.isActionDisabled = false;
-          this.loading = false;
         } else {
           this.loading = false;
           this.messageService.clear();
@@ -206,15 +192,12 @@ export class AllSchemeComponent implements OnInit {
         }
       });
     }
-  }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -233,13 +216,9 @@ export class AllSchemeComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
-    this.AllSchemeData = [];
-    this.isActionDisabled = true;
-  }
 
-  onResetTab(item) {
-    if (item === 'reg') { this.GCode = null; }
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.AllSchemeData = [];
   }
 
@@ -250,4 +229,6 @@ export class AllSchemeComponent implements OnInit {
     });
     this.excelService.exportAsExcelFile(AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
   }
+
+   onPrint() { }
 }

@@ -14,7 +14,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTab('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -24,7 +24,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-          (ngModelChange)="onResetTab('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
           placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -33,8 +33,8 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
-        <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="OnType('t', 'click')" (keydown.enter)="OnType('t', 'enter')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true"
+        <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+          (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -43,8 +43,8 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
-        <p-dropdown id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="OnType('r', 'click')" (keydown.enter)="OnType('t', 'enter')"
-          (ngModelChange)="onResetTable()" filter="true" optionLabel="label" resetFilterOnHide="true"
+        <p-dropdown id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+          (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -53,8 +53,8 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
-        <p-dropdown id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="OnType('Sch', 'click')" (keydown.enter)="OnType('t', 'enter')"
-          (ngModelChange)="onResetTable()" filter="true" resetFilterOnHide="true" optionLabel="label"
+        <p-dropdown id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+          (ngModelChange)="onResetTable('')" filter="true" resetFilterOnHide="true" optionLabel="label"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -78,30 +78,15 @@
           <button pButton type="button" label=View (click)="onView()"
             [disabled]="(!GCode || !RCode || !t_cd || !s_cd || !sch_cd || !fromDate || !toDate)"></button>
         </div>
-        <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-        </div> -->
+         <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
           <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-            [disabled]="(!GCode || !RCode || !t_cd || !s_cd || !sch_cd || !fromDate || !toDate)"></button>
+            [disabled]="(AllSchemeData.length=='0')"></button>
         </div>
         <div class="ui-g-12 ui-md-3"></div>
       </div>
-      <!-- <div class="ui-g-12 dashboard">
-        <div class="ui-g-12 ui-md-2"></div>
-        <div class="ui-g-12 ui-md-2">
-          <p-inputSwitch class="ui-g-12 ui-md-4" [(ngModel)]="checked1"></p-inputSwitch>
-                        <label class="ui-g-12 ui-md-8">Society Type</label>
-                        <p-radioButton name="group1" value="Option 1" label="Society Type" [(ngModel)]="val1" inputId="opt1"></p-radioButton>
-          <p-checkbox class="ui-g-2" name="groupname" value="val1" [(ngModel)]="selectedValues"></p-checkbox>
-          <label class="ui-g-8">Society Type</label>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <p-checkbox class="ui-g-1" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
-          <label class="ui-g-8">Society + Commodity</label>
-        </div>
-        <div class="ui-g-12 ui-md-2"></div>
-      </div> -->
       <div class="ui-g-12 dashboard">
         <p-table [columns]="AllSchemeCols" [value]="AllSchemeData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
@@ -116,7 +101,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'Quantity' || col.field ==='Rate' || col.field === 'Amount'">
+                  <div style="text-align: end !important">
+                      {{rowData[col.field]}}
+                    </div>
+                </div>
+                <div *ngIf="col.field !== 'Quantity' && col.field !=='Rate' && col.field !== 'Amount'">
+                        {{rowData[col.field]}}
+                  </div>
               </td>
             </tr>
           </ng-template>
