@@ -110,8 +110,8 @@ import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correcti
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
 import { StatusMessage } from './constants/Messages';
-import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
-import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
+import { OtherSchemesComponent } from './reports/DeliveryOrderReport/Other-schemes/other-schemes.component';
+import { AllSchemeComponent } from './reports/DeliveryOrderReport/All-scheme/all-scheme.component';
 import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
@@ -183,8 +183,8 @@ import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/an
     // OpeningBalanceComponent,
     TruckTransitComponent,
     DecimalDirective,
+    OtherSchemesComponent,
     AllSchemeComponent,
-    OtherSchemeComponent,
     SocietyAbstractComponent,
     DemandDraftComponent,
     MarginAmountComponent,
