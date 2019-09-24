@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { ExcelService } from 'src/app/shared-services/excel.service';
@@ -9,6 +9,9 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-receipt-detail-commodity',
@@ -17,19 +20,23 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class ReceiptDetailCommodityComponent implements OnInit {
   QtyReceiptCols: any;
-  QtyReceiptData: any;
-  fromDate: any;
-  toDate: any;
+  QtyReceiptData: any = [];
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
-  g_cd: any;
+  regionOptions: SelectItem[];
+  GCode: any;
+  RCode: any;
+  roleId: any;
   data: any;
-  isViewDisabled: boolean;
-  isActionDisabled: boolean;
+  regions: any;
   maxDate: Date;
   canShowMenu: boolean;
-  isShowErr: boolean;
   loading: boolean = false;
-
+  loggedInRCode: string;
+  userId: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
@@ -37,31 +44,72 @@ export class ReceiptDetailCommodityComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.isViewDisabled = this.isActionDisabled = true;
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    if (this.QtyReceiptData !== undefined && this.toDate !== undefined
-      && this.g_cd.value !== '' && this.g_cd.value !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    switch (item) {
+      case 'reg':
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
+            }
+          }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            this.godownOptions = godownSelection;
+          });
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.g_cd.value);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
-      this.QtyReceiptData = res;
+    const params = {
+      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
+    };
+        this.restAPIService.post(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.QtyReceiptData = res;
+        this.loading = false;
       let sno = 0;
       this.QtyReceiptData.forEach(data => {
         data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
@@ -69,9 +117,8 @@ export class ReceiptDetailCommodityComponent implements OnInit {
         sno += 1;
         data.SlNo = sno;
       })
-      if (res !== undefined && res.length !== 0) {
-        this.isActionDisabled = false;
       } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -83,13 +130,12 @@ export class ReceiptDetailCommodityComponent implements OnInit {
       }
     })
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    if (this.fromDate !== undefined && this.toDate !== undefined
-      && this.g_cd !== '' && this.g_cd !== undefined && this.g_cd !== null) {
-      this.isViewDisabled = false;
-    }
+    this.onResetTable('');
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -108,12 +154,19 @@ export class ReceiptDetailCommodityComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  onResetTable() {
+
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.QtyReceiptData = [];
-    this.isActionDisabled = true;
   }
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.QtyReceiptData, 'QTY_RECEIPT_COMMODITY', this.QtyReceiptCols);
+  }
+
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForReceiptDetailCommodity + ".txt";
+    saveAs(path + filename, filename);
   }
 }

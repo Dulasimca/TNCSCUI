@@ -41,15 +41,15 @@
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="isViewDisabled"></button>
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
-      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(QtyReceiptData.length=='0')"></button>
       </div>
-      <div class="ui-g-12 dashboard">
+     <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+      </div> 
+       <div class="ui-g-12 dashboard">
         <p-table [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
