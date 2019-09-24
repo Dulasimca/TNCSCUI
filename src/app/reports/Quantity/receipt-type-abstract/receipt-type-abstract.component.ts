@@ -126,7 +126,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
           let total = 0;
           this.ReceiptAbstractCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if((typeof this.ReceiptAbstractData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.ReceiptAbstractData[i][field] !== null && this.ReceiptAbstractData[i][field] !== undefined) ?
                 this.ReceiptAbstractData[i][field] : 0) * 1);
             }

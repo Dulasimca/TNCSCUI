@@ -704,7 +704,8 @@ export class TableConstants {
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT' },
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS' },
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT' },
-      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE' }
+      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE' },
+      { field: 'ObDate', header: 'OB Date'}
     ];
 
     this.OpeningBalanceCurYearEntry = [

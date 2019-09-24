@@ -201,7 +201,7 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input class="ui-g-12" name="RateRs" pInputText [(ngModel)]="Rate" autocomplete="off"
-                        (input)="calculateTotal()" appDecimalAmount />
+                        (input)="calculateTotal()" appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="Total" style="padding-top: 0px;">Total</label>
@@ -289,7 +289,7 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input name="MRate" pInputText [(ngModel)]="MarginRate" (input)="calculateTotal()"
-                        autocomplete="off" appDecimalAmount />
+                        autocomplete="off" appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="MAmnt" style="padding-top: 0px;">Margin Amount</label>
@@ -378,7 +378,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="PayAmnt" [(ngModel)]="PAmount" pInputText autocomplete="off"
-                        type="number" appDecimalAmount>
+                        type="text" appDecimalAmount>
                         <label for="PayAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
@@ -471,19 +471,19 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText
-                        type="number" autocomplete="off" >
+                        type="text" autocomplete="off" >
                         <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="OtherAmnt" type="number" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
+                        <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
                         <label for="OtherAmnt" class="float-input">Other Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="Bal" type="number" [(ngModel)]="Balance" pInputText autocomplete="off"
+                        <input name="Bal" type="text" [(ngModel)]="Balance" pInputText autocomplete="off"
                         [readonly]="true" >
                         <label for="Bal" class="float-input">Balance</label>
                       </span>

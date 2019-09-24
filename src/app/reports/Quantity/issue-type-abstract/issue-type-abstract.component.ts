@@ -126,7 +126,7 @@ export class IssueTypeAbstractComponent implements OnInit {
           let total = 0;
           this.IssueAbstractCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if((typeof this.IssueAbstractData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.IssueAbstractData[i][field] !== null && this.IssueAbstractData[i][field] !== undefined) ?
                 this.IssueAbstractData[i][field] : 0) * 1);
             }

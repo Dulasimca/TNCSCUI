@@ -34,9 +34,9 @@ export class TruckMemoSchemeComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   userId: any;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private datePipe: DatePipe, private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -105,7 +105,7 @@ export class TruckMemoSchemeComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_TRUCK_SCHEME_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {
         this.loading = false;
         let columns: Array<any> = [];
@@ -126,7 +126,7 @@ export class TruckMemoSchemeComponent implements OnInit {
           let total = 0;
           this.truckMemoSchemeCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if((typeof this.truckMemoSchemeData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.truckMemoSchemeData[i][field] !== null && this.truckMemoSchemeData[i][field] !== undefined) ?
                 this.truckMemoSchemeData[i][field] : 0) * 1);
             }

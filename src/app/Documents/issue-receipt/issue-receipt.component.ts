@@ -83,7 +83,7 @@ export class IssueReceiptComponent implements OnInit {
   IssuerCode: any;
   WNo: any = '-';
   TransporterCharges: any = 0;
-  VehicleNo: any = '-';
+  VehicleNo: any;
   TransporterName: string = '-';
   ManualDocNo: any = '-';
   Remarks: string = '-';
@@ -124,6 +124,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
   DOCNumber: any;
+  selectedIndex: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -465,6 +466,7 @@ export class IssueReceiptComponent implements OnInit {
     const totalLength = stockNo.length;
     this.godownNo = stockNo.slice(0, ind);
     this.locationNo = stockNo.slice(ind + 1, totalLength);
+    let selectedStackBalance = (stack_data.stackBalance !== undefined && stack_data.value !== null) ? (stack_data.stackBalance * 1) : 0;
     const params = {
       TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
@@ -475,13 +477,13 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
+        this.StackBalance = (this.StackBalance * 1) + (selectedStackBalance * 1);
         if (this.StackBalance > 0 || !this.checkTrType) {
           this.isValidStackBalance = false;
           this.CurrentDocQtv = this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
             this.itemData.forEach(x => {
-              if (x.TStockNo === stack_data.value) {
+              if (x.TStockNo.trim() === stack_data.value) {
                 this.CurrentDocQtv += (x.Nkgs * 1);
                 this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
               }
@@ -569,11 +571,11 @@ export class IssueReceiptComponent implements OnInit {
         }
         sno += 1;
       });
-      let lastIndex = this.itemData.length;
+      let lastIndex = this.itemData.length - 1;
       if( this.checkTrType) {
       if (this.CurrentDocQtv > this.StackBalance) {
         this.messageService.clear();
-        this.itemData = this.itemData.splice(lastIndex, 1);
+        this.itemData.splice(lastIndex, 1);
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
         this.NoPacking = null;
@@ -584,14 +586,16 @@ export class IssueReceiptComponent implements OnInit {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
-        this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+        this.TKgs = null; this.WTCode = null; this.Moisture = null;
+        this.Scheme = null; this.selectedIndex = null;
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
         this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
       }
     } else {
       this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
       this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
-      this.TKgs = null; this.WTCode = null; this.Moisture = null; this.Scheme = null;
+      this.TKgs = null; this.WTCode = null; this.Moisture = null;
+      this.Scheme = null; this.selectedIndex = null;
       this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
       this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
     }
@@ -599,6 +603,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   deleteRow(id, data, index) {
+    this.selectedIndex = index;
     switch (id) {
       case 'issue':
         this.SIDate = new Date(data.SIDate);
@@ -635,7 +640,7 @@ export class IssueReceiptComponent implements OnInit {
         this.itemData.splice(index, 1);
         let sno = 1;
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stackBalance: this.NKgs }
         this.onStackNoChange(list);
         break;
     }
@@ -857,7 +862,7 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = '-'; this.Remarks = '-';
+    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = '-';
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;

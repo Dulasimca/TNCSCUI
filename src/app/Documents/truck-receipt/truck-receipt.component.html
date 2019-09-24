@@ -270,7 +270,7 @@
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
-                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode)" (click)="onEnter()"></button>
+                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null)" (click)="onEnter()"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">

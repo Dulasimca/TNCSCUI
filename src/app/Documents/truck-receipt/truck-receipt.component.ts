@@ -66,7 +66,7 @@ export class TruckReceiptComponent implements OnInit {
   OrderDate: Date = new Date();
   RNo: any = '-';
   RDate: Date = new Date();
-  LorryNo: any = '-';
+  LorryNo: any;
   RHCode: any;
   rhCode: any;
   RTCode: any;
@@ -136,6 +136,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('vc') vehiclePanel: Dropdown;
   @ViewChild('rh') railHeadPanel: Dropdown;
   DOCNumber: any;
+  selectedIndex: any;
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -461,6 +462,7 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   deleteRow(data, index) {
+    this.selectedIndex = index;
     let sno = 1;
     this.TStockNo = data.TStockNo;
     this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
@@ -557,7 +559,7 @@ export class TruckReceiptComponent implements OnInit {
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
     this.LWBillDate = new Date(); this.LDate = new Date();
     this.Trcode = null; this.trCode = null; this.rnCode = null;
-    this.OrderNo = '-'; this.selectedValues = ['Road']; this.RNo = '-'; this.LorryNo = '-';
+    this.OrderNo = '-'; this.selectedValues = ['Road']; this.RNo = '-'; this.LorryNo = null;
     this.RRCode = null; this.RHCode = null; this.rhCode = null;
     this.RTCode = null; this.RNCode = null; this.ManualDocNo = '-'; this.Remarks = '-';
     this.TransporterName = '-'; this.LWBillNo = '-';
@@ -668,9 +670,9 @@ export class TruckReceiptComponent implements OnInit {
         }
         sno += 1;
       });
-      let lastIndex = this.itemData.length;
+      let lastIndex = this.itemData.length - 1;
       if (this.CurrentDocQtv > this.StackBalance) {
-        this.itemData = this.itemData.splice(lastIndex, 1);
+        this.itemData.splice(lastIndex, 1);
         this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
         this.NoPacking = null;

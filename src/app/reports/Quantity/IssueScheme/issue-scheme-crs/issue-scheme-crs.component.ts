@@ -19,7 +19,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
   styleUrls: ['./issue-scheme-crs.component.css']
 })
 export class IssueSchemeCrsComponent implements OnInit {
-  issueSchemeCRSData: any;
+  issueSchemeCRSData: any = [];
   issueSchemeCRSCols: any;
   fromDate: any = new Date();
   toDate: any = new Date();
@@ -40,7 +40,7 @@ export class IssueSchemeCrsComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
+  constructor(private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
@@ -59,27 +59,27 @@ export class IssueSchemeCrsComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -99,8 +99,16 @@ export class IssueSchemeCrsComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    const params = {
+      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      GCode: this.GCode.value,
+      RCode: this.RCode.value,
+      UserId: this.userId.user,
+      RName: this.RCode.label,
+      GName: this.GCode.label
+    };
+    this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_ISSUE_SCHEME_CRS_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.loading = false;
         let columns: Array<any> = [];
@@ -121,7 +129,7 @@ export class IssueSchemeCrsComponent implements OnInit {
           let total = 0;
           this.issueSchemeCRSCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if((typeof this.issueSchemeCRSData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.issueSchemeCRSData[i][field] !== null && this.issueSchemeCRSData[i][field] !== undefined) ?
                 this.issueSchemeCRSData[i][field] : 0) * 1);
             }
@@ -166,7 +174,7 @@ export class IssueSchemeCrsComponent implements OnInit {
     }
   }
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.issueSchemeCRSData = [];
   }
 

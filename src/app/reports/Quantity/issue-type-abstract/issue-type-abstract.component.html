@@ -69,9 +69,16 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr style="text-align: center;">
+                <tr>
                   <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
+                      <div *ngIf="col.field === 'sno' || col.field === 'COMMODITY'">
+                          {{rowData[col.field]}}
+                        </div>
+                        <div *ngIf="col.field !== 'sno' && col.field !== 'COMMODITY'">
+                          <div style="text-align: end !important">
+                            {{rowData[col.field]}}
+                          </div>
+                        </div>
                   </td>
                 </tr>
               </ng-template>

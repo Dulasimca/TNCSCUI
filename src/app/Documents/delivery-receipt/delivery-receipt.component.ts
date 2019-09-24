@@ -738,6 +738,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.NKgs = 0; this.MarginNKgs = 0; this.Rate = 0; this.MarginRate = 0;
     this.RateTerm = null; this.MarginRateInTerms = null; this.miCode = null;
     this.TotalAmount = 0; this.GrandTotal = 0; this.MarginAmount = 0;
+    this.marginTotal = 0; this.totalAmount = 0;
     this.MarginScheme = null; this.MICode = null; this.marginSchemeCode = null;
     this.schemeOptions = []; this.marginSchemeOptions = [];
     this.marginRateInTermsOptions = []; this.rateInTermsOptions = [];

@@ -8,6 +8,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-opening-balance-details',
@@ -45,7 +46,9 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   validationErr: boolean = false;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
-    private excelService: ExcelService, private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService) { }
+    private excelService: ExcelService, private restAPIService: RestAPIService,
+    private tableConstants: TableConstants, private messageService: MessageService,
+    private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -169,12 +172,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         res.forEach(x => {
           sno += 1;
           this.openingBalanceData.push({
-            'SlNo': sno, 'ITDescription': x.ITDescription, 'CommodityCode': x.CommodityCode,
-            'BookBalanceBags': x.BookBalanceBags,
-            'BookBalanceWeight': (x.BookBalanceWeight * 1).toFixed(3),
-            'PhysicalBalanceBags': x.PhysicalBalanceBags,
-            'PhysicalBalanceWeight': (x.PhysicalBalanceWeight * 1).toFixed(3),
-            'CumulativeShortage': (x.CumulitiveShortage * 1).toFixed(3),
+            SlNo: sno, ITDescription: x.ITDescription, CommodityCode: x.CommodityCode,
+            BookBalanceBags: x.BookBalanceBags,
+            BookBalanceWeight: (x.BookBalanceWeight * 1).toFixed(3),
+            PhysicalBalanceBags: x.PhysicalBalanceBags,
+            PhysicalBalanceWeight: (x.PhysicalBalanceWeight * 1).toFixed(3),
+            CumulativeShortage: (x.CumulitiveShortage * 1).toFixed(3),
+            ObDate: this.datepipe.transform(x.ObDate, 'dd-MM-yyyy')
           })
         });
         this.opening_balance = this.openingBalanceData.slice(0);

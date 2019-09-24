@@ -84,7 +84,7 @@ export class StockReceiptComponent implements OnInit {
   TruckMemoNo: any = '-';
   TruckMemoDate: Date = new Date();
   ManualDocNo: any = '-';
-  LNo: any = '-';
+  LNo: any;
   LFrom: any = '-';
   //SR-Item Details
   TStockNo: any;
@@ -813,7 +813,7 @@ export class StockReceiptComponent implements OnInit {
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.OrderNo = '-'; this.selectedValues = ['Road']; this.Trcode = null;
     this.DepositorCode = null; this.DepositorType = null; this.TruckMemoNo = '-';
-    this.LNo = '-'; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
+    this.LNo = null; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
     this.schemeCode = null; this.Scheme = null; this.Remarks = '-';

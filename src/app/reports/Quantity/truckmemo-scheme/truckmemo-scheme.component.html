@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Truck Memo - Scheme Godown Wise</div>
+        <div class="ui-g-4 dashboard">Truck Memo - Godown Wise</div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
@@ -60,9 +60,16 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr style="text-align: center;">
+                <tr>
                   <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
+                      <div *ngIf="col.field === 'sno' || col.field === 'COMMODITY'">
+                          {{rowData[col.field]}}
+                        </div>
+                        <div *ngIf="col.field !== 'sno' && col.field !== 'COMMODITY'">
+                          <div style="text-align: end !important">
+                            {{rowData[col.field]}}
+                          </div>
+                        </div>
                   </td>
                 </tr>
               </ng-template>
