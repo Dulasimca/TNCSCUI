@@ -126,7 +126,7 @@ export class TruckMemoSchemeComponent implements OnInit {
           let total = 0;
           this.truckMemoSchemeCols.forEach(x => {
             let field = x.field;
-            if(typeof this.truckMemoSchemeData[i][field] !== 'string') {
+            if((typeof this.truckMemoSchemeData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.truckMemoSchemeData[i][field] !== null && this.truckMemoSchemeData[i][field] !== undefined) ?
                 this.truckMemoSchemeData[i][field] : 0) * 1);
             }

@@ -11,11 +11,11 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-receipt-issue-commodity',
-  templateUrl: './receipt-issue-commodity.component.html',
-  styleUrls: ['./receipt-issue-commodity.component.css']
+  selector: 'app-receipt-detail-commodity',
+  templateUrl: './receipt-detail-commodity.component.html',
+  styleUrls: ['./receipt-detail-commodity.component.css']
 })
-export class ReceiptIssueCommodityComponent implements OnInit {
+export class ReceiptDetailCommodityComponent implements OnInit {
   QtyReceiptCols: any;
   QtyReceiptData: any;
   fromDate: any;

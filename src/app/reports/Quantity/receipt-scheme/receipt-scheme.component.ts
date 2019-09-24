@@ -126,7 +126,7 @@ export class ReceiptSchemeComponent implements OnInit {
           let total: any = 0;
           this.receiptSchemeCols.forEach(x => {
             let field = x.field;
-            if (field !== 'COMMODITY' && field !== 'sno') {
+            if ((typeof this.receiptSchemeData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.receiptSchemeData[i][field] !== null && this.receiptSchemeData[i][field] !== undefined) ?
                 this.receiptSchemeData[i][field] : 0) * 1);
             }

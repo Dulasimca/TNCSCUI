@@ -129,7 +129,7 @@ export class IssueSchemeComponent implements OnInit {
           let total = 0;
           this.issueSchemeCols.forEach(x => {
             let field = x.field;
-            if(typeof this.issueSchemeData[i][field] !== 'string') {
+            if((typeof this.issueSchemeData[i][field] !== 'string') && field !== 'sno'){
               total += (((this.issueSchemeData[i][field] !== null && this.issueSchemeData[i][field] !== undefined) ?
                 this.issueSchemeData[i][field] : 0) * 1);
             }

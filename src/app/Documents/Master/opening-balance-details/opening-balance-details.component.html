@@ -109,14 +109,26 @@
 </div>
 <p-dialog header="Opening Balance" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [responsive]="true">
-  <div class="ui-g-12 ui-md-6">
-      <label class="ui-g-6 label-fontsize-large">Commodity Name</label>
+<div class="ui-g-12 no-pad-top">
+  <div class="ui-g-6 ui-md-4">
+      <label class="ui-g-4 label-fontsize-large">Commodity Name</label>
       <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
        (onChange)="onChange($event)" filter="true" resetFilterOnHide="true"  (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
           </p-dropdown>
+  </div>
+  <div class="ui-g-5"></div>
+  <div class="ui-g-4 ui-md-1 no-right-pad">
+    <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="showSelectedData()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1">
+      <button class="ui-g-10 dashboard" pButton type="button" [disabled]="(openingBalanceData.length=='0')" label=Excel (click)="exportAsXLSX()"></button>
+    </div>
+  <div class="ui-g-4 ui-md-1 no-left-pad">
+      <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+    </div>
   </div>
   <div class="ui-g-12 ui-fluid">
       <p-table #table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
@@ -142,14 +154,4 @@
         </ng-template>
       </p-table>
     </div>
-    <div class="ui-g-4 ui-md-9"></div>
-    <div class="ui-g-4 ui-md-1 no-right-pad">
-      <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="showSelectedData()"></button>
-    </div>
-    <div class="ui-g-4 ui-md-1">
-        <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!openingBalanceData" label=Excel (click)="exportAsXLSX()"></button>
-      </div>
-    <div class="ui-g-4 ui-md-1 no-left-pad">
-        <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
-      </div>
 </p-dialog>

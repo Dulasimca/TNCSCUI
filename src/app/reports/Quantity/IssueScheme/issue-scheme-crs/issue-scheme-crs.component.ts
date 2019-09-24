@@ -129,7 +129,7 @@ export class IssueSchemeCrsComponent implements OnInit {
           let total = 0;
           this.issueSchemeCRSCols.forEach(x => {
             let field = x.field;
-            if(typeof this.issueSchemeCRSData[i][field] !== 'string') {
+            if((typeof this.issueSchemeCRSData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.issueSchemeCRSData[i][field] !== null && this.issueSchemeCRSData[i][field] !== undefined) ?
                 this.issueSchemeCRSData[i][field] : 0) * 1);
             }

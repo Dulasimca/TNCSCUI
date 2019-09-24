@@ -128,7 +128,7 @@ export class IssueSchemeCoOpComponent implements OnInit {
           let total = 0;
           this.issueSchemeCoOpCols.forEach(x => {
             let field = x.field;
-            if(typeof this.issueSchemeCoOpData[i][field] !== 'string') {
+            if((typeof this.issueSchemeCoOpData[i][field] !== 'string') && field !== 'sno') {
 
             // if (field !== 'COMMODITY' && field !== 'PACKINGNAME' && field !== 'sno') {
               total += (((this.issueSchemeCoOpData[i][field] !== null && this.issueSchemeCoOpData[i][field] !== undefined) ?
