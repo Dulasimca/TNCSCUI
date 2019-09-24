@@ -13,8 +13,8 @@ import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-All-scheme',
-  templateUrl: './All-scheme.component.html',
-  styleUrls: ['./All-scheme.component.css']
+  templateUrl: './all-scheme.component.html',
+  styleUrls: ['./all-scheme.component.css']
 })
 export class AllSchemeComponent implements OnInit {
   OtherSchemeCols: any;
