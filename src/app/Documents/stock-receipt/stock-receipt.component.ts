@@ -120,7 +120,7 @@ export class StockReceiptComponent implements OnInit {
   RRNo: any = 0;
   LDate: Date = new Date();
   WNo: any = 0;
-  Remarks: string = '-';
+  Remarks: string;
   username: any;
   UnLoadingSlip: any;
   curMonth: any;
@@ -816,7 +816,7 @@ export class StockReceiptComponent implements OnInit {
     this.LNo = null; this.LFrom = '-'; this.ManualDocNo = '-'; this.trCode = null;
     this.depositorCode = null; this.depositorType = null; this.ICode = null; this.iCode = null;
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
-    this.schemeCode = null; this.Scheme = null; this.Remarks = '-';
+    this.schemeCode = null; this.Scheme = null; this.Remarks = null;
     this.stackCompartment = null; this.TransporterName = '-';
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;

@@ -92,6 +92,7 @@ export class TableConstants {
   IssueMemoAbstract: any;
   DemandDraftDetailsReportCols: any;
   StackCardRegister: any;
+  QuantityACReceiptDetailsCommodity: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -1020,6 +1021,37 @@ export class TableConstants {
       { field: 'Bank', header: 'Balance Quantity' },
       { field: 'Bank', header: 'Stack Status' },
       { field: 'Bank', header: 'W/OFF Quantity' }
+    ];
+
+    this.QuantityACReceiptDetailsCommodity = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'OpeningBalance', header: 'Opening Balance' },
+      { field: 'Pds', header: 'PDS/Purchase' },
+      { field: 'BPL', header: 'BPL/Prio.' },
+      { field: 'APL', header: 'APL/Tideov.' },
+      { field: 'AAY', header: 'AAY' },
+      { field: 'MMS2GEN', header: 'MMS2GEN' },
+      { field: 'MMS2SC', header: 'MMS2SC' },
+      { field: 'MMS2ST', header: 'MMS2ST' },
+      { field: 'SplPds', header: 'SplPds Purchase' },
+      { field: 'Cement', header: 'Cement' },
+      { field: 'HO', header: 'HO' },
+      { field: 'Seizur', header: 'Seizur' },
+      { field: 'TotalPurchase', header: 'Total Purchase' },
+      { field: 'PTMGRNMF', header: 'PTMGRNMF' },
+      { field: 'SGRY', header: 'SGRY' },
+      { field: 'Annapoorna', header: 'Annapoorna' },
+      { field: 'TotalFreeRice', header: 'Total Free Rice' },
+      { field: 'ReceiptFrom', header: 'Receipt From' },
+      { field: 'TransferWith', header: 'Transfer Within Region' },
+      { field: 'TransferOthers', header: 'Transfer Other Region' },
+      { field: 'Excess', header: 'Excess' },
+      { field: '', header: 'Cl/Pac/Bulk' },
+      { field: '', header: 'Vc/Bt/Blg/Flood' },
+      { field: 'SalesReturn', header: 'Sales Return' },
+      { field: 'TotalReceipt', header: 'Total Receipt' },
+      { field: 'GrandTotal', header: 'Grand Total' },
     ];
   }
 }

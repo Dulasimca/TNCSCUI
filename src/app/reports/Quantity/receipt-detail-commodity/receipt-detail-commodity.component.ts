@@ -44,6 +44,7 @@ export class ReceiptDetailCommodityComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetailsCommodity;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
@@ -86,9 +87,13 @@ export class ReceiptDetailCommodityComponent implements OnInit {
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode.value) {
+               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
           });
+          this.godownOptions = godownSelection;
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }

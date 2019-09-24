@@ -85,9 +85,13 @@ export class IssueTypeAbstractComponent implements OnInit {
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            this.godownOptions = godownSelection;
+            if (x.RCode === this.RCode.value) {
+               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
           });
+          this.godownOptions = godownSelection;
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }

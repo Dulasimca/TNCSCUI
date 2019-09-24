@@ -74,7 +74,7 @@ export class DeliveryReceiptComponent implements OnInit {
   pCode: any;
   RTCode: any;
   rtCode: any;
-  Remarks: string = '-';
+  Remarks: string;
   Scheme: any;
   schemeCode: any;
   MarginScheme: any;
@@ -725,7 +725,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PayableAt = null; this.Payment = null; this.ChequeNo = null;
     this.PAmount = null; this.PrevOrderNo = null;
     this.Trcode = null; this.trCode = null; this.IndentNo = '-'; this.RTCode = null;
-    this.PName = null; this.Remarks = '-'; this.DeliveryOrderNo = null; this.OnBank = null;
+    this.PName = null; this.Remarks = null; this.DeliveryOrderNo = null; this.OnBank = null;
     this.transactionOptions = []; this.partyNameOptions = []; this.receivorTypeOptions = [];
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.PMonth = this.datepipe.transform(new Date(), 'MMM');
