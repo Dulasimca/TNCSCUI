@@ -214,6 +214,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onView() {
     this.openView = true;
     this.stackOpeningData = [];
+    let curYrOptions = [];
     const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
@@ -236,8 +237,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         });
         if (res.Table1 !== undefined && res.Table1 !== null) {
           res.Table1.forEach(cy => {
-            this.curYearOptions = [{ label: cy.CurYear, value: cy.CurYear }];
+            curYrOptions.push({ label: cy.CurYear, value: cy.CurYear });
           })
+          this.curYearOptions = curYrOptions;
         }
         // this.stackOpeningData.forEach(x => {
         // });

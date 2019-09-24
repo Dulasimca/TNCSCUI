@@ -106,7 +106,7 @@
        <div *ngIf="openView" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
        <div class="ui-g-12 ui-md-3 no-left-pad">
         <label class="ui-g-6 label-fontsize-large">Current Year</label>
-        <p-dropdown id="float-input" [options]="curYearOptions" [(ngModel)]="CurYear"
+        <p-dropdown id="float-input" [options]="curYearOptions" [(ngModel)]="CurYear" placeholder="-select"
            (onChange)="onChange($event)" filter="true" resetFilterOnHide="true"  [showClear]="true" name="curyear">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>

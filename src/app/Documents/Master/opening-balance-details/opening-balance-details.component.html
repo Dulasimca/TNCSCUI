@@ -49,13 +49,13 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="number" maxlength="11" name="BookBalanceBags" (input)="calculateBagS()"
+            <input type="text" maxlength="11" name="BookBalanceBags" (input)="calculateBagS()"
              [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
             oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" required>
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
-            <input type="number" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+            <input type="text" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
           </div>
         </div>
         <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
@@ -66,7 +66,7 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="number" maxlength="6" name="PhysicalBalanceBags" (input)="calculateBagS()"
+            <input type="text" maxlength="6" name="PhysicalBalanceBags" (input)="calculateBagS()"
             oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==5 && event.keyCode!=8) return false;"
             [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
             <div *ngIf="validationErr">
@@ -75,7 +75,7 @@
           </div>
           <div class="form-group ui-g-6 ui-md-8">
             <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
-            <input type="number" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+            <input type="text" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
              <div *ngIf="showErr">
                <div class="error-Msg">Please enter weight less than BookBalance Weight!</div>
              </div>
@@ -83,7 +83,7 @@
         </div>
         <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
           <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulitive Shortage</label>
-          <input class="ui-g-6" type="number" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
+          <input class="ui-g-6" type="text" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
         </div> 
         <div class="ui-g-2"></div>
       </div>
