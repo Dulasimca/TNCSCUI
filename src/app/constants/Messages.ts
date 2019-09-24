@@ -4,6 +4,7 @@ export class StatusMessage {
     public static readonly SEVERITY_WARNING = 'warn';
     public static readonly SUMMARY_SUCCESS = 'Success Message';
     public static readonly SUMMARY_WARNING = 'Warning Message';
+    public static readonly SUMMARY_REQUIRED = 'Data Required';
     public static readonly SUMMARY_ERROR = 'Error Message';
     public static readonly SUMMARY_INVALID = 'Invalid Date!'
     public static readonly SuccessMessage = 'Saved Successfully!';
@@ -26,5 +27,7 @@ export class StatusMessage {
     public static readonly NoRecordForReceiptChart = 'No Record found for Receipt!';
     public static readonly NoRecordForIssueChart = 'No Record found for Issue!';
     public static readonly DashboardNoRecord = 'No Record found today!';
+    public static readonly CHAndPayableAtInDO = 'Please enter CH/DD/PO/OCR No! or Payable At';
+    public static readonly BankNameInDO = 'Please enter "C-" For Cereal or "N-" For Non-Cereal then enter bank name!';
 
 }

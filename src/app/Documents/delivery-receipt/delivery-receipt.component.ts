@@ -403,7 +403,6 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
-
   onRowSelect(event) {
     this.DeliveryOrderNo = event.data.Dono;
   }
@@ -453,7 +452,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.ICode = data.ITDescription;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
-        this.Rate = (data.Rate * 1).toFixed(2);
+        this.Rate = (data.Rate * 1).toFixed(3);
         this.RateTerm = data.Wtype;
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1);
@@ -477,8 +476,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginRateInTerms = data.MarginWtype;
         this.marginRateInTermsOptions = [{ label: data.MarginWtype, value: data.MarginWtype }];
         this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
-        this.MarginRate = (data.MarginRate * 1).toFixed(2);
-        this.MarginAmount = (data.MarginAmount * 1).toFixed(2);
+        this.MarginRate = (data.MarginRate * 1).toFixed(3);
+        this.MarginAmount = (data.MarginAmount * 1).toFixed(3);
         if(this.itemSchemeData.length !== 0) {
         this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
         } else {
@@ -577,26 +576,40 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'Payment':
-        this.paymentData.push({
-          PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
-          ChDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'MM/dd/yyyy') : this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
-          ChequeDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'dd/MM/yyyy') : this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
-          Rcode: this.RCode,
-          PaymentAmount: (this.PAmount * 1).toFixed(2),
-          payableat: this.PayableAt,
-          bank: this.OnBank
-        })
-        let lastIndex = this.paymentData.length;
-        if (this.paymentData.length !== 0) {
-          let sno = 1;
-          this.paymentData.forEach(x => { x.sno = sno; sno += 1; }); this.PaidAmount += (this.PAmount * 1);
-          this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
-          this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-            ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
-          this.ChequeDate = new Date();
-          this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
-          this.OnBank = null; this.PAmount = 0;
-          this.paymentOptions = [];
+        const bankname = this.OnBank.toString().toUpperCase();
+        let validateBank = (bankname.startsWith('C-', 0) || bankname.startsWith('N-', 0)) ? true : false;
+        if (!validateBank) {
+          this.OnBank = null;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.BankNameInDO })
+        }
+        else if ((this.Payment === 'Cheque' || this.Payment === 'Draft' || this.Payment === 'PayOrder') && (this.ChequeNo === '-' || this.PayableAt === '-')) {
+          this.ChequeNo = (this.ChequeNo !== '-') ? this.ChequeNo : null;
+          this.PayableAt = (this.PayableAt !== '-') ? this.PayableAt : null;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.CHAndPayableAtInDO })
+        } else {
+          this.paymentData.push({
+            PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
+            ChDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'MM/dd/yyyy') : this.datepipe.transform(this.ChequeDate, 'MM/dd/yyyy'),
+            ChequeDate: (typeof this.ChequeDate === 'string') ? this.datepipe.transform(this.ChDate, 'dd/MM/yyyy') : this.datepipe.transform(this.ChequeDate, 'dd/MM/yyyy'),
+            Rcode: this.RCode,
+            PaymentAmount: (this.PAmount * 1).toFixed(2),
+            payableat: this.PayableAt,
+            bank: this.OnBank.toString().toUpperCase()
+          })
+          let lastIndex = this.paymentData.length;
+          if (this.paymentData.length !== 0) {
+            let sno = 1;
+            this.paymentData.forEach(x => { x.sno = sno; sno += 1; }); this.PaidAmount += (this.PAmount * 1);
+            this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
+            this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
+              ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
+            this.ChequeDate = new Date();
+            this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
+            this.OnBank = null; this.PAmount = 0;
+            this.paymentOptions = [];
+          }
         }
         break;
       case 'Adjustment':
