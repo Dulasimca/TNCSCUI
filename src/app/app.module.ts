@@ -128,6 +128,9 @@ import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-ab
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
 import { LoginService } from './login/login.service';
 import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-detail-commodity/receipt-detail-commodity.component';
+import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
+import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
+import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
 
 @NgModule({
   declarations: [
@@ -220,6 +223,9 @@ import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-deta
     CashReceiptRegisterComponent,
     IssueTypeAbstractComponent,
     ReceiptTypeAbstractComponent,
+    OapComponent,
+    SplpdsComponent,
+    AnnapoornaComponent,
   ],
   imports: [
     BrowserModule,

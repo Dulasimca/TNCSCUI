@@ -33,7 +33,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
-        <p-dropdown id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+        <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')"
           (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
@@ -43,7 +43,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
-        <p-dropdown id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+        <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')"
           (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
@@ -53,7 +53,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
-        <p-dropdown id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch', 'click')" (keydown.enter)="onSelect('t', 'enter')"
+        <p-dropdown #scheme id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch', 'click')" (keydown.enter)="onSelect('t', 'enter')"
           (ngModelChange)="onResetTable('')" filter="true" resetFilterOnHide="true" optionLabel="label"
           [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
