@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Delivery Order Report for AAN</div>
+        <div class="ui-g-4 dashboard">Delivery Order Report for SPLPDS</div>
       </div>
     </p-header>
     <p-toast position="center" key="t-err"></p-toast>
@@ -60,6 +60,7 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
+      <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=View (click)="onView()"
           [disabled]="(!fromDate || !toDate || !GCode)"></button>
@@ -69,12 +70,12 @@
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-          [disabled]="(OtherSchemeData.length=='0')"></button>
+          [disabled]="(splpdsData.length=='0')"></button>
       </div>
+      <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="OtherSchemeCols" [value]="OtherSchemeData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+        <p-table [columns]="SplpdsCols" [value]="splpdsData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">

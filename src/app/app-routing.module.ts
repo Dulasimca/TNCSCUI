@@ -83,6 +83,9 @@ import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstra
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
 import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-detail-commodity/receipt-detail-commodity.component';
+import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
+import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
+import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 
 
 const routes: Routes = [
@@ -129,7 +132,10 @@ const routes: Routes = [
   // { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'Do All Scheme', component: AllSchemeComponent, canActivate: [AuthGuard] },
-  { path: 'Do Other Schemes', component: OtherSchemeComponent, canActivate: [AuthGuard] },
+  {path : 'Do Oap Scheme', component: OapComponent },
+  {path : 'Do SPLPDS Scheme', component: SplpdsComponent },
+  {path : 'Do Annapoorna Scheme', component: AnnapoornaComponent },
+  { path: 'Do Other Scheme', component: OtherSchemeComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Demand Draft', component: DemandDraftComponent, canActivate: [AuthGuard] },
   { path: 'Do Margin Details', component: MarginAmountComponent, canActivate: [AuthGuard] },

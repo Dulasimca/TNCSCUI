@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -9,6 +9,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-other-scheme',
@@ -16,64 +17,153 @@ import { StatusMessage } from 'src/app/constants/Messages';
   styleUrls: ['./other-scheme.component.css']
 })
 export class OtherSchemeComponent implements OnInit {
-  AanCols: any;
-  AanData: any = [];
+  OtherSchemeCols: any;
+  OtherSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
-  SocietyOptions: SelectItem[];
+  transactionOptions: SelectItem[];
+  receiverOptions: SelectItem[];
+  regionOptions: SelectItem[];
   selectedValues: any;
-  GCode: any;
-  Society: any;
+  regions: any;
+  t_cd: any;
+  g_cd: any;
+  s_cd: any;
+  RCode: any;
+  Trcode: any;
   data: any;
+  GCode: any;
+  SCode: any;
   maxDate: Date;
+  roleId: any;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
+  loggedInRCode: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
+  @ViewChild('receiver') societyPanel: Dropdown;
+
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private restAPIService: RestAPIService, private datepipe: DatePipe,
+    private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.AanCols = this.tableConstants.DoOtherScheme;
+    this.OtherSchemeCols = this.tableConstants.DoOtherScheme;
     this.data = this.roleBasedService.getInstance();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
   }
 
-  onSelect() {
-    let options = [];
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
+    switch (item) {
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
+      case 't':
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+            s.forEach(c => {
+              if (c.TransType === 'I') {
+                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+              }
+              this.transactionOptions = TransactionSelection;
+            });
+          });
+        }
+        break;
+      case 'r':
+        if (type === 'enter') {
+          this.societyPanel.overlayVisible = true;
+        }
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = ReceiverSelection;
+        });
+        break;
     }
   }
-
-  onSociety() {}
+  // }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    const params = {
+      'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.GCode,
+      'SCode': this.s_cd.value,
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.AanData = res;
+        this.OtherSchemeData = res;
         this.loading = false;
-      let sno = 0;
-      this.AanData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.OtherSchemeData.forEach(data => {
+          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
@@ -81,11 +171,12 @@ export class OtherSchemeComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    })
+    });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -107,11 +198,18 @@ export class OtherSchemeComponent implements OnInit {
     }
   }
 
-  onResetTable() {
-    this.AanData = [];
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+    this.OtherSchemeData = [];
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.AanData, 'DO_OTHER_SCHEME', this.AanCols);
+    var OtherSchemeData = [];
+    this.OtherSchemeData.forEach(data => {
+      OtherSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
+    });
+    this.excelService.exportAsExcelFile(OtherSchemeData, 'DO_Other_Scheme', this.OtherSchemeCols);
   }
+
+  onPrint() { }
 }

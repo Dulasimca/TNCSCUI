@@ -45,7 +45,7 @@ export class TableConstants {
   DoAllScheme: any;
   DoSPLPDS: any;
   DoOAP: any;
-  DoAAN: any;
+  DoAnnaPoorna: any;
   DoOtherScheme: any;
   DoSocietyAbstract: any;
   ReceiptROPurchaseReport: any;
@@ -540,7 +540,7 @@ export class TableConstants {
       { field: '', header: 'C/NC' }
     ];
 
-    this.DoAAN = [
+    this.DoAnnaPoorna = [
       { field: '', header: 'Do.No' },
       { field: '', header: 'Date' },
       { field: '', header: 'Type' },

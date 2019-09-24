@@ -25,16 +25,18 @@ export class CustomerDetailsComponent implements OnInit {
   AbstractData: any;
   AbstractCols: any;
   canShowMenu: boolean;
-  receiverOptions: SelectItem[];
   godownOptions: SelectItem[];
-  societyOptions: SelectItem[];
+  SchemeOptions: SelectItem[];
   transactionOptions: SelectItem[];
+  receiverOptions: SelectItem[];
+  regionOptions: SelectItem[];
+  societyOptions: SelectItem[];
   filterArray: any;
   s_cd: any;
   r_cd: any;
   g_cd: any;
   t_cd: any;
-  gCode: any;
+  GCode: any;
   data: any;
   fromDate: any;
   toDate: any;
@@ -47,9 +49,17 @@ export class CustomerDetailsComponent implements OnInit {
   TransactionSelection = [];
   Trcode: any;
   trCode: any;
+  roleId: any;
+  RCode: any;
+  loggedInRCode: any;
+  regions: any;
   loading: boolean;
-  @ViewChild('receiver') receivorTypePanel: Dropdown;
-  @ViewChild('society') partyNamePanel: Dropdown;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
+  @ViewChild('society') societyPanel: Dropdown;
+  @ViewChild('receiver') receiverPanel: Dropdown;
+
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService,
@@ -58,145 +68,106 @@ export class CustomerDetailsComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    this.gCode = this.authService.getUserAccessible().gCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.isActionDisabled = true;
+    this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
   }
 
-  onGodown() {
+  onSelect(item, type) {
+    let regionSelection = [];
     let godownSelection = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = godownSelection;
-      });
-    }
-  }
-
-  onSelect(item) {
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
+    let SocietySelection = [];
     switch (item) {
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
       case 't':
-        if (this.transactionOptions === undefined && this.receiverOptions === undefined && this.societyOptions === undefined) {
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
             s.forEach(c => {
               if (c.TransType === 'I') {
-                this.TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
               }
-              this.transactionOptions = this.TransactionSelection;
+              this.transactionOptions = TransactionSelection;
             });
           });
         }
         break;
       case 'r':
-        {
-          const params = new HttpParams().set('TRCode', this.t_cd.value);
-          this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
-            res.forEach(s => {
-              this.ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
-            });
-            this.receiverOptions = this.ReceiverSelection;
+        if (type === 'enter') {
+          this.receiverPanel.overlayVisible = true;
+        }
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = ReceiverSelection;
+        });
+        break;
+      case 's':
+        if (type === 'enter') {
+          this.societyPanel.overlayVisible = true;
+        }
+        if (this.societyOptions === undefined) {
+          const params = new HttpParams().set('GCode', this.GCode);
+          this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+            var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
+            var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+            for (var index in result && code) {
+              this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
+            }
+            this.societyOptions = this.SocietySelection;
           });
         }
         break;
-      //   case 's':
-      //     const params = new HttpParams().set('GCode', this.g_cd.value);
-      //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-      //       var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
-      //       var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-      //       for (var index in result && code) {
-      //         this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
-      //       }
-      //       this.societyOptions = this.SocietySelection;
-      //     });
     }
   }
-
-  onSociety() {
-    if (this.societyOptions === undefined) {
-      const params = new HttpParams().set('GCode', this.g_cd.value);
-      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-        var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
-        var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-        for (var index in result && code) {
-          this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
-        }
-        this.societyOptions = this.SocietySelection;
-      });
-    }
-  }
-
-  // onView() {
-  //   const params = {
-  //     'GCode': this.gCode,
-  //     'SCode': this.s_cd.value,
-  //     'TCode': this.r_cd.value,
-  //     'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-  //     'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-  //   };
-  //   this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-  //     this.IssueData = res;
-  //     if (res !== undefined) {
-  //       this.IssueMemoCustomerDetailsData = res;
-  //     }
-  //   });
-  // }
-
-  // onSelect(selectedItem, type) {
-  //     let godownSelection = [];
-  //     switch (selectedItem) {
-  //       case 'gd':
-  //         this.data = this.roleBasedService.instance;
-  //         if (this.data !== undefined) {
-  //           this.data.forEach(x => {
-  //             godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-  //             this.godownOptions = godownSelection;
-  //           });
-  //         }
-  //         break;
-  //       case 'receiver':
-  //         if (type === 'enter') {
-  //           this.receivorTypePanel.overlayVisible = true;
-  //         }
-  //         if (this.Trcode === null && this.Trcode === undefined) {
-  //           if ((this.Trcode.value === undefined && this.Trcode.value === null) ||
-  //             (this.trCode === null && this.trCode === undefined)) {
-  //             const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.gCode);
-  //             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
-  //               if (res !== null && res !== undefined && res.length !== 0) {
-  //                 res.forEach(dt => {
-  //                   this.ReceiverSelection.push({ 'label': dt.Tyname, 'value': dt.Tycode });
-  //                 });
-  //                 this.receiverOptions = this.ReceiverSelection;
-  //               }
-  //               // this.isReceivorNameDisabled = false;
-  //               this.receiverOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-  //             });
-  //           }
-  //         } else {
-  //           this.receiverOptions = this.ReceiverSelection;
-  //         }
-  //         break;
-  //         case 'society':
-  //           if (this.societyOptions === undefined) {
-  //             const params = new HttpParams().set('GCode', this.g_cd.value);
-  //             this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //               this.Type = res;
-  //               if (this.Type !== undefined && this.Type !== 0) {
-  //                 this.Type = res.filter((value: { Tyname: any; }) => { return res.Tyname === this.societyOptions });
-  //                 this.societyOptions = this.SocietySelection;
-  //                 this.societyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.societyOptions }, { 'label': 'COPERATIVES LEADING', 'value': this.societyOptions });
-  //               }
-  //             });
-  //           }
-  //           break;
-  //     }
-  //   }
-
 
   onView() {
     const params = {
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       'SCode': this.s_cd.value,
       'TCode': this.r_cd.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
