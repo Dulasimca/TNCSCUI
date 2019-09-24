@@ -144,7 +144,7 @@ export class IssuerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.IssuerMasterData.filter(item => {
-        return item.IssuerCode.toString().startsWith(value);
+        return item.Issuername.toString().startsWith(value);
         // }
       });
     }

@@ -32,24 +32,8 @@
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
-              <td>
-                {{rowData.SlNo}}
-              </td>
-              <td>
-                {{rowData.ITCode}}
-              </td>
-              <td>
-                {{rowData.ITDescription}}
-              </td>
-              <td pEditableColumn>
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="rowData.ItemType">
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{rowData.ItemType}}
-                  </ng-template>
-                </p-cellEditor>
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
               </td>
             </tr>
           </ng-template>

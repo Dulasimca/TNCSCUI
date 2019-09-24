@@ -57,7 +57,7 @@ export class AllSchemeComponent implements OnInit {
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private datepipe: DatePipe,
-     private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -75,29 +75,29 @@ export class AllSchemeComponent implements OnInit {
     let godownSelection = [];
     let TransactionSelection = [];
     let ReceiverSelection = [];
-    let SchemeSelection = [];switch (item) {
+    let SchemeSelection = []; switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -112,25 +112,25 @@ export class AllSchemeComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-    case 't':
-      if (type === 'enter') {
-        this.transactionPanel.overlayVisible = true;
-      }
-      if (this.transactionOptions === undefined) {
-        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
-          s.forEach(c => {
-            if (c.TransType === 'I') {
-              TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
-            }
-            this.transactionOptions = TransactionSelection;
+      case 't':
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+            s.forEach(c => {
+              if (c.TransType === 'I') {
+                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+              }
+              this.transactionOptions = TransactionSelection;
+            });
           });
-        });
-      }
-      break;
-    case 'r':
-      if (type === 'enter') {
-        this.societyPanel.overlayVisible = true;
-      }
+        }
+        break;
+      case 'r':
+        if (type === 'enter') {
+          this.societyPanel.overlayVisible = true;
+        }
         const params = new HttpParams().set('TRCode', this.t_cd.value);
         this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
           res.forEach(s => {
@@ -138,22 +138,23 @@ export class AllSchemeComponent implements OnInit {
           });
           this.receiverOptions = ReceiverSelection;
         });
-      break;
-    case 'Sch':
-      if (type === 'enter') {
-        this.schemePanel.overlayVisible = true;
-      }
-      if (this.SchemeOptions === undefined) {
-        this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-          data.forEach(y => {
-            SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+        break;
+      case 'Sch':
+        if (type === 'enter') {
+          this.schemePanel.overlayVisible = true;
+        }
+        if (this.SchemeOptions === undefined) {
+          this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
+            data.forEach(y => {
+              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+            });
+            this.SchemeOptions = SchemeSelection;
           });
-          this.SchemeOptions = SchemeSelection;
-        });
-      }
-      break;
+        }
+        break;
+    }
   }
-  }
+  // }
 
   onView() {
     this.checkValidDateSelection();
@@ -165,10 +166,10 @@ export class AllSchemeComponent implements OnInit {
       'SCode': this.s_cd.value,
       'SchCode': this.sch_cd.value
     };
-      this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
-        if (res !== undefined && res.length !== 0 && res !== null) {
-          this.AllSchemeData = res;
-          this.loading = false;
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.AllSchemeData = res;
+        this.loading = false;
         let sno = 0;
         this.AllSchemeData.forEach(data => {
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
@@ -176,22 +177,22 @@ export class AllSchemeComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
-        } else {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-          });
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
-    }
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
 
   onDateSelect() {
     this.checkValidDateSelection();
@@ -218,7 +219,7 @@ export class AllSchemeComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.AllSchemeData = [];
   }
 
@@ -230,5 +231,5 @@ export class AllSchemeComponent implements OnInit {
     this.excelService.exportAsExcelFile(AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
   }
 
-   onPrint() { }
+  onPrint() { }
 }
