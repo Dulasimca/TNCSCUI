@@ -131,8 +131,9 @@
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-      <p-table #table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-       selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)"> 
+      <p-table #table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20"
+       [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords" selectionMode="single"
+       [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)"> 
         <ng-template pTemplate="colgroup" let-columns>
           <colgroup>
             <col *ngFor="let col of columns" style="width:80px">

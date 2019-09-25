@@ -121,6 +121,11 @@ export class TruckReceiptComponent implements OnInit {
   STTDetails: any = [];
   isViewed: boolean = false;
   blockScreen: boolean;
+  DOCNumber: any;
+  selectedIndex: any;
+  submitted: boolean;
+  missingFields: any[];
+  field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -135,8 +140,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc') freightPanel: Dropdown;
   @ViewChild('vc') vehiclePanel: Dropdown;
   @ViewChild('rh') railHeadPanel: Dropdown;
-  DOCNumber: any;
-  selectedIndex: any;
+
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -945,6 +949,22 @@ export class TruckReceiptComponent implements OnInit {
         if (res) { this.DOCNumber = null; }
       }); this.isSaveSucceed = false;
       this.isViewed = false;
+    }
+  }
+  
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+       && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal')) {
+         no += 1;
+         arr.push({label: no, value: no + '.' + key});
+        }
+       }
+       this.missingFields = arr;
     }
   }
 }

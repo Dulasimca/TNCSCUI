@@ -609,13 +609,13 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
       { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE ' },
+      { field: 'Tyname', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Bags', header: 'BAGS' },
-      { field: 'Quantity', header: 'QUANTITY' },
-      { field: 'TruckMen', header: 'TRUCKMEN' },
-      { field: 'Orderno', header: 'ORDER NO' },
+      { field: 'NetWeight', header: 'QUANTITY' },
+      { field: 'TruckMemoNo', header: 'TRUCKMEN' },
+      { field: 'OrderNo', header: 'ORDER NO' },
       { field: 'Lorryno', header: 'LORRY NO' },
       { field: 'Scheme', header: 'Scheme' }
     ];
@@ -705,7 +705,7 @@ export class TableConstants {
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT' },
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS' },
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT' },
-      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE' },
+      { field: 'CumulitiveShortage', header: 'CUMULATIVE SHORTAGE' },
       { field: 'ObDate', header: 'OB Date'}
     ];
 

@@ -113,6 +113,10 @@ export class IssueReceiptComponent implements OnInit {
   blockScreen: boolean;
   checkTrType: boolean = true;
   stackCompartment: any;
+  DOCNumber: any;
+  selectedIndex: any;
+  submitted: boolean;
+  showValidatedMsg: string;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -123,8 +127,8 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
-  DOCNumber: any;
-  selectedIndex: any;
+  missingFields: SelectItem[];
+  field: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -918,6 +922,23 @@ export class IssueReceiptComponent implements OnInit {
       });
       this.isSaveSucceed = false;
       this.isViewed = false;
+    }
+  }
+
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if((form.value[key] === undefined || form.value[key] === ''|| (key === 'DONO' && this.issueData.length === 0))
+       && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
+       && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && key !== 'CurDocQty' && key !== 'NetStackBal')) {
+         no += 1;
+         arr.push({label: no, value: no + '.' + key});
+       }
+      }
+      this.missingFields = arr;
     }
   }
 

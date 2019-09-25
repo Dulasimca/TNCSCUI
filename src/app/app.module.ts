@@ -25,6 +25,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
 import {TooltipModule} from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
+import {ListboxModule} from 'primeng/listbox';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -257,7 +258,8 @@ import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/an
     TabViewModule,
     TooltipModule,
     TooltipModule,
-    BlockUIModule
+    BlockUIModule,
+    ListboxModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],

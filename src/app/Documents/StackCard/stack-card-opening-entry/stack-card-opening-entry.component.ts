@@ -47,6 +47,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   curYear_data: any;
   cardExits: boolean;
   flag: boolean;
+  totalRecords: number;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -243,6 +244,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
         // this.stackOpeningData.forEach(x => {
         // });
+        this.totalRecords = this.stackOpeningData.length;
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
         this.openView = false;

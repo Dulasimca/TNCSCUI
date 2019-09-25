@@ -33,9 +33,9 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   username: any;
   orderNo: any;
   loading: boolean;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private excelService: ExcelService,

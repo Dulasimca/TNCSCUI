@@ -24,45 +24,45 @@
                       <input type="text" name="TNo" [(ngModel)]="STNo" [readonly]="true" size="20" pInputText autocomplete="off">
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                      <label class="label-fontsize" for="TDate">Truck Date</label>
-                      <p-calendar name="TDate" [(ngModel)]="STDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <label class="label-fontsize" for="TruckMemoDate">Truck Date</label>
+                      <p-calendar name="TruckMemoDate" [(ngModel)]="STDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                      <label for="Trcd" class="label-fontsize">Transaction Code</label>
-                      <p-dropdown #tr name="Trcd" [options]="transactionOptions" [(ngModel)]="Trcode"
+                      <label for="TransactionType" class="label-fontsize">Transaction Code</label>
+                      <p-dropdown #tr name="TransactionType" [options]="transactionOptions" [(ngModel)]="Trcode"
                         (onClick)="onSelect('tr', 'click')" (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true"
                         (onChange)="refreshSelect('tr')" optionLabel="label" filter="true" resetFilterOnHide="true" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                      <label for="MNo" class="label-fontsize">Movement Order No</label>
-                      <input name="MNo" [(ngModel)]="OrderNo" pInputText autocomplete="off" required>
+                      <label for="MovementOrderNo" class="label-fontsize">Movement Order No</label>
+                      <input name="MovementOrderNo" [(ngModel)]="OrderNo" pInputText autocomplete="off" required>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                      <label class="label-fontsize" for="MDate">Movement Order Date</label>
-                      <p-calendar name="MDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <label class="label-fontsize" for="MovementOrderDate">Movement Order Date</label>
+                      <p-calendar name="MovementOrderDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: 20px;">
-                      <p-checkbox name="road" class="ui-g-2 dashboard" name="groupname" value="Road"
+                      <p-checkbox name="TransportMode" class="ui-g-2 dashboard" value="Road"
                         (onChange)="onSelectTransportMode()" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
-                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="road">Road</label>
-                      <p-checkbox name="rail" class="ui-g-2 dashboard" name="groupname" (onChange)="onSelectTransportMode()"
+                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="TransportMode">Road</label>
+                      <p-checkbox name="TransportMode" class="ui-g-2 dashboard" (onChange)="onSelectTransportMode()"
                         value="Rail" [(ngModel)]="selectedValues" required>
                       </p-checkbox>
-                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="rail">Rail</label>
+                      <label class="ui-g-3 label-fontsize-large no-left-pad" for="TransportMode">Rail</label>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="RONo" [(ngModel)]="RNo" pInputText autocomplete="off" required>
-                        <label for="RONo" class="float-input" style="padding-top: 10px;">Release Order No</label>
+                        <input name="ReleaseOrderNo" [(ngModel)]="RNo" pInputText autocomplete="off" required>
+                        <label for="ReleaseOrderNo" class="float-input" style="padding-top: 10px;">Release Order No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
-                      <label class="label-fontsize" for="RODate">Release Order Date</label>
-                      <p-calendar name="RODate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <label class="label-fontsize" for="ReleaseOrderDate">Release Order Date</label>
+                      <p-calendar name="ReleaseOrderDate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="RailHead" class="label-fontsize" style="padding-top: 10px;">To The Rail Head</label>
@@ -110,31 +110,31 @@
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="RName" [(ngModel)]="regionName" pInputText autocomplete="off"
+                        <input name="RegionName" [(ngModel)]="regionName" pInputText autocomplete="off"
                           [readonly]="true" required>
-                        <label for="RName" class="float-input" style="padding-top: 10px;">Region Name</label>
+                        <label for="RegionName" class="float-input" style="padding-top: 10px;">Region Name</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="IssuingGCode" [(ngModel)]="godownName" pInputText
+                        <input name="IssuingGodown" [(ngModel)]="godownName" pInputText
                           autocomplete="off" [readonly]="true" required>
-                        <label for="IssuingGCode" class="float-input" style="padding-top: 10px;">Issuing Godown
+                        <label for="IssuingGodown" class="float-input" style="padding-top: 10px;">Issuing Godown
                           Name</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label" style="padding-top: 20px;">
-                          <input name="LNo" maxlength="13"[(ngModel)]="LorryNo" pInputText
+                          <input name="LorryNumber" maxlength="13"[(ngModel)]="LorryNo" pInputText
                            style="text-transform: uppercase !important" autocomplete="off" required>
-                          <label for="LNo" class="float-input" style="padding-top: 10px;">Lorry No</label>
+                          <label for="LorryNumber" class="float-input" style="padding-top: 10px;">Lorry No</label>
                         </span>
                       </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="ManualDNo" [(ngModel)]="ManualDocNo" pInputText autocomplete="off"
+                        <input name="ManualDocumentNo" [(ngModel)]="ManualDocNo" pInputText autocomplete="off"
                           required>
-                        <label for="ManualDNo" class="float-input" style="padding-top: 10px;">Manual Document No</label>
+                        <label for="ManualDocumentNo" class="float-input" style="padding-top: 10px;">Manual Document No</label>
                       </span>
                     </div>
                   </div>
@@ -159,8 +159,8 @@
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top: -22px">
-                      <label for="ITDesc" class="label-fontsize">Item Description</label>
-                      <p-dropdown #i_desc name="ITDesc" [options]="itemDescOptions" [(ngModel)]="ICode"
+                      <label for="Commodity" class="label-fontsize">Item Description</label>
+                      <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
                         (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
@@ -180,8 +180,8 @@
                       </p-dropdown>
                     </div>
                     <div class="ui-g-4 ui-md-1" style="margin-top: -22px">
-                          <label for="Godown" class="label-fontsize">Godown</label>
-                          <input name="Godown" [(ngModel)]="GodownNo" pInputText autocomplete="off"
+                          <label for="GodownNum" class="label-fontsize">Godown</label>
+                          <input name="GodownNum" [(ngModel)]="GodownNo" pInputText autocomplete="off"
                           [readonly]="true">
                     </div>
                     <div class="ui-g-4 ui-md-2" style="margin-top: -22px">
@@ -481,7 +481,10 @@
                 <!-- </div> -->
               </p-tabPanel>
             </p-tabView>
-            <div class="ui-g-3 ui-md-8"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid">
+                <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate (click)="onSubmit(f)" ></button>
+           </div>
+           <div class="ui-g-3 ui-md-6"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
             </div>
@@ -543,4 +546,10 @@
           </ng-template>
         </p-table>
       </div>
+</p-dialog>
+<p-dialog  header="Data Required" [modal]="true"
+[(visible)]="submitted" [style]="{width: 'auto', height: 'auto'}">
+<div>
+    <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
+</div>
 </p-dialog>
