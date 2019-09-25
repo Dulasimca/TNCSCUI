@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllSchemeComponent } from './all-scheme.component';
+import { AllSchemeComponent } from '././all-scheme.component';
 
 describe('AllSchemeComponent', () => {
   let component: AllSchemeComponent;

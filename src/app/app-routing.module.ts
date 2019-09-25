@@ -66,8 +66,8 @@ import { OtherMasterComponent } from './UserMaster/other-master/other-master.com
 import { CncCorrectionComponent } from './UserMaster/cnc-correction/cnc-correction.component';
 import { SchemeCommodityComponent } from './Documents/Master/scheme-commodity/scheme-commodity.component';
 import { SocietyMasterNewComponent } from './Documents/Master/society-master-new/society-master-new.component';
+import { OtherSchemesComponent } from './reports/DeliveryOrderReport/Other-schemes/other-schemes.component';
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
-import { OtherSchemeComponent } from './reports/DeliveryOrderReport/other-scheme/other-scheme.component';
 import { SocietyAbstractComponent } from './reports/DeliveryOrderReport/society-abstract/society-abstract.component';
 import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft/demand-draft.component';
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
@@ -135,7 +135,7 @@ const routes: Routes = [
   {path : 'Do Oap Scheme', component: OapComponent },
   {path : 'Do SPLPDS Scheme', component: SplpdsComponent },
   {path : 'Do Annapoorna Scheme', component: AnnapoornaComponent },
-  { path: 'Do Other Scheme', component: OtherSchemeComponent },
+  { path: 'Do Other Scheme', component: OtherSchemesComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Demand Draft', component: DemandDraftComponent, canActivate: [AuthGuard] },
   { path: 'Do Margin Details', component: MarginAmountComponent, canActivate: [AuthGuard] },

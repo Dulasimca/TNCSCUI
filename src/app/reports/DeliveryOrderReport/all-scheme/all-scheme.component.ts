@@ -11,19 +11,17 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
-
 @Component({
-  selector: 'app-all-scheme',
+  selector: 'app-All-scheme',
   templateUrl: './all-scheme.component.html',
   styleUrls: ['./all-scheme.component.css']
 })
 export class AllSchemeComponent implements OnInit {
-  AllSchemeCols: any;
-  AllSchemeData: any = [];
+  OtherSchemeCols: any;
+  OtherSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
-  SchemeOptions: SelectItem[];
   transactionOptions: SelectItem[];
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
@@ -32,12 +30,10 @@ export class AllSchemeComponent implements OnInit {
   t_cd: any;
   g_cd: any;
   s_cd: any;
-  sch_cd: any;
+  r_cd: any;
   RCode: any;
   Trcode: any;
-  trcode: any;
   data: any;
-  SchCode: any;
   GCode: any;
   SCode: any;
   maxDate: Date;
@@ -50,7 +46,6 @@ export class AllSchemeComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
   @ViewChild('receiver') societyPanel: Dropdown;
-  @ViewChild('scheme') schemePanel: Dropdown;
 
 
 
@@ -61,7 +56,7 @@ export class AllSchemeComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.AllSchemeCols = this.tableConstants.DoAllScheme;
+    this.OtherSchemeCols = this.tableConstants.DoOtherScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
@@ -75,7 +70,6 @@ export class AllSchemeComponent implements OnInit {
     let godownSelection = [];
     let TransactionSelection = [];
     let ReceiverSelection = [];
-    let SchemeSelection = []; 
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -140,19 +134,6 @@ export class AllSchemeComponent implements OnInit {
           this.receiverOptions = ReceiverSelection;
         });
         break;
-      case 'Sch':
-        if (type === 'enter') {
-          this.schemePanel.overlayVisible = true;
-        }
-        if (this.SchemeOptions === undefined) {
-          this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-            data.forEach(y => {
-              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
-            });
-            this.SchemeOptions = SchemeSelection;
-          });
-        }
-        break;
     }
   }
   // }
@@ -165,14 +146,13 @@ export class AllSchemeComponent implements OnInit {
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
       'SCode': this.s_cd.value,
-      'SchCode': this.sch_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.AllSchemeData = res;
+        this.OtherSchemeData = res;
         this.loading = false;
         let sno = 0;
-        this.AllSchemeData.forEach(data => {
+        this.OtherSchemeData.forEach(data => {
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
           data.Nkgs = (data.Nkgs * 1).toFixed(3);
           sno += 1;
@@ -221,15 +201,15 @@ export class AllSchemeComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.AllSchemeData = [];
+    this.OtherSchemeData = [];
   }
 
   exportAsXLSX(): void {
-    var AllSchemeData = [];
-    this.AllSchemeData.forEach(data => {
-      AllSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
+    var OtherSchemeData = [];
+    this.OtherSchemeData.forEach(data => {
+      OtherSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
     });
-    this.excelService.exportAsExcelFile(AllSchemeData, 'DO_ALL_SCHEME', this.AllSchemeCols);
+    this.excelService.exportAsExcelFile(OtherSchemeData, 'DO_Other_Scheme', this.OtherSchemeCols);
   }
 
   onPrint() { }

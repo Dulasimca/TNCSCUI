@@ -4,12 +4,11 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Delivery Order Report</div>
+        <div class="ui-g-4 dashboard">Delivery Order Report for AAN</div>
       </div>
     </p-header>
-    <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
+    <p-toast position="center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -33,9 +32,9 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
-        <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd" (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')"
-          (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
-          [showClear]="true" placeholder="-select-">
+        <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
+          (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')" (ngModelChange)="onResetTable('')"
+          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -43,52 +42,37 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
-        <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="s_cd" (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')"
-          (ngModelChange)="onResetTable('')" filter="true" optionLabel="label" resetFilterOnHide="true"
-          [showClear]="true" placeholder="-select-">
+        <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
+          (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')" (ngModelChange)="onResetTable('')"
+          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
-        <p-dropdown #scheme id="float-input" [options]="SchemeOptions" [(ngModel)]="sch_cd" (onClick)="onSelect('Sch', 'click')" (keydown.enter)="onSelect('t', 'enter')"
-          (ngModelChange)="onResetTable('')" filter="true" resetFilterOnHide="true" optionLabel="label"
-          [showClear]="true" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItems">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-12 ui-md-1"></div>
-      <div class="ui-g-12 dashboard">
-        <div class="ui-g-12 ui-md-3"></div>
-        <div class="ui-g-6 ui-md-2">
-          <label class="ui-g-7 label-fontsize dashboard">From</label>
-          <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-            (ngModelChange)="onDateSelect()"></p-calendar>
-        </div>
-        <div class="ui-g-6 ui-md-2">
-          <label class="ui-g-7 label-fontsize dashboard">To</label>
-          <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-            (ngModelChange)="onDateSelect()"></p-calendar>
-        </div>
-        <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-          <button pButton type="button" label=View (click)="onView()"
-            [disabled]="(!GCode || !RCode || !t_cd || !s_cd || !sch_cd || !fromDate || !toDate)"></button>
-        </div>
-         <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
-        </div>
-        <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-          <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-            [disabled]="(AllSchemeData.length=='0')"></button>
-        </div>
-        <div class="ui-g-12 ui-md-3"></div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!fromDate || !toDate || !GCode)"></button>
+      </div>
+      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+      </div> -->
+      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
+          [disabled]="(OtherSchemeData.length=='0')"></button>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="AllSchemeCols" [value]="AllSchemeData" [rows]="20"
+        <p-table [columns]="OtherSchemeCols" [value]="OtherSchemeData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>
@@ -101,14 +85,7 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Quantity' || col.field ==='Rate' || col.field === 'Amount'">
-                  <div style="text-align: end !important">
-                      {{rowData[col.field]}}
-                    </div>
-                </div>
-                <div *ngIf="col.field !== 'Quantity' && col.field !=='Rate' && col.field !== 'Amount'">
-                        {{rowData[col.field]}}
-                  </div>
+                {{rowData[col.field]}}
               </td>
             </tr>
           </ng-template>

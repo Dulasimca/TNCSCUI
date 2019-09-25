@@ -30,6 +30,7 @@ export class SplpdsComponent implements OnInit {
   t_cd: any;
   g_cd: any;
   s_cd: any;
+  r_cd: any;
   RCode: any;
   Trcode: any;
   data: any;

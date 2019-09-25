@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OtherSchemeComponent } from './other-scheme.component';
+import { OtherSchemesComponent } from './other-schemes.component';
 
-describe('OtherSchemeComponent', () => {
-  let component: OtherSchemeComponent;
-  let fixture: ComponentFixture<OtherSchemeComponent>;
+describe('OtherSchemesComponent', () => {
+  let component: OtherSchemesComponent;
+  let fixture: ComponentFixture<OtherSchemesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OtherSchemeComponent ]
+      declarations: [ OtherSchemesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OtherSchemeComponent);
+    fixture = TestBed.createComponent(OtherSchemesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
