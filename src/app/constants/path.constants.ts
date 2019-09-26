@@ -105,4 +105,5 @@ export class PathConstants {
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_CRS_REPORT = '/api/IssuesForQuantityACAllSchemeCRS/Post';
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_REPORT = '/api/IssuesForQuantityACAllScheme/Post';
   public static readonly QUANTITY_ACCOUNT_TRUCK_SCHEME_REPORT = '/api/TruckMemoForQuantityACAllScheme/Post';
+  public static readonly STACK_CARD_OPENING_REPORT_DELETE = '/api/StackBalance/Delete';
 }

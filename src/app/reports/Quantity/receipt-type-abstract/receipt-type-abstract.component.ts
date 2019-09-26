@@ -80,7 +80,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
         break;
       case 'gd':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {

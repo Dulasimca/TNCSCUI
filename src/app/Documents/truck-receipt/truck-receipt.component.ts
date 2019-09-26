@@ -542,14 +542,17 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onCalculateWt() {
-    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
-    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
-    if (grossWt < netWt) {
-      this.NKgs = null; this.GKgs = null; this.TKgs = null;
-    } else {
-      this.TKgs = (grossWt - netWt).toFixed(3);
+    if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+      let grossWt = (this.GKgs * 1);
+      let netWt = (this.NKgs * 1);
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt).toFixed(3);
+      }
     }
   }
+
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }

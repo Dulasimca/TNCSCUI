@@ -311,7 +311,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-1 ui-fluid" style="margin-top: 16px;">
                       <button pButton type="button" name="enter" label="Enter" (click)="onEnter()"
-                      [disabled]="(!Scheme || !Moisture || !ICode || !IPCode || !NoPacking || !WTCode || !TStockNo)"></button>
+                      [disabled]="(!Scheme || !Moisture || !ICode || !IPCode || !NoPacking || !WTCode || !TStockNo || NoPacking==null || NKgs==null || GKgs==null || (NKgs!=null && NKgs==0))"></button>
                     </div>
                 </div>
                 <div class="ui-g-12 ui-fluid">

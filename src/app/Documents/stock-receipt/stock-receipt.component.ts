@@ -460,19 +460,21 @@ export class StockReceiptComponent implements OnInit {
       this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
-      this.GKgs = this.NKgs = this.tareWt = null;
+      this.GKgs = null; this.NKgs = null; this.tareWt = null;
     }
   }
 
   onCalculateWt() {
-    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
-    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+  if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+    let grossWt = (this.GKgs * 1);
+    let netWt = (this.NKgs * 1);
     if (grossWt < netWt) {
       this.NKgs = null; this.GKgs = null; this.tareWt = null;
     } else {
       this.tareWt = (grossWt - netWt).toFixed(3);
     }
   }
+}
 
   onStackNoChange(event) {
     this.messageService.clear();

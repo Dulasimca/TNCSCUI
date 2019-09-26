@@ -6,9 +6,9 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stack-card-opening',
@@ -42,7 +42,8 @@ export class StackCardOpeningComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, 
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -172,6 +173,33 @@ export class StackCardOpeningComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
+    });
+  }
+
+  deleteSelectedRow(index, selectedRow) {
+    let rowId = selectedRow.Sno;
+    let stackNo = selectedRow.Stackno.trim();
+     const httpParams = new HttpParams().set('GCode', this.GCode).append('RowId', rowId);
+     let options = { params: httpParams};
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete the record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.restAPIService.delete(PathConstants.STACK_CARD_OPENING_REPORT_DELETE, options).subscribe(res => {
+          if(res) {
+            this.StackCardOpeningData.splice(index, 1);
+            let sno = 0;
+            this.StackCardOpeningData.forEach(data => {
+              sno += 1;
+              data.SlNo = sno;
+            });
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: 'Stack card no: ' + stackNo + ' has been deleted successfully' });
+          }
+        })
+      },
+      reject: () => {  }
     });
   }
 
