@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -40,7 +39,8 @@ export class CommodityIssueMemoComponent implements OnInit {
   
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService,
+     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -175,18 +175,6 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   onResetTable() {
     this.commodityIssueMemoData = [];
-  }
-
-  exportAsXLSX(): void {
-    var CommodityIssueData = [];
-    this.commodityIssueMemoData.forEach(data => {
-      CommodityIssueData.push({
-        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Issue_Memono: data.Issue_Memono,
-        Issue_Date: data.Issue_Date, Commodity: data.Commodity, Quantity: data.Quantity, Issuedto: data.Issuedto,
-        Lorryno: data.Lorryno, Stackno: data.Stackno
-      })
-    });
-    this.excelService.exportAsExcelFile(CommodityIssueData, 'COMMODITY_ISSUE_MEMO_REPORT', this.commodityIssueMemoCols);
   }
 
   onPrint() { }

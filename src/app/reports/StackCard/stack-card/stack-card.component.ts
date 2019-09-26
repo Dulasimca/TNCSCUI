@@ -4,7 +4,6 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService, SelectItem } from 'primeng/api';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -44,7 +43,8 @@ export class StackCardComponent implements OnInit {
   @ViewChild('stackYear') StackYearPanel: Dropdown;
   @ViewChild('stockNo') StockNoPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, 
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -205,18 +205,6 @@ export class StackCardComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.StackCardData = [];
-  }
-
-  exportAsXLSX(): void {
-    var StackCardData = [];
-    this.StackCardData.forEach(data => {
-      StackCardData.push({
-        SlNo: data.SlNo, AckDate: data.AckDate, ReceiptBags: data.ReceiptBags,
-        ReceiptQuantity: data.ReceiptQuantity, IssuesBags: data.IssuesBags,
-        IssuesQuantity: data.IssuesQuantity, ClosingBalance: data.ClosingBalance
-      })
-    })
-    this.excelService.exportAsExcelFile(StackCardData, 'STACK_CARD_REPORT', this.StackCardCols);
   }
 
   onPrint() {

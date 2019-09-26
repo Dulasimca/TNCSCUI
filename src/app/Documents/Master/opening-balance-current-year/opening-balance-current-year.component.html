@@ -121,14 +121,9 @@
 <p-dialog header="Opening Balance Current Year Shortage" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
   [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="OpeningBalanceDetailCols" [value]="OpeningBalanceDetailData" [rows]="20"
+    <p-table #dt [columns]="OpeningBalanceDetailCols" [value]="OpeningBalanceDetailData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-      [paginator]="true" (onRowSelect)="onRowSelect($event)">
-      <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-          <col *ngFor="let col of columns" style="width:80px">
-        </colgroup>
-      </ng-template>
+      [paginator]="true" (onRowSelect)="onRowSelect($event)" exportFilename="OPENING_BALANCE_CURRENT_YEAR_SHORTAGE">
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">
@@ -152,7 +147,7 @@
   </div>
   <div class="ui-g-4 ui-md-1">
     <button class="ui-g-10 dashboard" pButton type="button" [disabled]="OpeningBalanceDetailData.length=='0'" label=Excel
-      (click)="exportAsXLSX()"></button>
+    (click)="dt.exportCSV()"></button>
   </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
     <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>

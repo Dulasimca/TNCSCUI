@@ -9,7 +9,6 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-employee-master',
@@ -50,7 +49,7 @@ export class EmployeeMasterComponent implements OnInit {
   isViewed: boolean = false;
 
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -205,13 +204,5 @@ export class EmployeeMasterComponent implements OnInit {
         }
       });
     this.onClear();
-  }
-
-  exportAsXLSX(): void {
-    var EmployeeData = [];
-    this.EmployeeData.forEach(data => {
-      EmployeeData.push({ SlNo: data.SlNo, EmployeeName: data.Empname, EmployeeNo: data.Empno, Designation: data.DESIGNATIONNAME, Jrtype: data.Jrtype, Jrdate: data.Jrdate, Refno: data.Refno, Refdate: data.Refdate });
-    });
-    this.excelService.exportAsExcelFile(EmployeeData, 'Employee_Details', this.EmployeeCols);
   }
 }

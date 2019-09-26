@@ -69,13 +69,13 @@
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(OapData.length=='0')"></button>
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(OapData.length=='0')"></button>
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="OapCols" [value]="OapData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+        <p-table #dt [columns]="OapCols" [value]="OapData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"  exportFilename="DO_OAP_SCHEME">
+              <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

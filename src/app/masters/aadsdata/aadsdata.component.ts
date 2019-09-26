@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -25,7 +24,7 @@ export class AADSDataComponent implements OnInit {
   loading: boolean;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-    private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService) { }
+    private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -42,11 +41,6 @@ export class AADSDataComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
       this.items = [
-        {
-          label: 'Excel', icon: 'fa fa-table', command: () => {
-            this.exportAsXLSX();
-          }
-        },
         {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
@@ -69,14 +63,6 @@ export class AADSDataComponent implements OnInit {
         return item.RegionName.toString().startsWith(value);
       });
     }
-  }
-
-  exportAsXLSX(): void {
-    var AadsData = [];
-    this.data.forEach(value => {
-      AadsData.push({ SlNo: value.SlNo, RegionName: value.RegionName, AADSType: value.AADSType, Name: value.Name })
-    })
-    this.excelService.exportAsExcelFile(AadsData, 'AADS_DATA', this.column);
   }
 
   exportAsPDF() {

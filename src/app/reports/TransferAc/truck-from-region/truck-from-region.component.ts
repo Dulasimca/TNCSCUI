@@ -7,7 +7,6 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
@@ -33,13 +32,12 @@ export class TruckFromRegionComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   roleId: any;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -161,14 +159,6 @@ export class TruckFromRegionComponent implements OnInit {
   //       this.MTransport = (this.selectedValues[0] === 'Rail') ? 'Rail' : 'Road';
   //     }
   //   }
-
-  exportAsXLSX(): void {
-    var TruckFromRegion = [];
-    this.TruckFromRegionData.forEach(data => {
-      TruckFromRegion.push({ SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, Tyname: data.Tyname, TNCSName: data.TNCSName, ITDescription: data.ITDescription, NoPacking: data.NoPacking, Nkgs: data.Nkgs })
-    })
-    this.excelService.exportAsExcelFile(TruckFromRegion, 'Truck_From_Region', this.TruckFromRegionCols);
-  }
 
   onPrint() { }
   

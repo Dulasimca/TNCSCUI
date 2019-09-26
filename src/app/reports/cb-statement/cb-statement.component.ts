@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import 'jspdf-autotable';
 import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
@@ -56,8 +55,7 @@ export class CBStatementComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private tableConstants: TableConstants, private datepipe: DatePipe, private excelService: ExcelService,
-    private roleBasedService: RoleBasedService) { }
+    private tableConstants: TableConstants, private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.rowGroupMetadata = {};
@@ -265,19 +263,5 @@ export class CBStatementComponent implements OnInit {
     if(item === 'reg') { this.GCode = null; }
     this.cbData = [];
   }
-
-  exportAsXLSX(): void {
-    var ClosingBalanceData = [];
-    this.cbData.forEach(data => {
-      ClosingBalanceData.push({
-        TNCSName: data.TNCSName, TNCSCapacity: data.TNCSCapacity,
-        boiledRice: data.boiledRice, rawRice: data.rawRice, totalRice: data.totalRice, SUGAR: data.SUGAR, WHEAT: data.WHEAT,
-        toorDhall: data.toorDhall, kanadaToorDhall: data.kanadaToorDhall, totalDhall: data.totalDhall,
-        uridDhall: data.uridDhall, palmoil: data.palmoil, cement: data.cement
-      });
-    });
-    this.excelService.exportAsExcelFile(ClosingBalanceData, 'CLOSING_BALANCE_STATEMENT_REPORT', this.column);
-  }
-
   
 }

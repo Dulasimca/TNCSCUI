@@ -186,8 +186,5 @@ export class ReceiptTypeAbstractComponent implements OnInit {
     saveAs(path + filename, filename);
   }
 
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.ReceiptAbstractData, 'QUANTITY_RECEIPT_ABSTRACT', this.ReceiptAbstractCols);
-  }
 }
 

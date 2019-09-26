@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -35,10 +34,10 @@ export class HullingDetailsComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   loggedInRCode: any;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,
-    private excelService: ExcelService, private restAPIService: RestAPIService,
+    private restAPIService: RestAPIService,
     private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -56,27 +55,27 @@ export class HullingDetailsComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -102,13 +101,13 @@ export class HullingDetailsComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.hullingDetailsData = res;
         this.loading = false;
-      let sno = 0;
-      this.hullingDetailsData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.hullingDetailsData.forEach(data => {
+          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -124,7 +123,7 @@ export class HullingDetailsComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.hullingDetailsData = [];
   }
 
@@ -152,17 +151,6 @@ export class HullingDetailsComponent implements OnInit {
     }
   }
 
-  exportAsXLSX(): void {
-    var HullingData = [];
-    this.hullingDetailsData.forEach(data => {
-      HullingData.push({
-        SlNo: data.SlNo, SRNo: data.SRNo, SRDate: data.SRDate, ITDescription: data.ITDescription,
-        DepositorName: data.DepositorName, NoPacking: data.NoPacking, Nkgs: data.Nkgs
-      })
-    })
-    this.excelService.exportAsExcelFile(HullingData, 'HULLING_DETAILS_REPORT', this.hullingDetailsCols);
-  }
-
   onPrint() { }
-  
+
 }

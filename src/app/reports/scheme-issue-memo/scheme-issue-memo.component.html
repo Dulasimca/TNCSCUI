@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
               [disabled]="(!RCode || !GCode || !Scheme || !fromDate || !toDate)"></button>
-            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(schemeIssueMemoData.length=='0')"></button>
              <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
               (click)="onPrint()" [disabled]="true"></button>
@@ -61,20 +61,10 @@
           <p-checkbox name="groupname" value="val1" label="Depositor" [(ngModel)]="selectedValues"></p-checkbox>
           <!-- <label class="ui-g-8">Depositor</label> -->
         </div>
-      <!-- <div class="ui-g-12 dashboard">
-        <div class="ui-g-12 ui-md-4"></div>
-        <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 25px;">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="(!RCode || !GCode || !Scheme || !fromDate || !toDate)"></button>
-        </div>
-        <div class="ui-g-3 ui-md-1 ui-fluid" style="padding-top: 25px;">
-          <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(schemeIssueMemoData.length=='0')"></button>
-        </div>
-        <div class="ui-g-12 ui-md-5"></div>
-      </div> -->
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="schemeIssueMemoCols" [value]="schemeIssueMemoData" [loading]="loading" [scrollable]="true"
-          [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
+        <p-table #dt [columns]="schemeIssueMemoCols" [value]="schemeIssueMemoData" [loading]="loading" [scrollable]="true"
+          [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true" exportFilename="SCHEME_ISSUE_MEMO_REPORT">
+            <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

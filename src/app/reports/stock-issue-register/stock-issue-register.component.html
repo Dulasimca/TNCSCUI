@@ -50,12 +50,13 @@
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(stockIssueRegData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(stockIssueRegData.length=='0')"></button>
-      </div>    <div class="ui-g-12 dashboard">
-        <p-table #table [columns]="stockIssueRegCols" [value]="stockIssueRegData" [totalRecords]="totalRecords"
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(stockIssueRegData.length=='0')"></button>
+      </div>   
+       <div class="ui-g-12 dashboard">
+        <p-table #dt [columns]="stockIssueRegCols" [value]="stockIssueRegData" [totalRecords]="totalRecords"
           [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-          autoLayout="true" [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+          autoLayout="true" [loading]="loading" exportFilename="STOCK_ISSUE_REGISTER_REPORT">
+             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

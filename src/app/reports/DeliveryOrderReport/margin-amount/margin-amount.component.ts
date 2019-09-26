@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -32,8 +31,7 @@ export class MarginAmountComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -127,14 +125,6 @@ export class MarginAmountComponent implements OnInit {
 
   onResetTable() {
     this.MarginAmountData = [];
-  }
-
-  exportAsXLSX(): void {
-    var MarginAmountData = [];
-    this.MarginAmountData.forEach(data => {
-      MarginAmountData.push({ SlNo: data.SlNo, Coop: data.Coop, Dono: data.Dono, Dodate: data.Dodate, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount });
-    });
-    this.excelService.exportAsExcelFile(MarginAmountData, 'DO_MARGIN_AMOUNT', this.MarginAmountCols);
   }
 
   onPrint() { }

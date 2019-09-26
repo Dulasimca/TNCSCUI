@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -31,14 +30,14 @@ export class WriteOffComponent implements OnInit {
   godownOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
+  loggedInRCode: any;
   maxDate: Date;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
   
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -149,14 +148,6 @@ export class WriteOffComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  exportAsXLSX(): void {
-    var WritOffData = [];
-    this.writeoffData.forEach(data => {
-      WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Issue_Date: data.Issue_Date, Issueno: data.Issueno, Commodity: data.Commodity, NetWt: data.NetWt, Stackno: data.Stackno, remarks: data.remarks })
-    })
-    this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
   }
 
   onPrint() { }

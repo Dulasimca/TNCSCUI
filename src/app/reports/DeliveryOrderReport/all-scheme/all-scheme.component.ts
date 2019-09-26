@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -50,8 +49,7 @@ export class AllSchemeComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private datepipe: DatePipe,
+    private authService: AuthService, private restAPIService: RestAPIService, private datepipe: DatePipe,
     private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -202,14 +200,6 @@ export class AllSchemeComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.OtherSchemeData = [];
-  }
-
-  exportAsXLSX(): void {
-    var OtherSchemeData = [];
-    this.OtherSchemeData.forEach(data => {
-      OtherSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
-    });
-    this.excelService.exportAsExcelFile(OtherSchemeData, 'DO_Other_Scheme', this.OtherSchemeCols);
   }
 
   onPrint() { }

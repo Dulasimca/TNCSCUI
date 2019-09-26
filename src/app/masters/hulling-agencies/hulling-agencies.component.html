@@ -18,9 +18,15 @@
     </p-header>
     <p-toast position="center" key="t-err"></p-toast>
     <div class="table-screen-size">
-      <p-table [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
-        <ng-template pTemplate="header" let-columns>
+      <p-table #dt [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+        [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading" exportFilename="HULLING_AGENCIES_DATA">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix">
+              <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export" (click)="dt.exportCSV()"
+                style="float:left"></button>
+            </div>
+          </ng-template>
+           <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns">
               {{col.header}}

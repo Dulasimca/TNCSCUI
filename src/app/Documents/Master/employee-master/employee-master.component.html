@@ -118,7 +118,7 @@
 <p-dialog header="Employee Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="EmployeeCols" [value]="EmployeeData" [rows]="20"
+    <p-table #dt [columns]="EmployeeCols" [value]="EmployeeData" [rows]="20" exportFilename="EMPLOYEE_DETAILS"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" (onRowSelect)="onRowSelect($event)">
       <ng-template pTemplate="colgroup" let-columns>
@@ -149,7 +149,7 @@
   </div>
   <div class="ui-g-4 ui-md-1">
     <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!EmployeeData" label=Excel
-      (click)="exportAsXLSX()"></button>
+    (click)="dt.exportCSV()"></button>
   </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
     <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>

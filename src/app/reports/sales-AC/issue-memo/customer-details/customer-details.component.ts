@@ -4,7 +4,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -62,8 +61,7 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -270,27 +268,6 @@ export class CustomerDetailsComponent implements OnInit {
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
-    }
-  }
-  exportAsXLSX(): void {
-    var IssueMemo = [];
-    var AbstractData = [];
-    if (this.AbstractData || this.IssueMemoCustomerDetailsData) {
-      if (this.AbstractData) {
-        this.AbstractData.forEach(data => {
-          AbstractData.push({ SlNo: data.SlNo, Society: data.society, Commodity: data.Commodity, Quantity: data.Quantity });
-        });
-        this.excelService.exportAsExcelFile(AbstractData, 'Issue_Memo_Abstract', this.AbstractCols);
-      } else if (this.IssueMemoCustomerDetailsData) {
-        this.IssueMemoCustomerDetailsData.forEach(data => {
-          IssueMemo.push({
-            SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type_name: data.tyname,
-            Coop: data.Coop, Scheme: data.Scheme, Commodity: data.Commodity, Quantity: data.Quantity,
-            Society: data.Society, Rate: data.Rate, value: data.value
-          });
-        });
-        this.excelService.exportAsExcelFile(IssueMemo, 'Issue_Memo_Customer_Details_Data', this.IssueMemoCustomerDetailsCols);
-      }
     }
   }
 

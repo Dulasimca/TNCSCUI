@@ -81,15 +81,15 @@
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-4 ui-md-1 ui-fluid">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="isActionDisabled"></button>
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="isActionDisabled"></button>
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table [columns]="(AbstractCols || IssueMemoCustomerDetailsCols)"
+        <p-table #dt [columns]="(AbstractCols || IssueMemoCustomerDetailsCols)"
           [value]="(AbstractData || IssueMemoCustomerDetailsData)" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+          [loading]="loading" exportFilename="Issue_Memo_Customer_Details_Data">
+             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

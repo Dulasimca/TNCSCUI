@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
@@ -39,8 +38,7 @@ export class IssueSchemeCoOpComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
-  constructor(private datePipe: DatePipe, 
-    private authService: AuthService, private excelService: ExcelService,
+  constructor(private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -182,10 +180,6 @@ export class IssueSchemeCoOpComponent implements OnInit {
     if(item === 'reg') { this.GCode = null; }
     this.issueSchemeCoOpData = [];
   }
-
-  exportAsXLSX():void{
-    this.excelService.exportAsExcelFile(this.issueSchemeCoOpData, 'SCHEME_ABSTRACT_ISSUE_COOP',this.issueSchemeCoOpCols);
-}
 
 onPrint() {
   const path = "../../assets/Reports/" + this.userId.user + "/";

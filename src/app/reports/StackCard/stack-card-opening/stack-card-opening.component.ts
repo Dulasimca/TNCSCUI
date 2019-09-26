@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -42,7 +41,7 @@ export class StackCardOpeningComponent implements OnInit {
   @ViewChild('stackYear') StackYearPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService,
+    private messageService: MessageService, private authService: AuthService, 
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -179,17 +178,6 @@ export class StackCardOpeningComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.StackCardOpeningData = [];
-  }
-
-  exportAsXLSX(): void {
-    var StackData = [];
-    this.StackCardOpeningData.forEach(data => {
-      StackData.push({
-        SlNo: data.SlNo, Stackno: data.Stackno, StackBalanceBags: data.StackBalanceBags, Stackbalanceweight: data.Stackbalanceweight,
-        Date: data.obstackdate, Formationyear: data.Formationyear, Status: data.Status
-      })
-    })
-    this.excelService.exportAsExcelFile(StackData, 'STACK_CARD_OPENING_REPORT', this.StackCardOpeningCols);
   }
 
   onPrint() { }

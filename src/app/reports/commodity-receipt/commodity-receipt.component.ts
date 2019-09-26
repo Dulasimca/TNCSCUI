@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -37,15 +36,16 @@ export class CommodityReceiptComponent implements OnInit {
   maxDate: Date;
   loading: boolean;
   roleId: any;
+  username: any;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
-  username: any;
-  loggedInRCode: any;
+  
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -200,16 +200,4 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   onPrint() { }
-
-  exportAsXLSX(): void {
-    var CommodityReceiptData = [];
-    this.commodityReceiptData.forEach(data => {
-      CommodityReceiptData.push({
-        SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, Ackno: data.Ackno,
-        Date: data.Date, Commodity: data.Commodity, Bags_No: data.Bags_No, Quantity: data.Quantity, RecdFrom: data.RecdFrom,
-        Lorryno: data.Lorryno, TruckMemoNo: data.TruckMemoNo, Truckmemodate: data.Truckmemodate, Orderno: data.Orderno
-      })
-    })
-    this.excelService.exportAsExcelFile(CommodityReceiptData, 'COMMODITY_RECEIPT_REPORT', this.commodityReceiptCols);
-  }
 }

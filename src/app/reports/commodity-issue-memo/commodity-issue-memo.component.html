@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
               [disabled]="(!fromDate || !toDate || !ITCode || !GCode || !RCode)"></button>
-            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(commodityIssueMemoData.length=='0')"></button>
              <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
               (click)="onPrint()" [disabled]="true"></button>
@@ -60,10 +60,10 @@
         <div class="ui-g-1"></div>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="commodityIssueMemoCols" [value]="commodityIssueMemoData" [responsive]="true"
+        <p-table #dt [columns]="commodityIssueMemoCols" [value]="commodityIssueMemoData" [responsive]="true"
           [scrollable]="true" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
+          [paginator]="true" autoLayout="true"  exportFilename="COMMODITY_ISSUE_MEMO_REPORT">
+             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

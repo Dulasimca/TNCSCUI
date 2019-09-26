@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -41,7 +40,7 @@ export class TransactionReceiptComponent implements OnInit {
   loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -172,14 +171,6 @@ export class TransactionReceiptComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  exportAsXLSX(): void {
-    var TransactionReceiptData = [];
-    this.transactionReceiptData.forEach(data => {
-      TransactionReceiptData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Commodity: data.Commodity, Date: data.Date, Trans_action: data.Trans_action, Quantity: data.Quantity })
-    })
-    this.excelService.exportAsExcelFile(TransactionReceiptData, 'TRANSACTION_RECEIPT_REPORT', this.transactionReceiptCols);
   }
 
   public setAlignment(value) {

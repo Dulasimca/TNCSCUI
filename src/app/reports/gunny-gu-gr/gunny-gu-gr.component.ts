@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,14 +31,13 @@ export class GunnyGuGrComponent implements OnInit {
   canShowMenu: boolean;
   username: any;
   selectedValue: string = 'GR';
+  loggedInRCode: string;
   loading: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -158,14 +156,6 @@ export class GunnyGuGrComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.GunnyRepData = [];
-  }
-
-  onExportExcel(): void {
-    var GunnyData = [];
-    this.GunnyRepData.forEach(data => {
-      GunnyData.push({ SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity, stackno: data.stackno, Year: data.Year })
-    });
-    this.excelService.exportAsExcelFile(GunnyData, 'GUNNY_REPORT', this.GunnyRepCols);
   }
 
   onPrint() { }

@@ -3,7 +3,6 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TreeNode, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -25,7 +24,7 @@ export class GodownDataComponent implements OnInit {
   loading: boolean;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
-     private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService) { }
+     private tableConstants: TableConstants, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -75,11 +74,6 @@ export class GodownDataComponent implements OnInit {
     }
       this.items = [
         {
-          label: 'Excel', icon: 'fa fa-table', command: () => {
-            this.exportAsXLSX();
-          }
-        },
-        {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
           }
@@ -103,17 +97,7 @@ export class GodownDataComponent implements OnInit {
     }
   }
 
-  exportAsXLSX(): void {
-    let tempArray = [];
-    this.data.forEach(x => {
-      tempArray.push(x.data);
-      let childNode = x.children;
-      childNode.forEach(y => {
-        tempArray.push(y.data);
-      })
-    })
-    this.excelService.exportAsExcelFile(tempArray, 'GODOWN_DATA', this.column);
-  }
+
 
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');

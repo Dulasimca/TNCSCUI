@@ -5,7 +5,6 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
@@ -45,8 +44,7 @@ export class StockIssueRegisterComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
-    private excelService: ExcelService, private messageService: MessageService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -186,18 +184,6 @@ export class StockIssueRegisterComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  exportAsXLSX(): void {
-    var StockIssueData = [];
-    this.stockIssueRegData.forEach(data => {
-      StockIssueData.push({
-        SlNo: data.SlNo, Issue_Memono: data.Issue_Memono, DNo: data.DNo, Issue_Date: data.Issue_Date,
-        Lorryno: data.Lorryno, To_Whom_Issued: data.To_Whom_Issued, Stackno: data.Stackno, Scheme: data.Scheme, Commodity: data.Commodity,
-        NoPacking: data.NoPacking, NetWt: data.NetWt
-      })
-    })
-    this.excelService.exportAsExcelFile(StockIssueData, 'STOCK_ISSUE_REGISTER_REPORT', this.stockIssueRegCols);
   }
 
   onPrint() {

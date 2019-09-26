@@ -47,16 +47,16 @@
           [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(writeoffData.length=='0')"></button>
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(writeoffData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
         </div>
          <div class="ui-g-12 dashboard">
-        <p-table [columns]="writeoffCols" [value]="writeoffData" [responsive]="true" [loading]="loading"
+        <p-table #dt [columns]="writeoffCols" [value]="writeoffData" [responsive]="true" [loading]="loading"
           [scrollable]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
-          [responsive]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
+          [responsive]="true" autoLayout="true" exportFilename="WRITE_OFF_REPORT">
+              <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}
