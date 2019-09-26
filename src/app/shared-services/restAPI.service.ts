@@ -36,6 +36,11 @@ export class RestAPIService {
   put(url, obj): Observable<any> {
    return this.httpClient.put(this.BASEURL + url, obj);
   }
+
+  delete(url, options): Observable<any> {
+    return this.httpClient.delete(this.BASEURL + url, options);
+  }
+
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
