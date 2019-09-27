@@ -114,7 +114,7 @@ export class DeliveryReceiptComponent implements OnInit {
   ChDate: any;
   AdjustDate: any;
   submitted: boolean;
-  missingFields: any[];
+  missingFields: any;
   field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
@@ -990,6 +990,9 @@ export class DeliveryReceiptComponent implements OnInit {
         }
        }
        this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
     }
   }
 }

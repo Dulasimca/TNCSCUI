@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -37,6 +37,7 @@ export class StockstatementreportComponent implements OnInit {
   regions: any;
   @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }
@@ -50,7 +51,12 @@ export class StockstatementreportComponent implements OnInit {
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.items = [  
-      {
+  {
+    label: 'Excel', icon: 'fa fa-table', command: () => {
+      this.table.exportCSV();
+    }
+  },
+  {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }

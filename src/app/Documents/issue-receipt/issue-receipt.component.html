@@ -295,7 +295,9 @@
                 <label for="NetWt" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
                   <input name="NetWt" type="text" [(ngModel)]="NKgs" size="20" 
-                  [readonly]="isValidStackBalance" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
+                  [readonly]="isValidStackBalance" (input)="onCalculateWt()" pInputText autocomplete="off"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px">
@@ -333,7 +335,7 @@
               </div>
               <div class="ui-g-6 ui-md-1 ui-fluid" style="margin-top: 2px">
                 <button name="Enter" pButton type="button" label="Enter" (click)="onItemDetailsEnter()"
-                  [disabled]="(!Scheme || !ICode || !IPCode || !TStockNo || !WTCode || !Moisture || NoPacking==null || NKgs==null || GKgs==null)"></button>
+                  [disabled]="(!Scheme || !ICode || !IPCode || !TStockNo || !WTCode || !Moisture || NoPacking==null || NKgs==null || GKgs==null || (NKgs!=null && NKgs==0))"></button>
               </div>
               <div class="ui-g-12 ui-md-2">
                   <span class="ui-float-label">

@@ -55,6 +55,8 @@ export class StockIssueRegisterComponent implements OnInit {
     this.maxDate = new Date();
     this.stockIssueRegData = [];
     this.data = this.roleBasedService.getInstance();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 
@@ -96,6 +98,9 @@ export class StockIssueRegisterComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
     }

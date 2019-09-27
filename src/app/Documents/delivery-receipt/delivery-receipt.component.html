@@ -182,6 +182,7 @@
                           class="label-fontsize" style="float: right">Gms</label>
                       </div>
                       <input name="NetWt" pInputText [(ngModel)]="NKgs" (input)="calculateTotal()" autocomplete="off"
+                      oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
@@ -201,7 +202,8 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input class="ui-g-12" name="RateRs" pInputText [(ngModel)]="Rate" autocomplete="off"
-                        (input)="calculateTotal()" appDecimalDigit />
+                        (input)="calculateTotal()"  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="Total" style="padding-top: 0px;">Total</label>
@@ -269,7 +271,8 @@
                           class="label-fontsize" style="float: right">Gms</label>
                       </div>
                       <input name="MarginWt" pInputText [(ngModel)]="MarginNKgs" (input)="calculateTotal()"
-                        autocomplete="off" appDecimalDigit />
+                        autocomplete="off"  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="MarginRateTerms">Rate In Term Of</label>
@@ -289,7 +292,8 @@
                           class="label-fontsize" style="float: right">Ps</label>
                       </div>
                       <input name="MarginRateRS" pInputText [(ngModel)]="MarginRate" (input)="calculateTotal()"
-                        autocomplete="off" appDecimalDigit />
+                        autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+                        appDecimalDigit />
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;padding-top: 0px;text-align: center">
                       <label class="label-fontsize" for="MarginAmnt" style="padding-top: 0px;">Margin Amount</label>
@@ -332,7 +336,6 @@
                     <div class="ui-g-6 ui-md-3 no-left-pad">
                       <span class="ui-float-label">
                         <input name="GrandTotalAmnt" pInputText [(ngModel)]="GrandTotal"
-                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off" [readonly]="true" required>
                         <label for="GrandTotalAmnt" class="float-input">Grand Total</label>
                       </span>
@@ -378,7 +381,8 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="PayAmnt" [(ngModel)]="PAmount" pInputText autocomplete="off"
-                        type="text" appDecimalAmount>
+                        type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        appDecimalAmount>
                         <label for="PayAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
                     </div>
@@ -471,13 +475,16 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText
-                        type="text" autocomplete="off" >
+                        type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        autocomplete="off" >
                         <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off" appDecimalAmount>
+                        <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         appDecimalAmount>
                         <label for="OtherAmnt" class="float-input">Other Amt</label>
                       </span>
                     </div>

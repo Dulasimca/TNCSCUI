@@ -124,7 +124,7 @@ export class TruckReceiptComponent implements OnInit {
   DOCNumber: any;
   selectedIndex: any;
   submitted: boolean;
-  missingFields: any[];
+  missingFields: any;
   field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
@@ -968,6 +968,9 @@ export class TruckReceiptComponent implements OnInit {
         }
        }
        this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
     }
   }
 }

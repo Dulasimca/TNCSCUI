@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CashReceiptRegisterComponent } from './Cash-Receipt-Register.component';
 
-import { CashReceiptRegisterComponent } from './cash-receipt-register.component';
 
 describe('CashReceiptRegisterComponent', () => {
   let component: CashReceiptRegisterComponent;

@@ -30,5 +30,7 @@ export class StatusMessage {
     public static readonly CHAndPayableAtInDO = 'Please enter CH/DD/PO/OCR No! or Payable At';
     public static readonly BankNameInDO = 'Please enter "C-" For Cereal or "N-" For Non-Cereal then enter bank name!';
     public static readonly DocumentMissingFields = 'Please fill all the below missing fields - ';
+    public static readonly StackcardDeleted = 'Stack card deleted successfully!';
+    public static readonly SuccessValidationMsg = 'Proceed with save!';
 
 }

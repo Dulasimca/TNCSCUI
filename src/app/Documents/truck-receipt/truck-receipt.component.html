@@ -220,7 +220,9 @@
                       <label class="label-fontsize" for="GrossWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GrossWt" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                        (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off" appDecimalDigit>
+                        (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -233,7 +235,9 @@
                       <label class="label-fontsize" for="NetWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NetWt" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                        (input)="onCalculateWt()"  [readonly]="isValidStackBalance"  autocomplete="off" appDecimalDigit>
+                        (input)="onCalculateWt()"  [readonly]="isValidStackBalance" 
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                         autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -270,7 +274,7 @@
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
-                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null || NKgs==0)" (click)="onEnter()"></button>
+                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null  || (NKgs!=null && NKgs==0))" (click)="onEnter()"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">

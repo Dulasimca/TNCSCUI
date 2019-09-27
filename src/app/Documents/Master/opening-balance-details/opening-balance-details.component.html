@@ -134,7 +134,7 @@
       <p-table #dt [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20"
        [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords" selectionMode="single"
        [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)" 
-       exportFilename="OPENING_BALANCE_DETAILS"> 
+       exportFilename="OPENING_BALANCE_DETAILS" [scrollable]="true"> 
           <ng-template pTemplate="colgroup" let-columns>
           <colgroup>
             <col *ngFor="let col of columns" style="width:80px">

@@ -130,7 +130,7 @@ export class StockReceiptComponent implements OnInit {
   checkTrType: boolean = true;
   DOCNumber: any;
   submitted: boolean;
-  missingFields: any[];
+  missingFields: any;
   field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
@@ -852,6 +852,9 @@ export class StockReceiptComponent implements OnInit {
         }
        }
        this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
     }
   }
 }

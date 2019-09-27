@@ -93,7 +93,10 @@ export class DeliveryOrderRegisterComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        }
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+         }
         break;
     }
   }

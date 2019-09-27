@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService, ConfirmationService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -8,6 +8,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -174,10 +175,12 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
         break;
       case 'cy':
-        if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined) {
+        if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined && this.CurYear !== null) {
           this.stackOpeningData = this.stackOpeningData.filter(x => {
             return x.CurYear === this.CurYear
           })
+        } else {
+          this.stackOpeningData = this.Opening_Balance;
         }
         break;
     }
@@ -214,7 +217,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onView() {
     this.openView = true;
-    this.stackOpeningData = [];
+    this.stackOpeningData.length = 0;
     let curYrOptions = [];
     const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {

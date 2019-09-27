@@ -13,9 +13,9 @@ import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({
-  selector: 'app-cash-receipt-register',
-  templateUrl: './cash-receipt-register.component.html',
-  styleUrls: ['./cash-receipt-register.component.css']
+  selector: 'app-Cash-Receipt-Register',
+  templateUrl: './Cash-Receipt-Register.component.html',
+  styleUrls: ['./Cash-Receipt-Register.component.css']
 })
 export class CashReceiptRegisterComponent implements OnInit {
   CashReceiptRegCols: any;

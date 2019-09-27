@@ -255,7 +255,9 @@
                     <label for="GrossWt" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input name="GrossWt" type="text" [(ngModel)]="GKgs"
-                       size="20" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
+                       size="20" (input)="onCalculateWt()" pInputText autocomplete="off" 
+                       oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                       appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -25px">
@@ -268,7 +270,9 @@
                     <label for="NetWt" class="label-fontsize" style="float: right">Gms</label>
                     <span class="ui-float-label">
                       <input type="text" name="NetWt" size="20" [(ngModel)]="NKgs" 
-                     pInputText (input)="onCalculateWt()" autocomplete="off" appDecimalDigit>
+                     pInputText (input)="onCalculateWt()" autocomplete="off"
+                     oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+                      appDecimalDigit>
                     </span>
                   </div>
                   <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -10px">

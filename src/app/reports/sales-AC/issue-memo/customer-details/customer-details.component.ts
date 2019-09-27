@@ -173,9 +173,12 @@ export class CustomerDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined) {
-        this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDeatil;
+        this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
+        let arr = this.IssueMemoCustomerDetailsData;
+        Array.from(new Set(arr.map((item: any) => item.tyname)));
+        console.log('arr', arr);
         this.filterArray = res;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {

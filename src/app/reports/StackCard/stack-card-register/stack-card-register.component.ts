@@ -1,28 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SelectItem, MessageService } from 'primeng/api';
-import { DatePipe } from '@angular/common';
+import { SelectItem } from 'primeng/api';
+import { Dropdown, MessageService } from 'primeng/primeng';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown, ConfirmationService } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-stack-card-opening',
-  templateUrl: './stack-card-opening.component.html',
-  styleUrls: ['./stack-card-opening.component.css']
+  selector: 'app-stack-card-register',
+  templateUrl: './stack-card-register.component.html',
+  styleUrls: ['./stack-card-register.component.css']
 })
-export class StackCardOpeningComponent implements OnInit {
-  StackCardOpeningCols: any;
-  StackCardOpeningData: any = [];
+export class StackCardRegisterComponent implements OnInit {
+  StackCardRegisterCols: any;
+  StackCardRegisterData: any = [];
   data: any;
   GCode: any;
   ITCode: any;
   RCode: any;
-  Year: any;
+  StackYear: any;
   Status: any;
   regions: any;
   roleId: any;
@@ -35,23 +37,25 @@ export class StackCardOpeningComponent implements OnInit {
   maxDate: Date;
   loggedInRCode: any;
   loading: boolean;
+  Username: any;
   @ViewChild('region') RegionPanel: Dropdown;
   @ViewChild('godown') GodownPanel: Dropdown;
   @ViewChild('commodity') CommodityPanel: Dropdown;
   @ViewChild('stackYear') StackYearPanel: Dropdown;
+  @ViewChild('stackCardStatus') StackStatusPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, 
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
-    private confirmationService: ConfirmationService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.StackCardOpeningCols = this.tableConstants.StackCardOpening;
+    this.StackCardRegisterCols = this.tableConstants.StackCardRegisterReport;
     this.data = this.roleBasedService.getInstance();
+    this.Username = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
   }
 
@@ -90,14 +94,14 @@ export class StackCardOpeningComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
         }
         break;
-      case 'y':
+      case 'st_yr':
         if (type === 'enter') {
           this.StackYearPanel.overlayVisible = true;
         }
@@ -127,42 +131,33 @@ export class StackCardOpeningComponent implements OnInit {
           });
         }
         break;
+        case 'status':
+            if (type === 'enter') {
+              this.StackStatusPanel.overlayVisible = true;
+            }
+         this.statusOptions = [{ label: 'R', value: 'R' }, { label: 'C', value: 'C' }];
+          break;
     }
   }
-
-  onStatus() {
-    let StatusSelection = [];
-    if (this.statusOptions === undefined) {
-      this.statusOptions = StatusSelection;
-    }
-    this.statusOptions.unshift({ 'label': 'R', 'value': this.statusOptions }, { 'label': 'C', 'value': this.statusOptions });
-    this.StackCardOpeningData;
-  }
-
 
   onView() {
     this.loading = true;
     const params = {
-      'GCode': this.GCode,
-      'StackDate': this.Year.label,
-      'ICode': this.ITCode,
-      'Type': 2
+      GCode: this.GCode.value,
+      GName: this.GCode.label,
+      RName: this.RCode.label,
+      StackDate: this.StackYear,
+      ICode: this.ITCode.value,
+      ITName: this.ITCode.label,
+      StackStatus: this.Status,
+      UserName: this.Username.user,
+      Type: 5
     };
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.StackCardOpeningData = res.filter((value: { Status: any; }) => { return value.Status === this.Status.label });
+        this.StackCardRegisterData = res;
         this.loading = false;
-        let sno = 0;
-        this.StackCardOpeningData.forEach(data => {
-          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-          data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
-          data.Quantity = (data.Quantity * 1).toFixed(3);
-          sno += 1;
-          data.SlNo = sno;
-        });
-        // if (this.statusOptions !== undefined) {
-        // }
-      } else {
+      } else{
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -176,38 +171,10 @@ export class StackCardOpeningComponent implements OnInit {
     });
   }
 
-  deleteSelectedRow(index, selectedRow) {
-    let rowId = selectedRow.Sno;
-    let stackNo = selectedRow.Stackno.trim();
-    const statusOfCard = (selectedRow.Status === 'R') ? stackNo + ' is Running Card! ' : stackNo + ' is Closed Card! ';
-     const httpParams = new HttpParams().set('GCode', this.GCode).append('RowId', rowId);
-     let options = { params: httpParams};
-    this.confirmationService.confirm({
-      message: statusOfCard + ' Are you sure that you want to delete the record?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.restAPIService.delete(PathConstants.STACK_CARD_OPENING_REPORT_DELETE, options).subscribe(res => {
-          if(res) {
-            this.StackCardOpeningData.splice(index, 1);
-            let sno = 0;
-            this.StackCardOpeningData.forEach(data => {
-              sno += 1;
-              data.SlNo = sno;
-            });
-            this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackcardDeleted });
-          }
-        })
-      },
-      reject: () => {  }
-    });
+  onPrint() {
+    const path = "../../assets/Reports/" + this.Username.user + "/";
+    const filename = this.GCode + GolbalVariable.StackCardRegisterReport + ".txt";
+    saveAs(path + filename, filename);
   }
-
-  onResetTable(item) {
-    if (item === 'reg') { this.GCode = null; }
-    this.StackCardOpeningData = [];
-  }
-
-  onPrint() { }
+  
 }

@@ -118,7 +118,7 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
-import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { CashReceiptRegisterComponent } from './reports/Cash-Receipt-Register/Cash-Receipt-Register.component';
 import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -133,6 +133,8 @@ import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
+import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
+import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 
 @NgModule({
   declarations: [
@@ -228,6 +230,8 @@ import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all
     OapComponent,
     SplpdsComponent,
     AnnapoornaComponent,
+    DocumentCorrectionComponent,
+    StackCardRegisterComponent,
   ],
   imports: [
     BrowserModule,

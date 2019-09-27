@@ -73,7 +73,7 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
-import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { CashReceiptRegisterComponent } from './reports/Cash-Receipt-Register/Cash-Receipt-Register.component';
 import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -86,6 +86,7 @@ import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-deta
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
 import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
+import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 
 
 const routes: Routes = [
@@ -174,6 +175,7 @@ const routes: Routes = [
   { path: 'Cash Receipt Register', component: CashReceiptRegisterComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent, canActivate: [AuthGuard] },
+  { path : 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
