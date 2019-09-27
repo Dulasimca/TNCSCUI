@@ -437,7 +437,7 @@ export class DeliveryReceiptComponent implements OnInit {
           x.DoDate = this.datepipe.transform(x.DoDate, 'dd/MM/yyyy');
           x.PaymentAmount = (x.PaymentAmount !== null) ? x.PaymentAmount : '-';
           let paidAmount = (x.PaymentAmount !== '-') ? x.PaymentAmount : 0;
-          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1));
+          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1)).toFixed(2);
         })
       } else {
         this.messageService.clear();

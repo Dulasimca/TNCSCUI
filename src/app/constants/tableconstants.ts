@@ -94,6 +94,7 @@ export class TableConstants {
   StackCardRegister: any;
   QuantityACReceiptDetailsCommodity: any;
   StackCardRegisterReport: any;
+  CashReceiptRegCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1071,6 +1072,18 @@ export class TableConstants {
       { field: 'BalanceQuantity', header: 'BAL_QUANTITY' },
       { field: 'StackStatus', header: 'Stack Status' },
       { field: 'WOffQty', header: 'W/OFF QTY.' }
+    ];
+
+    this.CashReceiptRegCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'ReceivedFrom', header: 'Received From' },
+      { field: 'ReceiptNo', header: 'REC.No' },
+      { field: 'Date', header: 'Date' },
+      { field: 'PaymentType', header: 'DD/CH/OCR' },
+      { field: 'DDNo', header: 'DD No' },
+      { field: 'DDDate', header: 'DD Date' },
+      { field: 'Amount', header: 'DD AMOUNT' },
+      { field: 'Bank', header: 'Bank' },
     ];
   }
 }

@@ -135,6 +135,7 @@ import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/an
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
 import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
+import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 
 @NgModule({
   declarations: [
@@ -232,6 +233,7 @@ import { StackCardRegisterComponent } from './reports/StackCard/stack-card-regis
     AnnapoornaComponent,
     DocumentCorrectionComponent,
     StackCardRegisterComponent,
+    OCRReportComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Stack Card Register</div>
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
-              [disabled]="(!RCode || !GCode || !ITCode || !StackStatus || !StackYear)"></button>
+              [disabled]="(!RCode || !GCode || !ITCode || !StackStatus)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(StackCardRegisterData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
@@ -54,8 +54,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Stack Year</label>
         <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="StackYear" [showClear]="true" 
         (onClick)="onSelect('st_yr', 'click')" (keydown.enter)="onSelect('st_yr', 'enter')"
-         (ngModelChange)="onResetTable('st_yr')"
-         placeholder="-select-" filter="true" resetFilterOnHide="true">
+         (ngModelChange)="onResetTable('st_yr')" placeholder="-select-" filter="true" resetFilterOnHide="true">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -65,11 +64,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Stack Card Status</label>
         <p-dropdown #stackCardStatus class="ui-g-12 ui-fluid dashboard" [options]="statusOptions" [(ngModel)]="StackStatus"
          [showClear]="true" (onClick)="onSelect('status', 'click')" (keydown.enter)="onSelect('status', 'enter')"
-         (ngModelChange)="onResetTable('status')" placeholder="-select-" 
-          filter="true" resetFilterOnHide="true">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
+         (ngModelChange)="onResetTable('status')" placeholder="-select-">
         </p-dropdown>
       </div>
       <div class="ui-g-12 dashboard">

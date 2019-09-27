@@ -14,6 +14,7 @@ export class GolbalVariable {
     public static readonly QuantityACForIssueSchemeCOOP = 'ISQASOCIETY';
     public static readonly QuantityACForReceiptDetailCommodity = '';
     public static readonly StackCardRegisterReport = 'SCARDREG';
+    public static readonly OCRRegisterRpeort = 'OCRREG';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

@@ -1,0 +1,76 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Cash Receipt Register</div>
+        </div>
+      </p-header>
+      <div class="ui-g">
+        <p-toast position="center" key="t-error"></p-toast>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Region</label>
+          <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+            (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
+             (ngModelChange)="onResetTable('reg')" filter="true" optionLabel="label"
+            resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>  <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+        <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" placeholder="-select-"
+          (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+          optionLabel="label" [showClear]="true">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <!-- <div class="ui-g-2"></div> -->
+      <div class="ui-g-4 ui-md-2" style="margin-top: 15px">
+        <button class="ui-g-6 dashboard" pButton label=View (click)="onView()"
+          [disabled]="(!GCode || !RCode || !fromDate || !toDate)"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1 ui-fluid" style="margin-top: 15px">
+          <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(cashReceiptRegData.length=='0')"></button>
+        </div>
+       <div class="ui-g-3 ui-md-1 ui-fluid" style="margin-top: 15px">
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+        </div>
+      <div class="ui-g-12 ui-md-12 dashboard">
+        <p-table #dt [columns]="cashReceiptRegCols" [value]="cashReceiptRegData" [rows]="50"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
+           [loading]="loading" exportFilename="CASH_RECEIPT_REGISTER__REPORT">
+             <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>
