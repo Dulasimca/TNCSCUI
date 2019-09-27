@@ -19,7 +19,7 @@ import { Dropdown } from 'primeng/primeng';
 })
 export class CashReceiptRegisterComponent implements OnInit {
   CashReceiptRegCols: any;
-  CashReceiptRegData: any;
+  CashReceiptRegData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   RCode: any;
