@@ -91,5 +91,16 @@ export class DocumentCorrectionComponent implements OnInit {
            break;
     }
   }
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+  checkValidDateSelection() {
+   
+  }
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+   
+  }
 
 }

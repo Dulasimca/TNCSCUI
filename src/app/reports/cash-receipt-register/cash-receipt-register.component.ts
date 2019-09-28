@@ -9,13 +9,12 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-Cash-Receipt-Register',
-  templateUrl: './Cash-Receipt-Register.component.html',
-  styleUrls: ['./Cash-Receipt-Register.component.css']
+  templateUrl: './cash-receipt-register.component.html',
+  styleUrls: ['./cash-receipt-register.component.css']
 })
 export class CashReceiptRegisterComponent implements OnInit {
   CashReceiptRegCols: any;
@@ -157,8 +156,8 @@ export class CashReceiptRegisterComponent implements OnInit {
   }
 
   onPrint() {
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
-    saveAs(path + filename, filename);
+    // const path = "../../assets/Reports/" + this.username.user + "/";
+    // const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    // saveAs(path + filename, filename);
   }
 }

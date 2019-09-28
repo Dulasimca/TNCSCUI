@@ -118,7 +118,6 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
-import { CashReceiptRegisterComponent } from './reports/Cash-Receipt-Register/Cash-Receipt-Register.component';
 import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -136,6 +135,7 @@ import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all
 import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
+import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 
 @NgModule({
   declarations: [

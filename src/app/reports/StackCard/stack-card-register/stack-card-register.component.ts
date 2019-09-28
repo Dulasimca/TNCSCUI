@@ -170,7 +170,17 @@ export class StackCardRegisterComponent implements OnInit {
       }
     });
   }
-
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+  checkValidDateSelection() {
+   
+  }
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+    
+  }
   onPrint() {
     const path = "../../assets/Reports/" + this.Username.user + "/";
     const filename = this.GCode + GolbalVariable.StackCardRegisterReport + ".txt";
