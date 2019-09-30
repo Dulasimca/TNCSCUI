@@ -189,7 +189,7 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   onPrint() { 
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.CommodityReceiptReport + ".txt";
+    const filename = this.GCode + GolbalVariable.CommodityIssueMemoReport + ".txt";
     saveAs(path + filename, filename);
   }
 
