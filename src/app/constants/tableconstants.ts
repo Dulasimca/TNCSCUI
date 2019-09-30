@@ -507,7 +507,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Dono', header: 'Do.No' },
       { field: 'Dodate', header: 'Date' },
-      { field: 'Type', header: 'Type' },
+      { field: 'Tyname', header: 'Type' },
       { field: 'Coop', header: 'Co_op' },
       { field: 'Comodity', header: 'Commodity' },
       { field: 'Scheme', header: 'Scheme' },
@@ -518,55 +518,59 @@ export class TableConstants {
     ];
 
     this.DoSPLPDS = [
-      { field: '', header: 'Do.No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Type' },
-      { field: '', header: 'Co_op' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Amount' },
-      { field: '', header: 'C/NC' }
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Dono', header: 'Do.No' },
+      { field: 'Dodate', header: 'Date' },
+      { field: 'Tyname', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'C_Nc', header: 'C/NC' }
     ];
 
     this.DoOAP = [
-      { field: '', header: 'Do.No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Type' },
-      { field: '', header: 'Co_op' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Amount' },
-      { field: '', header: 'C/NC' }
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Dono', header: 'Do.No' },
+      { field: 'Dodate', header: 'Date' },
+      { field: 'Tyname', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'C_Nc', header: 'C/NC' }
     ];
 
     this.DoAnnaPoorna = [
-      { field: '', header: 'Do.No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Type' },
-      { field: '', header: 'Co_op' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Amount' },
-      { field: '', header: 'C/NC' }
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Dono', header: 'Do.No' },
+      { field: 'Dodate', header: 'Date' },
+      { field: 'Tyname', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'C_Nc', header: 'C/NC' }
     ];
 
     this.DoOtherScheme = [
-      { field: '', header: 'Do.No' },
-      { field: '', header: 'Date' },
-      { field: '', header: 'Type' },
-      { field: '', header: 'Co_op' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Scheme' },
-      { field: '', header: 'Quantity' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Amount' },
-      { field: '', header: 'C/NC' }
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'Dono', header: 'Do.No' },
+      { field: 'Dodate', header: 'Date' },
+      { field: 'Tyname', header: 'Type' },
+      { field: 'Coop', header: 'Co_op' },
+      { field: 'Comodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'C_Nc', header: 'C/NC' }
     ];
 
     this.DoSocietyAbstract = [

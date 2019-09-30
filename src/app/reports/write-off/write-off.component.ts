@@ -9,6 +9,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-write-off',
@@ -32,10 +34,11 @@ export class WriteOffComponent implements OnInit {
   canShowMenu: boolean;
   loggedInRCode: any;
   maxDate: Date;
+  username: any;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
@@ -48,6 +51,7 @@ export class WriteOffComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -55,27 +59,27 @@ export class WriteOffComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -100,13 +104,13 @@ export class WriteOffComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.WRITE_OFF_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.writeoffData = res;
-      let sno = 0;
-      this.writeoffData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.writeoffData.forEach(data => {
+          data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -123,7 +127,7 @@ export class WriteOffComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.writeoffData = [];
   }
 
@@ -150,6 +154,17 @@ export class WriteOffComponent implements OnInit {
     }
   }
 
-  onPrint() { }
-  
+  // exportAsXLSX(): void {
+  //   var WritOffData = [];
+  //   this.writeoffData.forEach(data => {
+  //     WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Issue_Date: data.Issue_Date, Issueno: data.Issueno, Commodity: data.Commodity, NetWt: data.NetWt, Stackno: data.Stackno, remarks: data.remarks })
+  //   })
+  //   this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
+  // }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

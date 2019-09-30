@@ -51,20 +51,23 @@ export class MarginAmountComponent implements OnInit {
     }
   }
 
-  onSociety() {
-    let SocietySelection = [];
-    if (this.societyOptions === undefined) {
-      const params = new HttpParams().set('GCode', this.g_cd.value);
-      this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-        var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
-        var code = Array.from(new Set(res.map((item: any) => item.SocietyType)));
-        for (var index in result && code) {
-          SocietySelection.push({ 'label': result[index], 'value': code[index] });
-        }
-        this.societyOptions = SocietySelection;
-      });
-    }
-  }
+  // onSociety() {
+  //   let SocietySelection = [];
+  //   if (this.societyOptions === undefined) {
+  //     const params = new HttpParams().set('GCode', this.g_cd.value);
+  //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+  //       var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
+  //       var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+  //       for (var index in result) {
+  //         SocietySelection.push({ 'label': result[index], 'value': result[index] });
+  //       }
+  //       // res.forEach(s => {
+  //       // SocietySelection.push({ 'label': s.SocietyName, ' value': s.SocietyType })
+  //       // });
+  //       this.societyOptions = SocietySelection;
+  //     });
+  //   }
+  // }
 
   onView() {
     this.checkValidDateSelection();
@@ -73,7 +76,7 @@ export class MarginAmountComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
       'GCode': this.g_cd.value,
-      'SCode': this.s_cd.value
+      // 'SCode': this.s_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {

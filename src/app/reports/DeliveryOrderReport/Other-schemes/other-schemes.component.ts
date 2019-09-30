@@ -74,7 +74,7 @@ export class OtherSchemesComponent implements OnInit {
     let godownSelection = [];
     let TransactionSelection = [];
     let ReceiverSelection = [];
-    let SchemeSelection = []; 
+    let SchemeSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -139,19 +139,19 @@ export class OtherSchemesComponent implements OnInit {
           this.receiverOptions = ReceiverSelection;
         });
         break;
-      case 'Sch':
-        if (type === 'enter') {
-          this.schemePanel.overlayVisible = true;
-        }
-        if (this.SchemeOptions === undefined) {
-          this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-            data.forEach(y => {
-              SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
-            });
-            this.SchemeOptions = SchemeSelection;
-          });
-        }
-        break;
+      // case 'Sch':
+      //   if (type === 'enter') {
+      //     this.schemePanel.overlayVisible = true;
+      //   }
+      //   if (this.SchemeOptions === undefined) {
+      //     this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
+      //       data.forEach(y => {
+      //         SchemeSelection.push({ 'label': y.Name, 'value': y.SCCode });
+      //       });
+      //       this.SchemeOptions = SchemeSelection;
+      //     });
+      //   }
+      //   break;
     }
   }
   // }
@@ -163,19 +163,20 @@ export class OtherSchemesComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
-      'SCode': this.s_cd.value,
+      // 'SCode': this.s_cd.value,
       // 'SchCode': this.sch_cd.value
     };
-    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_OTHERSCHEME, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.AllSchemeData = res;
         this.loading = false;
         let sno = 0;
         this.AllSchemeData.forEach(data => {
-          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          data.Slno = sno;
           sno += 1;
-          data.SlNo = sno;
+          this.AllSchemeData = this.AllSchemeData.filter(item => {
+            return item.Tyname === this.r_cd.label;
+          });
         });
       } else {
         this.loading = false;
@@ -185,43 +186,45 @@ export class OtherSchemesComponent implements OnInit {
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
         });
       }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-  }
-
-  onDateSelect() {
-    this.checkValidDateSelection();
-    this.onResetTable('');
-  }
-
-  checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
-      let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
-      let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
-      let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
     }
-  }
+      //  (err: HttpErrorResponse) => {
+      //   if (err.status === 0 || err.status === 400) {
+      //     this.loading = false;
+      //     this.messageService.clear();
+      //     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      //   }
+      // }
+);
+}
 
-  onResetTable(item) {
-    if (item === 'reg') { this.GCode = null; }
-    this.AllSchemeData = [];
+onDateSelect() {
+  this.checkValidDateSelection();
+  this.onResetTable('');
+}
+
+checkValidDateSelection() {
+  if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+    let selectedFromDate = this.fromDate.getDate();
+    let selectedToDate = this.toDate.getDate();
+    let selectedFromMonth = this.fromDate.getMonth();
+    let selectedToMonth = this.toDate.getMonth();
+    let selectedFromYear = this.fromDate.getFullYear();
+    let selectedToYear = this.toDate.getFullYear();
+    if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+      (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+      this.fromDate = this.toDate = '';
+    }
+    return this.fromDate, this.toDate;
   }
+}
+
+onResetTable(item) {
+  if (item === 'reg') { this.GCode = null; }
+  this.AllSchemeData = [];
+}
 
   onPrint() { }
 }

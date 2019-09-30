@@ -25,6 +25,7 @@ export class OapComponent implements OnInit {
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   selectedValues: any;
+  filterArray: any;
   regions: any;
   t_cd: any;
   g_cd: any;
@@ -32,6 +33,7 @@ export class OapComponent implements OnInit {
   r_cd: any;
   RCode: any;
   Trcode: any;
+  userId: any;
   data: any;
   GCode: any;
   SCode: any;
@@ -61,13 +63,13 @@ export class OapComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.userId = JSON.parse(this.authService.getCredentials());
+
   }
 
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let TransactionSelection = [];
-    let ReceiverSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -105,36 +107,8 @@ export class OapComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-      case 't':
-        if (type === 'enter') {
-          this.transactionPanel.overlayVisible = true;
-        }
-        if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
-            s.forEach(c => {
-              if (c.TransType === 'I') {
-                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
-              }
-              this.transactionOptions = TransactionSelection;
-            });
-          });
-        }
-        break;
-      case 'r':
-        if (type === 'enter') {
-          this.societyPanel.overlayVisible = true;
-        }
-        const params = new HttpParams().set('TRCode', this.t_cd.value);
-        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
-          res.forEach(s => {
-            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
-          });
-          this.receiverOptions = ReceiverSelection;
-        });
-        break;
     }
   }
-  // }
 
   onView() {
     this.checkValidDateSelection();
@@ -143,19 +117,21 @@ export class OapComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
-      'SCode': this.s_cd.value,
+      'UserName': this.userId.user,
     };
-    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_OAP, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.OapData = res;
+        this.filterArray = res;
         this.loading = false;
-        let sno = 0;
+        let sno = 1;
         this.OapData.forEach(data => {
+          data.SlNo = sno;
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
           data.Nkgs = (data.Nkgs * 1).toFixed(3);
           sno += 1;
-          data.SlNo = sno;
         });
+        
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -171,6 +147,45 @@ export class OapComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
+  }
+
+  onSociety(item) {
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
+    switch (item) {
+      case 't':
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
+            s.forEach(c => {
+              if (c.TransType === 'I') {
+                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
+              }
+            });
+            this.transactionOptions = TransactionSelection;
+          });
+        }
+        break;
+      case 'r':
+        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+          res.forEach(s => {
+            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+          });
+          this.receiverOptions = ReceiverSelection;
+        });
+        break;
+    }
+    this.OapData = this.filterArray;
+    if (this.OapData !== undefined && this.OapData !== '') {
+      let sno = 0;
+      this.OapData.forEach(data => {
+        data.Slno = sno;
+        sno += 1;
+        this.OapData = this.OapData.filter(item => {
+          return item.Tyname === this.r_cd.label
+        });
+      });
+    }
   }
 
   onDateSelect() {
@@ -196,6 +211,7 @@ export class OapComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
