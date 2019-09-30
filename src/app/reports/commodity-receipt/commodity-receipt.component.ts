@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-commodity-receipt',
@@ -199,5 +201,9 @@ export class CommodityReceiptComponent implements OnInit {
     this.commodityReceiptData = [];
   }
 
-  onPrint() { }
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.CommodityReceiptReport + ".txt";
+    saveAs(path + filename, filename);
+  }
 }
