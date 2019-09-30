@@ -381,7 +381,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-right: 10px;padding-top: 20px;">
                         <input name="PayAmnt" [(ngModel)]="PAmount" pInputText autocomplete="off"
-                        type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         appDecimalAmount>
                         <label for="PayAmnt" class="float-input" style="padding-top: 10px;">Payable Amount</label>
                       </span>
@@ -475,7 +475,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText
-                        type="text" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         autocomplete="off" >
                         <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
                       </span>
@@ -483,7 +483,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                          appDecimalAmount>
                         <label for="OtherAmnt" class="float-input">Other Amt</label>
                       </span>
