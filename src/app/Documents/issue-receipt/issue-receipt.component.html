@@ -296,7 +296,7 @@
                 <span class="ui-float-label">
                   <input name="NetWt" type="text" [(ngModel)]="NKgs" size="20" 
                   [readonly]="isValidStackBalance" (input)="onCalculateWt()" pInputText autocomplete="off"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                    appDecimalDigit>
                 </span>
               </div>
