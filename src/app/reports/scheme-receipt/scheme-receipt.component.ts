@@ -126,18 +126,22 @@ export class SchemeReceiptComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeReceiptData = res;
         let sno = 0;
+        let TotalQty = 0;
         this.schemeReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+        })
+        this.schemeReceiptData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
         })
       } else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;

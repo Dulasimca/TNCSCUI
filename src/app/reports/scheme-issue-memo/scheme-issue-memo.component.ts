@@ -127,11 +127,16 @@ export class SchemeIssueMemoComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeIssueMemoData = res;
       let sno = 0;
+      let TotalQty = 0;
       this.schemeIssueMemoData.forEach(data => {
         data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
         data.Quantity = (data.Quantity * 1).toFixed(3);
         sno += 1;
         data.SlNo = sno;
+        TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+      })
+      this.schemeIssueMemoData.push({
+        Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
       })
       } else {
         this.loading = false;

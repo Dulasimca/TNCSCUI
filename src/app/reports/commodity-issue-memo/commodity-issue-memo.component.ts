@@ -138,13 +138,18 @@ export class CommodityIssueMemoComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.commodityIssueMemoData = res;
         this.loading = false;
-        let sno = 0;
+        let sno = 0; 
+        let TotalQty = 0;
         this.commodityIssueMemoData.forEach(data => {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
           data.Lorryno = data.Lorryno.toString().toUpperCase();
           sno += 1;
           data.SlNo = sno;
+          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+        })
+        this.commodityIssueMemoData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
         })
       } else {
         this.loading = false;

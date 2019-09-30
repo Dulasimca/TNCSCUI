@@ -107,11 +107,16 @@ export class HullingDetailsComponent implements OnInit {
         this.hullingDetailsData = res;
         this.loading = false;
         let sno = 0;
+        let TotalQty = 0;
         this.hullingDetailsData.forEach(data => {
           data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
           data.Nkgs = (data.Nkgs * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+        })
+        this.hullingDetailsData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
         })
       } else {
         this.loading = false;
