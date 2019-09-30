@@ -105,4 +105,8 @@ export class PathConstants {
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_CRS_REPORT = '/api/IssuesForQuantityACAllSchemeCRS/Post';
   public static readonly QUANTITY_ACCOUNT_ISSUE_SCHEME_REPORT = '/api/IssuesForQuantityACAllScheme/Post';
   public static readonly QUANTITY_ACCOUNT_TRUCK_SCHEME_REPORT = '/api/TruckMemoForQuantityACAllScheme/Post';
+  public static readonly DELIVERY_ORDER_SPLPDS = '/api/DOSPLPDS/Post';
+  public static readonly DELIVERY_ORDER_OAP = '/api/DOOAP/Post';
+  public static readonly DELIVERY_ORDER_ANNAPOORNA = '/api/DOAnnaporna/Post';
+  public static readonly DELIVERY_ORDER_OTHERSCHEME = '/api/DOOtherScheme/Post';
 }

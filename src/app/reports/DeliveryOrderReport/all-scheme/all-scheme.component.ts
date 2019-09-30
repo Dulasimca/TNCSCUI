@@ -10,6 +10,10 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import 'rxjs/add/observable/from';
+import 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-All-scheme',
@@ -17,8 +21,8 @@ import { Dropdown } from 'primeng/primeng';
   styleUrls: ['./all-scheme.component.css']
 })
 export class AllSchemeComponent implements OnInit {
-  OtherSchemeCols: any;
-  OtherSchemeData: any = [];
+  AllSchemeCols: any;
+  AllSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
@@ -26,6 +30,7 @@ export class AllSchemeComponent implements OnInit {
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   selectedValues: any;
+  FilterArray: any;
   regions: any;
   t_cd: any;
   g_cd: any;
@@ -35,6 +40,7 @@ export class AllSchemeComponent implements OnInit {
   Trcode: any;
   data: any;
   GCode: any;
+  userId: any;
   SCode: any;
   maxDate: Date;
   roleId: any;
@@ -56,13 +62,14 @@ export class AllSchemeComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.OtherSchemeCols = this.tableConstants.DoOtherScheme;
+    this.AllSchemeCols = this.tableConstants.DoOtherScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.userId = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -145,20 +152,27 @@ export class AllSchemeComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
-      'SCode': this.s_cd.value,
+      // 'SCode': this.r_cd.value,
+      'UserName': this.userId.user,
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.OtherSchemeData = res;
+        this.AllSchemeData = res;
+        this.FilterArray = res;
         this.loading = false;
         let sno = 0;
-        this.OtherSchemeData.forEach(data => {
-          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
-          sno += 1;
-          data.SlNo = sno;
+        this.AllSchemeData.forEach(data => {
+          data.Slno = sno;
+        sno += 1;
+        this.AllSchemeData = this.AllSchemeData.filter(item => {
+          return item.Tyname === this.r_cd.label;
         });
-      } else {
+        });
+      }
+      if(this.AllSchemeData !== undefined) {
+        this.AllSchemeData;
+        }
+      else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({
@@ -166,15 +180,64 @@ export class AllSchemeComponent implements OnInit {
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
         });
       }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
+    
     });
   }
 
+  onSociety() {
+    // this.AllSchemeData = this.FilterArray;
+    this.AllSchemeData.splice(this.AllSchemeData.length, 0, '');
+    let groupedData: any = [];
+    // Rx.Observable.from(this.AllSchemeData)
+    //   .groupBy((x: any) => x.Tyname).flatMap(grop => grop.toArray())
+    // Rx.Observable.from(this.AllSchemeData)
+    //   .groupBy((y: any) => y.Coop).flatMap(grop => grop.toArray())
+    // this.AllSchemeData.forEach(d => {
+// if(this.AllSchemeData !== undefined) {
+    Rx.Observable.from(this.AllSchemeData)
+      .groupBy((z: any) => {z.Comodity; z.Coop}).flatMap(grop => grop.toArray())
+      .map(g => {// mapping 
+        return {
+          Tyname: g[0].Tyname,//take the first name because we grouped them by name
+          Comodity: g[0].Comodity,
+          Coop: g[0].Coop,
+          Scheme: g[0].Scheme,
+          Date: g[0].Date,
+          Dono: g[0].Dono,
+          Amount: _.sumBy(g, 'Amount'),
+          Rate: _.sumBy(g, 'Rate'),
+          Quantity: _.sumBy(g, 'Quantity'), // using lodash to sum quantity
+          // Amount: _.sumBy(g, 'Amount'), // using lodash to sum price
+        }
+      })
+    
+      .toArray() //.toArray because I guess you want to loop on it with ngFor      
+      // .do(sum => console.log('sum:', sum)) // just for debug
+      .subscribe(d => {
+        groupedData = d;
+        console.log(groupedData, 'Hii');
+      });
+    // })
+
+    this.AllSchemeData = groupedData;
+    let index = 0;
+for(let i = 0; i<groupedData[index]; i++) {
+
+}
+  }
+
+  getTotalQuantity() {
+    return this.AllSchemeData.map(t => t.Quantity).reduce((acc, value) => acc + value, 0);
+  }
+
+  getTotalAmount() {
+    return this.AllSchemeData.map(t => t.Amount).reduce((acc, value) => acc + value, 0);
+  }
+
+  getTotalRate() {
+    return this.AllSchemeData.map(t => t.Rate).reduce((acc, value) => acc + value, 0);
+  }
+  
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
@@ -201,15 +264,15 @@ export class AllSchemeComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.OtherSchemeData = [];
+    this.AllSchemeData = [];
   }
 
   exportAsXLSX(): void {
-    var OtherSchemeData = [];
-    this.OtherSchemeData.forEach(data => {
-      OtherSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
+    var AllSchemeData = [];
+    this.AllSchemeData.forEach(data => {
+      AllSchemeData.push({ SlNo: data.SlNo, Dono: data.Dono, Dodate: data.Dodate, Type: data.Type, Coop: data.Coop, Comodity: data.Comodity, Scheme: data.Scheme, Quantity: data.Quantity, Rate: data.Rate, Amount: data.Amount, C_Nc: data.C_Nc });
     });
-    this.excelService.exportAsExcelFile(OtherSchemeData, 'DO_Other_Scheme', this.OtherSchemeCols);
+    this.excelService.exportAsExcelFile(AllSchemeData, 'DO_All_Scheme', this.AllSchemeCols);
   }
 
   onPrint() { }

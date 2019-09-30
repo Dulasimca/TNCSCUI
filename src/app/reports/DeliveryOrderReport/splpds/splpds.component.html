@@ -9,6 +9,7 @@
     </p-header>
     <p-toast position="center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
+      <!-- <div class="ui-g-12 ui-md-1"></div> -->
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -30,6 +31,30 @@
           </ng-template>
         </p-dropdown>
       </div>
+
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+          (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button pButton type="button" label=Print (click)="onPrint()"[disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
+      </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
+        [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <!-- <div class="ui-g-12 ui-md-3"></div> -->
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
@@ -43,36 +68,19 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
         <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
-          (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')" (ngModelChange)="onResetTable('')"
-          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          (onChange)="onSelect('r', 'click')" (onClick)="onSelect('r', 'enter')"
+          (keydown.enter)="onSociety('r')" (ngModelChange)="onResetTable('')" filter="true" optionLabel="label"
+          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-6 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">From</label>
-        <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-          (ngModelChange)="onDateSelect()"></p-calendar>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button pButton type="button" label=COm (click)="onSociety()"
+          [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
-      <div class="ui-g-6 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">To</label>
-        <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-          (ngModelChange)="onDateSelect()"></p-calendar>
-      </div>
-      <div class="ui-g-12 ui-md-5"></div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!fromDate || !toDate || !GCode)"></button>
-      </div>
-      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div> -->
-      <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-          [disabled]="(splpdsData.length=='0')"></button>
-      </div>
-      <div class="ui-g-12 ui-md-5"></div>
+      <div class="ui-g-12 ui-md-4"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="SplpdsCols" [value]="splpdsData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
           [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
@@ -86,7 +94,49 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'Amount' || col.field === 'Quantity' || col.field === 'Rate'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field !== 'Amount' && col.field !== 'Quantity' && col.field !== 'Rate'">
+                  {{rowData[col.field]}}
+                  {{rowData[col.Quantity]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <!-- <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
+              <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.Comodity].index === rowIndex">
+                <td colspan="13">
+                  <span style="font-weight:bold">{{data.Comodity}}</span>
+                </td>
+              </tr>
+              <tr [ngStyle]="{'background-color': getColor(data.Comodity)}">
+                <td *ngFor="let col of columns">
+                  <div *ngIf="col.field !== 'Comodity'">
+                    <span style="float: right">
+                      {{data[col.field]}}
+                    </span>
+                  </div>
+                  <div *ngIf="col.field === 'Comodity'">
+                    {{data[col.field]}}
+                  </div>
+                </td>
+              </tr>
+            </ng-template> -->
+          <ng-template pTemplate="footer" let-columns="columns">
+            <tr>
+              <td></td>
+              <td colspan="6">Totals</td>
+              <td>
+                <div>{{getTotalQuantity()}}</div>
+              </td>
+              <td>
+                <div>{{getTotalRate()}}</div>
+              </td>
+              <td colspan="2">
+                <div>{{getTotalAmount()}}</div>
               </td>
             </tr>
           </ng-template>

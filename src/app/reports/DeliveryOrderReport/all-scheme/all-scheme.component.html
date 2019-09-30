@@ -69,10 +69,14 @@
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()"
-          [disabled]="(OtherSchemeData.length=='0')"></button>
+          ></button>
+      </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button pButton type="button" label=COm (click)="onSociety()"
+          [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="OtherSchemeCols" [value]="OtherSchemeData" [rows]="20"
+        <p-table [columns]="AllSchemeCols" [value]="AllSchemeData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>
@@ -86,6 +90,21 @@
             <tr>
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer" let-columns="columns">
+            <tr>
+              <td></td>
+              <td colspan="6">Totals</td>
+              <td>
+                <div>{{getTotalQuantity()}}</div>
+              </td>
+              <td>
+                <div>{{getTotalRate()}}</div>
+              </td>
+              <td colspan="2">
+                <div>{{getTotalAmount()}}</div>
               </td>
             </tr>
           </ng-template>
