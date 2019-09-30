@@ -38,6 +38,7 @@ export class SchemeReceiptComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
+  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,
@@ -52,6 +53,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.region_data = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -117,7 +119,8 @@ export class SchemeReceiptComponent implements OnInit {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.GCode,
-      'TRCode': this.Scheme
+      'TRCode': this.Scheme,
+      'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.SCHEME_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {

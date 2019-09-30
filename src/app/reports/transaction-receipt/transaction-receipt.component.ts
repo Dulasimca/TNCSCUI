@@ -38,6 +38,7 @@ export class TransactionReceiptComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
   loggedInRCode: string;
+  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -50,6 +51,7 @@ export class TransactionReceiptComponent implements OnInit {
     this.regionsData = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -118,7 +120,8 @@ export class TransactionReceiptComponent implements OnInit {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.GCode,
-      'TRCode': this.TrCode
+      'TRCode': this.TrCode,
+      'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {

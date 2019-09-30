@@ -131,7 +131,8 @@ export class CommodityIssueMemoComponent implements OnInit {
       'GCode': this.GCode,
       'TRCode': this.ITCode,
       'IssueToGodown': (this.issuedToGodown !== undefined ? ((this.issuedToGodown[0] === '1') ? 1 : 0) : 0),
-      'IssueToDepositor': (this.issuedToDepositor !== undefined ? ((this.issuedToDepositor[0] === '0') ? 1 : 0) : 0)
+      'IssueToDepositor': (this.issuedToDepositor !== undefined ? ((this.issuedToDepositor[0] === '0') ? 1 : 0) : 0),
+      'UserName': this.username.user
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
