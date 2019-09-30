@@ -61,7 +61,7 @@
       </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="commodityIssueMemoCols" [value]="commodityIssueMemoData" [responsive]="true"
-          [scrollable]="true" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+         [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
           [paginator]="true" autoLayout="true"  exportFilename="COMMODITY_ISSUE_MEMO_REPORT">
              <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
@@ -72,7 +72,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
-              <td *ngFor="let col of columns">
+              <td *ngFor="let col of columns" class="ui-resizable-column">
                 <div *ngIf="col.field === 'Quantity'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
