@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -29,8 +28,7 @@ export class SocietyAbstractComponent implements OnInit {
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -104,9 +102,5 @@ export class SocietyAbstractComponent implements OnInit {
 
   onResetTable() {
     this.SocietyAbstractData = [];
-  }
-
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.SocietyAbstractData, 'DO_SOCEITY_ABSTRACT', this.SocietyAbstractCols);
   }
 }

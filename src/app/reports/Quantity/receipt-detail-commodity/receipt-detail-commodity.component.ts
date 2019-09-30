@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { MessageService, SelectItem } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { GolbalVariable } from 'src/app/common/globalvariable';
@@ -39,7 +38,7 @@ export class ReceiptDetailCommodityComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
+    private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -58,37 +57,37 @@ export class ReceiptDetailCommodityComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
           this.godownOptions = godownSelection;
@@ -111,17 +110,17 @@ export class ReceiptDetailCommodityComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-        this.restAPIService.post(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.QtyReceiptData = res;
         this.loading = false;
-      let sno = 0;
-      this.QtyReceiptData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.QtyReceiptData.forEach(data => {
+          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -161,15 +160,11 @@ export class ReceiptDetailCommodityComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.QtyReceiptData = [];
   }
 
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.QtyReceiptData, 'QTY_RECEIPT_COMMODITY', this.QtyReceiptCols);
-  }
-
-  onPrint() { 
+  onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode.value + GolbalVariable.QuantityACForReceiptDetailCommodity + ".txt";
     saveAs(path + filename, filename);

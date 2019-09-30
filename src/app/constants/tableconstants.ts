@@ -88,11 +88,13 @@ export class TableConstants {
   IssuerMaster: any;
   ChequeReceiptNoCols: any;
   CashReceiptRegister: any;
-  IssueMemoCustomerDeatil: any;
+  IssueMemoCustomerDetail: any;
   IssueMemoAbstract: any;
   DemandDraftDetailsReportCols: any;
   StackCardRegister: any;
-  QuantityACReceiptDetailsCommodity: any[];
+  QuantityACReceiptDetailsCommodity: any;
+  StackCardRegisterReport: any;
+  CashReceiptRegCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -613,13 +615,13 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
       { field: 'Date', header: 'DATE' },
-      { field: 'Type', header: 'TYPE ' },
+      { field: 'Tyname', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Bags', header: 'BAGS' },
-      { field: 'Quantity', header: 'QUANTITY' },
-      { field: 'TruckMen', header: 'TRUCKMEN' },
-      { field: 'Orderno', header: 'ORDER NO' },
+      { field: 'NetWeight', header: 'QUANTITY' },
+      { field: 'TruckMemoNo', header: 'TRUCKMEN' },
+      { field: 'OrderNo', header: 'ORDER NO' },
       { field: 'Lorryno', header: 'LORRY NO' },
       { field: 'Scheme', header: 'Scheme' }
     ];
@@ -709,7 +711,7 @@ export class TableConstants {
       { field: 'BookBalanceWeight', header: 'BOOK BALANCE WEIGHT' },
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS' },
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT' },
-      { field: 'CumulativeShortage', header: 'CUMULATIVE SHORTAGE' },
+      { field: 'CumulitiveShortage', header: 'CUMULATIVE SHORTAGE' },
       { field: 'ObDate', header: 'OB Date'}
     ];
 
@@ -977,7 +979,7 @@ export class TableConstants {
       { field: '', header: 'Bank' },
     ];
 
-    this.IssueMemoCustomerDeatil = [
+    this.IssueMemoCustomerDetail = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Ackno', header: 'Iss. No' },
       { field: 'Date', header: 'Date' },
@@ -1056,6 +1058,36 @@ export class TableConstants {
       { field: 'SalesReturn', header: 'Sales Return' },
       { field: 'TotalReceipt', header: 'Total Receipt' },
       { field: 'GrandTotal', header: 'Grand Total' },
+    ];
+
+    this.StackCardRegisterReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'FromDate', header: 'From Date' },
+      { field: 'ToDate', header: 'To Date' },
+      { field: 'OpeningBal', header: 'OPE_BAL.' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'ReceivedBags', header: 'REC_BAGS' },
+      { field: 'GU', header: 'GU' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'IssuedBags', header: 'ISS_BAGS' },
+      { field: 'GR', header: 'GR' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'BalanceBags', header: 'BAL_BAGS.' },
+      { field: 'BalanceQuantity', header: 'BAL_QUANTITY' },
+      { field: 'StackStatus', header: 'Stack Status' },
+      { field: 'WOffQty', header: 'W/OFF QTY.' }
+    ];
+
+    this.CashReceiptRegCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'ReceivedFrom', header: 'Received From' },
+      { field: 'ReceiptNo', header: 'REC.No' },
+      { field: 'Date', header: 'Date' },
+      { field: 'PaymentType', header: 'DD/CH/OCR' },
+      { field: 'DDNo', header: 'DD No' },
+      { field: 'DDDate', header: 'DD Date' },
+      { field: 'Amount', header: 'DD AMOUNT' },
+      { field: 'Bank', header: 'Bank' },
     ];
   }
 }

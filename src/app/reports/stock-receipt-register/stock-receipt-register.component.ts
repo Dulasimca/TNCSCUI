@@ -7,7 +7,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -35,14 +34,13 @@ export class StockReceiptRegisterComponent implements OnInit {
   loading: boolean = false;
   username: any;
   regionsData: any;
+  loggedInRCode: any;
   roleId: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -92,7 +90,10 @@ export class StockReceiptRegisterComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        }
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+         }
         break;
     }
   }
@@ -157,18 +158,6 @@ export class StockReceiptRegisterComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.stockReceiptRegData = [];
-  }
-
-  exportAsXLSX(): void {
-    var StockReceiptData = [];
-    this.stockReceiptRegData.forEach(data => {
-      StockReceiptData.push({
-        SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, TruckMemoNo: data.TruckMemoNo,
-        Lorryno: data.Lorryno, From_Whom_Received: data.From_Whom_Received, Stackno: data.Stackno, Scheme: data.Scheme,
-        NoPacking: data.NoPacking, Commodity: data.Commodity, NetWt: data.NetWt
-      })
-    })
-    this.excelService.exportAsExcelFile(StockReceiptData, 'STOCK_RECEIPT_REGISTER_REPORT', this.stockReceiptRegCols);
   }
 
   onPrint() {

@@ -151,9 +151,9 @@
                 <div class="ui-g-12 ui-fluid dashboard">
                   <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                          <input name="VhNo" maxlength="13" [(ngModel)]="VehicleNo" pInputText autocomplete="off"  style="text-transform: uppercase !important"
+                          <input name="VechileNum" maxlength="13" [(ngModel)]="VehicleNo" pInputText autocomplete="off"  style="text-transform: uppercase !important"
                            required>
-                          <label for="VhNo" class="float-input">Vehicle Number</label>
+                          <label for="VechileNum" class="float-input">Vehicle Number</label>
                         </span>
                   </div>
                 <div class="ui-g-6 ui-md-2 ui-fluid">
@@ -164,8 +164,8 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid">
                   <span class="ui-float-label">
-                    <input name="TName" type="text" minlength="1" maxlength="50" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
-                    <label for="TName" class="float-input">Transporters Name</label>
+                    <input name="Transporter'sName" type="text" minlength="1" maxlength="50" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
+                    <label for="Transporter'sName" class="float-input">Transporters Name</label>
                   </span>
                 </div>
                 <div class="ui-g-6 ui-md-2">
@@ -236,7 +236,7 @@
                 </p-dropdown>
               </div>
               <div class="ui-g-4 ui-md-1" style="margin-top: 18px">
-                  <input name="stack_add_no" type="text" pInputText [(ngModel)]="stackCompartment" 
+                  <input name="GU/GR" type="text" pInputText [(ngModel)]="stackCompartment" 
                  maxlength="3" onkeypress="return /[G&G&a-zA-Z0-9]/i.test(event.key)" (input)="onStackInput($event)" 
                  style="text-transform: uppercase !important" [readOnly]="checkTrType">
                 </div>
@@ -295,7 +295,9 @@
                 <label for="NetWt" class="label-fontsize" style="float: right">Gms</label>
                 <span class="ui-float-label">
                   <input name="NetWt" type="text" [(ngModel)]="NKgs" size="20" 
-                  [readonly]="isValidStackBalance" (input)="onCalculateWt()" pInputText autocomplete="off" appDecimalDigit>
+                  [readonly]="isValidStackBalance" (input)="onCalculateWt()" pInputText autocomplete="off"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                   appDecimalDigit>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -28px">
@@ -325,15 +327,15 @@
               </div>
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                 <span class="ui-float-label">
-                  <input name="MoistureInput" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
+                  <input name="MoistureValue" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
                         autocomplete="off" (keyup)="parseMoisture($event)"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
-                      <label for="MoistureInput" class="float-input">Moisture</label>
+                      <label for="MoistureValue" class="float-input">Moisture</label>
                 </span>
               </div>
               <div class="ui-g-6 ui-md-1 ui-fluid" style="margin-top: 2px">
                 <button name="Enter" pButton type="button" label="Enter" (click)="onItemDetailsEnter()"
-                  [disabled]="(!Scheme || !ICode || !IPCode || !TStockNo || !WTCode || !Moisture || NoPacking==null || NKgs==null || GKgs==null)"></button>
+                  [disabled]="(!Scheme || !ICode || !IPCode || !TStockNo || !WTCode || !Moisture || NoPacking==null || NKgs==null || GKgs==null || (NKgs!=null && NKgs==0))"></button>
               </div>
               <div class="ui-g-12 ui-md-2">
                   <span class="ui-float-label">
@@ -432,7 +434,10 @@
           </div>
         </p-tabPanel>
         </p-tabView>
-        <div class="ui-g-3 ui-md-8"></div>
+        <div class="ui-g-3 ui-md-1 ui-fluid">
+            <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate (click)="onSubmit(f)" ></button>
+       </div>
+       <div class="ui-g-3 ui-md-6"></div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
           <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
         </div>
@@ -494,4 +499,10 @@
           </ng-template>
         </p-table>
       </div>
+</p-dialog>
+<p-dialog  header="Data Required" [modal]="true"
+[(visible)]="submitted" [style]="{width: 'auto', height: 'auto'}">
+<div>
+    <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
+</div>
 </p-dialog>

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TableConstants } from '../../constants/tableconstants';
 import { DatePipe } from '@angular/common';
-import { ExcelService } from '../../shared-services/excel.service';
 import { MessageService, SelectItem } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -36,15 +35,14 @@ export class TruckTransitComponent implements OnInit {
   maxDate: Date;
   canShowMenu: boolean;
   loading: boolean = false;
+  loggedInRCode: string;
   totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -166,16 +164,6 @@ export class TruckTransitComponent implements OnInit {
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.TruckTransitData = [];
-  }
-
-  exportAsXLSX(): void {
-    var TruckTransit = [];
-    this.TruckTransitData.forEach(data => {
-      if (data.Transfertype == "INTERNAL TRANSFER" || data.Transfertype == "TRANSFER") {
-        TruckTransit.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, Region: data.Region, TNCSName: data.TNCSName, LNo: data.LNo, NoPacking: data.NoPacking, Nkgs: data.Nkgs, ACKNO: data.ACKNO, ReceiverDate: data.STDate, DepositorName: data.DepositorName, Bags: data.NoPacking, Quantity: data.Nkgs, TransferType: data.Transfertype })
-      }
-    });
-    this.excelService.exportAsExcelFile(TruckTransit, 'Truck_Transit', this.TruckTransitCols);
   }
 
   onPrint() { }

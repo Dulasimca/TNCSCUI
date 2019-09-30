@@ -47,15 +47,16 @@
           [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()" [disabled]="(CashReceiptRegData.length=='0')"></button>
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(CashReceiptRegData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(CashReceiptRegData.length=='0')"></button>
         </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="CashReceiptRegCols" [value]="CashReceiptRegData" [loading]="loading" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
+        <p-table #dt [columns]="CashReceiptRegCols" [value]="CashReceiptRegData" [loading]="loading" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+           autoLayout="true" exportFilename="DELIVERY_ORDER_REGISTER_REPORT">
+             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

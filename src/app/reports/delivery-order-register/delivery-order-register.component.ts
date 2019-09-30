@@ -6,7 +6,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
@@ -37,12 +36,12 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   canShowMenu: boolean;
   loading: boolean;
   username: any;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService,
+    private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -94,7 +93,10 @@ export class DeliveryOrderRegisterComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        }
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+         }
         break;
     }
   }
@@ -159,20 +161,6 @@ export class DeliveryOrderRegisterComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  exportAsXLSX(): void {
-    var DeliveryData = [];
-    this.deliveryReceiptRegData.forEach(data => {
-      DeliveryData.push({
-        SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
-        Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
-        PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
-        Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
-        PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
-      })
-    })
-    this.excelService.exportAsExcelFile(DeliveryData, 'DELIVERY_ORDER_REGISTER_REPORT', this.deliveryReceiptRegCols);
   }
 
   onPrint() {

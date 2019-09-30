@@ -51,10 +51,10 @@
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" [disabled]="(issueSchemeCoOpData.length=='0')" label=Excel
-          (click)="exportAsXLSX()"></button>
+        (click)="dt.exportCSV()"></button>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="issueSchemeCoOpCols" [value]="issueSchemeCoOpData" [rows]="20"
+        <p-table #dt [columns]="issueSchemeCoOpCols" [value]="issueSchemeCoOpData" [rows]="20"  exportFilename="SCHEME_ABSTRACT_ISSUE_COOP"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>

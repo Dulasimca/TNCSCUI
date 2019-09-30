@@ -5,7 +5,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
@@ -43,7 +42,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isActionDisabled: boolean;
   canShowMenu: boolean;
 
-  constructor(private authService: AuthService, private excelService: ExcelService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
+  constructor(private authService: AuthService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -143,9 +142,5 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
       }
     })
     this.onClear();
-  }
-
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.OpeningBalanceDetailData, 'OPENING_BALANCE_CURRENT_YEAR_SHORTAGE', this.OpeningBalanceDetailCols);
   }
 }

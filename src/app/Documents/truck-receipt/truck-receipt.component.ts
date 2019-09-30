@@ -121,6 +121,11 @@ export class TruckReceiptComponent implements OnInit {
   STTDetails: any = [];
   isViewed: boolean = false;
   blockScreen: boolean;
+  DOCNumber: any;
+  selectedIndex: any;
+  submitted: boolean;
+  missingFields: any;
+  field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -135,8 +140,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc') freightPanel: Dropdown;
   @ViewChild('vc') vehiclePanel: Dropdown;
   @ViewChild('rh') railHeadPanel: Dropdown;
-  DOCNumber: any;
-  selectedIndex: any;
+
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -538,14 +542,17 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onCalculateWt() {
-    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
-    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
-    if (grossWt < netWt) {
-      this.NKgs = null; this.GKgs = null; this.TKgs = null;
-    } else {
-      this.TKgs = (grossWt - netWt).toFixed(3);
+    if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+      let grossWt = (this.GKgs * 1);
+      let netWt = (this.NKgs * 1);
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt).toFixed(3);
+      }
     }
   }
+
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
   }
@@ -945,6 +952,25 @@ export class TruckReceiptComponent implements OnInit {
         if (res) { this.DOCNumber = null; }
       }); this.isSaveSucceed = false;
       this.isViewed = false;
+    }
+  }
+  
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+       && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal')) {
+         no += 1;
+         arr.push({label: no, value: no + '.' + key});
+        }
+       }
+       this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
     }
   }
 }

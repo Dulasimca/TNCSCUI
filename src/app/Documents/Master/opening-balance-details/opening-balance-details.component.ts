@@ -6,7 +6,6 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { DatePipe } from '@angular/common';
 
@@ -44,10 +43,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   showErr: boolean = false;
   gdata: any = [];
   validationErr: boolean = false;
+  totalRecords: number;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
-    private excelService: ExcelService, private restAPIService: RestAPIService,
-    private tableConstants: TableConstants, private messageService: MessageService,
+    private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe) { }
 
   ngOnInit() {
@@ -162,25 +161,23 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onView() {
-    this.openingBalanceData = this.opening_balance = [];
+    this.openingBalanceData = []; this.opening_balance = [];
     const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
         let sno = 0;
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
-        res.forEach(x => {
-          sno += 1;
-          this.openingBalanceData.push({
-            SlNo: sno, ITDescription: x.ITDescription, CommodityCode: x.CommodityCode,
-            BookBalanceBags: x.BookBalanceBags,
-            BookBalanceWeight: (x.BookBalanceWeight * 1).toFixed(3),
-            PhysicalBalanceBags: x.PhysicalBalanceBags,
-            PhysicalBalanceWeight: (x.PhysicalBalanceWeight * 1).toFixed(3),
-            CumulativeShortage: (x.CumulitiveShortage * 1).toFixed(3),
-            ObDate: this.datepipe.transform(x.ObDate, 'dd-MM-yyyy')
+        this.openingBalanceData = res;
+          this.openingBalanceData.forEach(x => {
+            sno += 1;
+            x.SlNo = sno;
+            x.BookBalanceWeight = (x.BookBalanceWeight * 1).toFixed(3),
+            x.PhysicalBalanceWeight = (x.PhysicalBalanceWeight * 1).toFixed(3),
+            x.CumulitiveShortage = (x.CumulitiveShortage * 1).toFixed(3),
+            x.ObDate = this.datepipe.transform(x.ObDate, 'dd-MM-yyyy')
           })
-        });
+          this.totalRecords = this.openingBalanceData.length;
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.viewPane = false;
@@ -223,9 +220,5 @@ export class OpeningBalanceDetailsComponent implements OnInit {
       }
     })
     this.onClear();
-  }
-
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.openingBalanceData, 'OPENING_BALANCE_DETAILS', this.openingBalanceCols);
   }
 }

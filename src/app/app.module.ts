@@ -25,6 +25,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {TabViewModule} from 'primeng/tabview';
 import {TooltipModule} from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
+import {ListboxModule} from 'primeng/listbox';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -117,7 +118,6 @@ import { DemandDraftComponent } from './reports/DeliveryOrderReport/demand-draft
 import { MarginAmountComponent } from './reports/DeliveryOrderReport/margin-amount/margin-amount.component';
 import { DDChequeEntryComponent } from './Documents/DD-cheque-entry/DD-cheque-entry.component';
 import { IssuerMasterComponent } from './Documents/Master/IssuerMaster/Issuer-master.component';
-import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receipt-scheme.component';
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
@@ -132,6 +132,10 @@ import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
 import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
+import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
+import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
+import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
+import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 
 @NgModule({
   declarations: [
@@ -227,6 +231,9 @@ import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all
     OapComponent,
     SplpdsComponent,
     AnnapoornaComponent,
+    DocumentCorrectionComponent,
+    StackCardRegisterComponent,
+    OCRReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -258,7 +265,8 @@ import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all
     TabViewModule,
     TooltipModule,
     TooltipModule,
-    BlockUIModule
+    BlockUIModule,
+    ListboxModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],

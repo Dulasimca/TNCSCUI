@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
@@ -10,9 +9,6 @@ import { PrintService } from 'src/app/print.service';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-
-
-
 
 @Component({
   selector: 'app-regions-data',
@@ -31,7 +27,7 @@ export class RegionsDataComponent implements OnInit {
 
   constructor(private restApiService: RestAPIService, private printService: PrintService,
     private authService: AuthService, private tableConstants: TableConstants,
-    private excelService: ExcelService, private messageService: MessageService) {
+   private messageService: MessageService) {
     //  this.column = route.snapshot.params['data'].split('',);
   }
 
@@ -50,11 +46,7 @@ export class RegionsDataComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
-        {
-          label: 'Excel', icon: 'fa fa-table', command: () => {
-            this.exportAsXLSX();
-          }
-        },
+      
         {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
@@ -79,15 +71,7 @@ export class RegionsDataComponent implements OnInit {
       });
     }
   }
-
-  exportAsXLSX(): void {
-    var RegionData = [];
-    this.data.forEach(value => {
-      RegionData.push({ SlNo: value.SlNo, RGCODE: value.RGCODE, RGNAME: value.RGNAME })
-    })
-    this.excelService.exportAsExcelFile(RegionData, 'REGIONS_DATA', this.column);
-  }
-
+  
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);

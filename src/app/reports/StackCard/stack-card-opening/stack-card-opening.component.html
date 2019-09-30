@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
               [disabled]="(!GCode || !RCode || !Year || !ITCode || !Status)"></button>
-            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(StackCardOpeningData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
               (click)="onPrint()" [disabled]="true"></button>
@@ -18,7 +18,8 @@
     <div class="ui-g">
       <!-- <div style="text-align: center"> -->
       <p-toast position="center" key="t-err"></p-toast>
-      <div class="ui-g-6 ui-md-2">
+      <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
@@ -71,20 +72,20 @@
       </p-dropdown>
     </div>
     <div class="ui-g-12 dashboard">
-      <p-table [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading" [rows]="20"
-        [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true">
-        <ng-template pTemplate="header" let-columns>
+      <p-table #dt [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading" [rows]="20"
+        [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+         autoLayout="true" exportFilename="STACK_CARD_OPENING_REPORT">
+            <ng-template pTemplate="header" let-columns>
           <tr style="text-align: center;">
             <th *ngFor="let col of columns">
               {{col.header}}
             </th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-          <tr>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="rowData" (dblclick)="deleteSelectedRow(rowIndex, rowData)">
             <td *ngFor="let col of columns">
-              <div
-                *ngIf="col.field === 'StackBalanceBags' || col.field === 'Stackbalanceweight' || col.field === 'Formationyear'">
+              <div *ngIf="col.field === 'StackBalanceBags' || col.field === 'Stackbalanceweight' || col.field === 'Formationyear'">
                 <div style="text-align: end !important">
                   {{rowData[col.field]}}
                 </div>

@@ -114,7 +114,7 @@ export class StockReceiptComponent implements OnInit {
   Gunnyutilised: any = 0;
   GunnyReleased: any = 0;
   mno: any = 0;
-  StockNo: any;
+  StackNo: any;
   TStation: string;
   FStation: string;
   RRNo: any = 0;
@@ -130,6 +130,8 @@ export class StockReceiptComponent implements OnInit {
   checkTrType: boolean = true;
   DOCNumber: any;
   submitted: boolean;
+  missingFields: any;
+  field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -458,19 +460,21 @@ export class StockReceiptComponent implements OnInit {
       this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
-      this.GKgs = this.NKgs = this.tareWt = null;
+      this.GKgs = null; this.NKgs = null; this.tareWt = null;
     }
   }
 
   onCalculateWt() {
-    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
-    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
+  if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+    let grossWt = (this.GKgs * 1);
+    let netWt = (this.NKgs * 1);
     if (grossWt < netWt) {
       this.NKgs = null; this.GKgs = null; this.tareWt = null;
     } else {
       this.tareWt = (grossWt - netWt).toFixed(3);
     }
   }
+}
 
   onStackNoChange(event) {
     this.messageService.clear();
@@ -833,5 +837,24 @@ export class StockReceiptComponent implements OnInit {
 
   openPrev() {
     this.index = (this.index === 0) ? 2 : this.index - 1;
+  }
+
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
+       && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
+         no += 1;
+         arr.push({label: no, value: no + '.' + key});
+        }
+       }
+       this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
+    }
   }
 }

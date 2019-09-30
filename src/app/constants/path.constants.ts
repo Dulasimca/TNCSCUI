@@ -109,4 +109,6 @@ export class PathConstants {
   public static readonly DELIVERY_ORDER_OAP = '/api/DOOAP/Post';
   public static readonly DELIVERY_ORDER_ANNAPOORNA = '/api/DOAnnaporna/Post';
   public static readonly DELIVERY_ORDER_OTHERSCHEME = '/api/DOOtherScheme/Post';
+  public static readonly STACK_CARD_OPENING_REPORT_DELETE = '/api/StackBalance/Delete';
+  public static readonly OCR_REGISTER_REPORT = '/api/OCR/Post';
 }

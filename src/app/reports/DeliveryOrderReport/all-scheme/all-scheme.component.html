@@ -68,6 +68,7 @@
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+<<<<<<< HEAD
         <button pButton type="button" label=Excel (click)="exportAsXLSX()"
           ></button>
       </div>
@@ -77,9 +78,16 @@
       </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="AllSchemeCols" [value]="AllSchemeData" [rows]="20"
+=======
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()"
+          [disabled]="(OtherSchemeData.length=='0')"></button>
+      </div>
+      <div class="ui-g-12 dashboard">
+        <p-table #dt [columns]="OtherSchemeCols" [value]="OtherSchemeData" [rows]="20"
+>>>>>>> fb400e1c1d339345faa879314e6694285c25eee4
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+          [loading]="loading" exportFilename="DO_Other_Scheme">
+            <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

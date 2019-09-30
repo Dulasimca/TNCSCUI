@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -34,14 +33,15 @@ export class SchemeReceiptComponent implements OnInit {
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
+  loggedInRCode: string;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -171,14 +171,6 @@ export class SchemeReceiptComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  exportAsXLSX(): void {
-    var SchemeReceiptData = [];
-    this.schemeReceiptData.forEach(data => {
-      SchemeReceiptData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Scheme: data.Scheme, AckNo: data.Ackno, Date: data.Date, Commodity: data.Commodity, Quantity: data.Quantity, RecdFrom: data.RecdFrom, TruckMemoNo: data.TruckMemoNo, Lorryno: data.Lorryno })
-    })
-    this.excelService.exportAsExcelFile(SchemeReceiptData, 'SCHEME_RECEIPT_REPORT', this.schemeReceiptCols);
   }
 
   onPrint() { }

@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stack-card-opening',
@@ -42,8 +41,9 @@ export class StackCardOpeningComponent implements OnInit {
   @ViewChild('stackYear') StackYearPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private authService: AuthService, 
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -176,20 +176,37 @@ export class StackCardOpeningComponent implements OnInit {
     });
   }
 
+  deleteSelectedRow(index, selectedRow) {
+    let rowId = selectedRow.Sno;
+    let stackNo = selectedRow.Stackno.trim();
+    const statusOfCard = (selectedRow.Status === 'R') ? stackNo + ' is Running Card! ' : stackNo + ' is Closed Card! ';
+     const httpParams = new HttpParams().set('GCode', this.GCode).append('RowId', rowId);
+     let options = { params: httpParams};
+    this.confirmationService.confirm({
+      message: statusOfCard + ' Are you sure that you want to delete the record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.restAPIService.delete(PathConstants.STACK_CARD_OPENING_REPORT_DELETE, options).subscribe(res => {
+          if(res) {
+            this.StackCardOpeningData.splice(index, 1);
+            let sno = 0;
+            this.StackCardOpeningData.forEach(data => {
+              sno += 1;
+              data.SlNo = sno;
+            });
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackcardDeleted });
+          }
+        })
+      },
+      reject: () => {  }
+    });
+  }
+
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.StackCardOpeningData = [];
-  }
-
-  exportAsXLSX(): void {
-    var StackData = [];
-    this.StackCardOpeningData.forEach(data => {
-      StackData.push({
-        SlNo: data.SlNo, Stackno: data.Stackno, StackBalanceBags: data.StackBalanceBags, Stackbalanceweight: data.Stackbalanceweight,
-        Date: data.obstackdate, Formationyear: data.Formationyear, Status: data.Status
-      })
-    })
-    this.excelService.exportAsExcelFile(StackData, 'STACK_CARD_OPENING_REPORT', this.StackCardOpeningCols);
   }
 
   onPrint() { }

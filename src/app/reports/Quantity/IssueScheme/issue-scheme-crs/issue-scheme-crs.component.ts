@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
-import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
@@ -39,10 +37,8 @@ export class IssueSchemeCrsComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
-
   constructor(private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -83,7 +79,7 @@ export class IssueSchemeCrsComponent implements OnInit {
         break;
       case 'gd':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
@@ -180,10 +176,6 @@ export class IssueSchemeCrsComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.issueSchemeCRSData = [];
-  }
-
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.issueSchemeCRSData, 'SCHEME_ABSTRACT_ISSUE_CRS', this.issueSchemeCRSCols);
   }
 
   onPrint() {

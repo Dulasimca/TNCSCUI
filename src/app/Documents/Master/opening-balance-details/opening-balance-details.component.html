@@ -124,16 +124,18 @@
     <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="showSelectedData()"></button>
   </div>
   <div class="ui-g-4 ui-md-1">
-      <button class="ui-g-10 dashboard" pButton type="button" [disabled]="(openingBalanceData.length=='0')" label=Excel (click)="exportAsXLSX()"></button>
+      <button class="ui-g-10 dashboard" pButton type="button" [disabled]="(openingBalanceData.length=='0')" label=Excel (click)="dt.exportCSV()"></button>
     </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
       <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-      <p-table #table [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-       selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)"> 
-        <ng-template pTemplate="colgroup" let-columns>
+      <p-table #dt [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20"
+       [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords" selectionMode="single"
+       [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)" 
+       exportFilename="OPENING_BALANCE_DETAILS" [scrollable]="true"> 
+          <ng-template pTemplate="colgroup" let-columns>
           <colgroup>
             <col *ngFor="let col of columns" style="width:80px">
           </colgroup>

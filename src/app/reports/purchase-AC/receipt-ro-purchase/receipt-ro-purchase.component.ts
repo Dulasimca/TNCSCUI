@@ -3,7 +3,6 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -32,13 +31,12 @@ export class ReceiptROPurchaseComponent implements OnInit {
   maxDate: Date;
   username: any;
   loading: boolean;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -155,18 +153,6 @@ export class ReceiptROPurchaseComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.receiptROPurchaseData = [];
-  }
-
-  onExportExcel(): void {
-    var ReceiptRo = [];
-    this.receiptROPurchaseData.forEach(data => {
-      ReceiptRo.push({
-        SlNo: data.SlNo, Ackno: data.Ackno, Date: data.Date, Type: data.Type,
-        Depositor: data.Depositor, Commodity: data.Commodity, Bags: data.Bags, Quantity: data.Quantity,
-        TruckMen: data.TruckMen, Orderno: data.Orderno, Lorryno: data.Lorryno
-      });
-    });
-    this.excelService.exportAsExcelFile(ReceiptRo, 'RECEIPT-RO-PURCHASE', this.receiptROPurchaseCols);
   }
 
   onPrint() { }

@@ -7,7 +7,6 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
@@ -31,14 +30,13 @@ export class TruckToRegionComponent implements OnInit {
   data: any;
   maxDate: Date;
   canShowMenu: boolean;
+  loggedInRCode: string;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -143,17 +141,10 @@ export class TruckToRegionComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+  
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.TruckToRegionData = [];
-  }
-
-  onExportExcel(): void {
-    var TruckToRegion = [];
-    this.TruckToRegionData.forEach(data => {
-      TruckToRegion.push({ SlNo: data.SlNo, STNo: data.STNo, STDate: data.STDate, DepositorName: data.DepositorName, RGNAME: data.RGNAME, ITDescription: data.ITDescription, SCName: data.SCName, NoPacking: data.NoPacking, Nkgs: data.Nkgs, LNo: data.LNo })
-    })
-    this.excelService.exportAsExcelFile(TruckToRegion, 'Truck_To_Region', this.TruckToRegionCols);
   }
 
   onPrint() { }

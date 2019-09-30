@@ -50,14 +50,14 @@
           [disabled]="(issueSchemeData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(issueSchemeData.length=='0')"></button>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="issueSchemeCols" [value]="issueSchemeData" [rows]="20"
+        <p-table #dt [columns]="issueSchemeCols" [value]="issueSchemeData" [rows]="20" exportFilename="SCHEME_ABSTRACT_ISSUE_ALL"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

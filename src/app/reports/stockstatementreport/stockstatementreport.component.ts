@@ -5,13 +5,12 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -34,14 +33,14 @@ export class StockstatementreportComponent implements OnInit {
   data: any;
   items: any;
   roleId: any;
+  loggedInRCode: any;
   regions: any;
   @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
-  loggedInRCode: any;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
-    private authService: AuthService, private datePipe: DatePipe,
-    private excelService: ExcelService, private messageService: MessageService) { }
+    private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -51,13 +50,13 @@ export class StockstatementreportComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          this.exportAsXLSX();
-        }
-      },
-      {
+    this.items = [  
+  {
+    label: 'Excel', icon: 'fa fa-table', command: () => {
+      this.table.exportCSV();
+    }
+  },
+  {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }
@@ -179,19 +178,6 @@ export class StockstatementreportComponent implements OnInit {
     this.stockData = [];
   }
 
-  exportAsXLSX(): void {
-    var StockStatementData = [];
-    this.stockData.forEach(data => {
-      StockStatementData.push({
-        SlNo: data.SlNo, ITDescription: data.ITDescription,
-        OpeningBalance: data.OpeningBalance, Receipt: data.Receipt,
-        TotalReceipt: data.TotalReceipt, TotalIssue: data.TotalIssue,
-        ClosingBalance: data.ClosingBalance, CSBalance: data.CSBalance,
-        Shortage: data.Shortage, PhycialBalance: data.PhycialBalance
-      });
-    });
-    this.excelService.exportAsExcelFile(StockStatementData, 'STOCK_STATEMENT_REPORT', this.stockDataColumns);
-  }
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);

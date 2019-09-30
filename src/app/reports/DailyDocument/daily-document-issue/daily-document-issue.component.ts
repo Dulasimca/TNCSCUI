@@ -63,12 +63,7 @@ export class DailyDocumentIssueComponent implements OnInit {
     this.regionData = this.roleBasedService.getRegions();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          this.exportAsXLSX();
-        }
-      },
-      {
+       {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }
@@ -221,13 +216,6 @@ export class DailyDocumentIssueComponent implements OnInit {
     }
   }
 
-  exportAsXLSX(): void {
-    var DailyReceipt = [];
-    this.DailyDocumentIssueData.forEach(data => {
-      DailyReceipt.push({ SlNo: data.SlNo, DocNo: data.DocNo, DocDate: data.DocDate, Transactiontype: data.Transactiontype, StackNo: data.StackNo, CommodityName: data.CommodityName, PackingType: data.PackingType, NOOfPACKING: data.NOOfPACKING, GROSSWT: data.GROSSWT, NETWT: data.NETWT, Scheme: data.SCHEME, Received_From: data.ReceivedFrom })
-    });
-    this.excelService.exportAsExcelFile(DailyReceipt, 'Daily_Issue', this.DailyDocumentIssueCols);
-  }
 
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');

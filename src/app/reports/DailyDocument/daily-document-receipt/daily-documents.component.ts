@@ -7,7 +7,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -50,7 +49,7 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   loggedInRCode: any;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -64,11 +63,6 @@ export class DailyDocumentsComponent implements OnInit {
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          this.exportAsXLSX();
-        }
-      },
       {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
@@ -226,14 +220,6 @@ export class DailyDocumentsComponent implements OnInit {
         // }
       });
     }
-  }
-
-  exportAsXLSX(): void {
-    var DailyReceipt = [];
-    this.DailyDocumentReceiptData.forEach(data => {
-      DailyReceipt.push({ SlNo: data.SlNo, DocNo: data.DocNo, DocDate: data.DocDate, Transactiontype: data.Transactiontype, StackNo: data.StackNo, CommodityName: data.CommodityName, PackingType: data.PackingType, NOOfPACKING: data.NOOfPACKING, GROSSWT: data.GROSSWT, NETWT: data.NETWT, Moisture: data.Moisture, Scheme: data.SCHEME, Period_Allotment: data.PERIODALLOT, OrderNo: data.OrderNo, Order_Date: data.ORDERDate, Received_From: data.ReceivedFrom, TruckMemoNo: data.TruckMemoNo, Truck_Date: data.TRUCKDate })
-    });
-    this.excelService.exportAsExcelFile(DailyReceipt, 'Daily_Receipt', this.DailyDocumentReceiptCols);
   }
 
   exportAsPDF() {

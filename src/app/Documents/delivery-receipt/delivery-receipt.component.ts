@@ -111,6 +111,11 @@ export class DeliveryReceiptComponent implements OnInit {
   checkTransactionType: boolean = true;
   isViewed: boolean = false;
   blockScreen: boolean;
+  ChDate: any;
+  AdjustDate: any;
+  submitted: boolean;
+  missingFields: any;
+  field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -123,8 +128,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
-  ChDate: any;
-  AdjustDate: any;
+
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -433,7 +437,7 @@ export class DeliveryReceiptComponent implements OnInit {
           x.DoDate = this.datepipe.transform(x.DoDate, 'dd/MM/yyyy');
           x.PaymentAmount = (x.PaymentAmount !== null) ? x.PaymentAmount : '-';
           let paidAmount = (x.PaymentAmount !== '-') ? x.PaymentAmount : 0;
-          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1));
+          x.AdvCollection = ((x.GrandTotal * 1) - (paidAmount * 1)).toFixed(2);
         })
       } else {
         this.messageService.clear();
@@ -968,5 +972,27 @@ export class DeliveryReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
+  }
+
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if(form.invalid) {
+      for (var key in form.value) {
+       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'DoNo' && key !== 'RiceChecked' && key !== 'DueAmnt'
+       && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
+       key !== 'MarginSchemes' &&  key !== 'MarginCommodity' &&  key !== 'MarginWt' &&  key !== 'MarginRateTerms' 
+       &&  key !== 'MarginRateRS' &&  key !== 'PaymentMode' &&  key !== 'ChequeNumber' && key !== 'AdjType' &&
+       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate')) {
+         no += 1;
+         arr.push({label: no, value: no + '.' + key});
+        }
+       }
+       this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
+    }
   }
 }

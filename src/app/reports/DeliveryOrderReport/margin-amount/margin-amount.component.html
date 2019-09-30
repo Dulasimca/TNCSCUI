@@ -45,7 +45,7 @@
           [disabled]="(!g_cd || !fromDate || !toDate)"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
-        <button pButton type="button" label=Excel (click)="exportAsXLSX()"
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(MarginAmountData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
@@ -53,10 +53,10 @@
       </div>
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="MarginAmountCols" [value]="MarginAmountData" [rows]="20"
+        <p-table #dt [columns]="MarginAmountCols" [value]="MarginAmountData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+          [loading]="loading" exportFilename="DO_MARGIN_AMOUNT">
+               <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}

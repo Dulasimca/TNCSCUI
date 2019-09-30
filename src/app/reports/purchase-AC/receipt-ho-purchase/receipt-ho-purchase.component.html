@@ -42,16 +42,16 @@
             <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
           </div>
           <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-            <button pButton type="button" label=Excel (click)="onExportExcel()" [disabled]="(receiptHOPurchaseData.length=='0')"></button>
+            <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(receiptHOPurchaseData.length=='0')"></button>
           </div>
           <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
             <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
           </div>
             <div class="ui-g-12 ui-md-12">
-            <p-table [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData"
+            <p-table #dt [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData"
              [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
-             [loading]="loading" autoLayout="true">
-              <ng-template pTemplate="header" let-columns>
+             [loading]="loading" autoLayout="true" exportFilename="RECEIPT_HO_PURCHASE">
+                <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
                     {{col.header}}

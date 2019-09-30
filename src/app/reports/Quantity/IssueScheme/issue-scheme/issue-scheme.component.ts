@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
@@ -40,7 +39,7 @@ export class IssueSchemeComponent implements OnInit {
  
  
   constructor(private datePipe: DatePipe,
-    private authService: AuthService, private excelService: ExcelService,
+    private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService,
      private messageService: MessageService) { }
 
@@ -83,7 +82,7 @@ export class IssueSchemeComponent implements OnInit {
         break;
       case 'gd':
         if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
+          this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
@@ -183,9 +182,7 @@ export class IssueSchemeComponent implements OnInit {
     this.issueSchemeData = [];
   }
 
-  exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.issueSchemeData, 'SCHEME_ABSTRACT_ISSUE_ALL', this.issueSchemeCols);
-  }
+ 
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";

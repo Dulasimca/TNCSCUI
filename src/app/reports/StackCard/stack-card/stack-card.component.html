@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
               [disabled]="(!RCode || !GCode || !ITCode || !TStockNo || !Year)"></button>
-            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="exportAsXLSX()"
+            <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(StackCardData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
               (click)="onPrint()" [disabled]="(StackCardData.length=='0')"></button>
@@ -73,9 +73,9 @@
         </p-dropdown>
       </div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true">
-          <ng-template pTemplate="header" let-columns>
+        <p-table #dt [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          [paginator]="true" [responsive]="true" autoLayout="true" exportFilename="STACK_CARD_REPORT">
+                <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th colspan="1" rowspan="2">S.No:</th>
               <th rowspan="2">Date</th>

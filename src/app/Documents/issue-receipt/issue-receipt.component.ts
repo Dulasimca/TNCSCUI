@@ -113,6 +113,11 @@ export class IssueReceiptComponent implements OnInit {
   blockScreen: boolean;
   checkTrType: boolean = true;
   stackCompartment: any;
+  DOCNumber: any;
+  selectedIndex: any;
+  submitted: boolean;
+  missingFields: any;
+  field: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -123,8 +128,6 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
-  DOCNumber: any;
-  selectedIndex: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -265,7 +268,7 @@ export class IssueReceiptComponent implements OnInit {
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
-            if(this.RNCode !== undefined && this.RNCode !== null) {
+            if (this.RNCode !== undefined && this.RNCode !== null) {
               this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
             }
           }
@@ -376,7 +379,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   showIssuerCode() {
-    if(this.RNCode !== undefined && this.RNCode !== null) {
+    if (this.RNCode !== undefined && this.RNCode !== null) {
       this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
     }
   }
@@ -426,12 +429,14 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onCalculateWt() {
-    let grossWt = (this.GKgs !== undefined && this.GKgs !== null) ? (this.GKgs * 1) : 0;
-    let netWt = (this.NKgs !== undefined && this.NKgs !== null) ? (this.NKgs * 1) : 0;
-    if (grossWt < netWt) {
-      this.NKgs = null; this.GKgs = null; this.TKgs = null;
-    } else {
-      this.TKgs = (grossWt - netWt).toFixed(3);
+    if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+      let grossWt = (this.GKgs * 1);
+      let netWt = (this.NKgs * 1);
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      } else {
+        this.TKgs = (grossWt - netWt).toFixed(3);
+      }
     }
   }
 
@@ -440,7 +445,7 @@ export class IssueReceiptComponent implements OnInit {
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
-      this.Trcode.value : this.trCode;
+        this.Trcode.value : this.trCode;
       this.checkTrType = (trcode === 'TR024') ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
@@ -573,24 +578,32 @@ export class IssueReceiptComponent implements OnInit {
       });
       ///end
       let lastIndex = this.itemData.length - 1;
-      if( this.checkTrType) {
-      if (this.CurrentDocQtv > this.StackBalance) {
-        this.messageService.clear();
-        this.itemData.splice(lastIndex, 1);
-      ///calculating current document quantity based on stock number after splicing data from table
-      this.CurrentDocQtv = 0;
-        this.itemData.forEach(x => {
-          if (x.TStockNo.trim() === stock_no.trim()) {
-            this.CurrentDocQtv += (x.Nkgs * 1);
-          }
-        });
-        ///end
-        this.NoPacking = null;
-        this.GKgs = null; this.NKgs = null; this.TKgs = null;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
+      if (this.checkTrType) {
+        if (this.CurrentDocQtv > this.StackBalance) {
+          this.messageService.clear();
+          this.itemData.splice(lastIndex, 1);
+          ///calculating current document quantity based on stock number after splicing data from table
+          this.CurrentDocQtv = 0;
+          this.itemData.forEach(x => {
+            if (x.TStockNo.trim() === stock_no.trim()) {
+              this.CurrentDocQtv += (x.Nkgs * 1);
+            }
+          });
+          ///end
+          this.NoPacking = null;
+          this.GKgs = null; this.NKgs = null; this.TKgs = null;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
+        } else {
+          this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+          this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
+          this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+          this.TKgs = null; this.WTCode = null; this.Moisture = null;
+          this.Scheme = null; this.selectedIndex = null;
+          this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
+          this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
+        }
       } else {
-        this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
         this.TKgs = null; this.WTCode = null; this.Moisture = null;
@@ -598,14 +611,6 @@ export class IssueReceiptComponent implements OnInit {
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
         this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
       }
-    } else {
-      this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-      this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
-      this.TKgs = null; this.WTCode = null; this.Moisture = null;
-      this.Scheme = null; this.selectedIndex = null;
-      this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
-      this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
-    }
     }
   }
 
@@ -668,7 +673,7 @@ export class IssueReceiptComponent implements OnInit {
     }
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
-    this.Loadingslip =  (this.SINo !== 0) ? this.Loadingslip : 'N';
+    this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
     this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
     const params = {
       'Type': type,
@@ -687,7 +692,7 @@ export class IssueReceiptComponent implements OnInit {
       'Receivorcode': (this.RNCode.value !== undefined) ? this.RNCode.value : this.rnCode,
       'Issuetype': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
       'IssuerName': (this.RTCode.label !== undefined) ? this.RTCode.label : this.RTCode,
-      'TransporterName': (this.TransporterName.length !==0 && this.TransporterName !== '') ? this.TransporterName : '-',
+      'TransporterName': (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
       'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo : '-',
@@ -719,7 +724,7 @@ export class IssueReceiptComponent implements OnInit {
             this.loadDocument();
             this.isViewed = false;
           }
-          this.DOCNumber = res.Item3; 
+          this.DOCNumber = res.Item3;
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
@@ -914,10 +919,30 @@ export class IssueReceiptComponent implements OnInit {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.STOCK_ISSUE_DUPLICATE_DOCUMENT, params).subscribe(res => {
-        if(res) { this.DOCNumber = null; }
+        if (res) { this.DOCNumber = null; }
       });
       this.isSaveSucceed = false;
       this.isViewed = false;
+    }
+  }
+
+  onSubmit(form) {
+    this.submitted = true;
+    let arr = [];
+    let no = 0;
+    if (form.invalid) {
+      for (var key in form.value) {
+        if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0))
+          && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
+            && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && key !== 'CurDocQty' && key !== 'NetStackBal')) {
+          no += 1;
+          arr.push({ label: no, value: no + '.' + key });
+        }
+      }
+      this.missingFields = arr;
+    } else {
+      this.missingFields = StatusMessage.SuccessValidationMsg;
+      this.submitted = false;
     }
   }
 

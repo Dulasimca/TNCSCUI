@@ -3,24 +3,22 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { ExcelService } from 'src/app/shared-services/excel.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({
-  selector: 'app-cash-receipt-register',
+  selector: 'app-Cash-Receipt-Register',
   templateUrl: './cash-receipt-register.component.html',
   styleUrls: ['./cash-receipt-register.component.css']
 })
 export class CashReceiptRegisterComponent implements OnInit {
   CashReceiptRegCols: any;
-  CashReceiptRegData: any;
+  CashReceiptRegData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   RCode: any;
@@ -34,13 +32,12 @@ export class CashReceiptRegisterComponent implements OnInit {
   data: any;
   loading: boolean;
   username: any;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
   
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
-    private authService: AuthService, private excelService: ExcelService,
-    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -158,23 +155,9 @@ export class CashReceiptRegisterComponent implements OnInit {
     }
   }
 
-  exportAsXLSX(): void {
-    var DeliveryData = [];
-    this.CashReceiptRegData.forEach(data => {
-      DeliveryData.push({
-        SlNo: data.SlNo, Dono: data.Dono, DeliveryOrderDate: data.DeliveryOrderDate,
-        Totals: data.Totals, To_Whom_Issued: data.To_Whom_Issued, Cheque_DD: data.Cheque_DD,
-        PaymentAmount: data.PaymentAmount, Scheme: data.Scheme, Commodity: data.Commodity,
-        Netwt_Kgs: data.Netwt_Kgs, Rate_Rs: data.Rate_Rs, Itemamount: data.Itemamount,
-        PreviousAmount: data.PreviousAmount, Adjusted: data.Adjusted, Balance: data.Balance, MarginAmount: data.MarginAmount
-      });
-    });
-    this.excelService.exportAsExcelFile(DeliveryData, 'DELIVERY_ORDER_REGISTER_REPORT', this.CashReceiptRegCols);
-  }
-
   onPrint() {
-    const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
-    saveAs(path + filename, filename);
+    // const path = "../../assets/Reports/" + this.username.user + "/";
+    // const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    // saveAs(path + filename, filename);
   }
 }
