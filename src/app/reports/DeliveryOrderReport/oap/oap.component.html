@@ -33,7 +33,7 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
-          (onClick)="onSociety('t')" (keydown.enter)="onSociety('t', 'enter')" (ngModelChange)="onResetTable('')"
+          (onClick)="onSociety('t')" (keydown.enter)="onSociety('t')" (ngModelChange)="onResetTable('')"
           filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -43,8 +43,8 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
         <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
-          (onChange)="onSociety('r', 'click')" (onClick)="onSociety('r', 'click')"
-          (keydown.enter)="onSociety('r', 'enter')" (ngModelChange)="onResetTable('')" filter="true" optionLabel="label"
+          (onChange)="onSociety('r')" (onClick)="onSociety('r')"
+          (keydown.enter)="onSociety('r')" (ngModelChange)="onResetTable('')" filter="true" optionLabel="label"
           resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>

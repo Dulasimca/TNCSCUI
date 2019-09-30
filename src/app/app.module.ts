@@ -131,7 +131,7 @@ import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-deta
 import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
-import { AllSchemeComponent } from './reports/DeliveryOrderReport/all-scheme/all-scheme.component';
+import { AllSchemeComponent } from './reports/DeliveryOrderReport/All-scheme/all-scheme.component';
 import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';

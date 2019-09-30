@@ -49,10 +49,10 @@
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Print (click)="onPrint()"[disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Excel (click)="exportAsXLSX()"
         [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
-      </div>
+      </div> -->
       <div class="ui-g-12 ui-md-1"></div>
       <!-- <div class="ui-g-12 ui-md-3"></div> -->
       <div class="ui-g-12 ui-md-2">
@@ -69,7 +69,7 @@
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
         <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
           (onChange)="onSelect('r', 'click')" (onClick)="onSelect('r', 'enter')"
-          (keydown.enter)="onSociety('r')" (ngModelChange)="onResetTable('')" filter="true" optionLabel="label"
+          (keydown.enter)="onSociety()" (ngModelChange)="onResetTable('')" filter="true" optionLabel="label"
           resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>

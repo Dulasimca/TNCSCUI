@@ -50,7 +50,7 @@
         <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(hullingDetailsData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(hullingDetailsData.length=='0')"></button>
         </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="hullingDetailsCols" [value]="hullingDetailsData" [responsive]="true" [loading]="loading"
