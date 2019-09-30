@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-commodity-issue-memo',
@@ -33,9 +35,13 @@ export class CommodityIssueMemoComponent implements OnInit {
   loading: boolean;
   roleId: number;
   loggedInRCode: string;
-  regions: any;@ViewChild('godown') godownPanel: Dropdown;
+  regions: any;
+  issuedToDepositor: string[];
+  issuedToGodown: string[];
+  @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
+  username: any;
   
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
@@ -50,6 +56,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.maxDate = new Date();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -122,7 +129,9 @@ export class CommodityIssueMemoComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'RCode': this.RCode,
       'GCode': this.GCode,
-      'TRCode': this.ITCode
+      'TRCode': this.ITCode,
+      'IssueToGodown': (this.issuedToGodown !== undefined ? ((this.issuedToGodown[0] === '1') ? 1 : 0) : 0),
+      'IssueToDepositor': (this.issuedToDepositor !== undefined ? ((this.issuedToDepositor[0] === '0') ? 1 : 0) : 0)
     }
     this.restAPIService.post(PathConstants.COMMODITY_ISSUE_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -178,6 +187,10 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.commodityIssueMemoData = [];
   }
 
-  onPrint() { }
+  onPrint() { 
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.CommodityReceiptReport + ".txt";
+    saveAs(path + filename, filename);
+  }
 
 }

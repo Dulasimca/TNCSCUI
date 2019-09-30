@@ -526,6 +526,14 @@ h3 a {
   padding-right: 0px !important;
 }
 
+.only-left-pad-5 {
+  padding: 0px 0px 0px 5px;
+}
+
+.only-left-pad-2 {
+  padding: 0px 0px 0px 2px;
+}
+
 .div-no-top-bottom-pad {
   padding-bottom: 2px !important;
   padding-top: 0px !important;
