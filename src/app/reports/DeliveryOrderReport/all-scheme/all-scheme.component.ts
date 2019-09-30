@@ -60,7 +60,7 @@ export class AllSchemeComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.AllSchemeCols = this.tableConstants.DoOtherScheme;
+    this.AllSchemeCols = this.tableConstants.DoAllScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
@@ -160,16 +160,17 @@ export class AllSchemeComponent implements OnInit {
         this.loading = false;
         let sno = 0;
         this.AllSchemeData.forEach(data => {
-          data.Slno = sno;
-        sno += 1;
+
+          sno += 1;
+          data.SlNo = sno;
+        });
         this.AllSchemeData = this.AllSchemeData.filter(item => {
           return item.Tyname === this.r_cd.label;
         });
-        });
       }
-      if(this.AllSchemeData !== undefined) {
-        this.AllSchemeData;
-        }
+      // if (this.AllSchemeData !== undefined) {
+      //   this.AllSchemeData;
+      // }
       else {
         this.loading = false;
         this.messageService.clear();
@@ -178,7 +179,7 @@ export class AllSchemeComponent implements OnInit {
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
         });
       }
-    
+
     });
   }
 
@@ -191,9 +192,9 @@ export class AllSchemeComponent implements OnInit {
     // Rx.Observable.from(this.AllSchemeData)
     //   .groupBy((y: any) => y.Coop).flatMap(grop => grop.toArray())
     // this.AllSchemeData.forEach(d => {
-// if(this.AllSchemeData !== undefined) {
+    // if(this.AllSchemeData !== undefined) {
     Rx.Observable.from(this.AllSchemeData)
-      .groupBy((z: any) => {z.Comodity; z.Coop}).flatMap(grop => grop.toArray())
+      .groupBy((z: any) => { z.Comodity; z.Coop }).flatMap(grop => grop.toArray())
       .map(g => {// mapping 
         return {
           Tyname: g[0].Tyname,//take the first name because we grouped them by name
@@ -208,7 +209,7 @@ export class AllSchemeComponent implements OnInit {
           // Amount: _.sumBy(g, 'Amount'), // using lodash to sum price
         }
       })
-    
+
       .toArray() //.toArray because I guess you want to loop on it with ngFor      
       // .do(sum => console.log('sum:', sum)) // just for debug
       .subscribe(d => {
@@ -219,9 +220,9 @@ export class AllSchemeComponent implements OnInit {
 
     this.AllSchemeData = groupedData;
     let index = 0;
-for(let i = 0; i<groupedData[index]; i++) {
+    for (let i = 0; i < groupedData[index]; i++) {
 
-}
+    }
   }
 
   getTotalQuantity() {
@@ -235,7 +236,7 @@ for(let i = 0; i<groupedData[index]; i++) {
   getTotalRate() {
     return this.AllSchemeData.map(t => t.Rate).reduce((acc, value) => acc + value, 0);
   }
-  
+
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
