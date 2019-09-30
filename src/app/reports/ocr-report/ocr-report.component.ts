@@ -136,10 +136,12 @@ export class OCRReportComponent implements OnInit {
       }
     });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
   }
+  
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -158,10 +160,12 @@ export class OCRReportComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.cashReceiptRegData = [];
   }
+
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.OCRRegisterRpeort + ".txt";

@@ -676,6 +676,12 @@ export class StockReceiptComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.documentViewData = [];
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
     });
   }
 
@@ -752,6 +758,11 @@ export class StockReceiptComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
     });
   }
 
@@ -781,31 +792,8 @@ export class StockReceiptComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
-    // this.http.get(filepath, { responseType: 'text' })
-    //   .subscribe(data => {
-    //     if (data !== null && data !== undefined) {
-    //       var doc = new jsPDF({
-    //         orientation: 'potrait',
-    //       })
-    //       doc.setFont('courier');
-    //       doc.setFontSize(9);
-    //       doc.text(data, 2, 2)
-    //       doc.save(filename + '.pdf');
-    //       this.blockScreen = false;
-    //       this.isSaveSucceed = false;
-    //       this.isViewed = false;
-    //     } else {
-    //       this.blockScreen = false;
     this.messageService.clear();
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   }, (err: HttpErrorResponse) => {
-    //     this.blockScreen = false;
-    //     if (err.status === 0) {
     this.messageService.clear();
-    //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-    //     }
-    //   });
   }
 
   onClear() {

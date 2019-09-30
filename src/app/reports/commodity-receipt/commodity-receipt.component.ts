@@ -20,7 +20,6 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 export class CommodityReceiptComponent implements OnInit {
   commodityReceiptCols: any;
   commodityReceiptData: any = [];
-  loadedData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   data: any;
@@ -126,6 +125,7 @@ export class CommodityReceiptComponent implements OnInit {
                 commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
                 this.commodityOptions = commoditySelection;
               });
+              this.commodityOptions.unshift({ label: 'All', value: 'All' });
             }
           })
         }
@@ -136,7 +136,7 @@ export class CommodityReceiptComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    this.commodityReceiptData = [];
+    this.commodityReceiptData.length = 0;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
@@ -148,7 +148,6 @@ export class CommodityReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.loadedData = res;
         this.commodityReceiptData = res;
         this.loading = false;
         let sno = 0;
