@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-margin-amount',
@@ -20,6 +21,7 @@ export class MarginAmountComponent implements OnInit {
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   societyOptions: SelectItem[];
   g_cd: any;
   s_cd: any;
@@ -28,7 +30,14 @@ export class MarginAmountComponent implements OnInit {
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
-
+  username: any;
+  regionsData: any;
+  roleId: any;
+  GCode: any;
+  RCode: any;
+  loggedInRCode: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -37,19 +46,59 @@ export class MarginAmountComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.MarginAmountCols = this.tableConstants.DoMarginAmount;
     this.data = this.roleBasedService.getInstance();
+    this.regionsData = this.roleBasedService.getRegions();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
   }
 
-  onSelect() {
+  onSelect(item, type) {
     let godownSelection = [];
-    this.data = this.roleBasedService.instance;
-    if (this.data !== undefined) {
-      this.data.forEach(x => {
-        godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = godownSelection;
-      });
+    let regionSelection = [];
+    switch (item) {
+      case 'reg':
+          this.regionsData = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regionsData !== undefined) {
+              this.regionsData.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regionsData !== undefined) {
+              this.regionsData.forEach(x => {
+                if(x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
+            }
+          }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+         }
+        break;
     }
   }
+
 
   // onSociety() {
   //   let SocietySelection = [];
@@ -75,7 +124,7 @@ export class MarginAmountComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
-      'GCode': this.g_cd.value,
+      'GCode': this.GCode,
       // 'SCode': this.s_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
