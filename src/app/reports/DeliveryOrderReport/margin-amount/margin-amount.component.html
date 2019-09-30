@@ -9,7 +9,6 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -55,15 +54,15 @@
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!g_cd || !fromDate || !toDate)"></button>
+          [disabled]="(!RCode || !GCode || !fromDate || !toDate)"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(MarginAmountData.length=='0')"></button>
       </div>
-      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
-      </div>
+      </div> -->
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="MarginAmountCols" [value]="MarginAmountData" [rows]="20"
