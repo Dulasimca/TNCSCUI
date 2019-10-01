@@ -9,6 +9,10 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import 'rxjs/add/observable/from';
+import 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-annapoorna',
@@ -25,6 +29,7 @@ export class AnnapoornaComponent implements OnInit {
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   selectedValues: any;
+  FilterArray: any;
   regions: any;
   t_cd: any;
   g_cd: any;
@@ -34,6 +39,7 @@ export class AnnapoornaComponent implements OnInit {
   Trcode: any;
   data: any;
   GCode: any;
+  userId: any;
   SCode: any;
   maxDate: Date;
   roleId: any;
@@ -61,6 +67,7 @@ export class AnnapoornaComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.userId = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -143,20 +150,60 @@ export class AnnapoornaComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
-      'SCode': this.s_cd.value,
+      // 'SCode': this.r_cd.value,
+      'UserName': this.userId.user,
     };
-    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_ANNAPOORNA, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.AnnapoornaData = res;
+        this.FilterArray = res;
         this.loading = false;
         let sno = 0;
+        let TotalAmount = 0;
+        let TotalQuantity = 0;
+        let TotalRate = 0;
         this.AnnapoornaData.forEach(data => {
-          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          TotalAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          TotalQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          TotalRate += data.Rate !== undefined && data.Rate !== undefined ? (data.Rate * 1) : 0;
           sno += 1;
           data.SlNo = sno;
         });
-      } else {
+        this.AnnapoornaData.push(
+          {
+            Amount: TotalAmount.toFixed(2),
+            Quantity: TotalQuantity.toFixed(2),
+            Rate: TotalRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.FilterArray = this.AnnapoornaData.filter(item => {
+          return item.Tyname === this.r_cd.label;
+        });
+
+        sno = 0;
+        let FilterAmount = 0;
+        let FilterRate = 0;
+        let FilterQuantity = 0;
+        this.FilterArray.forEach(data => {
+          FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
+          sno += 1;
+          data.SlNo = sno;
+        });
+        this.FilterArray.push(
+          {
+            Amount: FilterAmount.toFixed(2),
+            Quantity: FilterQuantity.toFixed(2),
+            Rate: FilterRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.AnnapoornaData = this.FilterArray;
+      }
+
+      else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({
@@ -164,14 +211,70 @@ export class AnnapoornaComponent implements OnInit {
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
         });
       }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
+
     });
   }
+
+  onSociety() {
+    // this.AnnapoornaData = this.FilterArray;
+    this.AnnapoornaData.splice(this.AnnapoornaData.length, 0, '');
+    let groupedData: any = [];
+    // Rx.Observable.from(this.AnnapoornaData)
+    //   .groupBy((x: any) => x.Tyname).flatMap(grop => grop.toArray())
+    // Rx.Observable.from(this.AnnapoornaData)
+    //   .groupBy((y: any) => y.Coop).flatMap(grop => grop.toArray())
+    // this.AnnapoornaData.forEach(d => {
+    // if(this.AnnapoornaData !== undefined) {
+    Rx.Observable.from(this.AnnapoornaData)
+      .groupBy((z: any) => { z.Comodity; z.Coop }).flatMap(grop => grop.toArray())
+      .map(g => {// mapping 
+        return {
+          Tyname: g[0].Tyname,//take the first name because we grouped them by name
+          Comodity: g[0].Comodity,
+          Coop: g[0].Coop,
+          Scheme: g[0].Scheme,
+          Date: g[0].Date,
+          Dono: g[0].Dono,
+          Amount: g[0].Amount.toFixed(2),
+          Rate: _.sumBy(g, 'Rate'),
+          Quantity: _.sumBy(g, 'Quantity'), // using lodash to sum quantity
+          // Amount: _.sumBy(g, 'Amount'), // using lodash to sum price
+        }
+      })
+
+      .toArray() //.toArray because I guess you want to loop on it with ngFor      
+      // .do(sum => console.log('sum:', sum)) // just for debug
+      .subscribe(d => {
+        groupedData = d;
+        console.log(groupedData, 'Hii');
+      });
+    // })
+
+    this.AnnapoornaData = groupedData;
+    let index = 0;
+    for (let i = 0; i < groupedData[index]; i++) {
+
+    }
+  }
+
+  // getTotalQuantity() {
+  //   return this.AnnapoornaData.map(t => t.Quantity * 1).reduce((acc, value) => acc + value, 0);
+  // }
+
+  // getTotalAmount() {
+  //   if(this.AnnapoornaData.TotalAmount !== undefined && this.AnnapoornaData.TotalAmount !== null )
+  //   {
+  //   this.AnnapoornaData.TotalAmount.toFixed(2)
+
+  //   this.AnnapoornaData.TotalAmount * 1;
+  //  }
+  //   else return 0;
+  //   // return this.AnnapoornaData.map(t => t.Amount).reduce((acc, value) => acc + value, 0);
+  // }
+
+  // getTotalRate() {
+  //   return this.AnnapoornaData.map(t => t.Rate).reduce((acc, value) => acc + value, 0);
+  // }
 
   onDateSelect() {
     this.checkValidDateSelection();

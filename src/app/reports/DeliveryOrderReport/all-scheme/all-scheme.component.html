@@ -41,9 +41,10 @@
         <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!fromDate || !toDate || !GCode)"></button>
+          [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
       </div>
       <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
@@ -56,7 +57,7 @@
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(AllSchemeData.length=='0')"></button>
       </div>
-      <div class="ui-g-12 ui-md-2"></div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
           <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
           <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
