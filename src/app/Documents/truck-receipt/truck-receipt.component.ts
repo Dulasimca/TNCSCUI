@@ -614,6 +614,7 @@ export class TruckReceiptComponent implements OnInit {
     this.GodownNo = stockNo.slice(0, ind);
     this.LocationNo = stockNo.slice(ind + 1, totalLength);
     const params = {
+      DocNo: (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0,
       TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.GCode,

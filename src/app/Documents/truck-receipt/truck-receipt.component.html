@@ -8,7 +8,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Truck Memo Slip</div>
       </div>
     </p-header>
-    <p-toast position="center" key="t-err"  [hideTransitionOptions]="'500ms'"></p-toast>
+    <p-toast position="top-center" key="t-err"  [hideTransitionOptions]="'500ms'"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -303,7 +303,7 @@
                       scrollHeight="180px">
                       <ng-template pTemplate="colgroup" let-columns>
                         <colgroup>
-                          <col *ngFor="let col of columns" style="width:80px">
+                          <col *ngFor="let col of columns" style="width:115px">
                         </colgroup>
                       </ng-template>
                       <ng-template pTemplate="header" let-columns>
