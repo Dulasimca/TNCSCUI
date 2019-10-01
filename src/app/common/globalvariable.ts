@@ -17,6 +17,8 @@ export class GolbalVariable {
     public static readonly OCRRegisterRpeort = 'OCRREG';
     public static readonly CommodityReceiptReport = 'COMREC';
     public static readonly CommodityIssueMemoReport = 'COMISS';
+    public static readonly SchemeIssueMemo ='SCHEMEISS';
+
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

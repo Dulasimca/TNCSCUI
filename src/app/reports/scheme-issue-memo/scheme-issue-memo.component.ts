@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-scheme-issue-memo',
@@ -126,6 +128,7 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.restAPIService.post(PathConstants.SCHEME_ISSUE_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeIssueMemoData = res;
+        this.loading = false;
       let sno = 0;
       let TotalQty = 0;
       this.schemeIssueMemoData.forEach(data => {
@@ -184,6 +187,10 @@ export class SchemeIssueMemoComponent implements OnInit {
     }
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode.value + GolbalVariable.SchemeIssueMemo + ".txt";
+    saveAs(path + filename, filename);
+  }
   
 }

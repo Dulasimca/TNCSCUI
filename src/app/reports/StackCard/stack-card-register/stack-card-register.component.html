@@ -70,6 +70,11 @@
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="StackCardRegisterCols" [value]="StackCardRegisterData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
           [paginator]="true" [responsive]="true" autoLayout="true" exportFilename="STACK_CARD_REGISTER_REPORT">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" style="width:100px">
+            </colgroup>
+        </ng-template>
           <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">

@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { saveAs } from 'file-saver';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-scheme-receipt',
@@ -34,11 +36,11 @@ export class SchemeReceiptComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loggedInRCode: string;
+  username: any;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
-  username: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,
@@ -126,6 +128,7 @@ export class SchemeReceiptComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeReceiptData = res;
         let sno = 0;
+        this.loading = false;
         let TotalQty = 0;
         this.schemeReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
@@ -180,6 +183,9 @@ export class SchemeReceiptComponent implements OnInit {
     }
   }
 
-  onPrint() { }
-  
+  onPrint() {
+    // const path = "../../assets/Reports/" + this.username.user + "/";
+    // const filename = this.GCode.value + GolbalVariable.StackCardRegisterReport + ".txt";
+    // saveAs(path + filename, filename);
+  }
 }

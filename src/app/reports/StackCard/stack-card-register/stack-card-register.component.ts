@@ -135,7 +135,7 @@ export class StackCardRegisterComponent implements OnInit {
             if (type === 'enter') {
               this.StackStatusPanel.overlayVisible = true;
             }
-         this.statusOptions = [{ label: 'R', value: 'R' }, { label: 'C', value: 'C' }];
+         this.statusOptions = [{ label: 'R', value: 'R' }, { label: 'C', value: 'C' },{ label: 'A', value: 'A' }];
           break;
     }
   }
