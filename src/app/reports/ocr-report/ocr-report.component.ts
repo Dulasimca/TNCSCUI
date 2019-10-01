@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { Dropdown, MessageService } from 'primeng/primeng';
+import { Dropdown, MessageService, DataTable } from 'primeng/primeng';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -36,6 +36,7 @@ export class OCRReportComponent implements OnInit {
   regions: any;
   @ViewChild('gd') godownPanel: Dropdown;
   @ViewChild('reg') regionPanel: Dropdown;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }
@@ -49,6 +50,7 @@ export class OCRReportComponent implements OnInit {
     this.username = JSON.parse(this.authService.getCredentials());
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.table.header = 'OCR Report';
   }
   onSelect(item, type) {
     let regionSelection = [];
@@ -83,7 +85,7 @@ export class OCRReportComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.loggedInRCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });

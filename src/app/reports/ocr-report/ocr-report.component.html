@@ -8,7 +8,7 @@
         </div>
       </p-header>
       <div class="ui-g">
-        <p-toast position="center" key="t-error"></p-toast>
+        <p-toast position="top-center" key="t-error"></p-toast>
         <div class="ui-g-6 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Region</label>
           <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -56,7 +56,7 @@
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
            [loading]="loading" exportFilename="CASH_RECEIPT_REGISTER__REPORT">
              <ng-template pTemplate="header" let-columns>
-            <tr style="text-align: center;">
+              <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}
               </th>

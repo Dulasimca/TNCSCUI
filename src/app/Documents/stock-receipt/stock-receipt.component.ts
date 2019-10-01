@@ -508,6 +508,7 @@ export class StockReceiptComponent implements OnInit {
     this.godownNo = stockNo.slice(0, ind);
     this.locationNo = stockNo.slice(ind + 1, totalLength);
     const params = {
+      DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
       TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.ReceivingCode,

@@ -157,6 +157,47 @@ export class StackCardRegisterComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.StackCardRegisterData = res;
         this.loading = false;
+        let sno = 1;
+        let TotalOpeBags = 0; 
+        let TotalOpeQty = 0; 
+        let TotalRecBags = 0; 
+        let TotalRecQty = 0; 
+        let TotalIssBags = 0; 
+        let TotalIssQty = 0; 
+        let TotalBalBags = 0; 
+        let TotalBalQty = 0; 
+        let TotalWOffQty = 0;
+        let TotalGU = 0;
+        let TotalGR = 0;
+        this.StackCardRegisterData.forEach(data => {
+          data.SlNo = sno;
+          sno += 1;
+          TotalOpeBags += data.OpeningBag !== undefined && data.OpeningBag !==null ? (data.OpeningBag * 1) : 0;
+          TotalOpeQty += data.OpeningQty !== undefined && data.OpeningQty !==null ? (data.OpeningQty * 1) : 0;
+          TotalRecBags += data.ReceiptBag !== undefined && data.ReceiptBag !==null ? (data.ReceiptBag * 1) : 0;
+          TotalRecQty += data.ReceiptQty !== undefined && data.ReceiptQty !==null ? (data.ReceiptQty * 1) : 0;
+          TotalIssBags += data.IssuesBag !== undefined && data.IssuesBag !==null ? (data.IssuesBag * 1) : 0;
+          TotalIssQty += data.IssuesQty !== undefined && data.IssuesQty !==null ? (data.IssuesQty * 1) : 0;
+          TotalBalBags += data.BalanceBag !== undefined && data.BalanceBag !==null ? (data.BalanceBag * 1) : 0;
+          TotalBalQty += data.BalanceQty !== undefined && data.BalanceQty !==null ? (data.BalanceQty * 1) : 0;
+          TotalWOffQty += data.WriteOff !== undefined && data.WriteOff !==null ? (data.WriteOff * 1) : 0;
+          TotalGU += data.GU !== undefined && data.GU !==null ? (data.GU * 1) : 0;
+          TotalGR += data.GR !== undefined && data.GR !==null ? (data.GR * 1) : 0;
+        })
+        this.StackCardRegisterData.push({
+          FromDate: 'Total',
+          OpeningBag: TotalOpeBags,
+          OpeningQty: (TotalOpeQty * 1).toFixed(3),
+          ReceiptBag: TotalRecBags,
+          ReceiptQty: (TotalRecQty * 1).toFixed(3),
+          IssuesBag: TotalIssBags,
+          IssuesQty: (TotalIssQty * 1).toFixed(3),
+          BalanceBag: TotalBalBags,
+          BalanceQty: (TotalBalQty * 1).toFixed(3),
+          WriteOff: (TotalWOffQty * 1).toFixed(3),
+          GU: TotalGU,
+          GR: TotalGR
+        })
       } else{
         this.loading = false;
         this.messageService.clear();

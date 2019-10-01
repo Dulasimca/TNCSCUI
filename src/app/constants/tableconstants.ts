@@ -1065,18 +1065,19 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'FromDate', header: 'From Date' },
       { field: 'ToDate', header: 'To Date' },
-      { field: 'OpeningBal', header: 'OPE_BAL.' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'ReceivedBags', header: 'REC_BAGS' },
+      { field: 'StackCard', header: 'Stack Card'},
+      { field: 'OpeningBag', header: 'OPE_BAL.' },
+      { field: 'OpeningQty', header: 'Quantity' },
+      { field: 'ReceiptBag', header: 'REC_BAGS' },
       { field: 'GU', header: 'GU' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'IssuedBags', header: 'ISS_BAGS' },
+      { field: 'ReceiptQty', header: 'Quantity' },
+      { field: 'IssuesBag', header: 'ISS_BAGS' },
       { field: 'GR', header: 'GR' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'BalanceBags', header: 'BAL_BAGS.' },
-      { field: 'BalanceQuantity', header: 'BAL_QUANTITY' },
+      { field: 'IssuesQty', header: 'Quantity' },
+      { field: 'BalanceBag', header: 'BAL_BAGS.' },
+      { field: 'BalanceQty', header: 'BAL_QUANTITY' },
       { field: 'StackStatus', header: 'Stack Status' },
-      { field: 'WOffQty', header: 'W/OFF QTY.' }
+      { field: 'WriteOff', header: 'W/OFF QTY.' }
     ];
 
     this.CashReceiptRegCols = [

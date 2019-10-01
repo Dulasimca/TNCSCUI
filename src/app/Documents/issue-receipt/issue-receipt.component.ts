@@ -472,6 +472,7 @@ export class IssueReceiptComponent implements OnInit {
     this.godownNo = stockNo.slice(0, ind);
     this.locationNo = stockNo.slice(ind + 1, totalLength);
     const params = {
+      DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
       TStockNo: stockNo,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.IssuingCode,
