@@ -151,13 +151,20 @@ export class CommodityReceiptComponent implements OnInit {
         this.commodityReceiptData = res;
         this.loading = false;
         let sno = 0;
+        let TotalQty = 0;
+        let TotalBags = 0;
         this.commodityReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          TotalBags += data.Bags_No !== undefined && data.Bags_No !==null ? (data.Bags_No * 1) : 0;
+          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
         });
+        this.commodityReceiptData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3), Bags_No: TotalBags
+        })
       } else {
         this.loading = false;
         this.messageService.clear();

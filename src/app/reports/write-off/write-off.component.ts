@@ -105,11 +105,16 @@ export class WriteOffComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.writeoffData = res;
         let sno = 0;
+        let TotalQty = 0;
         this.writeoffData.forEach(data => {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          TotalQty += data.NetWt !== undefined && data.NetWt !==null ? (data.NetWt * 1) : 0;
+        })
+        this.writeoffData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3),
         })
       } else {
         this.loading = false;
