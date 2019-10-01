@@ -574,6 +574,7 @@ export class TableConstants {
     ];
 
     this.DoSocietyAbstract = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: '', header: 'DO.NO' },
       { field: '', header: 'SOCIETY' },
       { field: '', header: 'TODATE' },

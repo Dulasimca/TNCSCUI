@@ -175,7 +175,8 @@ export class MarginAmountComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.MarginAmountData = [];
   }
 
