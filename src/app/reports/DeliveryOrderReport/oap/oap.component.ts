@@ -9,6 +9,10 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import 'rxjs/add/observable/from';
+import 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-oap',
@@ -25,7 +29,7 @@ export class OapComponent implements OnInit {
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   selectedValues: any;
-  filterArray: any;
+  FilterArray: any;
   regions: any;
   t_cd: any;
   g_cd: any;
@@ -33,9 +37,9 @@ export class OapComponent implements OnInit {
   r_cd: any;
   RCode: any;
   Trcode: any;
-  userId: any;
   data: any;
   GCode: any;
+  userId: any;
   SCode: any;
   maxDate: Date;
   roleId: any;
@@ -64,12 +68,13 @@ export class OapComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     this.userId = JSON.parse(this.authService.getCredentials());
-
   }
 
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
+    let TransactionSelection = [];
+    let ReceiverSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -107,65 +112,25 @@ export class OapComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-    }
-  }
-
-  onView() {
-    this.checkValidDateSelection();
-    this.loading = true;
-    const params = {
-      'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
-      'UserName': this.userId.user,
-    };
-    this.restAPIService.post(PathConstants.DELIVERY_ORDER_OAP, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-        this.OapData = res;
-        this.filterArray = res;
-        this.loading = false;
-        let sno = 1;
-        this.OapData.forEach(data => {
-          data.SlNo = sno;
-          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
-          sno += 1;
-        });
-        
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-  }
-
-  onSociety(item) {
-    let TransactionSelection = [];
-    let ReceiverSelection = [];
-    switch (item) {
       case 't':
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
         if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
             s.forEach(c => {
               if (c.TransType === 'I') {
                 TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
               }
+              this.transactionOptions = TransactionSelection;
             });
-            this.transactionOptions = TransactionSelection;
           });
         }
         break;
       case 'r':
+        if (type === 'enter') {
+          this.societyPanel.overlayVisible = true;
+        }
         const params = new HttpParams().set('TRCode', this.t_cd.value);
         this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
           res.forEach(s => {
@@ -175,16 +140,118 @@ export class OapComponent implements OnInit {
         });
         break;
     }
-    this.OapData = this.filterArray;
-    if (this.OapData !== undefined && this.OapData !== '') {
-      let sno = 0;
-      this.OapData.forEach(data => {
-        data.Slno = sno;
-        sno += 1;
-        this.OapData = this.OapData.filter(item => {
-          return item.Tyname === this.r_cd.label
+  }
+  // }
+
+  onView() {
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {
+      'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.GCode,
+      // 'SCode': this.r_cd.value,
+      'UserName': this.userId.user,
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_OAP, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.OapData = res;
+        this.FilterArray = res;
+        this.loading = false;
+        let sno = 0;
+        let TotalAmount = 0;
+        let TotalQuantity = 0;
+        let TotalRate = 0;
+        this.OapData.forEach(data => {
+          TotalAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          TotalQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          TotalRate += data.Rate !== undefined && data.Rate !== undefined ? (data.Rate * 1) : 0;
+          sno += 1;
+          data.SlNo = sno;
         });
+        this.OapData.push(
+          {
+            Amount: TotalAmount.toFixed(2),
+            Quantity: TotalQuantity.toFixed(2),
+            Rate: TotalRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.FilterArray = this.OapData.filter(item => {
+          return item.Tyname === this.r_cd.label;
+        });
+        sno = 0;
+        let FilterAmount = 0;
+        let FilterRate = 0;
+        let FilterQuantity = 0;
+        this.FilterArray.forEach(data => {
+          FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
+          sno += 1;
+          data.SlNo = sno;
+        });
+        this.FilterArray.push(
+          {
+            Amount: FilterAmount.toFixed(2),
+            Quantity: FilterQuantity.toFixed(2),
+            Rate: FilterRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.OapData = this.FilterArray;
+      }
+      else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+
+    });
+  }
+
+  onSociety() {
+    // this.OapData = this.FilterArray;
+    this.OapData.splice(this.OapData.length, 0, '');
+    let groupedData: any = [];
+    // Rx.Observable.from(this.OapData)
+    //   .groupBy((x: any) => x.Tyname).flatMap(grop => grop.toArray())
+    // Rx.Observable.from(this.OapData)
+    //   .groupBy((y: any) => y.Coop).flatMap(grop => grop.toArray())
+    // this.OapData.forEach(d => {
+    // if(this.OapData !== undefined) {
+    Rx.Observable.from(this.OapData)
+      .groupBy((z: any) => { z.Comodity; z.Coop }).flatMap(grop => grop.toArray())
+      .map(g => {// mapping 
+        return {
+          Tyname: g[0].Tyname,//take the first name because we grouped them by name
+          Comodity: g[0].Comodity,
+          Coop: g[0].Coop,
+          Scheme: g[0].Scheme,
+          Date: g[0].Date,
+          Dono: g[0].Dono,
+          Amount: g[0].Amount.toFixed(2),
+          Rate: _.sumBy(g, 'Rate'),
+          Quantity: _.sumBy(g, 'Quantity'), // using lodash to sum quantity
+          // Amount: _.sumBy(g, 'Amount'), // using lodash to sum price
+        }
+      })
+
+      .toArray() //.toArray because I guess you want to loop on it with ngFor      
+      // .do(sum => console.log('sum:', sum)) // just for debug
+      .subscribe(d => {
+        groupedData = d;
+        console.log(groupedData, 'Hii');
       });
+    // })
+
+    this.OapData = groupedData;
+    let index = 0;
+    for (let i = 0; i < groupedData[index]; i++) {
+
     }
   }
 
@@ -211,7 +278,6 @@ export class OapComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }

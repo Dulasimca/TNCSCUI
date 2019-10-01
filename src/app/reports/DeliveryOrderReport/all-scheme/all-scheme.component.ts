@@ -159,18 +159,50 @@ export class AllSchemeComponent implements OnInit {
         this.FilterArray = res;
         this.loading = false;
         let sno = 0;
+        let TotalAmount = 0;
+        let TotalQuantity = 0;
+        let TotalRate = 0;
         this.AllSchemeData.forEach(data => {
-
+          TotalAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          TotalQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          TotalRate += data.Rate !== undefined && data.Rate !== undefined ? (data.Rate * 1) : 0;
           sno += 1;
           data.SlNo = sno;
         });
-        this.AllSchemeData = this.AllSchemeData.filter(item => {
+        this.AllSchemeData.push(
+          {
+            Amount: TotalAmount.toFixed(2),
+            Quantity: TotalQuantity.toFixed(2),
+            Rate: TotalRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.FilterArray = this.AllSchemeData.filter(item => {
           return item.Tyname === this.r_cd.label;
         });
+
+        sno = 0;
+        let FilterAmount = 0;
+        let FilterRate = 0;
+        let FilterQuantity = 0;
+        this.FilterArray.forEach(data => {
+          FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+          FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
+          sno += 1;
+          data.SlNo = sno;
+        });
+        this.FilterArray.push(
+          {
+            Amount: FilterAmount.toFixed(2),
+            Quantity: FilterQuantity.toFixed(2),
+            Rate: FilterRate.toFixed(2),
+            Dono: 'Total'
+          }
+        );
+        this.AllSchemeData = this.FilterArray;
       }
-      // if (this.AllSchemeData !== undefined) {
-      //   this.AllSchemeData;
-      // }
+
       else {
         this.loading = false;
         this.messageService.clear();
@@ -203,7 +235,7 @@ export class AllSchemeComponent implements OnInit {
           Scheme: g[0].Scheme,
           Date: g[0].Date,
           Dono: g[0].Dono,
-          Amount: _.sumBy(g, 'Amount'),
+          Amount: g[0].Amount.toFixed(2),
           Rate: _.sumBy(g, 'Rate'),
           Quantity: _.sumBy(g, 'Quantity'), // using lodash to sum quantity
           // Amount: _.sumBy(g, 'Amount'), // using lodash to sum price
@@ -225,17 +257,24 @@ export class AllSchemeComponent implements OnInit {
     }
   }
 
-  getTotalQuantity() {
-    return this.AllSchemeData.map(t => t.Quantity).reduce((acc, value) => acc + value, 0);
-  }
+  // getTotalQuantity() {
+  //   return this.AllSchemeData.map(t => t.Quantity * 1).reduce((acc, value) => acc + value, 0);
+  // }
 
-  getTotalAmount() {
-    return this.AllSchemeData.map(t => t.Amount).reduce((acc, value) => acc + value, 0);
-  }
+  // getTotalAmount() {
+  //   if(this.AllSchemeData.TotalAmount !== undefined && this.AllSchemeData.TotalAmount !== null )
+  //   {
+  //   this.AllSchemeData.TotalAmount.toFixed(2)
 
-  getTotalRate() {
-    return this.AllSchemeData.map(t => t.Rate).reduce((acc, value) => acc + value, 0);
-  }
+  //   this.AllSchemeData.TotalAmount * 1;
+  //  }
+  //   else return 0;
+  //   // return this.AllSchemeData.map(t => t.Amount).reduce((acc, value) => acc + value, 0);
+  // }
+
+  // getTotalRate() {
+  //   return this.AllSchemeData.map(t => t.Rate).reduce((acc, value) => acc + value, 0);
+  // }
 
   onDateSelect() {
     this.checkValidDateSelection();
