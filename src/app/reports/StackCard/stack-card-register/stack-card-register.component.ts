@@ -224,7 +224,7 @@ export class StackCardRegisterComponent implements OnInit {
   }
   onPrint() {
     const path = "../../assets/Reports/" + this.Username.user + "/";
-    const filename = this.GCode + GolbalVariable.StackCardRegisterReport + ".txt";
+    const filename = this.GCode.value + GolbalVariable.StackCardRegisterReport + ".txt";
     saveAs(path + filename, filename);
   }
   
