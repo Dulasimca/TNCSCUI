@@ -30,7 +30,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <label for="TransactionType" class="label-fontsize">Transaction Code</label>
                       <p-dropdown #tr name="TransactionType" [options]="transactionOptions" [(ngModel)]="Trcode"
-                        (onClick)="onSelect('tr', 'click')" (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true"
+                        (onClick)="onSelect('tr', 'click')" (keydown.tab)="onSelect('tr', 'change')"  (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true"
                         (onChange)="refreshSelect('tr')" optionLabel="label" filter="true" resetFilterOnHide="true" required>
                       </p-dropdown>
                     </div>

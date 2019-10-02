@@ -211,15 +211,19 @@ export class StackCardRegisterComponent implements OnInit {
       }
     });
   }
+
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
   }
+
   checkValidDateSelection() {
    
   }
+
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
+    this.StackCardRegisterData.length = 0;
     
   }
   onPrint() {
