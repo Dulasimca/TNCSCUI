@@ -85,7 +85,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
+                <div *ngIf="col.field!=='SlNo' || col.field!=='StackCard' || col.field!=='FromDate' || col.field!=='ToDate' || col.field!=='StackStatus'">
+                  <div style="text-align: end !important">
+                      {{rowData[col.field]}}
+                    </div>
+                </div>
+                <div *ngIf="col.field==='SlNo' && col.field==='StackCard' && col.field==='FromDate' && col.field==='ToDate' && col.field==='StackStatus'">
                     {{rowData[col.field]}}
+                  </div>
               </td>
             </tr>
           </ng-template>
