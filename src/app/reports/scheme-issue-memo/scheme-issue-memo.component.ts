@@ -189,7 +189,7 @@ export class SchemeIssueMemoComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode.value + GolbalVariable.SchemeIssueMemo + ".txt";
+    const filename = this.GCode + GolbalVariable.SchemeIssueMemo + ".txt";
     saveAs(path + filename, filename);
   }
   

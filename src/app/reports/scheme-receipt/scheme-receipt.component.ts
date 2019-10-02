@@ -184,8 +184,8 @@ export class SchemeReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    // const path = "../../assets/Reports/" + this.username.user + "/";
-    // const filename = this.GCode.value + GolbalVariable.StackCardRegisterReport + ".txt";
-    // saveAs(path + filename, filename);
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.SchemeReceiptReportFileName + ".txt";
+    saveAs(path + filename, filename);
   }
 }

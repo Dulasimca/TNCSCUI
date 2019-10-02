@@ -18,6 +18,7 @@ export class GolbalVariable {
     public static readonly CommodityReceiptReport = 'COMREC';
     public static readonly CommodityIssueMemoReport = 'COMISS';
     public static readonly SchemeIssueMemo ='SCHEMEISS';
+    public static readonly SchemeReceiptReportFileName = "SCREC";
 
 
     ///Documents

@@ -127,6 +127,7 @@ export class TransactionReceiptComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.transactionReceiptData = res;
       let sno = 0;
+      this.loading = false;
       let TotalQty = 0;
       this.transactionReceiptData.forEach(data => {
         data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
