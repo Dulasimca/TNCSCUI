@@ -111,10 +111,10 @@ export class WriteOffComponent implements OnInit {
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
-          TotalQty += data.NetWt !== undefined && data.NetWt !==null ? (data.NetWt * 1) : 0;
+          TotalQty += (data.NetWt !== undefined && data.NetWt !==null) ? (data.NetWt * 1) : 0;
         })
         this.writeoffData.push({
-          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3),
+          Godownname: 'Total', NetWt: (TotalQty * 1).toFixed(3),
         })
       } else {
         this.loading = false;
@@ -140,6 +140,7 @@ export class WriteOffComponent implements OnInit {
     this.checkValidDateSelection();
     this.onResetTable('');
   }
+
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -159,17 +160,9 @@ export class WriteOffComponent implements OnInit {
     }
   }
 
-  // exportAsXLSX(): void {
-  //   var WritOffData = [];
-  //   this.writeoffData.forEach(data => {
-  //     WritOffData.push({ SlNo: data.SlNo, Godownname: data.Godownname, Issue_Date: data.Issue_Date, Issueno: data.Issueno, Commodity: data.Commodity, NetWt: data.NetWt, Stackno: data.Stackno, remarks: data.remarks })
-  //   })
-  //   this.excelService.exportAsExcelFile(WritOffData, 'Write_Off', this.writeoffCols);
-  // }
-
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    const filename = this.GCode + GolbalVariable.WriteOffReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }
