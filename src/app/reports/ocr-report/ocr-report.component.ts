@@ -170,7 +170,7 @@ export class OCRReportComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.OCRRegisterRpeort + ".txt";
+    const filename = this.GCode.value + GolbalVariable.OCRRegisterRpeort + ".txt";
     saveAs(path + filename, filename);
   }
 }
