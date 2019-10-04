@@ -116,6 +116,7 @@ export class DeliveryReceiptComponent implements OnInit {
   submitted: boolean;
   missingFields: any;
   field: any;
+  selected: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -128,6 +129,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
+ 
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
@@ -286,7 +288,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
-          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+          if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
+          || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -316,7 +319,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.marginCommodityPanel.overlayVisible = true;
         }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
-          if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+          if ((this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
+          || (this.marginSchemeCode !== undefined && this.marginSchemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -408,6 +412,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selected = event;
     this.DeliveryOrderNo = event.data.Dono;
   }
 
@@ -452,7 +457,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
-        this.iCode = data.ItemCode;
+        this.iCode = data.Itemcode;
         this.ICode = data.ITDescription;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
@@ -461,9 +466,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1);
         if(this.itemData.length !== 0) {
-        this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
+        this.GrandTotal = ((this.GrandTotal * 1) - (this.TotalAmount * 1)).toFixed(2);
+        this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
-          this.GrandTotal = (this.GrandTotal * 1);
+          this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemData.splice(index, 1);
@@ -483,9 +490,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginRate = (data.MarginRate * 1).toFixed(3);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(3);
         if(this.itemSchemeData.length !== 0) {
-        this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
+        this.GrandTotal = ((this.GrandTotal * 1) + (this.MarginAmount * 1)).toFixed(2);
+        this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
-          this.GrandTotal = (this.GrandTotal * 1);
+          this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemSchemeData.splice(index, 1);
@@ -542,10 +551,12 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
-          this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
+          this.Scheme = null; this.ICode = null; this.NKgs = null;
+          this.RateTerm = null; this.Rate = null; this.TotalAmount = null;
           this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
         }
         break;
@@ -572,10 +583,13 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
-          this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
+          this.MarginScheme = null;
+          this.MICode = null; this.MarginNKgs = null;
+          this.MarginRateInTerms = null; this.MarginRate = null; this.MarginAmount = null;
           this.marginSchemeOptions = this.marginRateInTermsOptions = this.marginItemDescOptions = [];
         }
         break;
@@ -715,6 +729,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.selected = null;
     this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -802,9 +817,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
         this.Remarks = res.Table[0].Remarks.trim();
-        this.GrandTotal = (res.Table[0].GrandTotal * 1);
+        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
+        this.GrandTotal = (this.GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
+        this.totalAmount = 0; this.marginTotal = 0;
         let i_sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
@@ -815,10 +832,11 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeName: i.SCName,
             Rate: (i.Rate * 1),
             Total: (i.Total * 1),
-            ItemCode: i.Itemcode,
+            Itemcode: i.Itemcode,
             Scheme: i.Scheme,
             Rcode: i.Rcode
           });
+          this.totalAmount += (i.Total * 1);
           i_sno += 1;
         })
       } else {
@@ -840,6 +858,7 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeCode: i.SchemeCode,
             Rcode: i.Rcode
           });
+          this.marginTotal += (i.MarginAmount * 1);
           m_sno += 1;
         })
       }

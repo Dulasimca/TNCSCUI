@@ -568,7 +568,7 @@
         <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [(ngModel)]="viewDate" [maxDate]="maxDate" (ngModelChange)="onView()"></p-calendar>
       </div>
        <div class="ui-g-4 ui-md-1 dashboard">
-      <button class="ui-md-10 dashboard" pButton label=OK [disabled]="documentViewData.length=='0'" (click)="getDocBySRNo()"></button>
+      <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)" (click)="getDocBySRNo()"></button>
     </div>
     <div class="ui-g-4 ui-md-1 dashboard">
         <button class="ui-md-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
@@ -576,7 +576,8 @@
     </div>
     <div class="ui-g-12 ui-fluid">
         <p-table [columns]="documentViewCol" [value]="documentViewData" selectionMode="single"
-        [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
+        [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [(selection)]="selected"
+         [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">

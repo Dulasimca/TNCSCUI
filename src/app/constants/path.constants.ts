@@ -112,5 +112,4 @@ export class PathConstants {
   public static readonly STACK_CARD_OPENING_REPORT_DELETE = '/api/StackBalance/Delete';
   public static readonly OCR_REGISTER_REPORT = '/api/OCR/Post';
   public static readonly DELIVERY_ORDER_SOCIETY_ABSTRACT = '/api/DOSocietyAbstract/Post';
-
 }
