@@ -286,7 +286,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
-          if (this.Scheme.value !== undefined && this.Scheme.value !== '') {
+          if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
+          || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -316,7 +317,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.marginCommodityPanel.overlayVisible = true;
         }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
-          if (this.MarginScheme.value !== undefined && this.MarginScheme.value !== '') {
+          if ((this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
+          || (this.marginSchemeCode !== undefined && this.marginSchemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -452,7 +454,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Scheme = data.SchemeName;
         this.schemeCode = data.Scheme;
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
-        this.iCode = data.ItemCode;
+        this.iCode = data.Itemcode;
         this.ICode = data.ITDescription;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
@@ -819,7 +821,7 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeName: i.SCName,
             Rate: (i.Rate * 1),
             Total: (i.Total * 1),
-            ItemCode: i.Itemcode,
+            Itemcode: i.Itemcode,
             Scheme: i.Scheme,
             Rcode: i.Rcode
           });
