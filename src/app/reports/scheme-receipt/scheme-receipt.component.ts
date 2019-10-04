@@ -11,6 +11,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-scheme-receipt',
@@ -64,27 +65,27 @@ export class SchemeReceiptComponent implements OnInit {
     let schemeSelection = [];
     switch (item) {
       case 'reg':
-          this.region_data = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.region_data = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.region_data !== undefined) {
-              this.region_data.forEach(x => {
+        } else {
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.region_data !== undefined) {
-              this.region_data.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -129,17 +130,56 @@ export class SchemeReceiptComponent implements OnInit {
         this.schemeReceiptData = res;
         let sno = 0;
         this.loading = false;
-        let TotalQty = 0;
+
+        ///Sorting Array
+        let sortedArray = _.sortBy(this.schemeReceiptData, 'Date');
+        this.schemeReceiptData = sortedArray;
+        ///End
+
+        ///Calculating Total of each rows
         this.schemeReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-          data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
-          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+          data.Quantity = (data.Quantity * 1).toFixed(3);
         })
-        this.schemeReceiptData.push({
-          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
+        ///End
+
+        ///Group by multiple values in an array based on 'Commodity' & 'Date'
+        /// Calcualting sum
+        let arr = this.schemeReceiptData;
+        var hash = Object.create(null),
+          grouped = [];
+        arr.forEach(function (o) {
+          var key = ['Date', 'Commodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Date: o.Date, Scheme: o.Scheme, Commodity: o.Commodity, Bags: 0, Quantity: 0 };
+            grouped.push(hash[key]);
+          }
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
+        ///End
+
+        ///Inserting total in an array
+        this.schemeReceiptData.splice(this.schemeReceiptData.length, 0, '');
+        for (let i = 0; i < grouped.length; i++) {
+          const lastIndex = this.schemeReceiptData.map(x =>
+            x.Date === grouped[i].Date && x.Commodity === grouped[i].Commodity).lastIndexOf(true);
+          let item;
+          item = {
+            Godownname: 'TOTAL',
+            Quantity: (grouped[i].Quantity * 1).toFixed(3),
+          };
+          this.schemeReceiptData.splice(lastIndex + 1, 0, item);
+        }
+        ///End 
+
+        ///Abstract
+        this.schemeReceiptData.push({Commodity: 'Abstract'});
+        grouped.forEach(x => {
+          this.schemeReceiptData.push({Date: x.Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: x.Quantity});;
         })
+        ///End
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -156,7 +196,7 @@ export class SchemeReceiptComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.schemeReceiptData = [];
+    this.schemeReceiptData = []; 
   }
 
   onDateSelect() {
@@ -181,6 +221,10 @@ export class SchemeReceiptComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
+  }
+
+  public getColor(name: string): string {
+    return (name === 'TOTAL') ? "#53aae5" : "white";
   }
 
   onPrint() {

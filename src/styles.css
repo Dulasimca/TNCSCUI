@@ -785,6 +785,11 @@ h3 a {
  padding: 0px !important;
 
 }
+.ui-table-caption, .ui-table-summary {
+  padding: .25em .5em;
+  text-align: center;
+  font-weight: normal;
+}
 
   .overlay-content{
     margin: 20px;

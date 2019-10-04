@@ -116,6 +116,7 @@ export class DeliveryReceiptComponent implements OnInit {
   submitted: boolean;
   missingFields: any;
   field: any;
+  selected: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -128,6 +129,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id') marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
+ 
 
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
@@ -410,6 +412,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selected = event;
     this.DeliveryOrderNo = event.data.Dono;
   }
 
@@ -463,9 +466,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1);
         if(this.itemData.length !== 0) {
-        this.GrandTotal = (this.GrandTotal * 1) - (this.TotalAmount * 1);
+        this.GrandTotal = ((this.GrandTotal * 1) - (this.TotalAmount * 1)).toFixed(2);
+        this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
-          this.GrandTotal = (this.GrandTotal * 1);
+          this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemData.splice(index, 1);
@@ -485,9 +490,11 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginRate = (data.MarginRate * 1).toFixed(3);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(3);
         if(this.itemSchemeData.length !== 0) {
-        this.GrandTotal = (this.GrandTotal * 1) + (this.MarginAmount * 1);
+        this.GrandTotal = ((this.GrandTotal * 1) + (this.MarginAmount * 1)).toFixed(2);
+        this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
-          this.GrandTotal = (this.GrandTotal * 1);
+          this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemSchemeData.splice(index, 1);
@@ -544,6 +551,7 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
@@ -575,6 +583,7 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
+          this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
@@ -720,6 +729,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.selected = null;
     this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1').append('GCode', this.GCode);
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -807,7 +817,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
         this.Remarks = res.Table[0].Remarks.trim();
-        this.GrandTotal = (res.Table[0].GrandTotal * 1);
+        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
+        this.GrandTotal = (this.GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         this.totalAmount = 0; this.marginTotal = 0;

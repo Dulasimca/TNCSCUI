@@ -45,7 +45,7 @@ export class CommodityReceiptComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
-  
+
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
@@ -68,27 +68,27 @@ export class CommodityReceiptComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') { this.godownPanel.overlayVisible = true; }
@@ -155,20 +155,30 @@ export class CommodityReceiptComponent implements OnInit {
         let sno = 0;
         let TotalQty = 0;
         let TotalBags = 0;
-        let sortedArray = _.sortBy(this.commodityReceiptData, 'Commodity'); 
+
+        ///Sorting Array
+        let sortedArray = _.sortBy(this.commodityReceiptData, 'Commodity');
         this.commodityReceiptData = sortedArray;
+        ///End
+
+        ///Calculating Total of each rows
         this.commodityReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
           sno += 1;
           data.SlNo = sno;
-          TotalBags += data.Bags_No !== undefined && data.Bags_No !==null ? (data.Bags_No * 1) : 0;
+          TotalBags += data.Bags_No !== undefined && data.Bags_No !== null ? (data.Bags_No * 1) : 0;
           TotalQty += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
         });
-         this.commodityReceiptData.push({
+        ///End
+
+        ///Grand total display
+        this.commodityReceiptData.push({
           Godownname: 'Grand Total', Quantity: (TotalQty * 1).toFixed(3), Bags_No: TotalBags
         })
-       // this.commodityReceiptData.splice(this.commodityReceiptData.length, 0, '');
+        ///End
+
+        ///Grouping Array based on 'Commodity' & sum
         let groupedData;
         Rx.Observable.from(this.commodityReceiptData)
           .groupBy((x: any) => x.Commodity) // using groupBy from Rxjs
@@ -181,8 +191,11 @@ export class CommodityReceiptComponent implements OnInit {
             }
           })
           .toArray() //.toArray because I guess you want to loop on it with ngFor      
-          .do(sum => console.log('sum:', sum)) // just for debug
+          .do(sum => sum) // just for debug
           .subscribe(d => groupedData = d);
+        ///End
+
+        ///Inserting total in an array
         let index = 0;
         let item;
         for (let i = 0; i < this.commodityReceiptData.length; i++) {
@@ -195,7 +208,8 @@ export class CommodityReceiptComponent implements OnInit {
             this.commodityReceiptData.splice(i, 0, item);
             index += 1;
           }
-        } 
+        }
+        ///End 
         this.commodityReceiptData.forEach(x => x.Quantity = (x.Quantity * 1).toFixed(3));
       } else {
         this.loading = false;
@@ -243,7 +257,7 @@ export class CommodityReceiptComponent implements OnInit {
     return (name === 'TOTAL') ? "#53aae5" : ((name === 'Grand Total') ? "#18c5a9" : "white");
   }
 
-  onPrint() { 
+  onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.CommodityReceiptReport + ".txt";
     saveAs(path + filename, filename);

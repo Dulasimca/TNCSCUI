@@ -204,8 +204,8 @@ export class TableConstants {
       { field: 'sno', header: 'S.No:' },
       { field: 'ITDescription', header: 'IT Description' },
       { field: 'NetWeight', header: 'Net Weight' },
-      { field: 'Wtype', header: 'Unit Measure' },
       { field: 'SchemeName', header: 'Scheme' },
+      { field: 'Wtype', header: 'Unit Measure' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Total', header: 'Total' },
     ]
@@ -463,14 +463,14 @@ export class TableConstants {
     this.StockReceiptItemColumns = [
       { field: 'sno', header: 'SI.No.' },
       { field: 'TStockNo', header: 'Stack No.' },
+      { field: 'SchemeName', header: 'Scheme' },
       { field: 'CommodityName', header: 'Item Description' },
       { field: 'PackingName', header: 'Packing Type' },
       { field: 'NoPacking', header: 'No. of packing' },
-      { field: 'WmtType', header: 'Wmt Type' },
       { field: 'GKgs', header: 'Gross Wt' },
       { field: 'Nkgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
-      { field: 'SchemeName', header: 'Scheme' },
+      { field: 'WmtType', header: 'Wmt Type' },
       // { field: 'icon', header: 'Action'}
     ];
 
@@ -493,14 +493,14 @@ export class TableConstants {
     this.StockIssueMemoItemDetailsColumns = [
       { field: 'sno', header: 'S.No:' },
       { field: 'TStockNo', header: 'Stack No.' },
+      { field: 'SchemeName', header: 'Scheme' },
       { field: 'CommodityName', header: 'Item Description' },
       { field: 'PackingName', header: 'Packing Type' },
       { field: 'NoPacking', header: 'No. of packing' },
-      { field: 'WmtType', header: 'Wmt Type' },
       { field: 'GKgs', header: 'Gross Wt' },
       { field: 'Nkgs', header: 'Net WT' },
       { field: 'Moisture', header: 'Moisture' },
-      { field: 'SchemeName', header: 'Scheme' },
+      { field: 'WmtType', header: 'Wmt Type' },
     ];
 
     this.DoAllScheme = [
@@ -750,14 +750,14 @@ export class TableConstants {
     this.TruckMemoItemDetails = [
       { field: 'sno', header: 'SI.No.' },
       { header: 'Stack No.', field: 'TStockNo' },
+      { header: 'Scheme', field: 'SchemeName' },
       { header: 'Item Description', field: 'ITDescription' },
       { header: 'Packing Type', field: 'PackingType' },
       { header: 'No. of packing', field: 'NoPacking' },
-      { header: 'Wmt Type', field: 'WmtType' },
       { header: 'Gross Wt', field: 'GKgs' },
       { header: 'Net Wt', field: 'Nkgs' },
       { header: 'Moisture', field: 'Moisture' },
-      { header: 'Scheme', field: 'SchemeName' }
+      { header: 'Wmt Type', field: 'WmtType' },
     ];
 
     this.TruckMemoViewDocumentCols = [

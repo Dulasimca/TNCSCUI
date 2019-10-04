@@ -126,6 +126,7 @@ export class TruckReceiptComponent implements OnInit {
   submitted: boolean;
   missingFields: any;
   field: any;
+  selected: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -706,11 +707,13 @@ export class TruckReceiptComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selected = event;
     this.STNo = event.data.STNo;
   }
 
   onView() {
     this.viewPane = true;
+    this.selected = null;
     this.truckMemoViewData = [];
     this.messageService.clear();
     const params = new HttpParams().set('sValue', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');

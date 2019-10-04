@@ -118,6 +118,7 @@ export class IssueReceiptComponent implements OnInit {
   submitted: boolean;
   missingFields: any;
   field: any;
+  selected: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -750,6 +751,7 @@ export class IssueReceiptComponent implements OnInit {
 
   onView() {
     this.viewPane = true;
+    this.selected = null;
     this.messageService.clear();
     const params = new HttpParams().set('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.IssuingCode).append('Type', '1');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
@@ -777,6 +779,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selected = event;
     this.SINo = event.data.SINo;
   }
 

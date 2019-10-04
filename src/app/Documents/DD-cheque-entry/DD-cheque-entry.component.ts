@@ -56,6 +56,7 @@ export class DDChequeEntryComponent implements OnInit {
   isSaveSucceed: boolean;
   isViewed: boolean;
   isSelectedReceivor: boolean;
+  selected: any;
   @ViewChild('receivor') receivorTypePanel: Dropdown;
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
@@ -139,6 +140,7 @@ export class DDChequeEntryComponent implements OnInit {
   onView() {
     this.ChequeReceiptNoData = [];
     this.viewPane = true;
+    this.selected = null;
     const params = new HttpParams().set('GCode', this.GCode).append('value', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('Type', '1');
     this.restApiService.getByParameters(PathConstants.DD_CHEQUE_ENTRY_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -162,6 +164,7 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
   onRowSelect(event) {
+    this.selected = event;
     this.receiptNo = event.data.receiptNo;
   }
 
@@ -323,7 +326,7 @@ export class DDChequeEntryComponent implements OnInit {
     this.bank = data.Bank;
     this.receivedFrom = data.ReceivedFrom;
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
-    this.details = (data.Detail.trim() !== '' && data.Detail !== null) ? data.Detail : '-';
+    this.details = (data.Detail !== undefined && data.Detail !== null) ? ((data.Detail.trim() !== '') ? data.Detail : '-') : null;
     this.DDChequeData.splice(index, 1);
   }
 

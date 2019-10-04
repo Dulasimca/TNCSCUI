@@ -11,6 +11,8 @@ import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-commodity-issue-memo',
@@ -38,15 +40,15 @@ export class CommodityIssueMemoComponent implements OnInit {
   regions: any;
   issuedToDepositor: string[];
   issuedToGodown: string[];
+  username: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
-  username: any;
-  
+
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,
-     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -65,27 +67,27 @@ export class CommodityIssueMemoComponent implements OnInit {
     let commoditySelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-              if (type === 'enter') {
-                this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
               }
-              if (this.roleId === 1) {
-                if (this.regions !== undefined) {
-                  this.regions.forEach(x => {
-                    regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                  });
-                  this.regionOptions = regionSelection;
-                }
-              } else {
-                if (this.regions !== undefined) {
-                  this.regions.forEach(x => {
-                    if(x.RCode === this.loggedInRCode) {
-                    regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                    }
-                  });
-                  this.regionOptions = regionSelection;
-                }
-              }
+            });
+            this.regionOptions = regionSelection;
+          }
+        }
         break;
       case 'gd':
         if (type === 'enter') { this.godownPanel.overlayVisible = true; }
@@ -138,19 +140,61 @@ export class CommodityIssueMemoComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.commodityIssueMemoData = res;
         this.loading = false;
-        let sno = 0; 
+        let sno = 0;
         let TotalQty = 0;
+
+        ///Sorting Array
+        let sortedArray = _.sortBy(this.commodityIssueMemoData, 'Commodity');
+        this.commodityIssueMemoData = sortedArray;
+        ///End
+
+        ///Calculating Total of each rows
         this.commodityIssueMemoData.forEach(data => {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-          data.Quantity = (data.Quantity * 1).toFixed(3);
           data.Lorryno = data.Lorryno.toString().toUpperCase();
           sno += 1;
           data.SlNo = sno;
-          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+          TotalQty += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
         })
+        ///End
+
+        ///Grand total display
         this.commodityIssueMemoData.push({
-          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
+          Godownname: 'Grand Total', Quantity: (TotalQty * 1).toFixed(3)
         })
+        ///End
+
+        ///Grouping Array based on 'Commodity' & sum
+        let groupedData;
+        Rx.Observable.from(this.commodityIssueMemoData)
+          .groupBy((x: any) => x.Commodity) // using groupBy from Rxjs
+          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+          .map(g => {// mapping 
+            return {
+              Commodity: g[0].Commodity,//take the first name because we grouped them by name
+              Quantity: _.sumBy(g, 'Quantity')// using lodash to sum quantity
+            }
+          })
+          .toArray() //.toArray because I guess you want to loop on it with ngFor      
+          .do(sum => sum) // just for debug
+          .subscribe(d => groupedData = d);
+        ///End
+
+        ///Inserting total in an array
+        let index = 0;
+        let item;
+        for (let i = 0; i < this.commodityIssueMemoData.length; i++) {
+          if (this.commodityIssueMemoData[i].Commodity !== groupedData[index].Commodity) {
+            item = {
+              Godownname: 'TOTAL',
+              Quantity: (groupedData[index].Quantity * 1).toFixed(3),
+            };
+            this.commodityIssueMemoData.splice(i, 0, item);
+            index += 1;
+          }
+        }
+        ///End 
+        this.commodityIssueMemoData.forEach(x => x.Quantity = (x.Quantity * 1).toFixed(3));
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -163,6 +207,10 @@ export class CommodityIssueMemoComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
+  }
+
+  public getColor(name: string): string {
+    return (name === 'TOTAL') ? "#53aae5" : ((name === 'Grand Total') ? "#18c5a9" : "white");
   }
 
   onDateSelect(event) {
@@ -193,7 +241,7 @@ export class CommodityIssueMemoComponent implements OnInit {
     this.commodityIssueMemoData = [];
   }
 
-  onPrint() { 
+  onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.CommodityIssueMemoReport + ".txt";
     saveAs(path + filename, filename);
