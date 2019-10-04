@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-society-abstract',
@@ -17,14 +18,24 @@ import { StatusMessage } from 'src/app/constants/Messages';
 export class SocietyAbstractComponent implements OnInit {
   SocietyAbstractCols: any;
   SocietyAbstractData: any = [];
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   GCode: any;
+  RCode: any;
+  RName: any;
+  GName: any;
   data: any;
   maxDate: Date;
   canShowMenu: boolean;
   loading: boolean = false;
+  userId: any;
+  regionsData: any;
+  roleId: any;
+  loggedInRCode: any;
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
@@ -35,33 +46,84 @@ export class SocietyAbstractComponent implements OnInit {
     this.SocietyAbstractCols = this.tableConstants.DoSocietyAbstract;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.regionsData = this.roleBasedService.getRegions();
+    this.RName = this.authService.getUserAccessible().rName;
+    this.GName = this.authService.getUserAccessible().gName;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.maxDate = new Date();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.userId = JSON.parse(this.authService.getCredentials());
   }
 
-  onSelect() {
-    let options = [];
-    if (this.data.godownData !== undefined) {
-      this.data.godownData.forEach(x => {
-        options.push({ 'label': x.GName, 'value': x.GCode });
-        this.godownOptions = options;
-      });
+  onSelect(item, type) {
+    let godownSelection = [];
+    let regionSelection = [];
+    switch (item) {
+      case 'reg':
+        this.regionsData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          }
+        }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        }
+        break;
     }
   }
 
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode);
-    this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    const params = {
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.GCode,
+      'GName': this.GName,
+      'RName': this.RName,
+      'UserName': this.userId.user,
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_SOCIETY_ABSTRACT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.SocietyAbstractData = res;
         this.loading = false;
-      let sno = 0;
-      this.SocietyAbstractData.forEach(data => {
-        data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-        data.Nkgs = (data.Nkgs * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-      })
+        let sno = 0;
+        this.SocietyAbstractData.forEach(data => {
+          data.DoDate = this.datePipe.transform(data.DoDate, 'dd-MM-yyyy');
+          data.AdvanceCollection = (data.AdvanceCollection * 1).toFixed(2);
+          data.Debit = (data.Debit * 1).toFixed(2);
+          sno += 1;
+          data.SlNo = sno;
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -78,7 +140,6 @@ export class SocietyAbstractComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
   }
 
   checkValidDateSelection() {
@@ -100,7 +161,10 @@ export class SocietyAbstractComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
     this.SocietyAbstractData = [];
   }
+
+  onPrint() { }
 }

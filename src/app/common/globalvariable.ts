@@ -17,7 +17,10 @@ export class GolbalVariable {
     public static readonly OCRRegisterRpeort = 'OCRREG';
     public static readonly CommodityReceiptReport = 'COMREC';
     public static readonly CommodityIssueMemoReport = 'COMISS';
-    public static readonly SchemeIssueMemo ='SCHEMEISS';
+    public static readonly SchemeIssueMemo = 'SCHEMEISS';
+    public static readonly HullingDetailsReportFileName = 'HULREG';
+    public static readonly DODemandDraftDateFileName = 'DODDDATE';
+    public static readonly DODemandDraftBankFileName = 'DODDBANK';
     public static readonly SchemeReceiptReportFileName = 'SCREC';
     public static readonly WriteOffReportFileName = 'WOFF';
 

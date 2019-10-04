@@ -125,7 +125,9 @@ export class MarginAmountComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
       'GCode': this.GCode,
-      // 'SCode': this.s_cd.value
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
+      'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {

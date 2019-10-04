@@ -575,13 +575,14 @@ export class TableConstants {
 
     this.DoSocietyAbstract = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: '', header: 'DO.NO' },
-      { field: '', header: 'SOCIETY' },
-      { field: '', header: 'TODATE' },
-      { field: '', header: 'DUE' },
-      { field: '', header: 'PAID' },
-      { field: '', header: 'AdvanceCollection' },
-      { field: '', header: 'DEBIT' }
+      { field: 'Dono', header: 'DO.NO' },
+      { field: 'issuername', header: 'SOCIETY' },
+      { field: 'DoDate', header: 'TODATE' },
+      { field: 'Due', header: 'DUE' },
+      { field: 'Paid', header: 'PAID' },
+      // { field: 'Pending', header: 'PENDING' },
+      { field: 'AdvanceCollection', header: 'AdvanceCollection' },
+      { field: 'Debit', header: 'DEBIT' }
     ];
 
     this.ReceiptROPurchaseReport = [
