@@ -545,7 +545,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
-          this.Scheme = this.ICode = this.NKgs = this.RateTerm = this.Rate = this.TotalAmount = null;
+          this.Scheme = null; this.ICode = null; this.NKgs = null;
+          this.RateTerm = null; this.Rate = null; this.TotalAmount = null;
           this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
         }
         break;
@@ -575,7 +576,9 @@ export class DeliveryReceiptComponent implements OnInit {
           this.DueAmount = this.GrandTotal;
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
-          this.MarginScheme = this.MICode = this.MarginNKgs = this.MarginRateInTerms = this.MarginRate = this.MarginAmount = null;
+          this.MarginScheme = null;
+          this.MICode = null; this.MarginNKgs = null;
+          this.MarginRateInTerms = null; this.MarginRate = null; this.MarginAmount = null;
           this.marginSchemeOptions = this.marginRateInTermsOptions = this.marginItemDescOptions = [];
         }
         break;
@@ -805,6 +808,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.GrandTotal = (res.Table[0].GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
+        this.totalAmount = 0; this.marginTotal = 0;
         let i_sno = 1;
         res.Table.forEach(i => {
           this.itemData.push({
@@ -819,6 +823,7 @@ export class DeliveryReceiptComponent implements OnInit {
             Scheme: i.Scheme,
             Rcode: i.Rcode
           });
+          this.totalAmount += (i.Total * 1);
           i_sno += 1;
         })
       } else {
@@ -840,6 +845,7 @@ export class DeliveryReceiptComponent implements OnInit {
             SchemeCode: i.SchemeCode,
             Rcode: i.Rcode
           });
+          this.marginTotal += (i.MarginAmount * 1);
           m_sno += 1;
         })
       }
