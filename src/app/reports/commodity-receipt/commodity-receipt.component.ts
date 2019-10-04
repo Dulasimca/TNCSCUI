@@ -11,6 +11,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-commodity-receipt',
@@ -153,18 +155,48 @@ export class CommodityReceiptComponent implements OnInit {
         let sno = 0;
         let TotalQty = 0;
         let TotalBags = 0;
+        let sortedArray = _.sortBy(this.commodityReceiptData, 'Commodity'); 
+        this.commodityReceiptData = sortedArray;
         this.commodityReceiptData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
-          data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
           TotalBags += data.Bags_No !== undefined && data.Bags_No !==null ? (data.Bags_No * 1) : 0;
-          TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
+          TotalQty += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
         });
-        this.commodityReceiptData.push({
-          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3), Bags_No: TotalBags
+         this.commodityReceiptData.push({
+          Godownname: 'Grand Total', Quantity: (TotalQty * 1).toFixed(3), Bags_No: TotalBags
         })
+       // this.commodityReceiptData.splice(this.commodityReceiptData.length, 0, '');
+        let groupedData;
+        Rx.Observable.from(this.commodityReceiptData)
+          .groupBy((x: any) => x.Commodity) // using groupBy from Rxjs
+          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+          .map(g => {// mapping 
+            return {
+              Commodity: g[0].Commodity,//take the first name because we grouped them by name
+              Quantity: _.sumBy(g, 'Quantity'),
+              Bags_No: _.sumBy(g, 'Bags_No') // using lodash to sum quantity
+            }
+          })
+          .toArray() //.toArray because I guess you want to loop on it with ngFor      
+          .do(sum => console.log('sum:', sum)) // just for debug
+          .subscribe(d => groupedData = d);
+        let index = 0;
+        let item;
+        for (let i = 0; i < this.commodityReceiptData.length; i++) {
+          if (this.commodityReceiptData[i].Commodity !== groupedData[index].Commodity) {
+            item = {
+              Godownname: 'TOTAL',
+              Bags_No: (groupedData[index].Bags_No * 1),
+              Quantity: (groupedData[index].Quantity * 1).toFixed(3),
+            };
+            this.commodityReceiptData.splice(i, 0, item);
+            index += 1;
+          }
+        } 
+        this.commodityReceiptData.forEach(x => x.Quantity = (x.Quantity * 1).toFixed(3));
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -205,6 +237,10 @@ export class CommodityReceiptComponent implements OnInit {
 
   onResetTable() {
     this.commodityReceiptData = [];
+  }
+
+  public getColor(name: string): string {
+    return (name === 'TOTAL') ? "#53aae5" : ((name === 'Grand Total') ? "#18c5a9" : "white");
   }
 
   onPrint() { 

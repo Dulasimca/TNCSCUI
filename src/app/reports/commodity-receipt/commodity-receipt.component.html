@@ -79,7 +79,8 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+             <tr [ngStyle]="{'background-color': getColor(rowData.Godownname)}"> 
+              <!-- <tr> -->
               <td *ngFor="let col of columns">
                 <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
                   <div style="text-align: end !important">
