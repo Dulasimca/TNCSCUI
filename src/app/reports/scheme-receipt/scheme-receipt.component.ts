@@ -39,6 +39,7 @@ export class SchemeReceiptComponent implements OnInit {
   loggedInRCode: string;
   username: any;
   loading: boolean = false;
+  SchemeReceiptAbstractData: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
@@ -128,6 +129,7 @@ export class SchemeReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.SCHEME_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeReceiptData = res;
+        this.SchemeReceiptAbstractData = res;
         let sno = 0;
         this.loading = false;
 
@@ -175,9 +177,19 @@ export class SchemeReceiptComponent implements OnInit {
         ///End 
 
         ///Abstract
+        var hash = Object.create(null),
+          abstract = [];
+        this.SchemeReceiptAbstractData.forEach(function (o) {
+          var key = ['Commodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Issue_Date: o.Issue_Date, Scheme: o.Scheme, Commodity: o.Commodity, Quantity: 0 };
+            abstract.push(hash[key]);
+          }
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
         this.schemeReceiptData.push({Commodity: 'Abstract'});
-        grouped.forEach(x => {
-          this.schemeReceiptData.push({Date: x.Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: x.Quantity});;
+        abstract.forEach(x => {
+          this.schemeReceiptData.push({Date: x.Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3)});;
         })
         ///End
       } else {
@@ -221,10 +233,6 @@ export class SchemeReceiptComponent implements OnInit {
       }
       return this.fromDate, this.toDate;
     }
-  }
-
-  public getColor(name: string): string {
-    return (name === 'TOTAL') ? "#53aae5" : "white";
   }
 
   onPrint() {

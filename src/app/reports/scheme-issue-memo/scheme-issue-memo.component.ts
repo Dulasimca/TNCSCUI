@@ -11,6 +11,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import * as _ from 'lodash';
+import * as Rx from 'rxjs';
 
 @Component({
   selector: 'app-scheme-issue-memo',
@@ -38,13 +40,14 @@ export class SchemeIssueMemoComponent implements OnInit {
   canShowMenu: boolean;
   maxDate: Date;
   loggedInRCode: any;
+  SchemeIssueAbstractData: any;
   loading: boolean = false;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('scheme') schemePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private messageService: MessageService, private authService: AuthService, 
+    private messageService: MessageService, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
@@ -60,46 +63,46 @@ export class SchemeIssueMemoComponent implements OnInit {
   }
 
   onSelect(item, type) {
-      let regionSelection = [];
-      let godownSelection = [];
-      let schemeSelection = [];
-      switch (item) {
-        case 'reg':
-            this.region_data = this.roleBasedService.regionsData;
-            if (type === 'enter') {
-              this.regionPanel.overlayVisible = true;
-            }
-            if (this.roleId === 1) {
-              if (this.region_data !== undefined) {
-                this.region_data.forEach(x => {
-                  regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                });
-                this.regionOptions = regionSelection;
-              }
-            } else {
-              if (this.region_data !== undefined) {
-                this.region_data.forEach(x => {
-                  if(x.RCode === this.loggedInRCode) {
-                  regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                  }
-                });
-                this.regionOptions = regionSelection;
-              }
-            }
-        break;
-        case 'gd':
-          if (type === 'enter') {
-            this.godownPanel.overlayVisible = true;
-          } 
-          if (this.godown_data !== undefined) {
-            this.godown_data.forEach(x => {
-              if(x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+    let regionSelection = [];
+    let godownSelection = [];
+    let schemeSelection = [];
+    switch (item) {
+      case 'reg':
+        this.region_data = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.region_data !== undefined) {
+            this.region_data.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
               }
             });
-            this.godownOptions = godownSelection;
+            this.regionOptions = regionSelection;
           }
-          break;
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.godown_data !== undefined) {
+          this.godown_data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
       case 'scheme':
         if (type === 'enter') {
           this.schemePanel.overlayVisible = true;
@@ -128,19 +131,69 @@ export class SchemeIssueMemoComponent implements OnInit {
     this.restAPIService.post(PathConstants.SCHEME_ISSUE_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.schemeIssueMemoData = res;
+        this.SchemeIssueAbstractData = res;
         this.loading = false;
-      let sno = 0;
-      let TotalQty = 0;
-      this.schemeIssueMemoData.forEach(data => {
-        data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-        TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
-      })
-      this.schemeIssueMemoData.push({
-        Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
-      })
+        let sno = 0;
+        ///Sorting Array
+        let sortedArray = _.sortBy(this.schemeIssueMemoData, 'Issue_Date', 'Commodity');
+        // sortedArray = _.sortBy(this.schemeIssueMemoData, 'Issue_Date');
+        this.schemeIssueMemoData = sortedArray;
+        ///End
+        
+        ///Calculating Total of each rows
+        this.schemeIssueMemoData.forEach(data => {
+          data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        })
+        ///End
+
+        ///Group by multiple values in an array based on 'Commodity' & 'Date'
+        /// Calcualting sum
+        let arr = this.schemeIssueMemoData;
+        var hash = Object.create(null),
+          grouped = [];
+        arr.forEach(function (o) {
+          var key = ['Issue_Date', 'Commodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Issue_Date: o.Issue_Date, Scheme: o.Scheme, Commodity: o.Commodity, Quantity: 0 };
+            grouped.push(hash[key]);
+          }
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
+        ///End
+
+        ///Inserting total in an array
+        this.schemeIssueMemoData.splice(this.schemeIssueMemoData.length, 0, '');
+        for (let i = 0; i < grouped.length; i++) {
+          const lastIndex = this.schemeIssueMemoData.map(x =>
+            x.Issue_Date === grouped[i].Issue_Date && x.Commodity === grouped[i].Commodity).lastIndexOf(true);
+          let item;
+          item = {
+            Godownname: 'TOTAL',
+            Quantity: (grouped[i].Quantity * 1).toFixed(3),
+          };
+          this.schemeIssueMemoData.splice(lastIndex + 1, 0, item);
+        }
+        ///End 
+
+        ///Abstract
+        var hash = Object.create(null),
+          abstract = [];
+        this.SchemeIssueAbstractData.forEach(function (o) {
+          var key = ['Commodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Issue_Date: o.Issue_Date, Scheme: o.Scheme, Commodity: o.Commodity, Quantity: 0 };
+            abstract.push(hash[key]);
+          }
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
+        this.schemeIssueMemoData.push({ Commodity: 'Abstract' });
+        abstract.forEach(x => {
+          this.schemeIssueMemoData.push({ Issue_Date: x.Issue_Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3) });;
+        })
+        ///End
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -159,7 +212,7 @@ export class SchemeIssueMemoComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.schemeIssueMemoData = [];
   }
 
@@ -192,5 +245,5 @@ export class SchemeIssueMemoComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.SchemeIssueMemo + ".txt";
     saveAs(path + filename, filename);
   }
-  
+
 }

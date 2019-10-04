@@ -210,7 +210,7 @@ export class CommodityIssueMemoComponent implements OnInit {
   }
 
   public getColor(name: string): string {
-    return (name === 'TOTAL') ? "#53aae5" : ((name === 'Grand Total') ? "#18c5a9" : "white");
+    return (name === 'Grand Total') ? "#53aae5" : "white";
   }
 
   onDateSelect(event) {

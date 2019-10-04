@@ -57,6 +57,7 @@ export class DDChequeEntryComponent implements OnInit {
   isViewed: boolean;
   isSelectedReceivor: boolean;
   selected: any;
+  totalRecords: number;
   @ViewChild('receivor') receivorTypePanel: Dropdown;
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
@@ -204,6 +205,7 @@ export class DDChequeEntryComponent implements OnInit {
           })
           sno += 1;
         });
+        this.totalRecords = this.DDChequeData.length;
         this.totalAmount = (this.totalAmount * 1).toFixed(2);
         this.rowId = res[0].RowId;
         this.receivedFrom = res[0].ReceivedFrom;
@@ -211,7 +213,7 @@ export class DDChequeEntryComponent implements OnInit {
         this.receiptNo = res[0].ReceiptNo;
         this.details = (res[0].Detail !== undefined && res[0].Detail !== null) ? res[0].Detail : '-';
         this.receiptDate = (res[0].ReceiptDate !== undefined && res[0].ReceiptDate !== null) ?
-          this.datepipe.transform(res[0].ReceiptDate, 'dd/MM/yyyy') : new Date();
+        this.datepipe.transform(res[0].ReceiptDate, 'dd/MM/yyyy') : new Date();
         this.ReceiptDt = this.datepipe.transform(res[0].ReceiptDate, 'MM/dd/yyyy');
       } else if (res.length === 0) {
         this.messageService.clear();
@@ -250,6 +252,7 @@ export class DDChequeEntryComponent implements OnInit {
       i.SNo = sno;
       sno += 1;
     });
+    this.totalRecords = this.DDChequeData.length;
     this.totalAmount = (this.totalAmount * 1).toFixed(2);
     if (this.DDChequeData.length !== 0) {
       this.paymentType = null;
@@ -311,6 +314,7 @@ export class DDChequeEntryComponent implements OnInit {
     this.totalAmount = ((this.totalAmount * 1) - (this.chequeAmount * 1));
     this.chequeNo = data.ChequeNo;
     this.chequeDate = data.ChequeDate;
+    let sno = 0;
     if (data.Payment !== undefined && data.Payment !== null) {
       this.paymentType = data.PaymentType;
       this.paymentTypeOptions = [{ label: data.PaymentType, value: data.Payment }];
@@ -328,6 +332,10 @@ export class DDChequeEntryComponent implements OnInit {
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
     this.details = (data.Detail !== undefined && data.Detail !== null) ? ((data.Detail.trim() !== '') ? data.Detail : '-') : null;
     this.DDChequeData.splice(index, 1);
+    this.DDChequeData.forEach(i => {
+      i.SNo = sno;
+      sno += 1;
+    })
   }
 
   loadDocument() {
