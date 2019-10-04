@@ -85,8 +85,8 @@
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table #dt [columns]="(AbstractCols || IssueMemoCustomerDetailsCols)"
-          [value]="(AbstractData || IssueMemoCustomerDetailsData)" [rows]="20"
+        <p-table #dt [columns]="IssueMemoCustomerDetailsCols"
+          [value]="IssueMemoCustomerDetailsData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading" exportFilename="Issue_Memo_Customer_Details_Data">
              <ng-template pTemplate="header" let-columns>

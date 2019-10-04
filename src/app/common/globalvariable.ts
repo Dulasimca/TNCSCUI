@@ -19,6 +19,9 @@ export class GolbalVariable {
     public static readonly CommodityIssueMemoReport = 'COMISS';
     public static readonly SchemeIssueMemo ='SCHEMEISS';
     public static readonly SchemeReceiptReportFileName = "SCREC";
+    public static readonly HullingDetailsReportFileName = 'HULREG';
+    public static readonly DODemandDraftDateFileName = "DODDDATE";
+    public static readonly DODemandDraftBankFileName = "DODDBANK";
 
 
     ///Documents

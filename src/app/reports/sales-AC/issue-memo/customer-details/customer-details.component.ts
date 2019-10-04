@@ -164,6 +164,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   onView() {
+    this.AbstractCols = this.AbstractData = [];
     const params = {
       'GCode': this.GCode,
       'SCode': this.s_cd.value,
@@ -176,9 +177,9 @@ export class CustomerDetailsComponent implements OnInit {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
-        let arr = this.IssueMemoCustomerDetailsData;
-        Array.from(new Set(arr.map((item: any) => item.tyname)));
-        console.log('arr', arr);
+        // let arr = this.IssueMemoCustomerDetailsData;
+        // Array.from(new Set(arr.map((item: any) => item.tyname)));
+        // console.log('arr', arr);
         this.filterArray = res;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
@@ -202,21 +203,23 @@ export class CustomerDetailsComponent implements OnInit {
         }
       }
     });
-    this.onClear();
+    // this.onClear();
   }
 
   onAbstract() {
+    this.IssueMemoCustomerDetailsData = this.IssueMemoCustomerDetailsCols = [];
+    // if (this.AbstractData && this.AbstractCols === undefined) {
     const params = {
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'Gcode': this.g_cd.value,
+      'Gcode': this.GCode,
     };
     this.restAPIService.getByParameters(PathConstants.ISSUE_MEMO_CUTOMER_ABSTRACT_GET, params).subscribe(res => {
       if (res !== undefined) {
         this.AbstractCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
         this.AbstractData = res;
-        this.filterArray = res;
+        // this.filterArray = res;
         let sno = 0;
         this.AbstractData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
@@ -237,9 +240,10 @@ export class CustomerDetailsComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
-      }
+      } 
     });
-    this.onClear();
+    // }
+    // this.onClear();
   }
 
   onResetTable() {
@@ -247,7 +251,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   onClear() {
-    this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = null;
+    this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {
