@@ -9,6 +9,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-society-abstract',
@@ -166,5 +168,9 @@ export class SocietyAbstractComponent implements OnInit {
     this.SocietyAbstractData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode + GolbalVariable.DOSocietyReportFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

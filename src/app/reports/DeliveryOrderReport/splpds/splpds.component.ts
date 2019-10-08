@@ -13,6 +13,8 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -44,6 +46,8 @@ export class SplpdsComponent implements OnInit {
   SCode: any;
   maxDate: Date;
   roleId: any;
+  GName: any;
+  RName: any;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
@@ -68,6 +72,8 @@ export class SplpdsComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
+    this.RName = this.authService.getUserAccessible().rName;
+    this.GName = this.authService.getUserAccessible().gName;
     this.userId = JSON.parse(this.authService.getCredentials());
   }
 
@@ -153,6 +159,8 @@ export class SplpdsComponent implements OnInit {
       'GCode': this.GCode,
       // 'SCode': this.r_cd.value,
       'UserName': this.userId.user,
+      'GName': this.GName,
+      'RName': this.RName
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SPLPDS, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -285,5 +293,9 @@ export class SplpdsComponent implements OnInit {
     this.splpdsData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode + GolbalVariable.DOSPLPDSReportFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

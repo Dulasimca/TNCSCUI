@@ -13,6 +13,8 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-All-scheme',
@@ -47,6 +49,8 @@ export class AllSchemeComponent implements OnInit {
   isShowErr: boolean;
   loading: boolean = false;
   loggedInRCode: any;
+  GName: any;
+  RName: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
@@ -64,6 +68,8 @@ export class AllSchemeComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
+    this.RName = this.authService.getUserAccessible().rName;
+    this.GName = this.authService.getUserAccessible().gName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -152,6 +158,8 @@ export class AllSchemeComponent implements OnInit {
       'GCode': this.GCode,
       // 'SCode': this.r_cd.value,
       'UserName': this.userId.user,
+      'GName': this.GName,
+      'RName': this.RName
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -305,5 +313,9 @@ export class AllSchemeComponent implements OnInit {
     this.AllSchemeData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode + GolbalVariable.DOAllSchemeReportFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

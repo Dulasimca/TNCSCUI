@@ -9,6 +9,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-margin-amount',
@@ -35,6 +37,8 @@ export class MarginAmountComponent implements OnInit {
   roleId: any;
   GCode: any;
   RCode: any;
+  GName: any;
+  RName: any;
   loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -47,9 +51,12 @@ export class MarginAmountComponent implements OnInit {
     this.MarginAmountCols = this.tableConstants.DoMarginAmount;
     this.data = this.roleBasedService.getInstance();
     this.regionsData = this.roleBasedService.getRegions();
-    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.GName = this.authService.getUserAccessible().gName;
+    this.RName = this.authService.getUserAccessible().rName;
     this.maxDate = new Date();
   }
 
@@ -125,8 +132,8 @@ export class MarginAmountComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
       'GCode': this.GCode,
-      'GName': this.GCode.label,
-      'RName': this.RCode.label,
+      'GName': this.GName,
+      'RName': this.RName,
       'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
@@ -182,5 +189,9 @@ export class MarginAmountComponent implements OnInit {
     this.MarginAmountData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.DOMarginReportFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

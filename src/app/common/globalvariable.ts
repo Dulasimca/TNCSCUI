@@ -19,10 +19,18 @@ export class GolbalVariable {
     public static readonly CommodityIssueMemoReport = 'COMISS';
     public static readonly SchemeIssueMemo = 'SCHEMEISS';
     public static readonly HullingDetailsReportFileName = 'HULREG';
-    public static readonly DODemandDraftDateFileName = 'DODDDATE';
-    public static readonly DODemandDraftBankFileName = 'DODDBANK';
     public static readonly SchemeReceiptReportFileName = 'SCREC';
     public static readonly WriteOffReportFileName = 'WOFF';
+    //DeliveryOrderReport
+    public static readonly DOAllSchemeReportFileName = 'DOALLSCH';
+    public static readonly DODemandDraftDateFileName = 'DODDDATE';
+    public static readonly DODemandDraftBankFileName = 'DODDBANK';
+    public static readonly DOMarginReportFileName = 'DOMARGIN';
+    public static readonly DOOAPReportFileName = 'DOOAP';
+    public static readonly DOAnnapornaReportFileName = 'DOANNA';
+    public static readonly DOOthersReportFileName = 'DOOTHERS';
+    public static readonly DOSPLPDSReportFileName = 'DOSPLPDS';
+    public static readonly DOSocietyReportFileName = 'DOSOCIETY';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

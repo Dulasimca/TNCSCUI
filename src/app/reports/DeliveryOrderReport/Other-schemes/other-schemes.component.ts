@@ -9,6 +9,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -48,6 +50,8 @@ export class OtherSchemesComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: any;
   userId: any;
+  GName: any;
+  RName: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
@@ -66,6 +70,8 @@ export class OtherSchemesComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
+    this.GName = this.authService.getUserAccessible().gName;
+    this.RName = this.authService.getUserAccessible().rName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -167,6 +173,9 @@ export class OtherSchemesComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
+      'GName': this.GName,
+      'RName': this.RName,
+      'UserName': this.userId.user,
       'SchCode': this.sch_cd.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_OTHERSCHEME, params).subscribe(res => {
@@ -263,5 +272,9 @@ export class OtherSchemesComponent implements OnInit {
     this.OtherSchemeData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode + GolbalVariable.DOOthersReportFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }

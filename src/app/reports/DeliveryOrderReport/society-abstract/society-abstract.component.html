@@ -53,6 +53,10 @@
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(SocietyAbstractData.length=='0')"></button>
       </div>
+      <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
+        <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print (click)="onPrint()"
+          [disabled]="(SocietyAbstractData.length=='0')"></button>
+      </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="SocietyAbstractCols" [value]="SocietyAbstractData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
