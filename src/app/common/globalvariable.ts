@@ -20,6 +20,7 @@ export class GolbalVariable {
     public static readonly SchemeIssueMemo = 'SCHEMEISS';
     public static readonly HullingDetailsReportFileName = 'HULREG';
     public static readonly SchemeReceiptReportFileName = 'SCREC';
+    public static readonly TransactionReceiptReportFileName = 'TRREC';    
     public static readonly WriteOffReportFileName = 'WOFF';
     //DeliveryOrderReport
     public static readonly DOAllSchemeReportFileName = 'DOALLSCH';
