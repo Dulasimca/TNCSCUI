@@ -179,7 +179,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         if (res.Item1 === true) {
           this.downloadGST();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: res.Item2, summary: res.Item2, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SEVERITY_SUCCESS, detail: res.Item2 });
         }
         else {
           this.messageService.clear();
