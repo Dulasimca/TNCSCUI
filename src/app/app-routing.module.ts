@@ -88,6 +88,7 @@ import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -177,6 +178,7 @@ const routes: Routes = [
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent, canActivate: [AuthGuard] },
   { path : 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
   { path : 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
+  { path : 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

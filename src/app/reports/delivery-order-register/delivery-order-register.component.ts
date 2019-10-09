@@ -197,14 +197,12 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     }
   }
 
-
-
-
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
     saveAs(path + filename, filename);
   }
+
   downloadGST() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.GSTFileName + ".txt";

@@ -136,6 +136,7 @@ import { DocumentCorrectionComponent } from './Documents/document-correction/doc
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 
 @NgModule({
   declarations: [
@@ -234,6 +235,7 @@ import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/ca
     DocumentCorrectionComponent,
     StackCardRegisterComponent,
     OCRReportComponent,
+    OWSComponent,
   ],
   imports: [
     BrowserModule,
