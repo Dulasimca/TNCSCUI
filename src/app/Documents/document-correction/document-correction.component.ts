@@ -191,6 +191,7 @@ export class DocumentCorrectionComponent implements OnInit {
 
   onSave() {
     const params = {
+      'Type': 1,
       'DocNo': this.DocNo,
       'DocDate': this.datepipe.transform(this.DocDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
