@@ -118,5 +118,12 @@ export class OWSComponent implements OnInit {
   onView() {
 
   }
+  onResetTable(item)
+  {
 
+  }
+  onDateSelect(item)
+  {
+
+  }
 }
