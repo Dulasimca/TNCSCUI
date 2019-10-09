@@ -32,6 +32,8 @@ export class GolbalVariable {
     public static readonly DOOthersReportFileName = 'DOOTHERS';
     public static readonly DOSPLPDSReportFileName = 'DOSPLPDS';
     public static readonly DOSocietyReportFileName = 'DOSOCIETY';
+    //Correction-slip
+    public static readonly CorrectionSlipFileName = 'CORRSLIP';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

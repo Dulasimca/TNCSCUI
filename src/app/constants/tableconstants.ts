@@ -95,6 +95,7 @@ export class TableConstants {
   QuantityACReceiptDetailsCommodity: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
+  CorrectionSlipReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1091,6 +1092,19 @@ export class TableConstants {
       { field: 'DDDate', header: 'DD Date' },
       { field: 'Amount', header: 'DD AMOUNT' },
       { field: 'Bank', header: 'Bank' },
+    ];
+
+    this.CorrectionSlipReport = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'DocNo', header: 'Doc.No.' },
+      { field: 'DocDate', header: 'Doc.Date' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'TStockNo', header: 'Stack Card' },
+      { field: 'NoPacking', header: 'Bags' },
+      { field: 'Nkgs', header: 'Net Wt' },
+      { field: 'LorryNo', header: 'Lorry No.' },
+      { field: 'CreatedDate', header: 'Created Date' },
     ];
   }
 }
