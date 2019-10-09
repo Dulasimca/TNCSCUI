@@ -96,6 +96,7 @@ export class TableConstants {
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
+  OWSReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -715,7 +716,7 @@ export class TableConstants {
       { field: 'PhysicalBalanceBags', header: 'PHYSICAL BALANCE BAGS' },
       { field: 'PhysicalBalanceWeight', header: 'PHYSICAL BALANCE WEIGHT' },
       { field: 'CumulitiveShortage', header: 'CUMULATIVE SHORTAGE' },
-      { field: 'ObDate', header: 'OB Date'}
+      { field: 'ObDate', header: 'OB Date' }
     ];
 
     this.OpeningBalanceCurYearEntry = [
@@ -815,7 +816,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc_Date' },
       { field: 'Transactiontype', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Received From' },
-      { field: 'SRTime', header: 'Created Date'}
+      { field: 'SRTime', header: 'Created Date' }
     ];
 
     this.DetailDailyDocumentReceiptReport = [
@@ -837,7 +838,7 @@ export class TableConstants {
       { field: 'ReceivedFrom', header: 'Received From' },
       { field: 'TruckMemoNo', header: 'Truck Memo No' },
       { field: 'TRUCKDate', header: 'Truck Date' },
-      { field: 'SRTime', header: 'Created Date'}
+      { field: 'SRTime', header: 'Created Date' }
     ];
 
 
@@ -847,7 +848,7 @@ export class TableConstants {
       { field: 'DocDate', header: 'Doc Date' },
       { field: 'TransactionType', header: 'Transaction Type' },
       { field: 'ReceivedFrom', header: 'Issued To' },
-      { field: 'SITime', header: 'Created Date'}
+      { field: 'SITime', header: 'Created Date' }
     ];
 
     this.DetailDailyDocumentIssueReport = [
@@ -863,7 +864,7 @@ export class TableConstants {
       { field: 'NETWT', header: 'Net Wt' },
       { field: 'SCHEME', header: 'Scheme' },
       { field: 'ReceivedFrom', header: 'Issued To' },
-      { field: 'SITime', header: 'Created Date'}
+      { field: 'SITime', header: 'Created Date' }
     ];
 
     this.StackCardOpening = [
@@ -990,17 +991,19 @@ export class TableConstants {
       { field: 'Coop', header: 'Co_op' },
       { field: 'Scheme', header: 'Scheme' },
       { field: 'Commodity', header: 'Commodity' },
-      { field: 'Quantity', header: 'Quantity' },
       { field: 'Society', header: 'Society' },
-      { field: '', header: 'Rate' },
-      { field: '', header: 'Value' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Value', header: 'Value' },
     ];
 
     this.IssueMemoAbstract = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'society', header: 'Society' },
+      { field: 'Society', header: 'Society' },
       { field: 'Commodity', header: 'Commodity' },
-      { field: 'Quantity', header: 'Quantity' }
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Value', header: 'Value' }
     ];
 
     this.DemandDraftDetailsReportCols = [
@@ -1067,7 +1070,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'FromDate', header: 'From Date' },
       { field: 'ToDate', header: 'To Date' },
-      { field: 'StackCard', header: 'Stack Card'},
+      { field: 'StackCard', header: 'Stack Card' },
       { field: 'OpeningBag', header: 'OPE_BAL.' },
       { field: 'OpeningQty', header: 'Quantity' },
       { field: 'ReceiptBag', header: 'REC_BAGS' },
@@ -1105,6 +1108,16 @@ export class TableConstants {
       { field: 'Nkgs', header: 'Net Wt' },
       { field: 'LorryNo', header: 'Lorry No.' },
       { field: 'CreatedDate', header: 'Created Date' },
+    ];
+    
+    this.OWSReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: '', header: 'No. of Institute' },
+      { field: '', header: 'No. of Beneficiery' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Distribution' },
+      { field: '', header: 'Quantity' },
+      { field: '', header: 'No. of Transaction' },
     ];
   }
 }

@@ -4,12 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Delivery Order Details Report</div>
-        <div class="ui-g-7"></div>
-        <div class="ui-g-3 ui-md-1 dashboard" style="text-align: end">
-          <button pButton type="button" label=GST icon="pi pi-download" (click)="onGST()"
-            [disabled]="(deliveryReceiptRegData.length=='0')"></button>
-        </div>
+        <div class="ui-g-4 dashboard">Annavitran - OWS Report</div>
       </div>
     </p-header>
     <div class="ui-g">
@@ -37,6 +32,17 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
+        <p-dropdown #scheme class="ui-g-12 ui-fluid dashboard" [options]="schemeOptions" [(ngModel)]="sch_cd"
+          (onClick)="onSelect('Sch', 'click')" (keydown.enter)="onSelect('Sch', 'enter')"
+          (ngModelChange)="onResetTable('')" filter="true" resetFilterOnHide="true" optionLabel="label"
+          [showClear]="true" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItems">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">From</label>
         <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
@@ -50,18 +56,18 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
+          [disabled]="(!fromDate || !toDate || !GCode || !RCode || !sch_cd)"></button>
       </div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+      <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=Print (click)="onPrint()"
           [disabled]="(deliveryReceiptRegData.length=='0')"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(deliveryReceiptRegData.length=='0')"></button>
-      </div>
+      </div> -->
       <div class="ui-g-12 dashboard">
-        <p-table #dt [columns]="deliveryReceiptRegCols" [value]="deliveryReceiptRegData" [loading]="loading" [rows]="20"
+        <p-table #dt [columns]="OWSCols" [value]="OWSData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
           exportFilename="DELIVERY_ORDER_REGISTER_REPORT">
           <ng-template pTemplate="header" let-columns>

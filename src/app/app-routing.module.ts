@@ -90,6 +90,7 @@ import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
 import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
+import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -181,6 +182,8 @@ const routes: Routes = [
   { path: 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
   { path: 'Document Correction', component: DocumentCorrectionComponent, canActivate: [AuthGuard]},
   { path: 'Correction Slip', component: CorrectionSlipComponent, canActivate: [AuthGuard]},
+  { path : 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
+  { path : 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

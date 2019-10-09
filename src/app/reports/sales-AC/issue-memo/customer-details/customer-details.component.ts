@@ -37,8 +37,8 @@ export class CustomerDetailsComponent implements OnInit {
   t_cd: any;
   GCode: any;
   data: any;
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   isActionDisabled: boolean;
   deliveryReceiptRegCols: any;
   maxDate: Date;
@@ -50,6 +50,8 @@ export class CustomerDetailsComponent implements OnInit {
   trCode: any;
   roleId: any;
   RCode: any;
+  GName: any;
+  RName: any;
   loggedInRCode: any;
   regions: any;
   loading: boolean;
@@ -72,6 +74,8 @@ export class CustomerDetailsComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
+    this.GName = this.authService.getUserAccessible().gName;
+    this.RName = this.authService.getUserAccessible().rName;
   }
 
   onSelect(item, type) {
@@ -164,23 +168,21 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   onView() {
-    this.AbstractCols = this.AbstractData = [];
     const params = {
       'GCode': this.GCode,
       'SCode': this.s_cd.value,
       'TCode': this.r_cd.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GName': this.GName,
+      'RName': this.RName,
+      'Type': 1
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined) {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
-        // let arr = this.IssueMemoCustomerDetailsData;
-        // Array.from(new Set(arr.map((item: any) => item.tyname)));
-        // console.log('arr', arr);
-        this.filterArray = res;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
@@ -192,7 +194,10 @@ export class CustomerDetailsComponent implements OnInit {
         } else {
           this.loading = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+          });
         }
         this.loading = false;
       } (err: HttpErrorResponse) => {
@@ -203,25 +208,28 @@ export class CustomerDetailsComponent implements OnInit {
         }
       }
     });
-    // this.onClear();
+    this.onClear();
   }
 
   onAbstract() {
-    this.IssueMemoCustomerDetailsData = this.IssueMemoCustomerDetailsCols = [];
-    // if (this.AbstractData && this.AbstractCols === undefined) {
     const params = {
+      'GCode': this.GCode,
+      'SCode': this.s_cd.value,
+      'TCode': this.r_cd.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'Gcode': this.GCode,
+      'GName': this.GName,
+      'RName': this.RName,
+      'Type': 2
     };
-    this.restAPIService.getByParameters(PathConstants.ISSUE_MEMO_CUTOMER_ABSTRACT_GET, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined) {
-        this.AbstractCols = this.tableConstants.IssueMemoAbstract;
+        this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
-        this.AbstractData = res;
+        this.IssueMemoCustomerDetailsData = res;
         // this.filterArray = res;
         let sno = 0;
-        this.AbstractData.forEach(data => {
+        this.IssueMemoCustomerDetailsData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
           sno += 1;
           data.SlNo = sno;
@@ -231,32 +239,38 @@ export class CustomerDetailsComponent implements OnInit {
         } else {
           this.loading = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+          });
         }
         this.loading = false;
       } (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.loading = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         }
-      } 
+      }
     });
-    // }
-    // this.onClear();
+    this.onClear();
   }
 
   onResetTable() {
     this.isActionDisabled = true;
+    this.IssueMemoCustomerDetailsData = this.IssueMemoCustomerDetailsCols = [];
   }
 
   onClear() {
-    this.AbstractData = this.AbstractCols = this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.IssueMemoCustomerDetailsData = [];
+    this.onResetTable();
   }
 
   checkValidDateSelection() {
