@@ -27,6 +27,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   regionOptions: SelectItem[];
   regionsData: any;
   data: any;
+  GSTData: any;
   GCode: any;
   RCode: any;
   roleId: any;
@@ -60,27 +61,27 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     let regionSelection = [];
     switch (item) {
       case 'reg':
-          this.regionsData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionsData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regionsData !== undefined) {
-              this.regionsData.forEach(x => {
+        } else {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regionsData !== undefined) {
-              this.regionsData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'godown':
         if (type === 'enter') {
@@ -96,7 +97,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
-         }
+        }
         break;
     }
   }
@@ -135,7 +136,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.deliveryReceiptRegData = [];
   }
 
@@ -163,9 +164,50 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     }
   }
 
+  onGST() {
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'UserName': this.username.user,
+      'GCode': this.GCode
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_REGISTER_GST, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        if (res.Item1 === true) {
+          this.downloadGST();
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: res.Item2, summary: res.Item2, detail: res.Item2 });
+        }
+        else {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+      }
+    });
+    this.loading = false;
+    (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    }
+  }
+
+
+
+
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.StockDORegFilename + ".txt";
+    saveAs(path + filename, filename);
+  }
+  downloadGST() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.GSTFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }
