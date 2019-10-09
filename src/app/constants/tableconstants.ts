@@ -990,8 +990,8 @@ export class TableConstants {
       { field: 'Coop', header: 'Co_op' },
       { field: 'Scheme', header: 'Scheme' },
       { field: 'Commodity', header: 'Commodity' },
-      { field: 'Quantity', header: 'Quantity' },
       { field: 'Society', header: 'Society' },
+      { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Value', header: 'Value' },
     ];
