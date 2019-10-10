@@ -57,7 +57,7 @@
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(GunnyRepData.length=='0')"></button>
         </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 26px;">
           <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(GunnyRepData.length=='0')"></button>
