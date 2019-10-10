@@ -68,8 +68,7 @@ export class GodownProfileComponent implements OnInit {
   }
 
   onClear() {
-    this.Gname = '';
-    this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
+    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
   }
 
   //   onSubmit(formUser) {

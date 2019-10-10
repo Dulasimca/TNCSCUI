@@ -954,7 +954,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Empname', header: 'Employee Name' },
       { field: 'Empno', header: 'Employee No' },
-      { field: 'DESIGNATIONNAME', header: 'Designation' },
+      { field: 'DesignationName', header: 'Designation' },
       { field: 'Jrtype', header: 'Join Type' },
       { field: 'Jrdate', header: 'Join Date' },
       { field: 'Refno', header: 'Reference No' },
@@ -1100,10 +1100,10 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: '', header: 'No. of Institute' },
       { field: '', header: 'No. of Beneficiery' },
-      { field: '', header: 'Commodity' },
-      { field: '', header: 'Distribution' },
-      { field: '', header: 'Quantity' },
       { field: '', header: 'No. of Transaction' },
+      { field: '', header: 'Distribution' },
+      { field: '', header: 'Commodity' },
+      { field: '', header: 'Quantity' }
     ];
   }
 }
