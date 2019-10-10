@@ -226,21 +226,7 @@ export class DocumentCorrectionComponent implements OnInit {
   onRowSelect(event, data) {
     this.Id = data.Id;
     this.viewPane = (data.ApprovalStatus === 'Approved') ? false : true;
-    // this.accept();
-    // this.reject();
-    // this.confirmationService.confirm({
-    //   message: 'Would you like to Approve?',
-    //   header: 'Confirmation',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-    //     this.ApprovalStatus = 1;
-    //     this.onUpdate();
-    //   },
-    //   reject: () => {
-    //     this.ApprovalStatus = 2;
-    //     this.onUpdate();
-    //   }
-    // });
+    this.ApproverReason = data.ApproverReason;
   }
 
   accept() {
@@ -263,10 +249,10 @@ export class DocumentCorrectionComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
       if (res.Item1) {
-        this.onClear();
         this.viewPane = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.viewPendingApproveDocs();
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
