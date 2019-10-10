@@ -416,8 +416,8 @@ export class TableConstants {
       { field: 'Ackno', header: 'ACK. NO' },
       { field: 'Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Quantity', header: 'BAGS' },
-      { field: 'Bags', header: 'QUANTITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
       { field: 'stackno', header: 'STACK NO' },
       { field: 'Year', header: 'S.YEAR' }
     ];
