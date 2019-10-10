@@ -9,7 +9,7 @@
     </p-header>
     <div class="ui-g ui-fluid">
       <p-toast position="top-center" key="t-err"></p-toast>
-      <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [(visible)]="viewPane" icon="pi pi-exclamation-triangle">
+      <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [modal]="true" [(visible)]="viewPane" icon="pi pi-exclamation-triangle">
           <div class="ui-g-12 ui-md-12">
               <label for="approverReason" style="float: left;" class="label-fontsize-large">Reason:</label>
               <textarea name="approverReason" rows="3" cols="110" maxlength="500" pInputTextarea autoResize="true"
@@ -125,7 +125,7 @@
               <label for="status" class="ui-g-7 label-fontsize dashboard">Document Status</label>
               <p-dropdown #docStatus name="status" class="ui-g-12 ui-fluid dashboard" [options]="docStatusOptions"
                 [(ngModel)]="DocStatus" (onClick)="onSelect('ds', 'click')" (keydown.enter)="onSelect('ds', 'enter')"
-                (onChange)="viewPendingApproveDocs()" [readonly]="loading">
+                (onChange)="viewPendingApproveDocs()" placeholder="-select-" [readonly]="loading">
               </p-dropdown>
             </div>
             <div *ngIf="(roleId===1)" class="ui-g-12 ui-md-2">

@@ -91,7 +91,8 @@ export class DocumentCorrectionComponent implements OnInit {
         }
         if (this.docTypeOptions === undefined) {
           this.docTypeOptions = [{ label: 'Receipt', value: '1' }, { label: 'Issue', value: '2' },
-          { label: 'Truck', value: '3' }, { label: 'Delivery Order', value: '4' }];
+          { label: 'Truck', value: '3' }];
+          //, { label: 'Delivery Order', value: '4' }
         }
         break;
       case 'dn':
