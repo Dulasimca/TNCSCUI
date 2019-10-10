@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { Dropdown, MessageService } from 'primeng/primeng';
+import { Dropdown, MessageService, ConfirmationService } from 'primeng/primeng';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
-import { RoleBasedService } from 'src/app/common/role-based.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
@@ -19,97 +18,52 @@ export class DocumentCorrectionComponent implements OnInit {
   data = [];
   canShowMenu: boolean;
   maxDate: Date = new Date();
-  loggedInRCode: string;
-  regionOptions: SelectItem[];
-  godownOptions: SelectItem[];
   docTypeOptions: SelectItem[];
   docNumOptions: SelectItem[];
   docStatusOptions: SelectItem[];
   CorrectionSlipApproveStatusCols: any;
-  CorrectionSlipApproveStatusData: any;
+  CorrectionSlipApproveStatusData: any = [];
   CorrectionSlipApproveCols: any;
-  CorrectionSlipApproveData: any;
+  CorrectionSlipApproveData: any = [];
   DocType: any;
+  requestedDate: Date;
   DocStatus: string = 'Pending';
   GCode: any;
   RCode: any;
+  RegionName: any;
+  GodownName: any;
   DocNo: any;
   Reason: any;
+  ApproverReason: any;
   roleId: number;
   regions: any;
   DocDate: any;
   viewPane: boolean;
   loading: boolean;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
   @ViewChild('docStatus') docStatusPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private datepipe: DatePipe, private roleBasedService: RoleBasedService, private tableConstants: TableConstants) { }
+    private datepipe: DatePipe, private tableConstants: TableConstants, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.data = this.roleBasedService.getInstance();
-    this.regions = this.roleBasedService.getRegions();
+    this.RCode = this.authService.getUserAccessible().rCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RegionName = this.authService.getUserAccessible().rName;
+    this.GodownName = this.authService.getUserAccessible().gName;
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.CorrectionSlipApproveStatusCols = this.tableConstants.DocumentCorrectionColumns;
     this.CorrectionSlipApproveCols = this.tableConstants.DocumentCorrectionApproveColumns;
-    if(this.roleId === 1 || this.roleId === 2) {
-    this.viewPendingApproveDocs();
+    if (this.roleId === 1 || this.roleId === 2) {
+      this.viewPendingApproveDocs();
     }
   }
 
   onSelect(item, type) {
-    let regionSelection = [];
-    let godownSelection = [];
     let docNumSelection = [];
     switch (item) {
-      case 'reg':
-        this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 1) {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            this.regionOptions = regionSelection;
-          } else {
-            this.regionOptions = regionSelection;
-          }
-        } else {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              }
-            });
-            this.regionOptions = regionSelection;
-          } else {
-            this.regionOptions = regionSelection;
-          }
-        }
-        break;
-      case 'gd':
-        if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
-        }
-        this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            }
-          });
-          this.godownOptions = godownSelection;
-        } else {
-          this.godownOptions = godownSelection;
-        }
-        break;
       case 'dt':
         if (type === 'enter') {
           this.docTypePanel.overlayVisible = true;
@@ -159,7 +113,7 @@ export class DocumentCorrectionComponent implements OnInit {
             this.restApiService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
               if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
                 res.Table.forEach(x => {
-                  docNumSelection.push({ label: x.DNo, value: x.DNo });
+                  docNumSelection.push({ label: x.Dono, value: x.Dono });
                 })
               }
               this.docNumOptions = docNumSelection;
@@ -171,73 +125,74 @@ export class DocumentCorrectionComponent implements OnInit {
           this.docNumOptions = docNumSelection;
         }
         break;
-        case 'ds':
-            if (type === 'enter') {
-              this.docStatusPanel.overlayVisible = true;
-            }
-            if(this.docStatusOptions === undefined) {
-              this.docStatusOptions = [{label: 'Pending', value: '0'}, {label: 'Approved', value: '1'},
-              {label: 'Rejected', value: '2'}];
-            }
-          break;
+      case 'ds':
+        if (type === 'enter') {
+          this.docStatusPanel.overlayVisible = true;
+        }
+        if (this.docStatusOptions === undefined) {
+          this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
+          { label: 'Rejected', value: '2' }];
+        }
+        break;
     }
   }
 
   onView() {
-    if(this.GCode !== undefined && this.GCode !== null && this.RCode !== null && this.RCode !== undefined &&
-      this.DocType !== null && this.DocType !== undefined && this.DocNo !== undefined && this.DocNo !== null
-      && this.DocDate !== undefined && this.DocDate !== null) {
-         const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
-    this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
-        let sno = 1;
-        res.forEach( x => { x.SlNo = sno; sno += 1; })
-        this.CorrectionSlipApproveStatusData = res;
-      } else {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-  }
+    if (this.requestedDate !== undefined && this.requestedDate !== null) {
+      this.loading = true;
+      const params = new HttpParams().set('Code', this.GCode).append('Value', this.datepipe.transform(this.requestedDate, 'MM/dd/yyyy')).append('Type', '1');
+      this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          let sno = 1;
+          res.forEach(x => { x.SlNo = sno; sno += 1; })
+          this.CorrectionSlipApproveStatusData = res;
+          this.loading = false;
+        } else {
+          this.CorrectionSlipApproveStatusData.length = 0;
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+    }
   }
 
   viewPendingApproveDocs() {
-    if(this.GCode !== undefined && this.GCode !== null && this.RCode !== null && this.RCode !== undefined &&
+    if (this.GCode !== undefined && this.GCode !== null && this.RCode !== null && this.RCode !== undefined &&
       this.DocType !== null && this.DocType !== undefined && this.DocNo !== undefined && this.DocNo !== null
       && this.DocDate !== undefined && this.DocDate !== null) {
-        this.loading = true;
-    const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
-    this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
-        let sno = 1;
-        res.forEach( x => { x.SlNo = sno; sno += 1; })
-        this.CorrectionSlipApproveStatusData = res;
-        this.loading = false;
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
-}
+      this.loading = true;
+      const params = new HttpParams().set('Code', this.RCode).append('Value', this.roleId.toString()).append('Type', '2');
+      this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.viewPane = true;
+          let sno = 1;
+          res.forEach(x => { x.SlNo = sno; sno += 1; })
+          this.CorrectionSlipApproveStatusData = res;
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+    }
   }
 
   onResetFields(item) {
-    if (item === 'reg') { this.GCode = null; }
-    else if (item === 'dt') { this.DocNo = null; }
+     if (item === 'dt') { this.DocNo = null; }
     else if (item === 'ddate') { this.DocNo = null; }
     this.CorrectionSlipApproveStatusData.length = 0;
   }
@@ -245,6 +200,18 @@ export class DocumentCorrectionComponent implements OnInit {
   onClear() {
     this.DocType = null; this.DocDate = new Date();
     this.DocNo = null; this.Reason = null;
+  }
+
+  onRowSelect(event, data) {
+    this.confirmationService.confirm({
+      message: 'Would you like to Approve?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+      },
+      reject: () => {
+      }
+    });
   }
 
   onSave() {

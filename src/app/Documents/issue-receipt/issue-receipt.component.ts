@@ -887,7 +887,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onClear() {
-    this.itemData = []; this.issueData = [];
+    this.itemData = []; this.issueData = []; 
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
     this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
@@ -900,7 +900,7 @@ export class IssueReceiptComponent implements OnInit {
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
-    this.year = new Date().getFullYear();
+    this.year = new Date().getFullYear(); this.SIDate = new Date();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;

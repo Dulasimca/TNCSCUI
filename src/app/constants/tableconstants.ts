@@ -1123,8 +1123,8 @@ export class TableConstants {
     ];
 
     this.DocumentCorrectionColumns = [
-      { header: 'S.No', field: 'SlNo'},
-      { header: 'DocNumber', field: 'Doc.No.'},
+      { field: 'SlNo', header: 'S.No'},
+      { field: 'DocNumber', header: 'Doc.No.'},
       { field: 'ApprovalStatus', header: 'Approval Status' },
       { field: 'ApprovedDate', header: 'Approved Date' },
       { field: 'ApproverReason', header: 'Approver Reason' },
