@@ -281,8 +281,8 @@ export class EmployeeMasterComponent implements OnInit {
   {
 
   }
-  onDesignation(item)
+  onDesignation()
   {
-    
+
   }
 }
