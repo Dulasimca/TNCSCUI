@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-document-correction',
@@ -40,7 +41,7 @@ export class DocumentCorrectionComponent implements OnInit {
   @ViewChild('docNum') docNoPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }
+    private datepipe: DatePipe, private roleBasedService: RoleBasedService, private tableConstants: TableConstants) { }
 
   ngOnInit() {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
@@ -48,6 +49,7 @@ export class DocumentCorrectionComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.CorrectionSlipApproveStatusCols = this.tableConstants.DocumentCorrectionColumns;
   }
 
   onSelect(item, type) {
@@ -104,60 +106,60 @@ export class DocumentCorrectionComponent implements OnInit {
         }
         if (this.docTypeOptions === undefined) {
           this.docTypeOptions = [{ label: 'Receipt', value: '1' }, { label: 'Issue', value: '2' },
-          { label: 'Truck', value: '3' }, { label: 'Delivery Order', value: '4'}];
+          { label: 'Truck', value: '3' }, { label: 'Delivery Order', value: '4' }];
         }
         break;
       case 'dn':
         if (type === 'enter') {
           this.docTypePanel.overlayVisible = true;
         }
-        if(this.DocType !== null && this.DocType !== undefined) {
-        if (this.DocType === '1') {
-          const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
-          this.restApiService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(x => {
-                docNumSelection.push({label: x.SRNo, value: x.SRNo});
-              })
-            }
-            this.docNumOptions = docNumSelection;
-          });
-        } else if (this.DocType === '2') {
-        const params = new HttpParams().set('value', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
-        this.restApiService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
-            if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-              res.Table.forEach(x => {
-                docNumSelection.push({label: x.SINo, value: x.SINo});
-              })
-             }
-             this.docNumOptions = docNumSelection;
+        if (this.DocType !== null && this.DocType !== undefined) {
+          if (this.DocType === '1') {
+            const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
+            this.restApiService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(x => {
+                  docNumSelection.push({ label: x.SRNo, value: x.SRNo });
+                })
+              }
+              this.docNumOptions = docNumSelection;
             });
-        } else if (this.DocType === '3') {
-          const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
-          this.restApiService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(x => {
-                docNumSelection.push({label: x.STNo, value: x.STNo});
-              })
-            }
+          } else if (this.DocType === '2') {
+            const params = new HttpParams().set('value', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
+            this.restApiService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+              if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+                res.Table.forEach(x => {
+                  docNumSelection.push({ label: x.SINo, value: x.SINo });
+                })
+              }
+              this.docNumOptions = docNumSelection;
+            });
+          } else if (this.DocType === '3') {
+            const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
+            this.restApiService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
+              if (res !== undefined && res !== null && res.length !== 0) {
+                res.forEach(x => {
+                  docNumSelection.push({ label: x.STNo, value: x.STNo });
+                })
+              }
+              this.docNumOptions = docNumSelection;
+            });
+          } else if (this.DocType === '4') {
+            const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
+            this.restApiService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
+              if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+                res.Table.forEach(x => {
+                  docNumSelection.push({ label: x.DNo, value: x.DNo });
+                })
+              }
+              this.docNumOptions = docNumSelection;
+            });
+          } else {
             this.docNumOptions = docNumSelection;
-          });
-        } else if (this.DocType === '4') { 
-        const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
-        this.restApiService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
-            if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-              res.Table.forEach(x => {
-                docNumSelection.push({label: x.DNo, value: x.DNo});
-              })
-            }
-            this.docNumOptions = docNumSelection;
-          });
+          }
         } else {
           this.docNumOptions = docNumSelection;
         }
-      } else {
-        this.docNumOptions = docNumSelection;
-      }
         break;
     }
   }
@@ -166,8 +168,9 @@ export class DocumentCorrectionComponent implements OnInit {
     const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
     this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        this.viewPane = true;
         this.CorrectionSlipApproveStatusData = res;
-      }else {
+      } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -178,11 +181,11 @@ export class DocumentCorrectionComponent implements OnInit {
       }
     });
   }
-  
+
   onResetFields(item) {
     if (item === 'reg') { this.GCode = null; }
-    else if(item === 'dt') { this.DocNo = null; } 
-    else if(item === 'ddate') { this.DocNo = null; }
+    else if (item === 'dt') { this.DocNo = null; }
+    else if (item === 'ddate') { this.DocNo = null; }
   }
 
   onClear() {
@@ -199,21 +202,21 @@ export class DocumentCorrectionComponent implements OnInit {
       'DocType': this.DocType,
       'RoleId': this.roleId,
       'Reason': (this.Reason !== null && this.Reason !== undefined) ? this.Reason : ''
+    }
+    this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
+      if (res) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res });
       }
-      this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
-        if (res) {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res });
-        } else {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res });
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
   }
 
 }

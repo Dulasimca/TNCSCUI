@@ -97,6 +97,7 @@ export class TableConstants {
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
   OWSReport: any;
+  DocumentCorrectionColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1118,6 +1119,16 @@ export class TableConstants {
       { field: '', header: 'Distribution' },
       { field: '', header: 'Quantity' },
       { field: '', header: 'No. of Transaction' },
+    ];
+
+    this.DocumentCorrectionColumns = [
+      { header: 'S.No', field: 'SlNo'},
+      { header: 'DocNo', field: 'Doc.No.'},
+      { field: 'ApprovalStatus', header: 'Approval Status' },
+      { field: 'ApprovedDate', header: 'Approved Date' },
+      { field: 'ApproverReason', header: 'Approver Reason' },
+      // { field: 'NoPacking', header: 'Bags' },
+
     ];
   }
 }
