@@ -24,9 +24,13 @@ export class DocumentCorrectionComponent implements OnInit {
   godownOptions: SelectItem[];
   docTypeOptions: SelectItem[];
   docNumOptions: SelectItem[];
+  docStatusOptions: SelectItem[];
   CorrectionSlipApproveStatusCols: any;
   CorrectionSlipApproveStatusData: any;
+  CorrectionSlipApproveCols: any;
+  CorrectionSlipApproveData: any;
   DocType: any;
+  DocStatus: string = 'Pending';
   GCode: any;
   RCode: any;
   DocNo: any;
@@ -35,10 +39,12 @@ export class DocumentCorrectionComponent implements OnInit {
   regions: any;
   DocDate: any;
   viewPane: boolean;
+  loading: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
+  @ViewChild('docStatus') docStatusPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe, private roleBasedService: RoleBasedService, private tableConstants: TableConstants) { }
@@ -50,6 +56,10 @@ export class DocumentCorrectionComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.CorrectionSlipApproveStatusCols = this.tableConstants.DocumentCorrectionColumns;
+    this.CorrectionSlipApproveCols = this.tableConstants.DocumentCorrectionApproveColumns;
+    if(this.roleId === 1 || this.roleId === 2) {
+    this.viewPendingApproveDocs();
+    }
   }
 
   onSelect(item, type) {
@@ -161,14 +171,28 @@ export class DocumentCorrectionComponent implements OnInit {
           this.docNumOptions = docNumSelection;
         }
         break;
+        case 'ds':
+            if (type === 'enter') {
+              this.docStatusPanel.overlayVisible = true;
+            }
+            if(this.docStatusOptions === undefined) {
+              this.docStatusOptions = [{label: 'Pending', value: '0'}, {label: 'Approved', value: '1'},
+              {label: 'Rejected', value: '2'}];
+            }
+          break;
     }
   }
 
   onView() {
-    const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
+    if(this.GCode !== undefined && this.GCode !== null && this.RCode !== null && this.RCode !== undefined &&
+      this.DocType !== null && this.DocType !== undefined && this.DocNo !== undefined && this.DocNo !== null
+      && this.DocDate !== undefined && this.DocDate !== null) {
+         const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
     this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
+        let sno = 1;
+        res.forEach( x => { x.SlNo = sno; sno += 1; })
         this.CorrectionSlipApproveStatusData = res;
       } else {
         this.messageService.clear();
@@ -181,11 +205,41 @@ export class DocumentCorrectionComponent implements OnInit {
       }
     });
   }
+  }
+
+  viewPendingApproveDocs() {
+    if(this.GCode !== undefined && this.GCode !== null && this.RCode !== null && this.RCode !== undefined &&
+      this.DocType !== null && this.DocType !== undefined && this.DocNo !== undefined && this.DocNo !== null
+      && this.DocDate !== undefined && this.DocDate !== null) {
+        this.loading = true;
+    const params = new HttpParams().set('DocNo', this.DocNo).append('Type', '1');
+    this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.viewPane = true;
+        let sno = 1;
+        res.forEach( x => { x.SlNo = sno; sno += 1; })
+        this.CorrectionSlipApproveStatusData = res;
+        this.loading = false;
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+}
+  }
 
   onResetFields(item) {
     if (item === 'reg') { this.GCode = null; }
     else if (item === 'dt') { this.DocNo = null; }
     else if (item === 'ddate') { this.DocNo = null; }
+    this.CorrectionSlipApproveStatusData.length = 0;
   }
 
   onClear() {
@@ -204,12 +258,12 @@ export class DocumentCorrectionComponent implements OnInit {
       'Reason': (this.Reason !== null && this.Reason !== undefined) ? this.Reason : ''
     }
     this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
-      if (res) {
+      if (res.Item1) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {

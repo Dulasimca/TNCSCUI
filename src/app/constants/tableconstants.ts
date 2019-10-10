@@ -98,6 +98,7 @@ export class TableConstants {
   CorrectionSlipReport: any;
   OWSReport: any;
   DocumentCorrectionColumns: any;
+  DocumentCorrectionApproveColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1123,12 +1124,21 @@ export class TableConstants {
 
     this.DocumentCorrectionColumns = [
       { header: 'S.No', field: 'SlNo'},
-      { header: 'DocNo', field: 'Doc.No.'},
+      { header: 'DocNumber', field: 'Doc.No.'},
       { field: 'ApprovalStatus', header: 'Approval Status' },
       { field: 'ApprovedDate', header: 'Approved Date' },
       { field: 'ApproverReason', header: 'Approver Reason' },
       // { field: 'NoPacking', header: 'Bags' },
+    ];
 
+    this.DocumentCorrectionApproveColumns = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'RName', header: 'Region Name' },
+      { field: 'GName', header: 'Godown Name' },
+      { field: 'DocType', header: 'Doc.Type' },
+      { field: 'DocNo', header: 'Doc.No' },
+      { field: 'Reason', header: 'Correction Reason' },
+      { field: 'DocStatus', header: 'Status'}
     ];
   }
 }
