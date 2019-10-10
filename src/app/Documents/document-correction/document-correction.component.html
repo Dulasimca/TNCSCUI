@@ -9,19 +9,20 @@
     </p-header>
     <div class="ui-g ui-fluid">
       <p-toast position="top-center" key="t-err"></p-toast>
-      <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
-        <div class="ui-g-12">
-            <label for="approverReason" class="label-fontsize-large">Reason:</label>
-            <textarea name="approverReason" rows="3" cols="110" maxlength="250" pInputTextarea autoResize="true"
-              [(ngModel)]="ApproverReason" required></textarea>
-        </div>
+      <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [(visible)]="viewPane" icon="pi pi-exclamation-triangle">
+          <div class="ui-g-12 ui-md-12">
+              <label for="approverReason" style="float: left;" class="label-fontsize-large">Reason:</label>
+              <textarea name="approverReason" rows="3" cols="110" maxlength="500" pInputTextarea autoResize="true"
+                [(ngModel)]="ApproverReason" required></textarea>
+          </div> 
           <p-footer>
-            <div class="ui-g-12 ui-md-12 dashboard">
-                <button type="button" pButton label="Close Card" (click)="cd.accept()"></button>
-                <button type="button" pButton label="New Entry" (click)="cd.reject()"></button>
+            <div class="ui-g-12 ui-md-6 dashboard" style="float: right">
+                <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Approve" (click)="accept()"></button>
+                <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Reject" (click)="reject()"></button>
             </div>
           </p-footer>
-      </p-confirmDialog>
+      <!-- </p-confirmDialog> -->
+    </p-dialog>
         <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
@@ -90,8 +91,7 @@
               <div class="ui-g-6 ui-md-2 no-pad-top">
                   <label for="reqDate" class="ui-g-7 label-fontsize dashboard">Date</label>
                   <p-calendar [(ngModel)]="requestedDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                    [showIcon]="true" name="reqDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"
-                    required></p-calendar>
+                    [showIcon]="true" name="reqDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
                 </div>
               <div class="ui-g-12 no-pad-top">
                 <p-table tabindex="-1" [columns]="CorrectionSlipApproveStatusCols"
@@ -125,9 +125,20 @@
               <label for="status" class="ui-g-7 label-fontsize dashboard">Document Status</label>
               <p-dropdown #docStatus name="status" class="ui-g-12 ui-fluid dashboard" [options]="docStatusOptions"
                 [(ngModel)]="DocStatus" (onClick)="onSelect('ds', 'click')" (keydown.enter)="onSelect('ds', 'enter')"
-                (onChange)="filterData('ds')" optionLabel="label">
+                (onChange)="viewPendingApproveDocs()" [readonly]="loading">
               </p-dropdown>
             </div>
+            <div *ngIf="(roleId===1)" class="ui-g-12 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard">Region</label>
+                <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+                 (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" (onChange)="viewPendingApproveDocs()"
+                 (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" 
+                  [showClear]="true" placeholder="-select-">
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span style="vertical-align:middle">{{item.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
             <div class="ui-g-12 no-pad-top">
               <p-table tabindex="-1" [columns]="CorrectionSlipApproveCols" [(selection)]="selected"
                 [value]="CorrectionSlipApproveData" selectionMode="single" [rows]="10" [loading] = "loading"
