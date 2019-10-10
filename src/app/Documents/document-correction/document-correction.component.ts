@@ -194,14 +194,13 @@ export class DocumentCorrectionComponent implements OnInit {
     const params = {
       'Type': 1,
       'DocNo': this.DocNo,
-      'DocDate': this.datepipe.transform(this.DocDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
       'RCode': this.RCode,
       'DocType': this.DocType,
       'RoleId': this.roleId,
       'Reason': (this.Reason !== null && this.Reason !== undefined) ? this.Reason : ''
       }
-      this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
+      this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
         if (res) {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res });
