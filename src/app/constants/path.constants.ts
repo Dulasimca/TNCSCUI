@@ -112,5 +112,7 @@ export class PathConstants {
   public static readonly OCR_REGISTER_REPORT = '/api/OCR/Post';
   public static readonly DELIVERY_ORDER_SOCIETY_ABSTRACT = '/api/DOSocietyAbstract/Post';
   public static readonly DELIVERY_ORDER_REGISTER_GST = '/api/GST/Post';
-
+  public static readonly CORRECTION_SLIP_REPORT = '/api/CorrectionSlip/Post';
+  public static readonly DOCUMENT_CORRECTION_GET = '/api/DocumentCorrection/Get';
+  public static readonly DOCUMENT_CORRECTION_POST = '/api/DocumentCorrection/Post';
 }

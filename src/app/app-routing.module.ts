@@ -88,6 +88,8 @@ import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { DocumentCorrectionComponent } from './Documents/document-correction/document-correction.component';
+import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 
 const routes: Routes = [
@@ -176,7 +178,10 @@ const routes: Routes = [
   { path: 'Cash Receipt Register', component: CashReceiptRegisterComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent, canActivate: [AuthGuard] },
-  { path : 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
+  { path: 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
+  { path: 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
+  { path: 'Document Correction', component: DocumentCorrectionComponent, canActivate: [AuthGuard]},
+  { path: 'Correction Slip', component: CorrectionSlipComponent, canActivate: [AuthGuard]},
   { path : 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
   { path : 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },

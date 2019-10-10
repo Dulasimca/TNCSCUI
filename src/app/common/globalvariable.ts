@@ -22,6 +22,8 @@ export class GolbalVariable {
     public static readonly SchemeReceiptReportFileName = 'SCREC';
     public static readonly TransactionReceiptReportFileName = 'TRREC';    
     public static readonly WriteOffReportFileName = 'WOFF';
+    public static readonly GUReportFileName = 'GU';
+    public static readonly GRReportFileName = "GR";
     //DeliveryOrderReport
     public static readonly DOAllSchemeReportFileName = 'DOALLSCH';
     public static readonly DODemandDraftDateFileName = 'DODDDATE';
@@ -32,6 +34,8 @@ export class GolbalVariable {
     public static readonly DOOthersReportFileName = 'DOOTHERS';
     public static readonly DOSPLPDSReportFileName = 'DOSPLPDS';
     public static readonly DOSocietyReportFileName = 'DOSOCIETY';
+    //Correction-slip
+    public static readonly CorrectionSlipFileName = 'CORRSLIP';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

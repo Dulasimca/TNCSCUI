@@ -136,6 +136,7 @@ import { DocumentCorrectionComponent } from './Documents/document-correction/doc
 import { StackCardRegisterComponent } from './reports/StackCard/stack-card-register/stack-card-register.component';
 import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
+import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 
 @NgModule({
@@ -235,6 +236,7 @@ import { OWSComponent } from './reports/Annavitran/ows/ows.component';
     DocumentCorrectionComponent,
     StackCardRegisterComponent,
     OCRReportComponent,
+    CorrectionSlipComponent,
     OWSComponent,
   ],
   imports: [

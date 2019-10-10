@@ -795,6 +795,7 @@ export class IssueReceiptComponent implements OnInit {
         this.onClear();
         this.RowId = res.Table[0].RowId;
         this.SINo = res.Table[0].SINo;
+        this.SIDate = new Date(res.Table[0].SIDate);
         this.TransporterName = (res.Table[0].TransporterName !== undefined && res.Table[0].TransporterName !== null) ? res.Table[0].TransporterName : '-';
         this.TransporterCharges = res.Table[0].TransportingCharge;
         this.NewBale = (res.Table[0].NewBale !== null && res.Table[0].NewBale !== undefined) ? res.Table[0].NewBale : 0;
@@ -886,7 +887,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onClear() {
-    this.itemData = []; this.issueData = [];
+    this.itemData = []; this.issueData = []; 
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
     this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
@@ -899,7 +900,7 @@ export class IssueReceiptComponent implements OnInit {
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
-    this.year = new Date().getFullYear();
+    this.year = new Date().getFullYear(); this.SIDate = new Date();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;

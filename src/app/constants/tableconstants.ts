@@ -95,7 +95,10 @@ export class TableConstants {
   QuantityACReceiptDetailsCommodity: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
+  CorrectionSlipReport: any;
   OWSReport: any;
+  DocumentCorrectionColumns: any;
+  DocumentCorrectionApproveColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -414,8 +417,8 @@ export class TableConstants {
       { field: 'Ackno', header: 'ACK. NO' },
       { field: 'Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'Quantity', header: 'BAGS' },
-      { field: 'Bags', header: 'QUANTITY' },
+      { field: 'Bags', header: 'BAGS' },
+      { field: 'Quantity', header: 'QUANTITY' },
       { field: 'stackno', header: 'STACK NO' },
       { field: 'Year', header: 'S.YEAR' }
     ];
@@ -1096,6 +1099,19 @@ export class TableConstants {
       { field: 'Bank', header: 'Bank' },
     ];
 
+    this.CorrectionSlipReport = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'DocNo', header: 'Doc.No.' },
+      { field: 'DocDate', header: 'Doc.Date' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'TStockNo', header: 'Stack Card' },
+      { field: 'NoPacking', header: 'Bags' },
+      { field: 'Nkgs', header: 'Net Wt' },
+      { field: 'LorryNo', header: 'Lorry No.' },
+      { field: 'CreatedDate', header: 'Created Date' },
+    ];
+    
     this.OWSReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: '', header: 'No. of Institute' },
@@ -1104,6 +1120,25 @@ export class TableConstants {
       { field: '', header: 'Distribution' },
       { field: '', header: 'Commodity' },
       { field: '', header: 'Quantity' }
+    ];
+
+    this.DocumentCorrectionColumns = [
+      { field: 'SlNo', header: 'S.No'},
+      { field: 'DocNumber', header: 'Doc.No.'},
+      { field: 'ApprovalStatus', header: 'Approval Status' },
+      { field: 'ApprovedDate', header: 'Approved Date' },
+      { field: 'ApproverReason', header: 'Approver Reason' },
+      // { field: 'NoPacking', header: 'Bags' },
+    ];
+
+    this.DocumentCorrectionApproveColumns = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'RName', header: 'Region Name' },
+      { field: 'GName', header: 'Godown Name' },
+      { field: 'DocType', header: 'Doc.Type' },
+      { field: 'DocNo', header: 'Doc.No' },
+      { field: 'Reason', header: 'Correction Reason' },
+      { field: 'DocStatus', header: 'Status'}
     ];
   }
 }

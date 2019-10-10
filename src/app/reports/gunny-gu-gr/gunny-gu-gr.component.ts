@@ -9,6 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-gunny-gu-gr',
@@ -158,6 +160,10 @@ export class GunnyGuGrComponent implements OnInit {
     this.GunnyRepData = [];
   }
 
-  onPrint() { }
-
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const gunnyFileName =  (this.selectedValue === 'GU') ? GolbalVariable.GUReportFileName : GolbalVariable.GRReportFileName;
+    const filename = this.GCode + gunnyFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }
