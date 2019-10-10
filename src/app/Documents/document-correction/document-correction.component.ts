@@ -119,8 +119,8 @@ export class DocumentCorrectionComponent implements OnInit {
               res.forEach(x => {
                 docNumSelection.push({label: x.SRNo, value: x.SRNo});
               })
-              this.docNumOptions = docNumSelection;
             }
+            this.docNumOptions = docNumSelection;
           });
         } else if (this.DocType === '2') {
         const params = new HttpParams().set('value', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
@@ -129,9 +129,9 @@ export class DocumentCorrectionComponent implements OnInit {
               res.Table.forEach(x => {
                 docNumSelection.push({label: x.SINo, value: x.SINo});
               })
-              this.docNumOptions = docNumSelection;
              }
-           });
+             this.docNumOptions = docNumSelection;
+            });
         } else if (this.DocType === '3') {
           const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
           this.restApiService.getByParameters(PathConstants.STOCK_TRUCK_MEMO_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -139,9 +139,9 @@ export class DocumentCorrectionComponent implements OnInit {
               res.forEach(x => {
                 docNumSelection.push({label: x.STNo, value: x.STNo});
               })
-              this.docNumOptions = docNumSelection;
             }
-        });
+            this.docNumOptions = docNumSelection;
+          });
         } else if (this.DocType === '4') { 
         const params = new HttpParams().set('sValue', this.datepipe.transform(this.DocDate, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
         this.restApiService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -149,9 +149,9 @@ export class DocumentCorrectionComponent implements OnInit {
               res.Table.forEach(x => {
                 docNumSelection.push({label: x.DNo, value: x.DNo});
               })
-              this.docNumOptions = docNumSelection;
             }
-        });
+            this.docNumOptions = docNumSelection;
+          });
         } else {
           this.docNumOptions = docNumSelection;
         }
@@ -179,9 +179,10 @@ export class DocumentCorrectionComponent implements OnInit {
     });
   }
   
-  onResetTable(item) {
+  onResetFields(item) {
     if (item === 'reg') { this.GCode = null; }
-    else if(item === 'dt') { this.DocNo = null; }
+    else if(item === 'dt') { this.DocNo = null; } 
+    else if(item === 'ddate') { this.DocNo = null; }
   }
 
   onClear() {
