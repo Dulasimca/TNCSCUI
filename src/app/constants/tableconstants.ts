@@ -1139,9 +1139,11 @@ export class TableConstants {
       { field: 'RName', header: 'Region Name' },
       { field: 'GName', header: 'Godown Name' },
       { field: 'DocType', header: 'Doc.Type' },
-      { field: 'DocNo', header: 'Doc.No' },
+      { field: 'DocNumber', header: 'Doc.No' },
+      { field: 'CreatedDate', header: 'Requested Date'},
       { field: 'Reason', header: 'Correction Reason' },
-      { field: 'DocStatus', header: 'Status'}
+      { field: 'ApprovalStatus', header: 'Status'},
+      { field: 'ApproverReason', header: 'Approver Reason'}
     ];
 
     this.OBStackDetails = [

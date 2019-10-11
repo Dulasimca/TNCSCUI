@@ -277,4 +277,12 @@ export class EmployeeMasterComponent implements OnInit {
       });
     this.onClear();
   }
+  onResetTable(item)
+  {
+
+  }
+  onDesignation()
+  {
+
+  }
 }
