@@ -19,13 +19,13 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import {InputTextModule} from 'primeng/inputtext';
-import {FieldsetModule} from 'primeng/fieldset';
-import {RadioButtonModule} from 'primeng/radiobutton';
-import {TabViewModule} from 'primeng/tabview';
-import {TooltipModule} from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
+import { FieldsetModule } from 'primeng/fieldset';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { TabViewModule } from 'primeng/tabview';
+import { TooltipModule } from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
-import {ListboxModule} from 'primeng/listbox';
+import { ListboxModule } from 'primeng/listbox';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -138,6 +138,8 @@ import { OCRReportComponent } from './reports/ocr-report/ocr-report.component';
 import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/cash-receipt-register.component';
 import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
+import { StackClosingCard2Component } from './reports/StackCard/stack-closing-card-2/stack-closing-card-2.component';
+import { OpeningBalanceStackDetailsComponent } from './openingBalance/opening-balance-stack-details/opening-balance-stack-details.component';
 
 @NgModule({
   declarations: [
@@ -238,6 +240,8 @@ import { OWSComponent } from './reports/Annavitran/ows/ows.component';
     OCRReportComponent,
     CorrectionSlipComponent,
     OWSComponent,
+    StackClosingCard2Component,
+    OpeningBalanceStackDetailsComponent
   ],
   imports: [
     BrowserModule,
