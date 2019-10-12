@@ -36,6 +36,8 @@ export class GolbalVariable {
     public static readonly DOSocietyReportFileName = 'DOSOCIETY';
     //Correction-slip
     public static readonly CorrectionSlipFileName = 'CORRSLIP';
+    //SalesIssueMemo
+    public static readonly SalesIssueMemoFileName = 'IMCD';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';
