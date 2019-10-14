@@ -1148,12 +1148,12 @@ export class TableConstants {
 
     this.OBStackDetails = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'Commodity', header: 'Commodity' },
-      { field: 'Stackno', header: 'Stack No' },
-      { field: 'Bags', header: 'No of Bags' },
-      { field: 'Quantity', header: 'Quantity' },
-      { field: 'OBStackDate', header: 'OB Stack Date' },
-      { field: 'Year', header: 'Year'}
+      { field: 'ITNAME', header: 'Commodity' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'StackBalanceBags', header: 'No of Bags' },
+      { field: 'StackBalanceWeight', header: 'Quantity' },
+      { field: 'StackDate', header: 'OB Stack Date' },
+      { field: 'CurYear', header: 'Year'}
     ];
 
     this.StackCardClosing = [

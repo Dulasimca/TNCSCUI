@@ -186,6 +186,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined) {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
+        this.filterArray = res;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
         let sno = 0;
@@ -233,6 +234,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
+        this.filterArray = [];
         // this.filterArray = res;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
@@ -298,10 +300,28 @@ export class CustomerDetailsComponent implements OnInit {
     }
   }
 
+  // onPrint() {
+  //   if (this.filterArray) {
+  //     const path = "../../assets/Reports/" + this.username.user + "/";
+  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+  //     saveAs(path + filename, filename);
+  //   } else {
+  //     const path = "../../assets/Reports/" + this.username.user + "/";
+  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+  //     saveAs(path + filename, filename);
+  //   }
+  // }
+
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
-    saveAs(path + filename, filename);
+    if (this.filterArray === undefined) {
+      const filename1 = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+      saveAs(path + filename1, filename1);
+    } else {
+      const filename2 = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+      saveAs(path + filename2, filename2);
+
+    }
   }
 
   exportAsPDF() {

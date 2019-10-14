@@ -92,7 +92,7 @@ import { DocumentCorrectionComponent } from './Documents/document-correction/doc
 import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 import { StackClosingCard2Component } from './reports/StackCard/stack-closing-card-2/stack-closing-card-2.component';
-import { OpeningBalanceStackDetailsComponent } from './openingBalance/opening-balance-stack-details/opening-balance-stack-details.component';
+import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDetail/opening-balance-stack-details/opening-balance-stack-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -187,7 +187,7 @@ const routes: Routes = [
   { path : 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
   { path : 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
   { path : 'Stack Closing Card 2', component: StackClosingCard2Component, canActivate: [AuthGuard] },
-  { path : 'Opening Balance Stack Details 1', component: OpeningBalanceStackDetailsComponent, canActivate: [AuthGuard] },
+  { path : 'Opening Balance Stack Details', component: OpeningBalanceStackDetailsComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

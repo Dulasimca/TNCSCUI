@@ -36,9 +36,8 @@
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Current Year</label>
         <p-dropdown #year class="ui-g-12 ui-fluid dashboard" [options]="yearOptions" [(ngModel)]="y_cd"
-          (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
-          (ngModelChange)="onResetTable('')" filter="true" resetFilterOnHide="true" optionLabel="label"
-          [showClear]="true" placeholder="-select-">
+          (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" (ngModelChange)="onResetTable('')"
+          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -46,21 +45,20 @@
       </div>
       <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=View (click)="onView()"
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!GCode || !RCode || !y_cd)"></button>
+      </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton label="Excel" (click)="dt.exportCSV()"
           [disabled]="(!GCode || !RCode || !y_cd)"></button>
       </div>
       <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=Print (click)="onPrint()"
-          [disabled]="(deliveryReceiptRegData.length=='0')"></button>
-      </div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=Excel (click)="dt.exportCSV()"
-          [disabled]="(deliveryReceiptRegData.length=='0')"></button>
+          [disabled]="(OBStackData.length=='0')"></button>
       </div> -->
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="OBStackCols" [value]="OBStackData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
-          exportFilename="OPENING_BALANCE_STACK_DETAILS_REPORT-1">
+          exportFilename="OPENING_BALANCE_STACK_DETAILS_REPORT">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -72,13 +70,13 @@
             <tr>
               <td *ngFor="let col of columns">
                 <div
-                  *ngIf="col.field === 'Bags' || col.field === 'Quantity' || col.field === 'Year'">
+                  *ngIf="col.field === 'StackBalanceBags' || col.field === 'StackBalanceWeight' || col.field === 'CurYear'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
                 <div
-                  *ngIf="col.field !== 'Bags' && col.field !== 'Quantity' && col.field !== 'Year'">
+                  *ngIf="col.field !== 'StackBalanceBags' && col.field !== 'StackBalanceWeight' && col.field !== 'CurYear'">
                   {{rowData[col.field]}}
                 </div>
               </td>

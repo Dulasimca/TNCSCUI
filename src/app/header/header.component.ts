@@ -100,7 +100,7 @@ export class HeaderComponent implements OnInit {
       'OldPassword': this.OldPassword,
       'NewPassword': this.NewPassword
     };
-    if (this.OldPassword === head) {
+    if (this.OldPassword === head && this.NewPassword !== undefined && this.NewPassword !== null) {
       this.restApiService.post(PathConstants.CHANGE_PASSWORD_POST, params).subscribe(res => {
         if (res) {
           this.messageService.clear();

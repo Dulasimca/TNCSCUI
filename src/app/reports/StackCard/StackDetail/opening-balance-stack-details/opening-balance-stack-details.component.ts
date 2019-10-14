@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-opening-balance-stack-details',
@@ -102,19 +104,56 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
           this.yearPanel.overlayVisible = true;
         }
         if (this.yearOptions === undefined) {
-          this.restAPIService.get(PathConstants.SCHEMES).subscribe(data => {
-            data.forEach(y => {
-              yearSelection.push({ 'label': y.Name, 'value': y.SCCode });
-            });
-            this.yearOptions = yearSelection;
+          this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                yearSelection.push({ 'label': y.ShortYear });
+              });
+              this.yearOptions = yearSelection;
+            }
           });
         }
         break;
     }
   }
 
-  onView() {}
+  onView() {
+    this.loading = true;
+    const params = {
+      'GCode': this.GCode,
+      'GName': this.GName,
+      'RName': this.RName,
+      'UserName': this.username.user,
+      'StackYear': this.y_cd.label,
+      'Type': 1
+    };
+    this.restAPIService.post(PathConstants.STACK_OPENING_BALANCE_DETAIL_POST, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        this.OBStackData = res;
+        let sno = 0;
+        this.OBStackData.forEach(data => {
+          data.StackDate = this.datePipe.transform(data.StackDate, 'dd-MM-yyyy');
+          // data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+        });
+        // if (this.statusOptions !== undefined) {
+        // }
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
 
-  onResetTable(item) {}
+  onResetTable(item) { }
 
 }

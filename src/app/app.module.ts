@@ -139,7 +139,7 @@ import { CashReceiptRegisterComponent } from './reports/cash-receipt-register/ca
 import { CorrectionSlipComponent } from './reports/correction-slip/correction-slip.component';
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 import { StackClosingCard2Component } from './reports/StackCard/stack-closing-card-2/stack-closing-card-2.component';
-import { OpeningBalanceStackDetailsComponent } from './openingBalance/opening-balance-stack-details/opening-balance-stack-details.component';
+import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDetail/opening-balance-stack-details/opening-balance-stack-details.component';
 
 @NgModule({
   declarations: [
