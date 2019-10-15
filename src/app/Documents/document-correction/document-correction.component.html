@@ -8,7 +8,8 @@
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
-      <p-toast position="top-center" key="t-err"></p-toast>
+    <p-toast position="top-center" key="t-msg" [hideTransitionOptions]="'600ms'"></p-toast>
+    <p-toast position="top-center" key="t-err"></p-toast>
       <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [modal]="true" [(visible)]="viewPane" icon="pi pi-exclamation-triangle">
           <div class="ui-g-12 ui-md-12">
               <label for="approverReason" style="float: left;" class="label-fontsize-large">Reason:</label>
@@ -135,26 +136,25 @@
             </div>
           </form>
           <div *ngIf="(roleId===1 || roleId===2)" class="ui-g-12">
-              <p-dropdown [options]="cars" [(ngModel)]="selectedCar2" filter="true">
-              </p-dropdown>
-            <div class="ui-g-6 ui-md-2">
+            <div class="ui-g-6 ui-md-2 no-pad-top">
               <label for="status" class="ui-g-7 label-fontsize dashboard">Document Status</label>
               <p-dropdown #docStatus name="status" class="ui-g-12 ui-fluid dashboard" [options]="docStatusOptions"
                 [(ngModel)]="DocStatus" (onClick)="onSelect('ds', 'click')" (keydown.enter)="onSelect('ds', 'enter')"
                 (onChange)="viewPendingApproveDocs()" [readonly]="loading">
               </p-dropdown>
             </div>
+           <div class="ui-g-1 dashboard label-fontsize-large" style="margin-top: 15px;width: auto">(or)</div> 
             <div class="ui-g-6 ui-md-2 no-pad-top">
               <label for="fDate" class="ui-g-7 label-fontsize dashboard">From Date</label>
               <p-calendar [(ngModel)]="fromDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
                 [showIcon]="true" name="fDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
             </div>
             <div class="ui-g-6 ui-md-2 no-pad-top">
-              <label for="tDate" class="ui-g-7 label-fontsize dashboard">Date</label>
+              <label for="tDate" class="ui-g-7 label-fontsize dashboard">To Date</label>
               <p-calendar [(ngModel)]="toDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
                 [showIcon]="true" name="tDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
             </div>
-            <div *ngIf="(roleId===1)" class="ui-g-12 ui-md-2">
+            <div *ngIf="(roleId===1)" class="ui-g-6 ui-md-2">
                 <label class="ui-g-7 label-fontsize dashboard">Region</label>
                 <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
                  (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" (onChange)="viewPendingApproveDocs()"
@@ -165,16 +165,15 @@
                   </ng-template>
                 </p-dropdown>
               </div>
+              <div class="ui-g-5 ui-md-1"></div>
+              <div class="ui-g-4 ui-md-1" style="float: right">
+                <button type="button" pButton icon="fa fa-file" iconPos="left" label="Excel" (click)="table.exportCSV()"></button>
+              </div>
             <div class="ui-g-12 no-pad-top">
               <p-table #table tabindex="-1" [columns]="CorrectionSlipApproveCols" [(selection)]="selected"
                 [value]="CorrectionSlipApproveData" selectionMode="single" [rows]="10" [loading] = "loading"
                 [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" 
                 autoLayout="true" exportFilename="DOCUMENT_CORRECTION">
-                <ng-template pTemplate="caption">
-                  <div class="ui-g">
-                      <button type="button" pButton icon="fa fa-file" iconPos="left" label="Excel" (click)="table.exportCSV()" style="float:right; width: auto"></button>
-                  </div>
-              </ng-template>
                <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
                     <col *ngFor="let col of columns" style="width:auto">

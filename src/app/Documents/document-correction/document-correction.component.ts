@@ -28,7 +28,6 @@ export class DocumentCorrectionComponent implements OnInit {
   CorrectionSlipApproveCols: any;
   CorrectionSlipApproveData: any = [];
   DocType: any;
-  requestedDate: Date;
   DocStatus: string = 'Pending';
   status: string = '0';
   GCode: any;
@@ -46,7 +45,6 @@ export class DocumentCorrectionComponent implements OnInit {
   regionData: any;
   ApprovalStatus: number;
   Id: any;
-  cars: SelectItem[];
   fromDate: Date =  new Date();
   toDate: Date =  new Date();
   @ViewChild('region') regionPanel: Dropdown;
@@ -72,12 +70,6 @@ export class DocumentCorrectionComponent implements OnInit {
     }
     this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
     { label: 'Rejected', value: '2' }];
-    this.cars = [
-      {label: 'Audi', value: 'Audi'},
-      {label: 'BMW', value: 'BMW'},
-      {label: 'Fiat', value: 'Fiat'},
-      {label: 'Ford', value: 'Ford'},
-    ];
   }
 
   onSelect(item, type) {
@@ -162,18 +154,15 @@ export class DocumentCorrectionComponent implements OnInit {
         if (type === 'enter') {
           this.docStatusPanel.overlayVisible = true;
         }
-        // if (this.docStatusOptions === undefined) {
-        //   this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
-        //   { label: 'Rejected', value: '2' }];
-        // }
         break;
     }
   }
 
   onView() {
-    if (this.requestedDate !== undefined && this.requestedDate !== null) {
+    if (this.fromDate !== undefined && this.fromDate !== null && this.toDate !== undefined && this.toDate !== null) {
       this.loading = true;
-      const params = new HttpParams().set('Code', this.GCode).append('Value', this.datepipe.transform(this.requestedDate, 'MM/dd/yyyy')).append('Type', '1');
+      const params = new HttpParams().set('Code', this.GCode).append('Value', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
+      .append('ToDate', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '1');
       this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
         if (res !== undefined && res !== null && res.length !== 0) {
           let sno = 1;
@@ -200,7 +189,8 @@ export class DocumentCorrectionComponent implements OnInit {
     if(this.RCode !== null && this.RCode !== undefined && this.DocStatus !== null && this.DocStatus !== undefined) {
       this.loading = true;
       let status = (this.DocStatus === 'Pending') ? this.status : this.DocStatus;
-      const params = new HttpParams().set('Code', this.RCode).append('Value', status).append('Type', '2');
+      const params = new HttpParams().set('Code', this.RCode).append('Value', status)
+      .append('ToDate', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '2');
       this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
         if (res !== undefined && res !== null && res.length !== 0) {
           let sno = 1;
@@ -226,8 +216,8 @@ export class DocumentCorrectionComponent implements OnInit {
   onLoadData() {
     if(this.fromDate !== null && this.fromDate !== undefined && this.toDate !== null && this.toDate !== undefined) {
       this.loading = true;
-      const params = new HttpParams().set('Code', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
-      .append('Value', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '3');
+      const params = new HttpParams().set('Code', this.RCode).append('Value', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
+      .append('ToDate', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '3');
       this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
         if (res !== undefined && res !== null && res.length !== 0) {
           let sno = 1;
@@ -259,6 +249,8 @@ export class DocumentCorrectionComponent implements OnInit {
   onClear() {
     this.DocType = null; this.DocDate = new Date();
     this.DocNo = null; this.Reason = null;
+    this.fromDate = new Date(); this.toDate = new Date();
+    this.DocStatus = 'Pending'; this.status = '0';
   }
 
   onRowSelect(event, data) {
@@ -304,7 +296,8 @@ export class DocumentCorrectionComponent implements OnInit {
         this.onClear();
         this.viewPane = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.messageService.add({ key: 't-msg', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.viewPendingApproveDocs();
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
@@ -331,7 +324,7 @@ export class DocumentCorrectionComponent implements OnInit {
       if (res.Item1) {
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.messageService.add({ key: 't-msg', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
