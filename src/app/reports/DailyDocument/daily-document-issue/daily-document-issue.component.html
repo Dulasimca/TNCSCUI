@@ -75,13 +75,7 @@
       <div class="ui-g-12 dashboard" style="text-align: center">
         <p-table #dt [columns]="DailyDocumentIssueCols" [value]="DailyDocumentIssueData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-           autoLayout="true" [loading]="loading" exportFilename="DAILY_ISSUE">
-           <ng-template pTemplate="caption">
-              <div class="ui-helper-clearfix">
-                <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export" (click)="dt.exportCSV()"
-                  style="float:left"></button>
-              </div>
-            </ng-template>
+           autoLayout="true" [loading]="loading" exportFilename="DAILY_ISSUE_REPORT">
             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">

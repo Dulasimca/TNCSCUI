@@ -508,7 +508,7 @@
                     </div>
                     <div class="ui-g-4 ui-md-1">
                       <button pButton label="Enter"
-                        [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null || OtherAmount==null || Balance==null)"
+                        [disabled]="((!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null || OtherAmount==null || Balance==null) || paymentBalData.length=='1')"
                         (click)="onEnter('Adjustment')"></button>
                     </div>
                     <div class="ui-g-12 ui-md-4">

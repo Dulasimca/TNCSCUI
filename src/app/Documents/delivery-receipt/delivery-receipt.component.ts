@@ -99,7 +99,7 @@ export class DeliveryReceiptComponent implements OnInit {
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: any;
-  PrevOrderDate: any;
+  PrevOrderDate: any = new  Date();
   AdjusmentAmount: any;
   AdjustmentType: string;
   OtherAmount: any;

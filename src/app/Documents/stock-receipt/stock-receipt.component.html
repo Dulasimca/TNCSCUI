@@ -543,7 +543,7 @@
             <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
-            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save (click)="onSave('1');resetForm(f)"></button>
+            <button name="save" style="margin-top:5px" pButton type="button" [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty) || isSaved)" label=Save (click)="onSave('1');resetForm(f)"></button>
           </div>
           <div class="ui-g-3 ui-md-1 ui-fluid">
             <button name="print" style="margin-top:5px" pButton type="button" [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" label=Print (click)="onPrint()"></button>

@@ -270,6 +270,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.newEntry = false; 
     this.cardExits = false;
     this.flag = false;
+    this.Date = new this.Date();
   }
 
   onSave() {

@@ -408,8 +408,8 @@ export class IssueReceiptComponent implements OnInit {
         } else {
           let startValue = this.Moisture.slice(0, 2);
           let endValue = this.Moisture.slice(2, totalLength);
-          endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
-          this.Moisture = startValue + '.' + endValue;
+          endValue = (endValue !== undefined && endValue !== '') ? endValue : '';
+          this.Moisture = (endValue.trim() !== '') ? (startValue + '.' + endValue) : startValue;
         }
       }
     } else {
@@ -642,7 +642,8 @@ export class IssueReceiptComponent implements OnInit {
         this.NoPacking = (data.NoPacking * 1),
           this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
-        this.Moisture = (data.Moisture * 1).toFixed(2);
+        let selectedMoisture = data.Moisture.length;
+        this.Moisture = (selectedMoisture > 5) ? selectedMoisture.toFixed(2) : selectedMoisture.toString();
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
           index = this.TStockNo.toString().indexOf('/', 2);

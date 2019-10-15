@@ -46,6 +46,9 @@ export class DocumentCorrectionComponent implements OnInit {
   regionData: any;
   ApprovalStatus: number;
   Id: any;
+  cars: SelectItem[];
+  fromDate: Date =  new Date();
+  toDate: Date =  new Date();
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
@@ -67,6 +70,14 @@ export class DocumentCorrectionComponent implements OnInit {
     if (this.roleId === 2) {
       this.viewPendingApproveDocs();
     }
+    this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
+    { label: 'Rejected', value: '2' }];
+    this.cars = [
+      {label: 'Audi', value: 'Audi'},
+      {label: 'BMW', value: 'BMW'},
+      {label: 'Fiat', value: 'Fiat'},
+      {label: 'Ford', value: 'Ford'},
+    ];
   }
 
   onSelect(item, type) {
@@ -151,10 +162,10 @@ export class DocumentCorrectionComponent implements OnInit {
         if (type === 'enter') {
           this.docStatusPanel.overlayVisible = true;
         }
-        if (this.docStatusOptions === undefined) {
-          this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
-          { label: 'Rejected', value: '2' }];
-        }
+        // if (this.docStatusOptions === undefined) {
+        //   this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
+        //   { label: 'Rejected', value: '2' }];
+        // }
         break;
     }
   }
@@ -190,6 +201,33 @@ export class DocumentCorrectionComponent implements OnInit {
       this.loading = true;
       let status = (this.DocStatus === 'Pending') ? this.status : this.DocStatus;
       const params = new HttpParams().set('Code', this.RCode).append('Value', status).append('Type', '2');
+      this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          let sno = 1;
+          res.forEach(x => { x.SlNo = sno; sno += 1; })
+          this.CorrectionSlipApproveData = res;
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.CorrectionSlipApproveData.length = 0;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+    }
+  }
+
+  onLoadData() {
+    if(this.fromDate !== null && this.fromDate !== undefined && this.toDate !== null && this.toDate !== undefined) {
+      this.loading = true;
+      const params = new HttpParams().set('Code', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
+      .append('Value', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '3');
       this.restApiService.getByParameters(PathConstants.DOCUMENT_CORRECTION_GET, params).subscribe((res: any) => {
         if (res !== undefined && res !== null && res.length !== 0) {
           let sno = 1;

@@ -15,6 +15,7 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import { Dropdown } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-daily-document-issue',
@@ -46,9 +47,10 @@ export class DailyDocumentIssueComponent implements OnInit {
   noOfDocs: any;
   regionData: any;
   viewPane: boolean;
+  loggedInRCode: string;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: string;
+  @ViewChild('dt') table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -63,7 +65,12 @@ export class DailyDocumentIssueComponent implements OnInit {
     this.regionData = this.roleBasedService.getRegions();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
-       {
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.table.exportCSV();
+        }
+      },
+        {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }

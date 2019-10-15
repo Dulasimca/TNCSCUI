@@ -11,9 +11,8 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
 import 'rxjs/add/observable/from';
-import 'rxjs/Rx';
 import * as Rx from 'rxjs';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-daily-documents',
@@ -45,9 +44,10 @@ export class DailyDocumentsComponent implements OnInit {
   noOfDocs: any;
   regionData: any;
   viewPane: boolean;
+  loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  loggedInRCode: any;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -63,6 +63,11 @@ export class DailyDocumentsComponent implements OnInit {
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
     this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.table.exportCSV();
+        }
+      },
       {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();

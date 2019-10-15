@@ -133,6 +133,7 @@ export class StockReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -402,7 +403,8 @@ export class StockReceiptComponent implements OnInit {
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
     this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-    this.Moisture = (data.Moisture * 1).toFixed(2);
+    let selectedMoisture = data.Moisture.length;
+    this.Moisture = (selectedMoisture > 5) ? selectedMoisture.toFixed(2) : selectedMoisture.toString();
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
     this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
     this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
@@ -444,8 +446,8 @@ export class StockReceiptComponent implements OnInit {
         } else {
           let startValue = this.Moisture.slice(0, 2);
           let endValue = this.Moisture.slice(2, totalLength);
-          endValue = (endValue !== undefined && endValue !== '') ? endValue : '00';
-          this.Moisture = startValue + '.' + endValue;
+          endValue = (endValue !== undefined && endValue !== '') ? endValue : '';
+          this.Moisture = (endValue.trim() !== '') ? (startValue + '.' + endValue) : startValue;
         }
       }
     } else {
@@ -624,6 +626,7 @@ export class StockReceiptComponent implements OnInit {
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
       'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
     }
+    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -820,7 +823,7 @@ export class StockReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
-    //this.isViewed = false;
+    this.isSaved = false;
   }
 
   openNext() {
