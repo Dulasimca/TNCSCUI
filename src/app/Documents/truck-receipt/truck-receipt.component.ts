@@ -482,10 +482,9 @@ export class TruckReceiptComponent implements OnInit {
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
     this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
     this.NoPacking = (data.NoPacking * 1),
-      this.GKgs = (data.GKgs * 1).toFixed(3);
+    this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
-    let selectedMoisture = data.Moisture.length;
-    this.Moisture = (selectedMoisture > 5) ? selectedMoisture.toFixed(2) : selectedMoisture.toString();
+    this.Moisture = data.Moisture;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let index;
       index = this.TStockNo.toString().indexOf('/', 2);

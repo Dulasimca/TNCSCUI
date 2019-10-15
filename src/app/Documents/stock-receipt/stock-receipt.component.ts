@@ -91,7 +91,7 @@ export class StockReceiptComponent implements OnInit {
   Scheme: any;
   ICode: any;
   IPCode: any;
-  NoPacking: number;
+  NoPacking: any;
   PWeight: any;
   GKgs: any;
   NKgs: any;
@@ -399,12 +399,12 @@ export class StockReceiptComponent implements OnInit {
     this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
     this.ICode = data.CommodityName; this.iCode = data.ICode;
     this.IPCode = data.PackingName; this.ipCode = data.IPCode;
-    this.GKgs = data.GKgs; this.NKgs = data.Nkgs;
+    this.GKgs = (data.GKgs * 1).toFixed(3);
+    this.NKgs = (data.Nkgs * 1).toFixed(3);
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
     this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-    let selectedMoisture = data.Moisture.length;
-    this.Moisture = (selectedMoisture > 5) ? selectedMoisture.toFixed(2) : selectedMoisture.toString();
+    this.Moisture = data.Moisture;
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
     this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
     this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
