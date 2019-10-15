@@ -11,6 +11,8 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Dropdown } from 'primeng/primeng';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -52,6 +54,7 @@ export class CustomerDetailsComponent implements OnInit {
   RCode: any;
   GName: any;
   RName: any;
+  username: any;
   loggedInRCode: any;
   regions: any;
   loading: boolean;
@@ -76,6 +79,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.maxDate = new Date();
     this.GName = this.authService.getUserAccessible().gName;
     this.RName = this.authService.getUserAccessible().rName;
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -176,11 +180,13 @@ export class CustomerDetailsComponent implements OnInit {
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GName': this.GName,
       'RName': this.RName,
+      'UserName': this.username.user,
       'Type': 1
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined) {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
+        this.filterArray = res;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
         let sno = 0;
@@ -220,6 +226,7 @@ export class CustomerDetailsComponent implements OnInit {
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GName': this.GName,
       'RName': this.RName,
+      'UserName': this.username.user,
       'Type': 2
     };
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
@@ -227,6 +234,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
+        this.filterArray = [];
         // this.filterArray = res;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
@@ -292,7 +300,29 @@ export class CustomerDetailsComponent implements OnInit {
     }
   }
 
-  print() { }
+  // onPrint() {
+  //   if (this.filterArray) {
+  //     const path = "../../assets/Reports/" + this.username.user + "/";
+  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+  //     saveAs(path + filename, filename);
+  //   } else {
+  //     const path = "../../assets/Reports/" + this.username.user + "/";
+  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+  //     saveAs(path + filename, filename);
+  //   }
+  // }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    if (this.filterArray === undefined) {
+      const filename1 = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+      saveAs(path + filename1, filename1);
+    } else {
+      const filename2 = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+      saveAs(path + filename2, filename2);
+
+    }
+  }
 
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');

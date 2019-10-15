@@ -24,6 +24,10 @@ export class GolbalVariable {
     public static readonly WriteOffReportFileName = 'WOFF';
     public static readonly GUReportFileName = 'GU';
     public static readonly GRReportFileName = "GR";
+    //Transfer
+    public static readonly TruckToRegionFileName = 'TRUCKTOREGION';
+    public static readonly TruckFromRegionFileName = 'TRUCKFROMREGION';
+
     //DeliveryOrderReport
     public static readonly DOAllSchemeReportFileName = 'DOALLSCH';
     public static readonly DODemandDraftDateFileName = 'DODDDATE';
@@ -36,6 +40,10 @@ export class GolbalVariable {
     public static readonly DOSocietyReportFileName = 'DOSOCIETY';
     //Correction-slip
     public static readonly CorrectionSlipFileName = 'CORRSLIP';
+    //SalesIssueMemo
+    public static readonly SalesIssueMemoFileName = 'SIMCUSD';
+    public static readonly SalesIssueMemoAbstractFileName = 'SIMABSD';
+
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

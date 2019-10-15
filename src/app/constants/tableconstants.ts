@@ -99,6 +99,8 @@ export class TableConstants {
   OWSReport: any;
   DocumentCorrectionColumns: any;
   DocumentCorrectionApproveColumns: any;
+  OBStackDetails: any;
+  StackCardClosing: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1003,6 +1005,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Society', header: 'Society' },
       { field: 'Commodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme'},
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Value', header: 'Value' }
@@ -1141,6 +1144,27 @@ export class TableConstants {
       { field: 'Reason', header: 'Correction Reason' },
       { field: 'ApprovalStatus', header: 'Status'},
       { field: 'ApproverReason', header: 'Approver Reason'}
+    ];
+
+    this.OBStackDetails = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'ITNAME', header: 'Commodity' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'StackBalanceBags', header: 'No of Bags' },
+      { field: 'StackBalanceWeight', header: 'Quantity' },
+      { field: 'StackDate', header: 'OB Stack Date' },
+      { field: 'CurYear', header: 'Year'}
+    ];
+
+    this.StackCardClosing = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'Code', header: 'Code' },
+      { field: 'Stackno', header: 'Stack No' },
+      { field: 'Year', header: 'Card Year' },
+      { field: 'Active', header: 'Active' },
+      { field: 'OpeningDate', header: 'Opening Date' },
+      { field: 'ClosingDate', header: 'Closing Date' },
+      { field: 'Commodity', header: 'Item Name'}
     ];
   }
 }

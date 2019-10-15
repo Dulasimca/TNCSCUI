@@ -71,7 +71,7 @@
         <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true"
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <!-- <div class="ui-g-12 ui-md-5"></div> -->
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
         <button pButton type="button" label=View (click)="onView()"
           [disabled]="(!GCode || !RCode || !fromDate || !toDate || !r_cd || !s_cd)"></button>
@@ -80,18 +80,18 @@
         <button pButton type="button" label="View Abstract" (click)="onAbstract()"
           [disabled]="(!GCode || !RCode || !fromDate || !toDate || !r_cd || !s_cd)"></button>
       </div>
-      <!-- <div class="ui-g-4 ui-md-1 ui-fluid">
-        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
-      </div> -->
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="isActionDisabled"></button>
       </div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
+        <button pButton type="button" label=Print (click)="onPrint()" [disabled]="isActionDisabled"></button>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-3"></div>
       <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table #dt [columns]="IssueMemoCustomerDetailsCols"
-          [value]="IssueMemoCustomerDetailsData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-          exportFilename="Issue_Memo_Customer_Details_Data">
+        <p-table #dt [columns]="IssueMemoCustomerDetailsCols" [value]="IssueMemoCustomerDetailsData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [loading]="loading" exportFilename="Issue_Memo_Customer_Details_Data">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -102,14 +102,12 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div
-                  *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Value'">
+                <div *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Value'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div
-                  *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Value'">
+                <div *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Value'">
                   {{rowData[col.field]}}
                 </div>
               </td>

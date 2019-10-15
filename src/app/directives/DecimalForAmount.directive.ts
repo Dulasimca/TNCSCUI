@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[appDecimalAmount]'
 })
 export class AmountDecimalDirective {
-  private regex: RegExp = new RegExp(/^\d{0,6}\.?\d{0,2}$/g);
+  private regex: RegExp = new RegExp(/^\d{0,10}\.?\d{0,2}$/g);
   private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
   constructor(private el: ElementRef) { }
 
