@@ -117,6 +117,7 @@ export class DeliveryReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -781,6 +782,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.schemeOptions = []; this.marginSchemeOptions = [];
     this.marginRateInTermsOptions = []; this.rateInTermsOptions = [];
     this.itemDescOptions = []; this.marginItemDescOptions = [];
+    this.isSaved = false;
     //this.isViewed = false;
   }
 
@@ -951,6 +953,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryPaymentDetails': this.paymentData,
       'deliveryAdjustmentDetails': this.paymentBalData
     };
+    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
