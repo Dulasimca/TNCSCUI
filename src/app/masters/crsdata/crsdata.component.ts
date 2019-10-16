@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-crsdata',
@@ -23,6 +24,7 @@ export class CRSDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   loading: boolean = false;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private tableConstants: TableConstants) { }
@@ -43,6 +45,11 @@ export class CRSDataComponent implements OnInit {
       }
       this.items = [
         {
+          label: 'Excel', icon: 'fa fa-table', command: () => {
+            this.table.exportCSV();
+          }
+        },
+         {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
           }

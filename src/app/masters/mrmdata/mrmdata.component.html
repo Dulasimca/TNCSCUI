@@ -20,12 +20,6 @@
     <div class="table-screen-size">
       <p-table #dt [value]="data" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
         [paginator]="true" autoLayout="true" [loading]="loading" exportFilename="MRM_DATA">
-        <ng-template pTemplate="caption">
-            <div class="ui-helper-clearfix">
-              <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export" (click)="dt.exportCSV()"
-                style="float:left"></button>
-            </div>
-          </ng-template>
            <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns">

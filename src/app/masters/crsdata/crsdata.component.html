@@ -22,10 +22,6 @@
       [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading" exportFilename="CRS_DATA">
       <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix">
-            <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export" (click)="dt.exportCSV()"
-              style="float:left"></button>
-          </div>
-        </ng-template>
          <ng-template pTemplate="header" let-columns>
         <tr style="text-align: center;">
           <th *ngFor="let col of columns">

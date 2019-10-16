@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -9,6 +9,7 @@ import { PrintService } from 'src/app/print.service';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-regions-data',
@@ -24,6 +25,7 @@ export class RegionsDataComponent implements OnInit {
   filterArray: any;
   selectedrow: any;
   loading: boolean;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private restApiService: RestAPIService, private printService: PrintService,
     private authService: AuthService, private tableConstants: TableConstants,
@@ -46,7 +48,11 @@ export class RegionsDataComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
       this.items = [
-      
+        {
+          label: 'Excel', icon: 'fa fa-table', command: () => {
+            this.table.exportCSV();
+          }
+        },
         {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();

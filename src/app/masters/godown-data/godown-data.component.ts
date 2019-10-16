@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { TreeNode, MessageService } from 'primeng/api';
 import { TableConstants } from 'src/app/constants/tableconstants';
@@ -8,6 +8,7 @@ import 'jspdf-autotable';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-godown-data',
@@ -22,6 +23,7 @@ export class GodownDataComponent implements OnInit {
   filterArray: any;
   searchText: any;
   loading: boolean;
+  @ViewChild('dt') table: DataTable;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
      private tableConstants: TableConstants, private messageService: MessageService) { }
@@ -74,6 +76,11 @@ export class GodownDataComponent implements OnInit {
     }
       this.items = [
         {
+          label: 'Excel', icon: 'fa fa-table', command: () => {
+            this.table.exportCSV();
+          }
+        },
+         {
           label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
             this.exportAsPDF();
           }
