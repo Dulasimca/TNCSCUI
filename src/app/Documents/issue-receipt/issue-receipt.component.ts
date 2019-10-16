@@ -120,6 +120,7 @@ export class IssueReceiptComponent implements OnInit {
   field: any;
   selected: any;
   disableYear: boolean;
+  isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -723,7 +724,8 @@ export class IssueReceiptComponent implements OnInit {
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
-    }
+    };
+    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -922,6 +924,7 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = []; this.transactionOptions = [];
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
+    this.isSaved = false;
     // this.isViewed = false;
   }
 

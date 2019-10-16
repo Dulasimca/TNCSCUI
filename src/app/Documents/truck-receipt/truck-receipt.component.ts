@@ -127,6 +127,7 @@ export class TruckReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -586,6 +587,7 @@ export class TruckReceiptComponent implements OnInit {
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
+    this.isSaved = false;
     //this.isViewed = false;
   }
 
@@ -909,6 +911,7 @@ export class TruckReceiptComponent implements OnInit {
       'documentSTItemDetails': this.itemData,
       'documentSTTDetails': this.STTDetails
     };
+    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
