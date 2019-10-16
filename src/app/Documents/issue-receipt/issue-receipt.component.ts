@@ -33,7 +33,6 @@ export class IssueReceiptComponent implements OnInit {
   issueMemoDocData: any = [];
   issueMemoDocCols: any;
   viewDate: Date = new Date();
-  monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   transactionOptions: SelectItem[];
   receiverTypeOptions: SelectItem[];
@@ -500,7 +499,7 @@ export class IssueReceiptComponent implements OnInit {
     const stockMonth = this.SIDate.getMonth() + 1; //SIDate month
     const stockYear = this.SIDate.getFullYear(); //SIDate year
     let nextMonth = new Date().setMonth(stockMonth, today); //next month
-    if (value !== undefined && value.toUpperCase() === 'R') {
+    if (value !==  null && value !== undefined && value.toUpperCase() === 'R') {
       this.curMonth = (stockMonth <= 9) ? '0' + stockMonth : stockMonth;
       this.month = this.datepipe.transform(this.SIDate, 'MMM');
       this.year = stockYear;
@@ -821,10 +820,11 @@ export class IssueReceiptComponent implements OnInit {
         let today = new Date().getDate();
         this.curMonth = res.Table[0].IRelates.slice(5, 7);
         let formDate = this.curMonth + "-" + today + "-" + currentYr;
-        this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.month = this.datepipe.transform(new Date(formDate), 'MMM');
         this.yearOptions = [{ label: res.Table[0].IRelates.slice(0, 4), value: res.Table[0].IRelates.slice(0, 4) }]
         this.year = res.Table[0].IRelates.slice(0, 4);
+        this.RegularAdvance = res.Table[0].Flag2;
+        this.checkRegAdv(this.RegularAdvance);
         this.transactionOptions = [{ label: res.Table[0].TRName, value: res.Table[0].Trcode }];
         this.Trcode = res.Table[0].TRName;
         this.trCode = res.Table[0].Trcode;
@@ -839,7 +839,6 @@ export class IssueReceiptComponent implements OnInit {
         this.IssuerCode = this.rnCode + '-' + ACSCode;
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo;
-        this.RegularAdvance = res.Table[0].Flag2;
         this.ManualDocNo = res.Table[0].Flag1;
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();
@@ -914,7 +913,6 @@ export class IssueReceiptComponent implements OnInit {
     this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear(); this.SIDate = new Date();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
