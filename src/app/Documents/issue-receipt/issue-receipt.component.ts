@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -59,7 +60,7 @@ export class IssueReceiptComponent implements OnInit {
   schemeCode: string;
   transType: string = 'I';
   TKgs: any;
-  month: any;
+  month: string;
   year: any;
   curMonth: any;
   SINo: any;
@@ -119,8 +120,8 @@ export class IssueReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  disableYear: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
   @ViewChild('rn') receivorNamePanel: Dropdown;
@@ -145,7 +146,6 @@ export class IssueReceiptComponent implements OnInit {
     this.maxDate = new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
-    this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.regionName = this.authService.getUserAccessible().rName;
@@ -182,17 +182,6 @@ export class IssueReceiptComponent implements OnInit {
         }
         this.yearOptions = yearArr;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        break;
-      case 'm':
-        if (type === 'enter') {
-          this.monthPanel.overlayVisible = true;
-        }
-        this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
-        { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
-        { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
-        { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
-        { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
-        this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
         if (type === 'enter') {
@@ -425,7 +414,7 @@ export class IssueReceiptComponent implements OnInit {
       this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
-      this.GKgs = this.NKgs = this.TKgs = null;
+      this.GKgs = null; this.NKgs = null; this.TKgs = null;
     }
   }
 
@@ -504,6 +493,26 @@ export class IssueReceiptComponent implements OnInit {
         }
       }
     })
+  }
+
+  checkRegAdv(value) {
+    let today = new Date().getDate();
+    const stockMonth = this.SIDate.getMonth() + 1; //SIDate month
+    const stockYear = this.SIDate.getFullYear(); //SIDate year
+    let nextMonth = new Date().setMonth(stockMonth, today); //next month
+    if (value !== undefined && value.toUpperCase() === 'R') {
+      this.curMonth = (stockMonth <= 9) ? '0' + stockMonth : stockMonth;
+      this.month = this.datepipe.transform(this.SIDate, 'MMM');
+      this.year = stockYear;
+      this.yearOptions = [{ label: this.year, value: this.year }];
+      this.disableYear = true;
+    } else if (value !== undefined && value.toUpperCase() === 'A') {
+      this.curMonth = (stockMonth <= 9) ? '0' + (stockMonth + 1) : (stockMonth + 1);
+      this.month = this.datepipe.transform(nextMonth, 'MMM');
+      this.year = (stockMonth !== 12) ? stockYear : stockYear + 1;
+      this.yearOptions = [{ label: this.year, value: this.year }];
+      this.disableYear = true;
+    }
   }
 
   onStackInput(event) {
@@ -640,10 +649,9 @@ export class IssueReceiptComponent implements OnInit {
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
         this.NoPacking = (data.NoPacking * 1),
-          this.GKgs = (data.GKgs * 1).toFixed(3);
+        this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
-        let selectedMoisture = data.Moisture.length;
-        this.Moisture = (selectedMoisture > 5) ? selectedMoisture.toFixed(2) : selectedMoisture.toString();
+        this.Moisture = data.Moisture;
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
           index = this.TStockNo.toString().indexOf('/', 2);
@@ -677,7 +685,7 @@ export class IssueReceiptComponent implements OnInit {
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
     this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
-    this.IRelates = this.year + '/' + ((this.month.value !== undefined) ? this.month.value : this.curMonth);
+    this.IRelates = this.year + '/' + this.curMonth
     const params = {
       'Type': type,
       'SINo': this.SINo,
@@ -887,8 +895,14 @@ export class IssueReceiptComponent implements OnInit {
     issueMemoForm.form.markAsPristine();
   }
 
+  resetFields() {
+    this.RegularAdvance = null;
+    this.curMonth = "0" + (new Date().getMonth() + 1);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
+  }
+
   onClear() {
-    this.itemData = []; this.issueData = []; 
+    this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
     this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;

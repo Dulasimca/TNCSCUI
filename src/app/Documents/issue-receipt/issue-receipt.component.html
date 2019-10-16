@@ -27,7 +27,7 @@
                 <div class="ui-g-12 ui-md-2 no-pad-top">
                   <label for="StockIssueDate" class="label-fontsize">Stock Issue Date</label>
                   <p-calendar name="StockIssueDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="SIDate"
-                    [showIcon]="true"></p-calendar>
+                    [showIcon]="true" (ngModelChange)="resetFields()" ></p-calendar>
                 </div>
                 <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 13px">
                     <span class="ui-float-label">
@@ -86,7 +86,7 @@
                     <span class="ui-float-label">
                         <input name="IssueRegAdv" type="text" onkeypress="return /[A&R]/i.test(event.key)"
                           style="text-transform: uppercase !important" maxlength="1" [(ngModel)]="RegularAdvance" pInputText
-                          autocomplete="off" required>
+                          autocomplete="off" (input)="checkRegAdv(RegularAdvance)" required>
                         <label for="IssueRegAdv" class="float-input">Reg/Adv</label>
                       </span>
                 </div>
@@ -133,18 +133,16 @@
                   </div>
                   <div class="ui-g-12 ui-md-1 no-right-pad" style="margin-top: -18px">
                       <label for="Month" class="label-fontsize">Month</label>
-                      <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
+                      <input name="Month" [(ngModel)]="month" pInputText autocomplete="off" [readonly]="true" required>
+                      <!-- <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="month"
                         (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" 
-                        filter="true" resetFilterOnHide="true" optionLabel="label" required>
-                        <ng-template let-item pTemplate="selectedItem">
-                          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                        </ng-template>
-                      </p-dropdown>
+                        [readonly]="isPeriodOfMonthDisabled" required>
+                      </p-dropdown> -->
                   </div>
                   <div class="ui-g-12 ui-md-1 ui-fluid no-right-pad" style="margin-top: -18px">
                       <label for="Year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="year" (onClick)="onSelect('y', 'click')"
-                      (keydown.enter)="onSelect('y', 'enter')" required>
+                      (keydown.enter)="onSelect('y', 'enter')" [readonly]="disableYear" required>
                       </p-dropdown>
                   </div>
                 </div>
