@@ -269,13 +269,13 @@ export class CustomerDetailsComponent implements OnInit {
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     else if(item === 'rec') { 
+      this.Shop = null;
+      this.Society = null;
       if(this.ReceivorType !== undefined && this.ReceivorType.value !== undefined) {
         if(this.ReceivorType.value === 'TY002' || this.ReceivorType.value === 'TY003' || this.ReceivorType.value === 'TY004') {
         this.disableSociety = false;
         } else { this.disableSociety = true; }
       }
-      this.Shop = null;
-      this.Society = null;
      }
     else if(item === 'soc') { this.Shop = null; }
     this.IssueMemoCustomerDetailsData = [];
@@ -304,18 +304,6 @@ export class CustomerDetailsComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-
-  // onPrint() {
-  //   if (this.filterArray) {
-  //     const path = "../../assets/Reports/" + this.username.user + "/";
-  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
-  //     saveAs(path + filename, filename);
-  //   } else {
-  //     const path = "../../assets/Reports/" + this.username.user + "/";
-  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
-  //     saveAs(path + filename, filename);
-  //   }
-  // }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
