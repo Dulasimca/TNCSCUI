@@ -188,43 +188,20 @@ export class OtherSchemesComponent implements OnInit {
         let TotalQuantity = 0;
         let TotalRate = 0;
         this.OtherSchemeData.forEach(data => {
-          TotalAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
-          TotalQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
-          TotalRate += data.Rate !== undefined && data.Rate !== undefined ? (data.Rate * 1) : 0;
+          TotalAmount += (data.Amount !== undefined && data.Amount !== null) ? (data.Amount * 1) : 0;
+          TotalQuantity += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
+          TotalRate += (data.Rate !== undefined && data.Rate !== null) ? (data.Rate * 1) : 0;
           sno += 1;
           data.SlNo = sno;
         });
         this.OtherSchemeData.push(
           {
             Amount: TotalAmount.toFixed(2),
-            Quantity: TotalQuantity.toFixed(2),
+            Quantity: TotalQuantity.toFixed(3),
             Rate: TotalRate.toFixed(2),
             Dono: 'Total'
           }
         );
-        this.FilterArray = this.OtherSchemeData.filter(item => {
-          return item.Tyname === this.r_cd.label;
-        });
-        sno = 0;
-        let FilterAmount = 0;
-        let FilterRate = 0;
-        let FilterQuantity = 0;
-        this.FilterArray.forEach(data => {
-          FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
-          FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
-          FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
-          sno += 1;
-          data.SlNo = sno;
-        });
-        this.FilterArray.push(
-          {
-            Amount: FilterAmount.toFixed(2),
-            Quantity: FilterQuantity.toFixed(2),
-            Rate: FilterRate.toFixed(2),
-            Dono: 'Total'
-          }
-        );
-        this.OtherSchemeData = this.FilterArray;
       } else {
         this.loading = false;
         this.messageService.clear();
