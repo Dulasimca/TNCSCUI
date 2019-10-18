@@ -7,7 +7,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Date Wise Commodity Wise Receipt</div>
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
-              [disabled]="(!fromDate || !toDate || !TrCode || !ITCode || !GCode || !RCode)"></button>
+              [disabled]="(!fromDate || !toDate || !ITCode || !GCode || !RCode)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(commodityReceiptData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
