@@ -27,6 +27,10 @@ export class GolbalVariable {
     //Transfer
     public static readonly TruckToRegionFileName = 'TRUCKTOREGION';
     public static readonly TruckFromRegionFileName = 'TRUCKFROMREGION';
+    //Purchase
+    public static readonly HoPurchaseFileName = 'HOPURCHASE';
+    public static readonly RoPurchaseFileName = 'ROPURCHASE';
+    public static readonly RonoPurchaseFileName = 'RONOPURCHASE';
 
     //DeliveryOrderReport
     public static readonly DOAllSchemeReportFileName = 'DOALLSCH';

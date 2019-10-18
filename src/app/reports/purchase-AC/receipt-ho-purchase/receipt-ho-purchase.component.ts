@@ -9,6 +9,8 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-receipt-ho-purchase',
@@ -155,7 +157,11 @@ export class ReceiptHOPurchaseComponent implements OnInit {
     this.receiptHOPurchaseData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.HoPurchaseFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
   
 }
 
