@@ -54,7 +54,7 @@
       </div>
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-1"></div>
-      <div class="ui-g-12 ui-md-2">
+      <!-- <div class="ui-g-12 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
           (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')" (ngModelChange)="onResetTable('')"
@@ -73,26 +73,20 @@
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
-      </div>
+      </div> -->
       <div class="ui-g-12 ui-md-3"></div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
         <button pButton type="button" label=View (click)="onView()"
           [disabled]="(!GCode || !RCode || !toDate || !fromDate || !sch_cd)"></button>
       </div>
-      <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-          <button pButton type="button" label=Print (click)="onPrint()"
-            [disabled]="(OtherSchemeData.length=='0')"></button>
-        </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
-          [disabled]="(!GCode || !RCode || !toDate || !fromDate || !sch_cd)"></button>
+          [disabled]="(OtherSchemeData.length=='0')"></button>
       </div>
       <div class="ui-g-3 ui-md-1" style="padding-top: 22px">
         <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print (click)="onPrint()"
-          [disabled]="(!GCode || !RCode || !toDate || !fromDate || !sch_cd)"></button>
+          [disabled]="(OtherSchemeData.length=='0')"></button>
       </div>
-      <!-- <div class="ui-g-12 ui-md-3"></div> -->
-      <!-- </div> -->
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="OtherSchemeCols" [value]="OtherSchemeData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"

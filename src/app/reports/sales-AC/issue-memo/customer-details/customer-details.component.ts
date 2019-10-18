@@ -48,6 +48,7 @@ export class CustomerDetailsComponent implements OnInit {
   regions: any;
   loading: boolean;
   items: any[];
+  disableSociety: boolean = true;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('shop') shopPanel: Dropdown;
@@ -66,15 +67,14 @@ export class CustomerDetailsComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
-    this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
     this.items = [
       {
-        label: 'View', icon: 'fa fa-table', command: () => {
+        label: 'View', command: () => {
           this.onView();
         }
       },
         {
-        label: 'Abstract', icon: "fa fa-file-pdf-o", command: () => {
+        label: 'Abstract', command: () => {
           this.onAbstract();
         }
       }]
@@ -129,31 +129,31 @@ export class CustomerDetailsComponent implements OnInit {
         }
         const shop_params = {
           'GCode': this.GCode.value,
-          'ReceviorType': this.ReceivorType.value,
-          'SocietyCode': (this.Society !== undefined) ? this.Society.value : '0',
+          'ReceivorType': this.ReceivorType.value,
+          'SocietyCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ? this.Society.value : '0',
           'Type': 2
         };
           this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, shop_params).subscribe(shops => {
             shops.forEach(value => {
-              if (value.TransType === 'I') {
-                shopSelection.push({ label: value.TRName, value: value.TRCode });
-              }
-              this.shopNameOptions = shopSelection;
-              this.shopNameOptions.unshift({ label: 'All', value: 'All '});
+                shopSelection.push({ label: value.Issuername, value: value.IssuerCode });
             });
+            this.shopNameOptions = shopSelection;
+            this.shopNameOptions.unshift({ label: 'All', value: 'All'});
           });
         break;
       case 'r':
         if (type === 'enter') {
           this.receiverPanel.overlayVisible = true;
         }
-        const r_params = new HttpParams().set('TRCode', 'All');
-        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, r_params).subscribe(res => {
+        if(this.receiverOptions === undefined) {
+        const params = new HttpParams().set('TRCode', 'All');
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
           res.forEach(s => {
             receiverSelection.push({ label: s.Tyname, value: s.Tycode });
           });
           this.receiverOptions = receiverSelection;
         });
+      }
         break;
       case 's':
         if (type === 'enter') {
@@ -177,8 +177,10 @@ export class CustomerDetailsComponent implements OnInit {
   onView() {
     const params = {
       'GCode': this.GCode.value,
-      'SCode': this.Society.value,
-      'TCode': this.ReceivorType.value,
+      'SCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ?
+      this.Society.value : '0',
+      'ShopCode': this.Shop.value,
+      'ReceivorType': this.ReceivorType.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GName': this.GCode.label,
@@ -186,9 +188,11 @@ export class CustomerDetailsComponent implements OnInit {
       'UserName': this.username.user,
       'Type': 1
     };
+    this.onResetTable('');
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.filterArray = res;
+        this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
         let sno = 0;
@@ -204,21 +208,23 @@ export class CustomerDetailsComponent implements OnInit {
             key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
             summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
           });
-      } (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
   onAbstract() {
     const params = {
-      'GCode': this.GCode,
-      'SCode': this.Society.value,
-      'TCode': this.ReceivorType.value,
+      'GCode': this.GCode.value,
+      'SCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ?
+      this.Society.value : '0',
+      'ReceivorType': this.ReceivorType.value,
+      'ShopCode': this.Shop.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GName': this.GCode.label,
@@ -226,6 +232,7 @@ export class CustomerDetailsComponent implements OnInit {
       'UserName': this.username.user,
       'Type': 2
     };
+    this.onResetTable('');
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
@@ -246,7 +253,8 @@ export class CustomerDetailsComponent implements OnInit {
             key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
             summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
           });
-      } (err: HttpErrorResponse) => {
+      }
+     }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.loading = false;
           this.messageService.clear();
@@ -255,14 +263,22 @@ export class CustomerDetailsComponent implements OnInit {
             summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
           });
         }
-      }
     });
   }
 
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
-    else if(item === 'rec') { this.Shop = null; this.Society = null; }
-    this.IssueMemoCustomerDetailsData.length = 0;
+    else if(item === 'rec') { 
+      if(this.ReceivorType !== undefined && this.ReceivorType.value !== undefined) {
+        if(this.ReceivorType.value === 'TY002' || this.ReceivorType.value === 'TY003' || this.ReceivorType.value === 'TY004') {
+        this.disableSociety = false;
+        } else { this.disableSociety = true; }
+      }
+      this.Shop = null;
+      this.Society = null;
+     }
+    else if(item === 'soc') { this.Shop = null; }
+    this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {

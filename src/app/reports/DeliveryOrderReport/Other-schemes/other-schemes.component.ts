@@ -20,7 +20,7 @@ import { saveAs } from 'file-saver';
 })
 export class OtherSchemesComponent implements OnInit {
   OtherSchemeCols: any;
-  OtherSchemeData: any;
+  OtherSchemeData: any = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
@@ -186,11 +186,9 @@ export class OtherSchemesComponent implements OnInit {
         let sno = 0;
         let TotalAmount = 0;
         let TotalQuantity = 0;
-        let TotalRate = 0;
         this.OtherSchemeData.forEach(data => {
           TotalAmount += (data.Amount !== undefined && data.Amount !== null) ? (data.Amount * 1) : 0;
           TotalQuantity += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
-          TotalRate += (data.Rate !== undefined && data.Rate !== null) ? (data.Rate * 1) : 0;
           sno += 1;
           data.SlNo = sno;
         });
@@ -198,7 +196,6 @@ export class OtherSchemesComponent implements OnInit {
           {
             Amount: TotalAmount.toFixed(2),
             Quantity: TotalQuantity.toFixed(3),
-            Rate: TotalRate.toFixed(2),
             Dono: 'Total'
           }
         );
