@@ -130,10 +130,10 @@ export class CustomerDetailsComponent implements OnInit {
         const shop_params = {
           'GCode': this.GCode.value,
           'ReceviorType': this.ReceivorType.value,
-          'SocietyCode': this.Society.value,
+          'SocietyCode': (this.Society !== undefined) ? this.Society.value : '0',
           'Type': 2
         };
-          this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_POST, shop_params).subscribe(shops => {
+          this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, shop_params).subscribe(shops => {
             shops.forEach(value => {
               if (value.TransType === 'I') {
                 shopSelection.push({ label: value.TRName, value: value.TRCode });
@@ -161,15 +161,13 @@ export class CustomerDetailsComponent implements OnInit {
         }
           const params = {
             'GCode': this.GCode.value,
-            'ReceviorType': this.ReceivorType.value,
+            'ReceivorType': this.ReceivorType.value,
             'Type': 1
           };
           this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, params).subscribe(res => {
-            var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
-            var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-            for (var index in result && code) {
-              societySelection.push({ label: result[index], value: code[index] });
-            }
+           res.forEach(value => {
+             societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
+           })
             this.societyOptions = societySelection;
           });
         break;
@@ -265,7 +263,6 @@ export class CustomerDetailsComponent implements OnInit {
     if(item === 'reg') { this.GCode = null; }
     else if(item === 'rec') { this.Shop = null; this.Society = null; }
     this.IssueMemoCustomerDetailsData.length = 0;
-    this.IssueMemoCustomerDetailsCols.length = 0;
   }
 
   onDateSelect() {
