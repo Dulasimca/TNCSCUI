@@ -144,8 +144,8 @@ export class CustomerDetailsComponent implements OnInit {
         if (type === 'enter') {
           this.receiverPanel.overlayVisible = true;
         }
-        const params = new HttpParams().set('TRCode', this.t_cd.value);
-        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
+        const r_params = new HttpParams().set('TRCode', this.t_cd.value);
+        this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, r_params).subscribe(res => {
           res.forEach(s => {
             ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
           });
@@ -156,7 +156,6 @@ export class CustomerDetailsComponent implements OnInit {
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-        if (this.societyOptions === undefined) {
           const params = new HttpParams().set('GCode', this.GCode);
           this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
             var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
@@ -166,7 +165,6 @@ export class CustomerDetailsComponent implements OnInit {
             }
             this.societyOptions = this.SocietySelection;
           });
-        }
         break;
     }
   }

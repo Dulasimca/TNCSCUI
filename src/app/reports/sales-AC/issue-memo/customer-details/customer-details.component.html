@@ -43,7 +43,7 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-12 label-fontsize dashboard">Receiver Type</label>
         <p-dropdown class="ui-fluid dashboard" id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
-          (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')" (ngModelChange)="onResetTable()"
+          (onChange)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')" (ngModelChange)="onResetTable()"
           filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -53,7 +53,7 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g label-fontsize dashboard">Society</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="societyOptions" [(ngModel)]="s_cd"
-          (onClick)="onSelect('s', 'click')" (keydown.enter)="onSelect('s', 'click')" (ngModelChange)="onResetTable()"
+          (onChange)="onSelect('s', 'click')" (keydown.enter)="onSelect('s', 'click')" (ngModelChange)="onResetTable()"
           filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
