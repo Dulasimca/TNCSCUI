@@ -141,12 +141,15 @@ export class MarginAmountComponent implements OnInit {
         this.MarginAmountData = res;
         this.loading = false;
         let sno = 0;
+        let totalAmnt = 0;
         this.MarginAmountData.forEach(data => {
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          totalAmnt += (data.Amount * 1);
         });
+        this.MarginAmountData.push({ Coop: 'Total', Amount: totalAmnt });
       } else {
         this.loading = false;
         this.messageService.clear();
