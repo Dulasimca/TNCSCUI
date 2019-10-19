@@ -31,7 +31,7 @@ export class CustomerDetailsComponent implements OnInit {
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   societyOptions: SelectItem[];
-  filterArray: any;
+  isAbstract: boolean = true;
   Society: any;
   ReceivorType: any;
   Shop: any;
@@ -191,7 +191,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.onResetTable('');
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.filterArray = res;
+        this.isAbstract = false;
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
@@ -238,8 +238,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
-        this.filterArray = [];
-        // this.filterArray = res;
+        this.isAbstract = true;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
@@ -307,11 +306,11 @@ export class CustomerDetailsComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    if (this.filterArray === undefined) {
-      const filename1 = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+    if (this.isAbstract === true) {
+      const filename1 = this.GCode.value + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
       saveAs(path + filename1, filename1);
     } else {
-      const filename2 = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+      const filename2 = this.GCode.value + GolbalVariable.SalesIssueMemoFileName + ".txt";
       saveAs(path + filename2, filename2);
 
     }
