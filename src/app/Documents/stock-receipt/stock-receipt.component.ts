@@ -717,7 +717,7 @@ export class StockReceiptComponent implements OnInit {
         let currentYr = new Date().getFullYear();
         let today = new Date().getDate();
         this.curMonth = res[0].Pallotment.slice(5, 7);
-        let formDate = this.curMonth + "-" + today + "-" + currentYr;
+        let formDate = this.SRDate //this.curMonth + "-" + today + "-" + currentYr;
         this.monthOptions = [{ label: this.datepipe.transform(new Date(formDate), 'MMM'), value: this.curMonth }]
         this.month = this.datepipe.transform(new Date(formDate), 'MMM');
         this.yearOptions = [{ label: res[0].Pallotment.slice(0, 4), value: res[0].Pallotment.slice(0, 4) }]

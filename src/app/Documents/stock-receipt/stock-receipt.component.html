@@ -44,13 +44,14 @@
                   <br>
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label for="PeriodOfMonth" class="label-fontsize">Month</label>
-                    <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="month"
+                    <!-- <input name="Month" [(ngModel)]="month" pInputText autocomplete="off" [readonly]="true" required> -->
+                 <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="month"
                       (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                      resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
+                      resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required> 
                        <!-- <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
                       </ng-template>  -->
-                    </p-dropdown>
+                    </p-dropdown> 
                   </div>
                   <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                     <label for="PeriodOfYear" class="label-fontsize">Year</label>
