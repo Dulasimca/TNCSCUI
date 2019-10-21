@@ -73,7 +73,8 @@ export class DDChequeEntryComponent implements OnInit {
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.receivorTypeOptions = [{ label: '-select-', value: null }, { label: 'BULK CONSUMERS', value: 'TY001' },
     { label: 'COOPERATIVES LEADING', value: 'TY002' }, { label: 'COOPERATIVES PRIMARY', value: 'TY003' },
-    { label: 'CRS', value: 'TY004' }];
+    { label: 'CRS', value: 'TY004' },
+    {label: 'CREDIT SALES', value: 'TY020' }];
     this.regionName = this.authService.getUserAccessible().rName;
     this.godownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
