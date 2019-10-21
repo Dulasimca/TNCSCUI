@@ -127,7 +127,7 @@ export class TruckReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
-  isSaved: boolean = false;
+  // isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('sc') schemePanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -384,7 +384,7 @@ export class TruckReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        // if (this.packingTypeOptions === undefined) {
+        if (this.packingTypeOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -394,14 +394,14 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-        // } 
+       } 
         break;
       case 'wmt':
-        // if (this.wmtOptions === undefined) {
         if (type === 'enter') {
           this.weighmentPanel.overlayVisible = true;
         }
-        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        if (this.wmtOptions === undefined) {
+             this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
@@ -410,24 +410,20 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-        // }
+      }
         break;
       case 'fc':
         if (type === 'enter') {
           this.freightPanel.overlayVisible = true;
         }
-        // if (this.freightOptions === undefined) {
         this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
-        // }
         break;
       case 'vc':
-        // if(this.vehicleOptions === undefined) {
         if (type === 'enter') {
           this.vehiclePanel.overlayVisible = true;
         }
         this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },
         { label: 'CONTRACT', value: 'CONTRACT' }, { label: 'GOVT', value: 'GOVT' }];
-        // }
         break;
     }
   }
@@ -580,8 +576,8 @@ export class TruckReceiptComponent implements OnInit {
     this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
     this.transactionOptions = []; this.toRailHeadOptions = [];
     this.receivorNameOptions = []; this.receivorRegionOptions = [];
-    this.receivorTypeOptions = []; this.packingTypeOptions = [];
-    this.schemeOptions = []; this.itemDescOptions = []; this.wmtOptions = [];
+    this.receivorTypeOptions = []; this.packingTypeOptions = undefined;
+    this.schemeOptions = []; this.itemDescOptions = []; this.wmtOptions = undefined;
     this.schemeCode = null; this.Scheme = null; this.ICode = null;
     this.iCode = null; this.GodownNo = null; this.LocationNo = null;
     this.stackOptions = []; this.TStockNo = null; this.ipCode = null;
@@ -591,7 +587,7 @@ export class TruckReceiptComponent implements OnInit {
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
     this.toStationOptions = [{ label: '-', value: '-' }];
-    this.isSaved = false;
+    // this.isSaved = false;
     //this.isViewed = false;
   }
 
@@ -771,7 +767,7 @@ export class TruckReceiptComponent implements OnInit {
         this.OrderNo = res[0].MNo;
         this.RNo = res[0].RNo;
         this.RDate = new Date(res[0].RDate);
-        this.LorryNo = res[0].LNo;
+        this.LorryNo = res[0].LNo.toUpperCase();
         if (res[0].TransportMode !== 'UPCountry') {
           this.selectedValues = [];
           this.selectedValues.push(res[0].TransportMode);
@@ -915,7 +911,7 @@ export class TruckReceiptComponent implements OnInit {
       'documentSTItemDetails': this.itemData,
       'documentSTTDetails': this.STTDetails
     };
-    this.isSaved = true;
+    // this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -949,6 +945,9 @@ export class TruckReceiptComponent implements OnInit {
         this.STTDetails = [];
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }

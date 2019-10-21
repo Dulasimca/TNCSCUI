@@ -12,7 +12,7 @@ export class StatusMessage {
     public static readonly WarningMessage = 'Please try after sometime!';
     public static readonly NoRecordMessage = 'No Record Found!';
     public static readonly NoRecForCombination = 'No Record for this combination!'
-    public static readonly NetworkErrorMessage = 'Please your network connectivity!';
+    public static readonly NetworkErrorMessage = 'Please your Network Connectivity!';
     public static readonly ExceedingStackBalance = 'Exceeding the Stack Balance!';
     public static readonly NotSufficientStackBalance = 'Stack Balance is not sufficient!';
     public static readonly ValidDateErrorMessage = 'Please select a valid date range!';

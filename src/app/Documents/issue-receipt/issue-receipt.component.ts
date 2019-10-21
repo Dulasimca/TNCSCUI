@@ -73,7 +73,7 @@ export class IssueReceiptComponent implements OnInit {
   SI_Date: Date;
   DNo: any;
   canShowMenu: boolean;
-  //Issue details
+  ///Issue details
   Trcode: any;
   IRelates: any;
   DeliveryOrderDate: Date = new Date();
@@ -120,7 +120,6 @@ export class IssueReceiptComponent implements OnInit {
   field: any;
   selected: any;
   disableYear: boolean;
-  isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -187,6 +186,7 @@ export class IssueReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
+        if(this.transactionOptions === undefined) {
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -201,6 +201,7 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
+      }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -231,7 +232,6 @@ export class IssueReceiptComponent implements OnInit {
                 });
                 this.receiverTypeOptions = receivorTypeList;
                 this.receiverTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-                // this.isReceivorNameDisabled = false;
               }
             });
           }
@@ -310,11 +310,11 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        // if (this.packingTypeOptions === undefined) {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        if (this.packingTypeOptions === undefined) {
+          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
@@ -325,13 +325,13 @@ export class IssueReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-        // }
+       }
         break;
       case 'wmt':
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
-        // if (this.wmtOptions === undefined) {
+        if (this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table1.forEach(w => {
@@ -341,7 +341,7 @@ export class IssueReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
         });
-        // }
+        }
         break;
     }
   }
@@ -707,7 +707,7 @@ export class IssueReceiptComponent implements OnInit {
       'TransporterName': (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
-      'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo : '-',
+      'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo.toUpperCase() : '-',
       'NewBale': (this.NewBale !== undefined && this.NewBale !== null) ? this.NewBale : 0,
       'SoundServiceable': (this.SServiceable !== undefined && this.SServiceable !== null) ? this.SServiceable : 0,
       'ServiceablePatches': (this.SPatches !== undefined && this.SPatches !== null) ? this.SPatches : 0,
@@ -725,7 +725,6 @@ export class IssueReceiptComponent implements OnInit {
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
     };
-    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -755,7 +754,11 @@ export class IssueReceiptComponent implements OnInit {
       this.isViewed = false;
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }
@@ -841,7 +844,7 @@ export class IssueReceiptComponent implements OnInit {
         let ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
         this.IssuerCode = this.rnCode + '-' + ACSCode;
         this.IRelates = res.Table[0].IRelates;
-        this.VehicleNo = res.Table[0].LorryNo;
+        this.VehicleNo = res.Table[0].LorryNo.toUpperCase();
         this.ManualDocNo = res.Table[0].Flag1;
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();
@@ -888,6 +891,9 @@ export class IssueReceiptComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
       }
     });
   }
@@ -921,11 +927,9 @@ export class IssueReceiptComponent implements OnInit {
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;
     this.TStockNo = null; this.stackYear = null; this.IssuerCode = null;
-    this.packingTypeOptions = []; this.transactionOptions = [];
-    this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = [];
+    this.packingTypeOptions = undefined; this.transactionOptions = undefined;
+    this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
-    this.isSaved = false;
-    // this.isViewed = false;
   }
 
   openNext() {
@@ -945,7 +949,6 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    // this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     } else {

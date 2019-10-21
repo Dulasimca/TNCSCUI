@@ -47,6 +47,7 @@ export class DocumentCorrectionComponent implements OnInit {
   Id: any;
   fromDate: Date =  new Date();
   toDate: Date =  new Date();
+  blockScreen: boolean;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
@@ -296,6 +297,7 @@ export class DocumentCorrectionComponent implements OnInit {
   }
 
   onSave() {
+    this.blockScreen = true;
     const params = {
       'Type': 1,
       'DocNo': this.DocNo,
@@ -307,17 +309,23 @@ export class DocumentCorrectionComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.DOCUMENT_CORRECTION_POST, params).subscribe((res: any) => {
       if (res.Item1) {
-        this.onClear();
+      this.blockScreen = false;
+      this.onClear();
         this.messageService.clear();
         this.messageService.add({ key: 't-msg', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }

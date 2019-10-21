@@ -44,6 +44,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   gdata: any = [];
   validationErr: boolean = false;
   totalRecords: number;
+  blockScreen: boolean;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService,
@@ -199,6 +200,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onSave() {
+    this.blockScreen = true;
     const params = {
       'GodownCode': this.g_cd.value,
       'CommodityCode': (this.c_cd.value !== null && this.c_cd.value !== undefined) ? this.c_cd.value : this.commodityCd,
@@ -212,16 +214,22 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.OPENING_BALANCE_MASTER_POST, params).subscribe(res => {
       if (res) {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
-        this.messageService.clear();
+      this.blockScreen = false;
+      this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     })
     this.onClear();

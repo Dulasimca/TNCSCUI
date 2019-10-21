@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { delay, timeout, retry, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -26,7 +27,10 @@ export class RestAPIService {
   }
 
   post(url, obj): Observable<any> {
-    return this.httpClient.post(this.BASEURL + url, obj);
+    return this.httpClient.post(this.BASEURL + url, obj).pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
   }
 
   getByParameters(url, params): Observable<any> {
@@ -34,7 +38,10 @@ export class RestAPIService {
   }
 
   put(url, obj): Observable<any> {
-   return this.httpClient.put(this.BASEURL + url, obj);
+   return this.httpClient.put(this.BASEURL + url, obj).pipe(
+    retry(1),
+    catchError(this.handleError)
+  );
   }
 
   delete(url, options): Observable<any> {
@@ -50,7 +57,6 @@ export class RestAPIService {
       // server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
     return throwError(errorMessage);
   }
 

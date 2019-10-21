@@ -30,11 +30,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Date: any = new Date();
   GCode: any;
   ICode: any;
-  CurYear: any;
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
-  curYearOptions: SelectItem[];
   commoditySelection: any[] = [];
   Weights: any = 0;
   Bags: any = 0;
@@ -49,6 +47,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   cardExits: boolean;
   flag: boolean;
   totalRecords: number;
+  blockScreen: boolean;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -175,15 +174,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.openView = false;
         }
         break;
-      case 'cy':
-        if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined && this.CurYear !== null) {
-          this.stackOpeningData = this.stackOpeningData.filter(x => {
-            return x.CurYear === this.CurYear
-          })
-        } else {
-          this.stackOpeningData = this.Opening_Balance;
-        }
-        break;
     }
   }
 
@@ -217,6 +207,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
+    this.blockScreen = true;
     this.openView = true;
     this.stackOpeningData.length = 0;
     let curYrOptions = [];
@@ -224,6 +215,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+        this.blockScreen = false;
         let sno = 0;
         res.Table.forEach(i => {
           sno += 1;
@@ -240,25 +232,22 @@ export class StackCardOpeningEntryComponent implements OnInit {
             Flag1: i.Flag1
           })
         });
-        if (res.Table1 !== undefined && res.Table1 !== null) {
-          res.Table1.forEach(cy => {
-            curYrOptions.push({ label: cy.CurYear, value: cy.CurYear });
-          })
-          this.curYearOptions = curYrOptions;
-        }
-        // this.stackOpeningData.forEach(x => {
-        // });
         this.totalRecords = this.stackOpeningData.length;
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
-        this.openView = false;
+       this.blockScreen = false;
+       this.openView = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }
