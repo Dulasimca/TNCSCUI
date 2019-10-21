@@ -214,6 +214,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
+        if(this.transactionOptions === undefined) {
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -227,6 +228,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
+      }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -818,7 +820,7 @@ export class StockReceiptComponent implements OnInit {
     this.IPCode = null; this.ipCode = null; this.TStockNo = null; this.NoPacking = null;
     this.schemeCode = null; this.Scheme = null; this.Remarks = null;
     this.stackCompartment = null; this.TransporterName = '-';
-    this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
+    this.transactionOptions = undefined; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
     this.WTCode = null; this.Moisture = null; this.godownNo = null; this.locationNo = null;
     this.stackOptions = []; this.wmtOptions = undefined; this.packingTypeOptions = undefined;
