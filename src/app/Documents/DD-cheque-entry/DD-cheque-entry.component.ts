@@ -58,6 +58,7 @@ export class DDChequeEntryComponent implements OnInit {
   isSelectedReceivor: boolean;
   selected: any;
   totalRecords: number;
+  blockScreen: boolean;
   @ViewChild('receivor') receivorTypePanel: Dropdown;
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
@@ -72,7 +73,8 @@ export class DDChequeEntryComponent implements OnInit {
     this.UserID = JSON.parse(this.authService.getCredentials());
     this.receivorTypeOptions = [{ label: '-select-', value: null }, { label: 'BULK CONSUMERS', value: 'TY001' },
     { label: 'COOPERATIVES LEADING', value: 'TY002' }, { label: 'COOPERATIVES PRIMARY', value: 'TY003' },
-    { label: 'CRS', value: 'TY004' }];
+    { label: 'CRS', value: 'TY004' },
+    {label: 'CREDIT SALES', value: 'TY020' }];
     this.regionName = this.authService.getUserAccessible().rName;
     this.godownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
@@ -152,11 +154,10 @@ export class DDChequeEntryComponent implements OnInit {
           sno += 1;
         })
       } else {
-        this.messageService.clear();
+       this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
-      // this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -272,6 +273,7 @@ export class DDChequeEntryComponent implements OnInit {
   }
 
   onSave(type) {
+    this.blockScreen = true;
     const params = {
       'Type': type,
       'GCode': this.GCode,
@@ -285,6 +287,7 @@ export class DDChequeEntryComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.DD_CHEQUE_ENTRY_POST, params).subscribe((res: any) => {
       if (res.Item1) {
+        this.blockScreen = false;
         this.onClear();
         if (type !== '2') {
           this.isSaveSucceed = true;
@@ -297,11 +300,12 @@ export class DDChequeEntryComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
       }
     }, (err: HttpErrorResponse) => {
-      // this.blockScreen = false;
+       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -330,7 +334,6 @@ export class DDChequeEntryComponent implements OnInit {
     this.bank = data.Bank;
     this.receivedFrom = data.ReceivedFrom;
     this.receivorCode = (data.ReceivorCode !== undefined && data.ReceivorCode !== null) ? data.ReceivorCode : '-';
-    // this.details = (data.Detail !== undefined && data.Detail !== null) ? ((data.Detail.trim() !== '') ? data.Detail : '-') : null;
     this.DDChequeData.splice(index, 1);
     this.DDChequeData.forEach(i => {
       i.SNo = sno;
@@ -344,7 +347,6 @@ export class DDChequeEntryComponent implements OnInit {
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
-  //  w.close();
   }
 
   onPrint() {

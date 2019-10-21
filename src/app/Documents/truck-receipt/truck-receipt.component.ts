@@ -579,10 +579,14 @@ export class TruckReceiptComponent implements OnInit {
     this.FCode = '-'; this.VCode = '-'; this.RRNo = 0; this.WNo = 0; this.RailFreightAmt = 0;
     this.CurrentDocQtv = 0; this.StackBalance = 0; this.NetStackBalance = 0;
     this.transactionOptions = []; this.toRailHeadOptions = [];
-    this.schemeOptions = []; this.itemDescOptions = [];
+    this.receivorNameOptions = []; this.receivorRegionOptions = [];
+    this.receivorTypeOptions = []; this.packingTypeOptions = [];
+    this.schemeOptions = []; this.itemDescOptions = []; this.wmtOptions = [];
     this.schemeCode = null; this.Scheme = null; this.ICode = null;
     this.iCode = null; this.GodownNo = null; this.LocationNo = null;
-    this.stackOptions = []; this.TStockNo = null;
+    this.stackOptions = []; this.TStockNo = null; this.ipCode = null;
+    this.IPCode = null; this.WTCode = null; this.wtCode = null;
+    this.NoPacking = null; this.GKgs = null; this.NKgs = null;
     this.freightOptions = [{ label: '-', value: '-' }];
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];

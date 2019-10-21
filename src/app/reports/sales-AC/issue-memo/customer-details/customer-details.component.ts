@@ -21,48 +21,39 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./customer-details.component.css']
 })
 export class CustomerDetailsComponent implements OnInit {
-  IssueMemoCustomerDetailsData: any;
   IssueMemoCustomerDetailsCols: any;
+  IssueMemoCustomerDetailsData: any = [];
   AbstractData: any;
   AbstractCols: any;
   canShowMenu: boolean;
   godownOptions: SelectItem[];
-  SchemeOptions: SelectItem[];
-  transactionOptions: SelectItem[];
+  shopNameOptions: SelectItem[];
   receiverOptions: SelectItem[];
   regionOptions: SelectItem[];
   societyOptions: SelectItem[];
-  filterArray: any;
-  s_cd: any;
-  r_cd: any;
-  g_cd: any;
-  t_cd: any;
+  isAbstract: boolean = true;
+  Society: any;
+  ReceivorType: any;
+  Shop: any;
+  RCode: any;
   GCode: any;
   data: any;
   fromDate: any = new Date();
   toDate: any = new Date();
-  isActionDisabled: boolean;
   deliveryReceiptRegCols: any;
   maxDate: Date;
-  SocietySelection = [];
-  TypeSelection = [];
-  ReceiverSelection = [];
-  TransactionSelection = [];
-  Trcode: any;
-  trCode: any;
   roleId: any;
-  RCode: any;
-  GName: any;
-  RName: any;
   username: any;
   loggedInRCode: any;
   regions: any;
   loading: boolean;
+  items: any[];
+  disableSociety: boolean = true;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
+  @ViewChild('shop') shopPanel: Dropdown;
   @ViewChild('society') societyPanel: Dropdown;
-  @ViewChild('receiver') receiverPanel: Dropdown;
+  @ViewChild('receivor') receiverPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
@@ -71,23 +62,30 @@ export class CustomerDetailsComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    this.GCode = this.authService.getUserAccessible().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
-    this.isActionDisabled = true;
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
-    this.GName = this.authService.getUserAccessible().gName;
-    this.RName = this.authService.getUserAccessible().rName;
     this.username = JSON.parse(this.authService.getCredentials());
+    this.items = [
+      {
+        label: 'View', command: () => {
+          this.onView();
+        }
+      },
+        {
+        label: 'Abstract', command: () => {
+          this.onAbstract();
+        }
+      }]
   }
 
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let TransactionSelection = [];
-    let ReceiverSelection = [];
-    let SocietySelection = [];
+    let shopSelection = [];
+    let receiverSelection = [];
+    let societySelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -97,7 +95,7 @@ export class CustomerDetailsComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
           }
@@ -105,7 +103,7 @@ export class CustomerDetailsComponent implements OnInit {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -118,75 +116,83 @@ export class CustomerDetailsComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ label: x.GName, value: x.GCode });
             }
           });
           this.godownOptions = godownSelection;
         }
         break;
-      case 't':
+      case 'sh':
         if (type === 'enter') {
-          this.transactionPanel.overlayVisible = true;
+          this.shopPanel.overlayVisible = true;
         }
-        if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(s => {
-            s.forEach(c => {
-              if (c.TransType === 'I') {
-                TransactionSelection.push({ 'label': c.TRName, 'value': c.TRCode });
-              }
-              this.transactionOptions = TransactionSelection;
+        const shop_params = {
+          'GCode': this.GCode.value,
+          'ReceivorType': this.ReceivorType.value,
+          'SocietyCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ? this.Society.value : '0',
+          'Type': 2
+        };
+          this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, shop_params).subscribe(shops => {
+            shops.forEach(value => {
+                shopSelection.push({ label: value.Issuername, value: value.IssuerCode });
             });
+            this.shopNameOptions = shopSelection;
+            this.shopNameOptions.unshift({ label: 'All', value: 'All'});
           });
-        }
         break;
       case 'r':
         if (type === 'enter') {
           this.receiverPanel.overlayVisible = true;
         }
-        const params = new HttpParams().set('TRCode', this.t_cd.value);
+        if(this.receiverOptions === undefined) {
+        const params = new HttpParams().set('TRCode', 'All');
         this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe(res => {
           res.forEach(s => {
-            ReceiverSelection.push({ 'label': s.Tyname, 'value': s.Tycode });
+            receiverSelection.push({ label: s.Tyname, value: s.Tycode });
           });
-          this.receiverOptions = ReceiverSelection;
+          this.receiverOptions = receiverSelection;
         });
+      }
         break;
       case 's':
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-        if (this.societyOptions === undefined) {
-          const params = new HttpParams().set('GCode', this.GCode);
-          this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-            var result = Array.from(new Set(res.map((item: any) => item.SocietyName)));
-            var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-            for (var index in result && code) {
-              this.SocietySelection.push({ 'label': result[index], 'value': code[index] });
-            }
-            this.societyOptions = this.SocietySelection;
+          const params = {
+            'GCode': this.GCode.value,
+            'ReceivorType': this.ReceivorType.value,
+            'Type': 1
+          };
+          this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, params).subscribe(res => {
+           res.forEach(value => {
+             societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
+           })
+            this.societyOptions = societySelection;
           });
-        }
         break;
     }
   }
 
   onView() {
     const params = {
-      'GCode': this.GCode,
-      'SCode': this.s_cd.value,
-      'TCode': this.r_cd.value,
+      'GCode': this.GCode.value,
+      'SCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ?
+      this.Society.value : '0',
+      'ShopCode': this.Shop.value,
+      'ReceivorType': this.ReceivorType.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GName': this.GName,
-      'RName': this.RName,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
       'UserName': this.username.user,
       'Type': 1
     };
+    this.onResetTable('');
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-      if (res !== undefined) {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.isAbstract = false;
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoCustomerDetail;
-        this.filterArray = res;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
         let sno = 0;
@@ -195,8 +201,6 @@ export class CustomerDetailsComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
-        if (res !== undefined && res.length !== 0) {
-          this.isActionDisabled = false;
         } else {
           this.loading = false;
           this.messageService.clear();
@@ -205,45 +209,42 @@ export class CustomerDetailsComponent implements OnInit {
             summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
           });
         }
+    },(err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
         this.loading = false;
-      } (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.onClear();
   }
 
   onAbstract() {
     const params = {
-      'GCode': this.GCode,
-      'SCode': this.s_cd.value,
-      'TCode': this.r_cd.value,
+      'GCode': this.GCode.value,
+      'SCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ?
+      this.Society.value : '0',
+      'ReceivorType': this.ReceivorType.value,
+      'ShopCode': this.Shop.value,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'Tdate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GName': this.GName,
-      'RName': this.RName,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
       'UserName': this.username.user,
       'Type': 2
     };
+    this.onResetTable('');
     this.restAPIService.post(PathConstants.ISSUE_MEMO_CUTOMER_DETAILS_POST, params).subscribe(res => {
-      if (res !== undefined) {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.IssueMemoCustomerDetailsCols = this.tableConstants.IssueMemoAbstract;
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
-        this.filterArray = [];
-        // this.filterArray = res;
+        this.isAbstract = true;
         let sno = 0;
         this.IssueMemoCustomerDetailsData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
           sno += 1;
           data.SlNo = sno;
         });
-        if (res !== undefined && res.length !== 0) {
-          this.isActionDisabled = false;
         } else {
           this.loading = false;
           this.messageService.clear();
@@ -251,9 +252,8 @@ export class CustomerDetailsComponent implements OnInit {
             key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
             summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
           });
-        }
-        this.loading = false;
-      } (err: HttpErrorResponse) => {
+      }
+     }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.loading = false;
           this.messageService.clear();
@@ -262,23 +262,27 @@ export class CustomerDetailsComponent implements OnInit {
             summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
           });
         }
-      }
     });
-    this.onClear();
   }
 
-  onResetTable() {
-    this.isActionDisabled = true;
-    this.IssueMemoCustomerDetailsData = this.IssueMemoCustomerDetailsCols = [];
-  }
-
-  onClear() {
-    this.IssueMemoCustomerDetailsCols = this.IssueMemoCustomerDetailsData = [];
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
+    else if(item === 'rec') { 
+      this.Shop = null;
+      this.Society = null;
+      if(this.ReceivorType !== undefined && this.ReceivorType.value !== undefined) {
+        if(this.ReceivorType.value === 'TY002' || this.ReceivorType.value === 'TY003' || this.ReceivorType.value === 'TY004') {
+        this.disableSociety = false;
+        } else { this.disableSociety = true; }
+      }
+     }
+    else if(item === 'soc') { this.Shop = null; }
+    this.IssueMemoCustomerDetailsData = [];
   }
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -300,25 +304,13 @@ export class CustomerDetailsComponent implements OnInit {
     }
   }
 
-  // onPrint() {
-  //   if (this.filterArray) {
-  //     const path = "../../assets/Reports/" + this.username.user + "/";
-  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
-  //     saveAs(path + filename, filename);
-  //   } else {
-  //     const path = "../../assets/Reports/" + this.username.user + "/";
-  //     const filename = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
-  //     saveAs(path + filename, filename);
-  //   }
-  // }
-
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    if (this.filterArray === undefined) {
-      const filename1 = this.GCode + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
+    if (this.isAbstract === true) {
+      const filename1 = this.GCode.value + GolbalVariable.SalesIssueMemoAbstractFileName + ".txt";
       saveAs(path + filename1, filename1);
     } else {
-      const filename2 = this.GCode + GolbalVariable.SalesIssueMemoFileName + ".txt";
+      const filename2 = this.GCode.value + GolbalVariable.SalesIssueMemoFileName + ".txt";
       saveAs(path + filename2, filename2);
 
     }
@@ -327,8 +319,6 @@ export class CustomerDetailsComponent implements OnInit {
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
-    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     if (this.IssueMemoCustomerDetailsData || this.AbstractData) {
       if (this.AbstractData) {
         var col = this.AbstractCols;

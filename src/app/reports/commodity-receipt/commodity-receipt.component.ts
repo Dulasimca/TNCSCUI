@@ -29,10 +29,8 @@ export class CommodityReceiptComponent implements OnInit {
   RCode: any;
   GCode: any;
   ITCode: any;
-  TrCode: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
-  transactionOptions: SelectItem[];
   commodityOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
@@ -44,7 +42,6 @@ export class CommodityReceiptComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
@@ -105,19 +102,6 @@ export class CommodityReceiptComponent implements OnInit {
           }
         }
         break;
-      case 'tr':
-        if (type === 'enter') { this.transactionPanel.overlayVisible = true; }
-        if (this.transactionOptions === undefined) {
-          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                transactionSelection.push({ 'label': y.TRName, 'value': y.TRCode });
-                this.transactionOptions = transactionSelection;
-              });
-            }
-          })
-        }
-        break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
         if (this.commodityOptions === undefined) {
@@ -145,7 +129,6 @@ export class CommodityReceiptComponent implements OnInit {
       'GCode': this.GCode,
       'RCode': this.RCode,
       'ITCode': this.ITCode,
-      'TRCode': this.TrCode,
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {

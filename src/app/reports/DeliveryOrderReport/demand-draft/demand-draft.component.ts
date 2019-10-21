@@ -137,14 +137,15 @@ export class DemandDraftComponent implements OnInit {
         this.FilterArray = res;
         this.loading = false;
         let sno = 0;
+        let totalAmnt = 0;
         this.DemandDraftData.forEach(data => {
           data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          totalAmnt += (data.PaymentAmount * 1);
         });
-
+        this.DemandDraftData.push({ Society: 'Total', PaymentAmount: totalAmnt });
         if (this.selectedValue === 'DateByOrder') {
           this.SortByDate();
         }
@@ -175,8 +176,10 @@ export class DemandDraftComponent implements OnInit {
     let sortedArray = _.sortBy(this.DemandDraftData, 'Dodate');
     let sno = 0;
     sortedArray.forEach(s => {
-      sno += 1;
-      s.SlNo = sno;
+      if (s.Society !== 'Total') {
+        sno += 1;
+        s.SlNo = sno;
+      }
     });
     this.DemandDraftData = sortedArray;
   }
@@ -185,8 +188,10 @@ export class DemandDraftComponent implements OnInit {
     let sortedArray = _.sortBy(this.DemandDraftData, 'Bank');
     let sno = 0;
     sortedArray.forEach(s => {
-      sno += 1;
-      s.SlNo = sno;
+      if (s.Society !== 'Total') {
+        sno += 1;
+        s.SlNo = sno;
+      }
     });
     this.DemandDraftData = sortedArray;
   }

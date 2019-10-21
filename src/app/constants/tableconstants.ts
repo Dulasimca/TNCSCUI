@@ -1106,6 +1106,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'DocNo', header: 'Doc.No.' },
       { field: 'DocDate', header: 'Doc.Date' },
+      { field: 'ShopName', header: 'Receiver Name' },
       { field: 'Scheme', header: 'Scheme' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'TStockNo', header: 'Stack Card' },

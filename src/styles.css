@@ -1193,7 +1193,10 @@ ul
     .ui-button-text-only .ui-button-text {
       padding: 3px 0px 3px 0px;
     }  
-
+    .ui-fluid .ui-splitbutton .ui-button.ui-splitbutton-menubutton {
+      width: 2em;
+      height: 1.7em;
+  }
     #err-page-header {
       margin: 0 0 0 0;
       padding: 6px 2% 6px 2%;
