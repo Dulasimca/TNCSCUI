@@ -26,6 +26,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
 import { ListboxModule } from 'primeng/listbox';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -274,7 +275,8 @@ import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDe
     TooltipModule,
     TooltipModule,
     BlockUIModule,
-    ListboxModule
+    ListboxModule,
+    ProgressSpinnerModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],

@@ -133,7 +133,7 @@ export class StockReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
-  isSaved: boolean = false;
+  // isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -336,10 +336,10 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        // if (this.packingTypeOptions === undefined) {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
+        if(this.packingTypeOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -351,13 +351,13 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-        //}
+      }
         break;
       case 'wmt':
-        // if (this.wmtOptions === undefined) {
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
+        if(this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {
@@ -367,7 +367,7 @@ export class StockReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
         });
-        // }
+       }
         break;
     }
   }
@@ -626,7 +626,6 @@ export class StockReceiptComponent implements OnInit {
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
       'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
     }
-    this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -658,6 +657,9 @@ export class StockReceiptComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
       }
     });
   }
@@ -779,7 +781,6 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onPrint() {
-    // this.blockScreen = true;
     if (this.isViewed) {
       this.onSave('2');
     } else {
@@ -820,10 +821,10 @@ export class StockReceiptComponent implements OnInit {
     this.transactionOptions = []; this.schemeOptions = []; this.itemDescOptions = [];
     this.depositorNameOptions = []; this.depositorTypeOptions = []; this.wtCode = null;
     this.WTCode = null; this.Moisture = null; this.godownNo = null; this.locationNo = null;
-    this.stackOptions = []; this.wmtOptions = []; this.packingTypeOptions = [];
+    this.stackOptions = []; this.wmtOptions = undefined; this.packingTypeOptions = undefined;
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
-    this.isSaved = false;
+    // this.isSaved = false;
   }
 
   openNext() {

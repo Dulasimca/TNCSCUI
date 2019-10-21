@@ -30,11 +30,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Date: any = new Date();
   GCode: any;
   ICode: any;
-  CurYear: any;
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
-  curYearOptions: SelectItem[];
   commoditySelection: any[] = [];
   Weights: any = 0;
   Bags: any = 0;
@@ -175,15 +173,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.openView = false;
         }
         break;
-      case 'cy':
-        if (this.stackOpeningData.length !== 0 && this.stackOpeningData !== undefined && this.CurYear !== null) {
-          this.stackOpeningData = this.stackOpeningData.filter(x => {
-            return x.CurYear === this.CurYear
-          })
-        } else {
-          this.stackOpeningData = this.Opening_Balance;
-        }
-        break;
     }
   }
 
@@ -240,14 +229,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
             Flag1: i.Flag1
           })
         });
-        if (res.Table1 !== undefined && res.Table1 !== null) {
-          res.Table1.forEach(cy => {
-            curYrOptions.push({ label: cy.CurYear, value: cy.CurYear });
-          })
-          this.curYearOptions = curYrOptions;
-        }
-        // this.stackOpeningData.forEach(x => {
-        // });
         this.totalRecords = this.stackOpeningData.length;
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
@@ -259,6 +240,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
       }
     });
   }

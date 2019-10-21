@@ -117,7 +117,7 @@ export class DeliveryReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
-  isSaved: boolean = false;
+  // isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -350,6 +350,7 @@ export class DeliveryReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.weighmentPanel.overlayVisible = true;
         }
+        if(this.rateInTermsOptions === undefined) {
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -361,12 +362,14 @@ export class DeliveryReceiptComponent implements OnInit {
           }
           this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
+      }
         break;
       case 'margin_wmt':
         if (type === 'enter') {
           this.marginWeighmentPanel.overlayVisible = true;
         }
-        this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+        if(this.marginRateInTermsOptions === undefined) {
+          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
               if (w.Basicweight !== 'GRAMS') {
@@ -377,6 +380,7 @@ export class DeliveryReceiptComponent implements OnInit {
           }
           this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
+      }
         break;
       case 'pay':
         if (type === 'enter') {
@@ -710,7 +714,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.messageService.clear();
     const params = {
       Type: 2,
-      DoDate: this.datepipe.transform(this.PrevOrderDate, 'MM/dd/yyyy'),
+      DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
       DoNo: (this.PrevOrderNo !== undefined && this.PrevOrderNo !== null) ? this.PrevOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
@@ -780,9 +784,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.marginTotal = 0; this.totalAmount = 0;
     this.MarginScheme = null; this.MICode = null; this.marginSchemeCode = null;
     this.schemeOptions = []; this.marginSchemeOptions = [];
-    this.marginRateInTermsOptions = []; this.rateInTermsOptions = [];
+    this.marginRateInTermsOptions = undefined; this.rateInTermsOptions = undefined;
     this.itemDescOptions = []; this.marginItemDescOptions = [];
-    this.isSaved = false;
+    // this.isSaved = false;
     //this.isViewed = false;
   }
 
@@ -953,7 +957,7 @@ export class DeliveryReceiptComponent implements OnInit {
       'deliveryPaymentDetails': this.paymentData,
       'deliveryAdjustmentDetails': this.paymentBalData
     };
-    this.isSaved = true;
+    // this.isSaved = true;
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -984,6 +988,9 @@ export class DeliveryReceiptComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
       }
     });
   }

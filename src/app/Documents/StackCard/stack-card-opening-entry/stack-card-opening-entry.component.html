@@ -21,7 +21,7 @@
         <div class="ui-g-12 no-pad-top" style="border: 1px solid #18c5a9">
         <div class="ui-g-12">
           <div class="ui-g-2"></div>
-          <div class="ui-g-12 ui-md-3 no-pad-top">
+          <div class="ui-g-6 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
             <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
               filter="true" resetFilterOnHide="true" optionLabel="label" [readonly]="nonEditable">
@@ -30,7 +30,7 @@
               </ng-template>
             </p-dropdown>
           </div>
-          <div class="form-group ui-g-12 ui-md-3 no-pad-top">
+          <div class="form-group ui-g-6 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
             <p-dropdown #region [options]="commodityOptions" [(ngModel)]="ICode" (keydown.enter)="onSelect('cd')"
              (onChange)="onSelect('cd')" filter="true" resetFilterOnHide="true" 
@@ -40,13 +40,12 @@
               </ng-template>
             </p-dropdown>
           </div>
-          <div class="form-group ui-g-12 ui-md-2 no-pad-top">
+          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="fromDate">Date</label>
             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
               [maxDate]="maxDate" name="fromDate" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
           </div>
-
-          <div class="ui-g-2"></div>
+          <div class="ui-g-1"></div>
         </div>
         <div class="ui-g-12 no-pad-top">
           <div class="ui-g-12 ui-md-1"></div>
@@ -104,15 +103,6 @@
       </form>
 
        <div *ngIf="openView" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
-       <div class="ui-g-12 ui-md-3 no-left-pad">
-        <label class="ui-g-6 label-fontsize-large">Current Year</label>
-        <p-dropdown id="float-input" [options]="curYearOptions" [(ngModel)]="CurYear" placeholder="-select"
-           (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true"  [showClear]="true" name="curyear">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div> 
       <div class="ui-g-12 ui-md-12 dashboard">
         <p-table #dt [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10" [totalRecords]="totalRecords"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
