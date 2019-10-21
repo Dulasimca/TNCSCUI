@@ -1,4 +1,7 @@
-<app-header></app-header>
+<p-blockUI [blocked]="blockScreen">
+  <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+  </p-blockUI>
+  <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
   <p-panel>

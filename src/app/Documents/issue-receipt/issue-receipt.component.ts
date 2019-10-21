@@ -707,7 +707,7 @@ export class IssueReceiptComponent implements OnInit {
       'TransporterName': (this.TransporterName.length !== 0 && this.TransporterName !== '') ? this.TransporterName : '-',
       'TransportingCharge': this.TransporterCharges,
       'ManualDocNo': (this.ManualDocNo === undefined || this.ManualDocNo === null) ? "" : this.ManualDocNo,
-      'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo : '-',
+      'LorryNo': (this.VehicleNo !== undefined && this.VehicleNo !== null) ? this.VehicleNo.toUpperCase() : '-',
       'NewBale': (this.NewBale !== undefined && this.NewBale !== null) ? this.NewBale : 0,
       'SoundServiceable': (this.SServiceable !== undefined && this.SServiceable !== null) ? this.SServiceable : 0,
       'ServiceablePatches': (this.SPatches !== undefined && this.SPatches !== null) ? this.SPatches : 0,
@@ -754,7 +754,11 @@ export class IssueReceiptComponent implements OnInit {
       this.isViewed = false;
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }
@@ -840,7 +844,7 @@ export class IssueReceiptComponent implements OnInit {
         let ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
         this.IssuerCode = this.rnCode + '-' + ACSCode;
         this.IRelates = res.Table[0].IRelates;
-        this.VehicleNo = res.Table[0].LorryNo;
+        this.VehicleNo = res.Table[0].LorryNo.toUpperCase();
         this.ManualDocNo = res.Table[0].Flag1;
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();

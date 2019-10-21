@@ -47,6 +47,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   cardExits: boolean;
   flag: boolean;
   totalRecords: number;
+  blockScreen: boolean;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -206,6 +207,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
+    this.blockScreen = true;
     this.openView = true;
     this.stackOpeningData.length = 0;
     let curYrOptions = [];
@@ -213,6 +215,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+        this.blockScreen = false;
         let sno = 0;
         res.Table.forEach(i => {
           sno += 1;
@@ -232,17 +235,19 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.totalRecords = this.stackOpeningData.length;
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
-        this.openView = false;
+       this.blockScreen = false;
+       this.openView = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }

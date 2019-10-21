@@ -767,7 +767,7 @@ export class TruckReceiptComponent implements OnInit {
         this.OrderNo = res[0].MNo;
         this.RNo = res[0].RNo;
         this.RDate = new Date(res[0].RDate);
-        this.LorryNo = res[0].LNo;
+        this.LorryNo = res[0].LNo.toUpperCase();
         if (res[0].TransportMode !== 'UPCountry') {
           this.selectedValues = [];
           this.selectedValues.push(res[0].TransportMode);
@@ -947,7 +947,7 @@ export class TruckReceiptComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }
