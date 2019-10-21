@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { delay, timeout } from 'rxjs/operators';
 
 
 @Injectable({
@@ -26,7 +27,7 @@ export class RestAPIService {
   }
 
   post(url, obj): Observable<any> {
-    return this.httpClient.post(this.BASEURL + url, obj);
+    return this.httpClient.post(this.BASEURL + url, obj).pipe(delay(5000), timeout(10000));
   }
 
   getByParameters(url, params): Observable<any> {
@@ -34,7 +35,7 @@ export class RestAPIService {
   }
 
   put(url, obj): Observable<any> {
-   return this.httpClient.put(this.BASEURL + url, obj);
+   return this.httpClient.put(this.BASEURL + url, obj).pipe(delay(5000), timeout(3000));
   }
 
   delete(url, options): Observable<any> {
