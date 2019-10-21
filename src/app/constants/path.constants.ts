@@ -97,6 +97,7 @@ export class PathConstants {
   public static readonly DEMAND_DRAFT_POST = '/api/DemandDraft/Post';
   public static readonly DELIVERY_ORDER_SCHEMEWISE = '/api/SchemeWise/Post';
   public static readonly ISSUE_MEMO_CUTOMER_DETAILS_POST = '/api/Sales/Post';
+  public static readonly ISSUE_MEMO_SOCIETY_ABSTRACT_REPORT = '/api/IssueMemoSocietyAbstract/Post';
   public static readonly QUANTITY_ACCOUNT_ISSUE_REPORT = '/api/IssuesForQuantityAccount/Post';
   public static readonly DELIVERY_ORDER_MARGIN_AMOUNT_POST = '/api/MarginAmount/Post';
   public static readonly QUANTITY_ACCOUNT_RECEIPT_REPORT = '/api/ReceiptForQuantityAccount/Post';
