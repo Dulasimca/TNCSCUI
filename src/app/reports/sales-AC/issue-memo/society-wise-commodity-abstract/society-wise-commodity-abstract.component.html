@@ -4,13 +4,13 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-10 dashboard">Issue Memo - Society Wise Commodity Abstract</div>
+        <div class="ui-g-10">Issue Memo - Society Wise Commodity Abstract</div>
         <div class="ui-g-3 ui-md-1 ui-fluid">
-          <button pButton type="button" label=Excel (click)="dt.exportCSV()"
-            [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
+          <button class="inline-padding" pButton type="button" label=Excel class="ui-button-warn"
+            (click)="dt.exportCSV()" [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
         </div>
         <div class="ui-g-12 ui-md-1 ui-fluid">
-          <button pButton type="button" label=Print (click)="onPrint()"
+          <button class="inline-padding" pButton type="button" class="ui-button-warn" label=Print (click)="onPrint()"
             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
         </div>
       </div>
@@ -39,7 +39,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
+      <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Customer Type</label>
         <p-dropdown #receivor class="ui-fluid dashboard" id="float-input" [options]="receiverOptions"
           [(ngModel)]="ReceivorType" (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')"
@@ -110,18 +110,6 @@
         </p-table>
       </div>
 
-      <!-- <div class="ui-g-12">
-
-        <div class="ui-g-12 ui-md-2">
-          <a class="DW" (click)="onDataWise()" href="#DM" (ngModelChange)="onClear()">Date Wise Breakup</a>
-        </div>
-        <div class="ui-g-12 ui-md-2">
-          <a (click)="onScheme()" href="S" (ngModelChange)="onClear()">Scheme Breakup</a>
-        </div>
-        <div class="ui-g-12 ui-md-2">
-          <a (click)="onSchemeAbstract()" href="#SA" (ngModelChange)="onClear()">Scheme Abstract</a>
-        </div>
-      </div> -->
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-9 dashboard">
           <ul style="list-style-type: none; text-align: center;">
@@ -300,10 +288,10 @@
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr>
                               <td *ngFor="let col of columns">
-                                <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
+                                <div *ngIf="col.field === 'TyName' || col.field === 'Society'">
                                   {{rowData[col.field]}}
                                 </div>
-                                <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
+                                <div *ngIf="col.field !== 'TyName' && col.field !== 'Society'">
                                   <div style="text-align: end !important">
                                     {{rowData[col.field]}}
                                   </div>
