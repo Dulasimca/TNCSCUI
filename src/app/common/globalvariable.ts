@@ -47,6 +47,10 @@ export class GolbalVariable {
     //SalesIssueMemo
     public static readonly SalesIssueMemoFileName = 'SIMCUSD';
     public static readonly SalesIssueMemoAbstractFileName = 'SIMABSD';
+    public static readonly IssueMemoSocietyAbstractFileName = 'ISSUESOCIETYABSTRACT';
+    public static readonly IssueMemoSocietyDateWiseFileName = 'ISSUESOCIETYDATWISE';
+    public static readonly IssueMemoSocietyDateAndSchemeFileName = 'ISSUESOCIETYDATANDSCHEME';
+    public static readonly IssueMemoSocietySchemeWiseFileName = 'ISSUESOCIETYSCHEMEWISE';
 
 
     ///Documents

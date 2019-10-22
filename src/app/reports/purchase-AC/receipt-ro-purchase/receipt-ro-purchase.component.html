@@ -48,7 +48,7 @@
           <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(receiptROPurchaseData.length=='0')"></button>
         </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
+          <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(receiptROPurchaseData.length=='0')"></button>
         </div>
           <div class="ui-g-12 ui-md-12">
           <p-table #dt [columns]="receiptROPurchaseCols" [value]="receiptROPurchaseData" [rows]="20"
