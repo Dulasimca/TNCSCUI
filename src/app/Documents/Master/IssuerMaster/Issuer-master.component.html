@@ -46,64 +46,63 @@
   </p-panel>
 </div>
 <p-dialog header="Issuer-Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [responsive]="true">
+[(visible)]="viewPane" [responsive]="true" [style]="{width: '800px', height: '800px'}">
 <form #f="ngForm" name="issuerMaster">
   <div class="ui-g-12 ui-fluid">
-    <div class="ui-g-2"></div>
-    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+    <div class="ui-g-1"></div>
+    <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
         <input name="Godown" pInputText [(ngModel)]="GName" [readonly]="true" autocomplete="off" required>
         <label for="Godown" class="float-input">Godown Name</label>
       </span>
     </div>
-    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+    <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
         <input name="Region" pInputText [(ngModel)]="RName" [readonly]="true" autocomplete="off" required>
         <label for="Region" class="float-input">Region Name</label>
       </span>
     </div>
-    <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
-      <label for="Society" class="label-fontsize">Society Type</label>
-      <p-dropdown #society name="Society" [options]="societyOptions" [(ngModel)]="Society"
-        (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true"
-         optionLabel="label" resetFilterOnHide="true" [showClear]="true" required>
-        <ng-template let-item pTemplate="selectedItem">
-          <span style="vertical-align:middle">{{item.label}}</span>
-        </ng-template>
+    <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
+      <label for="Society_Type" class="label-fontsize">Society Type</label>
+      <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society"
+       optionLabel="label" (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" required>
       </p-dropdown>
     </div>
-    <div class="ui-g-2"></div>
-    <div class="ui-g-2"></div>
-    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+    <!-- <div class="ui-g-2"></div> -->
+  </div>
+  <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-1"></div>
+    <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
         <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off" required>
         <label for="Iss_Code" class="float-input">Issuer Code</label>
       </span>
     </div>
-    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
-      <span class="ui-float-label">
-        <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
-        <label for="Iss_Name" class="float-input">Issuer Name</label>
-      </span>
-    </div>
-    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+    <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
         <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off" required>
         <label for="Acs_Code" class="float-input">ACSCode</label>
       </span>
     </div>
-    <div class="ui-g-2"></div>
-    <div class="ui-g-4 ui-md-1">
-      <p-radioButton name="status" label="Active" value="A" [(ngModel)]="Status">
+    <div class="ui-g-6 ui-md-4">
+        <span class="ui-float-label">
+          <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
+          <label for="Iss_Name" class="float-input">Issuer Name</label>
+        </span>
+      </div> <!-- <div class="ui-g-2"></div> -->
+  </div>
+  <div class="ui-g-12 ui-fluid">
+      <div class="ui-g-1"></div>
+       <div class="ui-g-4 ui-md-4 no-pad-top"  style="border: 1.2px solid #d6d6d6 !important">
+      <p-radioButton class="ui-g-6" name="Flag" label="Active" value="A" [(ngModel)]="Activeflag">
+      </p-radioButton>
+      <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" >
       </p-radioButton>
     </div>
-    <div class="ui-g-4 ui-md-1">
-      <p-radioButton name="status" label="InActive" value="I" [(ngModel)]="Status" >
-      </p-radioButton>
-    </div>
-    <div class="ui-g-2"></div>
-    <div class="ui-g-4 ui-md-1">
-        <button pButton label=Save (onClick)="onSave()"></button>
+    <div class="ui-g-4"></div>
+    <div class="ui-g-4 ui-md-2">
+        <button pButton label=Save [disabled]="(!IssuerName || !Society || !GName || !Activeflag)"
+        (click)="onSave()"></button>
     </div>
       </div>
       </form>

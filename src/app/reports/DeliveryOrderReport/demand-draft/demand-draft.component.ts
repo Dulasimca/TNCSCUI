@@ -138,14 +138,18 @@ export class DemandDraftComponent implements OnInit {
         this.loading = false;
         let sno = 0;
         let totalAmnt = 0;
+        let cereal = 0;
+        let nonCereal = 0;
         this.DemandDraftData.forEach(data => {
           data.Chequedate = this.datePipe.transform(data.Chequedate, 'dd-MM-yyyy');
           data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
           sno += 1;
           data.SlNo = sno;
           totalAmnt += (data.PaymentAmount * 1);
+          cereal += (data.Cereal * 1);
+          nonCereal += (data.NonCereal * 1);
         });
-        this.DemandDraftData.push({ Society: 'Total', PaymentAmount: totalAmnt });
+        this.DemandDraftData.push({ Society: 'Total', PaymentAmount: totalAmnt, Cereal: cereal, NonCereal: nonCereal });
         if (this.selectedValue === 'DateByOrder') {
           this.SortByDate();
         }

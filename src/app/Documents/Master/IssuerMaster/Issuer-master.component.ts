@@ -6,11 +6,15 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
-
+import { NgForm, FormGroup } from '@angular/forms';
+import { of } from 'rxjs/internal/observable/of';
+import { distinct } from 'rxjs/internal/operators/distinct';
+import { Observable } from 'rxjs/internal/Observable';
+import * as Rx from 'rxjs';
 @Component({
   selector: 'app-Issuer-master',
   templateUrl: './Issuer-master.component.html',
@@ -20,6 +24,7 @@ export class IssuerMasterComponent implements OnInit {
   IssuerMasterCols: any;
   IssuerMasterData: any;
   IssuerMasterAlterData: any;
+  societyOptions: SelectItem[];
   searchText: any;
   ACSCode: any;
   Activeflag: any;
@@ -33,12 +38,13 @@ export class IssuerMasterComponent implements OnInit {
   GName: any;
   RCode: any;
   RName: any;
-  Status: any;
   selectedRow: any;
   loading: boolean = false;
   viewPane: boolean;
-  isViewed: boolean = false;
+  SocietyCode: any;
+  societySelection = [];
   @ViewChild('society') societyPanel: Dropdown;
+  @ViewChild('f') form: FormGroup;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -79,6 +85,21 @@ export class IssuerMasterComponent implements OnInit {
             }
           }];
       });
+      const S_params = new HttpParams().set('GCode', this.GCode);
+      this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, S_params).subscribe(res => {
+        if(res !== undefined && res !== null && res.length !== 0) {
+      var uniqueArray = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+      for (var index in uniqueArray) {
+        var code = uniqueArray[index];
+        let i = res.findIndex(cd => cd.SocietyCode === code);
+        this.societySelection.push({ 'label': res[i].SocietyName, 'value': code });
+      }
+      this.societyOptions = this.societySelection;
+      this.societyOptions.unshift({ label: '-select', value: null });
+    } else {
+      this.societyOptions = this.societySelection;
+    }
+      });
     }
   }
 
@@ -86,55 +107,59 @@ export class IssuerMasterComponent implements OnInit {
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-          // const params = {
-          //   'GCode': this.GCode.value,
-          //   'ReceivorType': this.ReceivorType.value,
-          //   'Type': 1
-          // };
-          // this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, params).subscribe(res => {
-          //  res.forEach(value => {
-          //    societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
-          //  })
-          //   this.societyOptions = societySelection;
-          // });
+        this.societyOptions = this.societySelection;
   }
 
-  onRowSelect(event, data) {
+
+  onRowSelect(event, selectedRow) {
     this.viewPane = true;
-    this.IssuerCode = data.IssuerCode;
-    this.IssuerName= data.Issuername;
-    this.ACSCode = data.ACSCode;
+    this.IssuerCode = selectedRow.IssuerCode;
+    this.IssuerName= selectedRow.Issuername;
+    this.ACSCode = selectedRow.ACSCode;
+    this.Activeflag = selectedRow.Activeflag;
+    this.SocietyCode = selectedRow.Societycode;
+    if(selectedRow.Societycode !== null && selectedRow.Societycode !== '' && selectedRow.Societycode !== undefined) {
+     this.societySelection.filter(x => {
+         if(x.value === selectedRow.Societycode) { 
+           this.Society = x.label; 
+           this.societyOptions = [{ label: x.label, value: x.value }];
+          }
+      })
+    } else { this.Society = null; this.societyOptions = [] }
   }
 
-  // showSelectedData() {
-  //   this.viewPane = false;
-  //   this.isViewed = true;
-  //   // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
-  //   // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
-  //   this.ACSCode = this.selectedRow.ACSCode;
-  //   this.Activeflag = this.selectedRow.Activeflag;
-  //   this.IssuerCode = this.selectedRow.IssuerCode;
-  //   this.Godcode = this.selectedRow.Godcode;
-  // }
+  addNew() {
+    this.viewPane = true;
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Acs_Code.reset();
+    this.form.controls.Iss_Name.reset();
+    this.form.controls.Flag.reset();
+    this.form.controls.Society_Type.reset();
+  }
 
-  onSave(selectedRow) {
+  onSave() {
     const params = {
-      'IssuerCode': this.selectedRow.IssuerCode,
-      'Activeflag': (this.selectedRow.Activeflag == 'I') ? (this.selectedRow.ACSCode = "-", this.selectedRow.Activeflag = 'I') : this.selectedRow.Activeflag,
-      'ACSCode': this.selectedRow.ACSCode,
-      'Godcode': this.selectedRow.Godcode
+      'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : 0,
+      'Activeflag': this.Activeflag,
+      'ACSCode': (this.ACSCode !== undefined && this.ACSCode !== null) ? this.ACSCode : '',
+      'GCode': this.GCode,
+      'RCode': this.RCode,
+      'IssuerName': this.IssuerName,
+      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : this.Society.value
     };
-    this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(ress => {
+    this.restApiService.put(PathConstants.ISSUER_MASTER_POST, params).subscribe(ress => {
       if (ress) {
+        this.viewPane = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
+        this.viewPane = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    }
-      , (err: HttpErrorResponse) => {
+    },(err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -148,7 +173,6 @@ export class IssuerMasterComponent implements OnInit {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.IssuerMasterData.filter(item => {
         return item.Issuername.toString().startsWith(value);
-        // }
       });
     }
   }
