@@ -116,7 +116,7 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Society_Type.reset();
   }
 
-  onSave(selectedRow) {
+  onSave() {
     const params = {
       'IssuerCode': this.selectedRow.IssuerCode,
       'Activeflag': (this.selectedRow.Activeflag == 'I') ? (this.selectedRow.ACSCode = "-", this.selectedRow.Activeflag = 'I') : this.selectedRow.Activeflag,
