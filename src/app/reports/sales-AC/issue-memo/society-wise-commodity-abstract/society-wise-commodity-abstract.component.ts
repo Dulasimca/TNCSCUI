@@ -261,6 +261,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         this.DW = true;
         let sno = 1;
         this.DateWiseData.forEach(data => {
+          data.SIDATE = this.datePipe.transform(data.SIDATE, 'dd/MM/yyyy');
           data.sno = sno;
           sno += 1;
         });
@@ -319,6 +320,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         this.S = true;
         let sno = 1;
         this.SchemeData.forEach(data => {
+          data.SIDATE = this.datePipe.transform(data.SIDATE, 'dd/MM/yyyy');
           data.sno = sno;
           sno += 1;
         });
