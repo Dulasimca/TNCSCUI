@@ -19,19 +19,19 @@ export class IssuerMasterComponent implements OnInit {
   IssuerMasterCols: any;
   IssuerMasterData: any;
   IssuerMasterAlterData: any;
+  searchText: any;
   ACSCode: any;
   Activeflag: any;
   IssuerCode: any;
-  Godcode: any;
+  IssuerName: any;
   canShowMenu: boolean;
   items: any;
   filterArray: any;
-  gCode: any;
-  I_cd: any;
-  Type: any;
-  searchText: any;
-  IssuerOptions: SelectItem[];
-  disableOkButton: boolean = true;
+  GCode: any;
+  GName: any;
+  RCode: any;
+  RName: any;
+  Status: any;
   selectedRow: any;
   loading: boolean = false;
   viewPane: boolean;
@@ -44,19 +44,18 @@ export class IssuerMasterComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.IssuerMasterCols = this.tableConstants.IssuerMaster;
     this.loading = true;
-    this.gCode = this.authService.getUserAccessible().gCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.GName = this.authService.getUserAccessible().gName;
+    this.RCode = this.authService.getUserAccessible().rCode;
+    this.RName = this.authService.getUserAccessible().rName;
     {
       const params = {
-        'GCode': this.gCode,
+        'GCode': this.GCode,
         'Type': '2'
       };
       this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(value => {
         if (value) {
           this.IssuerMasterData = value;
-          this.Type = value;
-          if (this.IssuerOptions !== undefined) {
-            this.IssuerMasterData = value.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd });
-          }
           this.loading = false;
           this.filterArray = value;
           let sno = 0;
@@ -80,39 +79,23 @@ export class IssuerMasterComponent implements OnInit {
     }
   }
 
-  onRowSelect(event) {
-    this.disableOkButton = false;
-    this.selectedRow = event.data;
+  onRowSelect(event, data) {
+    this.viewPane = true;
+    this.IssuerCode = data.IssuerCode;
+    this.IssuerName= data.Issuername;
+    this.ACSCode = data.ACSCode;
   }
 
-  showSelectedData() {
-    this.viewPane = false;
-    this.isViewed = true;
-    // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
-    // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
-    this.ACSCode = this.selectedRow.ACSCode;
-    this.Activeflag = this.selectedRow.Activeflag;
-    this.IssuerCode = this.selectedRow.IssuerCode;
-    this.Godcode = this.selectedRow.Godcode;
-  }
-
-  onIssuer() {
-    let IssuerSelection = [];
-    if (this.IssuerOptions === undefined) {
-      this.IssuerOptions = IssuerSelection;
-    }
-    this.IssuerOptions.unshift({ 'label': 'A', 'value': this.IssuerOptions }, { 'label': 'I', 'value': this.IssuerOptions });
-    this.IssuerMasterData;
-  }
-
-  onView() {
-    this.IssuerMasterData = this.filterArray;
-    if (this.I_cd !== undefined) {
-      this.IssuerMasterData.forEach(s => {
-        this.IssuerMasterData = this.Type.filter((value: { Activeflag: any; }) => { return value.Activeflag === this.I_cd.label });
-      });
-    }
-  }
+  // showSelectedData() {
+  //   this.viewPane = false;
+  //   this.isViewed = true;
+  //   // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
+  //   // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
+  //   this.ACSCode = this.selectedRow.ACSCode;
+  //   this.Activeflag = this.selectedRow.Activeflag;
+  //   this.IssuerCode = this.selectedRow.IssuerCode;
+  //   this.Godcode = this.selectedRow.Godcode;
+  // }
 
   onSave(selectedRow) {
     const params = {

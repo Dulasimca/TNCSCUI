@@ -384,7 +384,7 @@ export class TruckReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        if (this.packingTypeOptions === undefined) {
+        // if (this.packingTypeOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -394,13 +394,13 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-       } 
+      //  } 
         break;
       case 'wmt':
         if (type === 'enter') {
           this.weighmentPanel.overlayVisible = true;
         }
-        if (this.wmtOptions === undefined) {
+        // if (this.wmtOptions === undefined) {
              this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table1.forEach(w => {
@@ -410,7 +410,7 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-      }
+      // }
         break;
       case 'fc':
         if (type === 'enter') {

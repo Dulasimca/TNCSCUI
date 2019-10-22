@@ -186,7 +186,7 @@ export class IssueReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
-        if(this.transactionOptions === undefined) {
+        // if(this.transactionOptions === undefined) {
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -201,7 +201,7 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
-      }
+      // }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -313,7 +313,7 @@ export class IssueReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        if (this.packingTypeOptions === undefined) {
+        // if (this.packingTypeOptions === undefined) {
           this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table.forEach(p => {
@@ -325,13 +325,13 @@ export class IssueReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-       }
+      //  }
         break;
       case 'wmt':
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
-        if (this.wmtOptions === undefined) {
+        // if (this.wmtOptions === undefined) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table1.forEach(w => {
@@ -341,7 +341,7 @@ export class IssueReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
         });
-        }
+        // }
         break;
     }
   }
