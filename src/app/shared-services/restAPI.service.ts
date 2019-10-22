@@ -48,16 +48,8 @@ export class RestAPIService {
     return this.httpClient.delete(this.BASEURL + url, options);
   }
 
-  handleError(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+  handleError(error) {    
+    return throwError(error);
   }
 
 }

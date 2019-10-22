@@ -127,6 +127,7 @@ export class StackCardRegisterComponent implements OnInit {
                 commoditySelection.push({ label: y.ITDescription, value: y.ITCode });
               });
               this.commodityOptions = commoditySelection;
+              this.commodityOptions.unshift({ label: 'All', value: 'All' })
             }
           });
         }

@@ -6,10 +6,11 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { NgForm, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-Issuer-master',
@@ -20,6 +21,7 @@ export class IssuerMasterComponent implements OnInit {
   IssuerMasterCols: any;
   IssuerMasterData: any;
   IssuerMasterAlterData: any;
+  societyOptions: SelectItem[];
   searchText: any;
   ACSCode: any;
   Activeflag: any;
@@ -33,12 +35,12 @@ export class IssuerMasterComponent implements OnInit {
   GName: any;
   RCode: any;
   RName: any;
-  Status: any;
   selectedRow: any;
   loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
   @ViewChild('society') societyPanel: Dropdown;
+  @ViewChild('f') form: FormGroup;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -83,20 +85,17 @@ export class IssuerMasterComponent implements OnInit {
   }
 
   onSelect(type) {
+    let societySelection = [];
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-          // const params = {
-          //   'GCode': this.GCode.value,
-          //   'ReceivorType': this.ReceivorType.value,
-          //   'Type': 1
-          // };
-          // this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, params).subscribe(res => {
-          //  res.forEach(value => {
-          //    societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
-          //  })
-          //   this.societyOptions = societySelection;
-          // });
+          const params = new HttpParams().set('GCode', this.GCode);
+          this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+           res.forEach(value => {
+             societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
+           })
+            this.societyOptions = societySelection;
+          });
   }
 
   onRowSelect(event, data) {
@@ -104,18 +103,18 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerCode = data.IssuerCode;
     this.IssuerName= data.Issuername;
     this.ACSCode = data.ACSCode;
+    this.Activeflag = data.Activeflag;
   }
 
-  // showSelectedData() {
-  //   this.viewPane = false;
-  //   this.isViewed = true;
-  //   // this.ACSCode = (this.selectedRow.ACSCode === undefined) ? '-' : this.selectedRow.ACSCode;
-  //   // this.Activeflag = (this.selectedRow.ACSCode === undefined) ? 'I' : this.selectedRow.Activeflag;
-  //   this.ACSCode = this.selectedRow.ACSCode;
-  //   this.Activeflag = this.selectedRow.Activeflag;
-  //   this.IssuerCode = this.selectedRow.IssuerCode;
-  //   this.Godcode = this.selectedRow.Godcode;
-  // }
+  addNew() {
+    this.viewPane = true;
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Acs_Code.reset();
+    this.form.controls.Iss_Name.reset();
+    this.form.controls.Flag.reset();
+    this.form.controls.Society_Type.reset();
+  }
 
   onSave(selectedRow) {
     const params = {

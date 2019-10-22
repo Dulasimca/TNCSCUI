@@ -432,11 +432,21 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.SocietyAbstractData = this.SocietyAbstractCols = [];
-    this.SchemeAbstractData = this.SchemeData = this.DateWiseData = this.SchemeCols = this.SchemeAbstractCols = this.DateWiseCols = [];
+    this.SchemeAbstractData = [];
+    this.SchemeData = [];
+    this.DateWiseData = [];
+    this.SchemeCols = [];
+    this.SchemeAbstractCols = [];
+    this.DateWiseCols = [];
   }
 
   onClear() {
-    this.SchemeAbstractData = this.SchemeData = this.DateWiseData = this.SchemeCols = this.SchemeAbstractCols = this.DateWiseCols = [];
+    this.SchemeAbstractData = [];
+    this.SchemeData = [];
+    this.DateWiseData = [];
+    this.SchemeCols = [];
+    this.SchemeAbstractCols = [];
+    this.DateWiseCols = [];
   }
 
 
