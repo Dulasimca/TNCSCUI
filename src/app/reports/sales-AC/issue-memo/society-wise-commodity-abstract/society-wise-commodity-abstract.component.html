@@ -9,7 +9,7 @@
           <button class="inline-padding" pButton type="button" label=Excel class="ui-button-warn"
             (click)="dt.exportCSV()" [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
         </div>
-        <div class="ui-g-12 ui-md-1 ui-fluid">
+        <div class="ui-g-3 ui-md-1 ui-fluid">
           <button class="inline-padding" pButton type="button" class="ui-button-warn" label=Print (click)="onPrint()"
             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
         </div>
@@ -77,7 +77,7 @@
         </p-dropdown>
       </div>
       -->
-      <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px">
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 23px">
         <button pButton type="button" label=View (click)="onView()"
           [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
       </div>
@@ -166,7 +166,7 @@
                           <button pButton type="button" label=Excel (click)="DW.exportCSV()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
-                        <div class="ui-g-12 ui-md-1 ui-fluid">
+                        <div class="ui-g-3 ui-md-1 ui-fluid">
                           <button pButton type="button" label=Print (click)="onDateWisePrint()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
@@ -216,7 +216,7 @@
                           <button pButton type="button" label=Excel (click)="SS.exportCSV()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
-                        <div class="ui-g-12 ui-md-1 ui-fluid">
+                        <div class="ui-g-3 ui-md-1 ui-fluid">
                           <button pButton type="button" label=Print (click)="onSchemePrint()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
@@ -266,7 +266,7 @@
                           <button pButton type="button" label=Excel (click)="SAA.exportCSV()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
-                        <div class="ui-g-12 ui-md-1 ui-fluid">
+                        <div class="ui-g-3 ui-md-1 ui-fluid">
                           <button pButton type="button" label=Print (click)="onSchemeAbstractPrint()"
                             [disabled]="(!GCode || !RCode || !fromDate || !toDate || !ReceivorType)"></button>
                         </div>
