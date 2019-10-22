@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-Issuer-master',
@@ -27,6 +28,7 @@ export class IssuerMasterComponent implements OnInit {
   canShowMenu: boolean;
   items: any;
   filterArray: any;
+  Society: any;
   GCode: any;
   GName: any;
   RCode: any;
@@ -36,6 +38,7 @@ export class IssuerMasterComponent implements OnInit {
   loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
+  @ViewChild('society') societyPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -77,6 +80,23 @@ export class IssuerMasterComponent implements OnInit {
           }];
       });
     }
+  }
+
+  onSelect(type) {
+        if (type === 'enter') {
+          this.societyPanel.overlayVisible = true;
+        }
+          // const params = {
+          //   'GCode': this.GCode.value,
+          //   'ReceivorType': this.ReceivorType.value,
+          //   'Type': 1
+          // };
+          // this.restAPIService.post(PathConstants.SOCIETY_MASTER_POST, params).subscribe(res => {
+          //  res.forEach(value => {
+          //    societySelection.push({ label: value.SocietyName,  value: value.SocietyCode });
+          //  })
+          //   this.societyOptions = societySelection;
+          // });
   }
 
   onRowSelect(event, data) {
