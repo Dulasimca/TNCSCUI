@@ -119,7 +119,7 @@ export class IssuerMasterComponent implements OnInit {
     this.Activeflag = selectedRow.Activeflag;
     this.SocietyCode = selectedRow.Societycode;
     if(selectedRow.Societycode !== null && selectedRow.Societycode !== '' && selectedRow.Societycode !== undefined) {
-     this.societyOptions.filter(x => {
+     this.societySelection.filter(x => {
          if(x.value === selectedRow.Societycode) { 
            this.Society = x.label; 
            this.societyOptions = [{ label: x.label, value: x.value }];
