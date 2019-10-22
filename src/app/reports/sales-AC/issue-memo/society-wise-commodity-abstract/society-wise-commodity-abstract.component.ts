@@ -21,43 +21,33 @@ import { saveAs } from 'file-saver';
 export class SocietyWiseCommodityAbstractComponent implements OnInit {
   SocietyAbstractCols: any;
   SocietyAbstractData: any;
-
   DateWiseData: any;
   DateWiseCols: any;
-
   SchemeData: any;
   SchemeCols: any;
-
   SchemeAbstractData: any;
   SchemeAbstractCols: any;
-
   showCommodityAbstract: boolean = false;
   showCommodityBreakup: boolean = false;
   showSchemeCommodityBreakup: boolean = false;
   showSchemeAbstract: boolean = false;
-
   abstractOptions: SelectItem[];
   customerOptions: SelectItem[];
   godownOptions: SelectItem[];
   regionOptions: SelectItem[];
   receiverOptions: SelectItem[];
-
   g_cd: any;
   ReceivorType: any;
   c_cd: any;
   a_cd: string;
   data: any;
-
   TSA: any;
   S: any;
   SA: any;
   DW: any;
-
   fromDate: any = new Date();
   toDate: any = new Date();
-
   isActionDisabled: boolean;
-  deliveryReceiptRegCols: any;
   maxDate: Date;
   regions: any;
   roleId: any;
@@ -81,7 +71,6 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.isActionDisabled = true;
     this.regions = this.roleBasedService.getRegions();
-    this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.maxDate = new Date();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
@@ -143,69 +132,45 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
           });
         }
         break;
-      case 'abstract':
-        this.abstractOptions = [{ 'label': 'Society Wise Commodity Breakup', 'value': 'society_c_a' },
-        { 'label': 'Society Wise Date Wise Commodity Abstract', 'value': 'date_c_b' },
-        { 'label': 'Society Wise Scheme Wise Commodity Breakup', 'value': 'scheme_c_b' },
-        { 'label': 'Society Wise Scheme Wise Commodity Abstract', 'value': 'scheme_c_a' }];
-        this.showPane();
-        break;
+      // case 'abstract':
+      //   this.abstractOptions = [{ 'label': 'Society Wise Commodity Breakup', 'value': 'society_c_a' },
+      //   { 'label': 'Society Wise Date Wise Commodity Abstract', 'value': 'date_c_b' },
+      //   { 'label': 'Society Wise Scheme Wise Commodity Breakup', 'value': 'scheme_c_b' },
+      //   { 'label': 'Society Wise Scheme Wise Commodity Abstract', 'value': 'scheme_c_a' }];
+      //   this.showPane();
+      //   break;
     }
   }
 
-  // onSelect(selectedItem) {
-  //   let godownSelection = [];
-  //   switch (selectedItem) {
-  //     case 'customer':
+  // showPane() {
+  //   switch (this.a_cd) {
+  //     case 'society_c_a':
+  //       this.showCommodityAbstract = true;
+  //       this.showCommodityBreakup = false;
+  //       this.showSchemeAbstract = false;
+  //       this.showSchemeCommodityBreakup = false;
   //       break;
-  //     case 'godown':
-  //       this.data = this.roleBasedService.instance;
-  //       if (this.data !== undefined) {
-  //         this.data.forEach(x => {
-  //           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-  //           this.godownOptions = godownSelection;
-  //         });
-  //       }
+  //     case 'date_c_b':
+  //       this.showCommodityAbstract = false;
+  //       this.showCommodityBreakup = true;
+  //       this.showSchemeAbstract = false;
+  //       this.showSchemeCommodityBreakup = false;
   //       break;
-  //     case 'abstract':
-  //       this.abstractOptions = [{ 'label': 'Society Wise Commodity Breakup', 'value': 'society_c_a' },
-  //       { 'label': 'Society Wise Date Wise Commodity Abstract', 'value': 'date_c_b' },
-  //       { 'label': 'Society Wise Scheme Wise Commodity Breakup', 'value': 'scheme_c_b' },
-  //       { 'label': 'Society Wise Scheme Wise Commodity Abstract', 'value': 'scheme_c_a' }];
-  //       this.showPane();
+  //     case 'scheme_c_b':
+  //       this.showCommodityAbstract = false;
+  //       this.showCommodityBreakup = false;
+  //       this.showSchemeAbstract = false;
+  //       this.showSchemeCommodityBreakup = true;
+  //       break;
+  //     case 'scheme_c_a':
+  //       this.showCommodityAbstract = false;
+  //       this.showCommodityBreakup = false;
+  //       this.showSchemeAbstract = true;
+  //       this.showSchemeCommodityBreakup = false;
   //       break;
   //   }
+
   // }
-
-  showPane() {
-    switch (this.a_cd) {
-      case 'society_c_a':
-        this.showCommodityAbstract = true;
-        this.showCommodityBreakup = false;
-        this.showSchemeAbstract = false;
-        this.showSchemeCommodityBreakup = false;
-        break;
-      case 'date_c_b':
-        this.showCommodityAbstract = false;
-        this.showCommodityBreakup = true;
-        this.showSchemeAbstract = false;
-        this.showSchemeCommodityBreakup = false;
-        break;
-      case 'scheme_c_b':
-        this.showCommodityAbstract = false;
-        this.showCommodityBreakup = false;
-        this.showSchemeAbstract = false;
-        this.showSchemeCommodityBreakup = true;
-        break;
-      case 'scheme_c_a':
-        this.showCommodityAbstract = false;
-        this.showCommodityBreakup = false;
-        this.showSchemeAbstract = true;
-        this.showSchemeCommodityBreakup = false;
-        break;
-    }
-
-  }
 
   onView() {
     this.onClear();
@@ -263,9 +228,11 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
+    this.onClear();
   }
 
   onDataWise() {
+    this.onClear();
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
@@ -323,7 +290,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
   }
 
   onScheme() {
-    // this.onClear();
+    this.onClear();
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
@@ -378,7 +345,6 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.onClear();
   }
 
   onSchemeAbstract() {
@@ -465,7 +431,8 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.SocietyAbstractData = [];
+    this.SocietyAbstractData = this.SocietyAbstractCols = [];
+    this.SchemeAbstractData = this.SchemeData = this.DateWiseData = this.SchemeCols = this.SchemeAbstractCols = this.DateWiseCols = [];
   }
 
   onClear() {
