@@ -350,7 +350,7 @@ export class DeliveryReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.weighmentPanel.overlayVisible = true;
         }
-        if(this.rateInTermsOptions === undefined) {
+        // if(this.rateInTermsOptions === undefined) {
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -362,13 +362,13 @@ export class DeliveryReceiptComponent implements OnInit {
           }
           this.rateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-      }
+      // }
         break;
       case 'margin_wmt':
         if (type === 'enter') {
           this.marginWeighmentPanel.overlayVisible = true;
         }
-        if(this.marginRateInTermsOptions === undefined) {
+        // if(this.marginRateInTermsOptions === undefined) {
           this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
@@ -380,7 +380,7 @@ export class DeliveryReceiptComponent implements OnInit {
           }
           this.marginRateInTermsOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-      }
+      // }
         break;
       case 'pay':
         if (type === 'enter') {

@@ -5,16 +5,7 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-12 ui-md-3 dashboard">Issuer Master</div>
-        <div class="ui-g-12 ui-md-2 dashboard" style="text-align: end">Active/In-Active</div>
-        <div class="ui-g-12 ui-md-2 dashboard" style="text-align: center">
-          <p-dropdown [options]="IssuerOptions" [(ngModel)]="I_cd" (onChange)="onView()" (onClick)="onIssuer()"
-            filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
-            <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle">{{item.label}}</span>
-            </ng-template>
-          </p-dropdown>
-        </div>
-        <div class="ui-g-5 dashboard" style="text-align: end !important;">
+        <div class="ui-g-5 dashboard" style="float: right !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
             placeholder="Search by IssuerName" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
@@ -30,7 +21,7 @@
       <div class="table-screen-size">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-          [paginator]="true" (onRowSelect)="onRowSelect($event)" [loading]="loading">
+          [paginator]="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -38,45 +29,11 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData">
-              <td>
-                {{rowData.SlNo}}
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
               </td>
-              <td>
-                {{rowData.IssuerCode}}
-              </td>
-              <td>
-                {{rowData.Issuername}}
-              </td>
-              <td>
-                {{rowData.Godcode}}
-              </td>
-              <td pEditableColumn>
-                <p-cellEditor (keydown.enter)="onSave(rowData)">
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" maxlength="12" [(ngModel)]="rowData.ACSCode">
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{rowData.ACSCode}}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td pEditableColumn>
-                <p-cellEditor (keydown.enter)="onSave(rowData)">
-                  <ng-template pTemplate="input">
-                    <input pInputText type="text" onkeypress="return /[A&I]/.test(event.key)"
-                      [(ngModel)]="rowData.Activeflag" maxlength="1" autocomplete="off" required>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{rowData.Activeflag}}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <!-- <td>
-                <button pButton type="button" icon="pi pi-check" class="ui-button-success" style="margin-right: .5em"
-                  (click)="onSave(rowData)" ></button>
-              </td> -->
             </tr>
           </ng-template>
         </p-table>
@@ -84,3 +41,58 @@
     </div>
   </p-panel>
 </div>
+<p-dialog header="Delivery-Order-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [responsive]="true">
+<form #f="ngForm" name="issuerMaster">
+  <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+      <span class="ui-float-label">
+        <input name="Godown" pInputText [(ngModel)]="GName" [readonly]="true" autocomplete="off" required>
+        <label for="Godown" class="float-input">Godown Name</label>
+      </span>
+    </div>
+    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+      <span class="ui-float-label">
+        <input name="Region" pInputText [(ngModel)]="RName" [readonly]="true" autocomplete="off" required>
+        <label for="Region" class="float-input">Region Name</label>
+      </span>
+    </div>
+    <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+      <label for="Society" class="label-fontsize">Receivor Type</label>
+      <p-dropdown #society name="Society" [options]="societyOptions" [(ngModel)]="Society"
+        (onClick)="onSelect('soc', 'click')" (keydown.enter)="onSelect('soc', 'enter')" filter="true"
+         optionLabel="label" resetFilterOnHide="true" [showClear]="true" required>
+        <ng-template let-item pTemplate="selectedItem">
+          <span style="vertical-align:middle">{{item.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+      <span class="ui-float-label">
+        <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off" required>
+        <label for="Iss_Code" class="float-input">Issuer Code</label>
+      </span>
+    </div>
+    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+      <span class="ui-float-label">
+        <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
+        <label for="Iss_Name" class="float-input">Issuer Name</label>
+      </span>
+    </div>
+    <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
+      <span class="ui-float-label">
+        <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off" required>
+        <label for="Acs_Code" class="float-input">ACSCode</label>
+      </span>
+    </div>
+    <div class="ui-g-4 ui-md-1">
+      <p-radioButton name="status" label="Active" value="A" [(ngModel)]="Status">
+      </p-radioButton>
+    </div>
+    <div class="ui-g-4 ui-md-1">
+      <p-radioButton name="status" label="InActive" value="I" [(ngModel)]="Status" >
+      </p-radioButton>
+    </div>
+      </div>
+      </form>
+</p-dialog>

@@ -214,7 +214,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
-        if(this.transactionOptions === undefined) {
+        // if(this.transactionOptions === undefined || this.isViewed) {
         this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
           if (data !== undefined && data !== null && data.length !== 0) {
             data.forEach(y => {
@@ -228,7 +228,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-      }
+      // }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -341,7 +341,7 @@ export class StockReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.packingPanel.overlayVisible = true;
         }
-        if(this.packingTypeOptions === undefined) {
+        // if(this.packingTypeOptions === undefined || this.isViewed) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
@@ -353,13 +353,13 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-      }
+      // }
         break;
       case 'wmt':
         if (type === 'enter') {
           this.weightmentPanel.overlayVisible = true;
         }
-        if(this.wmtOptions === undefined) {
+        // if(this.wmtOptions === undefined || this.isViewed) {
         this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res.Table1 !== undefined && res.Table1 !== null && res.Table1.length !== 0) {
             res.Table1.forEach(w => {
@@ -369,7 +369,7 @@ export class StockReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
         });
-       }
+      //  }
         break;
     }
   }
