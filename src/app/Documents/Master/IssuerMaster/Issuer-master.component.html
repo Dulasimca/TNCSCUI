@@ -4,8 +4,8 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-12 ui-md-3 dashboard">Issuer Master</div>
-        <div class="ui-g-5 dashboard" style="float: right !important;">
+        <div class="ui-g-12 ui-md-7 dashboard">Issuer Master</div>
+        <div class="ui-g-12 ui-md-5 dashboard" style="float: right !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
             placeholder="Search by IssuerName" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
@@ -18,6 +18,10 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
+      <div class="ui-g-8 dashboard"></div>
+      <div class="ui-g-1 dashboard">
+        <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
+            (click)="addNew()"></button></div>
       <div class="table-screen-size">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -41,10 +45,11 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Delivery-Order-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Issuer-Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [responsive]="true">
 <form #f="ngForm" name="issuerMaster">
   <div class="ui-g-12 ui-fluid">
+    <div class="ui-g-2"></div>
     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
       <span class="ui-float-label">
         <input name="Godown" pInputText [(ngModel)]="GName" [readonly]="true" autocomplete="off" required>
@@ -58,15 +63,17 @@
       </span>
     </div>
     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
-      <label for="Society" class="label-fontsize">Receivor Type</label>
+      <label for="Society" class="label-fontsize">Society Type</label>
       <p-dropdown #society name="Society" [options]="societyOptions" [(ngModel)]="Society"
-        (onClick)="onSelect('soc', 'click')" (keydown.enter)="onSelect('soc', 'enter')" filter="true"
+        (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true"
          optionLabel="label" resetFilterOnHide="true" [showClear]="true" required>
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>
       </p-dropdown>
     </div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-2"></div>
     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
       <span class="ui-float-label">
         <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off" required>
@@ -85,6 +92,7 @@
         <label for="Acs_Code" class="float-input">ACSCode</label>
       </span>
     </div>
+    <div class="ui-g-2"></div>
     <div class="ui-g-4 ui-md-1">
       <p-radioButton name="status" label="Active" value="A" [(ngModel)]="Status">
       </p-radioButton>
@@ -92,6 +100,10 @@
     <div class="ui-g-4 ui-md-1">
       <p-radioButton name="status" label="InActive" value="I" [(ngModel)]="Status" >
       </p-radioButton>
+    </div>
+    <div class="ui-g-2"></div>
+    <div class="ui-g-4 ui-md-1">
+        <button pButton label=Save (onClick)="onSave()"></button>
     </div>
       </div>
       </form>
