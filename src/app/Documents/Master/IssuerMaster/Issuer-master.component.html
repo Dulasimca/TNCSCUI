@@ -65,11 +65,7 @@
     <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
       <label for="Society_Type" class="label-fontsize">Society Type</label>
       <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society"
-        (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true"
-         optionLabel="label" resetFilterOnHide="true" [showClear]="true" required>
-        <ng-template let-item pTemplate="selectedItem">
-          <span style="vertical-align:middle">{{item.label}}</span>
-        </ng-template>
+       optionLabel="label" (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" required>
       </p-dropdown>
     </div>
     <!-- <div class="ui-g-2"></div> -->
@@ -105,7 +101,8 @@
     </div>
     <div class="ui-g-4"></div>
     <div class="ui-g-4 ui-md-2">
-        <button pButton label=Save (click)="onSave()"></button>
+        <button pButton label=Save [disabled]="(!IssuerName || !Society || !GName || !Activeflag)"
+        (click)="onSave()"></button>
     </div>
       </div>
       </form>
