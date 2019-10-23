@@ -235,7 +235,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
 
   onUpdate() {
     const params = {
-      'GCode': this.GCode,
+      'GCode': this.GCode.value,
       'SCode': this.Society.value,
       'ICode': this.Shop.value,
       'IType': this.ReceivorType.value

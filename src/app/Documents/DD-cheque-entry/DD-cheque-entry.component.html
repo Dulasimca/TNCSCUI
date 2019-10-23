@@ -59,7 +59,7 @@
                   (completeMethod)="filterNames($event)" [size]="30" name="recvdFrom" [minLength]="1" [dropdown]="true"
                   (onSelect)="onReceivorSelection($event)" required>
                   <ng-template let-data pTemplate="item">
-                    <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                    <div class="ui-helper-clearfix underlined-lightgrey">
                       <div style="font-size:14px;margin:10px 10px 0 0">{{data.label}}</div>
                     </div>
                   </ng-template>

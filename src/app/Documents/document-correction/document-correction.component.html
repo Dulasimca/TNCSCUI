@@ -25,14 +25,12 @@
                 <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Reject" (click)="reject()"></button>
             </div>
           </p-footer>
-      <!-- </p-confirmDialog> -->
     </p-dialog>
-        <div class="ui-g-12 dashboard">
+        <!-- <div class="ui-g-12 dashboard"> -->
         <div class="ui-g-12 ui-md-3"></div>
-        <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
+        <div class="ui-g-12 ui-md-12 border-teal">
           <form #f="ngForm" name="CorrectionSlipForm">
             <div *ngIf="(roleId===3)" class="ui-g-12 ui-md-12">
-              <!-- <div class="ui-g-1"></div> -->
               <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
                   <span class="ui-float-label">
                     <input name="RegionName" [readOnly]="true" [(ngModel)]="RegionName" pInputText autocomplete="off" required>
@@ -201,7 +199,7 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </p-panel>
 </div>

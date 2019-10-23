@@ -21,7 +21,7 @@
       <div class="ui-g-8 dashboard"></div>
       <div class="ui-g-1 dashboard">
         <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
-            (click)="addNew()"></button></div>
+            (click)="viewPane = true;onClear()"></button></div>
       <div class="table-screen-size">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -74,13 +74,13 @@
     <div class="ui-g-1"></div>
     <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
-        <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off" required>
+        <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off">
         <label for="Iss_Code" class="float-input">Issuer Code</label>
       </span>
     </div>
     <div class="ui-g-6 ui-md-3">
       <span class="ui-float-label">
-        <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off" required>
+        <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off">
         <label for="Acs_Code" class="float-input">ACSCode</label>
       </span>
     </div>
@@ -93,15 +93,15 @@
   </div>
   <div class="ui-g-12 ui-fluid">
       <div class="ui-g-1"></div>
-       <div class="ui-g-4 ui-md-4 no-pad-top"  style="border: 1.2px solid #d6d6d6 !important">
-      <p-radioButton class="ui-g-6" name="Flag" label="Active" value="A" [(ngModel)]="Activeflag">
+       <div class="ui-g-4 ui-md-4 no-pad-top border-lightgrey">
+      <p-radioButton class="ui-g-6" name="Flag" label="Active" value="A" [(ngModel)]="Activeflag" required>
       </p-radioButton>
-      <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" >
+      <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" required >
       </p-radioButton>
     </div>
     <div class="ui-g-4"></div>
     <div class="ui-g-4 ui-md-2">
-        <button pButton label=Save [disabled]="(!IssuerName || !Society || !GName || !Activeflag)"
+        <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !Society || Society==null || (isEdited && !f.dirty))"
         (click)="onSave()"></button>
     </div>
       </div>

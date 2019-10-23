@@ -19,7 +19,7 @@
           <form #f="ngForm" name="deliveryForm">
             <p-tabView [activeIndex]="index">
               <p-tabPanel header="Delivery Details">
-                <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12 ui-fluid border-teal">
                   <div class="ui-g-12">
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="DoNo">Delivery Order No</label>
@@ -155,7 +155,7 @@
               </p-tabPanel>
 
               <p-tabPanel header="Item Details">
-                <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12 ui-fluid border-teal">
                   <div class="ui-g-12" style="text-align: center">
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="Schemes" style="padding-top: 10px;">Scheme</label>
@@ -244,7 +244,7 @@
                       </ng-template>
                     </p-table>
                   </div>
-                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <hr class="ui-g-12 dashboard border-teal">
                   <div class="ui-g-12" style="text-align: center">
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="MarginSchemes" style="padding-top: 10px;">Scheme</label>
@@ -355,7 +355,7 @@
               </p-tabPanel>
 
               <p-tabPanel header="Payment Details">
-                <div class="ui-g-12 ui-fluid" style="border: 1px solid #18c5a9">
+                <div class="ui-g-12 ui-fluid border-teal">
                   <div class="ui-g-12 no-pad-top no-left-pad">
                     <div class="ui-g-6 ui-md-2">
                         <label  class="label-fontsize" for="PaymentMode">Payment Mode</label>
@@ -434,7 +434,7 @@
                     </div>
                   <!-- </div> -->
                   </div>
-                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <hr class="ui-g-12 dashboard border-teal">
                   <div class="ui-g-12 ui-md-12 ui-fluid no-left-pad">
                     <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"
                       scrollHeight="150px">
@@ -459,7 +459,7 @@
                       </ng-template>
                     </p-table>
                   </div>
-                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <hr class="ui-g-12 dashboard border-teal">
                   <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-4 ui-md-1">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
@@ -522,7 +522,7 @@
                               Debit</b></label>
                         </div> 
                   </div>
-                  <hr class="ui-g-12 dashboard" style="border: 1px solid #18c5a9">
+                  <hr class="ui-g-12 dashboard border-teal">
                   <!-- </div> -->
                   <div class="ui-g-12 ui-fluid no-left-pad">
                     <p-table [columns]="paymentBalCols" [value]="paymentBalData" [responsive]="true" [scrollable]="true"
