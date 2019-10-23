@@ -30,11 +30,12 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
   yearOptions: SelectItem[];
   data: any;
   roleId: any;
-  maxDate: Date;
   canShowMenu: boolean;
   loading: boolean;
   username: any;
   loggedInRCode: string;
+  StackDate: Date;
+  maxDate: Date = new Date();
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('year') yearPanel: Dropdown;
@@ -172,6 +173,7 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.OBStackData = [];
+    this.StackDate = this.maxDate;
    }
 
 }
