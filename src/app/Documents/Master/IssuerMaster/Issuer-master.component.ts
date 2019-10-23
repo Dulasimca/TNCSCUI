@@ -10,11 +10,8 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
-import { NgForm, FormGroup } from '@angular/forms';
-import { of } from 'rxjs/internal/observable/of';
-import { distinct } from 'rxjs/internal/operators/distinct';
-import { Observable } from 'rxjs/internal/Observable';
-import * as Rx from 'rxjs';
+import { FormGroup, NgForm } from '@angular/forms';
+
 @Component({
   selector: 'app-Issuer-master',
   templateUrl: './Issuer-master.component.html',
@@ -29,7 +26,7 @@ export class IssuerMasterComponent implements OnInit {
   ACSCode: any;
   Activeflag: any;
   IssuerCode: any;
-  IssuerName: any;
+  IssuerName: string;
   canShowMenu: boolean;
   items: any;
   filterArray: any;
@@ -42,9 +39,10 @@ export class IssuerMasterComponent implements OnInit {
   loading: boolean = false;
   viewPane: boolean;
   SocietyCode: any;
+  isEdited: boolean;
   societySelection = [];
   @ViewChild('society') societyPanel: Dropdown;
-  @ViewChild('f') form: FormGroup;
+  @ViewChild('f') form: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -52,55 +50,37 @@ export class IssuerMasterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.IssuerMasterCols = this.tableConstants.IssuerMaster;
-    this.loading = true;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.GName = this.authService.getUserAccessible().gName;
     this.RCode = this.authService.getUserAccessible().rCode;
     this.RName = this.authService.getUserAccessible().rName;
-    {
-      const params = {
-        'GCode': this.GCode,
-        'Type': '2'
-      };
-      this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(value => {
-        if (value) {
-          this.IssuerMasterData = value;
-          this.loading = false;
-          this.filterArray = value;
-          let sno = 0;
-          this.IssuerMasterData.forEach(data => {
-            sno += 1;
-            data.SlNo = sno;
-          });
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.exportAsXLSX();
         }
-        this.items = [
-          {
-            label: 'Excel', icon: 'fa fa-table', command: () => {
-              this.exportAsXLSX();
-            }
-          },
-          {
-            label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-              this.exportAsPDF();
-            }
-          }];
-      });
-      const S_params = new HttpParams().set('GCode', this.GCode);
-      this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, S_params).subscribe(res => {
-        if(res !== undefined && res !== null && res.length !== 0) {
-      var uniqueArray = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-      for (var index in uniqueArray) {
-        var code = uniqueArray[index];
-        let i = res.findIndex(cd => cd.SocietyCode === code);
-        this.societySelection.push({ 'label': res[i].SocietyName, 'value': code });
+      },
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
+        }
+      }];
+      this.onLoadData();
+    const params = new HttpParams().set('GCode', this.GCode);
+    this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        var uniqueArray = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+        for (var index in uniqueArray) {
+          var code = uniqueArray[index];
+          let i = res.findIndex(cd => cd.SocietyCode === code);
+          this.societySelection.push({ 'label': res[i].SocietyName, 'value': code });
+        }
+        this.societyOptions = this.societySelection;
+        this.societyOptions.unshift({ label: '-select', value: null });
+      } else {
+        this.societyOptions = this.societySelection;
       }
-      this.societyOptions = this.societySelection;
-      this.societyOptions.unshift({ label: '-select', value: null });
-    } else {
-      this.societyOptions = this.societySelection;
-    }
-      });
-    }
+    });
   }
 
   onSelect(type) {
@@ -110,11 +90,44 @@ export class IssuerMasterComponent implements OnInit {
         this.societyOptions = this.societySelection;
   }
 
+  onLoadData(){
+    this.loading = true;
+    const params = {
+      'GCode': this.GCode,
+      'Type': '2'
+    };
+    this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.IssuerMasterData = res;
+        this.loading = false;
+        let sno = 0;
+        this.IssuerMasterData.forEach(data => {
+          sno += 1;
+          data.SlNo = sno;
+        });
+      } else{
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.loading = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+      }
+    });
+  }
+
 
   onRowSelect(event, selectedRow) {
+    this.isEdited = true;
     this.viewPane = true;
     this.IssuerCode = selectedRow.IssuerCode;
-    this.IssuerName= selectedRow.Issuername;
+    this.IssuerName= selectedRow.Issuername.trim();
     this.ACSCode = selectedRow.ACSCode;
     this.Activeflag = selectedRow.Activeflag;
     this.SocietyCode = selectedRow.Societycode;
@@ -128,16 +141,6 @@ export class IssuerMasterComponent implements OnInit {
     } else { this.Society = null; this.societyOptions = [] }
   }
 
-  addNew() {
-    this.viewPane = true;
-    this.form.controls.Iss_Code.reset();
-    this.form.controls.Iss_Code.reset();
-    this.form.controls.Acs_Code.reset();
-    this.form.controls.Iss_Name.reset();
-    this.form.controls.Flag.reset();
-    this.form.controls.Society_Type.reset();
-  }
-
   onSave() {
     const params = {
       'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : 0,
@@ -148,14 +151,17 @@ export class IssuerMasterComponent implements OnInit {
       'IssuerName': this.IssuerName,
       'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : this.Society.value
     };
-    this.restApiService.put(PathConstants.ISSUER_MASTER_POST, params).subscribe(ress => {
-      if (ress) {
+    this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
+      if (res) {
         this.viewPane = false;
+        this.onLoadData();
+        this.onClear();
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
         this.viewPane = false;
+        this.onClear();
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
@@ -165,6 +171,18 @@ export class IssuerMasterComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
+  }
+
+  onClear() {
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Iss_Code.reset();
+    this.form.controls.Acs_Code.reset();
+    this.form.controls.Iss_Name.reset();
+    this.form.controls.Flag.reset();
+    this.form.controls.Society_Type.reset();
+    //this.form.form.markAsUntouched();
+    // this.form.form.markAsPristine();
+    this.isEdited = false;
   }
 
   onSearch(value) {
