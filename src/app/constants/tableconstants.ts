@@ -1113,6 +1113,7 @@ export class TableConstants {
       { field: 'NoPacking', header: 'Bags' },
       { field: 'Nkgs', header: 'Net Wt' },
       { field: 'LorryNo', header: 'Lorry No.' },
+      { field: 'RowId', header: 'Row Id'},
       { field: 'CreatedDate', header: 'Created Date' },
     ];
     
