@@ -1741,3 +1741,20 @@ body {
 .d-3 {
   animation-delay: 1s;
 }
+
+.border-lightgrey {
+  border: 1.2px solid #d6d6d6 !important;
+}
+
+.border-teal {
+  border: 1px solid #18c5a9 !important;
+}
+
+.underlined-lightgrey {
+  border-bottom:1px solid #D5D5D5
+}
+
+.blue-border-with-shadow {
+  border: 1.2px solid #44a3ec !important; 
+  box-shadow: 5px 2px 2px #c4c6c7;
+}

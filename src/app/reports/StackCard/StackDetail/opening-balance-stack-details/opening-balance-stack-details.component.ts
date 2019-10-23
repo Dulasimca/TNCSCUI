@@ -17,12 +17,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class OpeningBalanceStackDetailsComponent implements OnInit {
   OBStackCols: any;
-  OBStackData: any;
+  OBStackData: any = [];
+  pristineData: any = [];
   GCode: any;
   RCode: any;
   GName: any;
   RName: any;
-  y_cd: any;
+  CurrentYear: any;
   regionsData: any;
   godownOptions: SelectItem[];
   regionOptions: SelectItem[];
@@ -117,6 +118,19 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
     }
   }
 
+  filterByStackDate(date) {
+    let stackDate = this.datePipe.transform(date, 'dd-MM-yyyy');
+    let sno = 1;
+    let filterArray = this.pristineData.filter(x => {
+      return x.StackDate === stackDate;
+    })
+    filterArray.forEach(i => { 
+      i.SlNo = sno;
+      sno += 1;
+    })
+    this.OBStackData = (filterArray.length !== 0 && filterArray !== undefined) ? filterArray : this.pristineData;
+  }
+
   onView() {
     this.loading = true;
     const params = {
@@ -124,7 +138,7 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
       'GName': this.GName,
       'RName': this.RName,
       'UserName': this.username.user,
-      'StackYear': this.y_cd.label,
+      'StackYear': this.CurrentYear.label,
       'Type': 1
     };
     this.restAPIService.post(PathConstants.STACK_OPENING_BALANCE_DETAIL_POST, params).subscribe(res => {
@@ -138,6 +152,7 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
+        this.pristineData = this.OBStackData;
         // if (this.statusOptions !== undefined) {
         // }
       } else {
@@ -154,6 +169,9 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
     });
   }
 
-  onResetTable(item) { }
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
+    this.OBStackData = [];
+   }
 
 }

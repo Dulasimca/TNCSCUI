@@ -35,8 +35,8 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Current Year</label>
-        <p-dropdown #year class="ui-g-12 ui-fluid dashboard" [options]="yearOptions" [(ngModel)]="y_cd"
-          (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" (ngModelChange)="onResetTable('')"
+        <p-dropdown #year class="ui-g-12 ui-fluid dashboard" [options]="yearOptions" [(ngModel)]="CurrentYear"
+          (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" (ngModelChange)="onResetTable('cy')"
           filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -44,17 +44,24 @@
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-2"></div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-        <button pButton type="button" label=View (click)="onView()" [disabled]="(!GCode || !RCode || !y_cd)"></button>
+      <div class="ui-g-4 ui-md-1 ui-fluid">
+        <button pButton type="button" label=View (click)="onView()" [disabled]="(!GCode || !RCode || !CurrentYear)"></button>
       </div>
-      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+      <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton label="Excel" (click)="dt.exportCSV()"
-          [disabled]="(!GCode || !RCode || !y_cd)"></button>
+          [disabled]="(!GCode || !RCode || !CurrentYear)"></button>
       </div>
       <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=Print (click)="onPrint()"
           [disabled]="(OBStackData.length=='0')"></button>
       </div> -->
+      <div class="ui-g-12 dashboard border-lightgrey">
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Filter By: Stack Date</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="stackDate" [maxDate]="maxDate" 
+        [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="filterByStackDate(stackDate)"
+        [disabled]="(OBStackData.length=='0')" readonlyInput="true"></p-calendar>
+      </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="OBStackCols" [value]="OBStackData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
@@ -84,7 +91,7 @@
           </ng-template>
         </p-table>
       </div>
-      <!-- </div> -->
+     </div> 
     </div>
   </p-panel>
 </div>

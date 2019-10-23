@@ -21,7 +21,7 @@
           </p-footer>
       </p-confirmDialog>
       <form #f="ngForm" name="form">
-        <div class="ui-g-12 no-pad-top" style="border: 1px solid #18c5a9">
+        <div class="ui-g-12 no-pad-top border-teal">
         <div class="ui-g-12">
           <div class="ui-g-2"></div>
           <div class="ui-g-6 ui-md-3 no-pad-top">
@@ -85,7 +85,7 @@
               [readonly]="allowInput" required appDecimalDigit>
           </div>
           <div class="ui-g-12 ui-md-1"></div>
-          <div *ngIf="nonEditable" style="border: 1.2px solid #44a3ec !important; box-shadow: 5px 2px 2px #c4c6c7;" class="ui-g-6 ui-md-2 no-pad-top">
+          <div *ngIf="nonEditable" class="ui-g-6 ui-md-2 no-pad-top blue-border-with-shadow">
             <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" [(ngModel)]="ClosingDate" required></p-calendar>
           </div>
@@ -105,7 +105,7 @@
       </div>
       </form>
 
-       <div *ngIf="openView" class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9"> 
+       <div *ngIf="openView" class="ui-g-12 ui-md-12 border-teal"> 
       <div class="ui-g-12 ui-md-12 dashboard">
         <p-table #dt [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10" [totalRecords]="totalRecords"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
