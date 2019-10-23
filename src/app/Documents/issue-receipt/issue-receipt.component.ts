@@ -668,21 +668,11 @@ export class IssueReceiptComponent implements OnInit {
         this.onStackNoChange(list);
         break;
     }
-
   }
 
   onSave(type) {
     this.messageService.clear();
     this.blockScreen = true;
-    if (this.SIDate !== undefined && this.SIDate !== null) {
-      this.issueData.forEach(x => {
-        if (x.SIDate === this.datepipe.transform(this.SIDate, 'MM/dd/yyyy')) {
-          this.SIDate = this.SIDate;
-        } else {
-          this.SIDate = x.SIDate;
-        }
-      })
-    }
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
     this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
