@@ -10,7 +10,7 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MessageService, SelectItem } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
-import { FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-Issuer-master',
@@ -19,10 +19,13 @@ import { FormGroup, NgForm } from '@angular/forms';
 })
 export class IssuerMasterComponent implements OnInit {
   IssuerMasterCols: any;
-  IssuerMasterData: any;
-  IssuerMasterAlterData: any;
+  IssuerMasterData: any = [];
+  PristineData: any = [];
   societyOptions: SelectItem[];
+  issuerTypeOptions: SelectItem[];
+  categoryOptions: SelectItem[];
   searchText: any;
+  CategoryType: any;
   ACSCode: any;
   Activeflag: any;
   IssuerCode: any;
@@ -35,14 +38,17 @@ export class IssuerMasterComponent implements OnInit {
   GName: any;
   RCode: any;
   RName: any;
+  IssuerType: any;
   selectedRow: any;
   loading: boolean = false;
   viewPane: boolean;
   SocietyCode: any;
   isEdited: boolean;
-  societySelection = [];
+  CategoryId: any;
+  Tycode: any;
   @ViewChild('society') societyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
+
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
@@ -65,32 +71,71 @@ export class IssuerMasterComponent implements OnInit {
           this.exportAsPDF();
         }
       }];
-      this.onLoadData();
-    const params = new HttpParams().set('GCode', this.GCode);
-    this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        var uniqueArray = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-        for (var index in uniqueArray) {
-          var code = uniqueArray[index];
-          let i = res.findIndex(cd => cd.SocietyCode === code);
-          this.societySelection.push({ 'label': res[i].SocietyName, 'value': code });
-        }
-        this.societyOptions = this.societySelection;
-        this.societyOptions.unshift({ label: '-select', value: null });
-      } else {
-        this.societyOptions = this.societySelection;
-      }
-    });
+    this.onLoadData();
   }
 
-  onSelect(type) {
+  onSelect(type, id) {
+    let issueTypeSelection = [];
+    let societySelection = [];
+    let categorySelection = [];
+    switch (id) {
+      case 'soc':
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-        this.societyOptions = this.societySelection;
+        if (this.GCode !== undefined && this.GCode !== null) {
+          const params = new HttpParams().set('GCode', this.GCode);
+          this.restApiService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
+            if (res !== undefined && res !== null && res.length !== 0) {
+              var uniqueArray = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
+              for (var index in uniqueArray) {
+                var code = uniqueArray[index];
+                let i = res.findIndex(cd => cd.SocietyCode === code);
+                societySelection.push({ 'label': res[i].SocietyName, 'value': code });
+              }
+              this.societyOptions = societySelection;
+              this.societyOptions.unshift({ label: '-select', value: null });
+            } else {
+              this.societyOptions = societySelection;
+            }
+          });
+        }
+        break;
+      case 'iss':
+        const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
+        this.restApiService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((values: any) => {
+          if (values !== null && values !== undefined && values.length !== 0) {
+              values.forEach(rt => {
+                issueTypeSelection.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+              });
+              this.issuerTypeOptions = issueTypeSelection;
+              this.issuerTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          }
+        });
+        break;
+        case 'cat':
+          if(this.IssuerType !== undefined && this.IssuerType !== null) {
+            if((this.IssuerType.value !== null && this.IssuerType.value !== undefined) || 
+            (this.Tycode !== null && this.Tycode !== undefined)) {
+              let tyCode = (this.IssuerType.value !== null && this.IssuerType.value !== undefined) ? this.IssuerType.value 
+              : (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : 0;
+            const params = new HttpParams().set('Tycode', tyCode);
+            this.restApiService.getByParameters(PathConstants.TYPE_CATEGORY_GET, params).subscribe((values: any) => {
+              if (values !== null && values !== undefined && values.length !== 0) {
+                  values.forEach(c => {
+                    categorySelection.push({ 'label': c.Name, 'value': c.CategoryId });
+                  });
+                  this.categoryOptions = categorySelection;
+                  this.categoryOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              }
+            });
+          }
+        }
+       break;
+    }
   }
 
-  onLoadData(){
+  onLoadData() {
     this.loading = true;
     const params = {
       'GCode': this.GCode,
@@ -105,7 +150,8 @@ export class IssuerMasterComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
-      } else{
+        this.PristineData = this.IssuerMasterData;
+      } else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
@@ -127,18 +173,18 @@ export class IssuerMasterComponent implements OnInit {
     this.isEdited = true;
     this.viewPane = true;
     this.IssuerCode = selectedRow.IssuerCode;
-    this.IssuerName= selectedRow.Issuername.trim();
+    this.IssuerName = selectedRow.Issuername.trim();
     this.ACSCode = selectedRow.ACSCode;
     this.Activeflag = selectedRow.Activeflag;
     this.SocietyCode = selectedRow.Societycode;
-    if(selectedRow.Societycode !== null && selectedRow.Societycode !== '' && selectedRow.Societycode !== undefined) {
-     this.societySelection.filter(x => {
-         if(x.value === selectedRow.Societycode) { 
-           this.Society = x.label; 
-           this.societyOptions = [{ label: x.label, value: x.value }];
-          }
-      })
-    } else { this.Society = null; this.societyOptions = [] }
+    this.Society = selectedRow.SocietyName;
+    this.societyOptions = [{ label: selectedRow.SocietyName, value: selectedRow.Societycode }];
+    this.CategoryType = selectedRow.CategoryType;
+    this.CategoryId = selectedRow.CategoryId;
+    this.categoryOptions = [{ label: selectedRow.CategoryType, value: selectedRow.CategoryId }];
+    this.IssuerType = selectedRow.Tyname;
+    this.Tycode = selectedRow.IssuerType;
+    this.issuerTypeOptions = [{ label: selectedRow.Tyname, value: selectedRow.IssuerType }];
   }
 
   onSave() {
@@ -149,7 +195,11 @@ export class IssuerMasterComponent implements OnInit {
       'GCode': this.GCode,
       'RCode': this.RCode,
       'IssuerName': this.IssuerName,
-      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : this.Society.value
+      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : this.Society.value,
+      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : this.IssuerType.value,
+      'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId 
+      : (this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
+
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
       if (res) {
@@ -165,12 +215,12 @@ export class IssuerMasterComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    },(err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
   }
 
   onClear() {
@@ -180,6 +230,11 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Iss_Name.reset();
     this.form.controls.Flag.reset();
     this.form.controls.Society_Type.reset();
+    this.form.controls.Category_Type.reset();
+    this.form.controls.Issuer_Type.reset();
+    this.SocietyCode = null;
+    this.Tycode = null;
+    this.CategoryId = null;
     //this.form.form.markAsUntouched();
     // this.form.form.markAsPristine();
     this.isEdited = false;
@@ -189,9 +244,11 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerMasterData = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
-      this.IssuerMasterData = this.IssuerMasterData.filter(item => {
+      this.IssuerMasterData = this.PristineData.filter(item => {
         return item.Issuername.toString().startsWith(value);
       });
+    } else {
+      this.IssuerMasterData = this.PristineData;
     }
   }
 

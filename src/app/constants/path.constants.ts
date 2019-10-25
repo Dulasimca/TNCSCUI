@@ -119,4 +119,5 @@ export class PathConstants {
   public static readonly DOCUMENT_CORRECTION_POST = '/api/DocumentCorrection/Post';
   public static readonly SOCIETY_MASTER_POST = '/api/SocietyMaster/Post';
   public static readonly ISSUER_MASTER_POST = '/api/IssuerMaster/Post';
+  public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
 }
