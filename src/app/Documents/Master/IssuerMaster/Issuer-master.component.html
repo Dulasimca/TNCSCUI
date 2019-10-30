@@ -100,7 +100,7 @@
     <div class="ui-g-12 ui-fluid">
       <div class="ui-g-1"></div>
       <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
-        <label for="Category_Type" class="label-fontsize">Issuer Category</label>
+        <label for="Category_Type" class="label-fontsize">OWS Category</label>
         <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
         optionLabel="label" (onClick)="onSelect('click', 'cat')" 
         filter="true"  resetFilterOnHide="true" (keydown.enter)="onSelect('enter', 'cat')">
