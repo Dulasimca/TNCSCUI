@@ -11,7 +11,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
-
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-other-schemes',
@@ -50,8 +51,6 @@ export class OtherSchemesComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: any;
   userId: any;
-  GName: any;
-  RName: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
@@ -69,9 +68,6 @@ export class OtherSchemesComponent implements OnInit {
     this.OtherSchemeCols = this.tableConstants.DoOtherScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.GCode = this.authService.getUserAccessible().gCode;
-    this.GName = this.authService.getUserAccessible().gName;
-    this.RName = this.authService.getUserAccessible().rName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -172,9 +168,10 @@ export class OtherSchemesComponent implements OnInit {
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
-      'GName': this.GName,
-      'RName': this.RName,
+      'GCode': this.GCode.value,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
+      'RCode': this.RCode.value,
       'UserName': this.userId.user,
       'SchCode': this.sch_cd.value
     };
@@ -186,19 +183,64 @@ export class OtherSchemesComponent implements OnInit {
         let sno = 0;
         let TotalAmount = 0;
         let TotalQuantity = 0;
+
+        ///Sorting Array
+        let sortedArray = _.sortBy(this.OtherSchemeData, 'Comodity');
+        this.OtherSchemeData = sortedArray;
+        ///End
+
         this.OtherSchemeData.forEach(data => {
-          TotalAmount += (data.Amount !== undefined && data.Amount !== null) ? (data.Amount * 1) : 0;
-          TotalQuantity += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
+          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
           sno += 1;
           data.SlNo = sno;
+          TotalAmount += (data.Amount !== undefined && data.Amount !== null) ? (data.Amount * 1) : 0;
+          TotalQuantity += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
         });
+
+        ///Grand total display
         this.OtherSchemeData.push(
           {
             Amount: TotalAmount.toFixed(2),
             Quantity: TotalQuantity.toFixed(3),
-            Dono: 'Total'
+            Dono: 'Grand Total'
           }
         );
+        ///End
+
+
+        ///Grouping Array based on 'Commodity' & sum
+        let groupedData;
+        Rx.Observable.from(this.OtherSchemeData)
+          .groupBy((x: any) => x.Comodity) // using groupBy from Rxjs
+          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+          .map(g => {// mapping 
+            return {
+              Comodity: g[0].Comodity,//take the first name because we grouped them by name
+              Quantity: _.sumBy(g, 'Quantity'),
+              Amount: _.sumBy(g, 'Amount') // using lodash to sum quantity
+            }
+          })
+          .toArray() //.toArray because I guess you want to loop on it with ngFor      
+          .do(sum => sum) // just for debug
+          .subscribe(d => { groupedData = d; console.log('data', groupedData); });
+        ///End
+
+        ///Inserting total in an array
+        let index = 0;
+        let item;
+        for (let i = 0; i < this.OtherSchemeData.length; i++) {
+          if (this.OtherSchemeData[i].Comodity !== groupedData[index].Comodity && groupedData[index].Comodity !== undefined) {
+            item = {
+              Dono: 'TOTAL',
+              Amount: (groupedData[index].Amount * 1).toFixed(2),
+              Quantity: (groupedData[index].Quantity * 1).toFixed(3),
+            };
+            this.OtherSchemeData.splice(i, 0, item);
+            index += 1;
+          }
+        }
+        ///End 
+
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -207,13 +249,13 @@ export class OtherSchemesComponent implements OnInit {
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
         });
       }
-    },(err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
+    }
     );
   }
 
@@ -250,5 +292,9 @@ export class OtherSchemesComponent implements OnInit {
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode + GolbalVariable.DOOthersReportFileName + ".txt";
     saveAs(path + filename, filename);
+  }
+
+  public getColor(name: string): string {
+    return (name === 'Grand Total') ? "#53aae5" : "white";
   }
 }
