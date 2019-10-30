@@ -13,6 +13,8 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -111,17 +113,19 @@ export class CustomerDetailsComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
-        }
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            if (x.RCode === this.RCode.value) {
-              godownSelection.push({ label: x.GName, value: x.GCode });
-            }
-          });
-          this.godownOptions = godownSelection;
-        }
+          if (type === 'enter') {
+            this.godownPanel.overlayVisible = true;
+          }
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              if (x.RCode === this.RCode.value) {
+                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              } else {
+            this.godownOptions = godownSelection;
+              }
+            });
+            this.godownOptions = godownSelection;
+          }
         break;
       case 'sh':
         if (type === 'enter') {
@@ -196,11 +200,57 @@ export class CustomerDetailsComponent implements OnInit {
         this.loading = false;
         this.IssueMemoCustomerDetailsData = res;
         let sno = 0;
+        let TotalQuantity = 0;
+          ///Sorting Array
+          let sortedArray = _.sortBy(this.IssueMemoCustomerDetailsData, 'Date', 'Coop');
+          this.IssueMemoCustomerDetailsData = sortedArray;
+          ///End
         this.IssueMemoCustomerDetailsData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd/MM/yyyy');
           sno += 1;
           data.SlNo = sno;
+          TotalQuantity += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
         });
+
+        ///Grand total display
+        this.IssueMemoCustomerDetailsData.push(
+          {
+            Quantity: TotalQuantity.toFixed(3),
+            Ackno: 'Grand Total'
+          }
+        );
+        ///End
+
+           ///Grouping Array based on 'Commodity' & sum
+           let groupedData;
+           Rx.Observable.from(this.IssueMemoCustomerDetailsData)
+             .groupBy((x: any) => x.Coop) // using groupBy from Rxjs
+             .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+             .map(g => {// mapping 
+               return {
+                Coop: g[0].Coop,//take the first name because we grouped them by name
+                 Quantity: _.sumBy(g, 'Quantity') // using lodash to sum quantity
+               }
+             })
+             .toArray() //.toArray because I guess you want to loop on it with ngFor      
+             .do(sum => sum) // just for debug
+             .subscribe(d => { groupedData = d; console.log('data', groupedData); });
+           ///End
+   
+           ///Inserting total in an array
+           let index = 0;
+           let item;
+           for (let i = 0; i < this.IssueMemoCustomerDetailsData.length; i++) {
+             if (this.IssueMemoCustomerDetailsData[i].Coop !== groupedData[index].Coop && groupedData[index].Coop !== undefined) {
+               item = {
+                Ackno: 'TOTAL',
+                 Quantity: (groupedData[index].Quantity * 1).toFixed(3),
+               };
+               this.IssueMemoCustomerDetailsData.splice(i, 0, item);
+               index += 1;
+             }
+           }
+           ///End 
         } else {
           this.loading = false;
           this.messageService.clear();
