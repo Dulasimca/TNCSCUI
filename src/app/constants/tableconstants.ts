@@ -976,6 +976,7 @@ export class TableConstants {
       { field: 'SocietyName', header: 'Society Name' },
       { field: 'Issuername', header: 'Issuer Name' },
       { field: 'CategoryName', header: 'OWS - Category' },
+      {  field: 'Beneficiaries', header: 'No.of Beneficiary'},
       { field: 'ACSCode', header: 'Acs Code' },
       { field: 'Activeflag', header: 'Active' },
       // { header: 'Save'}

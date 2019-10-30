@@ -46,6 +46,7 @@ export class IssuerMasterComponent implements OnInit {
   isEdited: boolean;
   CategoryId: any;
   Tycode: any;
+  Beneficiaries: any;
   enableSociety: boolean = true;
   @ViewChild('society') societyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
@@ -206,6 +207,7 @@ export class IssuerMasterComponent implements OnInit {
     this.societyOptions = [{ label: selectedRow.SocietyName, value: selectedRow.Societycode }];
     this.CategoryType = selectedRow.CategoryType;
     this.CategoryId = selectedRow.CategoryId;
+    this.Beneficiaries = selectedRow.Beneficiaries;
     this.categoryOptions = [{ label: selectedRow.CategoryType, value: selectedRow.CategoryId }];
     this.IssuerType = selectedRow.Tyname;
     this.Tycode = selectedRow.IssuerType;
@@ -230,6 +232,7 @@ export class IssuerMasterComponent implements OnInit {
       'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId 
       : (this.CategoryType !== undefined && this.CategoryType !== null &&
          this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
+      'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0 
 
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
@@ -263,11 +266,12 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Society_Type.reset();
     this.form.controls.Category_Type.reset();
     this.form.controls.Issuer_Type.reset();
-    this.SocietyCode = null;
-    this.Tycode = null;
-    this.CategoryId = null;
-    //this.form.form.markAsUntouched();
-    // this.form.form.markAsPristine();
+    this.form.controls.No_of_beneficaries.reset();
+    this.SocietyCode = null; this.Tycode = null;  this.CategoryId = null;
+    this.IssuerCode = null; this.IssuerType = null; this.Society = null;
+    this.ACSCode = null; this.IssuerName = null; this.Activeflag = null;
+    this.CategoryType = null; this.Beneficiaries = null;
+    this.issuerTypeOptions = []; this.societyOptions = []; this.categoryOptions = [];
     this.isEdited = false;
   }
 
@@ -276,7 +280,7 @@ export class IssuerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.PristineData.filter(item => {
-        return item.Issuername.toString().startsWith(value);
+        return item.Issuername.toString().toUpperCase().startsWith(value);
       });
     } else {
       this.IssuerMasterData = this.PristineData;
