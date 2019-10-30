@@ -5,24 +5,27 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-12 ui-md-7 dashboard">Issuer Master</div>
-        <div class="ui-g-12 ui-md-5 dashboard" style="float: right !important;">
+        <div class="ui-g-12 ui-md-5 dashboard" style="text-align: end !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
             placeholder="Search by IssuerName" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             styleClass="ui-button-danger"></p-splitButton>
-          <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
-            (click)="print()"></button>
+          <!-- <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
+            (click)="print()"></button> -->
+            <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
+          (click)="viewPane = true;onClear()"></button>
         </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-8 dashboard"></div>
+      <!-- <div class="ui-g-10 dashboard"></div>
       <div class="ui-g-1 dashboard">
         <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
-            (click)="viewPane = true;onClear()"></button></div>
-      <div class="table-screen-size">
+          (click)="viewPane = true;onClear()"></button></div> -->
+      <!-- <div class="table-screen-size"> -->
+      <div class="ui-g-12">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
           [paginator]="true" [loading]="loading">
@@ -86,17 +89,17 @@
           <label for="Iss_Code" class="float-input">Issuer Code</label>
         </span>
       </div>
-    
-    <div class="ui-g-6 ui-md-4">
-      <span class="ui-float-label">
-        <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
-        <label for="Iss_Name" class="float-input">Issuer Name</label>
-      </span>
+
+      <div class="ui-g-6 ui-md-4">
+        <span class="ui-float-label">
+          <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
+          <label for="Iss_Name" class="float-input">Issuer Name</label>
+        </span>
+      </div>
     </div>
-  </div> 
-  <div class="ui-g-12 ui-fluid">
-    <div class="ui-g-1"></div>
-    <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
+    <div class="ui-g-12 ui-fluid">
+      <div class="ui-g-1"></div>
+      <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
         <label for="Category_Type" class="label-fontsize">Issuer Category</label>
         <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
         optionLabel="label" (onClick)="onSelect('click', 'cat')" 
@@ -124,6 +127,6 @@
         <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType  || (isEdited && !f.dirty))"
         (click)="onSave()"></button>
     </div>
-      </div>
-      </form>
+    </div>
+  </form>
 </p-dialog>

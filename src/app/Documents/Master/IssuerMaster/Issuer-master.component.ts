@@ -228,7 +228,8 @@ export class IssuerMasterComponent implements OnInit {
       (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
          && this.IssuerType.value !== null) ? this.IssuerType.value : '',
       'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId 
-      : (this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
+      : (this.CategoryType !== undefined && this.CategoryType !== null &&
+         this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
 
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
