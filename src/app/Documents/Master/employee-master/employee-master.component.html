@@ -9,32 +9,35 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g">
-      <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Region</label>
-        <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
-          (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-3"></div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Region</label>
+          <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+            (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
+            (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+            (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+            (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+            placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div style="padding-top: 21px;">
+          <button class="btn" style="padding: 2px 17px 2px 17px" pButton type="button" label=View
+            (click)="onView()"></button>
+        </div>
       </div>
-      <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
-          (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div style="padding-top: 21px;">
-        <button class="btn" style="padding: 2px 17px 2px 17px" pButton type="button" label=View
-          (click)="onView()"></button>
-      </div>
-      <div class="employee-main">
+      <div class="employee-main" style="margin: 1px 430px !important">
         <div>
           <form #employeeForm="ngForm" (ngSubmit)="onSubmit(formUser)">
             <div class="ui-float-label" style="margin-bottom: 20px">
@@ -102,8 +105,8 @@
             </div> -->
             <div class="bottom" style="padding-left: 95px">
               <div>
-                <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(employeeForm)"
-                  label=Submit></button>
+                <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button"
+                  (click)="onSubmit(employeeForm)" label=Submit></button>
               </div>
               <!-- [disabled]="(!employeeForm.form.valid)" -->
               <!-- <div style="padding-top: 10px;">

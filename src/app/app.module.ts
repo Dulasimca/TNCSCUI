@@ -141,6 +141,9 @@ import { CorrectionSlipComponent } from './reports/correction-slip/correction-sl
 import { OWSComponent } from './reports/Annavitran/ows/ows.component';
 import { StackClosingCard2Component } from './reports/StackCard/stack-closing-card-2/stack-closing-card-2.component';
 import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDetail/opening-balance-stack-details/opening-balance-stack-details.component';
+import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-tax-entry.component';
+import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
+import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
 
 @NgModule({
   declarations: [
@@ -242,7 +245,10 @@ import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDe
     CorrectionSlipComponent,
     OWSComponent,
     StackClosingCard2Component,
-    OpeningBalanceStackDetailsComponent
+    OpeningBalanceStackDetailsComponent,
+    SalesTaxEntryComponent,
+    PurchaseTaxEntryComponent,
+    PartyLedgerMasterComponent
   ],
   imports: [
     BrowserModule,
