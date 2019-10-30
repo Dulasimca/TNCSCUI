@@ -46,6 +46,7 @@ export class IssuerMasterComponent implements OnInit {
   isEdited: boolean;
   CategoryId: any;
   Tycode: any;
+  enableSociety: boolean = true;
   @ViewChild('society') societyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
 
@@ -110,6 +111,8 @@ export class IssuerMasterComponent implements OnInit {
               });
               this.issuerTypeOptions = issueTypeSelection;
               this.issuerTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          } else {
+            this.issuerTypeOptions = issueTypeSelection;
           }
         });
         break;
@@ -127,6 +130,9 @@ export class IssuerMasterComponent implements OnInit {
                   });
                   this.categoryOptions = categorySelection;
                   this.categoryOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              }
+              else {
+                this.categoryOptions = categorySelection;
               }
             });
           }
@@ -168,6 +174,25 @@ export class IssuerMasterComponent implements OnInit {
     });
   }
 
+  onChange() {
+    this.CategoryType = null;
+    this.CategoryId = null;
+    if (this.IssuerType !== undefined && this.IssuerType !== null) {
+      if ((this.IssuerType.value !== undefined && this.IssuerType.value !== null) ||
+        (this.Tycode !== null && this.Tycode !== undefined)) {
+        let tycode = (this.IssuerType.value !== undefined && this.IssuerType.value !== null) ? this.IssuerType.value : this.Tycode;
+        if(tycode === 'TY002' || tycode === 'TY003' || tycode === 'TY004') {
+        this.enableSociety = false;
+        } else {
+          this.enableSociety = true;
+          this.Society = null;
+          // this.societyOptions = [];
+          this.SocietyCode = null;
+        }
+      } 
+    }
+  }
+
 
   onRowSelect(event, selectedRow) {
     this.isEdited = true;
@@ -185,6 +210,7 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerType = selectedRow.Tyname;
     this.Tycode = selectedRow.IssuerType;
     this.issuerTypeOptions = [{ label: selectedRow.Tyname, value: selectedRow.IssuerType }];
+    this.onChange();
   }
 
   onSave() {
@@ -195,8 +221,12 @@ export class IssuerMasterComponent implements OnInit {
       'GCode': this.GCode,
       'RCode': this.RCode,
       'IssuerName': this.IssuerName,
-      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : this.Society.value,
-      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : this.IssuerType.value,
+      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode
+       : (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined && this.Society.value !== null)
+        ? this.Society.value : '',
+      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : 
+      (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
+         && this.IssuerType.value !== null) ? this.IssuerType.value : '',
       'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId 
       : (this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
 

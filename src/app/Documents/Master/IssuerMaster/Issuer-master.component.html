@@ -63,21 +63,23 @@
       </span>
     </div>
     <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
-      <label for="Society_Type" class="label-fontsize">Society Type</label>
-      <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society"
-       optionLabel="label" (onClick)="onSelect('click', 'soc')" (keydown.enter)="onSelect('enter', 'soc')" required>
-      </p-dropdown>
-    </div>
+        <label for="Issuer_Type" class="label-fontsize">Issuer Type</label>
+        <p-dropdown #Issuer name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
+         optionLabel="label" (onClick)="onSelect('click', 'iss')" (onChange)="onChange()"
+         (keydown.enter)="onSelect('enter', 'iss')" filter="true"  resetFilterOnHide="true" required>
+        </p-dropdown>
+      </div>
     <!-- <div class="ui-g-2"></div> -->
   </div>
    <div class="ui-g-12 ui-fluid">
     <div class="ui-g-1"></div>
     <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
-      <label for="Issuer_Type" class="label-fontsize">Issuer Type</label>
-      <p-dropdown #Issuer name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
-       optionLabel="label" (onClick)="onSelect('click', 'iss')" (keydown.enter)="onSelect('enter', 'iss')" required>
-      </p-dropdown>
-    </div>
+        <label for="Society_Type" class="label-fontsize">Society Type</label>
+        <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society"
+         optionLabel="label" (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety"
+         (keydown.enter)="onSelect('enter', 'soc')" filter="true"  resetFilterOnHide="true" required>
+        </p-dropdown>
+      </div>
     <div class="ui-g-6 ui-md-3">
         <span class="ui-float-label">
           <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off">
@@ -97,7 +99,8 @@
     <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
         <label for="Category_Type" class="label-fontsize">Issuer Category</label>
         <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
-        optionLabel="label" (onClick)="onSelect('click', 'cat')" (keydown.enter)="onSelect('enter', 'cat')">
+        optionLabel="label" (onClick)="onSelect('click', 'cat')" 
+        filter="true"  resetFilterOnHide="true" (keydown.enter)="onSelect('enter', 'cat')">
        </p-dropdown>
       </div>
     <div class="ui-g-6 ui-md-2">
@@ -118,7 +121,7 @@
   <div class="ui-g-12 ui-fluid">
     <div class="ui-g-9"></div>
     <div class="ui-g-4 ui-md-2">
-        <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !Society || Society==null || !IssuerType || !Category || (isEdited && !f.dirty))"
+        <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType  || (isEdited && !f.dirty))"
         (click)="onSave()"></button>
     </div>
       </div>
