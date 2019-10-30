@@ -101,6 +101,9 @@ export class TableConstants {
   DocumentCorrectionApproveColumns: any;
   OBStackDetails: any;
   StackCardClosing: any;
+  PartyLedgerMaster: any;
+  PurchaseTaxEntry: any;
+  SalesTaxEntry: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1007,7 +1010,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'Society', header: 'Society' },
       { field: 'Commodity', header: 'Commodity' },
-      { field: 'Scheme', header: 'Scheme'},
+      { field: 'Scheme', header: 'Scheme' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Value', header: 'Value' }
@@ -1115,10 +1118,10 @@ export class TableConstants {
       { field: 'NoPacking', header: 'Bags' },
       { field: 'Nkgs', header: 'Net Wt' },
       { field: 'LorryNo', header: 'Lorry No.' },
-      { field: 'RowId', header: 'Row Id'},
+      { field: 'RowId', header: 'Row Id' },
       { field: 'CreatedDate', header: 'Created Date' },
     ];
-    
+
     this.OWSReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: '', header: 'No. of Institute' },
@@ -1130,8 +1133,8 @@ export class TableConstants {
     ];
 
     this.DocumentCorrectionColumns = [
-      { field: 'SlNo', header: 'S.No'},
-      { field: 'DocNumber', header: 'Doc.No.'},
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'DocNumber', header: 'Doc.No.' },
       { field: 'ApprovalStatus', header: 'Approval Status' },
       { field: 'ApprovedDate', header: 'Approved Date' },
       { field: 'ApproverReason', header: 'Approver Reason' },
@@ -1144,10 +1147,10 @@ export class TableConstants {
       { field: 'GName', header: 'Godown Name' },
       { field: 'DocType', header: 'Doc.Type' },
       { field: 'DocNumber', header: 'Doc.No' },
-      { field: 'CreatedDate', header: 'Requested Date'},
+      { field: 'CreatedDate', header: 'Requested Date' },
       { field: 'Reason', header: 'Correction Reason' },
-      { field: 'ApprovalStatus', header: 'Status'},
-      { field: 'ApproverReason', header: 'Approver Reason'}
+      { field: 'ApprovalStatus', header: 'Status' },
+      { field: 'ApproverReason', header: 'Approver Reason' }
     ];
 
     this.OBStackDetails = [
@@ -1157,7 +1160,7 @@ export class TableConstants {
       { field: 'StackBalanceBags', header: 'No of Bags' },
       { field: 'StackBalanceWeight', header: 'Quantity' },
       { field: 'StackDate', header: 'OB Stack Date' },
-      { field: 'CurYear', header: 'Year'}
+      { field: 'CurYear', header: 'Year' }
     ];
 
     this.StackCardClosing = [
@@ -1168,7 +1171,37 @@ export class TableConstants {
       { field: 'Active', header: 'Active' },
       { field: 'OpeningDate', header: 'Opening Date' },
       { field: 'ClosingDate', header: 'Closing Date' },
-      { field: 'Commodity', header: 'Item Name'}
+      { field: 'Commodity', header: 'Item Name' }
+    ];
+
+    this.PartyLedgerMaster = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'RName', header: 'Region Name' },
+      { field: 'PartyName', header: 'Party Name' },
+      { field: 'Favour', header: 'Alias / Favour of' },
+      { field: 'GST', header: 'GST No' },
+      { field: 'Account', header: 'A/c No' },
+      { field: 'Bank', header: 'Bank Name' },
+      { field: 'Branch', header: 'Branch' },
+      { field: 'IFSC', header: 'IFSC Code' },
+      { field: 'Pan', header: 'Pan No' },
+      { header: 'Modify' },
+    ];
+
+    this.PurchaseTaxEntry = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'Companyname', header: 'Company Name' },
+      { field: 'Tin', header: 'Tin No' },
+      { field: 'Billno', header: 'Bill No' },
+      { field: 'Billdate', header: 'Bill Date' },
+      { field: 'Commodity', header: 'Commodity Name' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'Tax', header: 'Tax %' },
+      { field: 'TaxAmount', header: 'Tax Amount' },
+      { field: 'Total', header: 'Total' },
+      { header: 'Modify' },
     ];
   }
 }

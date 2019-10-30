@@ -1,0 +1,218 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-7 dashboard">Purchase Tax Entry</div>
+        <div class="ui-g-12 ui-md-5 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by TIN"
+            (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+            styleClass="ui-button-danger"></p-splitButton>
+          <!-- <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
+            (click)="print()"></button> -->
+        </div>
+      </div>
+    </p-header>
+    <p-toast position="top-center" key="t-err"></p-toast>
+    <div class="ui-g">
+      <div class="ui-g-6 ui-md-2"></div>
+      <div class="ui-g-6 ui-md-1" style="padding-top: 18px">
+        <div class="ui-float-label">
+          <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Month" name="Month" autocomplete="off"
+            required>
+          <label for="Month">Month</label>
+        </div>
+      </div>
+      <div class="ui-g-6 ui-md-1" style="padding-top: 18px">
+        <div class="ui-float-label">
+          <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Year" name="Year" autocomplete="off"
+            required>
+          <label for="Year">Year</label>
+        </div>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
+        <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year"
+          [showClear]="true" (onClick)="onSelect()" (keydown.enter)="onSelect()"
+          (ngModelChange)="onResetTable('y')" placeholder="-select-" filter="true" resetFilterOnHide="true"
+          optionLabel="label">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-1"></div>
+      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 21px">
+        <button pButton type="button" (click)="onView()" style="padding: 2px" label=View></button>
+      </div>
+      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 21px">
+        <button pButton type="button" icon="pi pi-plus" label=Add (click)="viewPane = true;onClear()"></button>
+        <!-- <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn" -->
+        <!-- (click)="viewPane = true;onClear()"></button> -->
+      </div>
+      <div class="ui-g-6 ui-md-2"></div>
+      <div class="ui-g-12">
+        <p-table #table [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+          [paginator]="true" [loading]="loading">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event)">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>
+
+<p-dialog header="Purchase Tax Entry Form" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [(visible)]="viewPane"
+  [responsive]="true" [style]="{width: '900px', height: '1000px'}">
+  <div class="employee-main" style="max-width: 700px; box-shadow: none">
+    <div>
+      <!-- <div style="text-align: center">
+        <a>Purchase Tax Entry Form</a>
+      </div> -->
+      <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
+        <div class="ui-g">
+          <div class="ui-g-4 ui-md-5">
+            <label class="ui-g-10 label-fontsize dashboard" for="Company">Company Name</label>
+            <p-dropdown #company class="ui-g-12 ui-fluid dashboard" [options]="companyOptions" [(ngModel)]="CompanyName"
+              (onClick)="onSelect()" (keydown.enter)="onSelect()" [showClear]="true"
+              filter="true" resetFilterOnHide="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="ui-g-2 ui-md-1" style="margin-top: 11px">
+            <div class="ui-float-label">
+              <input class="icon2" type="Tin" size="30" pInputText [(ngModel)]="Tin" name="Tin" autocomplete="off"
+                required>
+              <label for="Tin">TIN</label>
+            </div>
+          </div>
+          <div class="ui-g-3 ui-md-3" style="margin-top: 11px">
+            <div class="ui-float-label">
+              <input class="icon2" type="Pan" size="30" pInputText [(ngModel)]="Pan" name="Pan" autocomplete="off"
+                required>
+              <label for="Pan">PAN</label>
+            </div>
+          </div>
+          <div class="ui-g-3 ui-md-3" style="margin-top: 11px">
+            <div class="ui-float-label">
+              <input class="icon2" type="Gst" size="30" pInputText [(ngModel)]="Gst" name="Gst" autocomplete="off"
+                required>
+              <label for="Gst">GST</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Bill" name="Bill" autocomplete="off"
+                required>
+              <label for="Bill">Bill No</label>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-6">
+            <a class="ui-g-4 ui-md-3">TIN No - </a>
+
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-g">
+              <label class="ui-g-10 label-fontsize dashboard" for="Billdate" style="text-align: center">Bill
+                Date</label>
+              <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                name="Billdate" [(ngModel)]="Billdate" (ngModelChange)="onDateSelect()">
+              </p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
+            <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+              [(ngModel)]="Commodity" (onClick)="onSelect()"
+              (keydown.enter)="onSelect()" [showClear]="true" filter="true" resetFilterOnHide="true"
+              placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Quantity" name="Quantity"
+                autocomplete="off" required>
+              <label for="Quantity">Quantity</label>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate" autocomplete="off"
+                required>
+              <label for="Rate">Rate</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
+                autocomplete="off" required>
+              <label for="Amount">Amount(Exclusive of VAT)</label>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage" name="percentage"
+                autocomplete="off" required>
+              <label for="percentage">Vat %</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" autocomplete="off"
+                required>
+              <label for="Vat">Vat Amount</label>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Total" name="Total"
+                autocomplete="off" required>
+              <label for="Total">Total</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4"></div>
+          <div class="ui-g-6 ui-md-2 ui-fluid">
+            <button pButton type="button" (click)="onSubmit(formUser)" label=Save></button>
+          </div>
+          <div class="ui-g-6 ui-md-2 ui-fluid">
+            <button pButton type="button" (click)="onClear" label=Clear></button>
+          </div>
+          <div class="ui-g-12 ui-md-4"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>
