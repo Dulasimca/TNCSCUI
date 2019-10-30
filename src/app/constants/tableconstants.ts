@@ -1077,6 +1077,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'FromDate', header: 'From Date' },
       { field: 'ToDate', header: 'To Date' },
+      { field: 'Commodity', header: 'Commodity'},
       { field: 'StackCard', header: 'Stack Card' },
       { field: 'OpeningBag', header: 'OPE_BAL.' },
       { field: 'OpeningQty', header: 'Quantity' },
