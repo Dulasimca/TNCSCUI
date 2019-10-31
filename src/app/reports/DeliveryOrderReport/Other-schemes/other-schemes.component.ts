@@ -111,7 +111,7 @@ export class OtherSchemesComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
