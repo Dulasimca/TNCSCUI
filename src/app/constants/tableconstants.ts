@@ -435,6 +435,7 @@ export class TableConstants {
       { field: 'StackBalanceBags', header: 'Bags' },
       { field: 'StackBalanceWeight', header: 'Weight' },
       { field: 'ObStackDate', header: 'From Date' },
+      { field: 'clstackdate', header: 'To Date' },
       { field: 'CurYear', header: 'Formation Year' },
       { field: 'Flag1', header: 'Status' },
     ];
@@ -976,6 +977,7 @@ export class TableConstants {
       { field: 'SocietyName', header: 'Society Name' },
       { field: 'Issuername', header: 'Issuer Name' },
       { field: 'CategoryName', header: 'OWS - Category' },
+      {  field: 'Beneficiaries', header: 'No.of Beneficiary'},
       { field: 'ACSCode', header: 'Acs Code' },
       { field: 'Activeflag', header: 'Active' },
       // { header: 'Save'}
@@ -1080,6 +1082,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'FromDate', header: 'From Date' },
       { field: 'ToDate', header: 'To Date' },
+      { field: 'Commodity', header: 'Commodity'},
       { field: 'StackCard', header: 'Stack Card' },
       { field: 'OpeningBag', header: 'OPE_BAL.' },
       { field: 'OpeningQty', header: 'Quantity' },

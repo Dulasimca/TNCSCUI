@@ -51,7 +51,8 @@ export class GolbalVariable {
     public static readonly IssueMemoSocietyDateWiseFileName = 'ISSUESOCIETYDATWISE';
     public static readonly IssueMemoSocietyDateAndSchemeFileName = 'ISSUESOCIETYDATANDSCHEME';
     public static readonly IssueMemoSocietySchemeWiseFileName = 'ISSUESOCIETYSCHEMEWISE';
-
+    //Daily Reports
+    public static readonly StockStatementFileName = 'STOCKSTATEMENT';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

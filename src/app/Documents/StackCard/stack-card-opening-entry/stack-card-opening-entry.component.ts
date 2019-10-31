@@ -48,6 +48,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   flag: boolean;
   totalRecords: number;
   blockScreen: boolean;
+  disableCDate: boolean = false;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -184,6 +185,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       if (this.selectedRow.Flag1 === 'R') {
         this.nonEditable = true;
         this.flag = true;
+        this.disableCDate = false;
         this.RowId = this.selectedRow.RowId;
         this.Date = new Date(this.selectedRow.StackDate);
         this.StackNo = this.selectedRow.StackNo.toUpperCase();
@@ -198,6 +200,25 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
         this.Bags = this.selectedRow.StackBalanceBags;
         this.Weights = this.selectedRow.StackBalanceWeight;
+      } else if(this.selectedRow.Flag1 === 'C') {
+        this.nonEditable = true;
+        this.RowId = this.selectedRow.RowId;
+        this.Date = new Date(this.selectedRow.StackDate);
+        this.StackNo = this.selectedRow.StackNo.toUpperCase();
+        let index;
+        index = this.StackNo.toString().indexOf('/', 1);
+        const totalLength = this.StackNo.toString().length;
+        const trimmedValue = this.StackNo.toString().slice(0, index + 1);
+        const nextValue = this.StackNo.toString().slice(index + 1, totalLength);
+        let nextIndex = nextValue.toString().indexOf('/', 1);
+        const locNo = nextValue.toString().slice(0, nextIndex);
+        this.Location = trimmedValue + locNo;
+        this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
+        this.Bags = this.selectedRow.StackBalanceBags;
+        this.Weights = this.selectedRow.StackBalanceWeight;
+        this.ClosingDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? new Date(this.selectedRow.closingStackDate) : null;
+        this.disableCDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? true : false;
+        this.flag = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? false : true;
       } else {
         this.onClear();
         this.messageService.clear();
@@ -224,6 +245,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
             RowId: i.RowId,
             ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
             StackDate: i.ObStackDate,
+            clstackdate: this.datepipe.transform(i.clstackdate, 'dd-MM-yyyy'),
+            closingStackDate: i.clstackdate,
             CommodityName: i.CommodityName,
             StackNo: i.StackNo,
             StackBalanceBags: i.StackBalanceBags,
@@ -256,10 +279,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.nonEditable = false;
     this.Location = null; this.Formation = null; this.StackNo = null;
     this.Bags = 0; this.Weights = 0;
-    this.newEntry = false; 
-    this.cardExits = false;
-    this.flag = false;
-    this.Date = new this.Date();
+    this.newEntry = false; this.cardExits = false;
+    this.disableCDate = false; this.flag = false; 
+    this.Date = new Date(); this.ClosingDate = null;
   }
 
   onSave() {

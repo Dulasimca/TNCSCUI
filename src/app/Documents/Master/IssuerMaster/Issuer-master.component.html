@@ -69,62 +69,67 @@
         <label for="Issuer_Type" class="label-fontsize">Issuer Type</label>
         <p-dropdown #Issuer name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
          optionLabel="label" (onClick)="onSelect('click', 'iss')" (onChange)="onChange()"
-         (keydown.enter)="onSelect('enter', 'iss')" filter="true"  resetFilterOnHide="true" required>
+         (keydown.enter)="onSelect('enter', 'iss')" filter="true"  resetFilterOnHide="true">
         </p-dropdown>
       </div>
     <!-- <div class="ui-g-2"></div> -->
   </div>
    <div class="ui-g-12 ui-fluid">
     <div class="ui-g-1"></div>
-    <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
+    <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
         <label for="Society_Type" class="label-fontsize">Society Type</label>
         <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society"
          optionLabel="label" (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety"
-         (keydown.enter)="onSelect('enter', 'soc')" filter="true"  resetFilterOnHide="true" required>
+         (keydown.enter)="onSelect('enter', 'soc')" filter="true"  resetFilterOnHide="true">
         </p-dropdown>
       </div>
-    <div class="ui-g-6 ui-md-3">
-        <span class="ui-float-label">
-          <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off">
-          <label for="Iss_Code" class="float-input">Issuer Code</label>
-        </span>
-      </div>
-
-      <div class="ui-g-6 ui-md-4">
-        <span class="ui-float-label">
-          <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
-          <label for="Iss_Name" class="float-input">Issuer Name</label>
-        </span>
-      </div>
+      <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
+          <label for="Category_Type" class="label-fontsize">OWS Category</label>
+          <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
+          optionLabel="label" (onClick)="onSelect('click', 'cat')" 
+          filter="true"  resetFilterOnHide="true" (keydown.enter)="onSelect('enter', 'cat')">
+         </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+            <span class="ui-float-label">
+              <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off">
+              <label for="Acs_Code" class="float-input">ACSCode</label>
+            </span>
+          </div>
     </div>
     <div class="ui-g-12 ui-fluid">
       <div class="ui-g-1"></div>
-      <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
-        <label for="Category_Type" class="label-fontsize">OWS Category</label>
-        <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
-        optionLabel="label" (onClick)="onSelect('click', 'cat')" 
-        filter="true"  resetFilterOnHide="true" (keydown.enter)="onSelect('enter', 'cat')">
-       </p-dropdown>
-      </div>
-    <div class="ui-g-6 ui-md-2">
-      <span class="ui-float-label">
-        <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off">
-        <label for="Acs_Code" class="float-input">ACSCode</label>
-      </span>
-    </div>
-    <div class="ui-g-6 ui-md-4 no-pad-top">
-      <div class="ui-g border-lightgrey">
-      <p-radioButton class="ui-g-6" name="Flag" label="Active" value="A" [(ngModel)]="Activeflag" required>
-      </p-radioButton>
-      <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" required >
-      </p-radioButton></div>
-    </div>
-   <!-- <div class="ui-g-2"></div> -->
+      <div class="ui-g-6 ui-md-3">
+          <span class="ui-float-label">
+            <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off">
+            <label for="Iss_Code" class="float-input">Issuer Code</label>
+          </span>
+        </div>
+        <div class="ui-g-6 ui-md-5">
+          <span class="ui-float-label">
+            <input name="Iss_Name" pInputText [(ngModel)]="IssuerName" autocomplete="off" required>
+            <label for="Iss_Name" class="float-input">Issuer Name</label>
+          </span>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+            <span class="ui-float-label">
+              <input name="No_of_beneficaries" pInputText [(ngModel)]="Beneficiaries" autocomplete="off" required>
+              <label for="No_of_beneficaries" class="float-input">No.Of Beneficiaries</label>
+            </span>
+          </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <div class="ui-g-9"></div>
-    <div class="ui-g-4 ui-md-2">
-        <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType  || (isEdited && !f.dirty))"
+      <div class="ui-g-1"></div>
+      <div class="ui-g-6 ui-md-4 no-pad-top">
+          <div class="ui-g border-lightgrey">
+          <p-radioButton class="ui-g-6" name="Flag" label="Active" value="A" [(ngModel)]="Activeflag" required>
+          </p-radioButton>
+          <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" required >
+          </p-radioButton></div>
+        </div>
+      <div class="ui-g-4"></div>
+      <div class="ui-g-4 ui-md-2">
+        <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType || !Beneficiaries || (isEdited && !f.dirty))"
         (click)="onSave()"></button>
     </div>
     </div>

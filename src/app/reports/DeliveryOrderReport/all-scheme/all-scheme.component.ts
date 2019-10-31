@@ -67,9 +67,6 @@ export class AllSchemeComponent implements OnInit {
     this.AllSchemeCols = this.tableConstants.DoAllScheme;
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.GCode = this.authService.getUserAccessible().gCode;
-    this.RName = this.authService.getUserAccessible().rName;
-    this.GName = this.authService.getUserAccessible().gName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -111,7 +108,7 @@ export class AllSchemeComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
@@ -155,11 +152,12 @@ export class AllSchemeComponent implements OnInit {
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
+      'GCode': this.GCode.value,
       // 'SCode': this.r_cd.value,
       'UserName': this.userId.user,
-      'GName': this.GName,
-      'RName': this.RName
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
+      'RCode': this.RCode.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SCHEMEWISE, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -169,46 +167,79 @@ export class AllSchemeComponent implements OnInit {
         let sno = 0;
         let TotalAmount = 0;
         let TotalQuantity = 0;
-        let TotalRate = 0;
         this.AllSchemeData.forEach(data => {
+          data.Dodate = this.datePipe.transform(data.Dodate, 'dd-MM-yyyy');
           TotalAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
           TotalQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
-          TotalRate += data.Rate !== undefined && data.Rate !== undefined ? (data.Rate * 1) : 0;
           sno += 1;
           data.SlNo = sno;
         });
+
+         ///Grand total display
         this.AllSchemeData.push(
           {
             Amount: TotalAmount.toFixed(2),
             Quantity: TotalQuantity.toFixed(2),
-            Rate: TotalRate.toFixed(2),
-            Dono: 'Total'
+            Dono: 'Grand Total'
           }
         );
-        this.FilterArray = this.AllSchemeData.filter(item => {
-          return item.Tyname === this.r_cd.label;
-        });
+        ///End
 
-        sno = 0;
-        let FilterAmount = 0;
-        let FilterRate = 0;
-        let FilterQuantity = 0;
-        this.FilterArray.forEach(data => {
-          FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
-          FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
-          FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
-          sno += 1;
-          data.SlNo = sno;
-        });
-        this.FilterArray.push(
-          {
-            Amount: FilterAmount.toFixed(2),
-            Quantity: FilterQuantity.toFixed(2),
-            Rate: FilterRate.toFixed(2),
-            Dono: 'Total'
+         ///Group by multiple values in an array based on 'Commodity' & 'Date'
+        /// Calcualting sum
+        let arr = this.AllSchemeData;
+        var hash = Object.create(null),
+          grouped = [];
+        arr.forEach(function (o) {
+          var key = ['Coop', 'Comodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Dodate: o.Dodate, Tyname: o.Tyname, Coop: o.Coop, Comodity: o.Comodity, Amount: 0, Quantity: 0 };
+            grouped.push(hash[key]);
           }
-        );
-        this.AllSchemeData = this.FilterArray;
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Amount'].forEach(function (i) { hash[key][i] += (o[i] * 1); });
+        });
+        ///End
+ 
+         ///Inserting total in an array
+         for (let i = 0; i < grouped.length; i++) {
+          if(grouped[i].Coop !== undefined && grouped[i].Comodity !== undefined) {
+          const lastIndex = this.AllSchemeData.map(x =>
+            x.Coop === grouped[i].Coop && x.Comodity === grouped[i].Comodity).lastIndexOf(true);
+          let item;
+          item = {
+            Dono: 'TOTAL',
+            Quantity: (grouped[i].Quantity * 1).toFixed(3),
+            Amount: (grouped[i].Amount * 1).toFixed(2)
+          };
+           this.AllSchemeData.splice(lastIndex + 1, 0, item);
+        }
+      }
+        //  ///End 
+        // this.FilterArray = this.AllSchemeData.filter(item => {
+        //   return item.Tyname === this.r_cd.label;
+        // });
+
+      //   sno = 0;
+      //   let FilterAmount = 0;
+      //   let FilterRate = 0;
+      //   let FilterQuantity = 0;
+      //   this.FilterArray.forEach(data => {
+      //     FilterAmount += data.Amount !== undefined && data.Amount !== null ? (data.Amount * 1) : 0;
+      //     FilterQuantity += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+      //     FilterRate += data.Rate !== undefined && data.Rate !== null ? (data.Rate * 1) : 0;
+      //     sno += 1;
+      //     data.SlNo = sno;
+      //   });
+      //   this.FilterArray.push(
+      //     {
+      //       Amount: FilterAmount.toFixed(2),
+      //       Quantity: FilterQuantity.toFixed(2),
+      //       Rate: FilterRate.toFixed(2),
+      //       Dono: 'Total'
+      //     }
+      //   );
+      //   this.AllSchemeData = this.FilterArray;
       }
 
       else {
@@ -315,7 +346,7 @@ export class AllSchemeComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOAllSchemeReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOAllSchemeReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

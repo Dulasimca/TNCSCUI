@@ -496,20 +496,22 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkRegAdv(value) {
-    let today = new Date().getDate();
     let issue_date = new Date(this.SIDate);
+    const stockDate = issue_date.getDate();
     const stockMonth = issue_date.getMonth() + 1; //SIDate month
     const stockYear = issue_date.getFullYear(); //SIDate year
-    let nextMonth = new Date().setMonth(stockMonth, today); //next month
     if (value !==  null && value !== undefined && value.toUpperCase() === 'R') {
-      this.curMonth = (stockMonth <= 9) ? '0' + stockMonth : stockMonth;
-      this.month = this.datepipe.transform(issue_date, 'MMM');
+    this.curMonth = (stockMonth <=9) ? '0' + stockMonth : stockMonth;
+    this.month = this.datepipe.transform(issue_date, 'MMM');
       this.year = stockYear;
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
     } else if (value !== undefined && value.toUpperCase() === 'A') {
       this.curMonth = (stockMonth !== 12) ? ((stockMonth <= 9) ? '0' + (stockMonth + 1) : (stockMonth + 1)) : '01';
-      this.month = this.datepipe.transform(nextMonth, 'MMM');
+      // let nextMonth = (stockMonth === 12) ? 0 : stockMonth + 1;
+      let formDate = this.curMonth + "-" + '01' + "-" + stockYear;
+      console.log('date', new Date(formDate));
+      this.month = this.datepipe.transform(formDate, 'MMM');
       this.year = (stockMonth !== 12) ? stockYear : stockYear + 1;
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;

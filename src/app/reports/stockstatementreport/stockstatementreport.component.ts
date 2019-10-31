@@ -11,6 +11,8 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown, DataTable } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -98,7 +100,7 @@ export class StockstatementreportComponent implements OnInit {
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
@@ -114,8 +116,10 @@ export class StockstatementreportComponent implements OnInit {
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
-      'RCode': this.RCode,
+      'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
       'UserName': this.username.user
     }
     this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
@@ -173,6 +177,7 @@ export class StockstatementreportComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+  
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.stockData = [];
@@ -194,5 +199,11 @@ export class StockstatementreportComponent implements OnInit {
     });
     doc.autoTable(col, rows);
     doc.save('STOCK_STATEMENT_REPORT.pdf');
+  }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode.value + GolbalVariable.StockStatementFileName + ".txt";
+    saveAs(path + filename, filename);
   }
 }
