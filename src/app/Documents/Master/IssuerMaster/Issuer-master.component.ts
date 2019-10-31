@@ -205,7 +205,7 @@ export class IssuerMasterComponent implements OnInit {
     this.SocietyCode = selectedRow.Societycode;
     this.Society = selectedRow.SocietyName;
     this.societyOptions = [{ label: selectedRow.SocietyName, value: selectedRow.Societycode }];
-    this.CategoryType = selectedRow.CategoryType;
+    this.CategoryType = selectedRow.CategoryName;
     this.CategoryId = selectedRow.CategoryId;
     this.Beneficiaries = selectedRow.Beneficiaries;
     this.categoryOptions = [{ label: selectedRow.CategoryType, value: selectedRow.CategoryId }];
