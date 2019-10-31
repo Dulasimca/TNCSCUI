@@ -435,6 +435,7 @@ export class TableConstants {
       { field: 'StackBalanceBags', header: 'Bags' },
       { field: 'StackBalanceWeight', header: 'Weight' },
       { field: 'ObStackDate', header: 'From Date' },
+      { field: 'clstackdate', header: 'To Date' },
       { field: 'CurYear', header: 'Formation Year' },
       { field: 'Flag1', header: 'Status' },
     ];
