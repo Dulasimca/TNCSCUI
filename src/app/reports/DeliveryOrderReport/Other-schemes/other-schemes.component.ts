@@ -290,7 +290,7 @@ export class OtherSchemesComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOOthersReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOOthersReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 

@@ -346,7 +346,7 @@ export class AllSchemeComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOAllSchemeReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOAllSchemeReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

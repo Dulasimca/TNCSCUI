@@ -11,6 +11,8 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown, DataTable } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -175,6 +177,7 @@ export class StockstatementreportComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+  
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.stockData = [];
@@ -196,5 +199,11 @@ export class StockstatementreportComponent implements OnInit {
     });
     doc.autoTable(col, rows);
     doc.save('STOCK_STATEMENT_REPORT.pdf');
+  }
+
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode.value + GolbalVariable.StockStatementFileName + ".txt";
+    saveAs(path + filename, filename);
   }
 }
