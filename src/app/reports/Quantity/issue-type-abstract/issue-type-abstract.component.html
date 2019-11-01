@@ -9,16 +9,6 @@
     </p-header>
     <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-md-2">
-            <label class="ui-g-7 label-fontsize dashboard">From</label>
-            <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-              (ngModelChange)="onDateSelect()"></p-calendar>
-          </div>
-          <div class="ui-g-12 ui-md-2">
-            <label class="ui-g-7 label-fontsize dashboard">To</label>
-            <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-              (ngModelChange)="onDateSelect()"></p-calendar>
-          </div>
           <div class="ui-g-12 ui-md-2">
             <label class="ui-g-7 label-fontsize dashboard">Region</label>
             <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')"
@@ -38,6 +28,16 @@
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
           </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">From</label>
+          <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">To</label>
+          <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
           <!-- <div class="ui-g-6 ui-md-2" style="padding-top: 18px">
             <p-checkbox class="ui-g-2" name="groupname" value="val2" [(ngModel)]="selectedValues"></p-checkbox>
