@@ -117,7 +117,6 @@ export class SchemeIssueMemoComponent implements OnInit {
     }
   }
 
-
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
@@ -134,49 +133,18 @@ export class SchemeIssueMemoComponent implements OnInit {
         this.SchemeIssueAbstractData = res;
         this.loading = false;
         let sno = 0;
-        ///Sorting Array
-        let sortedArray = _.sortBy(this.schemeIssueMemoData, 'Issue_Date', 'Commodity');
-        // sortedArray = _.sortBy(this.schemeIssueMemoData, 'Issue_Date');
-        this.schemeIssueMemoData = sortedArray;
-        ///End
-        
-        ///Calculating Total of each rows
+        let totalQty = 0;
         this.schemeIssueMemoData.forEach(data => {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
+          totalQty += (data.Quantity * 1);
         })
-        ///End
-
-        ///Group by multiple values in an array based on 'Commodity' & 'Date'
-        /// Calcualting sum
-        let arr = this.schemeIssueMemoData;
-        var hash = Object.create(null),
-          grouped = [];
-        arr.forEach(function (o) {
-          var key = ['Issue_Date', 'Commodity'].map(function (k) { return o[k]; }).join('|');
-          if (!hash[key]) {
-            hash[key] = { Issue_Date: o.Issue_Date, Scheme: o.Scheme, Commodity: o.Commodity, Quantity: 0 };
-            grouped.push(hash[key]);
-          }
-          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-        });
-        ///End
-
-        ///Inserting total in an array
-        this.schemeIssueMemoData.splice(this.schemeIssueMemoData.length, 0, '');
-        for (let i = 0; i < grouped.length; i++) {
-          const lastIndex = this.schemeIssueMemoData.map(x =>
-            x.Issue_Date === grouped[i].Issue_Date && x.Commodity === grouped[i].Commodity).lastIndexOf(true);
-          let item;
-          item = {
-            Godownname: 'TOTAL',
-            Quantity: (grouped[i].Quantity * 1).toFixed(3),
-          };
-          this.schemeIssueMemoData.splice(lastIndex + 1, 0, item);
-        }
-        ///End 
+        this.schemeIssueMemoData.push({
+          Godownname: 'Total',
+          Quantity: totalQty.toFixed(3)
+        })
 
         ///Abstract
         var hash = Object.create(null),
@@ -191,7 +159,7 @@ export class SchemeIssueMemoComponent implements OnInit {
         });
         this.schemeIssueMemoData.push({ Commodity: 'Abstract' });
         abstract.forEach(x => {
-          this.schemeIssueMemoData.push({ Issue_Date: x.Issue_Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3) });;
+          this.schemeIssueMemoData.push({ Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3) });;
         })
         ///End
       } else {
@@ -219,6 +187,10 @@ export class SchemeIssueMemoComponent implements OnInit {
   onDateSelect(event) {
     this.checkValidDateSelection();
     this.onResetTable('');
+  }
+
+  public getColor(name: string): string {
+    return (name === 'Total') ? "#53aae5" : "white";
   }
 
   checkValidDateSelection() {
