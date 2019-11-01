@@ -50,8 +50,8 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Stack Year</label>
+      <div class="ui-g-12 ui-md-1">
+        <label class="ui-g-10 label-fontsize dashboard">Stack Year</label>
         <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="StackYear" [showClear]="true" 
         (onClick)="onSelect('st_yr', 'click')" (keydown.enter)="onSelect('st_yr', 'enter')"
          (ngModelChange)="onResetTable('st_yr')" placeholder="-select-" filter="true" resetFilterOnHide="true">
@@ -60,12 +60,22 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Stack Card Status</label>
+      <div class="ui-g-12 ui-md-1">
+        <label class="ui-g-7 label-fontsize dashboard">Status</label>
         <p-dropdown #stackCardStatus class="ui-g-12 ui-fluid dashboard" [options]="statusOptions" [(ngModel)]="StackStatus"
          [showClear]="true" (onClick)="onSelect('status', 'click')" (keydown.enter)="onSelect('status', 'enter')"
          (ngModelChange)="onResetTable('status')" placeholder="-select-">
         </p-dropdown>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [minDate]="minDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" [disabled]="(!StackStatus || StackStatus!='C')" (ngModelChange)="onDateSelect()"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [minDate]="minDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" [disabled]="(!StackStatus || StackStatus!='C')" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="StackCardRegisterCols" [value]="StackCardRegisterData" [loading]="loading" 

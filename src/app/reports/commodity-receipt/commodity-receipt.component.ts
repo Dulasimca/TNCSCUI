@@ -29,9 +29,11 @@ export class CommodityReceiptComponent implements OnInit {
   RCode: any;
   GCode: any;
   ITCode: any;
+  Trcode: string;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
+  transactionOptions: SelectItem[];
   truckName: string;
   canShowMenu: boolean;
   maxDate: Date;
@@ -42,6 +44,7 @@ export class CommodityReceiptComponent implements OnInit {
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('commodity') commodityPanel: Dropdown;
+  @ViewChild('transaction') transactionPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
@@ -61,7 +64,7 @@ export class CommodityReceiptComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let transactionSelection = [];
+    let transactoinSelection = [];
     let commoditySelection = [];
     switch (item) {
       case 'reg':
@@ -102,6 +105,21 @@ export class CommodityReceiptComponent implements OnInit {
           }
         }
         break;
+        case 'tr':
+        if (type === 'enter') { this.transactionPanel.overlayVisible = true; }
+       if(this.transactionOptions === undefined) {
+        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+          if (data !== undefined && data !== null && data.length !== 0) {
+            data.forEach(y => {
+                transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
+                this.transactionOptions = transactoinSelection;
+            });
+          } else {
+            this.transactionOptions = transactoinSelection;
+          }
+        })
+      }
+        break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
         if (this.commodityOptions === undefined) {
@@ -129,6 +147,7 @@ export class CommodityReceiptComponent implements OnInit {
       'GCode': this.GCode,
       'RCode': this.RCode,
       'ITCode': this.ITCode,
+      'TRCODE': this.Trcode,
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
@@ -210,7 +229,7 @@ export class CommodityReceiptComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -232,7 +251,8 @@ export class CommodityReceiptComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.commodityReceiptData = [];
   }
 

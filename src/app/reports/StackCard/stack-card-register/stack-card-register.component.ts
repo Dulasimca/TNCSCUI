@@ -35,14 +35,18 @@ export class StackCardRegisterComponent implements OnInit {
   statusOptions: SelectItem[];
   canShowMenu: boolean;
   maxDate: Date;
+  minDate: Date;
   loggedInRCode: any;
   loading: boolean;
   Username: any;
+  fromDate: any;
+  toDate: any;
   @ViewChild('region') RegionPanel: Dropdown;
   @ViewChild('godown') GodownPanel: Dropdown;
   @ViewChild('commodity') CommodityPanel: Dropdown;
   @ViewChild('stackYear') StackYearPanel: Dropdown;
   @ViewChild('stackCardStatus') StackStatusPanel: Dropdown;
+
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, 
@@ -57,6 +61,9 @@ export class StackCardRegisterComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.Username = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
+    const curYear = new Date().getFullYear();
+    const formDate = '04' + '-' + '01' + '-' + curYear;
+    this.minDate = new Date(formDate);
   }
 
   onSelect(item, type) {
@@ -151,6 +158,10 @@ export class StackCardRegisterComponent implements OnInit {
       ICode: this.ITCode.value,
       ITName: this.ITCode.label,
       StackStatus: this.StackStatus,
+      FromDate: (this.fromDate !== undefined && this.fromDate !== null) 
+      ? this.datePipe.transform(this.fromDate, 'MM/dd/yyyy') : '',
+      ToDate: (this.toDate !== undefined && this.toDate !== null) 
+      ? this.datePipe.transform(this.toDate, 'MM/dd/yyyy') : '',
       UserName: this.Username.user,
       Type: 5
     };
@@ -219,7 +230,22 @@ export class StackCardRegisterComponent implements OnInit {
   }
 
   checkValidDateSelection() {
-   
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
+      }
+      return this.fromDate, this.toDate;
+    }
   }
 
   onResetTable(item) {
