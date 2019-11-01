@@ -101,7 +101,7 @@ export class DocumentCorrectionComponent implements OnInit {
         break;
       case 'dn':
         if (type === 'enter') {
-          this.docTypePanel.overlayVisible = true;
+          this.docNoPanel.overlayVisible = true;
         }
         if (this.DocType !== null && this.DocType !== undefined) {
           if (this.DocType === '1') {
