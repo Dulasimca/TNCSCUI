@@ -62,6 +62,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
   loading: boolean = false;
   RName: any;
   @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('accountingYear') accountingYearPanel: Dropdown;
+  @ViewChild('company') companyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
 
 
