@@ -101,7 +101,7 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-6 ui-md-3">
           <span class="ui-float-label">
-            <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [readonly]="true" autocomplete="off">
+            <input name="Iss_Code" pInputText [(ngModel)]="IssuerCode" [disabled]="true" autocomplete="off">
             <label for="Iss_Code" class="float-input">Issuer Code</label>
           </span>
         </div>
@@ -113,7 +113,9 @@
         </div>
         <div class="ui-g-6 ui-md-2">
             <span class="ui-float-label">
-              <input name="No_of_beneficaries" pInputText [(ngModel)]="Beneficiaries" autocomplete="off" required>
+              <input name="No_of_beneficaries" pInputText [(ngModel)]="Beneficiaries" 
+              oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+              autocomplete="off" required>
               <label for="No_of_beneficaries" class="float-input">No.Of Beneficiaries</label>
             </span>
           </div>
