@@ -41,7 +41,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Transaction Code</label>
         <p-dropdown #transaction class="ui-g-12 ui-fluid dashboard" name="TansactionType" 
         [options]="transactionOptions" [(ngModel)]="Trcode" (onClick)="onSelect('tr', 'click')"
-         filter="true" [showClear]="true" placeholder="-select-"
+         filter="true" [showClear]="true" placeholder="-select-" optionLabel="label"
         resetFilterOnHide="true" (onChange)="onResetTable('tr')" (keydown.enter)="onSelect('tr', 'enter')" required>
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -52,7 +52,7 @@
           <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
           <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')"
             (keydown.enter)="onSelect('cd', 'enter')" (ngModelChange)="onResetTable('comm')" filter="true"
-            resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+            resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>

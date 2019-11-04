@@ -575,7 +575,8 @@ export class IssueReceiptComponent implements OnInit {
       WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode,
       PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
-        new Date(this.TStockNo.stack_date) : this.StackDate
+        new Date(this.TStockNo.stack_date) : this.StackDate,
+    //  StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
@@ -859,6 +860,7 @@ export class IssueReceiptComponent implements OnInit {
             WmtType: i.WEType,
             PWeight: i.PWeight,
             StackDate: i.StackDate,
+       //     StackYear: i.StackYear,
             RCode: i.RCode
           })
           sno += 1;
