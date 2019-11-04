@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Dropdown } from 'primeng/primeng';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { FormBuilder, FormControl, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -77,19 +77,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
-    this.userdata = this.fb.group({
-      'PanNo': new FormControl(''),
-      'Partyname': new FormControl(''),
-      'Favour': new FormControl(''),
-      'GST': new FormControl(''),
-      'Amount': new FormControl(''),
-      'Bank': new FormControl(''),
-      'Branch': new FormControl(''),
-      'IFSC': new FormControl(''),
-      // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
-      // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
-      // 'faxno': new FormControl('', Validators.compose([Validators.required]))
-    });
     this.items = [
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
