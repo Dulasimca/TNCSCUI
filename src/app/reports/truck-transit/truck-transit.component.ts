@@ -9,6 +9,8 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-truck-transit',
@@ -37,6 +39,7 @@ export class TruckTransitComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: string;
   totalRecords: number;
+  username: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
@@ -51,6 +54,7 @@ export class TruckTransitComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -112,23 +116,31 @@ export class TruckTransitComponent implements OnInit {
     const params = {
       'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'GCode': this.GCode
+      'GCode': this.GCode,
+      'Username': this.username.user
     };
     this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.TruckTransitData = res;
+        this.TruckTransitData =  res.filter(x => { return x.Transfertype === this.TrCode.label });
         this.loading = false;
-        if (this.TruckTransitData !== undefined && this.TruckTransitData !== 0) {
-          this.TruckTransitData = res.filter((value: { Transfertype: any; }) => { return value.Transfertype === this.TrCode.label });
-        }
+        if (this.TruckTransitData !== null && this.TruckTransitData.length !== 0) {
         let sno = 0;
         this.TruckTransitData.forEach(data => {
           data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
           data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
           data.Nkgs = (data.Nkgs * 1).toFixed(3);
+          data.LNo = data.LNo.toUpperCase();
           sno += 1;
           data.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -176,7 +188,11 @@ export class TruckTransitComponent implements OnInit {
     this.TruckTransitData = [];
   }
 
-  onPrint() { }
+  onPrint() {
+    const path = "../../assets/Reports/" + this.username.user + "/";
+    const filename = this.GCode + GolbalVariable.TruckTransitFileName + ".txt";
+    saveAs(path + filename, filename);
+  }
 }
 
 // exportAsXLSX(): void {
