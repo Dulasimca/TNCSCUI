@@ -262,7 +262,7 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Iss_Code.reset();
     this.form.controls.Acs_Code.reset();
     this.form.controls.Iss_Name.reset();
-    this.form.controls.Flag.reset();
+    // this.form.controls.Flag.reset();
     this.form.controls.Society_Type.reset();
     this.form.controls.Category_Type.reset();
     this.form.controls.Issuer_Type.reset();
@@ -272,7 +272,7 @@ export class IssuerMasterComponent implements OnInit {
     this.ACSCode = null; this.IssuerName = null; this.Activeflag = null;
     this.CategoryType = null; this.Beneficiaries = null;
     this.issuerTypeOptions = []; this.societyOptions = []; this.categoryOptions = [];
-    this.isEdited = false;
+    this.isEdited = false; this.Activeflag = 'A';
   }
 
   onSearch(value) {

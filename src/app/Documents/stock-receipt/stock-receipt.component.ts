@@ -560,7 +560,8 @@ export class StockReceiptComponent implements OnInit {
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
       SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
       PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
-      WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode
+      WmtType: (this.WTCode.label !== undefined) ? this.WTCode.label : this.WTCode,
+      // StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
     });
     let sno = 1;
     if (this.itemData.length !== 0) {
@@ -761,7 +762,8 @@ export class StockReceiptComponent implements OnInit {
             CommodityName: i.ITName,
             SchemeName: i.SCName,
             PackingName: i.PName,
-            WmtType: i.WEType
+            WmtType: i.WEType,
+            // StackYear: i.StackYear,
           })
           sno += 1;
         });

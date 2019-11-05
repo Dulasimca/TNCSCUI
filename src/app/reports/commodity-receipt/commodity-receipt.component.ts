@@ -29,7 +29,7 @@ export class CommodityReceiptComponent implements OnInit {
   RCode: any;
   GCode: any;
   ITCode: any;
-  Trcode: string;
+  Trcode: any;
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
@@ -146,8 +146,10 @@ export class CommodityReceiptComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'GCode': this.GCode,
       'RCode': this.RCode,
-      'ITCode': this.ITCode,
-      'TRCODE': this.Trcode,
+      'ITCode': this.ITCode.value,
+      'ITName': this.ITCode.label,
+      'TRCODE': this.Trcode.value,
+      'TRName': this.Trcode.label,
       'UserName': this.username.user,
     }
     this.restAPIService.post(PathConstants.COMMODITY_RECEIPT_REPORT, params).subscribe(res => {
