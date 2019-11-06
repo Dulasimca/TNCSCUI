@@ -1181,7 +1181,7 @@ export class TableConstants {
 
     this.PartyLedgerMaster = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'RName', header: 'Region Name' },
+      { field: 'REName', header: 'Region Name' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'Favour', header: 'Alias / Favour of' },
       { field: 'GST', header: 'GST No' },
@@ -1190,7 +1190,7 @@ export class TableConstants {
       { field: 'Branch', header: 'Branch' },
       { field: 'IFSC', header: 'IFSC Code' },
       { field: 'Pan', header: 'Pan No' },
-      { header: 'Modify' },
+      // { header: 'Modify' },
     ];
 
     this.PurchaseTaxEntry = [
@@ -1206,7 +1206,7 @@ export class TableConstants {
       { field: 'Tax', header: 'Tax %' },
       { field: 'TaxAmount', header: 'Tax Amount' },
       { field: 'Total', header: 'Total' },
-      { header: 'Modify' },
+      // { header: 'Modify' },
     ];
 
     this.SalesTaxEntry = [
@@ -1224,7 +1224,7 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-      { header: 'Modify' },
+      // { header: 'Modify' },
       { header: 'Delete' }
     ];
   }

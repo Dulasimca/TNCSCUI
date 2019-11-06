@@ -120,4 +120,6 @@ export class PathConstants {
   public static readonly SOCIETY_MASTER_POST = '/api/SocietyMaster/Post';
   public static readonly ISSUER_MASTER_POST = '/api/IssuerMaster/Post';
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
+  public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';
+  public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
 }
