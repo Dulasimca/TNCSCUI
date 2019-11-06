@@ -215,7 +215,7 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   onDateSelect(event) {
     this.checkValidDateSelection();
-    this.onResetTable();
+    this.onResetTable('');
   }
 
   checkValidDateSelection() {
@@ -237,7 +237,8 @@ export class CommodityIssueMemoComponent implements OnInit {
     }
   }
 
-  onResetTable() {
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
     this.commodityIssueMemoData = [];
   }
 
