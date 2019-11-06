@@ -51,6 +51,7 @@ export class TruckTransitComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.TruckTransitCols = this.tableConstants.TruckTransit;
     this.regions = this.roleBasedService.getRegions();
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
