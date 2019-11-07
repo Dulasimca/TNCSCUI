@@ -1181,7 +1181,7 @@ export class TableConstants {
 
     this.PartyLedgerMaster = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'REName', header: 'Region Name' },
+      { field: 'RName', header: 'Region Name' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'Favour', header: 'Alias / Favour of' },
       { field: 'GST', header: 'GST No' },

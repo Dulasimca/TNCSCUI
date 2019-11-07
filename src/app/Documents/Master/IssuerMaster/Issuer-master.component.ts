@@ -107,30 +107,30 @@ export class IssuerMasterComponent implements OnInit {
         const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
         this.restApiService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((values: any) => {
           if (values !== null && values !== undefined && values.length !== 0) {
-              values.forEach(rt => {
-                issueTypeSelection.push({ 'label': rt.Tyname, 'value': rt.Tycode });
-              });
-              this.issuerTypeOptions = issueTypeSelection;
-              this.issuerTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            values.forEach(rt => {
+              issueTypeSelection.push({ 'label': rt.Tyname, 'value': rt.Tycode });
+            });
+            this.issuerTypeOptions = issueTypeSelection;
+            this.issuerTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           } else {
             this.issuerTypeOptions = issueTypeSelection;
           }
         });
         break;
-        case 'cat':
-          if(this.IssuerType !== undefined && this.IssuerType !== null) {
-            if((this.IssuerType.value !== null && this.IssuerType.value !== undefined) || 
+      case 'cat':
+        if (this.IssuerType !== undefined && this.IssuerType !== null) {
+          if ((this.IssuerType.value !== null && this.IssuerType.value !== undefined) ||
             (this.Tycode !== null && this.Tycode !== undefined)) {
-              let tyCode = (this.IssuerType.value !== null && this.IssuerType.value !== undefined) ? this.IssuerType.value 
+            let tyCode = (this.IssuerType.value !== null && this.IssuerType.value !== undefined) ? this.IssuerType.value
               : (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : 0;
             const params = new HttpParams().set('Tycode', tyCode);
             this.restApiService.getByParameters(PathConstants.TYPE_CATEGORY_GET, params).subscribe((values: any) => {
               if (values !== null && values !== undefined && values.length !== 0) {
-                  values.forEach(c => {
-                    categorySelection.push({ 'label': c.Name, 'value': c.CategoryId });
-                  });
-                  this.categoryOptions = categorySelection;
-                  this.categoryOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+                values.forEach(c => {
+                  categorySelection.push({ 'label': c.Name, 'value': c.CategoryId });
+                });
+                this.categoryOptions = categorySelection;
+                this.categoryOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
               else {
                 this.categoryOptions = categorySelection;
@@ -138,7 +138,7 @@ export class IssuerMasterComponent implements OnInit {
             });
           }
         }
-       break;
+        break;
     }
   }
 
@@ -161,16 +161,19 @@ export class IssuerMasterComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
       this.loading = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
   }
@@ -182,15 +185,15 @@ export class IssuerMasterComponent implements OnInit {
       if ((this.IssuerType.value !== undefined && this.IssuerType.value !== null) ||
         (this.Tycode !== null && this.Tycode !== undefined)) {
         let tycode = (this.IssuerType.value !== undefined && this.IssuerType.value !== null) ? this.IssuerType.value : this.Tycode;
-        if(tycode === 'TY002' || tycode === 'TY003' || tycode === 'TY004') {
-        this.enableSociety = false;
+        if (tycode === 'TY002' || tycode === 'TY003' || tycode === 'TY004') {
+          this.enableSociety = false;
         } else {
           this.enableSociety = true;
           this.Society = null;
           // this.societyOptions = [];
           this.SocietyCode = null;
         }
-      } 
+      }
     }
   }
 
@@ -224,15 +227,15 @@ export class IssuerMasterComponent implements OnInit {
       'RCode': this.RCode,
       'IssuerName': this.IssuerName,
       'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode
-       : (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined && this.Society.value !== null)
-        ? this.Society.value : '',
-      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : 
-      (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
-         && this.IssuerType.value !== null) ? this.IssuerType.value : '',
-      'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId 
-      : (this.CategoryType !== undefined && this.CategoryType !== null &&
-         this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
-      'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0 
+        : (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined && this.Society.value !== null)
+          ? this.Society.value : '',
+      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode :
+        (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
+          && this.IssuerType.value !== null) ? this.IssuerType.value : '',
+      'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId
+        : (this.CategoryType !== undefined && this.CategoryType !== null &&
+          this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
+      'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0
 
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
@@ -241,18 +244,21 @@ export class IssuerMasterComponent implements OnInit {
         this.onLoadData();
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+         summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
         this.viewPane = false;
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -267,7 +273,7 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Category_Type.reset();
     this.form.controls.Issuer_Type.reset();
     this.form.controls.No_of_beneficaries.reset();
-    this.SocietyCode = null; this.Tycode = null;  this.CategoryId = null;
+    this.SocietyCode = null; this.Tycode = null; this.CategoryId = null;
     this.IssuerCode = null; this.IssuerType = null; this.Society = null;
     this.ACSCode = null; this.IssuerName = null; this.Activeflag = null;
     this.CategoryType = null; this.Beneficiaries = null;

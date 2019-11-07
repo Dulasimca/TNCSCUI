@@ -8,7 +8,6 @@
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
-    <!-- <div class="ui-g"> -->
     <div class="employee-main" style="max-width: 700px">
       <div class="ui-g dashboard">
         <a class="ui-g-12 ui-md-7" style="text-align: end">Party Ledger Master</a>
@@ -22,9 +21,10 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6">
               <label class="ui-g label-fontsize-large" for="Region">Region</label>
-              <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
-                (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-                filter="true" resetFilterOnHide="true" placeholder="-select-">
+              <p-dropdown #region name="region" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions"
+                [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
+                optionLabel="label" (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+                [showClear]="true" placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -66,8 +66,8 @@
             </div>
             <div class="ui-g-12 ui-md-6">
               <div class="ui-float-label">
-                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Account" name="Account" maxlength="16"
-                  autocomplete="off" required>
+                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Account" name="Account"
+                  maxlength="16" autocomplete="off" required>
                 <label for="Account">Account No</label>
               </div>
             </div>
@@ -98,7 +98,9 @@
             </div>
             <!-- <div class="bottom" style="padding-left: 95px"> -->
             <div class="ui-g-6 ui-md-2 ui-fluid">
-              <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px" [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour)" label=Submit></button>
+              <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
+                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour)"
+                label=Submit></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onClear()" style="padding: 3px" label=Clear></button>
