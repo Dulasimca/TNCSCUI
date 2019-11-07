@@ -73,9 +73,9 @@ export class AllotmentDetailsComponent implements OnInit {
 }
 
 uploadData(event) {
+  this.AllotmentCols = []; this.AllotmentData = [];
   let filesData = event.target.files;
   this.parseExcel(filesData[0]);
-  // console.log(filesData[0]);
 }
 
 parseExcel(file) {  
@@ -90,56 +90,23 @@ parseExcel(file) {
       let columns: Array<any> = [];
       let XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);  
       let headers = get_header_row(workbook.Sheets[sheetName]);
-      console.log('headers', headers);
       headers.forEach(c => {
-        this.AllotmentCols.push({ header: c, field: c });
+        let val: string = c;
+        if(val.includes('Rice', 0)) { console.log('val', val) }
+        this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
       })
-      console.log('cols', this.AllotmentCols);
-      // let headers_from_arr = XL_row_object.splice(5, 1);
-      // for (var i in headers_from_arr) {
-      //   columns.push({ header: i, field: i });
-      // } 
-    
-      
-    //  console.log('hdrfrm', headers_from_arr);
-      // for(let i = 6; i <= XL_row_object.length; i++){
-      //   columns.forEach(x => {
-      //     let field = x.field;
-      //     if(x[field] === XL_row_object[i][field]) {
-      //       XL_row_object[i][field] = 
-      //     }
-         
-      //   })
-      // }
-      // let arr3 = XL_row_object.map((item, i) => Object.assign({}, item, headers_from_arr[i]));
-      // console.log('arr', arr3);
-      // for(let i = 6; i < XL_row_object.length; i++) {
-      //   let obj: any = [];
-      //   obj = XL_row_object[i];
-      //   for(let j = 0; j < obj.length; j++) {
-      //     if(obj[j] === headers_from_arr[j]) {
-      //       console.log('working');
-      //     }
-      //   }
-      // }
       let object = Object.keys(XL_row_object).reduce((acc, k) => {
         let key = XL_row_object[k];
         acc[key] = acc[key] || [];
         acc[key].push(k);
-      //  console.log('acc', acc);
         return acc;
       }, {}); 
-      for (let key in XL_row_object) {
-        // console.log('keys', XL_row_object[key]);
-      }
-             let json_object = JSON.stringify(XL_row_object);  
+              let json_object = JSON.stringify(XL_row_object);  
 
       // bind the parse excel file data to Grid  
       let data = JSON.parse(json_object); 
       this.totalRecords = data.length; 
       this.AllotmentData = data;
-      console.log('data', data);
-    //  console.log('json', data);
     }).bind(this), this);  
   };  
 
@@ -164,7 +131,6 @@ function get_header_row(sheet) {
 
       headers.push(hdr);
   }
-  console.log('header', headers);
   return headers;
 }
 

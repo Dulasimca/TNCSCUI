@@ -31,17 +31,17 @@
               <input id="my-file-selector" type="file" (change)="uploadData($event)" name="uploadExcel">
             </div>
           </div>
-          <div class="ui-g-12 no-pad-top">
+          <div class="ui-g-12">
             <p-table [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" [style]="{width:'auto'}"
-              [scrollable]="true"  [paginator]="true">
+              [rowsPerPageOptions]="[10,20,30,40,50,100]"  [paginator]="true" [responsive]="true"
+              [scrollable]="true">
               <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
-                    <col *ngFor="let col of columns" style="width:150px !important">
+                    <col *ngFor="let col of columns" style="width: 110px;">
                 </colgroup>
             </ng-template>
               <ng-template pTemplate="header" let-columns>
-                <tr style="text-align: center;">
+                <tr  >
                   <th *ngFor="let col of columns">
                     {{col.header}}
                   </th>
@@ -55,7 +55,7 @@
                 </tr>
               </ng-template>
             </p-table>
-          </div>
+        </div>
         </div>
       </div>
     </div>
