@@ -1768,7 +1768,7 @@ body {
 
 .bar-link li a:hover {
   background-color: none;
-  color: rgb(52, 117, 170);
+  color: rgb(52, 117, 170) !important;
  }
  .bar-link.active:hover {
   background-color:none;
