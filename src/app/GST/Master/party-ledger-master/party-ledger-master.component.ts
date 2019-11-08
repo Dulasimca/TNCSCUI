@@ -25,11 +25,10 @@ export class PartyLedgerMasterComponent implements OnInit {
   selectedRow: any;
   data?: any;
   roleId: any;
-  fromDate: any;
-  toDate: any;
   regionOptions: SelectItem[];
   regions: any;
   RCode: any;
+  Region: any;
   formUser = [];
   Pan: any;
   Partyname: any;
@@ -42,6 +41,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   userdata: any;
   maxDate: Date;
   loggedInRCode: any;
+  GCode: any;
   viewPane: boolean;
   isViewed: boolean = false;
   RName: any;
@@ -53,8 +53,9 @@ export class PartyLedgerMasterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    this.RName = this.authService.getUserAccessible().rName;
+    // this.RName = this.authService.getUserAccessible().rName;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    // this.GCode = this.authService.getUserAccessible().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.userdata = this.fb.group({
@@ -66,9 +67,9 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Bank': new FormControl(''),
       'Branch': new FormControl(''),
       'IFSC': new FormControl(''),
+      //  'Region': new FormControl(''),
       // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
       // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
-      // 'faxno': new FormControl('', Validators.compose([Validators.required]))
     });
   }
 
@@ -101,15 +102,29 @@ export class PartyLedgerMasterComponent implements OnInit {
     }
   }
 
+
   onView() {
-    if (this.formUser !== undefined) {
-      this.PartyLedgerData = this.formUser;
-      this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
-    }
+    const params = {
+      'RCode': this.RCode.value,
+    };
+    this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.viewPane = true;
+        this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
+        this.PartyLedgerData = res;
+        let sno = 0;
+        this.PartyLedgerData.forEach(s => {
+          s.RName = this.RCode.label;
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+    });
   }
 
   onClear() {
-    this.formUser = [];
+    this.Pan = this.Partyname = this.Favour = this.Gst = this.Account = this.Bank = this.Branch = this.IFSC = [];
+    this.regionOptions = null;
   }
 
   onRowSelect(event) {
@@ -122,41 +137,14 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.isViewed = true;
     this.regionOptions = [{ label: this.selectedRow.RName, value: this.selectedRow.RCode }];
     this.Pan = this.selectedRow.Pan;
-    this.Partyname = this.selectedRow.Partyname;
-    this.RCode = this.selectedRow.RName;
+    this.Partyname = this.selectedRow.PartyName;
+    this.Gst = this.selectedRow.GST;
+    this.Account = this.selectedRow.Account;
+    this.RName = this.selectedRow.RName;
     this.Favour = this.selectedRow.Favour;
     this.Bank = this.selectedRow.Bank;
     this.Branch = this.selectedRow.Branch;
     this.IFSC = this.selectedRow.IFSC;
-  }
-
-  // onCommodityClicked() {
-  //   if (this.designationOptions !== undefined && this.designationOptions.length <= 1) {
-  //     this.designationOptions = this.designationSelection;
-  //   }
-  // }
-
-  onDateSelect() {
-    this.checkValidDateSelection();
-  }
-
-  checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
-      let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
-      let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
-      let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
-    }
   }
 
   onSubmit(formUser) {
@@ -164,9 +152,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Roleid': this.roleId,
       'Pan': this.Pan,
       'PartyName': this.Partyname,
-      'RCode': this.regions.value,
-      // 'Jrtype': (this.Join === true) ? 'J' : 'R',
-      // 'Jrtype': (this.Join || this.Relieve),
+      'RCode': this.RCode.value,
       'GST': this.Gst,
       'Favour': this.Favour,
       'Account': this.Account,
@@ -174,25 +160,34 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Branch': this.Branch,
       'IFSC': this.IFSC,
     };
-    this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
+    this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
 
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         }
       });
     this.onClear();
   }
-  onResetTable(item) {
 
-  }
+  onResetTable(item) { }
+
 }

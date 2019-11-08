@@ -36,6 +36,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   regions: any;
   RCode: any;
   formUser = [];
+  AccountingYear: any;
   CompanyName: any;
   Pan: any;
   Tin: any;
@@ -61,7 +62,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   isEdited: boolean;
   loading: boolean = false;
   RName: any;
-  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('commodity') regionPanel: Dropdown;
   @ViewChild('accountingYear') accountingYearPanel: Dropdown;
   @ViewChild('company') companyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
@@ -90,8 +91,25 @@ export class PurchaseTaxEntryComponent implements OnInit {
       }];
   }
 
-  onSelect() {
-
+  onSelect(item, type) {
+    let YearSelection = [];
+    switch (item) {
+      case 'y':
+        if (type === 'enter') {
+          this.accountingYearPanel.overlayVisible = true;
+        }
+        if (this.YearOptions === undefined) {
+          this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                YearSelection.push({ 'label': y.ShortYear });
+              });
+              this.YearOptions = YearSelection;
+            }
+          });
+        }
+        break;
+    }
   }
 
   onView() {

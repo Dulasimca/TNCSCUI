@@ -122,16 +122,21 @@ export class StockIssueRegisterComponent implements OnInit {
       this.restAPIService.post(PathConstants.STOCK_ISSUE_REGISTER_REPORT, params).subscribe(res => {
         if (res !== undefined && res.length !== 0) {
           this.loading = false;
-          let sno = 0;
+          let sno = 1;
           res.forEach(rec => {
-            sno += 1;
             this.record.push({
-              'SlNo': sno,
+             // 'SlNo': sno,
               'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/MM/yyyy'),
               'Lorryno': rec.Lorryno, 'To_Whom_Issued': rec.To_Whom_Issued, 'Stackno': rec.Stackno, 'Scheme': rec.Scheme,
               'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt
             });
           });
+          this.record.forEach((data, index) => {
+            if(index > 0 && data.Issue_Memono !== this.record[index - 1].Issue_Memono) {
+              sno += 1;
+              data.SlNo = sno;
+            } else if (index === 0) { data.SlNo = sno; }
+          })
           this.totalRecords = this.record.length;
           this.stockIssueRegData = this.record;
           if (res.length === this.recordRange && this.totalRecords > 0) {

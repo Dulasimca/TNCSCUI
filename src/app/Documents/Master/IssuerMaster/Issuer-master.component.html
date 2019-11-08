@@ -11,20 +11,13 @@
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             styleClass="ui-button-danger"></p-splitButton>
-          <!-- <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
-            (click)="print()"></button> -->
             <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
-          (click)="viewPane = true;onClear()"></button>
+          (click)="viewPane = true;onClear()" [disabled]="(IssuerMasterData.length=='0')"></button>
         </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <!-- <div class="ui-g-10 dashboard"></div>
-      <div class="ui-g-1 dashboard">
-        <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn"
-          (click)="viewPane = true;onClear()"></button></div> -->
-      <!-- <div class="table-screen-size"> -->
       <div class="ui-g-12">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -48,9 +41,10 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Issuer-Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
-[(visible)]="viewPane" [responsive]="true" [style]="{width: '900px', height: '1000px'}">
-<form #f="ngForm" name="issuerMaster">
+<p-dialog header="Issuer-Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+[(visible)]="viewPane" [responsive]="true" [style]="{width: '1000px', height: '1500px !important'}">
+<div class="ui-g-12 ui-fluid border-teal">
+<form #f="ngForm" name="issuerMaster">  
   <div class="ui-g-12 ui-fluid">
     <div class="ui-g-1"></div>
     <div class="ui-g-6 ui-md-3">
@@ -129,11 +123,12 @@
           <p-radioButton class="ui-g-6" name="Flag" label="InActive" value="I" [(ngModel)]="Activeflag" required >
           </p-radioButton></div>
         </div>
-      <div class="ui-g-4"></div>
-      <div class="ui-g-4 ui-md-2">
+      <div class="ui-g-5"></div>
+      <div class="ui-g-4 ui-md-1">
         <button pButton label=Save [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType || !Beneficiaries || (isEdited && !f.dirty))"
         (click)="onSave()"></button>
     </div>
     </div>
   </form>
+</div>
 </p-dialog>

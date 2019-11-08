@@ -96,6 +96,7 @@ import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDe
 import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
 import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-tax-entry.component';
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
+import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -184,16 +185,16 @@ const routes: Routes = [
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
-  { path: 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
   { path: 'Document Correction', component: DocumentCorrectionComponent, canActivate: [AuthGuard]},
   { path: 'Correction Slip', component: CorrectionSlipComponent, canActivate: [AuthGuard]},
-  { path : 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
-  { path : 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
-  { path : 'Stack Closing Card 2', component: StackClosingCard2Component, canActivate: [AuthGuard] },
-  { path : 'Opening Balance Stack Details', component: OpeningBalanceStackDetailsComponent },
+  { path: 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
+  { path: 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
+  { path: 'Stack Closing Card 2', component: StackClosingCard2Component, canActivate: [AuthGuard] },
+  { path: 'Opening Balance Stack Details', component: OpeningBalanceStackDetailsComponent },
   { path: 'Party Ledger Master', component: PartyLedgerMasterComponent , canActivate: [AuthGuard]},
   { path: 'Sales Tax Entry', component: SalesTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'Purchase Tax Entry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
+  { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -144,6 +144,7 @@ import { OpeningBalanceStackDetailsComponent } from './reports/StackCard/StackDe
 import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-tax-entry.component';
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
+import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 
 @NgModule({
   declarations: [
@@ -248,7 +249,8 @@ import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/par
     OpeningBalanceStackDetailsComponent,
     SalesTaxEntryComponent,
     PurchaseTaxEntryComponent,
-    PartyLedgerMasterComponent
+    PartyLedgerMasterComponent,
+    AllotmentDetailsComponent
   ],
   imports: [
     BrowserModule,

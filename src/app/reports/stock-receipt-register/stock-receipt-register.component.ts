@@ -111,14 +111,16 @@ export class StockReceiptRegisterComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.stockReceiptRegData = res;
         this.loading = false;
-        let sno = 0;
+        let sno = 1;
         let TotalQty = 0;
         let TotalBags = 0;
-        this.stockReceiptRegData.forEach(data => {
+        this.stockReceiptRegData.forEach((data, index) => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.NetWt = (data.NetWt * 1).toFixed(3);
-          sno += 1;
-          data.SlNo = sno;
+          if(index > 0 && data.Ackno !== this.stockReceiptRegData[index - 1].Ackno) {
+            sno += 1;
+            data.SlNo = sno;
+          } else if (index === 0) { data.SlNo = sno; }
           TotalBags += data.NoPacking !== undefined && data.NoPacking !==null ? (data.NoPacking * 1) : 0;
           TotalQty += data.NetWt !== undefined && data.NetWt !==null ? (data.NetWt * 1) : 0;
         })

@@ -35,10 +35,10 @@
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
-        <p-dropdown #stackYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions" [(ngModel)]="Year"
-          [showClear]="true" (onClick)="onSelect()" (keydown.enter)="onSelect()"
-          (ngModelChange)="onResetTable('y')" placeholder="-select-" filter="true" resetFilterOnHide="true"
-          optionLabel="label">
+        <p-dropdown #accountingYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions"
+          [(ngModel)]="AccountingYear" [showClear]="true" (onClick)="onSelect('y','click')"
+          (keydown.enter)="onSelect('y','enter')" (ngModelChange)="onResetTable('y')" placeholder="-select-"
+          filter="true" resetFilterOnHide="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -90,8 +90,8 @@
           <div class="ui-g-4 ui-md-5">
             <label class="ui-g-10 label-fontsize dashboard" for="Company">Company Name</label>
             <p-dropdown #company class="ui-g-12 ui-fluid dashboard" [options]="companyOptions" [(ngModel)]="CompanyName"
-              (onClick)="onSelect()" (keydown.enter)="onSelect()" [showClear]="true"
-              filter="true" resetFilterOnHide="true" placeholder="-select-">
+              (onClick)="onSelect('company','click')" (keydown.enter)="onSelect('company', 'enter')" [showClear]="true" filter="true" optionLabel="label"
+              resetFilterOnHide="true" name="Company" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -145,9 +145,8 @@
           <div class="ui-g-12 ui-md-6">
             <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
             <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-              [(ngModel)]="Commodity" (onClick)="onSelect()"
-              (keydown.enter)="onSelect()" [showClear]="true" filter="true" resetFilterOnHide="true"
-              placeholder="-select-">
+              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')" (keydown.enter)="onSelect('commodity','click')" [showClear]="true"
+              filter="true" resetFilterOnHide="true" name="Commodity" optionLabel="label" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>

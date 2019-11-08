@@ -110,7 +110,7 @@
         </p-table>
       </div>
 
-      <div class="ui-g-12 dashboard">
+      <!-- <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-9 dashboard">
           <ul style="list-style-type: none; text-align: center;">
             <li class="ui-g-3 ui-md-3 nav-item">
@@ -123,23 +123,37 @@
             </li>
             <li class="ui-g-3 ui-md-3 nav-item">
               <a href="#SA" data-toggle="tab" (click)="onSchemeAbstract()">Scheme Abstract</a>
-              <!-- style="color: rgb(19, 119, 185) !important;" -->
             </li>
           </ul>
         </div>
         <div class="ui-g-3 ui-md-3" style="color:rgb(19, 119, 185) !important;">
           <p>*All in KiloGrams --Kerosene in Litres</p>
         </div>
-      </div>
+      </div> -->
+
     </div>
   </p-panel>
 
-
-  <div class="ui-g-12 card ui-fluid" style="padding-top: 2px">
+  <div class="ui-g-12 ui-fluid" style="padding-top: 2px">
     <div class="ibox-body">
       <div class="row">
         <div class="col-md-12">
           <div class="ibox-body">
+            <ul class="bar-link">
+              <li class="ui-g-3 nav-item">
+                <a href="#DW" data-toggle="tab" (click)="onDataWise()">Date Wise Breakup</a>
+              </li>
+              <li class="ui-g-3 nav-item">
+                <a href="#S" data-toggle="tab" (click)="onScheme()">Scheme Wise Breakup</a>
+              </li>
+              <li class="ui-g-3 nav-item">
+                <a href="#SA" data-toggle="tab" (click)="onSchemeAbstract()">Scheme Abstract</a>
+              </li>
+              <li class="ui-g-3 nav-item">
+                <p style="color: black">*All in KiloGrams --Kerosene in Litres</p>
+              </li>
+            </ul>
+
             <!-- <ul>
               <li class="ui-g-3 nav-item">
                 <a href="#DW" data-toggle="tab" (click)="onDataWise()" style="color: rgb(19, 119, 185) !important;">Date
@@ -313,119 +327,4 @@
     </div>
   </div>
 
-  <!-- <p-panel>
-     <div *ngIf="DateWiseData">
-      <p-header>
-        <div class="ui-g panel-header">
-          <div class="ui-g-12 dashboard">Issue Memo - Date Wise Breakup</div>
-        </div>
-      </p-header>
-      <div class="ui-g">
-        <p-toast position="top-center" key="t-err"></p-toast>
-        <div class="ui-g-12">
-          <p-table #DW [columns]="DateWiseCols" [value]="DateWiseData" [rows]="10"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-            [loading]="loading" exportFilename="ISSUE_MEMO_DATE_WISE_BREAKUP_REPORT">
-            <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
-                    {{rowData[col.field]}}
-                  </div>
-                  <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
-                    <div style="text-align: end !important">
-                      {{rowData[col.field]}}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="SchemeData">
-      <p-header>
-        <div class="ui-g panel-header">
-          <div class="ui-g-12 dashboard">Issue Memo - Society Wise Scheme Wise Commodity Breakup</div>
-        </div>
-      </p-header>
-      <div class="ui-g">
-        <p-toast position="top-center" key="t-err"></p-toast>
-        <div class="ui-g-12">
-          <p-table [columns]="SchemeCols" [value]="SchemeData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-            [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-            exportFilename="ISSUE_MEMO_SCHEME_WISE_BREAKUP_REPORT">
-            <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
-                    {{rowData[col.field]}}
-                  </div>
-                  <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
-                    <div style="text-align: end !important">
-                      {{rowData[col.field]}}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="SchemeAbstractData">
-      <p-header>
-        <div class="ui-g panel-header">
-          <div class="ui-g-12  dashboard">Issue Memo - Society Wise Scheme Abstract</div>
-        </div>
-      </p-header>
-      <div class="ui-g">
-        <p-toast position="top-center" key="t-err"></p-toast>
-        <div class="ui-g-12">
-          <p-table [columns]="SchemeAbstractCols" [value]="SchemeAbstractData" [rows]="10"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-            [loading]="loading" exportFilename="ISSUE_MEMO_SCHEME_ABSTRACT_REPORT">
-            <ng-template pTemplate="header" let-columns>
-              <tr style="text-align: center;">
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
-                <td *ngFor="let col of columns">
-                  <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
-                    {{rowData[col.field]}}
-                  </div>
-                  <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
-                    <div style="text-align: end !important">
-                      {{rowData[col.field]}}
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-      </div>
-    </div>
-  </p-panel> -->
 </div>
