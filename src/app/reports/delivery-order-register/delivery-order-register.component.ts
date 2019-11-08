@@ -114,11 +114,13 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.deliveryReceiptRegData = res;
-        let sno = 0;
-        this.deliveryReceiptRegData.forEach(data => {
+        let sno = 1;
+        this.deliveryReceiptRegData.forEach((data, index) => {
           data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd/MM/yyyy');
-          sno += 1;
-          data.SlNo = sno;
+          if(index > 0 && data.Dono !== this.deliveryReceiptRegData[index - 1].Dono) {
+            sno += 1;
+            data.SlNo = sno;
+          } else if (index === 0) { data.SlNo = sno; }
         });
       } else {
         this.loading = false;

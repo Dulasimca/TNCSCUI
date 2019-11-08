@@ -112,12 +112,14 @@ export class TruckMemoRegisterComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.truckMemoRegData = res;
         this.loading = false;
-        let sno = 0;
-        this.truckMemoRegData.forEach(data => {
+        let sno = 1;
+        this.truckMemoRegData.forEach((data, index)=> {
           data.Issue_Date = this.datePipe.transform(data.Issue_Date, 'dd-MM-yyyy');
           data.NetWt = (data.NetWt * 1).toFixed(3);
-          sno += 1;
-          data.SlNo = sno;
+          if(index > 0 && data.Truck_Memono !== this.truckMemoRegData[index - 1].Truck_Memono) {
+            sno += 1;
+            data.SlNo = sno;
+          } else if (index === 0) { data.SlNo = sno; }
         })
       } else {
         this.loading = false;

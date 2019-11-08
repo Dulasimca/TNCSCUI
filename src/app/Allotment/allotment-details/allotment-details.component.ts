@@ -3,6 +3,8 @@ import { Dropdown, SelectItem } from 'primeng/primeng';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { RestAPIService } from 'src/app/shared-services/restAPI.service';
+import { PathConstants } from 'src/app/constants/path.constants';
 
 @Component({
   selector: 'app-allotment-details',
@@ -21,10 +23,11 @@ export class AllotmentDetailsComponent implements OnInit {
   AllotmentCols: any = [];
   AllotmentData: any = [];
   totalRecords: number;
+  allotmentCommodity = [];
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
 
-  constructor(private authService: AuthService, private datepipe: DatePipe) { }
+  constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -35,6 +38,9 @@ export class AllotmentDetailsComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
+    this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
+      this.allotmentCommodity = data;
+    })
    
   }
   onSelect(selectedItem, type) {
@@ -92,7 +98,12 @@ parseExcel(file) {
       let headers = get_header_row(workbook.Sheets[sheetName]);
       headers.forEach(c => {
         let val: string = c;
-        if(val.includes('Rice', 0)) { console.log('val', val) }
+        // if(val.includes('Rice', 0)) { console.log('val', val) }
+        this.allotmentCommodity.forEach(y => {
+          if(c.includes(y.Acommname)) {
+            console.log('com', y);
+          }
+        })
         this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
       })
       let object = Object.keys(XL_row_object).reduce((acc, k) => {
@@ -107,6 +118,10 @@ parseExcel(file) {
       let data = JSON.parse(json_object); 
       this.totalRecords = data.length; 
       this.AllotmentData = data;
+      let arr = [];
+      this.AllotmentData.forEach(x => {
+       
+      })
     }).bind(this), this);  
   };  
 
