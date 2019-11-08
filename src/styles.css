@@ -1758,3 +1758,19 @@ body {
   border: 1.2px solid #44a3ec !important; 
   box-shadow: 5px 2px 2px #c4c6c7;
 }
+
+.bar-link {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  text-align: center;
+}
+
+.bar-link li a:hover {
+  background-color: none;
+  color: rgb(52, 117, 170) !important;
+ }
+ .bar-link.active:hover {
+  background-color:none;
+  color: #222;
+}

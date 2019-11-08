@@ -215,12 +215,6 @@ export class EmployeeMasterComponent implements OnInit {
   //   this.designationOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
   // }
 
-  onCommodityClicked() {
-    if (this.designationOptions !== undefined && this.designationOptions.length <= 1) {
-      this.designationOptions = this.designationSelection;
-    }
-  }
-
   onDateSelect() {
     this.checkValidDateSelection();
   }

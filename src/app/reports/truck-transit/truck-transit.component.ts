@@ -53,6 +53,7 @@ export class TruckTransitComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
@@ -61,7 +62,6 @@ export class TruckTransitComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let transfers = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -99,15 +99,6 @@ export class TruckTransitComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-      case 'transaction':
-        if (type === 'enter') {
-          this.transactionPanel.overlayVisible = true;
-        }
-        if (this.transferOptions === undefined) {
-          transfers.push({ label: 'TRANSFER', value: null }, { label: 'INTERNAL TRANSFER', value: null });
-          this.transferOptions = transfers;
-        }
-        break;
     }
   }
 
@@ -122,26 +113,26 @@ export class TruckTransitComponent implements OnInit {
     };
     this.restAPIService.getByParameters(PathConstants.TRUCK_TRANSIT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        this.TruckTransitData =  res.filter(x => { return x.Transfertype === this.TrCode.label });
+        this.TruckTransitData = res.filter(x => { return x.Transfertype === this.TrCode.label });
         this.loading = false;
         if (this.TruckTransitData !== null && this.TruckTransitData.length !== 0) {
-        let sno = 0;
-        this.TruckTransitData.forEach(data => {
-          data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
-          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
-          data.LNo = data.LNo.toUpperCase();
-          sno += 1;
-          data.SlNo = sno;
-        });
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-        });
-      }
+          let sno = 0;
+          this.TruckTransitData.forEach(data => {
+            data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
+            data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
+            data.Nkgs = (data.Nkgs * 1).toFixed(3);
+            data.LNo = data.LNo.toUpperCase();
+            sno += 1;
+            data.SlNo = sno;
+          });
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+          });
+        }
       } else {
         this.loading = false;
         this.messageService.clear();
