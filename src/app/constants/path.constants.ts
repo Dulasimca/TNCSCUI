@@ -122,5 +122,5 @@ export class PathConstants {
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';
   public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
-  public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodity/Get';
+  public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
 }

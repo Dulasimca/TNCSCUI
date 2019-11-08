@@ -13,21 +13,34 @@
         <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
           <div class="ui-g-12 ui-md-12">
-            <div class="ui-g-3"></div>
-            <div class="ui-g-4 ui-md-2 ui-fluid">
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <span class="ui-float-label">
+                <input name="Region" type="text" size="20" pInputText autocomplete="off"
+                  [(ngModel)]="regionName" [readOnly]="true">
+                <label for="Region" class="float-input">Region Name</label>
+              </span>
+            </div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <span class="ui-float-label">
+                <input name="Godown" type="text" size="20" pInputText autocomplete="off"
+                  [(ngModel)]="godownName" [readOnly]="true">
+                <label for="Godown" class="float-input">Godown Name</label>
+              </span>
+            </div>
+            <div class="ui-g-4 ui-md-2 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
-              <p-dropdown #m="ngModel" name="AllotmentMonth" [options]="monthOptions" [(ngModel)]="month"
+              <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions" [(ngModel)]="month"
                 (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
                 resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
-            <div class="ui-g-4 ui-md-2 ui-fluid">
+            <div class="ui-g-4 ui-md-2 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
-              <p-dropdown #y="ngModel" name="AllotmentYear" [options]="yearOptions" [(ngModel)]="year"
+              <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions" [(ngModel)]="year"
                 (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
               </p-dropdown>
             </div>
-            <div class="ui-g-4 ui-md-4 ui-fluid" style="margin-top: 20px;">
+            <div class="ui-g-4 ui-md-4 ui-fluid" >
               <input id="my-file-selector" type="file" (change)="uploadData($event)" name="uploadExcel">
             </div>
           </div>

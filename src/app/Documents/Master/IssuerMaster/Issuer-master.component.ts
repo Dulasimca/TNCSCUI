@@ -226,15 +226,13 @@ export class IssuerMasterComponent implements OnInit {
       'GCode': this.GCode,
       'RCode': this.RCode,
       'IssuerName': this.IssuerName,
-      'SocietyCode': (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode
-        : (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined && this.Society.value !== null)
-          ? this.Society.value : '',
-      'Tycode': (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode :
-        (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
-          && this.IssuerType.value !== null) ? this.IssuerType.value : '',
-      'CategoryId': (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId
-        : (this.CategoryType !== undefined && this.CategoryType !== null &&
-          this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value : 0,
+      'SocietyCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined && this.Society.value !== null)
+      ? this.Society.value : (this.SocietyCode !== undefined && this.SocietyCode !== null) ? this.SocietyCode : '-',
+      'Tycode': (this.IssuerType !== undefined && this.IssuerType !== null && this.IssuerType.value !== undefined
+          && this.IssuerType.value !== null) ? this.IssuerType.value : (this.Tycode !== undefined && this.Tycode !== null) ? this.Tycode : '-',
+      'CategoryId':  (this.CategoryType !== undefined && this.CategoryType !== null &&
+          this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value
+          : (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId : 0,
       'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0
 
     };

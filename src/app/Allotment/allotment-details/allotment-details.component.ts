@@ -24,8 +24,14 @@ export class AllotmentDetailsComponent implements OnInit {
   AllotmentData: any = [];
   totalRecords: number;
   allotmentCommodity = [];
+  societyData = [];
+  regionName: string;
+  godownName: string;
+  GCode: string;
+  RCode: string;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
+
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService) { }
 
@@ -38,11 +44,19 @@ export class AllotmentDetailsComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
     this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
       this.allotmentCommodity = data;
     })
-   
+    const params = { 'Type': 2, 'GCode': this.GCode}
+    this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
+      this.societyData = data;
+    })
   }
+
   onSelect(selectedItem, type) {
     let yearArr: any = [];
     const range = 3;
@@ -96,12 +110,14 @@ parseExcel(file) {
       let columns: Array<any> = [];
       let XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);  
       let headers = get_header_row(workbook.Sheets[sheetName]);
+      //console.log('header', headers);
       headers.forEach(c => {
-        let val: string = c;
-        // if(val.includes('Rice', 0)) { console.log('val', val) }
+        // c = c.replace(/\s/g, "");
+       // console.log('tr', c);
+        let val: string = c.toUpperCase();
         this.allotmentCommodity.forEach(y => {
-          if(c.includes(y.Acommname)) {
-            console.log('com', y);
+          if(val.includes(y.Acommname)) {
+         //   console.log('com',val, y);
           }
         })
         this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
@@ -112,16 +128,36 @@ parseExcel(file) {
         acc[key].push(k);
         return acc;
       }, {}); 
-              let json_object = JSON.stringify(XL_row_object);  
+        let json_object = JSON.stringify(XL_row_object);  
 
       // bind the parse excel file data to Grid  
       let data = JSON.parse(json_object); 
       this.totalRecords = data.length; 
       this.AllotmentData = data;
-      let arr = [];
-      this.AllotmentData.forEach(x => {
-       
-      })
+      let i = 0;
+      for (let obj of this.AllotmentData) {
+        for (let key in obj) {
+            if(key === 'FPS Code') {
+              this.societyData.forEach(x => {
+                if(obj[key] === x.ACSCode.trim() && i < this.AllotmentData.length) { 
+                  obj['Societycode'] = x.Societycode; //adding new key value pair
+                  i += 1; 
+                 }
+              })
+            } else {
+            let k = key.replace(/\s/g, "");
+          //  console.log('tr', k);
+        let val: string = k.toUpperCase();
+        this.allotmentCommodity.forEach(y => {
+          if(val.includes(y.Acommname)) {
+            console.log('com',val, y);
+          }
+        })
+      }
+    }
+  }
+    // console.log('data', this.AllotmentData);
+   
     }).bind(this), this);  
   };  
 
@@ -136,7 +172,6 @@ function get_header_row(sheet) {
   var headers = [];
   var range = XLSX.utils.decode_range(sheet['!ref']);
   var C, R = range.s.r; /* start in the first row */
-  // var R = 9;
   /* walk every column in the range */
   for(C = range.s.c; C <= range.e.c; ++C) {
       var cell = sheet[XLSX.utils.encode_cell({c:C, r:R})] /* find the cell in the first row */
@@ -147,6 +182,17 @@ function get_header_row(sheet) {
       headers.push(hdr);
   }
   return headers;
+}
+
+export interface Allotment {
+  FPSName: string;
+  FPSCode: string;
+  SocietyCode: string;
+  ITCode: string;
+  GCode: string;
+  RCode: string;
+  ITName: string;
+  Quantity: any;
 }
 
 
