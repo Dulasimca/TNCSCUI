@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
   password: any;
   isChecked: boolean;
   form: any = [];
+  mappingId: any;
+  mappingName: any;
   @Output() loggingIn = new EventEmitter<boolean>();
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService,
@@ -62,18 +64,23 @@ export class LoginComponent implements OnInit {
           if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {
             this.router.navigate(['Home']);
             this.roleId = credentials[0].RoleId;
+            this.mappingId = credentials[0].MappingId;
+            this.mappingName = credentials[0].MappingName;
             this.godownCode = (credentials[0].GodownCode !== '' && credentials[0].GodownCode !== undefined) ? credentials[0].GodownCode : 0;
             this.regionCode = (credentials[0].Regioncode !== '' && credentials[0].Regioncode !== undefined) ? credentials[0].Regioncode : 0;
             this.godownName = (credentials[0].GodownName !== null && credentials[0].GodownName !== undefined) ? credentials[0].GodownName : '';
             this.regionName = (credentials[0].RegionName !== null && credentials[0].RegionName !== undefined) ? credentials[0].RegionName : '';
             this.loginService.setValue(this.roleId);
+            this.loginService.setValue(this.mappingId);
             this.loginService.setUsername(this.userName);
             const params = {
               RoleId: this.roleId,
               GCode: this.godownCode,
               RCode: this.regionCode,
               GName: this.godownName,
-              RName: this.regionName
+              RName: this.regionName,
+              MappingId: this.mappingId,
+              MappingName: this.mappingName
             }
             this.authService.login(this.loginForm.value, params);
           } else {
