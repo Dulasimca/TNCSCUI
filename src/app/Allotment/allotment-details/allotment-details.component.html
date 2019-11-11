@@ -27,21 +27,25 @@
                 <label for="Godown" class="float-input">Godown Name</label>
               </span>
             </div>
-            <div class="ui-g-4 ui-md-2 ui-fluid" style="margin-top: -20px;">
+            <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
               <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions" [(ngModel)]="month"
                 (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
                 resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
-            <div class="ui-g-4 ui-md-2 ui-fluid" style="margin-top: -20px;">
+            <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
               <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions" [(ngModel)]="year"
                 (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-4 ui-fluid" >
-              <input id="my-file-selector" type="file" (change)="uploadData($event)" name="uploadExcel">
+              <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx" name="uploadExcel">
+            </div>
+            <div class="ui-g-2"></div>
+            <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
+              <button pButton label=Save (click)="onSave()" [disabled]="(AllotmentData.length=='0')"></button>
             </div>
           </div>
           <div class="ui-g-12">
