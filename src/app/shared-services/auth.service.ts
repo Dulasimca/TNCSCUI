@@ -40,6 +40,8 @@ export class AuthService {
        localStorage.setItem('RCODE', obj.RCode);
        localStorage.setItem('GNAME', obj.GName);
        localStorage.setItem('RNAME', obj.RName);
+       localStorage.setItem('MAPPINGID', obj.MappingId);
+       localStorage.setItem('MAPPINGNAME', obj.MappingName);
      }
    }
 
@@ -89,10 +91,12 @@ export class AuthService {
     let rCode = localStorage.getItem('RCODE');
     let gName = localStorage.getItem('GNAME');
     let rName = localStorage.getItem('RNAME');
+    let mappingId = localStorage.getItem('MAPPINGID');
+    let mappingName = localStorage.getItem('MAPPINGNAME');
 
     if (roleId !== undefined && roleId !== '' && gCode !== undefined && gCode !== ''
     && rCode !== undefined && rCode !== '') {
-      return {roleId, gCode, rCode, gName, rName};
+      return {roleId, gCode, rCode, gName, rName, mappingId, mappingName};
     }
   }
 
@@ -108,6 +112,9 @@ export class AuthService {
     localStorage.removeItem('RCODE');
     localStorage.removeItem('GNAME');
     localStorage.removeItem('RNAME');
+    localStorage.removeItem('MAPPINGID');
+    localStorage.removeItem('MAPPINGNAME');
+    localStorage.removeItem('MAPPINGNAME');
     this.isSignedIn = false;
     this.router.navigateByUrl('');
   }
