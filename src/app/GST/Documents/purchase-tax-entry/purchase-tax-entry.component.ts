@@ -10,6 +10,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-purchase-tax-entry',
@@ -30,11 +31,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
   fromDate: any;
   toDate: any;
   regionOptions: SelectItem[];
+  godownOptions: SelectItem[];
   YearOptions: SelectItem[];
   companyOptions: SelectItem[];
   commodityOptions: SelectItem[];
   regions: any;
   RCode: any;
+  GCode: any;
   formUser = [];
   AccountingYear: any;
   CompanyName: any;
@@ -52,6 +55,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   Total: any;
   userdata: any;
   maxDate: Date;
+  minDate: Date;
   searchText: any;
   items: any;
   Month: any;
@@ -62,7 +66,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
   isEdited: boolean;
   loading: boolean = false;
   RName: any;
-  @ViewChild('commodity') regionPanel: Dropdown;
+  @ViewChild('region') RegionPanel: Dropdown;
+  @ViewChild('godown') GodownPanel: Dropdown;
+  @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('accountingYear') accountingYearPanel: Dropdown;
   @ViewChild('company') companyPanel: Dropdown;
   @ViewChild('f') form: NgForm;
@@ -78,6 +84,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
+    this.maxDate = new Date();
+    const curYear = new Date().getFullYear();
+    const formDate = '04' + '-' + '01' + '-' + curYear;
+    this.minDate = new Date(formDate);
     this.items = [
       {
         label: 'Excel', icon: 'fa fa-table', command: () => {
@@ -89,11 +99,62 @@ export class PurchaseTaxEntryComponent implements OnInit {
           // this.exportAsPDF();
         }
       }];
+    this.userdata = this.fb.group({
+      'PanNo': new FormControl(''),
+      'Partyname': new FormControl(''),
+      'Favour': new FormControl(''),
+      'GST': new FormControl(''),
+      'Account': new FormControl(''),
+      'Bank': new FormControl(''),
+      'Branch': new FormControl(''),
+      'IFSC': new FormControl(''),
+      //  'Region': new FormControl(''),
+      // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
+      // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
+    });
   }
 
   onSelect(item, type) {
+    let regionSelection = [];
+    let godownSelection = [];
     let YearSelection = [];
     switch (item) {
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.RegionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.GodownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+        }
+        break;
       case 'y':
         if (type === 'enter') {
           this.accountingYearPanel.overlayVisible = true;
@@ -113,32 +174,31 @@ export class PurchaseTaxEntryComponent implements OnInit {
   }
 
   onView() {
-    if (this.formUser !== undefined) {
-      this.PurchaseTaxData = this.formUser;
-      this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
-    }
+    const params = {
+      // 'RoleId': this.roleId,
+      'GCode': this.GCode,
+      'RCode': this.RCode,
+      'Month': this.Month,
+      'Year': this.Year,
+      'AccountingYear': this.AccountingYear.label
+    };
+    this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        // this.viewPane = true;
+        this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
+        this.PurchaseTaxData = res;
+        let sno = 0;
+        this.PurchaseTaxData.forEach(s => {
+          s.BillDate = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+    });
   }
 
   onClear() {
-    this.form.controls.Pan.reset();
-    this.form.controls.Tin.reset();
-    this.form.controls.Company.reset();
-    this.form.controls.Gst.reset();
-    this.form.controls.Flag.reset();
-    this.form.controls.Bill.reset();
-    this.form.controls.Billdate.reset();
-    this.form.controls.Quantity.reset();
-    this.form.controls.Rate.reset();
-    this.form.controls.Amount.reset();
-    this.form.controls.Vat.reset();
-    this.form.controls.percentage.reset();
-    this.form.controls.Total.reset();
-    this.form.controls.Commodity.reset();
-
-    // this.CategoryId = null;
-    //this.form.form.markAsUntouched();
-    // this.form.form.markAsPristine();
-    this.isEdited = false;
+    //   this.CompanyName = this.Tin = this.Bill = this.Billdate = this.CompanyName = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = [];
   }
 
   onSearch(value) {
@@ -153,25 +213,33 @@ export class PurchaseTaxEntryComponent implements OnInit {
     }
   }
 
-  onRowSelect(event) {
+  onRowSelect(event, selectedRow) {
     this.viewPane = true;
     this.isEdited = true;
-    this.disableOkButton = false;
-    this.selectedRow = event.data;
+    // this.selectedRow = event.data;
+    this.Tin = selectedRow.TIN;
+    this.Bill = selectedRow.BillNo;
+    this.Billdate = selectedRow.BillDate;
+    this.Quantity = selectedRow.Quantity;
+    this.Rate = selectedRow.Rate;
+    this.Amount = selectedRow.Amount;
+    this.percentage = selectedRow.Percentage;
+    this.Total = selectedRow.Total;
+    this.Vat = selectedRow.VatAmount;
   }
 
   showSelectedData() {
-    this.viewPane = false;
+    this.viewPane = true;
     this.isViewed = true;
-    this.companyOptions = [{ label: this.selectedRow.CName, value: this.selectedRow.CCode }];
-    this.commodityOptions = [{ label: this.selectedRow.ITDescription, value: this.selectedRow.Code }];
-    this.Pan = this.selectedRow.Pan;
+    // this.companyOptions = [{ label: this.selectedRow.CName, value: this.selectedRow.CCode }];
+    // this.commodityOptions = [{ label: this.selectedRow.ITDescription, value: this.selectedRow.Code }];
+    // this.Pan = this.selectedRow.Pan;
     this.Tin = this.selectedRow.Tin;
-    this.RCode = this.selectedRow.RName;
-    this.Gst = this.selectedRow.Gst;
+    // this.RCode = this.selectedRow.RName;
+    // this.Gst = this.selectedRow.Gst;
     this.Bill = this.selectedRow.Bill;
     this.Billdate = this.selectedRow.Billdate;
-    this.Commodity = this.selectedRow.Commodity;
+    // this.Commodity = this.selectedRow.Commodity;
     this.Quantity = this.selectedRow.Quantity;
     this.Rate = this.selectedRow.Rate;
     this.percentage = this.selectedRow.CompanyName;
@@ -211,19 +279,26 @@ export class PurchaseTaxEntryComponent implements OnInit {
   onSubmit(formUser) {
     const params = {
       'Roleid': this.roleId,
-      'Pan': this.Pan,
-      'Tin': this.Tin,
-      'RCode': this.regions.value,
-      'GST': this.Gst,
-      'Bill': this.Bill,
-      'Billdate': this.Billdate,
-      'CompanyName': this.CompanyName,
+      'Month': this.Month,
+      'Year': this.Year,
+      'TIN': this.Tin,
+      'BillNo': this.Bill,
+      'BillDate': this.Billdate,
+      'CompanyName': "TVS", //this.CompanyName,
+      'CommodityName': "TVS", //this.CompanyName,
       'Quantity': this.Quantity,
-      'percentage': this.percentage,
-      'Vat': this.Vat,
+      'Rate': this.Rate,
+      'Amount': this.Amount,
+      'Percentage': this.percentage,
+      'VatAmount': this.Vat,
       'Total': this.Total,
+      'AccRegion': "CHENNAI",
+      'CreatedBy': "CHENNAI",
+      'CreatedDate': this.Billdate,
+      'RCode': this.RCode,
+      'GCode': this.GCode
     };
-    this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
+    this.restApiService.post(PathConstants.PURCHASE_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
@@ -239,7 +314,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
-    this.onClear();
+    // this.onClear();
   }
   onResetTable(item) {
 
