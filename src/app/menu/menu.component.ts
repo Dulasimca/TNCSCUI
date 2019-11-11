@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
   items?: MenuItem[];
   isUser = false;
   roleId: any;
+  mappingId: any;
   username: string;
   password: any;
   isLoggedIn: boolean;
@@ -27,8 +28,9 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.roleId = this.authService.checkLoggedInUserId();
-    let roleId = new HttpParams().append('roleId', this.roleId);
-      this.restApiService.getByParameters(PathConstants.MENU, roleId).subscribe((res: any[]) => {
+    this.mappingId = JSON.parse(this.authService.getUserAccessible().mappingId);
+    let id = new HttpParams().append('roleId', this.mappingId);
+      this.restApiService.getByParameters(PathConstants.MENU, id).subscribe((res: any[]) => {
         if (res !== undefined) {
           this.items = res;
           this.items.forEach(x => {

@@ -32,5 +32,6 @@ export class StatusMessage {
     public static readonly DocumentMissingFields = 'Please fill all the below missing fields - ';
     public static readonly StackcardDeleted = 'Stack card deleted successfully!';
     public static readonly SuccessValidationMsg = 'Proceed with save!';
+    public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
 
 }

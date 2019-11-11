@@ -125,4 +125,6 @@ export class PathConstants {
   public static readonly PURCHASE_TAX_ENTRY_GET = '/api/PurchaseTaxEntry/Get';
   public static readonly PURCHASE_TAX_ENTRY_POST = '/api/PurchaseTaxEntry/Post';
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
+  public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
+
 }
