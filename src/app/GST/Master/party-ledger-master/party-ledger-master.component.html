@@ -13,7 +13,7 @@
         <a class="ui-g-12 ui-md-7" style="text-align: end">Party Ledger Master</a>
         <div class="ui-g-12 ui-md-2"></div>
         <div class="ui-g-12 ui-md-2 ui-fluid">
-          <button pButton type="button" (click)="onView()" label=View></button>
+          <button pButton type="button" (click)="onView()" [disabled]="(!RCode)" label=View></button>
         </div>
       </div>
       <div>
@@ -32,36 +32,45 @@
             </div>
             <div class="ui-g-12 ui-md-6" style="padding-top: 22px">
               <div class="ui-float-label">
-                <input class="ui-g icon2" type="number" size="30" pInputText [(ngModel)]="Pan" name="Pan"
-                  autocomplete="off"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  onKeyDown="if(this.value.length==10 && event.keyCode!=12) return false;" required>
-                <label for="Pan">Pan No.</label>
-              </div>
-            </div>
-          </div>
-          <div class="ui-g">
-            <div class="ui-g-12 ui-md-6">
-              <div class="ui-float-label">
                 <input class="icon2" size="30" pInputText [(ngModel)]="Partyname" name="Partyname" autocomplete="off"
                   required>
                 <label for="Partyname">Party Name</label>
               </div>
             </div>
-            <div class="ui-g-12 ui-md-6">
+
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-2">
               <div class="ui-float-label">
-                <input class="icon2" type="Favour" size="30" pInputText [(ngModel)]="Favour" name="Favour"
-                  autocomplete="off" required>
-                <label for="Favour">Alias / Favour of</label>
+                <input class="ui-g icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State"
+                  autocomplete="off" maxlength="2" required>
+                <label for="State">State Code</label>
               </div>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <div class="ui-float-label">
+                <input class="ui-g icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan"
+                  autocomplete="off" maxlength="10" required>
+                <label for="Pan">Pan No.</label>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <div class="ui-float-label">
+                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Gst" name="Gst" autocomplete="off"
+                  slotChar="Last 3 digits" maxlength="3" required>
+                <label for="Gst">Gst No</label>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <a [(ngModel)]="Tin" >TIN - {{State + Pan + Gst}}</a>
             </div>
           </div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6">
               <div class="ui-float-label">
-                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Gst" name="Gst" autocomplete="off"
-                  required>
-                <label for="Gst">GST No</label>
+                <input class="icon2" type="Favour" size="30" pInputText [(ngModel)]="Favour" name="Favour"
+                  autocomplete="off" required>
+                <label for="Favour">Alias / Favour of</label>
               </div>
             </div>
             <div class="ui-g-12 ui-md-6">
@@ -71,6 +80,8 @@
                 <label for="Account">Account No</label>
               </div>
             </div>
+          </div>
+          <div class="ui-g">
           </div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6">
@@ -91,7 +102,7 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-8">
               <div class="ui-float-label">
-                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="IFSC" name="IFSC" maxlength="11"
+                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="IFSC" name="IFSC" maxlength="11"
                   autocomplete="off" required>
                 <label for="IFSC">IFSC Code</label>
               </div>
@@ -99,7 +110,7 @@
             <!-- <div class="bottom" style="padding-left: 95px"> -->
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
-                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour)"
+                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !RCode)"
                 label=Submit></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
