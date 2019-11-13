@@ -1211,21 +1211,21 @@ export class TableConstants {
 
     this.SalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      // { field: 'Companyname', header: 'Company Name' },
-      { field: 'Commodity', header: 'Commodity Name' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'Hsncode', header: 'Hsncode' },
-      { field: 'Billno', header: 'Bill No' },
-      { field: 'Billdate', header: 'Bill Date' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'BillDate', header: 'Bill Date' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
-      { field: 'Value', header: 'Value' },
-      { field: 'Tax', header: 'Tax %' },
+      { field: 'Amount', header: 'Value' },
+      { field: 'TaxPercentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
       // { header: 'Modify' },
-      { header: 'Delete' }
+      // { header: 'Delete' }
     ];
   }
 }

@@ -43,6 +43,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   formUser = [];
   AccountingYear: any;
   CompanyName: any;
+  Company: any;
   Pan: any;
   Tin: any;
   Bill: any;
@@ -64,7 +65,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   Month: any;
   Year: any;
   loggedInRCode: any;
-  viewPane: boolean;
+  viewPane: boolean = false;
   isViewed: boolean = false;
   isEdited: boolean;
   loading: boolean = false;
@@ -204,7 +205,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
-        if (this.commodityOptions === undefined && this.commodityOptions === null) {
+        if (this.commodityOptions !== undefined) {
           this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -227,22 +228,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
         //   });
         //   this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         // } else if (this.CompanyTitle === undefined && this.CompanyTitle.length === 0) {
-        if (this.companyOptions === undefined && this.companyOptions === null) {
+        if (this.companyOptions !== undefined) {
           const params = {
-            // 'RoleId': this.roleId,
-            'GCode': this.GCode,
             'RCode': this.RCode,
-            'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
-            'Year': this.Year,
-            'AccountingYear': this.AccountingYear.label
           };
-          this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
+          this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(s => {
-                CompanySelection.push({ 'label': s.CompanyName, 'value': s.CompanyCode });
+                CompanySelection.push({ 'label': s.PartyName, 'value': s.CompanyCode });
+                this.companyOptions = CompanySelection;
               });
-              this.companyOptions = CompanySelection;
-              // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           });
         }
@@ -260,7 +256,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        // this.viewPane = true;
+        this.viewPane = true;
         this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
         this.PurchaseTaxData = res;
         this.CompanyTitle = res;
@@ -278,20 +274,19 @@ export class PurchaseTaxEntryComponent implements OnInit {
           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
         });
       }
-    }
-      , (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-          });
-        }
-      });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
   }
 
   onClear() {
-    this.CompanyName = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.CompanyName = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
+    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = null;
   }
 
@@ -310,13 +305,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.viewPane = true;
     this.isEdited = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyCode }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.GSTNo }];
     this.commodityOptions = [{ label: selectedRow.ITDescription, value: selectedRow.ITCode }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
     this.CompanyName = selectedRow.CompanyName;
-    this.Commodity = selectedRow.ITDescription;
+    this.CommodityName = selectedRow.ITDescription;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
     this.Billdate = selectedRow.BillDate;
@@ -332,7 +327,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     const params = {
       'Roleid': this.roleId,
       'PurchaseID': '',
-      'Month': this.Month.value,
+      'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
       'GST': this.Gst,
@@ -342,7 +337,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': this.CompanyName.label,
-      'CommodityName': this.Commodity.label,
+      'CommodityName': this.CommodityName.label,
       'Quantity': this.Quantity,
       'Rate': this.Rate,
       'Amount': this.Amount,

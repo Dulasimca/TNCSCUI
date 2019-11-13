@@ -124,6 +124,8 @@ export class PathConstants {
   public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
   public static readonly PURCHASE_TAX_ENTRY_GET = '/api/PurchaseTaxEntry/Get';
   public static readonly PURCHASE_TAX_ENTRY_POST = '/api/PurchaseTaxEntry/Post';
+  public static readonly SALES_TAX_ENTRY_GET = '/api/SalesTaxEntry/Get';
+  public static readonly SALES_TAX_ENTRY_POST = '/api/SalesTaxEntry/Post';
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
 
