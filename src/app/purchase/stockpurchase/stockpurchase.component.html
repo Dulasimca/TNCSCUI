@@ -1,54 +1,103 @@
 <app-menu *ngIf="canShowMenu"></app-menu>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content"  style="margin: 0px !important">
-  <p-panel header="Stock Purchase">
-    <div class="ui-g">
-      <div class="ui-g-12">
-        <label class="ui-g-2 inline-padding">Depositor Type:</label>
-        <p-autoComplete [(ngModel)]="depositorType" [suggestions]="depositorTypeOptions" (completeMethod)="search($event)" [dropdown]="true" [size]="17"></p-autoComplete>
-        <!--  <p-dropdown #depositorType class="ui-g-2 inline-padding" [options]="depositorTypeOptions" [(ngModel)]="selectedDepositorType" optionLabel="name" [showClear]="true"></p-dropdown>-->
-    <!-- <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="depositorType" type="text" /> -->
+  <p-panel>
+      <p-header>
+          <div class="ui-g panel-header">
+            <div class="ui-g-12 ui-md-4 dashboard">Tender Details</div>
+          </div>
+        </p-header>
+    <div class="ui-g ui-fluid">
+        <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
+        <form #f="ngForm" name="tenderDetailsForm">
+          <div class="ui-g-12 border-teal">
+            <div class="ui-g-12 dasboard">
+            <div class="ui-g-2"></div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="tenderId" class="label-fontsize">Tender ID</label>
+              <input name="tenderId" type="text" size="15" pInputText [(ngModel)]="TenderId" 
+              [disabled]="isViewed" autocomplete="off" required>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="tenderDate" class="label-fontsize">Tender Date</label>
+              <p-calendar name="tenderDate" #tenderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+              [disabled]="isViewed" [(ngModel)]="TenderDate" required></p-calendar>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="orderNum" class="label-fontsize">Order Number</label>
+              <input name="orderNum" type="text" size="15" pInputText [(ngModel)]="OrderNo" 
+              [disabled]="isViewed" autocomplete="off" required>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="orderDate" class="label-fontsize">Order Date</label>
+              <p-calendar name="orderDate" #orderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+              [disabled]="isViewed" [(ngModel)]="OrderDate" required></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 dasboard">
+              <div class="ui-g-2"></div>
+              <div class="ui-g-6 ui-md-2">
+                <label for="completedDate" class="label-fontsize">Completed Date</label>
+                <p-calendar name="completedDate" #completedDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                [disabled]="isViewed" [(ngModel)]="CompletedDate" required></p-calendar>
+              </div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+                <label for="Commodity" class="label-fontsize">Commodity</label>
+                <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ICode"
+                (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" [disabled]="isViewed"
+                   filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span style="vertical-align:middle">{{item.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+        <div class="ui-g-6 ui-md-2">
+          <label for="qty" class="label-fontsize">Quantity</label>
+          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" [disabled]="isViewed"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+          appDecimalDigit required/>
+        </div>
+        <div class="ui-g-6 ui-md-2" *ngIf="isViewed">
+          <label for="additionalQty" class="label-fontsize">Additional Quantity</label>
+          <input pInputText name="additionalQty"  [(ngModel)]="Quantity" type="text" 
+          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
+          appDecimalDigit required/>
+        </div>
+          </div>
+          <div class="ui-g-2"></div>
+          <div class="ui-g-10 ui-md-6">
+              <span class="ui-float-label">
+                <textarea rows="2" name="remarks" cols="50" maxlength="250" pInputTextarea [(ngModel)]="Remarks"
+                [disabled]="isViewed" autoResize="autoResize"></textarea>
+                <label for="remarks" class="float-input">Remarks</label>
+              </span></div>
+      <div class="ui-g-3 ui-md-9"></div>
+      <div class="ui-g-3 ui-md-1 ui-fluid">
+        <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView()"></button>
       </div>
-      <div class="ui-g-12">
-        <label class="ui-g-2 inline-padding">Depositor Name:</label>
-        <p-autoComplete [(ngModel)]="depositorName" [suggestions]="depositorNameOptions" (completeMethod)="search($event)" [dropdown]="true" [size]="17"></p-autoComplete>
-      <!-- <p-dropdown #depositorName class="ui-g-2 inline-padding" [options]="depositorNameOptions" [(ngModel)]="selectedDepositorName" optionLabel="name" [showClear]="true"></p-dropdown> -->
-     <!-- <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="depositorName" type="text" /> -->
+      <div class="ui-g-3 ui-md-1 ui-fluid">
+        <button name="save" style="margin-top:5px" pButton type="button" label=Save (click)="onSave()"
+         [disabled]="((!isViewed && (!TenderDate || !TenderId || !OrderNo || !OrderDate || !CompletedDate || !NetWt || !ICode)) || (isViewed && !Quantity))"></button>
       </div>
-      <div class="ui-g-12">
-        <label class="ui-g-2 inline-padding">Item Name:</label>
-        <p-autoComplete [(ngModel)]="itemName" [suggestions]="itemNameOptions" (completeMethod)="search($event)" [dropdown]="true" [size]="17"></p-autoComplete>
-        <!-- <p-dropdown #itemName class="ui-g-2 inline-padding" [options]="itemNameOptions" [(ngModel)]="selectedItemName" optionLabel="name" [showClear]="true"></p-dropdown> -->
-  <!-- <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="itemName" type="text" /> -->
-      </div>
-        <div class="ui-g-12">
-          <label class="ui-g-2 inline-padding">Quantity:</label>
-          <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="qty" type="text" />
-        </div>
-        <div class="ui-g-12">
-          <label class="ui-g-2 inline-padding">Order Number:</label>
-          <input pInputText class="ui-g-2 inline-padding" [(ngModel)]="orderNumber" type="text" />
-        </div>
-        <div class="ui-g-12">
-          <label class="ui-g-2 inline-padding">Remarks:</label>
-          <textarea pInputTextarea class="ui-g-2 inline-padding" [(ngModel)]="remarks" type="text"></textarea>
-        </div>
-        <div class="ui-g-12">
-          <p-button class="inline-margin" label="Save" (click)="onSave()"></p-button>
-          <p-button class="inline-margin" label="View" (click)="onView()"></p-button>
-        </div>
+    </div>
+</form>
         <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowGrid">
-          <p-table [value]="stockPurchaseData" [paginator]="true" [rows]="20">
-            <ng-template pTemplate="header">
+          <p-table  [columns]="stockPurchaseDataCoulmns" [value]="stockPurchaseData" [paginator]="true" [rows]="20">
+              <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col *ngFor="let col of columns">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
               <tr>
-                <th *ngFor="let col of stockPurchaseDataCoulmns">
+                <th *ngFor="let col of columns">
                   {{col.header}}
                 </th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-data>
-              <tr>
-                <td *ngFor="let col of stockPurchaseDataCoulmns">
-                  {{data[col.field]}}
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+              <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex)">
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
                 </td>
               </tr>
             </ng-template>

@@ -97,6 +97,7 @@ import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/par
 import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-tax-entry.component';
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
+import { TenderAllotementDetailsComponent } from './purchase/tender-allotement-details/tender-allotement-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -112,9 +113,9 @@ const routes: Routes = [
   { path: 'regions', component: RegionsDataComponent, canActivate: [AuthGuard] },
   { path: 'schemes', component: SchemesComponent, canActivate: [AuthGuard] },
   { path: 'depositors', component: DepositorsComponent, canActivate: [AuthGuard] },
-  { path: 'stockPurchase', component: StockPurchaseComponent, canActivate: [AuthGuard] },
-  { path: 'regionalAllotment', component: RegionAllotmentComponent, canActivate: [AuthGuard] },
-  { path: 'godownAllotment', component: GodownAllotmentComponent, canActivate: [AuthGuard] },
+  { path: 'Tender Details', component: StockPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Regional Tender Allotment', component: RegionAllotmentComponent, canActivate: [AuthGuard] },
+  { path: 'Godown Tender Allotment', component: GodownAllotmentComponent, canActivate: [AuthGuard] },
   { path: 'cbStatement', component: CBStatementComponent, canActivate: [AuthGuard] },
   { path: 'Stock Receipt', component: StockReceiptComponent, canActivate: [AuthGuard] },
   { path: 'Stock Issue Memo', component: IssueReceiptComponent, canActivate: [AuthGuard] },
@@ -195,6 +196,7 @@ const routes: Routes = [
   { path: 'Sales Tax Entry', component: SalesTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'Purchase Tax Entry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
+  { path: 'Tender Allotment Details', component: TenderAllotementDetailsComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

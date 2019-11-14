@@ -11,7 +11,7 @@ export class TableConstants {
   AadsData: any;
   Notification: any;
   SchemeData: any;
-  StockPurchase: any;
+  TenderDetailsCols: any;
   CBStatementColumns: any;
   DeliveryDocumentcolumns: any;
   DeliveryDocumentViewCols: any;
@@ -104,6 +104,7 @@ export class TableConstants {
   PartyLedgerMaster: any;
   PurchaseTaxEntry: any;
   SalesTaxEntry: any;
+  TenderAllotmentDetailsCols: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -173,14 +174,25 @@ export class TableConstants {
       { field: 'Notes', header: 'Description' }
     ]
 
-    this.StockPurchase = [
-      {
-        field: 'depositorName', header: 'Depositor Name'
-      },
-      { field: 'itemName', header: 'Item Name' },
-      { field: 'qty', header: 'Quantity' },
-      { field: 'orderNumber', header: 'Order Number' },
-      { field: 'remarks', header: 'Remarks' }]
+    this.TenderDetailsCols = [
+      { field: 'SlNo', header: 'S.No.'},
+      { field: 'TenderId', header: 'Tender ID' },
+      { field: 'TenderDate', header: 'Tender Date'},
+      { field: 'CompletedDate', header: 'Completed Date'},
+      { field: 'OrderNumber', header: 'Order Number' },
+      { field: 'OrderDate', header: 'Order Date' },
+      { field: 'ITName', header: 'Commodity' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Remarks', header: 'Remarks' }];
+
+      this.TenderAllotmentDetailsCols = [
+        { field: 'SlNo', header: 'S.No.'},
+        { field: 'TenderID', header: 'Tender ID' },
+        { field: 'TargetDate', header: 'Target Date'},
+        { field: 'TotalDays', header: 'Total Days'},
+        { field: 'PartyName', header: 'Party Name' },
+        { field: 'Quantity', header: 'Quantity' },
+        { field: 'Remarks', header: 'Remarks' }];
 
     this.CBStatementColumns = [
       // { field: 'serialNo', header: 'SI.NO' },
