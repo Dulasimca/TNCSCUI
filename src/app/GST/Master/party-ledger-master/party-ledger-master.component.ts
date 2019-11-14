@@ -31,6 +31,8 @@ export class PartyLedgerMasterComponent implements OnInit {
   Region: any;
   formUser = [];
   Pan: any;
+  State: any;
+  Tin: any;
   Partyname: any;
   Favour: any;
   Gst: any;
@@ -123,8 +125,8 @@ export class PartyLedgerMasterComponent implements OnInit {
   }
 
   onClear() {
-    this.Pan = this.Partyname = this.Favour = this.Gst = this.Account = this.Bank = this.Branch = this.IFSC = [];
-    this.regionOptions = null;
+    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = null;
+    this.RCode = undefined;
   }
 
   onRowSelect(event) {
@@ -139,6 +141,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.Pan = this.selectedRow.Pan;
     this.Partyname = this.selectedRow.PartyName;
     this.Gst = this.selectedRow.GST;
+    this.State = this.selectedRow.StateCode;
     this.Account = this.selectedRow.Account;
     this.RName = this.selectedRow.RName;
     this.Favour = this.selectedRow.Favour;
@@ -149,11 +152,14 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onSubmit(formUser) {
     const params = {
+      'LedgerID': '',
       'Roleid': this.roleId,
       'Pan': this.Pan,
+      'StateCode': this.State,
       'PartyName': this.Partyname,
       'RCode': this.RCode.value,
       'GST': this.Gst,
+      'Tin': this.State + this.Pan + this.Gst,
       'Favour': this.Favour,
       'Account': this.Account,
       'Bank': this.Bank,

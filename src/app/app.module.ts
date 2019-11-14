@@ -27,6 +27,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
 import { ListboxModule } from 'primeng/listbox';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {InputMaskModule} from 'primeng/inputmask';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -288,7 +289,8 @@ import { TenderAllotementDetailsComponent } from './purchase/tender-allotement-d
     TooltipModule,
     BlockUIModule,
     ListboxModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    InputMaskModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],
