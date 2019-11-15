@@ -10,6 +10,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-sales-tax-entry',
@@ -69,6 +70,9 @@ export class SalesTaxEntryComponent implements OnInit {
   Hsncode: any;
   CGST: any;
   SGST: any;
+  IGST: any;
+  TaxType: any;
+  Tax: any;
   Credit: Boolean;
   loggedInRCode: any;
   viewPane: boolean = false;
@@ -86,6 +90,8 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('accountingYear') accountingYearPanel: Dropdown;
   @ViewChild('company') companyPanel: Dropdown;
+  @ViewChild('tax') TaxPanel: Dropdown;
+  @ViewChild('measurement') MeasurementPanel: Dropdown;
   @ViewChild('f') form: NgForm;
 
 
@@ -125,6 +131,8 @@ export class SalesTaxEntryComponent implements OnInit {
     let yearArr: any = [];
     let CompanySelection = [];
     let commoditySelection = [];
+    let TaxSelection = [];
+    let MeasurementSelection = [];
     const range = 2;
     switch (item) {
       case 'reg':
@@ -215,7 +223,7 @@ export class SalesTaxEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -227,27 +235,48 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
-        // if (this.CompanyTitle !== undefined) {
-        //   this.CompanyTitle.forEach(s => {
-        //     CompanySelection.push({ 'label': s.CompanyName, 'value': s.CompanyCode });
-        //     this.companyOptions = CompanySelection;
-        //   });
-        //   this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        // } else if (this.CompanyTitle === undefined && this.CompanyTitle.length === 0) {
         if (this.companyOptions !== undefined) {
-          const params = {
-            'RCode': this.RCode,
-          };
-          this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
-            if (res !== undefined && res !== null && res.length !== 0) {
+          this.restApiService.get(PathConstants.PARTY_MASTER).subscribe(res => {
+            if (res !== undefined) {
+              this.CompanyTitle = res;
               res.forEach(s => {
-                CompanySelection.push({ 'label': s.PartyName, 'value': s.CompanyCode });
+                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gst': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
                 this.companyOptions = CompanySelection;
               });
+              this.Gst = this.CompanyName.gst;
+              this.Pan = this.CompanyName.pan;
+              this.State = this.CompanyName.sc;
               this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           });
         }
+        break;
+      case 'tax':
+        if (type === 'enter') {
+          this.TaxPanel.overlayVisible = true;
+        }
+        if (this.TaxtypeOptions !== undefined) {
+          TaxSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CGST/SGST', 'value': 'CGST' }, { 'label': 'IGST/UTGST', 'value': 'IGST' });
+          this.TaxtypeOptions = TaxSelection;
+        }
+        break;
+      case 'measurement':
+        if (type === 'enter') {
+          this.MeasurementPanel.overlayVisible = true;
+        }
+        if (this.MeasurementOptions !== undefined) {
+          MeasurementSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'GRAMS', value: 'GRAMS', },
+            { 'label': 'KGS', value: 'KGS', }, { 'label': 'KILOLITRE', value: 'KILOLITRE', }, { 'label': 'LTRS', value: 'LTRS', },
+            { 'label': 'M.TONS', value: 'M.TONS', }, { 'label': 'NO.s', value: 'NO.s', }, { 'label': 'QUINTAL', value: 'QUINTAL', })
+          this.MeasurementOptions = MeasurementSelection;
+        }
+        break;
+    }
+  }
+
+  onTIN() {
+    if (this.CompanyName !== undefined) {
+      this.Gst = this.CompanyName.gst;
     }
   }
 
@@ -269,32 +298,23 @@ export class SalesTaxEntryComponent implements OnInit {
         let sno = 0;
         this.SalesTaxData.forEach(s => {
           s.BillDate = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
+          s.CreatedDate = this.datepipe.transform(s.CreatedDate, 'MM/dd/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
       }
       else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     });
   }
 
   onClear() {
-    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Total = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = null;
-    this.Credit = false
+    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Total = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.MeasurementOptions = this.TaxtypeOptions = null;
+    this.Credit = false;
   }
 
   onSearch(value) {
@@ -312,17 +332,20 @@ export class SalesTaxEntryComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.viewPane = true;
     this.isEdited = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.GSTNo }];
-    this.commodityOptions = [{ label: selectedRow.ITDescription, value: selectedRow.ITCode }];
-    // this.TaxtypeOptions = [{ label: this.selectedRow.Tax, value: this.selectedRow.TCode }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
+    this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
+    this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.Measurement }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
     this.Hsncode = selectedRow.Hsncode;
+    this.TaxType = selectedRow.TaxType;
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
-    this.Billdate = selectedRow.BillDate;
-    this.Commodity = selectedRow.ITDescription;
+    this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'dd/MM/yyyy');
+    this.CompanyName = selectedRow.CompanyName;
+    this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
@@ -335,28 +358,25 @@ export class SalesTaxEntryComponent implements OnInit {
   }
 
 
-  onDateSelect() {
-    this.checkValidDateSelection();
-  }
+  // onDateSelect() {
+  //   this.checkValidDateSelection();
+  // }
 
-  checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
-      let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
-      let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
-      let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
-    }
-  }
+  // checkValidDateSelection() {
+  //   if (this.Billdate !== undefined && this.Billdate !== '') {
+  //     let selectedFromDate = this.Billdate.getDate();
+  //     let selectedFromMonth = this.Billdate.getMonth();
+  //     let selectedFromYear = this.Billdate.getFullYear();
+  //     if ((selectedFromDate && ((selectedFromMonth && selectedFromYear) ||
+  //       (selectedFromMonth && selectedFromYear))) ||
+  //       (selectedFromMonth && selectedFromYear) || (selectedFromYear)) {
+  //       this.messageService.clear();
+  //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+  //       this.Billdate = '';
+  //     }
+  //     return this.Billdate;
+  //   }
+  // }
 
   showTrue(e: any) {
     if (this.Credit == true) {
@@ -378,11 +398,12 @@ export class SalesTaxEntryComponent implements OnInit {
       'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
-      'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.CompanyName.label,
-      'CommodityName': this.CommodityName.label,
+      'BillDate': this.Billdate,
+      'CompanyName': this.CompanyName.label || this.CompanyName,
+      'CommodityName': this.Commodity,
       'CreditSales': (this.Credit == true) ? true : false,
-      'TaxType': "Reg",
+      'TaxType': this.TaxType,
+      'Measurement': this.Measurement,
       'Hsncode': this.Hsncode,
       'CGST': this.CGST,
       'SGST': this.SGST,

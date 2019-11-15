@@ -79,8 +79,7 @@
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" icon="pi pi-plus" label=Add (click)="viewPane = true;onClear()"
-          [disabled]="(viewPane)"></button>
+        <button pButton type="button" icon="pi pi-plus" label=Add (click)="viewPane = true;onClear()"></button>
         <!-- <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn" -->
         <!-- (click)="viewPane = true;onClear()"></button> -->
       </div>
@@ -132,21 +131,22 @@
             </div>
             <div class="ui-g-12 ui-md-3">
               <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Gst" name="Gst" autocomplete="off"
-                  maxlength="3" required>
+                <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
+                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3"
+                  required>
                 <label for="Gst">GST</label>
               </div>
             </div>
           </div>
           <div class="ui-g-12 ui-md-5" style="padding-top: 15px">
-            <a>TIN - {{State + Pan + Gst}}</a>
+            <a>GSTIN - {{State + Pan + Gst}}</a>
           </div>
         </div>
 
         <div class="ui-g">
           <div class="ui-g-12 ui-md-6">
-            <label class="ui-g-10 label-fontsize dashboard" for="Company">Company Name</label>
-            <p-dropdown #company name="company" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+            <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
+            <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
               [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
               (keydown.enter)="onSelect('company', 'enter')" [showClear]="true" filter="true" optionLabel="label"
               resetFilterOnHide="true">
@@ -157,10 +157,9 @@
           </div>
           <div class="ui-g-12 ui-md-6">
             <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
-            <p-dropdown #commodity name="commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-              [(ngModel)]="CommodityName" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true"
-              optionLabel="label">
+            <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
+              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -171,9 +170,9 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-6">
             <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
-            <p-dropdown #tax class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions" [(ngModel)]="TaxType"
-              (onClick)="onSelect()" (keydown.enter)="onSelect()" [showClear]="true" filter="true"
-              resetFilterOnHide="true" placeholder="-select-">
+            <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
+              [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keydown.enter)="onSelect('tax','enter')"
+              [showClear]="true" filter="true" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -210,15 +209,16 @@
             <div class="ui-g">
               <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date/Invoice Date</label>
               <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
-                name="Billdate" [(ngModel)]="Billdate" (ngModelChange)="onDateSelect()">
+                name="Billdate" [(ngModel)]="Billdate">
               </p-calendar>
             </div>
           </div>
           <div class="ui-g-6 ui-md-6">
             <label class="ui-g-10 label-fontsize dashboard" for="Measurement">Measurements</label>
-            <p-dropdown #measurement class="ui-g-12 ui-fluid dashboard" [options]="MeasurementOptions"
-              [(ngModel)]="Measurement" (onClick)="onSelect()" (keydown.enter)="onSelect()" [showClear]="true"
-              filter="true" resetFilterOnHide="true" placeholder="-select-">
+            <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
+              [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
+              (keydown.enter)="onSelect('measurement','enter')" [showClear]="true" filter="true"
+              resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -234,7 +234,7 @@
               <label for="Quantity">Quantity</label>
             </div>
           </div>
-          <div class="ui-g-6 ui-md-6">
+          <div class="ui-g-6 ui-md-6" style="padding-top: 20px">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate" autocomplete="off"
                 required>
