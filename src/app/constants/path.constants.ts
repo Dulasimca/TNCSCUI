@@ -129,5 +129,12 @@ export class PathConstants {
   public static readonly SALES_TAX_ENTRY_POST = '/api/SalesTaxEntry/Post';
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
-
+  public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';
+  public static readonly PURCHASE_TENDER_DETAILS_GET = '/api/TenderDetails';
+  public static readonly PURCHASE_PARTYNAME_DETAILS = '/api/PartyNameForTenderAllotment';
+  public static readonly PURCHASE_TENDERID_DETAILS = '/api/TenderIDForAllotement';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_POST = '/api/TenderAllotmentDetails/Post';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_GET = '/api/TenderAllotmentDetails';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_POST = '/api/TenderAllotmentToRegional/Post';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_GET = '/api/TenderAllotmentToRegional';
 }
