@@ -97,7 +97,6 @@ import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/par
 import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-tax-entry.component';
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
-import { TenderAllotementDetailsComponent } from './purchase/tender-allotement-details/tender-allotement-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -196,7 +195,6 @@ const routes: Routes = [
   { path: 'SalesTaxEntry', component: SalesTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'PurchaseTaxEntry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
-  { path: 'Tender Allotment Details', component: TenderAllotementDetailsComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

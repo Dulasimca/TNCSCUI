@@ -5,9 +5,9 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, ConfirmationService } from 'primeng/primeng';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -20,6 +20,8 @@ export class StockPurchaseComponent implements OnInit {
   canShowMenu: boolean;
   stockPurchaseData: any;
   stockPurchaseDataCoulmns: any;
+  tenderQtyCoulmns: any;
+  tenderQtyData: any;
   commodityOptions: any[];
   ICode: any;
   TenderId: any;
@@ -28,6 +30,7 @@ export class StockPurchaseComponent implements OnInit {
   TenderDate: any;
   OrderDate: any;
   maxDate: Date = new Date();
+  minDate: Date = new Date();
   Remarks: any;
   TenderDetId: any;
   CompletedDate: any;
@@ -35,13 +38,19 @@ export class StockPurchaseComponent implements OnInit {
   commoditySelection: any[] = [];
   isViewed: boolean = false;
   Quantity: any;
+  viewPane: boolean;
+  AdditionalQty: any;
+  isShowQtyGrid: boolean;
+  TenderQtyId: any;
+  AOrderNo: any;
  // nonEditable: boolean;
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('f') form: NgForm;
+  @ViewChild('qf') qtyForm: NgForm;
   
   constructor(private tableConstants: TableConstants, private authService: AuthService,
     private restApiService: RestAPIService, private datePipe: DatePipe,
-    private messageService: MessageService) { }
+    private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -62,8 +71,10 @@ export class StockPurchaseComponent implements OnInit {
     this.commodityOptions = this.commoditySelection;
   }
 
-  onView() {
+  onView(type) {
+    if(type === '1') {
     this.isShowGrid = true;
+   // const params = new HttpParams().set('Value', '').append('type', type);
     this.restApiService.get(PathConstants.PURCHASE_TENDER_DETAILS_GET).subscribe(data => {
       if(data !== undefined && data !== null && data.length !== 0) {
         let sno = 1;
@@ -77,36 +88,71 @@ export class StockPurchaseComponent implements OnInit {
         this.stockPurchaseData = data;
       } 
     })
+  } else {
+    this.isShowQtyGrid = true;
+    const params = new HttpParams().set('Value', this.AOrderNo).append('type', type);
+    this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_DETAILS_GET, params).subscribe(data => {
+      if(data !== undefined && data !== null && data.length !== 0) {
+        this.tenderQtyCoulmns = this.tableConstants.TenderQuantityCols;
+        let sno = 1;
+        data.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+        });
+        this.tenderQtyData = data;
+      } 
+    })
+  }
   }
 
-  onSelectedRow(data) {
-        this.isViewed = true;
-        this.TenderId = data.TenderId;
-        this.TenderDetId = data.TenderDetId;
-        this.TenderDate = data.TenderDate;
-        this.CompletedDate = data.CompletedDate;
-        this.OrderNo = data.OrderNumber;
-        this.NetWt = data.Quantity;
-        this.OrderDate = data.OrderDate;
-        this.Remarks = data.Remarks;
-        this.ICode = data.ITName;
-        this.iCode = data.ITCode;
-        this.Quantity = (data.AdditionalQty !== null && data.AdditionalQty !== undefined)
-         ? data.AdditionalQty : 0;
-        this.commodityOptions = [{ label: data.ITName, value: data.ITCode }];
+  onSelectedRow(data, index, type) {
+    if(type === '1') {
+        this.confirmationService.confirm({
+          message: 'Do you want edit or add additional quantity?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          reject: () => {
+            this.isViewed = true;
+            this.TenderId = data.TenderId;
+            this.TenderDetId = data.TenderDetId;
+            this.TenderDate = data.TenderDate;
+            this.CompletedDate = data.CompletedDate;
+            this.OrderNo = data.OrderNumber;
+            this.NetWt = data.Quantity;
+            this.OrderDate = data.OrderDate;
+            this.Remarks = data.Remarks;
+            this.ICode = data.ITName;
+            this.iCode = data.ITCode;
+            this.Quantity = (data.AdditionalQty !== null && data.AdditionalQty !== undefined)
+             ? data.AdditionalQty : 0;
+            this.commodityOptions = [{ label: data.ITName, value: data.ITCode }];
+          },
+          accept: () => {
+            this.isViewed = true;
+            this.AOrderNo = data.OrderNumber;
+            this.viewPane = true;
+          }
+        });
+      } else {
+        this.TenderQtyId = data.TenderQtyID;
+        this.AdditionalQty = data.Quantity;
+      }
+        
   }
 
-  onSave() {
-    if(this.isViewed) {
+  onSave(type) {
+    if(type === '2') {
+    const TenderQtyId = (this.TenderQtyId !== undefined && this.TenderQtyId !== null) ? this.TenderQtyId : 0;
       const params = {
-        'OrderNumber': this.OrderNo,
-        'AdditionalQty': this.Quantity,
-        'Type': 2
+        'TenderQtyID': TenderQtyId,
+        'OrderNumber': this.AOrderNo,
+        'AdditionalQty': this.AdditionalQty,
+        'Type': type
       }
       this.restApiService.post(PathConstants.PURCHASE_TENDER_DETAILS_POST, params).subscribe(res => {
           if (res.Item1) {
-            this.onClear();
-            this.onView();
+            this.onClear(type);
+            this.onView(type);
             this.messageService.clear();
             this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
           } else {
@@ -125,7 +171,7 @@ export class StockPurchaseComponent implements OnInit {
     } else {
     const TenderDetId = (this.TenderDetId !== undefined && this.TenderDetId !== null) ? this.TenderDetId : 0;
     const params = {
-      'Type': 1,
+      'Type': type,
       'TenderDetId': TenderDetId,
       'TenderId': this.TenderId,
       'TenderDate': this.datePipe.transform(this.TenderDate, 'MM/dd/yyyy'),
@@ -138,8 +184,8 @@ export class StockPurchaseComponent implements OnInit {
     }
     this.restApiService.post(PathConstants.PURCHASE_TENDER_DETAILS_POST, params).subscribe(res => {
         if (res.Item1) {
-          this.onClear();
-          this.onView();
+          this.onClear(type);
+          this.onView(type);
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
         } else {
@@ -161,7 +207,8 @@ export class StockPurchaseComponent implements OnInit {
   }
   }
 
-  onClear() {
+  onClear(type) {
+    if(type === '1') {
     this.form.controls.orderDate.reset();
     this.form.controls.qty.reset();
     this.form.controls.Commodity.reset();
@@ -175,6 +222,11 @@ export class StockPurchaseComponent implements OnInit {
     this.TenderId = null; this.TenderDate = null;
     this.CompletedDate = null; this.NetWt = null;
     this.OrderDate = null; this.Remarks = null;
-  }
+  } else {
+  this.qtyForm.controls.Additional_Qty.reset();
+  this.AdditionalQty = null; this.TenderQtyId = null;
+  this.isViewed = false;
+}
+}
  
 }
