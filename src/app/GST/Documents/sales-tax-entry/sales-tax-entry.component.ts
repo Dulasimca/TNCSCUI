@@ -50,6 +50,8 @@ export class SalesTaxEntryComponent implements OnInit {
   Tin: any;
   Bill: any;
   Billdate: any;
+  Bdate: Date;
+  Cdate: Date;
   Gst: any;
   Commodity: any;
   CommodityName: any;
@@ -243,10 +245,10 @@ export class SalesTaxEntryComponent implements OnInit {
                 CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gst': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
                 this.companyOptions = CompanySelection;
               });
+              this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               this.Gst = this.CompanyName.gst;
               this.Pan = this.CompanyName.pan;
               this.State = this.CompanyName.sc;
-              this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
             }
           });
         }
@@ -274,12 +276,6 @@ export class SalesTaxEntryComponent implements OnInit {
     }
   }
 
-  onTIN() {
-    if (this.CompanyName !== undefined) {
-      this.Gst = this.CompanyName.gst;
-    }
-  }
-
   onView() {
     const params = {
       // 'RoleId': this.roleId,
@@ -297,6 +293,8 @@ export class SalesTaxEntryComponent implements OnInit {
         this.CompanyTitle = res;
         let sno = 0;
         this.SalesTaxData.forEach(s => {
+          this.Bdate = s.BillDate;
+          this.Cdate = s.CreatedDate;
           s.BillDate = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
           s.CreatedDate = this.datepipe.transform(s.CreatedDate, 'MM/dd/yyyy');
           sno += 1;
@@ -318,14 +316,14 @@ export class SalesTaxEntryComponent implements OnInit {
   }
 
   onSearch(value) {
-    this.SalesTaxData = this.filterArray;
+    this.SalesTaxData = this.CompanyTitle;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
-      this.SalesTaxData = this.PristineData.filter(item => {
-        return item.Issuername.toString().startsWith(value);
+      this.SalesTaxData = this.CompanyTitle.filter(item => {
+        return item.GSTNo.toString().startsWith(value);
       });
     } else {
-      this.SalesTaxData = this.PristineData;
+      this.SalesTaxData = this.CompanyTitle;
     }
   }
 
@@ -398,7 +396,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
-      'BillDate': this.Billdate,
+      'BillDate': this.Bdate,
       'CompanyName': this.CompanyName.label || this.CompanyName,
       'CommodityName': this.Commodity,
       'CreditSales': (this.Credit == true) ? true : false,
@@ -415,7 +413,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.Cdate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };
@@ -437,7 +435,10 @@ export class SalesTaxEntryComponent implements OnInit {
       });
     this.onClear();
   }
-  onResetTable(item) {
 
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+    if (item === 'company') { this.Pan = this.Gst = this.State = null; }
+    this.SalesTaxData = [];
   }
 }

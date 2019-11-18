@@ -54,15 +54,15 @@
                 <label for="Pan">Pan No.</label>
               </div>
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="ui-g-12 ui-md-2">
               <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Gst" name="Gst" autocomplete="off"
-                  slotChar="Last 3 digits" maxlength="3" required>
+                <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
+                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3" required>
                 <label for="Gst">Gst No</label>
               </div>
             </div>
-            <div class="ui-g-12 ui-md-4">
-              <a [(ngModel)]="Tin" >TIN - {{State + Pan + Gst}}</a>
+            <div class="ui-g-12 ui-md-4" style="padding-top: 14px;">
+              <a>GST - {{State + Pan + Gst}}</a>
             </div>
           </div>
           <div class="ui-g">

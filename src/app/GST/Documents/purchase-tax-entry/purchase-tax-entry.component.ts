@@ -47,7 +47,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
   Pan: any;
   Tin: any;
   Bill: any;
-  Billdate: any;
+  Billdate: Date;
+  Bdate: Date;
   Gst: any;
   Commodity: any;
   CommodityName: any;
@@ -209,7 +210,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -221,27 +222,22 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
-        // if (this.CompanyTitle !== undefined) {
-        //   this.CompanyTitle.forEach(s => {
-        //     CompanySelection.push({ 'label': s.CompanyName, 'value': s.CompanyCode });
-        //     this.companyOptions = CompanySelection;
-        //   });
-        //   this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        // } else if (this.CompanyTitle === undefined && this.CompanyTitle.length === 0) {
         if (this.companyOptions !== undefined) {
-          const params = {
-            'RCode': this.RCode,
-          };
-          this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
-            if (res !== undefined && res !== null && res.length !== 0) {
+          this.restApiService.get(PathConstants.PARTY_MASTER).subscribe(res => {
+            if (res !== undefined) {
+              this.CompanyTitle = res;
               res.forEach(s => {
-                CompanySelection.push({ 'label': s.PartyName, 'value': s.CompanyCode });
+                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
                 this.companyOptions = CompanySelection;
               });
               this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.Gst = this.CompanyName.gstno;
+              this.Pan = this.CompanyName.pan;
+              this.State = this.CompanyName.sc;
             }
           });
         }
+        break;
     }
   }
 
@@ -256,13 +252,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
         this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
         this.PurchaseTaxData = res;
         this.CompanyTitle = res;
         let sno = 0;
         this.PurchaseTaxData.forEach(s => {
-          s.BillDate = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
+          this.Bdate = s.BillDate;
+          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -291,27 +287,27 @@ export class PurchaseTaxEntryComponent implements OnInit {
   }
 
   onSearch(value) {
-    this.PurchaseTaxData = this.filterArray;
+    this.PurchaseTaxData = this.CompanyTitle;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
-      this.PurchaseTaxData = this.PristineData.filter(item => {
-        return item.Issuername.toString().startsWith(value);
+      this.PurchaseTaxData = this.CompanyTitle.filter(item => {
+        return item.GSTNo.toString().startsWith(value);
       });
     } else {
-      this.PurchaseTaxData = this.PristineData;
+      this.PurchaseTaxData = this.CompanyTitle;
     }
   }
 
   onRowSelect(event, selectedRow) {
     this.viewPane = true;
     this.isEdited = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.GSTNo }];
-    this.commodityOptions = [{ label: selectedRow.ITDescription, value: selectedRow.ITCode }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
     this.CompanyName = selectedRow.CompanyName;
-    this.CommodityName = selectedRow.ITDescription;
+    this.Commodity = selectedRow.CommodityName;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
     this.Billdate = selectedRow.BillDate;
@@ -335,9 +331,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
-      'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.CompanyName.label,
-      'CommodityName': this.CommodityName.label,
+      'BillDate': this.Bdate,
+      'CompanyName': this.CompanyName.label || this.CompanyName,
+      'CommodityName': this.Commodity,
       'Quantity': this.Quantity,
       'Rate': this.Rate,
       'Amount': this.Amount,
@@ -346,7 +342,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.Bdate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };
@@ -369,31 +365,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.onClear();
   }
 
-  onDateSelect() {
-    this.checkValidDateSelection();
-    this.onResetTable('');
-  }
-
-  checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
-      let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
-      let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
-      let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
-    }
-  }
-
   onResetTable(item) {
-
+    if (item === 'reg') { this.GCode = null; }
+    this.PurchaseTaxData = [];
+    if (item === 'company') { this.Pan = this.Gst = this.State = null; }
   }
 }

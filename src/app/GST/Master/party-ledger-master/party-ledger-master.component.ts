@@ -41,6 +41,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   Branch: any;
   IFSC: any;
   userdata: any;
+  CompanyTitle: any;
   maxDate: Date;
   loggedInRCode: any;
   GCode: any;
@@ -69,9 +70,6 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Bank': new FormControl(''),
       'Branch': new FormControl(''),
       'IFSC': new FormControl(''),
-      //  'Region': new FormControl(''),
-      // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
-      // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
     });
   }
 
@@ -113,6 +111,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
         this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
+        this.CompanyTitle = res;
         this.PartyLedgerData = res;
         let sno = 0;
         this.PartyLedgerData.forEach(s => {
@@ -192,6 +191,18 @@ export class PartyLedgerMasterComponent implements OnInit {
         }
       });
     this.onClear();
+  }
+
+  onSearch(value) {
+    this.PartyLedgerData = this.CompanyTitle;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.PartyLedgerData = this.CompanyTitle.filter(item => {
+        return item.GSTNo.toString().startsWith(value);
+      });
+    } else {
+      this.PartyLedgerData = this.CompanyTitle;
+    }
   }
 
   onResetTable(item) { }
