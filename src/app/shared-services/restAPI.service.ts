@@ -28,6 +28,7 @@ export class RestAPIService {
 
   post(url, obj): Observable<any> {
     return this.httpClient.post(this.BASEURL + url, obj).pipe(
+     // delay(90000),
       retry(1),
       catchError(this.handleError)
     );
