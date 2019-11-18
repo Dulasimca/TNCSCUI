@@ -192,11 +192,11 @@ export class TableConstants {
         { field: 'SlNo', header: 'S.No.'},
         { field: 'Quantity', header: 'Quantity'},
         { field: 'OrderNumber', header: 'Order Number' },
+        { field: 'OrderDate', header: 'Order Date' },
         { field: 'TargetDate', header: 'Target Date'},
         { field: 'TotalDays', header: 'Total Days'},
         { field: 'PartyName', header: 'Party Name' },
         { field: 'Rate', header: 'Rate'},
-        { field: 'Spell', header: 'Spell' },
         { field: 'Remarks', header: 'Remarks' }];
 
     this.CBStatementColumns = [
