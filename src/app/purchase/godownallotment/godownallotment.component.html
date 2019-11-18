@@ -42,7 +42,7 @@
     <div class="ui-g-1"></div>
     <div class="ui-g-6 ui-md-4">
         <label for="godown_name" class="label-fontsize">Godown Name</label>
-        <p-dropdown #godown name="godown_name" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="GCode"
+        <p-dropdown #godown name="godown_name" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
         (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')" [showClear]="true"
          filter="true" resetFilterOnHide="true">
       </p-dropdown>
