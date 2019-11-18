@@ -166,7 +166,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-fluid">
-          <p-table [columns]="regTenderAllotmentCols" [value]="regTenderAllotmentData" 
+          <p-table [columns]="gdnTenderAllotmentCols" [value]="gdnTenderAllotmentData" 
           [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [(selection)]="selected"
          selectionMode="single" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
             <ng-template pTemplate="colgroup" let-columns>

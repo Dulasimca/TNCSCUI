@@ -4,15 +4,11 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-7 dashboard">Sales Tax Entry</div>
-        <div class="ui-g-12 ui-md-5 dashboard" style="text-align: end !important;">
-          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GSTIN"
+        <div class="ui-g-4 dashboard">Sales Tax Entry</div>
+        <div class="ui-g-12 ui-md-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
             (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
-            styleClass="ui-button-danger"></p-splitButton>
-          <!-- <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
-            (click)="print()"></button> -->
         </div>
       </div>
     </p-header>
@@ -51,14 +47,16 @@
       <div class="ui-g-6 ui-md-1 ui-fluid">
         <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
         <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
-          (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-          resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
+          (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
+          (ngModelChange)="onResetTable('m')" filter="true" resetFilterOnHide="true" optionLabel="label"
+          filterMatchMode="startsWith" required>
         </p-dropdown>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid">
         <label for="PeriodOfYear" class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
         <p-dropdown #y="ngModel" name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="Year"
-          (onClick)="onSelect('Yr', 'click')" (keydown.enter)="onSelect('Yr', 'enter')" required>
+          (onClick)="onSelect('Yr', 'click')" (keydown.enter)="onSelect('Yr', 'enter')"
+          (ngModelChange)="onResetTable('Yr')" required>
         </p-dropdown>
       </div>
 
@@ -74,16 +72,18 @@
         </p-dropdown>
       </div>
       <div class="ui-g-6 ui-md-1"></div>
-      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 21px">
-        <button pButton type="button" (click)="onView()" style="padding: 2px"
+      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+        <button pButton type="button" (click)="onView()" style="padding: 1px;"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" icon="pi pi-plus" label=Add (click)="viewPane = true;onClear()"></button>
-        <!-- <button class="inline-padding" pButton type="button" label=Add icon="pi pi-plus" class="ui-button-warn" -->
-        <!-- (click)="viewPane = true;onClear()"></button> -->
+        <button pButton type="button" icon="pi pi-plus" label=Add (click)="viewPane = true;onClear()"
+          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
       </div>
-      <div class="ui-g-6 ui-md-1"></div>
+      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+        <button pButton type="button" label=Excel style="padding: 1px;"
+          (click)="table.exportCSV()" [disabled]="(SalesTaxData.length=='0')"></button>
+      </div>
       <div class="ui-g-12">
         <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -114,56 +114,56 @@
     <div>
       <form #SalesForm="ngForm" (ngSubmit)="onSubmit(formUser)">
         <div class="ui-g">
+          <div class="ui-g-12 ui-md-7">
+            <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
+            <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+              [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
+              (keydown.enter)="onSelect('company', 'enter')" (ngModelChange)="onResetTable('company')"
+              [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="ui-g-12 ui-md-5">
+            <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
+            <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
+              (keydown.enter)="onSelect('commodity','enter')" (ngModelChange)="onResetTable('company')"
+              [showClear]="true" filter="true" resetFilterOnHide="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g">
           <div class="ui-g-7 dashboard" style="padding-top: 5px">
             <div class="ui-g-12 ui-md-3">
               <div class="ui-float-label">
                 <input class="icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State"
-                  autocomplete="off" maxlength="2" required>
-                <label for="State">State Code</label>
+                  autocomplete="off" maxlength="2" readonly="true" required>
+                <label for="State">State</label>
               </div>
             </div>
             <div class="ui-g-12 ui-md-6">
               <div class="ui-float-label">
                 <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan" autocomplete="off"
-                  maxlength="10" required>
+                  maxlength="10" readonly="true" required>
                 <label for="Pan">PAN</label>
               </div>
             </div>
             <div class="ui-g-12 ui-md-3">
               <div class="ui-float-label">
                 <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
-                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3"
+                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3" readonly="true"
                   required>
                 <label for="Gst">GST</label>
               </div>
             </div>
           </div>
           <div class="ui-g-12 ui-md-5" style="padding-top: 15px">
-            <a>GSTIN - {{State + Pan + Gst}}</a>
-          </div>
-        </div>
-
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-6">
-            <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
-            <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-              [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
-              (keydown.enter)="onSelect('company', 'enter')" [showClear]="true" filter="true" optionLabel="label"
-              resetFilterOnHide="true">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
-          <div class="ui-g-12 ui-md-6">
-            <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
-            <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
+            <a>GSTNo - {{State + Pan + Gst}}</a>
           </div>
         </div>
 
@@ -172,7 +172,7 @@
             <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
             <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
               [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keydown.enter)="onSelect('tax','enter')"
-              [showClear]="true" filter="true" resetFilterOnHide="true">
+               [showClear]="true" filter="true" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -217,8 +217,7 @@
             <label class="ui-g-10 label-fontsize dashboard" for="Measurement">Measurements</label>
             <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
               [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
-              (keydown.enter)="onSelect('measurement','enter')" [showClear]="true" filter="true"
-              resetFilterOnHide="true">
+              (keydown.enter)="onSelect('measurement','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -297,7 +296,9 @@
         <div class="ui-g">
           <div class="ui-g-12 ui-md-4"></div>
           <div class="ui-g-6 ui-md-2 ui-fluid">
-            <button pButton type="button" (click)="onSubmit(formUser)" label=Save></button>
+            <button pButton type="button" (click)="onSubmit(formUser)"
+              [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !Measurement || !Hsncode || !TaxType || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !CGST || !SGST || !percentage || !Total)"
+              label=Save></button>
           </div>
           <div class="ui-g-6 ui-md-2 ui-fluid">
             <button pButton type="button" (click)="onClear()" label=Clear></button>
