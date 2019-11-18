@@ -33,6 +33,14 @@ export class TenderAllotementDetailsComponent implements OnInit {
   AllotmentID: any;
   TenderDetID: any;
   PartyCode: any;
+  tenderAllotmentGodwonWiseData : any;
+  tenderAllotmentGodwonWiseCols: any;
+  showPane:any;
+  regionOptions:any;
+  GCode:any;
+  commodityOptions:any;
+  ICode:any;
+
   @ViewChild('TenderID') tenderIDPanel: Dropdown;
   @ViewChild('Party') partyNamePanel: Dropdown;
   @ViewChild('f') form: NgForm;
