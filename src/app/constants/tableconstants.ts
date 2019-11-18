@@ -105,6 +105,8 @@ export class TableConstants {
   PurchaseTaxEntry: any;
   SalesTaxEntry: any;
   TenderAllotmentDetailsCols: any[];
+  TenderAllotmentToRegionCols: any[];
+  TenderQuantityCols: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -183,15 +185,18 @@ export class TableConstants {
       { field: 'OrderDate', header: 'Order Date' },
       { field: 'ITName', header: 'Commodity' },
       { field: 'Quantity', header: 'Quantity' },
+      { field: 'AdditionalQty', header: 'Additional Quantity' },
       { field: 'Remarks', header: 'Remarks' }];
 
       this.TenderAllotmentDetailsCols = [
         { field: 'SlNo', header: 'S.No.'},
-        { field: 'TenderID', header: 'Tender ID' },
+        { field: 'Quantity', header: 'Quantity'},
+        { field: 'OrderNumber', header: 'Order Number' },
         { field: 'TargetDate', header: 'Target Date'},
         { field: 'TotalDays', header: 'Total Days'},
         { field: 'PartyName', header: 'Party Name' },
-        { field: 'Quantity', header: 'Quantity' },
+        { field: 'Rate', header: 'Rate'},
+        { field: 'Spell', header: 'Spell' },
         { field: 'Remarks', header: 'Remarks' }];
 
     this.CBStatementColumns = [
@@ -1239,5 +1244,18 @@ export class TableConstants {
       // { header: 'Modify' },
       // { header: 'Delete' }
     ];
+
+    this.TenderAllotmentToRegionCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'RName', header: 'Region Name' },
+      { field: 'Spell', header: 'Spell' },
+      { field: 'Quantity', header: 'Quantity' },
+    ]
+
+    this.TenderQuantityCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'OrderNumber', header: 'Order Number' },
+      { field: 'Quantity', header: 'Quantity' },
+    ]
   }
 }
