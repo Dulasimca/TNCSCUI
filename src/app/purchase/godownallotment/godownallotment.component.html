@@ -83,7 +83,7 @@
               <div class="ui-g-4 ui-md-1 no-pad-top">
                 <button pButton label=Save
                   [disabled]="((!f.valid && !isDataAvailable) || isDataAvailable || (isViewed && !f.dirty))"
-                  (click)="onSave('1')"></button>
+                  (click)="onSave()"></button>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
               <button pButton label=Enter [disabled]="(!Spell || !GCode ||!NetWt)" (click)="onEnter()"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-              <button pButton label=Save [disabled]="(itemList.length=='0')" (click)="onSave('2')"></button>
+              <button pButton label=Save [disabled]="(itemList.length=='0')" (click)="onSave()"></button>
             </div>
             <div class="ui-g-12 ui-fluid dashboard">
               <p-table [columns]="tenderAllotmentGodownWiseCols" [value]="tenderAllotmentGodownWiseData"

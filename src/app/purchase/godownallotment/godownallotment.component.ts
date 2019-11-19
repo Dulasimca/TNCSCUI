@@ -44,10 +44,11 @@ showPane: boolean;
 fromDate: Date = new Date();
 toDate: Date = new Date();
 selected: any;
-regTenderAllotmentCols: any;
-regTenderAllotmentData: any = [];
+gdnTenderAllotmentCols: any;
+gdnTenderAllotmentData: any = [];
 data = [];
 loggedInRCode: string;
+isViewed: boolean;
 @ViewChild('godown') godownPanel: Dropdown;
 @ViewChild('orderNum') oredrNoPanel: Dropdown;
 @ViewChild('party') partyNamePanel: Dropdown;
@@ -120,6 +121,8 @@ loggedInRCode: string;
         break;
     }
   }
+
+  onChangeOrderNo() { }
 
   calculateQty(value) { }
 
