@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-allotment-details',
@@ -33,6 +34,8 @@ export class AllotmentDetailsComponent implements OnInit {
   GCode: string;
   RCode: string;
   errMsg: string;
+  loading: boolean;
+  disableSave: boolean;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
 
@@ -99,7 +102,9 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   uploadData(event) {
-    this.AllotmentCols = []; this.AllotmentData = [];
+    this.AllotmentCols = [];
+    this.allotmentDetails = [];
+    this.AllotmentData = [];
     let filesData = event.target.files;
     if (checkfile(filesData[0])) {
       this.parseExcel(filesData[0]);
@@ -135,6 +140,8 @@ export class AllotmentDetailsComponent implements OnInit {
         // bind the parse excel file data to Grid  
         let data = JSON.parse(json_object);
         if (data[1]['Godown Code'] === this.GCode) {
+          this.loading = true;
+          this.disableSave = false;
           this.totalRecords = data.length;
           this.AllotmentData = data;
           let i = 0;
@@ -176,6 +183,7 @@ export class AllotmentDetailsComponent implements OnInit {
           }
           this.constructData(this.AllotmentData);
         } else {
+          this.loading = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
         }
@@ -200,19 +208,38 @@ export class AllotmentDetailsComponent implements OnInit {
         records += 1;
       }
     })
+    this.loading = false;
   }
 
   onSave() {
+    this.disableSave = true;
+    this.loading = true;
     const params = JSON.stringify(this.allotmentDetails);
     this.restAPIService.post(PathConstants.ALLOTMENT_QUANTITY_POST, this.allotmentDetails).subscribe((res: any) => {
       if (res) {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item1 });
       } else {
+       // this.disableSave = false;
+        this.loading = false;
+        this.disableSave = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
       }
-    })
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.disableSave = false;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.disableSave = false;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+      }
+    });
   }
 
 }
