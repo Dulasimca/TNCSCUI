@@ -60,7 +60,7 @@
               </div>
         <div class="ui-g-6 ui-md-2">
           <label for="qty" class="label-fontsize">Quantity</label>
-          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" 
+          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" autocomplete="off"
           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
           appDecimalDigit required/>
         </div>
@@ -126,7 +126,7 @@
         </div>
           <div class="ui-g-6 ui-md-2">
               <span class="ui-float-label">
-                <input pInputText name="Additional_Qty"  [(ngModel)]="AdditionalQty" type="text" 
+                <input pInputText name="Additional_Qty"  [(ngModel)]="AdditionalQty" type="text" autocomplete="off"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
                 appDecimalDigit required/>
                 <label for="Additional_Qty" class="float-input">Additional Quantity</label>

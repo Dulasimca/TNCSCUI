@@ -153,6 +153,7 @@ export class StockPurchaseComponent implements OnInit {
           if (res.Item1) {
             this.onClear(type);
             this.onView(type);
+            this.onView('1');
             this.messageService.clear();
             this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
           } else {

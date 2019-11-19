@@ -71,7 +71,7 @@ export class RegionAllotmentComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-
+    this.tenderAllotmentRegionWiseCols = this.tableConstants.TenderAllotmentToRegionCols;
   }
 
   onSelect(id, type) {
@@ -83,9 +83,10 @@ export class RegionAllotmentComponent implements OnInit {
         if (type == 'enter') {
           this.oredrNoPanel.overlayVisible = true;
         }
-          this.restApiService.get(PathConstants.PURCHASE_TENDER_ORDER_NO_GET).subscribe(res => {
-            if (res !== undefined && res !== null && res.length !== 0) {
-              res.forEach(o => {
+        const params = new HttpParams().set('Type', '1');
+          this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_ORDER_NO_GET, params).subscribe(res => {
+            if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+              res.Table.forEach(o => {
                 oredrNoSelection.push({ label: o.OrderNumber, value: o.OrderNumber });
               })
               this.orderNoOptions = oredrNoSelection;
@@ -145,8 +146,9 @@ export class RegionAllotmentComponent implements OnInit {
 
   onChangeOrderNo() {
     if(this.OrderNo !== undefined && this.OrderNo !== null) {
-    const params = new HttpParams().set('value1', (this.OrderNo !== undefined) ? this.OrderNo : '').append('value2', '').append('Type', '2');
-    this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_ALLOTMENT_DETAILS_GET, params).subscribe(data => {
+    const params = new HttpParams().set('OrderNo', (this.OrderNo !== undefined) ? this.OrderNo : '')
+    .append('RCode', '').append('Type', '1');
+    this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_DATA_BY_ORDER_NO, params).subscribe(data => {
       if (data.Table !== undefined && data.Table !== null && data.Table.length !== 0) {
         data.Table.forEach(x => {
           this.AllottedQty = ((x.Quantity !== null && x.Quantity !== undefined) ? (x.Quantity * 1) : 0) 
@@ -165,14 +167,22 @@ export class RegionAllotmentComponent implements OnInit {
           && this.PartyCode !== null && this.Quantity !== undefined && this.Quantity !== null
           && this.Rate !== null && this.Rate !== undefined){
             this.isDataAvailable = true;
+            this.partyNamePanel.showClear = false;
         } else {
           this.isDataAvailable = false;
         }
-      } 
+      } else {
+       this.onClear('1');
+      }
       if (data.Table1 !== undefined && data.Table1 !== null && data.Table1.length !== 0) {
         this.isDataAvailable = true;
        this.tenderAllotmentRegionWiseData = data.Table1;
-      }
+       let sno = 0;
+       this.tenderAllotmentRegionWiseData.forEach(x => {
+         sno += 1;
+         x.SlNo = sno;
+       })
+      } else { this.tenderAllotmentRegionWiseData = []; }
     });
   } else {
     this.onClear('1');
@@ -198,7 +208,7 @@ export class RegionAllotmentComponent implements OnInit {
     this.showPane = true;
     this.selected = null;
     const params = new HttpParams().set('value1', this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'))
-    .append('value2', this.datePipe.transform(this.toDate, 'MM/dd/yyyy')).append('type', '1');
+    .append('value2', this.datePipe.transform(this.toDate, 'MM/dd/yyyy'));
     this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_ALLOTMENT_DETAILS_GET, params).subscribe(data => {
       if(data.Table.length !== 0 && data.Table !== null && data.Table !== undefined) {
         this.tenderAllotmentCols = this.tableConstants.TenderAllotmentDetailsCols;
@@ -212,6 +222,7 @@ export class RegionAllotmentComponent implements OnInit {
           x.OrderDate = this.datePipe.transform(x.OrderDate, 'dd/MM/yyyy');
         })
       } else {
+        this.tenderAllotmentData = [];
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
@@ -245,6 +256,7 @@ export class RegionAllotmentComponent implements OnInit {
 
   onEnter() {
     let sno = 0;
+    let i = this.itemList.length;
     const RegAllotmentID = (this.RegAllotmentID !== undefined && this.RegAllotmentID !== null) ? this.RegAllotmentID : 0;
     this.itemList.push({
       RegAllotmentID: RegAllotmentID,
@@ -255,8 +267,14 @@ export class RegionAllotmentComponent implements OnInit {
       Quantity: this.NetWt,
       SpellName: this.Spell.label,
     })
+    if(this.itemList.length > 1 && this.itemList.length !== 0) {
+      if(this.itemList[i - 1].Spell === this.itemList[i].Spell && this.itemList[i - 1].RCode === this.itemList[i].RCode) {
+        this.itemList.splice(i, 1);
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: 'Cannot insert same spell for same region again!' });
+      }
+    }
     let totalAllotedQtyToReg = 0;
-    this.tenderAllotmentRegionWiseCols = this.tableConstants.TenderAllotmentToRegionCols;
     this.tenderAllotmentRegionWiseData = this.itemList;
     this.tenderAllotmentRegionWiseData.forEach(x => {
       sno += 1;
