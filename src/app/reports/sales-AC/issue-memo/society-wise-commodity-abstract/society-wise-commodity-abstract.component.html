@@ -96,10 +96,12 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'sno' || col.field === 'TyName'">
+                <div
+                  *ngIf="col.field === 'sno' || col.field === 'TyName' || col.field === 'ShopCode' || col.field === 'Society'">
                   {{rowData[col.field]}}
                 </div>
-                <div *ngIf="col.field !== 'sno' && col.field !== 'TyName'">
+                <div
+                  *ngIf="col.field !== 'sno' && col.field !== 'TyName' && col.field !== 'ShopCode' && col.field !== 'Society'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
@@ -202,10 +204,12 @@
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr>
                               <td *ngFor="let col of columns">
-                                <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
+                                <div
+                                  *ngIf="col.field === 'sno' || col.field === 'TyName' || col.field === 'SINO'|| col.field === 'SIDATE'|| col.field === 'Society'">
                                   {{rowData[col.field]}}
                                 </div>
-                                <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
+                                <div
+                                  *ngIf="col.field !== 'sno' && col.field !== 'TyName' && col.field !== 'SINO' && col.field !== 'SIDATE' && col.field !== 'Society'">
                                   <div style="text-align: end !important">
                                     {{rowData[col.field]}}
                                   </div>
@@ -252,10 +256,12 @@
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr>
                               <td *ngFor="let col of columns">
-                                <div *ngIf="col.field === 'TyName' || col.field === 'SINO'">
+                                <div
+                                  *ngIf="col.field === 'sno' || col.field === 'SCNAME' || col.field === 'SINO'|| col.field === 'SIDATE'|| col.field === 'Society'">
                                   {{rowData[col.field]}}
                                 </div>
-                                <div *ngIf="col.field !== 'TyName' && col.field !== 'SINO'">
+                                <div
+                                  *ngIf="col.field !== 'sno' && col.field !== 'SCNAME' && col.field !== 'SINO' && col.field !== 'SIDATE' && col.field !== 'Society'">
                                   <div style="text-align: end !important">
                                     {{rowData[col.field]}}
                                   </div>
@@ -302,10 +308,12 @@
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr>
                               <td *ngFor="let col of columns">
-                                <div *ngIf="col.field === 'TyName' || col.field === 'Society'">
+                                <div
+                                  *ngIf="col.field === 'sno' || col.field === 'SCNAME' || col.field === 'TyName' || col.field === 'Society'">
                                   {{rowData[col.field]}}
                                 </div>
-                                <div *ngIf="col.field !== 'TyName' && col.field !== 'Society'">
+                                <div
+                                  *ngIf="col.field !== 'sno' && col.field !== 'SCNAME' && col.field !== 'TyName' && col.field !== 'Society'">
                                   <div style="text-align: end !important">
                                     {{rowData[col.field]}}
                                   </div>

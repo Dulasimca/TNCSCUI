@@ -293,10 +293,9 @@ export class SalesTaxEntryComponent implements OnInit {
         this.CompanyTitle = res;
         let sno = 0;
         this.SalesTaxData.forEach(s => {
-          this.Bdate = s.BillDate;
+          // this.Bdate = s.BillDate;
+          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           this.Cdate = s.CreatedDate;
-          s.BillDate = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
-          s.CreatedDate = this.datepipe.transform(s.CreatedDate, 'MM/dd/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -341,7 +340,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.TaxType = selectedRow.TaxType;
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
-    this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'dd/MM/yyyy');
+    this.Billdate = selectedRow.BillDate;
     this.CompanyName = selectedRow.CompanyName;
     this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
@@ -396,7 +395,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
-      'BillDate': this.Bdate,
+      'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': this.CompanyName.label || this.CompanyName,
       'CommodityName': this.Commodity,
       'CreditSales': (this.Credit == true) ? true : false,
@@ -438,7 +437,7 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    if (item === 'company') { this.Pan = this.Gst = this.State = null; }
     this.SalesTaxData = [];
+    if (item === 'company') { this.Pan = this.Gst = this.State = null; }
   }
 }
