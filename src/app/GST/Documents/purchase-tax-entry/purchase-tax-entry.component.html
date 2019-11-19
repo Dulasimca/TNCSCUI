@@ -129,8 +129,7 @@
             <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
             <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
               [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" (ngModelChange)="onResetTable('commodity')"
-              [showClear]="true" filter="true" resetFilterOnHide="true">
+              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -163,7 +162,7 @@
             </div>
           </div>
           <div class="ui-g-12 ui-md-5" style="padding-top: 15px">
-            <a>GSTIN - {{State + Pan + Gst}}</a>
+            <a>GSTNo - {{State + Pan + Gst}}</a>
           </div>
         </div>
         <div class="ui-g">
@@ -178,7 +177,7 @@
             <div class="ui-g">
               <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date</label>
               <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
-                name="Billdate" [(ngModel)]="Billdate">
+                name="Billdate" [(ngModel)]="Billdate" required>
               </p-calendar>
             </div>
           </div>
@@ -204,14 +203,14 @@
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
                 autocomplete="off" required>
-              <label for="Amount">Amount(Exclusive of VAT)</label>
+              <label for="Amount">Amount(Exclusive of GST)</label>
             </div>
           </div>
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage" name="percentage"
                 autocomplete="off" required>
-              <label for="percentage">Vat %</label>
+              <label for="percentage">GST %</label>
             </div>
           </div>
         </div>
@@ -220,7 +219,7 @@
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" autocomplete="off"
                 required>
-              <label for="Vat">Vat Amount</label>
+              <label for="Vat">GST Amount</label>
             </div>
           </div>
           <div class="ui-g-6 ui-md-6">

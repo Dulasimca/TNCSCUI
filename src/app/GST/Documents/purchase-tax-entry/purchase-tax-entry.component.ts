@@ -89,7 +89,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
+    // this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
     this.RName = this.authService.getUserAccessible().rName;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
@@ -257,7 +257,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.CompanyTitle = res;
         let sno = 0;
         this.PurchaseTaxData.forEach(s => {
-          this.Bdate = s.BillDate;
+          // this.Bdate = s.BillDate;
           s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
@@ -310,13 +310,24 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Commodity = selectedRow.CommodityName;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
-    this.Billdate = selectedRow.BillDate;
+    // this.Billdate = selectedRow.BillDate;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
     this.percentage = selectedRow.Percentage;
     this.Total = selectedRow.Total;
     this.Vat = selectedRow.VatAmount;
+  }
+
+  onIssueDetailsEnter() {
+    this.Bdate = this.Billdate;
+    this.PurchaseTaxData.push({
+      Bdate: this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
+      DeliveryOrderDate: this.datepipe.transform(this.Billdate, 'dd/MM/yyyy'),
+    });
+    if (this.PurchaseTaxData.length !== 0) {
+      this.Billdate = new Date();
+    }
   }
 
   onSubmit(formUser) {
@@ -331,7 +342,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
-      'BillDate': this.Bdate,
+      'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': this.CompanyName.label || this.CompanyName,
       'CommodityName': this.Commodity,
       'Quantity': this.Quantity,
@@ -342,7 +353,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Bdate,
+      'CreatedDate': this.Billdate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };
