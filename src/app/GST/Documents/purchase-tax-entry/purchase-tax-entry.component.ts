@@ -257,7 +257,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.CompanyTitle = res;
         let sno = 0;
         this.PurchaseTaxData.forEach(s => {
-          this.Bdate = s.BillDate;
+          // this.Bdate = s.BillDate;
           s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
@@ -310,7 +310,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Commodity = selectedRow.CommodityName;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
-    this.Billdate = selectedRow.BillDate;
+    // this.Billdate = selectedRow.BillDate;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
@@ -319,16 +319,16 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Vat = selectedRow.VatAmount;
   }
 
-  // onIssueDetailsEnter() {
-  //   this.Bdate = this.Billdate;
-  //   this.PurchaseTaxData.push({
-  //     Bdate: this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-  //     DeliveryOrderDate: this.datepipe.transform(this.Billdate, 'dd/MM/yyyy'),
-  //   });
-  //   if (this.PurchaseTaxData.length !== 0) {
-  //     this.Billdate = new Date();
-  //   }
-  // }
+  onIssueDetailsEnter() {
+    this.Bdate = this.Billdate;
+    this.PurchaseTaxData.push({
+      Bdate: this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
+      DeliveryOrderDate: this.datepipe.transform(this.Billdate, 'dd/MM/yyyy'),
+    });
+    if (this.PurchaseTaxData.length !== 0) {
+      this.Billdate = new Date();
+    }
+  }
 
   onSubmit(formUser) {
     const params = {
@@ -353,7 +353,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
+      'CreatedDate': this.Billdate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };

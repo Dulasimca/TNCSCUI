@@ -340,7 +340,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.TaxType = selectedRow.TaxType;
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
-    this.Billdate = selectedRow.BillDate;
+    // this.Billdate = selectedRow.BillDate;
     this.CompanyName = selectedRow.CompanyName;
     this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
