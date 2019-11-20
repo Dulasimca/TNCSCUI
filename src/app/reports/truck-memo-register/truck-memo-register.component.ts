@@ -106,7 +106,8 @@ export class TruckMemoRegisterComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
-      'GCode': this.GCode
+      'GCode': this.GCode,
+      'RCode': this.RCode
     }
     this.restAPIService.post(PathConstants.STOCK_TRUCK_MEMO_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
