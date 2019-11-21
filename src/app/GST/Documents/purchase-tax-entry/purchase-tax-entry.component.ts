@@ -197,7 +197,11 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          const params = {
+            'Type': 2,
+            'RCode': this.RCode,
+          }
+          this.restApiService.getByParameters(PathConstants.ITEM_MASTER, params).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
                 commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
