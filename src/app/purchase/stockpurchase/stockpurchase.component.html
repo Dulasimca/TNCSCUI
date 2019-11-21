@@ -1,4 +1,7 @@
-<app-menu *ngIf="canShowMenu"></app-menu>
+<p-blockUI [blocked]="blockScreen">
+  <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+  </p-blockUI>
+  <app-menu *ngIf="canShowMenu"></app-menu>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content"  style="margin: 0px !important">
   <p-panel>
       <p-header>
@@ -46,7 +49,7 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="completedDate" class="label-fontsize">Completed Date</label>
                 <p-calendar name="completedDate" #completedDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                 [(ngModel)]="CompletedDate"></p-calendar>
+                  [(ngModel)]="CompletedDate"></p-calendar>
               </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
                 <label for="Commodity" class="label-fontsize">Commodity</label>
@@ -60,7 +63,7 @@
               </div>
         <div class="ui-g-6 ui-md-2">
           <label for="qty" class="label-fontsize">Quantity</label>
-          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" 
+          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" autocomplete="off"
           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
           appDecimalDigit required/>
         </div>
@@ -84,7 +87,7 @@
       </div>
       <div class="ui-g-3 ui-md-1 ui-fluid">
         <button name="save" style="margin-top:5px" pButton type="button" label=Save (click)="onSave('1')"
-         [disabled]="(!TenderDate || !TenderId || !OrderNo || !OrderDate || !NetWt || !ICode || (isViewed && !f.dirty))"></button>
+         [disabled]="(!f.valid || (isViewed && !f.dirty))"></button>
       </div>
     </div>
 </form>
@@ -126,7 +129,7 @@
         </div>
           <div class="ui-g-6 ui-md-2">
               <span class="ui-float-label">
-                <input pInputText name="Additional_Qty"  [(ngModel)]="AdditionalQty" type="text" 
+                <input pInputText name="Additional_Qty"  [(ngModel)]="AdditionalQty" type="text" autocomplete="off"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
                 appDecimalDigit required/>
                 <label for="Additional_Qty" class="float-input">Additional Quantity</label>

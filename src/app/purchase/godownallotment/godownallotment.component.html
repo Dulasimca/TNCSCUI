@@ -14,58 +14,62 @@
             <div class="ui-g-12 ui-fluid dashboard">
               <div class="ui-g-1"></div>
               <div class="ui-g-6 ui-md-2">
+                <label for="region_name" class="label-fontsize">Region Name</label>
+                <p-dropdown #region name="region_name" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions"
+                  [(ngModel)]="RCode" (onClick)="onSelect('reg', 'change')" 
+                  (keydown.enter)="onSelect('reg', 'enter')" [readonly]="isViewed"
+                  [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
+                </p-dropdown>
+                <!--(onChange)="onChangeList('reg')"-->
+              </div>
+              <div class="ui-g-6 ui-md-2">
                 <label for="order_Num" class="label-fontsize">Order Number</label>
                 <p-dropdown #orderNum name="order_Num" [options]="orderNoOptions" [(ngModel)]="OrderNo"
                   (onClick)="onSelect('order', 'click')" (keydown.enter)="onSelect('order', 'enter')"
-                  (onChange)="onChangeOrderNo()" filter="true" resetFilterOnHide="true"
+                   filter="true" resetFilterOnHide="true" (onChange)="onChangeList()"
                   [readonly]="isViewed" [showClear]="true" required>
                 </p-dropdown>
+                <!--(onChange)="onChangeList('order')"-->
               </div>
               <div class="ui-g-6 ui-md-2">
-                <label for="commdity_type" class="label-fontsize">Commodity</label>
-                <input name="commdity_type" type="text" size="15" pInputText [(ngModel)]="Commodity" [readonly]="true">
+                <label for="spell_cycle" class="label-fontsize">Spell</label>
+                <p-dropdown #spell name="spell_cycle" [options]="spellOptions" [(ngModel)]="Spell"
+                  (onClick)="onSelect('spell', 'click')" (keydown.enter)="onSelect('spell', 'enter')" 
+                  filter="true" (onChange)="onChangeList()"
+                  resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
+                </p-dropdown>
               </div>
               <div class="ui-g-6 ui-md-2">
                 <label for="total_Qty" class="label-fontsize">Total Quantity</label>
                 <input name="total_Qty" type="text" size="15" pInputText [(ngModel)]="AllottedQty" [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="target_Date" class="label-fontsize">Target Date</label>
-                <p-calendar name="target_Date" #targetDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                  [maxDate]="maxDate" [(ngModel)]="TargetDate" [disabled]="isDataAvailable" required>
-                </p-calendar>
-              </div>
             </div>
             <div class="ui-g-12 ui-fluid dashboard">
               <div class="ui-g-1"></div>
               <div class="ui-g-6 ui-md-2">
-                <label for="party_Name" class="label-fontsize">Party Name</label>
-                <p-dropdown #party name="party_Name" [options]="partyNameOptions" [(ngModel)]="PartyCode"
-                  (onClick)="onSelect('p_id', 'click')" (keydown.enter)="onSelect('p_id', 'enter')" filter="true"
-                  resetFilterOnHide="true" [showClear]="true" [readonly]="isDataAvailable" required>
+                <label for="commdity_type" class="label-fontsize">Commodity</label>
+                <input name="commdity_type" type="text" size="15" pInputText [(ngModel)]="Commodity" [readonly]="true">
+              </div>
+              <div class="ui-g-6 ui-md-2">
+                <label for="party_name" class="label-fontsize">Party Name</label>
+                <input name="party_name" type="text" size="15" pInputText [(ngModel)]="PartyName" [readonly]="true">
+              </div>
+              <div class="ui-g-6 ui-md-2">
+                <label for="godown_name" class="label-fontsize">Godown Name</label>
+                <p-dropdown #godown name="godown_name" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
+                  [(ngModel)]="GCode" (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+                  [showClear]="true" filter="true" resetFilterOnHide="true" [readonly]="isDataAvailable" required>
                 </p-dropdown>
               </div>
               <div class="ui-g-6 ui-md-2">
                 <label for="assigning_qty" class="label-fontsize">Quantity</label>
                 <input pInputText name="assigning_qty" [(ngModel)]="Quantity" type="text"
-                  (input)="calculateQty(Quantity)"
+                  (input)="calculateQty(Quantity)" autocomplete="off" [readonly]="isDataAvailable"
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  [readonly]="isDataAvailable" appDecimalDigit required />
+                  appDecimalDigit required />
                 <div *ngIf="showErrMsg">
                   <span style="font-size: 11px; color:crimson;">Allot Quantity within Total Quantity!</span>
                 </div>
-              </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="total_days" class="label-fontsize">Total No.Of Days</label>
-                <input pInputText name="total_days" [(ngModel)]="TotalDays" type="text"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  [readonly]="isDataAvailable" required />
-              </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="rate" class="label-fontsize">Rate</label>
-                <input pInputText name="rate" [(ngModel)]="Rate" type="text"
-                  oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  [readonly]="isDataAvailable" appDecimalAmount required />
               </div>
             </div>
             <div class="ui-g-12 ui-fluid dashboard">
@@ -82,71 +86,18 @@
               </div>
               <div class="ui-g-4 ui-md-1 no-pad-top">
                 <button pButton label=Save
-                  [disabled]="((!f.valid && !isDataAvailable) || isDataAvailable || (isViewed && !f.dirty))"
+                  [disabled]="(!f.valid || (isViewed && !f.dirty) || showErrMsg)"
                   (click)="onSave()"></button>
               </div>
             </div>
           </div>
-          <div class="ui-g-12 ui-fluid dashboard  border-teal" *ngIf="isDataAvailable">
-            <div class="ui-g-6 ui-md-2">
-              <label for="godown_name" class="label-fontsize">Godown Name</label>
-              <p-dropdown #godown name="godown_name" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
-                [(ngModel)]="GCode" (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-                [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
-              </p-dropdown>
-            </div>
-            <div class="ui-g-6 ui-md-2">
-              <label for="splitted_qty" class="label-fontsize">Quantity</label>
-              <input pInputText name="splitted_qty" [(ngModel)]="NetWt" type="text"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                appDecimalDigit required />
-            </div>
-            <div class="ui-g-6 ui-md-2">
-              <label for="spell_cycle" class="label-fontsize">Spell</label>
-              <p-dropdown #spell name="spell_cycle" [options]="spellOptions" [(ngModel)]="Spell"
-                (onClick)="onSelect('spell', 'click')" (keydown.enter)="onSelect('spell', 'enter')" filter="true"
-                resetFilterOnHide="true" [showClear]="true" required>
-              </p-dropdown>
-            </div>
-            <div class="ui-g-2"></div>
-            <div class="ui-g-4 ui-md-1">
-              <button pButton label=Enter [disabled]="(!Spell || !GCode ||!NetWt)" (click)="onEnter()"></button>
-            </div>
-            <div class="ui-g-4 ui-md-1">
-              <button pButton label=Save [disabled]="(itemList.length=='0')" (click)="onSave()"></button>
-            </div>
-            <div class="ui-g-12 ui-fluid dashboard">
-              <p-table [columns]="tenderAllotmentGodownWiseCols" [value]="tenderAllotmentGodownWiseData"
-                [paginator]="true" [rows]="20">
-                <ng-template pTemplate="colgroup" let-columns>
-                  <colgroup>
-                    <col *ngFor="let col of columns">
-                  </colgroup>
-                </ng-template>
-                <ng-template pTemplate="header" let-columns>
-                  <tr>
-                    <th *ngFor="let col of columns">
-                      {{col.header}}
-                    </th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                  <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex)">
-                    <td *ngFor="let col of columns">
-                      {{rowData[col.field]}}
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div>
-          </div>
         </form>
       </div>
-      <p-dialog header="Region Wise Tender Allotment Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
+      <p-dialog header="Godown Wise Tender Allotment Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
         [maximizable]="true" [(visible)]="showPane" [responsive]="true"
         [style]="{width: '1000px', height: '1500px !important'}">
         <div>
-          <div class="ui-g-6 ui-md-2 no-pad-top">
+          <!-- <div class="ui-g-6 ui-md-2 no-pad-top">
             <label class="label-fontsize-large">From Date</label>
             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="fromDate"
               (ngModelChange)="onView()"></p-calendar>
@@ -155,13 +106,13 @@
               <label class="label-fontsize-large">To Date</label>
               <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="toDate"
                (ngModelChange)="onView()"></p-calendar>
-            </div>
-            <div class="ui-g-4"></div>
-          <div class="ui-g-4 ui-md-1" style="margin-top: 10px;">
+            </div> -->
+            <div class="ui-g-8"></div>
+          <div class="ui-g-4 ui-md-1">
             <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)"
-              (click)="getTenderData()"></button>
+              (click)="onSelectedRow()"></button>
           </div>
-          <div class="ui-g-4 ui-md-1" style="margin-top: 10px;">
+          <div class="ui-g-4 ui-md-1">
             <button class="ui-md-10 dashboard" pButton label=Cancel (click)="showPane = false"></button>
           </div>
         </div>

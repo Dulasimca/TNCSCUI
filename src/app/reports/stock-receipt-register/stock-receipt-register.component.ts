@@ -105,7 +105,8 @@ export class StockReceiptRegisterComponent implements OnInit {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
-      'GCode': this.GCode
+      'GCode': this.GCode,
+      'RCode': this.RCode
     }
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_REGISTER_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {

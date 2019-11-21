@@ -134,10 +134,13 @@ export class PathConstants {
   public static readonly PURCHASE_TENDER_DETAILS_GET = '/api/TenderDetails/Get';
   public static readonly PURCHASE_PARTYNAME_DETAILS = '/api/PartyNameForTenderAllotment';
   public static readonly PURCHASE_TENDERID_DETAILS = '/api/TenderIDForAllotement';
+  public static readonly PURCHASE_TENDER_DATA_BY_ORDER_NO = '/api/TenderDataByOrderNo/Get';
   public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_POST = '/api/TenderAllotmentDetails/Post';
   public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_GET = '/api/TenderAllotmentDetails/Get';
-  public static readonly PURCHASE_TENDER_ORDER_NO_GET = '/api/TenderOrderNoList';
+  public static readonly PURCHASE_TENDER_ORDER_NO_GET = '/api/TenderOrderNoList/Get';
   public static readonly PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_POST = '/api/TenderAllotmentToRegional/Post';
   public static readonly PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_GET = '/api/TenderAllotmentToRegional';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_TO_GODOWN_POST = '/api/TenderAllotmentToGodown/Post';
+  public static readonly PURCHASE_TENDER_ALLOTMENT_TO_GODOWN_GET = '/api/TenderAllotmentToGodown';
   ///End
 }

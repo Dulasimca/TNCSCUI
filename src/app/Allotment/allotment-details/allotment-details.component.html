@@ -45,13 +45,13 @@
             </div>
             <div class="ui-g-2"></div>
             <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
-              <button pButton label=Save (click)="onSave()" [disabled]="(AllotmentData.length=='0')"></button>
+              <button pButton label=Save (click)="onSave()" [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
           </div>
           <div class="ui-g-12">
             <p-table [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
               [rowsPerPageOptions]="[10,20,30,40,50,100]"  [paginator]="true" [responsive]="true"
-              [scrollable]="true">
+              [scrollable]="true" [loading]="loading">
               <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
                     <col *ngFor="let col of columns" style="width: 125px;">

@@ -115,7 +115,8 @@ export class StockIssueRegisterComponent implements OnInit {
       'StartIndex': this.startIndex,
       'TotalRecord': this.recordRange,
       'Position': this.position,
-      'UserName': this.username.user
+      'UserName': this.username.user,
+      'RCode': this.RCode
     }
     if (this.canFetch) {
       this.loading = true;

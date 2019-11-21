@@ -63,7 +63,7 @@
               </div>
               <div class="ui-g-6 ui-md-2">
                 <label for="rate" class="label-fontsize">Rate</label>
-                <input pInputText name="rate" [(ngModel)]="Rate" type="text"
+                <input pInputText name="rate" [(ngModel)]="Rate" type="text" autocomplete="off"
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   [readonly]="isDataAvailable" appDecimalAmount required />
               </div>
