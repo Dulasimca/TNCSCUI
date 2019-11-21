@@ -146,6 +146,7 @@ import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-ta
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
+import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
 
 @NgModule({
   declarations: [
@@ -252,6 +253,7 @@ import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotme
     PurchaseTaxEntryComponent,
     PartyLedgerMasterComponent,
     AllotmentDetailsComponent,
+    ServiceProviderEntryComponent,
   ],
   imports: [
     BrowserModule,

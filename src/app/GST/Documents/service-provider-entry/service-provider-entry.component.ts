@@ -13,14 +13,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
-  selector: 'app-purchase-tax-entry',
-  templateUrl: './purchase-tax-entry.component.html',
-  styleUrls: ['./purchase-tax-entry.component.css']
+  selector: 'app-service-provider-entry',
+  templateUrl: './service-provider-entry.component.html',
+  styleUrls: ['./service-provider-entry.component.css']
 })
-export class PurchaseTaxEntryComponent implements OnInit {
+export class ServiceProviderEntryComponent implements OnInit {
 
-  PurchaseTaxData: any = [];
-  PurchaseTaxCols: any;
+  ServiceTaxData: any;
+  ServiceTaxCols: any;
   PristineData: any = [];
   filterArray = [];
   canShowMenu: boolean;
@@ -42,7 +42,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
   GCode: any;
   formUser = [];
   AccountingYear: any;
-  PurchaseID: any;
   CompanyName: any;
   Company: any;
   Pan: any;
@@ -58,6 +57,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
   percentage: any;
   Amount: any;
   Vat: any;
+  CGST: any;
+  SGST: any;
   Total: any;
   userdata: any;
   maxDate: Date;
@@ -90,7 +91,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    // this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
     this.RName = this.authService.getUserAccessible().rName;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
@@ -242,12 +242,12 @@ export class PurchaseTaxEntryComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
-        this.PurchaseTaxData = res;
+        this.ServiceTaxCols = this.tableConstant.ServiceProviderEntry;
+        this.ServiceTaxData = res;
         this.CompanyTitle = res;
         let sno = 0;
         let bd = new Date();
-        this.PurchaseTaxData.forEach(s => {
+        this.ServiceTaxData.forEach(s => {
           // this.Bdate = s.BillDate;
           // s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
@@ -279,14 +279,14 @@ export class PurchaseTaxEntryComponent implements OnInit {
   }
 
   onSearch(value) {
-    this.PurchaseTaxData = this.CompanyTitle;
+    this.ServiceTaxData = this.CompanyTitle;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
-      this.PurchaseTaxData = this.CompanyTitle.filter(item => {
+      this.ServiceTaxData = this.CompanyTitle.filter(item => {
         return item.GSTNo.toString().startsWith(value);
       });
     } else {
-      this.PurchaseTaxData = this.CompanyTitle;
+      this.ServiceTaxData = this.CompanyTitle;
     }
   }
 
@@ -309,13 +309,12 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.percentage = selectedRow.Percentage;
     this.Total = selectedRow.Total;
     this.Vat = selectedRow.VatAmount;
-    this.PurchaseID = selectedRow.PurchaseID;
   }
 
   onSubmit(formUser) {
     const params = {
       'Roleid': this.roleId,
-      'PurchaseID': this.PurchaseID || '',
+      'PurchaseID': '',
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
@@ -360,7 +359,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.PurchaseTaxData = [];
+    this.ServiceTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
   }
 }

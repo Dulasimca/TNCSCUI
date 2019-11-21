@@ -107,6 +107,7 @@ export class TableConstants {
   TenderAllotmentDetailsCols: any[];
   TenderAllotmentToRegionCols: any[];
   TenderQuantityCols: any[];
+  ServiceProviderEntry: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -177,10 +178,10 @@ export class TableConstants {
     ]
 
     this.TenderDetailsCols = [
-      { field: 'SlNo', header: 'S.No.'},
+      { field: 'SlNo', header: 'S.No.' },
       { field: 'TenderId', header: 'Tender ID' },
-      { field: 'TenderDate', header: 'Tender Date'},
-      { field: 'CompletedDate', header: 'Completed Date'},
+      { field: 'TenderDate', header: 'Tender Date' },
+      { field: 'CompletedDate', header: 'Completed Date' },
       { field: 'OrderNumber', header: 'Order Number' },
       { field: 'OrderDate', header: 'Order Date' },
       { field: 'ITName', header: 'Commodity' },
@@ -188,16 +189,16 @@ export class TableConstants {
       { field: 'AdditionalQty', header: 'Additional Quantity' },
       { field: 'Remarks', header: 'Remarks' }];
 
-      this.TenderAllotmentDetailsCols = [
-        { field: 'SlNo', header: 'S.No.'},
-        { field: 'Quantity', header: 'Quantity'},
-        { field: 'OrderNumber', header: 'Order Number' },
-        { field: 'OrderDate', header: 'Order Date' },
-        { field: 'TargetDate', header: 'Target Date'},
-        { field: 'TotalDays', header: 'Total Days'},
-        { field: 'PartyName', header: 'Party Name' },
-        { field: 'Rate', header: 'Rate'},
-        { field: 'Remarks', header: 'Remarks' }];
+    this.TenderAllotmentDetailsCols = [
+      { field: 'SlNo', header: 'S.No.' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'OrderNumber', header: 'Order Number' },
+      { field: 'OrderDate', header: 'Order Date' },
+      { field: 'TargetDate', header: 'Target Date' },
+      { field: 'TotalDays', header: 'Total Days' },
+      { field: 'PartyName', header: 'Party Name' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Remarks', header: 'Remarks' }];
 
     this.CBStatementColumns = [
       // { field: 'serialNo', header: 'SI.NO' },
@@ -996,7 +997,7 @@ export class TableConstants {
       { field: 'SocietyName', header: 'Society Name' },
       { field: 'Issuername', header: 'Issuer Name' },
       { field: 'CategoryName', header: 'OWS - Category' },
-      {  field: 'Beneficiaries', header: 'No.of Beneficiary'},
+      { field: 'Beneficiaries', header: 'No.of Beneficiary' },
       { field: 'ACSCode', header: 'Acs Code' },
       { field: 'Activeflag', header: 'Active' },
       // { header: 'Save'}
@@ -1101,7 +1102,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'FromDate', header: 'From Date' },
       { field: 'ToDate', header: 'To Date' },
-      { field: 'Commodity', header: 'Commodity'},
+      { field: 'Commodity', header: 'Commodity' },
       { field: 'StackCard', header: 'Stack Card' },
       { field: 'OpeningBag', header: 'OPE_BAL.' },
       { field: 'OpeningQty', header: 'Quantity' },
@@ -1215,7 +1216,7 @@ export class TableConstants {
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'TIN', header: 'Tin No' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'BillDate', header: 'Bill Date' },
+      { field: 'bd', header: 'Bill Date' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
@@ -1232,7 +1233,7 @@ export class TableConstants {
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'BillDate', header: 'Bill Date' },
+      { field: 'bd', header: 'Bill Date' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Value' },
@@ -1240,6 +1241,25 @@ export class TableConstants {
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
+      { field: 'Total', header: 'Total Amt' },
+      // { header: 'Modify' },
+      // { header: 'Delete' }
+    ];
+
+    this.ServiceProviderEntry = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'Month', header: 'Month' },
+      { field: 'Year', header: 'Year' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'GSTNo', header: 'GST No' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'bd', header: 'Bill Date' },
+      { field: 'ServiceName', header: 'Service Name' },
+      { field: 'Amount', header: 'Amount' },
+      { field: 'TaxPercentage', header: 'GST %' },
+      { field: 'CGST', header: 'CGST Amt' },
+      { field: 'SGST', header: 'SGST Amt' },
+      { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
       // { header: 'Modify' },
       // { header: 'Delete' }

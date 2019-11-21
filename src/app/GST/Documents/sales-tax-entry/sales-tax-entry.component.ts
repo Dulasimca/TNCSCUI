@@ -38,7 +38,6 @@ export class SalesTaxEntryComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   TaxtypeOptions: SelectItem[];
-  MeasurementOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
@@ -102,7 +101,6 @@ export class SalesTaxEntryComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    // this.SalesTaxCols = this.tableConstant.SalesTaxEntry;
     this.RName = this.authService.getUserAccessible().rName;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
@@ -113,17 +111,6 @@ export class SalesTaxEntryComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
-    this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          // this.exportAsXLSX();
-        }
-      },
-      {
-        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-          // this.exportAsPDF();
-        }
-      }];
   }
 
   onSelect(item, type) {
@@ -262,17 +249,6 @@ export class SalesTaxEntryComponent implements OnInit {
           this.TaxtypeOptions = TaxSelection;
         }
         break;
-      case 'measurement':
-        if (type === 'enter') {
-          this.MeasurementPanel.overlayVisible = true;
-        }
-        if (this.MeasurementOptions !== undefined) {
-          MeasurementSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'GRAMS', value: 'GRAMS', },
-            { 'label': 'KGS', value: 'KGS', }, { 'label': 'KILOLITRE', value: 'KILOLITRE', }, { 'label': 'LTRS', value: 'LTRS', },
-            { 'label': 'M.TONS', value: 'M.TONS', }, { 'label': 'NO.s', value: 'NO.s', }, { 'label': 'QUINTAL', value: 'QUINTAL', })
-          this.MeasurementOptions = MeasurementSelection;
-        }
-        break;
     }
   }
 
@@ -292,10 +268,10 @@ export class SalesTaxEntryComponent implements OnInit {
         this.SalesTaxData = res;
         this.CompanyTitle = res;
         let sno = 0;
+        let bd = new Date();
         this.SalesTaxData.forEach(s => {
-          // this.Bdate = s.BillDate;
-          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
-          this.Cdate = s.CreatedDate;
+          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          // this.Cdate = s.CreatedDate;
           sno += 1;
           s.SlNo = sno;
         });
@@ -310,7 +286,7 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onClear() {
     this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Total = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.MeasurementOptions = this.TaxtypeOptions = null;
+    this.Billdate = this.commodityOptions = this.companyOptions =  this.TaxtypeOptions = null;
     this.Credit = false;
   }
 
@@ -332,7 +308,6 @@ export class SalesTaxEntryComponent implements OnInit {
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
-    this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.Measurement }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
@@ -340,7 +315,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.TaxType = selectedRow.TaxType;
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
-    // this.Billdate = selectedRow.BillDate;
+    this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.CompanyName = selectedRow.CompanyName;
     this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
@@ -354,26 +329,6 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Total = selectedRow.Total;
   }
 
-
-  // onDateSelect() {
-  //   this.checkValidDateSelection();
-  // }
-
-  // checkValidDateSelection() {
-  //   if (this.Billdate !== undefined && this.Billdate !== '') {
-  //     let selectedFromDate = this.Billdate.getDate();
-  //     let selectedFromMonth = this.Billdate.getMonth();
-  //     let selectedFromYear = this.Billdate.getFullYear();
-  //     if ((selectedFromDate && ((selectedFromMonth && selectedFromYear) ||
-  //       (selectedFromMonth && selectedFromYear))) ||
-  //       (selectedFromMonth && selectedFromYear) || (selectedFromYear)) {
-  //       this.messageService.clear();
-  //       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-  //       this.Billdate = '';
-  //     }
-  //     return this.Billdate;
-  //   }
-  // }
 
   showTrue(e: any) {
     if (this.Credit == true) {
@@ -412,7 +367,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Cdate,
+      'CreatedDate': this.Billdate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };

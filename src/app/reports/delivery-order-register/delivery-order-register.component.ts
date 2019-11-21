@@ -32,6 +32,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   RCode: any;
   roleId: any;
   maxDate: Date;
+  items: any;
   deliveryOptions: SelectItem[];
   deliveryName: string;
   canShowMenu: boolean;
@@ -54,6 +55,17 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
+    this.items = [
+      {
+        label: 'Actual', icon: 'fa fa-cloud-download', command: () => {
+          this.onGST();
+        }
+      },
+      {
+        label: 'Margin', icon: "fa fa-table", command: () => {
+          // this.exportAsPDF();
+        }
+      }];
   }
 
   onSelect(item, type) {
@@ -117,7 +129,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         let sno = 1;
         this.deliveryReceiptRegData.forEach((data, index) => {
           data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd/MM/yyyy');
-          if(index > 0 && data.Dono !== this.deliveryReceiptRegData[index - 1].Dono) {
+          if (index > 0 && data.Dono !== this.deliveryReceiptRegData[index - 1].Dono) {
             sno += 1;
             data.SlNo = sno;
           } else if (index === 0) { data.SlNo = sno; }
@@ -170,6 +182,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
+      'Type': 1,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,

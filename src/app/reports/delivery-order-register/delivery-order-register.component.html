@@ -7,8 +7,11 @@
         <div class="ui-g-4 dashboard">Delivery Order Details Report</div>
         <div class="ui-g-7"></div>
         <div class="ui-g-3 ui-md-1 dashboard" style="text-align: end">
-          <button pButton type="button" label=GST icon="pi pi-download" (click)="onGST()"
-            [disabled]="(deliveryReceiptRegData.length=='0')"></button>
+
+          <p-splitButton class="inline-padding" label="GST" icon="pi pi-download" [model]="items"
+          styleClass="ui-button-danger"></p-splitButton> 
+          <!-- <button pButton type="button" label=GST icon="pi pi-download" (click)="onGST()"
+            [disabled]="(deliveryReceiptRegData.length=='0')"></button> -->
         </div>
       </div>
     </p-header>

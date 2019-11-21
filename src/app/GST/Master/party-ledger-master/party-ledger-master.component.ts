@@ -35,6 +35,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   Tin: any;
   Partyname: any;
   Favour: any;
+  LedgerID: any;
   Gst: any;
   Account: any;
   Bank: any;;
@@ -147,11 +148,13 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.Bank = this.selectedRow.Bank;
     this.Branch = this.selectedRow.Branch;
     this.IFSC = this.selectedRow.IFSC;
+    this.LedgerID = this.selectedRow.LedgerID;
   }
 
   onSubmit(formUser) {
     const params = {
-      'LedgerID': '',
+      'LedgerID': this.LedgerID || '',
+      // 'PCode': '',
       'Roleid': this.roleId,
       'Pan': this.Pan,
       'StateCode': this.State,
