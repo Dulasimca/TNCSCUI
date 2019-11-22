@@ -32,6 +32,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
   RCode: any;
   roleId: any;
   maxDate: Date;
+  items: any;
   deliveryOptions: SelectItem[];
   deliveryName: string;
   canShowMenu: boolean;
@@ -54,6 +55,17 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     this.deliveryReceiptRegCols = this.tableConstants.DeliveryMemoRegisterReport;
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
+    this.items = [
+      {
+        label: 'Actual', icon: 'fa fa-cloud-download', command: () => {
+          this.onActual();
+        }
+      },
+      {
+        label: 'Margin', icon: "fa fa-table", command: () => {
+          this.onMargin();
+        }
+      }];
   }
 
   onSelect(item, type) {
@@ -118,7 +130,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         let sno = 1;
         this.deliveryReceiptRegData.forEach((data, index) => {
           data.DeliveryOrderDate = this.datePipe.transform(data.DeliveryOrderDate, 'dd/MM/yyyy');
-          if(index > 0 && data.Dono !== this.deliveryReceiptRegData[index - 1].Dono) {
+          if (index > 0 && data.Dono !== this.deliveryReceiptRegData[index - 1].Dono) {
             sno += 1;
             data.SlNo = sno;
           } else if (index === 0) { data.SlNo = sno; }
@@ -167,10 +179,45 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     }
   }
 
-  onGST() {
+  onActual() {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
+      'Type': 1,
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'UserName': this.username.user,
+      'GCode': this.GCode
+    };
+    this.restAPIService.post(PathConstants.DELIVERY_ORDER_REGISTER_GST, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        if (res.Item1 === true) {
+          this.downloadGST();
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SEVERITY_SUCCESS, detail: res.Item2 });
+        }
+        else {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        }
+      }
+    });
+    this.loading = false;
+    (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    }
+  }
+
+  onMargin() {
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {
+      'Type': 2,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,

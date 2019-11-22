@@ -42,12 +42,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
   GCode: any;
   formUser = [];
   AccountingYear: any;
+  PurchaseID: any;
   CompanyName: any;
   Company: any;
   Pan: any;
   Tin: any;
   Bill: any;
-  Billdate: Date;
+  Billdate: any;
   Bdate: Date;
   Gst: any;
   Commodity: any;
@@ -100,17 +101,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
-    this.items = [
-      {
-        label: 'Excel', icon: 'fa fa-table', command: () => {
-          // this.exportAsXLSX();
-        }
-      },
-      {
-        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-          // this.exportAsPDF();
-        }
-      }];
   }
 
   onSelect(item, type) {
@@ -207,13 +197,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
+                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName, 'TaxPer': y.TaxPercentage });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.percentage = this.Commodity.TaxPer;
+              // if (this.percentage !== undefined && this.percentage !== null) {
+              //   this.Vat = (this.percentage * 100).toFixed(2);
+              // }
             }
           });
         }
@@ -223,7 +217,11 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.companyPanel.overlayVisible = true;
         }
         if (this.companyOptions !== undefined) {
-          this.restApiService.get(PathConstants.PARTY_MASTER).subscribe(res => {
+          const params = {
+            'RCode': this.RCode,
+            'Type': 2
+          };
+          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
             if (res !== undefined) {
               this.CompanyTitle = res;
               res.forEach(s => {
@@ -256,9 +254,11 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.PurchaseTaxData = res;
         this.CompanyTitle = res;
         let sno = 0;
+        let bd = new Date();
         this.PurchaseTaxData.forEach(s => {
           // this.Bdate = s.BillDate;
-          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          // s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -281,8 +281,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
     });
   }
 
+  onGST() {
+    // if (this.percentage !== undefined) {
+    this.Amount = this.Quantity * this.Rate;
+    this.Vat = (this.Amount / 100) * this.percentage;
+    // let per = this.percentage * 100;
+    this.Total = this.Amount + this.Vat;
+    // }
+  }
+
   onClear() {
-    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
+    this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = null;
   }
 
@@ -291,7 +300,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PurchaseTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.BillNo.toString().startsWith(value);
       });
     } else {
       this.PurchaseTaxData = this.CompanyTitle;
@@ -310,30 +319,20 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Commodity = selectedRow.CommodityName;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
-    // this.Billdate = selectedRow.BillDate;
+    this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
     this.percentage = selectedRow.Percentage;
     this.Total = selectedRow.Total;
     this.Vat = selectedRow.VatAmount;
-  }
-
-  onIssueDetailsEnter() {
-    this.Bdate = this.Billdate;
-    this.PurchaseTaxData.push({
-      Bdate: this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      DeliveryOrderDate: this.datepipe.transform(this.Billdate, 'dd/MM/yyyy'),
-    });
-    if (this.PurchaseTaxData.length !== 0) {
-      this.Billdate = new Date();
-    }
+    this.PurchaseID = selectedRow.PurchaseID;
   }
 
   onSubmit(formUser) {
     const params = {
       'Roleid': this.roleId,
-      'PurchaseID': '',
+      'PurchaseID': this.PurchaseID || '',
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,

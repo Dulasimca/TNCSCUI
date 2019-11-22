@@ -120,6 +120,7 @@ export class PathConstants {
   public static readonly SOCIETY_MASTER_POST = '/api/SocietyMaster/Post';
   public static readonly ISSUER_MASTER_POST = '/api/IssuerMaster/Post';
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
+  //Account Module
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';
   public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
   public static readonly PARTY_MASTER = '/api/PartyMaster/Get';
@@ -128,6 +129,7 @@ export class PathConstants {
   public static readonly SALES_TAX_ENTRY_GET = '/api/SalesTaxEntry/Get';
   public static readonly SALES_TAX_ENTRY_POST = '/api/SalesTaxEntry/Post';
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
+  public static readonly GST_COMMODITY_MASTER = '/api/GSTCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
   ///Purchase Module
   public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';

@@ -34,7 +34,9 @@ export class PartyLedgerMasterComponent implements OnInit {
   State: any;
   Tin: any;
   Partyname: any;
+  PartyCode: any;
   Favour: any;
+  LedgerID: any;
   Gst: any;
   Account: any;
   Bank: any;;
@@ -124,7 +126,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   }
 
   onClear() {
-    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = null;
+    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = null;
     this.RCode = undefined;
   }
 
@@ -147,11 +149,14 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.Bank = this.selectedRow.Bank;
     this.Branch = this.selectedRow.Branch;
     this.IFSC = this.selectedRow.IFSC;
+    this.LedgerID = this.selectedRow.LedgerID;
+    this.PartyCode = this.selectedRow.PCode;
   }
 
   onSubmit(formUser) {
     const params = {
-      'LedgerID': '',
+      'LedgerID': (this.LedgerID  !== undefined && this.LedgerID  !== null) ? this.LedgerID : '',
+      'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
       'Roleid': this.roleId,
       'Pan': this.Pan,
       'StateCode': this.State,
