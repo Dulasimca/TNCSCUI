@@ -38,6 +38,7 @@ export class SalesTaxEntryComponent implements OnInit {
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
   TaxtypeOptions: SelectItem[];
+  MeasurementOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
@@ -74,6 +75,7 @@ export class SalesTaxEntryComponent implements OnInit {
   IGST: any;
   TaxType: any;
   Tax: any;
+  SalesID: any;
   Credit: Boolean;
   loggedInRCode: any;
   viewPane: boolean = false;
@@ -209,13 +211,14 @@ export class SalesTaxEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
+                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'hsncode': y.Hsncode });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.Hsncode = this.Commodity.hsncode;
             }
           });
         }
@@ -225,15 +228,19 @@ export class SalesTaxEntryComponent implements OnInit {
           this.companyPanel.overlayVisible = true;
         }
         if (this.companyOptions !== undefined) {
-          this.restApiService.get(PathConstants.PARTY_MASTER).subscribe(res => {
+          const params = {
+            'RCode': this.RCode,
+            'Type': 2
+          };
+          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
             if (res !== undefined) {
               this.CompanyTitle = res;
               res.forEach(s => {
-                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gst': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
+                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
                 this.companyOptions = CompanySelection;
               });
               this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.Gst = this.CompanyName.gst;
+              this.Gst = this.CompanyName.gstno;
               this.Pan = this.CompanyName.pan;
               this.State = this.CompanyName.sc;
             }
@@ -247,6 +254,15 @@ export class SalesTaxEntryComponent implements OnInit {
         if (this.TaxtypeOptions !== undefined) {
           TaxSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CGST/SGST', 'value': 'CGST' }, { 'label': 'IGST/UTGST', 'value': 'IGST' });
           this.TaxtypeOptions = TaxSelection;
+        }
+        break;
+      case 'measurement':
+        if (type === 'enter') {
+          this.MeasurementPanel.overlayVisible = true;
+        }
+        if (this.MeasurementOptions === undefined) {
+          MeasurementSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'GRAMS', 'value': 'GRAMS' }, { 'label': 'KGS', 'value': 'KGS' }, { 'label': 'KILOLITRE', 'value': 'KILOLITRE' }, { 'label': 'LTRS', 'value': 'LTRS' }, { 'label': 'M.TONS', 'value': 'M.TONS' }, { 'label': 'NO.s', 'value': 'NO.s' }, { 'label': 'QUINTAL', 'value': 'QUINTAL' });
+          this.MeasurementOptions = MeasurementSelection;
         }
         break;
     }
@@ -284,9 +300,18 @@ export class SalesTaxEntryComponent implements OnInit {
     });
   }
 
+  CalculateValue() {
+    if (this.Quantity !== undefined && this.Quantity !== null && this.Rate !== undefined && this.Rate !== undefined) {
+      this.Quantity = (this.Quantity * 1);
+      this.Rate = (this.Rate * 1);
+
+      this.Amount = ((this.Quantity * 1) * (this.Rate * 1));
+    }
+  }
+
   onClear() {
-    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Total = null;
-    this.Billdate = this.commodityOptions = this.companyOptions =  this.TaxtypeOptions = null;
+    this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Total = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = null;
     this.Credit = false;
   }
 
@@ -308,6 +333,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
+    this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.measurement }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
@@ -327,6 +353,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.percentage = selectedRow.TaxPercentage;
     this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
+    this.SalesID = selectedRow.SalesID;
   }
 
 
@@ -341,7 +368,7 @@ export class SalesTaxEntryComponent implements OnInit {
   onSubmit(formUser) {
     const params = {
       // 'Roleid': this.roleId,
-      'SalesID': '',
+      'SalesID': this.SalesID || '',
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
@@ -352,7 +379,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': this.CompanyName.label || this.CompanyName,
-      'CommodityName': this.Commodity,
+      'CommodityName': this.Commodity.label || this.Commodity,
       'CreditSales': (this.Credit == true) ? true : false,
       'TaxType': this.TaxType,
       'Measurement': this.Measurement,

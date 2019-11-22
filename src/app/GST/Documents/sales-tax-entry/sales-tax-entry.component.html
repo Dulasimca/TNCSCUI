@@ -129,8 +129,8 @@
             <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
             <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
               [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" (ngModelChange)="onResetTable('company')"
-              [showClear]="true" filter="true" resetFilterOnHide="true">
+              (keydown.enter)="onSelect('commodity','enter')"
+              [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -198,7 +198,7 @@
           <div class="ui-g-6 ui-md-6" style="padding-top: 20px">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Hsncode" name="Hsncode"
-                autocomplete="off" required>
+                autocomplete="off" readonly='true' required>
               <label for="Hsncode">Hsncode</label>
             </div>
           </div>
@@ -213,7 +213,7 @@
               </p-calendar>
             </div>
           </div>
-          <!-- <div class="ui-g-6 ui-md-6">
+          <div class="ui-g-6 ui-md-6">
             <label class="ui-g-10 label-fontsize dashboard" for="Measurement">Measurements</label>
             <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
               [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
@@ -223,7 +223,7 @@
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
             </p-dropdown>
-          </div> -->
+          </div>
         </div>
 
         <div class="ui-g">
@@ -234,10 +234,15 @@
               <label for="Quantity">Quantity</label>
             </div>
           </div>
+
+          <!-- <input name="NoOfPacking" [(ngModel)]="NoPacking" 
+          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+          [readonly]="isValidStackBalance" (input)="onCalculateKgs()" pInputText autocomplete="off"> -->
+
           <div class="ui-g-6 ui-md-6" style="padding-top: 20px">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate" autocomplete="off"
-                required>
+               required>
               <label for="Rate">Rate</label>
             </div>
           </div>
@@ -247,7 +252,7 @@
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
-                autocomplete="off" required>
+                autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" (input)="CalculateValue()" readonly="true" required>
               <label for="Amount">Value</label>
             </div>
           </div>

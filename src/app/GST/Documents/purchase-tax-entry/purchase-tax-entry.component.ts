@@ -197,14 +197,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.commodityOptions !== undefined) {
-          const params = {
-            'Type': 2,
-            'RCode': this.RCode,
-          }
-          this.restApiService.getByParameters(PathConstants.ITEM_MASTER, params).subscribe(data => {
+          this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
+                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -217,7 +213,11 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.companyPanel.overlayVisible = true;
         }
         if (this.companyOptions !== undefined) {
-          this.restApiService.get(PathConstants.PARTY_MASTER).subscribe(res => {
+          const params = {
+            'RCode': this.RCode,
+            'Type': 2
+          };
+          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
             if (res !== undefined) {
               this.CompanyTitle = res;
               res.forEach(s => {
@@ -278,7 +278,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
+    this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = null;
   }
 
