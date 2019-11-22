@@ -189,16 +189,17 @@ export class TableConstants {
       { field: 'AdditionalQty', header: 'Additional Quantity' },
       { field: 'Remarks', header: 'Remarks' }];
 
-      this.TenderAllotmentDetailsCols = [
-        { field: 'SlNo', header: 'S.No.'},
-        { field: 'Quantity', header: 'Quantity'},
-        { field: 'OrderNumber', header: 'Order Number' },
-        { field: 'OrderDate', header: 'Order Date' },
-        { field: 'TargetDate', header: 'Target Date'},
-        { field: 'TotalDays', header: 'Total Days'},
-        { field: 'PartyName', header: 'Party Name' },
-        { field: 'Rate', header: 'Rate'},
-        { field: 'Remarks', header: 'Remarks' }];
+    this.TenderAllotmentDetailsCols = [
+      { field: 'SlNo', header: 'S.No.' },
+      { field: 'OrderNumber', header: 'Order Number' },
+      //  { field: 'OrderDate', header: 'Order Date' },
+      { field: 'PartyName', header: 'Party Name' },
+      { field: 'SpellName', header: 'Spell' },
+      { field: 'TargetDate', header: 'Target Date' },
+      { field: 'TotalDays', header: 'Total Days' },
+      { field: 'AssignedQty', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Remarks', header: 'Remarks' }];
 
     this.CBStatementColumns = [
       // { field: 'serialNo', header: 'SI.NO' },
@@ -1248,6 +1249,8 @@ export class TableConstants {
 
     this.TenderAllotmentToRegionCols = [
       { header: 'S.No', field: 'SlNo' },
+      { field: 'SelectedOrderNo', header: 'Order Number' },
+      { field: 'PartyName', header: 'Party Name' },
       { field: 'RName', header: 'Region Name' },
       { field: 'Spell', header: 'Spell' },
       { field: 'Quantity', header: 'Quantity' },

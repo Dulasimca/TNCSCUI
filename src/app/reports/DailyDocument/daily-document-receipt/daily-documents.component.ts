@@ -103,17 +103,21 @@ export class DailyDocumentsComponent implements OnInit {
           }
         break;
       case 'gd':
-        if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
-        }
+          if (type === 'enter') {
+            this.godownPanel.overlayVisible = true;
+          }
+          this.gdata = this.roleBasedService.instance;
           if (this.gdata !== undefined) {
-          this.gdata.forEach(x => {
-            if(x.RCode === this.RCode.value) {
-            godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            this.gdata.forEach(x => {
+              if (x.RCode === this.RCode.value) {
+                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              }
+            });
+            this.godownOptions = godownSelection;
+            if (this.roleId !== 3) {
+              this.godownOptions.unshift({ label: 'All', value: 'All' });
             }
-          });
-          this.godownOptions = godownSelection;
-        }
+          }
         break;
     }
   }

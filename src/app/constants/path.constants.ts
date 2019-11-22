@@ -122,7 +122,7 @@ export class PathConstants {
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';
   public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
-  public static readonly PARTY_MASTER = '/api/PartyMaster';
+  public static readonly PARTY_MASTER = '/api/PartyMaster/Get';
   public static readonly PURCHASE_TAX_ENTRY_GET = '/api/PurchaseTaxEntry/Get';
   public static readonly PURCHASE_TAX_ENTRY_POST = '/api/PurchaseTaxEntry/Post';
   public static readonly SALES_TAX_ENTRY_GET = '/api/SalesTaxEntry/Get';
@@ -132,7 +132,6 @@ export class PathConstants {
   ///Purchase Module
   public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';
   public static readonly PURCHASE_TENDER_DETAILS_GET = '/api/TenderDetails/Get';
-  public static readonly PURCHASE_PARTYNAME_DETAILS = '/api/PartyNameForTenderAllotment';
   public static readonly PURCHASE_TENDERID_DETAILS = '/api/TenderIDForAllotement';
   public static readonly PURCHASE_TENDER_DATA_BY_ORDER_NO = '/api/TenderDataByOrderNo/Get';
   public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_POST = '/api/TenderAllotmentDetails/Post';
