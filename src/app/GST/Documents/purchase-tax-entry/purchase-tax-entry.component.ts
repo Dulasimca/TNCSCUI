@@ -200,10 +200,14 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName });
+                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName, 'TaxPer': y.TaxPercentage });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.percentage = this.Commodity.TaxPer;
+              // if (this.percentage !== undefined && this.percentage !== null) {
+              //   this.Vat = (this.percentage * 100).toFixed(2);
+              // }
             }
           });
         }
@@ -277,6 +281,15 @@ export class PurchaseTaxEntryComponent implements OnInit {
     });
   }
 
+  onGST() {
+    // if (this.percentage !== undefined) {
+    this.Amount = this.Quantity * this.Rate;
+    this.Vat = (this.Amount / 100) * this.percentage;
+    // let per = this.percentage * 100;
+    this.Total = this.Amount + this.Vat;
+    // }
+  }
+
   onClear() {
     this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = null;
@@ -287,7 +300,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PurchaseTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.BillNo.toString().startsWith(value);
       });
     } else {
       this.PurchaseTaxData = this.CompanyTitle;

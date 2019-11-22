@@ -11,6 +11,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TooltipModule } from 'primeng/tooltip';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-sales-tax-entry',
@@ -214,11 +215,18 @@ export class SalesTaxEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'hsncode': y.Hsncode });
+                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'hsncode': y.Hsncode, 'TaxPer': y.TaxPercentage });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               this.Hsncode = this.Commodity.hsncode;
+              this.percentage = this.Commodity.TaxPer;
+              // if (this.percentage !== undefined && this.percentage !== null) {
+              //   let GA = this.percentage * 100;
+              //   this.CGST = GA / 2;
+              //   this.SGST = GA / 2;
+              //   this.Vat = this.percentage * 100;
+              // }
             }
           });
         }
@@ -260,7 +268,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.MeasurementPanel.overlayVisible = true;
         }
-        if (this.MeasurementOptions === undefined) {
+        if (this.MeasurementOptions !== undefined) {
           MeasurementSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'GRAMS', 'value': 'GRAMS' }, { 'label': 'KGS', 'value': 'KGS' }, { 'label': 'KILOLITRE', 'value': 'KILOLITRE' }, { 'label': 'LTRS', 'value': 'LTRS' }, { 'label': 'M.TONS', 'value': 'M.TONS' }, { 'label': 'NO.s', 'value': 'NO.s' }, { 'label': 'QUINTAL', 'value': 'QUINTAL' });
           this.MeasurementOptions = MeasurementSelection;
         }
@@ -300,13 +308,22 @@ export class SalesTaxEntryComponent implements OnInit {
     });
   }
 
-  CalculateValue() {
-    if (this.Quantity !== undefined && this.Quantity !== null && this.Rate !== undefined && this.Rate !== undefined) {
-      this.Quantity = (this.Quantity * 1);
-      this.Rate = (this.Rate * 1);
+  // CalculateValue() {
+  //   // this.Quantity = this.Quantity * 1;
+  //   // this.Rate = this.Rate * 1;
+  //   this.Amount = this.Quantity * this.Rate;
+  //   // }
+  // }
 
-      this.Amount = ((this.Quantity * 1) * (this.Rate * 1));
-    }
+  onGST() {
+    // if (this.percentage !== undefined) {
+    this.Amount = this.Quantity * this.Rate;
+    let GA = (this.Amount / 100) * this.percentage;
+    this.CGST = GA / 2;
+    this.SGST = GA / 2;
+    this.Vat =   GA;
+    this.Total = this.Amount + this.Vat;
+    // }
   }
 
   onClear() {
@@ -320,7 +337,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.SalesTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.Hsncode.toString().startsWith(value);
       });
     } else {
       this.SalesTaxData = this.CompanyTitle;
@@ -390,7 +407,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Rate': this.Rate,
       'Amount': this.Amount,
       'TaxPercentage': this.percentage,
-      'TaxAmount': this.Amount,
+      'TaxAmount': this.Vat,
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
