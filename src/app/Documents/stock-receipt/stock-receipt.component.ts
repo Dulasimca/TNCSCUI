@@ -96,7 +96,7 @@ export class StockReceiptComponent implements OnInit {
   GKgs: any;
   NKgs: any;
   WTCode: any;
-  Moisture: string;
+  Moisture: any;
   //SR-Freight Details
   TransporterName: any = '-';
   LWBillNo: any = '-';
@@ -406,7 +406,7 @@ export class StockReceiptComponent implements OnInit {
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
     this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-    this.Moisture = data.Moisture;
+    this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
     this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
     this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];

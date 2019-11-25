@@ -92,7 +92,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: any;
   WTCode: any;
   wtCode: any;
-  Moisture: string;
+  Moisture: any;
   StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
@@ -481,7 +481,7 @@ export class TruckReceiptComponent implements OnInit {
     this.NoPacking = (data.NoPacking * 1),
     this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
-    this.Moisture = data.Moisture;
+    this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let index;
       index = this.TStockNo.toString().indexOf('/', 2);
