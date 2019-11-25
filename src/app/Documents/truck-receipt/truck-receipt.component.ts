@@ -982,7 +982,7 @@ export class TruckReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+       if((form.value[key] === undefined || form.value[key] === null || form.value[key] === '' || this.itemData.length === 0) && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
        && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
@@ -990,8 +990,9 @@ export class TruckReceiptComponent implements OnInit {
        }
        this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
     }
   }
 }

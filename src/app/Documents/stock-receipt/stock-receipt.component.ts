@@ -845,7 +845,7 @@ export class StockReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
+       if((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null || this.itemData.length === 0) && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
        && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
@@ -853,8 +853,9 @@ export class StockReceiptComponent implements OnInit {
        }
        this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
-    }
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg }); 
+     }
   }
 }
