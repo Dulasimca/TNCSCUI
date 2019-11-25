@@ -49,7 +49,7 @@
               </div>
               <div class="ui-g-6 ui-md-1">
                 <label for="total_days" class="label-fontsize">Total No.Of Days</label>
-                <input pInputText name="total_days" [(ngModel)]="TotalDays" type="text" autocomplete="off"
+                <input pInputText name="total_days" minlength="1" maxlength="3" [(ngModel)]="TotalDays" type="text" autocomplete="off"
                   oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   required />
               </div>

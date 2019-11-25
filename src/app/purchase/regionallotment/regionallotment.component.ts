@@ -213,36 +213,38 @@ export class RegionAllotmentComponent implements OnInit {
               this.AllottedQty = ((x.Quantity !== null && x.Quantity !== undefined) ? (x.Quantity * 1) : 0)
                 + ((x.AdditionalQty !== null && x.AdditionalQty !== undefined) ? (x.AdditionalQty * 1) : 0);
               this.Commodity = x.ITDescription;
-            //  if (x.PartyName !== null && x.PartyName !== undefined && x.Spell !== null && x.Spell !== undefined) {
                   x.SlNo = sno;
                   sno += 1;
                   x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
                   x.TargetDate = this.datePipe.transform(x.TargetDate, 'dd/MM/yyyy');
                   x.SpellName = 'Spell' + x.Spell;
                   totalQty += (x.AssignedQty * 1);
-              // } else {
-              //   this.tenderAllotmentData = [];
-              // }
             })
             this.tenderAllotmentData = data;
             this.tenderAllotmentData.push({ OrderNumber: 'Total', AssignedQty: totalQty });
+            if((this.AllottedQty * 1) === totalQty) {
+              this.blockEntry = true;
+            } else {
+              this.blockEntry = false;
+            }
           } else {
             this.tenderAllotmentRegionWiseData = [];
             let sno = 1;
             let totalQty = 0;
             data.forEach(x => {
-            //  if (x.RCode !== null && x.RCode !== undefined) {
                   x.SlNo = sno;
                   sno += 1;
                   x.SpellName = 'Spell' + x.Spell;
                   x.SelectedOrderNo = this.selectedOrderNo;
                   totalQty += (x.Quantity * 1);
-              // } else {
-              //   this.tenderAllotmentRegionWiseData = [];
-              // }
             })
             this.tenderAllotmentRegionWiseData = data;
             this.tenderAllotmentRegionWiseData.push({ SelectedOrderNo: 'Total', Quantity: totalQty });
+            if((this.RegAllottedQty * 1) === totalQty) {
+              this.blockRegQty = true;
+            } else {
+              this.blockRegQty = false;
+            }
           }
         }
       });
