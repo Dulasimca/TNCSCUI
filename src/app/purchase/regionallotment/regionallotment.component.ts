@@ -337,7 +337,6 @@ export class RegionAllotmentComponent implements OnInit {
           this.isViewed = true;
           this.form.form.markAsUntouched();
           this.form.form.markAsPristine();
-          this.tenderAllotmentData.length = 0;
           this.AllotmentID = data.AllotmentID;
           this.PartyCode = data.PartyName;
           this.partyID = data.PartyCode;
@@ -561,6 +560,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.showPane = false; this.showErrMsg = false;
       this.Quantity = null; this.tDate = null;
       this.PartyCode = null; this.partyID = null; this.partyNameOptions = [];
+      this.Spell = null; this.spellCode = null; this.spellOptions = [];
       this.TotalDays = null; this.TargetDate = null;
       this.isViewed = false; this.tenderAllotmentRegionWiseData = [];
       this.Rate = null; this.Remarks = null; this.blockEntry = false;
