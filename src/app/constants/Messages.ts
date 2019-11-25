@@ -4,6 +4,7 @@ export class StatusMessage {
     public static readonly SEVERITY_WARNING = 'warn';
     public static readonly SUMMARY_SUCCESS = 'Success Message';
     public static readonly SUMMARY_WARNING = 'Warning Message';
+    public static readonly SUMMARY_ALERT = 'Alert Message!';
     public static readonly SUMMARY_REQUIRED = 'Data Required';
     public static readonly SUMMARY_ERROR = 'Error Message';
     public static readonly SUMMARY_INVALID = 'Invalid Date!'
@@ -31,7 +32,7 @@ export class StatusMessage {
     public static readonly BankNameInDO = 'Please enter "C-" For Cereal or "N-" For Non-Cereal then enter bank name!';
     public static readonly DocumentMissingFields = 'Please fill all the below missing fields - ';
     public static readonly StackcardDeleted = 'Stack card deleted successfully!';
-    public static readonly SuccessValidationMsg = 'Proceed with save!';
+    public static readonly SuccessValidationMsg = 'Proceed with save or print!';
     public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
 
 }

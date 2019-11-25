@@ -201,7 +201,7 @@ export class IssueReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection;
           }
         })
-      // }
+        // }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -314,7 +314,7 @@ export class IssueReceiptComponent implements OnInit {
           this.packingPanel.overlayVisible = true;
         }
         // if (this.packingTypeOptions === undefined) {
-          this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
@@ -325,7 +325,7 @@ export class IssueReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-      //  }
+        //  }
         break;
       case 'wmt':
         if (type === 'enter') {
@@ -500,9 +500,9 @@ export class IssueReceiptComponent implements OnInit {
     const stockDate = issue_date.getDate();
     const stockMonth = issue_date.getMonth() + 1; //SIDate month
     const stockYear = issue_date.getFullYear(); //SIDate year
-    if (value !==  null && value !== undefined && value.toUpperCase() === 'R') {
-    this.curMonth = (stockMonth <=9) ? '0' + stockMonth : stockMonth;
-    this.month = this.datepipe.transform(issue_date, 'MMM');
+    if (value !== null && value !== undefined && value.toUpperCase() === 'R') {
+      this.curMonth = (stockMonth <= 9) ? '0' + stockMonth : stockMonth;
+      this.month = this.datepipe.transform(issue_date, 'MMM');
       this.year = stockYear;
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
@@ -576,7 +576,7 @@ export class IssueReceiptComponent implements OnInit {
       PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
         new Date(this.TStockNo.stack_date) : this.StackDate,
-    //  StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
+      //  StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
     });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
@@ -653,9 +653,9 @@ export class IssueReceiptComponent implements OnInit {
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
         this.NoPacking = (data.NoPacking * 1),
-        this.GKgs = (data.GKgs * 1).toFixed(3);
+          this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
-        this.Moisture = data.Moisture;
+        this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
           index = this.TStockNo.toString().indexOf('/', 2);
@@ -860,7 +860,7 @@ export class IssueReceiptComponent implements OnInit {
             WmtType: i.WEType,
             PWeight: i.PWeight,
             StackDate: i.StackDate,
-       //     StackYear: i.StackYear,
+            //     StackYear: i.StackYear,
             RCode: i.RCode
           })
           sno += 1;
@@ -962,7 +962,8 @@ export class IssueReceiptComponent implements OnInit {
     let no = 0;
     if (form.invalid) {
       for (var key in form.value) {
-        if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0))
+        if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0)
+          || form.value[key] === null || this.itemData.length === 0)
           && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
             && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && key !== 'CurDocQty' && key !== 'NetStackBal')) {
           no += 1;
@@ -971,8 +972,9 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
     }
   }
 

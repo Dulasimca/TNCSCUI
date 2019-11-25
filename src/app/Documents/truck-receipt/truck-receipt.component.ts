@@ -92,7 +92,7 @@ export class TruckReceiptComponent implements OnInit {
   NKgs: any;
   WTCode: any;
   wtCode: any;
-  Moisture: string;
+  Moisture: any;
   StackBalance: any = 0;
   CurrentDocQtv: any = 0;
   NetStackBalance: any = 0;
@@ -481,7 +481,7 @@ export class TruckReceiptComponent implements OnInit {
     this.NoPacking = (data.NoPacking * 1),
     this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
-    this.Moisture = data.Moisture;
+    this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let index;
       index = this.TStockNo.toString().indexOf('/', 2);
@@ -982,7 +982,7 @@ export class TruckReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+       if((form.value[key] === undefined || form.value[key] === null || form.value[key] === '' || this.itemData.length === 0) && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
        && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
@@ -990,8 +990,9 @@ export class TruckReceiptComponent implements OnInit {
        }
        this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
     }
   }
 }

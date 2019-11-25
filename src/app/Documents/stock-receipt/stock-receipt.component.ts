@@ -96,7 +96,7 @@ export class StockReceiptComponent implements OnInit {
   GKgs: any;
   NKgs: any;
   WTCode: any;
-  Moisture: string;
+  Moisture: any;
   //SR-Freight Details
   TransporterName: any = '-';
   LWBillNo: any = '-';
@@ -406,7 +406,7 @@ export class StockReceiptComponent implements OnInit {
     this.NoPacking = data.NoPacking; this.TStockNo = data.TStockNo;
     this.PWeight = (data.PWeight * 1);
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-    this.Moisture = data.Moisture;
+    this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
     this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
     this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
     this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
@@ -845,7 +845,7 @@ export class StockReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
+       if((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null || this.itemData.length === 0) && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
        && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
@@ -853,8 +853,9 @@ export class StockReceiptComponent implements OnInit {
        }
        this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
-    }
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg }); 
+     }
   }
 }

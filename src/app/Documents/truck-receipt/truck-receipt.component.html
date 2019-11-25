@@ -276,7 +276,7 @@
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
-                      <button pButton type="button" label="Enter" [disabled]="(Moisture.length=='0' || Moisture==null || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null  || (NKgs!=null && NKgs==0))" (click)="onEnter()"></button>
+                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || Moisture==null || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null  || (NKgs!=null && NKgs==0))" (click)="onEnter()"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                         <span class="ui-float-label">
