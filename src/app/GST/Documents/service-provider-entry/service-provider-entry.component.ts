@@ -37,6 +37,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   commodityOptions: SelectItem[];
   monthOptions: SelectItem[];
   yearOptions: SelectItem[];
+  TaxtypeOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
@@ -56,6 +57,8 @@ export class ServiceProviderEntryComponent implements OnInit {
   Rate: any;
   percentage: any;
   Amount: any;
+  TaxType: any;
+  ServiceID: any;
   Vat: any;
   CGST: any;
   SGST: any;
@@ -83,6 +86,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('accountingYear') accountingYearPanel: Dropdown;
   @ViewChild('company') companyPanel: Dropdown;
+  @ViewChild('tax') TaxPanel: Dropdown;
   @ViewChild('f') form: NgForm;
 
 
@@ -110,6 +114,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     let yearArr: any = [];
     let CompanySelection = [];
     let commoditySelection = [];
+    let TaxSelection = [];
     const range = 2;
     switch (item) {
       case 'reg':
@@ -197,13 +202,14 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+          this.restApiService.get(PathConstants.GST_SERVICE_PROVIDER_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITDescription });
+                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.percentage = this.Commodity.TAXPERCENTAGE;
             }
           });
         }
@@ -228,6 +234,15 @@ export class ServiceProviderEntryComponent implements OnInit {
           });
         }
         break;
+      case 'tax':
+        if (type === 'enter') {
+          this.TaxPanel.overlayVisible = true;
+        }
+        if (this.TaxtypeOptions !== undefined) {
+          TaxSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CGST/SGST', 'value': 'CGST' }, { 'label': 'IGST/UTGST', 'value': 'IGST' });
+          this.TaxtypeOptions = TaxSelection;
+        }
+        break;
     }
   }
 
@@ -240,7 +255,7 @@ export class ServiceProviderEntryComponent implements OnInit {
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label
     };
-    this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.SERVICE_PROVIDER_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.ServiceTaxCols = this.tableConstant.ServiceProviderEntry;
         this.ServiceTaxData = res;
@@ -273,9 +288,20 @@ export class ServiceProviderEntryComponent implements OnInit {
     });
   }
 
+  onGST() {
+    // if (this.percentage !== undefined) {
+    // this.Amount = this.Quantity * this.Rate;
+    let GA = (this.Amount / 100) * this.percentage;
+    this.CGST = GA / 2;
+    this.SGST = GA / 2;
+    this.Vat = GA;
+    this.Total = this.Amount + this.Vat;
+    // }
+  }
+
   onClear() {
-    this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = null;
+    this.ServiceID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Total = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = null;
   }
 
   onSearch(value) {
@@ -283,7 +309,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.ServiceTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.Hsncode.toString().startsWith(value);
       });
     } else {
       this.ServiceTaxData = this.CompanyTitle;
@@ -294,27 +320,32 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.viewPane = true;
     this.isEdited = true;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
-    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
+    this.commodityOptions = [{ label: selectedRow.SERVICENAME, value: selectedRow.SACCODE }];
+    this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
-    this.CompanyName = selectedRow.CompanyName;
-    this.Commodity = selectedRow.CommodityName;
-    // this.Tin = selectedRow.TIN;
+    this.TaxType = selectedRow.TaxType;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
+    this.CompanyName = selectedRow.CompanyName;
+    this.Commodity = selectedRow.SERVICENAME;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
-    this.percentage = selectedRow.Percentage;
+    this.CGST = selectedRow.CGST;
+    this.SGST = selectedRow.SGST;
+    this.percentage = selectedRow.TaxPercentage;
+    this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
-    this.Vat = selectedRow.VatAmount;
+    this.ServiceID = selectedRow.ServiceID;
   }
+
 
   onSubmit(formUser) {
     const params = {
-      'Roleid': this.roleId,
-      'PurchaseID': '',
+      // 'Roleid': this.roleId,
+      'ServiceID': this.ServiceID || '',
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
@@ -325,12 +356,13 @@ export class ServiceProviderEntryComponent implements OnInit {
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': this.CompanyName.label || this.CompanyName,
-      'CommodityName': this.Commodity,
-      'Quantity': this.Quantity,
-      'Rate': this.Rate,
+      'CommodityName': this.Commodity.label || this.Commodity,
+      'TaxType': this.TaxType,
+      'CGST': this.CGST,
+      'SGST': this.SGST,
       'Amount': this.Amount,
-      'Percentage': this.percentage,
-      'VatAmount': this.Vat,
+      'TaxPercentage': this.percentage,
+      'TaxAmount': this.Vat,
       'Total': this.Total,
       'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
@@ -338,7 +370,7 @@ export class ServiceProviderEntryComponent implements OnInit {
       'RCode': this.RCode,
       'GCode': this.GCode
     };
-    this.restApiService.post(PathConstants.PURCHASE_TAX_ENTRY_POST, params).subscribe(value => {
+    this.restApiService.post(PathConstants.SERVICE_PROVIDER_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
