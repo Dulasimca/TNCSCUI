@@ -69,6 +69,7 @@ export class RegionAllotmentComponent implements OnInit {
   isSelected: boolean;
   showRErrMsg: boolean;
   splicedRegQty: any;
+  blockScreen: boolean;
   @ViewChild('orderNum') oredrNoPanel: Dropdown;
   @ViewChild('partyregion') partyRegionPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -460,6 +461,7 @@ export class RegionAllotmentComponent implements OnInit {
   onSave(type) {
     let result = this.checkDuplicates(type);
     if (type === '1' && result) {
+      this.blockScreen = true;
       const AllotmentID = (this.AllotmentID !== undefined && this.AllotmentID !== null) ? this.AllotmentID : 0;
       const params = {
         'AllotmentID': AllotmentID,
@@ -480,16 +482,19 @@ export class RegionAllotmentComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
         } else {
           this.isViewed = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.isViewed = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
           this.isViewed = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }
@@ -498,6 +503,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: 'you cannot allot same party for same spell again!' });
     } else if (type === '2' && result) {
+      this.blockScreen = true;
       const RegAllotmentID = (this.RegAllotmentID !== undefined && this.RegAllotmentID !== null) ? this.RegAllotmentID : 0;
       const params = {
         'RegAllotmentID': RegAllotmentID,
@@ -510,26 +516,30 @@ export class RegionAllotmentComponent implements OnInit {
       this.restApiService.post(PathConstants.PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_POST, params).subscribe(res => {
         if (res.Item1) {
           this.onChangeOrderNo(type);
-          this.onClear('2');
+          this.onClear(type);
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
+          this.blockScreen = false;
           this.isViewed = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
+          this.blockScreen = false;
           this.isViewed = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
+          this.blockScreen = false;
           this.isViewed = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }
       });
     } else {
+      this.blockScreen = false;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: 'you cannot allot same region for same spell and party again!' });
     }
@@ -554,7 +564,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.TotalDays = null; this.TargetDate = null;
       this.isViewed = false; this.tenderAllotmentRegionWiseData = [];
       this.Rate = null; this.Remarks = null; this.blockEntry = false;
-      this.splicedQty = 0;
+      this.splicedQty = 0; this.blockScreen = false;
     } else if (type === '2') {
       this.regForm.controls.region_name.reset();
       this.regForm.controls.splitted_reg_qty.reset();
@@ -564,6 +574,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.RCode = null; this.rCode = null; this.regionOptions = [];
       this.blockRegQty = false; this.splicedRegQty = 0;
       this.tenderAllotmentRegionWiseData = [];
+      this.blockScreen = false;
     } else if (type === '3') {
       this.form.controls.commdity_type.reset();
       this.form.controls.order_Num.reset();
@@ -586,7 +597,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.isViewed = false; this.tenderAllotmentData = [];
       this.Rate = null; this.Remarks = null; this.splicedQty = 0;
       this.Commodity = null; this.blockEntry = false;
-      this.AllotmentID = null;
+      this.AllotmentID = null; this.blockScreen = false;
     } else {
       this.regForm.controls.selected_order_Num.reset();
       this.regForm.controls.selected_commdity_type.reset();
@@ -601,7 +612,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.spellOptions = undefined; this.Spell = null;
       this.tenderAllotmentRegionWiseData = [];
       this.blockRegQty = false; this.splicedRegQty = 0;
-      this.RegAllotmentID = null;
+      this.RegAllotmentID = null; this.blockScreen = false;
     }
   }
 }
