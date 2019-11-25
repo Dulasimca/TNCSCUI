@@ -51,11 +51,9 @@ export class RegionAllotmentComponent implements OnInit {
   OrderNo: any;
   TotalDays: any;
   TargetDate: any;
-  NetWt: any;
   showErrMsg: boolean = false;
   RegAllotmentID: any;
   tDate: any;
-  blockNetwt: boolean;
   blockRegQty: boolean;
   allotmentList: any = [];
   blockEntry: boolean;
@@ -69,6 +67,8 @@ export class RegionAllotmentComponent implements OnInit {
   RegAllottedQty: any;
   RegQty: any;
   isSelected: boolean;
+  showRErrMsg: boolean;
+  splicedRegQty: any;
   @ViewChild('orderNum') oredrNoPanel: Dropdown;
   @ViewChild('partyregion') partyRegionPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -76,8 +76,7 @@ export class RegionAllotmentComponent implements OnInit {
   @ViewChild('spell') spellPanel: Dropdown;
   @ViewChild('f') form: NgForm;
   @ViewChild('rf') regForm: NgForm;
-  showRErrMsg: boolean;
-  splicedRegQty: any;
+
 
 
   constructor(private authService: AuthService, private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
@@ -105,8 +104,8 @@ export class RegionAllotmentComponent implements OnInit {
         }
         const params = new HttpParams().set('Type', '1');
         this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_ORDER_NO_GET, params).subscribe(res => {
-          if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-            res.Table.forEach(o => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(o => {
               oredrNoSelection.push({ label: o.OrderNumber, value: o.OrderNumber });
             })
             this.orderNoOptions = oredrNoSelection;
@@ -196,52 +195,53 @@ export class RegionAllotmentComponent implements OnInit {
   onChangeOrderNo(type) {
     if (this.OrderNo !== undefined && this.OrderNo !== null) {
       const rcode = (this.RCode !== undefined && this.RCode !== null) ? ((this.RCode.value !== null && this.RCode.value !== undefined) ? this.RCode.value : this.rCode) : '-';
-      const spell = (this.Spell !== undefined && this.Spell !== null) ? ((this.spellCode !== null && this.spellCode !== undefined) ? this.spellCode : this.Spell) : 0;
-      const params = new HttpParams().set('OrderNo', (this.OrderNo !== undefined) ? this.OrderNo : '')
-        .append('RCode', rcode).append('Spell', spell).append('Type', type);
-      this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_DATA_BY_ORDER_NO, params).subscribe(data => {
-        if (data.Table !== undefined && data.Table !== null && data.Table.length !== 0) {
+      const params = {
+        'OrderNo': (this.OrderNo !== undefined) ? this.OrderNo : '',
+        'RCode': rcode,
+        'Spell': (this.selectedSpellCode !== null && this.selectedSpellCode !== undefined) ? this.selectedSpellCode : 0,
+        'Type': type,
+        'PartyCode': (this.selectedPartyID !== undefined && this.selectedPartyID !== null) ? this.selectedPartyID : 0
+      };
+      this.restApiService.post(PathConstants.PURCHASE_TENDER_DATA_BY_ORDER_NO, params).subscribe(data => {
+        if (data !== undefined && data !== null && data.length !== 0) {
           if (type === '1') {
-            data.Table.forEach(x => {
+            this.tenderAllotmentData = [];
+            let sno = 1;
+            let totalQty = 0;
+            data.forEach(x => {
               this.AllottedQty = ((x.Quantity !== null && x.Quantity !== undefined) ? (x.Quantity * 1) : 0)
                 + ((x.AdditionalQty !== null && x.AdditionalQty !== undefined) ? (x.AdditionalQty * 1) : 0);
               this.Commodity = x.ITDescription;
-              if (x.PartyName !== null && x.PartyName !== undefined && x.Spell !== null && x.Spell !== undefined) {
-                let sno = 1;
-                let totalQty = 0;
-                data.Table.forEach(x => {
+            //  if (x.PartyName !== null && x.PartyName !== undefined && x.Spell !== null && x.Spell !== undefined) {
                   x.SlNo = sno;
                   sno += 1;
                   x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
                   x.TargetDate = this.datePipe.transform(x.TargetDate, 'dd/MM/yyyy');
                   x.SpellName = 'Spell' + x.Spell;
                   totalQty += (x.AssignedQty * 1);
-                })
-                this.tenderAllotmentData = data.Table;
-                this.tenderAllotmentData.push({ OrderNumber: 'Total', AssignedQty: totalQty });
-              } else {
-                this.tenderAllotmentData = [];
-              }
+              // } else {
+              //   this.tenderAllotmentData = [];
+              // }
             })
+            this.tenderAllotmentData = data;
+            this.tenderAllotmentData.push({ OrderNumber: 'Total', AssignedQty: totalQty });
           } else {
-            data.Table.forEach(x => {
-              if (x.RCode !== null && x.RCode !== undefined) {
-                let sno = 1;
-                let totalQty = 0;
-                data.Table.forEach(x => {
+            this.tenderAllotmentRegionWiseData = [];
+            let sno = 1;
+            let totalQty = 0;
+            data.forEach(x => {
+            //  if (x.RCode !== null && x.RCode !== undefined) {
                   x.SlNo = sno;
                   sno += 1;
-                  x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
-                  x.TargetDate = this.datePipe.transform(x.TargetDate, 'dd/MM/yyyy');
                   x.SpellName = 'Spell' + x.Spell;
+                  x.SelectedOrderNo = this.selectedOrderNo;
                   totalQty += (x.Quantity * 1);
-                })
-                this.tenderAllotmentRegionWiseData = data.Table;
-                this.tenderAllotmentRegionWiseData.push({ OrderNumber: 'Total', Quantity: totalQty });
-              } else {
-                this.tenderAllotmentRegionWiseData = [];
-              }
+              // } else {
+              //   this.tenderAllotmentRegionWiseData = [];
+              // }
             })
+            this.tenderAllotmentRegionWiseData = data;
+            this.tenderAllotmentRegionWiseData.push({ SelectedOrderNo: 'Total', Quantity: totalQty });
           }
         }
       });
@@ -297,7 +297,7 @@ export class RegionAllotmentComponent implements OnInit {
             } else if (this.tenderAllotmentRegionWiseData.length !== 0) {
               let enteredQty = 0;
               this.tenderAllotmentRegionWiseData.forEach(x => {
-                if (x.OrderNumber === 'Total') {
+                if (x.SelectedOrderNo === 'Total') {
                   enteredQty += (x.Quantity * 1);
                 }
               })
@@ -336,6 +336,7 @@ export class RegionAllotmentComponent implements OnInit {
           this.isViewed = true;
           this.form.form.markAsUntouched();
           this.form.form.markAsPristine();
+          this.tenderAllotmentData.length = 0;
           this.AllotmentID = data.AllotmentID;
           this.PartyCode = data.PartyName;
           this.partyID = data.PartyCode;
@@ -359,24 +360,57 @@ export class RegionAllotmentComponent implements OnInit {
             this.tenderAllotmentData = [];
           } else {
             const lastIndex = this.tenderAllotmentData.length - 1;
-            this.tenderAllotmentData[lastIndex].AssignedQty = (this.tenderAllotmentData[lastIndex].AssignedQty * 1) - (this.splicedQty * 1);
+            // this.tenderAllotmentData[lastIndex].AssignedQty = (this.tenderAllotmentData[lastIndex].AssignedQty * 1) - (this.splicedQty * 1);
+            let sno = 1;
+            let totalQty = 0;
+            this.tenderAllotmentData.forEach(x => {
+              if (x.OrderNumber !== 'Total') {
+                x.SlNo = sno;
+                sno += 1;
+                totalQty += (x.AssignedQty * 1);
+              }
+            })
+            this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
           }
         },
         accept: () => {
+          this.tenderAllotmentRegionWiseData.length = 0;
           this.showPane = true;
-          this.AllotmentID = data.AllotmentID;
           this.selectedOrderNo = data.OrderNumber;
           this.selectedParty = data.PartyName;
           this.selectedPartyID = data.PartyCode;
           this.selectedSpell = data.SpellName;
           this.selectedSpellCode = data.Spell;
           this.RegAllottedQty = (data.AssignedQty * 1);
+          this.onChangeOrderNo('2');
         }
       });
     } else {
+      this.RegAllotmentID = data.RegAllotementID;
       this.rCode = data.RCode;
+      this.RCode = data.RName;
+      this.regionOptions = [{ label: data.RName, value: data.RCode }];
       this.Spell = data.Spell;
-      this.NetWt = (data.Quantity * 1);
+      this.RegQty = (data.Quantity * 1);
+      this.regionPanel.showClear = false;
+      this.tenderAllotmentRegionWiseData.splice(index, 1);
+      this.splicedRegQty = this.tenderAllotmentRegionWiseData[index].Quantity;
+      if (this.tenderAllotmentRegionWiseData.length === 1 && this.tenderAllotmentRegionWiseData[0].SelectedOrderNo === 'Total') {
+        this.tenderAllotmentRegionWiseData = [];
+      } else {
+        const lastIndex = this.tenderAllotmentRegionWiseData.length - 1;
+        // this.tenderAllotmentRegionWiseData[lastIndex].Quantity = (this.tenderAllotmentRegionWiseData[lastIndex].Quantity * 1) - (this.splicedRegQty * 1);
+        let sno = 1;
+        let totalQty = 0;
+        this.tenderAllotmentRegionWiseData.forEach(x => {
+          if (x.SelectedOrderNo !== 'Total') {
+            x.SlNo = sno;
+            sno += 1;
+            totalQty += (x.Quantity * 1);
+          }
+        })
+        this.tenderAllotmentRegionWiseData[lastIndex].Quantity = totalQty;
+      }
     }
   }
 
@@ -384,7 +418,7 @@ export class RegionAllotmentComponent implements OnInit {
     let result: boolean;
     if (type === '1') {
       if (this.tenderAllotmentData.length !== 0) {
-        for (let k = 0; k < this.tenderAllotmentData.length; k++) {
+        for (let k = 0; k < this.tenderAllotmentData.length - 1; k++) {
           if (this.tenderAllotmentData[k].Spell === this.Spell
             && this.tenderAllotmentData[k].PartyCode === this.PartyCode.value) {
             result = false;
@@ -394,13 +428,13 @@ export class RegionAllotmentComponent implements OnInit {
             continue;
           }
         }
-      }
+      } else { result = true; }
       return result;
     } else if (type === '2') {
       if (this.tenderAllotmentRegionWiseData.length !== 0) {
-        for (let k = 0; k < this.tenderAllotmentRegionWiseData.length; k++) {
+        for (let k = 0; k < this.tenderAllotmentRegionWiseData.length - 1; k++) {
           if (this.tenderAllotmentRegionWiseData[k].RCode === this.RCode.value
-            && this.tenderAllotmentRegionWiseData[k].PartyCode === this.PartyCode.value) {
+            && this.tenderAllotmentRegionWiseData[k].PartyCode === this.selectedPartyID) {
             result = false;
             break;
           } else {
@@ -408,6 +442,8 @@ export class RegionAllotmentComponent implements OnInit {
             continue;
           }
         }
+      } else {
+        result = true;
       }
       return result;
     }
@@ -511,27 +547,24 @@ export class RegionAllotmentComponent implements OnInit {
       this.form.controls.party_region.reset();
       this.form.form.markAsUntouched();
       this.form.form.markAsPristine();
+      this.AllotmentID = null;
       this.showPane = false; this.showErrMsg = false;
       this.Quantity = null; this.tDate = null;
       this.PartyCode = null; this.partyID = null; this.partyNameOptions = [];
       this.TotalDays = null; this.TargetDate = null;
       this.isViewed = false; this.tenderAllotmentRegionWiseData = [];
-      this.Rate = null; this.Remarks = null;
+      this.Rate = null; this.Remarks = null; this.blockEntry = false;
+      this.splicedQty = 0;
     } else if (type === '2') {
-      this.regForm.controls.selected_order_Num.reset();
-      this.regForm.controls.selected_commdity_type.reset();
-      this.regForm.controls.selected_party_name.reset();
-      this.regForm.controls.selected_spell.reset();
-      this.regForm.controls.selected_total_Qty.reset();
       this.regForm.controls.region_name.reset();
       this.regForm.controls.splitted_reg_qty.reset();
       this.regForm.form.markAsUntouched();
       this.regForm.form.markAsPristine();
+      this.RegAllotmentID = null;
       this.RCode = null; this.rCode = null; this.regionOptions = [];
-      this.spellOptions = undefined; this.Spell = null;
-      this.NetWt = null; this.tenderAllotmentRegionWiseData = [];
-      this.blockNetwt = false;
-    } else {
+      this.blockRegQty = false; this.splicedRegQty = 0;
+      this.tenderAllotmentRegionWiseData = [];
+    } else if (type === '3') {
       this.form.controls.commdity_type.reset();
       this.form.controls.order_Num.reset();
       this.form.controls.total_Qty.reset();
@@ -551,8 +584,24 @@ export class RegionAllotmentComponent implements OnInit {
       this.OrderNo = null; this.orderNoOptions = [];
       this.TotalDays = null; this.TargetDate = null;
       this.isViewed = false; this.tenderAllotmentData = [];
-      this.Rate = null; this.Remarks = null;
-      this.Commodity = null;
+      this.Rate = null; this.Remarks = null; this.splicedQty = 0;
+      this.Commodity = null; this.blockEntry = false;
+      this.AllotmentID = null;
+    } else {
+      this.regForm.controls.selected_order_Num.reset();
+      this.regForm.controls.selected_commdity_type.reset();
+      this.regForm.controls.selected_party_name.reset();
+      this.regForm.controls.selected_spell.reset();
+      this.regForm.controls.selected_total_Qty.reset();
+      this.regForm.controls.region_name.reset();
+      this.regForm.controls.splitted_reg_qty.reset();
+      this.regForm.form.markAsUntouched();
+      this.regForm.form.markAsPristine();
+      this.RCode = null; this.rCode = null; this.regionOptions = [];
+      this.spellOptions = undefined; this.Spell = null;
+      this.tenderAllotmentRegionWiseData = [];
+      this.blockRegQty = false; this.splicedRegQty = 0;
+      this.RegAllotmentID = null;
     }
   }
 }

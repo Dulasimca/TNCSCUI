@@ -135,7 +135,7 @@ export class PathConstants {
   public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';
   public static readonly PURCHASE_TENDER_DETAILS_GET = '/api/TenderDetails/Get';
   public static readonly PURCHASE_TENDERID_DETAILS = '/api/TenderIDForAllotement';
-  public static readonly PURCHASE_TENDER_DATA_BY_ORDER_NO = '/api/TenderDataByOrderNo/Get';
+  public static readonly PURCHASE_TENDER_DATA_BY_ORDER_NO = '/api/TenderDataByOrderNo/Post';
   public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_POST = '/api/TenderAllotmentDetails/Post';
   public static readonly PURCHASE_TENDER_ALLOTMENT_DETAILS_GET = '/api/TenderAllotmentDetails/Get';
   public static readonly PURCHASE_TENDER_ORDER_NO_GET = '/api/TenderOrderNoList/Get';
