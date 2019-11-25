@@ -87,7 +87,7 @@
       <div class="ui-g-12">
         <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-          [paginator]="true" [loading]="loading" [totalRecords]="totalRecords"  exportFilename="SALES_TAX_REPORT">
+          [paginator]="true" [loading]="loading" exportFilename="SALES_TAX_REPORT">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -259,7 +259,7 @@
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
-                autocomplete="off" (input)="CalculateValue()" readonly="true" required>
+                autocomplete="off" (input)="onGST()" readonly="true" required>
               <label for="Amount">Value</label>
             </div>
           </div>

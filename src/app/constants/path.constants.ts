@@ -131,6 +131,11 @@ export class PathConstants {
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly GST_COMMODITY_MASTER = '/api/GSTCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
+  public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
+  public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
+  public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
+
+
   ///Purchase Module
   public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';
   public static readonly PURCHASE_TENDER_DETAILS_GET = '/api/TenderDetails/Get';
