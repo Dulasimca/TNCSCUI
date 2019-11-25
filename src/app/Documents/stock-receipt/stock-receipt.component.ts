@@ -845,13 +845,16 @@ export class StockReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null || this.itemData.length === 0) && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
+       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
        && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
         }
        }
        this.missingFields = arr;
+    } else if (this.itemData.length === 0) {
+      arr.push({ label: '1', value: 'Please add item details! '});
+      this.missingFields = arr;
     } else {
       this.submitted = false;
       this.messageService.clear();

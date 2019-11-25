@@ -962,14 +962,16 @@ export class IssueReceiptComponent implements OnInit {
     let no = 0;
     if (form.invalid) {
       for (var key in form.value) {
-        if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0)
-          || form.value[key] === null || this.itemData.length === 0)
+        if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0))
           && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
             && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && key !== 'CurDocQty' && key !== 'NetStackBal')) {
           no += 1;
           arr.push({ label: no, value: no + '.' + key });
         }
       }
+      this.missingFields = arr;
+    } else if (this.itemData.length === 0) {
+      arr.push({ label: '1', value: 'Please add item details! '});
       this.missingFields = arr;
     } else {
       this.submitted = false;

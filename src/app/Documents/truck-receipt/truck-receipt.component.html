@@ -269,10 +269,10 @@
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
-                        <input type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                        autocomplete="off" (keyup)="parseMoisture($event)" name="MoistureValue" [readonly]="isValidStackBalance"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
-                        <label for="MoistureValue" class="float-input">Moisture</label>
+                          <input name="MoistureNo" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
+                          autocomplete="off" (keyup)="parseMoisture($event)"
+                          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
+                        <label for="MoistureNo" class="float-input">Moisture</label>
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
