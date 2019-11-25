@@ -503,6 +503,6 @@
 <p-dialog  header="Data Required" [modal]="true"
 [(visible)]="submitted" [style]="{width: 'auto', height: 'auto'}">
 <div>
-    <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
+    <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value" [listStyle]="{'max-height':'250px'}"></p-listbox>
 </div>
 </p-dialog>

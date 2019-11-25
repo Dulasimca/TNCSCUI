@@ -1,73 +1,74 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
-  <app-menu *ngIf="canShowMenu"></app-menu>
-<div class="ui-g-12 ui-md-12 ui-lg-12 content"  style="margin: 0px !important">
+</p-blockUI>
+<app-header></app-header>
+<app-menu *ngIf="canShowMenu"></app-menu>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content" style="margin: 0px !important">
   <p-panel>
-      <p-header>
-          <div class="ui-g panel-header">
-            <div class="ui-g-12 ui-md-4 dashboard">Tender Details</div>
-          </div>
-        </p-header>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-12 ui-md-4 dashboard">Tender Details</div>
+      </div>
+    </p-header>
     <div class="ui-g ui-fluid">
-        <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
-        <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
-          <p-footer>
-            <div class="ui-g-12 ui-md-12 dashboard">
-                <button type="button" pButton label="Edit" (click)="cd.reject()"></button>
-                <button type="button" pButton label="Add" (click)="cd.accept()"></button>
-            </div>
-          </p-footer>
+      <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
+      <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+        <p-footer>
+          <div class="ui-g-12 ui-md-12 dashboard">
+            <button type="button" pButton label="Edit" (click)="cd.reject()"></button>
+            <button type="button" pButton label="Add" (click)="cd.accept()"></button>
+          </div>
+        </p-footer>
       </p-confirmDialog>
-        <form #f="ngForm" name="tenderDetailsForm">
-          <div class="ui-g-12 border-teal">
-            <div class="ui-g-12 dasboard">
+      <form #f="ngForm" name="tenderDetailsForm">
+        <div class="ui-g-12 border-teal">
+          <div class="ui-g-12 dasboard">
             <div class="ui-g-2"></div>
             <div class="ui-g-6 ui-md-2">
               <label for="tenderId" class="label-fontsize">Tender ID</label>
-              <input name="tenderId" type="text" size="15" pInputText [(ngModel)]="TenderId" 
-              [readonly]="isViewed" autocomplete="off" required>
+              <input name="tenderId" type="text" size="15" pInputText [(ngModel)]="TenderId" [readonly]="isViewed"
+                autocomplete="off" required>
             </div>
             <div class="ui-g-6 ui-md-2">
               <label for="tenderDate" class="label-fontsize">Tender Date</label>
-              <p-calendar name="tenderDate" #tenderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
-               [(ngModel)]="TenderDate" required></p-calendar>
+              <p-calendar name="tenderDate" #tenderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
+                [maxDate]="maxDate" [(ngModel)]="TenderDate" required></p-calendar>
             </div>
             <div class="ui-g-6 ui-md-2">
               <label for="orderNum" class="label-fontsize">Order Number</label>
-              <input name="orderNum" type="text" size="15" pInputText [(ngModel)]="OrderNo" 
-              [readonly]="isViewed" autocomplete="off" required>
+              <input name="orderNum" type="text" size="15" pInputText [(ngModel)]="OrderNo" [readonly]="isViewed"
+                autocomplete="off" required>
             </div>
             <div class="ui-g-6 ui-md-2">
               <label for="orderDate" class="label-fontsize">Order Date</label>
-              <p-calendar name="orderDate" #orderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
-               [(ngModel)]="OrderDate" required></p-calendar>
+              <p-calendar name="orderDate" #orderDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
+                [maxDate]="maxDate" [(ngModel)]="OrderDate" required></p-calendar>
             </div>
           </div>
           <div class="ui-g-12 dasboard">
-              <div class="ui-g-2"></div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="completedDate" class="label-fontsize">Completed Date</label>
-                <p-calendar name="completedDate" #completedDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                  [(ngModel)]="CompletedDate"></p-calendar>
-              </div>
+            <div class="ui-g-2"></div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="completedDate" class="label-fontsize">Completed Date</label>
+              <p-calendar name="completedDate" #completedDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
+                [(ngModel)]="CompletedDate"></p-calendar>
+            </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
-                <label for="Commodity" class="label-fontsize">Commodity</label>
-                <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ICode"
-                (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
-                   filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-        <div class="ui-g-6 ui-md-2">
-          <label for="qty" class="label-fontsize">Quantity</label>
-          <input pInputText name="qty"  [(ngModel)]="NetWt" type="text" autocomplete="off"
-          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
-          appDecimalDigit required/>
-        </div>
-        <!-- <div class="ui-g-6 ui-md-2" *ngIf="isViewed">
+              <label for="Commodity" class="label-fontsize">Commodity</label>
+              <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ICode"
+                (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true" resetFilterOnHide="true"
+                optionLabel="label" [showClear]="true" required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="qty" class="label-fontsize">Quantity</label>
+              <input pInputText name="qty" [(ngModel)]="NetWt" type="text" autocomplete="off"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                appDecimalDigit required />
+            </div>
+            <!-- <div class="ui-g-6 ui-md-2" *ngIf="isViewed">
           <label for="additionalQty" class="label-fontsize">Additional Quantity</label>
           <input pInputText name="additionalQty"  [(ngModel)]="Quantity" type="text" 
           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
@@ -76,87 +77,86 @@
           </div>
           <div class="ui-g-2"></div>
           <div class="ui-g-10 ui-md-6">
-              <span class="ui-float-label">
-                <textarea rows="2" name="remarks" cols="50" maxlength="250" pInputTextarea [(ngModel)]="Remarks"
+            <span class="ui-float-label">
+              <textarea rows="2" name="remarks" cols="50" maxlength="250" pInputTextarea [(ngModel)]="Remarks"
                 autoResize="autoResize"></textarea>
-                <label for="remarks" class="float-input">Remarks</label>
-              </span></div>
-      <div class="ui-g-3 ui-md-9"></div>
-      <div class="ui-g-3 ui-md-1 ui-fluid">
-        <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView('1')"></button>
-      </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid">
-        <button name="save" style="margin-top:5px" pButton type="button" label=Save (click)="onSave('1')"
-         [disabled]="(!f.valid || (isViewed && !f.dirty))"></button>
-      </div>
-    </div>
-</form>
-        <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowGrid">
-          <p-table  [columns]="stockPurchaseDataCoulmns" [value]="stockPurchaseData" [paginator]="true" [rows]="20">
-              <ng-template pTemplate="colgroup" let-columns>
-                  <colgroup>
-                    <col *ngFor="let col of columns">
-                  </colgroup>
-                </ng-template>
-                <ng-template pTemplate="header" let-columns>
-              <tr>
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-              <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex, '1')">
-                <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+              <label for="remarks" class="float-input">Remarks</label>
+            </span></div>
+          <div class="ui-g-3 ui-md-9"></div>
+          <div class="ui-g-3 ui-md-1 ui-fluid">
+            <button name="view" style="margin-top:5px" pButton type="button" label=View (click)="onView('1')"></button>
+          </div>
+          <div class="ui-g-3 ui-md-1 ui-fluid">
+            <button name="save" style="margin-top:5px" pButton type="button" label=Save (click)="onSave('1')"
+              [disabled]="(!f.valid || (isViewed && !f.dirty))"></button>
+          </div>
         </div>
-      </div>
-    </p-panel>
-  </div>
-  <p-dialog header="Tender Quantity Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [responsive]="true" [style]="{width: '1000px', height: '1500px !important'}">
-  <div class="ui-g-12 ui-fluid border-teal">
-  <form #qf="ngForm" name="additionalQtyForm">  
-     <div class="ui-g-12 ui-fluid">
-      <div class="ui-g-1"></div>
-      <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
-          <label for="Order_Num" class="label-fontsize">Order Number</label>
-          <input name="Order_Num" pInputText [(ngModel)]="AOrderNo" [readonly]="true" required>
-        </div>
-          <div class="ui-g-6 ui-md-2">
-              <span class="ui-float-label">
-                <input pInputText name="Additional_Qty"  [(ngModel)]="AdditionalQty" type="text" autocomplete="off"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
-                appDecimalDigit required/>
-                <label for="Additional_Qty" class="float-input">Additional Quantity</label>
-              </span>
-            </div>
-      </div>
-    <div class="ui-g-12 ui-fluid">
-        <div class="ui-g-5"></div>
-        <div class="ui-g-4 ui-md-1">
-          <button pButton label=View [disabled]="(!AOrderNo)"
-          (click)="onView('2')"></button>
-      </div>
-        <div class="ui-g-4 ui-md-1">
-          <button pButton label=Save [disabled]="(!AOrderNo || !AdditionalQty || (isViewed && !qf.dirty))"
-          (click)="onSave('2')"></button>
-      </div>
-      </div>
-    </form>
-  </div>
-  <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowQtyGrid">
-    <p-table  [columns]="tenderQtyCoulmns" [value]="tenderQtyData" [paginator]="true" [rows]="20">
-        <ng-template pTemplate="colgroup" let-columns>
+      </form>
+      <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowGrid">
+        <p-table [columns]="stockPurchaseDataCoulmns" [value]="stockPurchaseData" [paginator]="true" [rows]="20">
+          <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns">
             </colgroup>
           </ng-template>
           <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex, '1')">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>
+<p-dialog header="Tender Quantity Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="viewPane" [responsive]="true" [style]="{width: '1000px', height: '1500px !important'}">
+  <div class="ui-g-12 ui-fluid border-teal">
+    <form #qf="ngForm" name="additionalQtyForm">
+      <div class="ui-g-12 ui-fluid">
+        <div class="ui-g-1"></div>
+        <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
+          <label for="Order_Num" class="label-fontsize">Order Number</label>
+          <input name="Order_Num" pInputText [(ngModel)]="AOrderNo" [readonly]="true" required>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <span class="ui-float-label">
+            <input pInputText name="Additional_Qty" [(ngModel)]="AdditionalQty" type="text" autocomplete="off"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+              appDecimalDigit required />
+            <label for="Additional_Qty" class="float-input">Additional Quantity</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-fluid">
+        <div class="ui-g-5"></div>
+        <div class="ui-g-4 ui-md-1">
+          <button pButton label=View [disabled]="(!AOrderNo)" (click)="onView('2')"></button>
+        </div>
+        <div class="ui-g-4 ui-md-1">
+          <button pButton label=Save [disabled]="(!AOrderNo || !AdditionalQty || (isViewed && !qf.dirty))"
+            (click)="onSave('2')"></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowQtyGrid">
+    <p-table [columns]="tenderQtyCoulmns" [value]="tenderQtyData" [paginator]="true" [rows]="20">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">
             {{col.header}}
@@ -172,4 +172,4 @@
       </ng-template>
     </p-table>
   </div>
-  </p-dialog>
+</p-dialog>

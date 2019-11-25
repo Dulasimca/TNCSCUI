@@ -1020,7 +1020,7 @@ export class DeliveryReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'DoNo' && key !== 'RiceChecked' && key !== 'DueAmnt'
+       if((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null) && (key !== 'DoNo' && key !== 'RiceChecked' && key !== 'DueAmnt'
        && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
        key !== 'MarginSchemes' &&  key !== 'MarginCommodity' &&  key !== 'MarginWt' &&  key !== 'MarginRateTerms' 
        &&  key !== 'MarginRateRS' &&  key !== 'PaymentMode' &&  key !== 'ChequeNumber' && key !== 'AdjType' &&
@@ -1031,8 +1031,9 @@ export class DeliveryReceiptComponent implements OnInit {
        }
        this.missingFields = arr;
     } else {
-      this.missingFields = StatusMessage.SuccessValidationMsg;
       this.submitted = false;
-    }
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
+     }
   }
 }

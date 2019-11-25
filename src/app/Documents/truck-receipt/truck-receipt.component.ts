@@ -582,7 +582,8 @@ export class TruckReceiptComponent implements OnInit {
     this.iCode = null; this.GodownNo = null; this.LocationNo = null;
     this.stackOptions = []; this.TStockNo = null; this.ipCode = null;
     this.IPCode = null; this.WTCode = null; this.wtCode = null;
-    this.NoPacking = null; this.GKgs = null; this.NKgs = null;
+    this.NoPacking = null; this.GKgs = null;
+    this.NKgs = null; this.Moisture = null;
     this.freightOptions = [{ label: '-', value: '-' }];
     this.vehicleOptions = [{ label: '-', value: '-' }];
     this.fromStationOptions = [{ label: '-', value: '-' }];
@@ -982,14 +983,26 @@ export class TruckReceiptComponent implements OnInit {
     let no = 0;
     if(form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === null || form.value[key] === '' || this.itemData.length === 0) && (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
-       && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal')) {
+       if(key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+       && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal') {
+         if(this.itemData.length !== 0 && (key !== 'Schemes' && key !== 'Commodity' && key !== 'NetWt'
+         && key !== 'GrossWt' && key !== 'StockNo' && key !== 'PackingType' && key !== 'NoOfPacking'
+         && key !== 'MoistureNo' && key !== 'WmtType') && (form.value[key] === null || form.value[key] === undefined
+           || form.value[key] === '')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
+         this.missingFields = arr;
+        } else if ((this.itemData.length === 0) && (form.value[key] === null || form.value[key] === undefined || form.value[key] === '')) {
+          no += 1;
+          arr.push({label: no, value: no + '.' + key});
+          this.missingFields = arr;
+        }
         }
        }
-       this.missingFields = arr;
-    } else {
+    } else if (this.itemData.length === 0) {
+      arr.push({ label: '1', value: 'Please add item details! '});
+      this.missingFields = arr;
+    }  else {
       this.submitted = false;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
