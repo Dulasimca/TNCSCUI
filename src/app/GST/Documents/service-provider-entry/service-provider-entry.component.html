@@ -97,7 +97,16 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
             <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div
+                  *ngIf="col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div
+                  *ngIf="col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'">
+                  {{rowData[col.field]}}
+                </div>
               </td>
             </tr>
           </ng-template>
@@ -113,7 +122,8 @@
     <div>
       <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-7">
+          <!-- <div class="ui-g-12 ui-md-2"></div> -->
+          <div class="ui-g-12 ui-md-10">
             <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Service Provider</label>
             <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
               [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
@@ -124,16 +134,7 @@
               </ng-template>
             </p-dropdown>
           </div>
-          <div class="ui-g-12 ui-md-5">
-            <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Service Name</label>
-            <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
+          <div class="ui-g-12 ui-md-2"></div>
         </div>
         <div class="ui-g">
           <div class="ui-g-7 dashboard" style="padding-top: 5px">
@@ -170,7 +171,8 @@
             <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Service Name</label>
             <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
               [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
+              (keydown.enter)="onSelect('commodity','enter')" optionLabel="label" [showClear]="true" filter="true"
+              resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -225,14 +227,14 @@
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="CGST" name="CGST" autocomplete="off"
-              (input)="onGST()" required>
+                (input)="onGST()" readonly="true" required>
               <label for="CGST">CGST Amount</label>
             </div>
           </div>
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="SGST" name="SGST" autocomplete="off"
-              (input)="onGST()" required>
+                (input)="onGST()" readonly="true" required>
               <label for="SGST">SGST Amount</label>
             </div>
           </div>
@@ -241,14 +243,14 @@
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" autocomplete="off"
-              (input)="onGST()" required>
+                (input)="onGST()" readonly="true" required>
               <label for="Vat">GST Amount</label>
             </div>
           </div>
           <div class="ui-g-6 ui-md-6">
             <div class="ui-float-label">
               <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Total" name="Total"
-                autocomplete="off" (input)="onGST()" required>
+                autocomplete="off" (input)="onGST()" readonly="true" required>
               <label for="Total">Total</label>
             </div>
           </div>
@@ -257,7 +259,7 @@
           <div class="ui-g-12 ui-md-4"></div>
           <div class="ui-g-6 ui-md-2 ui-fluid">
             <button pButton type="button" (click)="onSubmit(formUser)"
-            [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !TaxType || !Amount || !Vat || !Bill || !Billdate || !CGST || !SGST || !percentage || !Total)"
+              [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !TaxType || !Amount || !Vat || !Bill || !Billdate || !CGST || !SGST || !percentage || !Total)"
               label=Save></button>
           </div>
 

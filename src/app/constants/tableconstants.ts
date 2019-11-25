@@ -1256,7 +1256,7 @@ export class TableConstants {
       { field: 'GSTNo', header: 'GST No' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
-      { field: 'ServiceName', header: 'Service Name' },
+      { field: 'CommodityName', header: 'Service Name' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
       { field: 'CGST', header: 'CGST Amt' },

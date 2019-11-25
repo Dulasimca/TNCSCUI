@@ -205,11 +205,11 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.GST_SERVICE_PROVIDER_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE });
+                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE, 'percentage': y.TAXPERCENTAGE});
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.percentage = this.Commodity.TAXPERCENTAGE;
+              this.percentage = this.Commodity.percentage;
             }
           });
         }
@@ -290,7 +290,6 @@ export class ServiceProviderEntryComponent implements OnInit {
 
   onGST() {
     // if (this.percentage !== undefined) {
-    // this.Amount = this.Quantity * this.Rate;
     let GA = (this.Amount / 100) * this.percentage;
     this.CGST = GA / 2;
     this.SGST = GA / 2;
@@ -320,7 +319,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.viewPane = true;
     this.isEdited = true;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
-    this.commodityOptions = [{ label: selectedRow.SERVICENAME, value: selectedRow.SACCODE }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.SACCODE }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
@@ -329,7 +328,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.CompanyName = selectedRow.CompanyName;
-    this.Commodity = selectedRow.SERVICENAME;
+    this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
