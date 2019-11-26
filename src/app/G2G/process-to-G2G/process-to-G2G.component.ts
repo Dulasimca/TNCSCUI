@@ -140,17 +140,21 @@ export class ProcessToG2GComponent implements OnInit {
             if (res !== null && res !== undefined && res.length !== 0) {
                 this.showPane = true;
                 let sno = 1;
-                res.forEach((data, index) => {
+                this.processToG2GData = res.filter(x => {
+                    return (x.DocType === 2 && x.GToGStatus !== 4)
+                });
+                this.processToG2GData.forEach(data => {
                     data.SlNo = sno;
                     sno += 1;
-                    data.StartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
-                    if (data.Status === 4) {
-                        res.splice(index, 1);
-                    } else {
+                    data.GToGStartDate = this.datepipe.transform(data.GToGStartDate, 'dd/MM/yyyy');
+                    data.GToGEndDate = this.datepipe.transform(data.GToGEndDate, 'dd/MM/yyyy');
+                    // if (data.Status === 4) {
+                    //     this.processToG2GData.splice(index, 1);
+                    // } else {
                         data.Status = this.getG2GStatus(data.GToGStatus);
-                    }
+                    // }
                 })
-                this.processToG2GData = res;
+               // this.processToG2GData = res;
             } else {
                 this.processToG2GData = [];
                 this.showPane = false;
