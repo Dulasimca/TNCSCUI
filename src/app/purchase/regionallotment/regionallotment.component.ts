@@ -44,7 +44,6 @@ export class RegionAllotmentComponent implements OnInit {
   rCode: any;
   AllottedQty: any;
   isViewed: boolean = false;
-  //isDataAvailable: boolean;
   Commodity: any;
   Rate: any;
   Spell: any;
@@ -66,11 +65,15 @@ export class RegionAllotmentComponent implements OnInit {
   selectedSpellCode: any;
   RegAllottedQty: any;
   RegQty: any;
-  isSelected: boolean;
+  isSelected: boolean = false;
   showRErrMsg: boolean;
   splicedRegQty: any;
   blockScreen: boolean;
-  @ViewChild('orderNum') oredrNoPanel: Dropdown;
+  loading: boolean;
+  completedDate: Date;
+  PartyRCode: any;
+  selectedPartyRegion: any;
+ @ViewChild('orderNum') oredrNoPanel: Dropdown;
   @ViewChild('partyregion') partyRegionPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('party') partyNamePanel: Dropdown;
@@ -195,6 +198,7 @@ export class RegionAllotmentComponent implements OnInit {
 
   onChangeOrderNo(type) {
     if (this.OrderNo !== undefined && this.OrderNo !== null) {
+      this.loading = true;
       const rcode = (this.RCode !== undefined && this.RCode !== null) ? ((this.RCode.value !== null && this.RCode.value !== undefined) ? this.RCode.value : this.rCode) : '-';
       const params = {
         'OrderNo': (this.OrderNo !== undefined) ? this.OrderNo : '',
@@ -206,6 +210,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.restApiService.post(PathConstants.PURCHASE_TENDER_DATA_BY_ORDER_NO, params).subscribe(data => {
         if (data !== undefined && data !== null && data.length !== 0) {
           if (type === '1') {
+            this.loading = false;
             this.tenderAllotmentData = [];
             let sno = 1;
             let totalQty = 0;
@@ -213,6 +218,8 @@ export class RegionAllotmentComponent implements OnInit {
               this.AllottedQty = ((x.Quantity !== null && x.Quantity !== undefined) ? (x.Quantity * 1) : 0)
                 + ((x.AdditionalQty !== null && x.AdditionalQty !== undefined) ? (x.AdditionalQty * 1) : 0);
               this.Commodity = x.ITDescription;
+              this.completedDate = new Date(x.CompletedDate);
+              console.log('c', this.completedDate);
                   x.SlNo = sno;
                   sno += 1;
                   x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
@@ -229,6 +236,7 @@ export class RegionAllotmentComponent implements OnInit {
             }
           } else {
             this.tenderAllotmentRegionWiseData = [];
+            this.loading = false;
             let sno = 1;
             let totalQty = 0;
             data.forEach(x => {
@@ -246,10 +254,31 @@ export class RegionAllotmentComponent implements OnInit {
               this.blockRegQty = false;
             }
           }
+        } else {
+          this.loading = false;
+          // this.messageService.clear();
+          // this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       });
     } else {
       this.onClear('3');
+    }
+  }
+
+  checkTargetDate(date) {
+    if(date !== null && date !== undefined && this.completedDate !== null && this.completedDate !== undefined) {
+      const cDate = this.completedDate.getDate();
+      const cMonth = this.completedDate.getMonth() + 1;
+      const cYear = this.completedDate.getFullYear();
+      const getTargetDate = new Date(date);
+      const tDate = getTargetDate.getDate();
+      const tMnth = getTargetDate.getMonth() + 1;
+      const tYear = getTargetDate.getFullYear();
+      if((cDate === tDate && (cMonth < tMnth && cYear <= tYear)) || (cMonth < tMnth && cYear <= tYear)
+      || (cDate < tDate && (cMonth === tMnth && cYear === tYear)) || (cYear < tYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.PurchaseTargetDateValidation });
+      }
     }
   }
 
@@ -311,7 +340,7 @@ export class RegionAllotmentComponent implements OnInit {
               } else {
                 this.showRErrMsg = false;
               }
-            } else if (this.tenderAllotmentData.length === 0 && this.isViewed) {
+            } else if (this.tenderAllotmentData.length === 0 && this.isSelected) {
               const splicedRegQty = (this.splicedRegQty !== null && this.splicedRegQty !== undefined) ? (this.splicedRegQty * 1) : 0;
               let remainingQty = (RegAllottedQty * 1);
               if (Qty > remainingQty && remainingQty !== 0) {
@@ -346,6 +375,9 @@ export class RegionAllotmentComponent implements OnInit {
           this.Spell = data.SpellName;
           this.spellCode = data.Spell;
           this.spellOptions = [{ label: data.SpellName, value: data.Spell }];
+          this.PartyRegion = data.PartyRegion;
+          this.PartyRCode = data.PartyRCode;
+          this.partyRegionOptions = [{ label: data.PartyRegion, value: data.PartyRCode }];
           this.Quantity = (data.AssignedQty * 1);
           this.TargetDate = data.TargetDate;
           this.tDate = data.tDate;
@@ -355,14 +387,12 @@ export class RegionAllotmentComponent implements OnInit {
           this.partyNamePanel.showClear = false;
           this.spellPanel.showClear = false;
           this.oredrNoPanel.showClear = false;
-          let totalQty = 0;
           this.tenderAllotmentData.splice(index, 1);
           this.splicedQty = this.tenderAllotmentData[index].AssignedQty;
           if (this.tenderAllotmentData.length === 1 && this.tenderAllotmentData[0].OrderNumber === 'Total') {
             this.tenderAllotmentData = [];
           } else {
             const lastIndex = this.tenderAllotmentData.length - 1;
-            // this.tenderAllotmentData[lastIndex].AssignedQty = (this.tenderAllotmentData[lastIndex].AssignedQty * 1) - (this.splicedQty * 1);
             let sno = 1;
             let totalQty = 0;
             this.tenderAllotmentData.forEach(x => {
@@ -373,11 +403,17 @@ export class RegionAllotmentComponent implements OnInit {
               }
             })
             this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
+            if((this.AllottedQty * 1) === totalQty) {
+              this.blockEntry = true;
+            } else {
+              this.blockEntry = false;
+            }
           }
         },
         accept: () => {
           this.tenderAllotmentRegionWiseData.length = 0;
           this.showPane = true;
+          this.selectedPartyRegion = data.PartyRegion;
           this.selectedOrderNo = data.OrderNumber;
           this.selectedParty = data.PartyName;
           this.selectedPartyID = data.PartyCode;
@@ -389,6 +425,7 @@ export class RegionAllotmentComponent implements OnInit {
       });
     } else {
       this.RegAllotmentID = data.RegAllotementID;
+      this.isSelected = true;
       this.rCode = data.RCode;
       this.RCode = data.RName;
       this.regionOptions = [{ label: data.RName, value: data.RCode }];
@@ -412,6 +449,11 @@ export class RegionAllotmentComponent implements OnInit {
           }
         })
         this.tenderAllotmentRegionWiseData[lastIndex].Quantity = totalQty;
+        if((this.RegAllottedQty * 1) === totalQty) {
+          this.blockRegQty = true;
+        } else {
+          this.blockRegQty = false;
+        }
       }
     }
   }
@@ -522,19 +564,19 @@ export class RegionAllotmentComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         } else {
           this.blockScreen = false;
-          this.isViewed = false;
+          this.isSelected = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.blockScreen = false;
-          this.isViewed = false;
+          this.isSelected = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
           this.blockScreen = false;
-          this.isViewed = false;
+          this.isSelected = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }
@@ -561,6 +603,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.AllotmentID = null;
       this.showPane = false; this.showErrMsg = false;
       this.Quantity = null; this.tDate = null;
+      this.PartyRegion = null; this.PartyRCode = null; this.partyRegionOptions = [];
       this.PartyCode = null; this.partyID = null; this.partyNameOptions = [];
       this.Spell = null; this.spellCode = null; this.spellOptions = [];
       this.TotalDays = null; this.TargetDate = null;
@@ -572,7 +615,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.regForm.controls.splitted_reg_qty.reset();
       this.regForm.form.markAsUntouched();
       this.regForm.form.markAsPristine();
-      this.RegAllotmentID = null;
+      this.RegAllotmentID = null; this.isSelected = false;
       this.RCode = null; this.rCode = null; this.regionOptions = [];
       this.blockRegQty = false; this.splicedRegQty = 0;
       this.tenderAllotmentRegionWiseData = [];
@@ -594,6 +637,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.showPane = false; this.showErrMsg = false;
       this.AllottedQty = 0; this.Quantity = null;
       this.PartyCode = null; this.partyID = null; this.partyNameOptions = [];
+      this.PartyRegion = null; this.PartyRCode = null; this.partyRegionOptions = [];
       this.OrderNo = null; this.orderNoOptions = [];
       this.TotalDays = null; this.TargetDate = null;
       this.isViewed = false; this.tenderAllotmentData = [];
@@ -607,14 +651,20 @@ export class RegionAllotmentComponent implements OnInit {
       this.regForm.controls.selected_spell.reset();
       this.regForm.controls.selected_total_Qty.reset();
       this.regForm.controls.region_name.reset();
+      this.regForm.controls.selected_party_region.reset();
       this.regForm.controls.splitted_reg_qty.reset();
       this.regForm.form.markAsUntouched();
       this.regForm.form.markAsPristine();
+      this.selectedPartyRegion = null; this.Commodity = null;
+      this.selectedPartyID = null; this.selectedParty = null;
+      this.selectedSpellCode = null; this.selectedSpell = null; 
+      this.selectedOrderNo = null; this.RegAllottedQty = null;
+      this.RegAllotmentID = null; this.RegQty = null;
       this.RCode = null; this.rCode = null; this.regionOptions = [];
-      this.spellOptions = undefined; this.Spell = null;
       this.tenderAllotmentRegionWiseData = [];
       this.blockRegQty = false; this.splicedRegQty = 0;
       this.RegAllotmentID = null; this.blockScreen = false;
+      this.isSelected = false;
     }
   }
 }

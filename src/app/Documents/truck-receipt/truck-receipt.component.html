@@ -1,6 +1,6 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -10,7 +10,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Truck Memo Slip</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err"  [hideTransitionOptions]="'500ms'"></p-toast>
+    <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -23,17 +23,20 @@
                   <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="TNo">Truck No</label>
-                      <input type="text" name="TNo" [(ngModel)]="STNo" [readonly]="true" size="20" pInputText autocomplete="off">
+                      <input type="text" name="TNo" [(ngModel)]="STNo" [readonly]="true" size="20" pInputText
+                        autocomplete="off">
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="TruckMemoDate">Truck Date</label>
-                      <p-calendar name="TruckMemoDate" [(ngModel)]="STDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="TruckMemoDate" [(ngModel)]="STDate" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                        [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label for="TransactionType" class="label-fontsize">Transaction Code</label>
                       <p-dropdown #tr name="TransactionType" [options]="transactionOptions" [(ngModel)]="Trcode"
-                        (onClick)="onSelect('tr', 'click')" (keydown.tab)="onSelect('tr', 'change')"  (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true"
-                        (onChange)="refreshSelect('tr')" optionLabel="label" filter="true" resetFilterOnHide="true" required>
+                        (onClick)="onSelect('tr', 'click')" (keydown.tab)="onSelect('tr', 'change')"
+                        (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true" (onChange)="refreshSelect('tr')"
+                        optionLabel="label" filter="true" resetFilterOnHide="true" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -42,7 +45,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label class="label-fontsize" for="MovementOrderDate">Movement Order Date</label>
-                      <p-calendar name="MovementOrderDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="MovementOrderDate" [(ngModel)]="OrderDate" dateFormat="dd/mm/yy"
+                        [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: 20px;">
                       <p-checkbox name="TransportMode" class="ui-g-2 dashboard" value="Road"
@@ -59,40 +63,44 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="ReleaseOrderNo" [(ngModel)]="RNo" pInputText autocomplete="off" required>
-                        <label for="ReleaseOrderNo" class="float-input" style="padding-top: 10px;">Release Order No</label>
+                        <label for="ReleaseOrderNo" class="float-input" style="padding-top: 10px;">Release Order
+                          No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="ReleaseOrderDate">Release Order Date</label>
-                      <p-calendar name="ReleaseOrderDate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="ReleaseOrderDate" [(ngModel)]="RDate" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                        [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="RailHead" class="label-fontsize" style="padding-top: 10px;">To The Rail Head</label>
                       <p-dropdown #rail name="RailHead" [options]="toRailHeadOptions" [disabled]="disableRailHead"
-                        [(ngModel)]="RHCode" (onClick)="onSelect('rh', 'click')" (keydown.enter)="onSelect('rh', 'enter')"
-                        [showClear]="true"  filter="true" resetFilterOnHide="true" optionLabel="label" required>
+                        [(ngModel)]="RHCode" (onClick)="onSelect('rh', 'click')"
+                        (keydown.enter)="onSelect('rh', 'enter')" [showClear]="true" filter="true"
+                        resetFilterOnHide="true" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
-                        <label for="ReceivorRegion" class="label-fontsize" style="padding-top: 10px;">Receivor Region</label>
-                        <p-dropdown #rr name="ReceivorRegion" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
-                          (onClick)="onSelect('rr', 'click')" (keydown.enter)="onSelect('rr', 'enter')"
-                          optionLabel="label" filter="true" resetFilterOnHide="true" [disabled]="enableReceivorRegn"
-                          (onChange)="refreshSelect('rr')" [showClear]="true" required>
-                          <ng-template let-item pTemplate="selectedItem">
-                            <span style="vertical-align:middle">{{item.label}}</span>
-                          </ng-template>
-                        </p-dropdown>
-                      </div>
+                      <label for="ReceivorRegion" class="label-fontsize" style="padding-top: 10px;">Receivor
+                        Region</label>
+                      <p-dropdown #rr name="ReceivorRegion" [options]="receivorRegionOptions" [(ngModel)]="RRCode"
+                        (onClick)="onSelect('rr', 'click')" (keydown.enter)="onSelect('rr', 'enter')"
+                        optionLabel="label" filter="true" resetFilterOnHide="true" [disabled]="enableReceivorRegn"
+                        (onChange)="refreshSelect('rr')" [showClear]="true" required>
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle">{{item.label}}</span>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="ReceivorType" class="label-fontsize" style="padding-top: 10px;">Receivor Type</label>
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
                         (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
-                        (onChange)="refreshSelect('rt')" optionLabel="label" [showClear]="true" 
-                        filter="true" resetFilterOnHide="true" required>
+                        (onChange)="refreshSelect('rt')" optionLabel="label" [showClear]="true" filter="true"
+                        resetFilterOnHide="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -101,8 +109,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="ReceivorName" class="label-fontsize" style="padding-top: 10px;">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receivorNameOptions" [(ngModel)]="RNCode"
-                        (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')"
-                        [showClear]="true" optionLabel="label" filter="true" resetFilterOnHide="true" required>
+                        (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" [showClear]="true"
+                        optionLabel="label" filter="true" resetFilterOnHide="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -119,24 +127,26 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="IssuingGodown" [(ngModel)]="godownName" pInputText
-                          autocomplete="off" [readonly]="true" required>
+                        <input name="IssuingGodown" [(ngModel)]="godownName" pInputText autocomplete="off"
+                          [readonly]="true" required>
                         <label for="IssuingGodown" class="float-input" style="padding-top: 10px;">Issuing Godown
                           Name</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                        <span class="ui-float-label" style="padding-top: 20px;">
-                          <input name="LorryNumber" maxlength="13"[(ngModel)]="LorryNo" pInputText
-                           style="text-transform: uppercase !important" autocomplete="off" required>
-                          <label for="LorryNumber" class="float-input" style="padding-top: 10px;">Lorry No</label>
-                        </span>
-                      </div>
+                      <span class="ui-float-label" style="padding-top: 20px;">
+                        <input name="LorryNumber" maxlength="13" [(ngModel)]="LorryNo" pInputText
+                          style="text-transform: uppercase !important"
+                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          autocomplete="off" required>
+                        <label for="LorryNumber" class="float-input" style="padding-top: 10px;">Lorry No</label>
+                      </span>
+                    </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="ManualDocumentNo" [(ngModel)]="ManualDocNo" pInputText autocomplete="off"
-                          required>
-                        <label for="ManualDocumentNo" class="float-input" style="padding-top: 10px;">Manual Document No</label>
+                        <input name="ManualDocumentNo" [(ngModel)]="ManualDocNo" pInputText autocomplete="off" required>
+                        <label for="ManualDocumentNo" class="float-input" style="padding-top: 10px;">Manual Document
+                          No</label>
                       </span>
                     </div>
                   </div>
@@ -154,7 +164,8 @@
                       <label for="Schemes" class="label-fontsize">Scheme</label>
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('sc', 'click')" (keydown.enter)="onSelect('sc', 'enter')"
-                        optionLabel="label" (onChange)="refreshSelect('sc')" resetFilterOnHide="true" [showClear]="true" filter="true">
+                        optionLabel="label" (onChange)="refreshSelect('sc')" resetFilterOnHide="true" [showClear]="true"
+                        filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -164,7 +175,8 @@
                       <label for="Commodity" class="label-fontsize">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
-                        (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true" optionLabel="label">
+                        (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true"
+                        optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -172,35 +184,33 @@
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -22px">
                       <label for="StockNo" class="label-fontsize">Stack No.</label>
-                      <p-dropdown #st_no name="StockNo" [options]="stackOptions"
-                        [(ngModel)]="TStockNo" (onClick)="onSelect('st_no', 'click')" (onChange)="onStackNoChange($event)"
-                        (keydown.enter)="onSelect('st_no', 'enter')"
-                        filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true">
+                      <p-dropdown #st_no name="StockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
+                        (onClick)="onSelect('st_no', 'click')" (onChange)="onStackNoChange($event)"
+                        (keydown.enter)="onSelect('st_no', 'enter')" filter="true" resetFilterOnHide="true"
+                        optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-4 ui-md-1" style="margin-top: -22px">
-                          <label for="GodownNum" class="label-fontsize">Godown</label>
-                          <input name="GodownNum" [(ngModel)]="GodownNo" pInputText autocomplete="off"
-                          [readonly]="true">
+                      <label for="GodownNum" class="label-fontsize">Godown</label>
+                      <input name="GodownNum" [(ngModel)]="GodownNo" pInputText autocomplete="off" [readonly]="true">
                     </div>
                     <div class="ui-g-4 ui-md-2" style="margin-top: -22px">
-                        <label for="LocNo" class="label-fontsize">Loc.+Formation No.</label>
-                        <input name="LocNo" pInputText [(ngModel)]="LocationNo" autocomplete="off"
-                          [readonly]="true">
+                      <label for="LocNo" class="label-fontsize">Loc.+Formation No.</label>
+                      <input name="LocNo" pInputText [(ngModel)]="LocationNo" autocomplete="off" [readonly]="true">
                     </div>
                     <div class="ui-g-4 ui-md-2 ui-fluid">
-                        <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
-                      </div>
+                      <label for="StackYear" class="label-fontsize-large"><b>Stack year - {{stackYear}}</b></label>
+                    </div>
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-6 ui-md-3 ui-fluid">
                       <label for="PackingType" class="label-fontsize">Packing Type</label>
-                      <p-dropdown #pt name="PackingType" [options]="packingTypeOptions"
-                        [(ngModel)]="IPCode" (onClick)="onSelect('pt', 'click')"
-                        (keydown.enter)="onSelect('pt', 'enter')" optionLabel="label" filter="true" resetFilterOnHide="true" [showClear]="true">
+                      <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
+                        (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')"
+                        optionLabel="label" filter="true" resetFilterOnHide="true" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -208,9 +218,10 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <label for="NoOfPacking" class="label-fontsize">No.of Packing</label>
-                      <input name="NoOfPacking" [(ngModel)]="NoPacking" pInputText 
-                      autocomplete="off" [readonly]="isValidStackBalance"
-                      oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" (input)="onCalculateKgs()">
+                      <input name="NoOfPacking" [(ngModel)]="NoPacking" pInputText autocomplete="off"
+                        [readonly]="isValidStackBalance"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        (input)="onCalculateKgs()">
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
                       <p-header>
@@ -222,9 +233,9 @@
                       <label class="label-fontsize" for="GrossWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GrossWt" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                        (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                         appDecimalDigit>
+                          (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off"
+                          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -237,9 +248,9 @@
                       <label class="label-fontsize" for="NetWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NetWt" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                        (input)="onCalculateWt()"  [readonly]="isValidStackBalance" 
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                         autocomplete="off" appDecimalDigit>
+                          (input)="onCalculateWt()" [readonly]="isValidStackBalance"
+                          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          autocomplete="off" appDecimalDigit>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -12px">
@@ -251,8 +262,8 @@
                       <label class="label-fontsize" for="TareWt">Kgs</label>
                       <label class="label-fontsize" for="TareWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
-                        <input name="TareWt" type="text" size="20" [(ngModel)]="TKgs" pInputText
-                         [readonly]="true" autocomplete="off">
+                        <input name="TareWt" type="text" size="20" [(ngModel)]="TKgs" pInputText [readonly]="true"
+                          autocomplete="off">
                       </span>
                     </div>
                   </div>
@@ -261,7 +272,8 @@
                       <label for="WmtType" class="label-fontsize">WmtType</label>
                       <p-dropdown #wmt name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                         (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')"
-                        [showClear]="true" [readonly]="isValidStackBalance" filter="true" resetFilterOnHide="true" optionLabel="label">
+                        [showClear]="true" [readonly]="isValidStackBalance" filter="true" resetFilterOnHide="true"
+                        optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -269,40 +281,42 @@
                     </div>
                     <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 2px">
                       <span class="ui-float-label">
-                          <input name="MoistureNo" type="text" minlength="1" maxlength="5" size="20" [(ngModel)]="Moisture" pInputText
-                          autocomplete="off" (keyup)="parseMoisture($event)"
+                        <input name="MoistureNo" type="text" minlength="1" maxlength="5" size="20"
+                          [(ngModel)]="Moisture" pInputText autocomplete="off" (keyup)="parseMoisture($event)"
                           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');">
                         <label for="MoistureNo" class="float-input">Moisture</label>
                       </span>
                     </div>
                     <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: 2px">
-                      <button pButton type="button" label="Enter" [disabled]="(!Moisture || Moisture==null || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null  || (NKgs!=null && NKgs==0))" (click)="onEnter()"></button>
+                      <button pButton type="button" label="Enter"
+                        [disabled]="(!Moisture || Moisture==null || !Scheme || !ICode || !IPCode || !GKgs || !NKgs || !TStockNo || !WTCode  || NoPacking==null || NKgs==null || GKgs==null  || (NKgs!=null && NKgs==0))"
+                        (click)="onEnter()"></button>
                     </div>
                     <div class="ui-g-6 ui-md-2">
-                        <span class="ui-float-label">
-                          <input name="StackBal" tabindex="-1" [(ngModel)]="StackBalance" pInputText autocomplete="off"
-                          [readonly]="true" >
-                          <label for="StackBal" class="float-input">Stack Balance</label>
-                        </span>
-                      </div>
-                      <div class="ui-g-6 ui-md-2">
-                        <span class="ui-float-label">
-                          <input name="CurQtv" tabindex="-1" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
+                      <span class="ui-float-label">
+                        <input name="StackBal" tabindex="-1" [(ngModel)]="StackBalance" pInputText autocomplete="off"
                           [readonly]="true">
-                          <label for="CurQtv" class="float-input">Cur.Doc. Qtv</label>
-                        </span>
-                      </div>
-                      <div class="ui-g-6 ui-md-2">
-                        <span class="ui-float-label">
-                          <input name="NetStackBal" tabindex="-1" [readonly]="true" [(ngModel)]="NetStackBalance" pInputText
-                            autocomplete="off">
-                          <label for="NetStackBal" class="float-input">Net Stack Balance</label>
-                        </span>
-                      </div>
+                        <label for="StackBal" class="float-input">Stack Balance</label>
+                      </span>
+                    </div>
+                    <div class="ui-g-6 ui-md-2">
+                      <span class="ui-float-label">
+                        <input name="CurQtv" tabindex="-1" [(ngModel)]="CurrentDocQtv" pInputText autocomplete="off"
+                          [readonly]="true">
+                        <label for="CurQtv" class="float-input">Cur.Doc. Qtv</label>
+                      </span>
+                    </div>
+                    <div class="ui-g-6 ui-md-2">
+                      <span class="ui-float-label">
+                        <input name="NetStackBal" tabindex="-1" [readonly]="true" [(ngModel)]="NetStackBalance"
+                          pInputText autocomplete="off">
+                        <label for="NetStackBal" class="float-input">Net Stack Balance</label>
+                      </span>
+                    </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
-                    <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
-                      scrollHeight="180px">
+                    <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true"
+                      [scrollable]="true" scrollHeight="180px">
                       <ng-template pTemplate="colgroup" let-columns>
                         <colgroup>
                           <col *ngFor="let col of columns" style="width:115px">
@@ -316,7 +330,7 @@
                         </tr>
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                          <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowData, rowIndex)">
+                        <tr [pSelectableRow]="rowData" (dblclick)="deleteRow(rowData, rowIndex)">
                           <td *ngFor="let col of columns">
                             {{rowData[col.field]}}
                           </td>
@@ -339,42 +353,41 @@
                   <div class="ui-g-12 no-pad-top" style="text-align: center">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="TName" [(ngModel)]="TransporterName" pInputText
-                          autocomplete="off" required>
+                        <input name="TName" [(ngModel)]="TransporterName" pInputText autocomplete="off" required>
                         <label for="TName" class="float-input" style="padding-top: 10px;">Transporter Name</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="LWBNo" [(ngModel)]="LWBillNo"
-                         pInputText autocomplete="off" required>
+                        <input name="LWBNo" [(ngModel)]="LWBillNo" pInputText autocomplete="off" required>
                         <label for="LWBNo" class="float-input" style="padding-top: 10px;">Lorry Way Bill No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="WBillDate">Way Bill Date</label>
-                      <p-calendar name="WBillDate" [(ngModel)]="LWBillDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="WBillDate" [(ngModel)]="LWBillDate" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                        [showIcon]="true" required></p-calendar>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="FAmt" [(ngModel)]="FreightAmount"
-                        pInputText autocomplete="off" appDecimalAmount required>
+                        <input name="FAmt" [(ngModel)]="FreightAmount" pInputText autocomplete="off" appDecimalAmount
+                          required>
                         <label for="FAmt" class="float-input" style="padding-top: 10px;">Freight Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-1">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="Kms" [(ngModel)]="Kilometers"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                        pInputText autocomplete="off" required>
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          pInputText autocomplete="off" required>
                         <label for="Kms" class="float-input" style="padding-top: 10px;">Kms</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-3">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="WHDeposit" [(ngModel)]="WHDNo"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                        pInputText autocomplete="off" required>
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          pInputText autocomplete="off" required>
                         <label for="WHDeposit" class="float-input" style="padding-top: 10px;">Warehouse Deposit
                           Receipt</label>
                       </span>
@@ -383,23 +396,24 @@
                   <div class="ui-g-12 no-pad-top" style="text-align: center">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="WmtCharges" [(ngModel)]="WCharges" 
-                        pInputText autocomplete="off" appDecimalAmount required>
+                        <input name="WmtCharges" [(ngModel)]="WCharges" pInputText autocomplete="off" appDecimalAmount
+                          required>
                         <label for="WmtCharges" class="float-input" style="padding-top: 10px;">Wmt Charges</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="Handlingcharges" [(ngModel)]="HCharges"
-                        pInputText autocomplete="off" appDecimalAmount required>
-                        <label for="Handlingcharges" class="float-input" style="padding-top: 10px;">Handling Charges</label>
+                        <input name="Handlingcharges" [(ngModel)]="HCharges" pInputText autocomplete="off"
+                          appDecimalAmount required>
+                        <label for="Handlingcharges" class="float-input" style="padding-top: 10px;">Handling
+                          Charges</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="GReleased" pInputText [(ngModel)]="GunnyReleased"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                         autocomplete="off" required>
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          autocomplete="off" required>
                         <label for="GReleased" class="float-input" style="padding-top: 10px;">Gunny
                           Released</label>
                       </span>
@@ -407,7 +421,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="GUtilised" pInputText [(ngModel)]="Gunnyutilised"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off" required>
                         <label for="GUtilised" class="float-input" style="padding-top: 10px;">Gunny Utilised</label>
                       </span>
@@ -415,7 +429,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Freight" class="label-fontsize" style="padding-top: 10px;">Freight Code</label>
                       <p-dropdown #fc name="Freight" [options]="freightOptions" [(ngModel)]="FCode"
-                        (onClick)="onSelect('fc', 'click')" (keydown.enter)="onSelect('fc', 'enter')" required></p-dropdown>
+                        (onClick)="onSelect('fc', 'click')" (keydown.enter)="onSelect('fc', 'enter')" required>
+                      </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="margin-top: -8px">
                       <label for="Vehicle" class="label-fontsize" style="padding-top: 10px;">Vehicle Code</label>
@@ -429,7 +444,8 @@
                       <label for="FromStation" class="label-fontsize" style="padding-top: 10px;">From Station</label>
                       <p-dropdown #fs name="FromStation" [options]="fromStationOptions" [(ngModel)]="FStation"
                         (onClick)="onSelect('fs', 'click')" (keydown.enter)="onSelect('fs', 'enter')" filter="true"
-                         [disabled]="disableRailHead" [showClear]="true" optionLabel="label" resetFilterOnHide="true"  required>
+                        [disabled]="disableRailHead" [showClear]="true" optionLabel="label" resetFilterOnHide="true"
+                        required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -439,7 +455,8 @@
                       <label for="ToStation" class="label-fontsize" style="padding-top: 10px;">To Station</label>
                       <p-dropdown #ts name="ToStation" [options]="toStationOptions" [(ngModel)]="TStation"
                         (onClick)="onSelect('ts', 'click')" (keydown.enter)="onSelect('ts', 'enter')"
-                        [disabled]="disableRailHead" [showClear]="true" filter="true" resetFilterOnHide="true" optionLabel="label" required>
+                        [disabled]="disableRailHead" [showClear]="true" filter="true" resetFilterOnHide="true"
+                        optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -448,35 +465,37 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="RR_No" [(ngModel)]="RRNo"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                         pInputText autocomplete="off" [disabled]="disableRailHead" required>
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          pInputText autocomplete="off" [disabled]="disableRailHead" required>
                         <label for="RR_No" class="float-input" style="padding-top: 10px;">RR No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="WagonNo" pInputText [(ngModel)]="WNo"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                         autocomplete="off" [disabled]="disableRailHead" required>
+                          oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          autocomplete="off" [disabled]="disableRailHead" required>
                         <label for="WagonNo" class="float-input" style="padding-top: 10px;">Wagon No</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
-                        <input name="RailFAmnt" pInputText [(ngModel)]="RailFreightAmt"
-                        autocomplete="off" [disabled]="disableRailHead" appDecimalAmount required>
+                        <input name="RailFAmnt" pInputText [(ngModel)]="RailFreightAmt" autocomplete="off"
+                          [disabled]="disableRailHead" appDecimalAmount required>
                         <label for="RailFAmnt" class="float-input" style="padding-top: 10px;">Rail Freight Amt</label>
                       </span>
                     </div>
                     <div class="ui-g-6 ui-md-2" style="padding-top: 10px;">
                       <label class="label-fontsize" for="LDate">Loading Date</label>
-                      <p-calendar name="LDate" [disabled]="disableRailHead" [(ngModel)]="LDate" dateFormat="dd/mm/yy" [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
+                      <p-calendar name="LDate" [disabled]="disableRailHead" [(ngModel)]="LDate" dateFormat="dd/mm/yy"
+                        [maxDate]="maxDate" [showIcon]="true" required></p-calendar>
                     </div>
                   </div>
                   <div class="ui-g-12 no-pad-top">
                     <div class="ui-g-10">
                       <div><label class="label-fontsize" for="Remarks">Remarks</label></div>
-                      <textarea name="RemarksText" [rows]="3" [cols]="60" [(ngModel)]="Remarks" pInputTextarea required></textarea>
+                      <textarea name="RemarksText" [rows]="3" [cols]="60" [(ngModel)]="Remarks" pInputTextarea
+                        required></textarea>
                     </div>
                   </div>
                   <div class="ui-g-10 ui-md-11"></div>
@@ -488,22 +507,26 @@
               </p-tabPanel>
             </p-tabView>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-                <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate (click)="onSubmit(f)" ></button>
-           </div>
-           <div class="ui-g-3 ui-md-6"></div>
+              <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate
+                (click)="onSubmit(f)"></button>
+            </div>
+            <div class="ui-g-3 ui-md-6"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" [disabled]="((!f.valid || itemData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save (click)="onSave('1');resetForm(f)"></button>
+              <button style="margin-top:5px" pButton type="button"
+                [disabled]="((!f.valid || itemData.length=='0') || (isViewed && !f.dirty && !f.valid))" label=Save
+                (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-              <button style="margin-top:5px" pButton type="button" label=Print [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))" (click)="onPrint()"></button>
+              <button style="margin-top:5px" pButton type="button" label=Print
+                [disabled]="((isViewed && f.dirty) || (isViewed && !f.valid) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
+                (click)="onPrint()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
-                <button style="margin-top:5px" pButton type="button"
-                  label=Clear (click)="onClear()"></button>
-              </div>
+              <button style="margin-top:5px" pButton type="button" label=Clear (click)="onClear()"></button>
+            </div>
           </form>
         </div>
         <div class="col-md-1"></div>
@@ -513,49 +536,49 @@
   </p-panel>
 </div>
 <p-dialog header="Truck-Memo-Slip" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [responsive]="true">
-<div>
+  [(visible)]="viewPane" [responsive]="true">
+  <div>
     <div class="ui-g-6 ui-md-10 no-pad-top">
       <label class="label-fontsize-large">Date</label>
-      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate" (ngModelChange)="onView()"></p-calendar>
+      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate"
+        (ngModelChange)="onView()"></p-calendar>
     </div>
-     <div class="ui-g-4 ui-md-1 dashboard">
-    <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)" (click)="getDocBySTNo()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1 dashboard">
-      <button class="ui-md-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+    <div class="ui-g-4 ui-md-1 dashboard">
+      <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)"
+        (click)="getDocBySTNo()"></button>
+    </div>
+    <div class="ui-g-4 ui-md-1 dashboard">
+      <button class="ui-md-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
     </div>
   </div>
-    <div class="ui-g-12 ui-md-12 ui-fluid">
-        <p-table #dt tabindex="-1" [columns]="truckMemoViewCol" [value]="truckMemoViewData" 
-        selectionMode="single" [responsive]="true" autoLayout="true" [(selection)]="selected"
-        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
-        (onRowSelect)="onRowSelect($event)">
-          <ng-template pTemplate="colgroup" let-columns>
-            <colgroup>
-              <col *ngFor="let col of columns" style="width:80px">
-            </colgroup>
-          </ng-template>
-          <ng-template pTemplate="header" let-columns>
-            <tr>
-              <th *ngFor="let col of columns">
-                {{col.header}}
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="rowData">
-              <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
+  <div class="ui-g-12 ui-md-12 ui-fluid">
+    <p-table #dt tabindex="-1" [columns]="truckMemoViewCol" [value]="truckMemoViewData" selectionMode="single"
+      [responsive]="true" autoLayout="true" [(selection)]="selected" [rows]="10"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" (onRowSelect)="onRowSelect($event)">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </p-dialog>
-<p-dialog  header="Data Required" [modal]="true"
-[(visible)]="submitted" [style]="{width: 'auto', height: 'auto'}">
-<div>
+<p-dialog header="Data Required" [modal]="true" [(visible)]="submitted" [style]="{width: 'auto', height: 'auto'}">
+  <div>
     <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
-</div>
+  </div>
 </p-dialog>

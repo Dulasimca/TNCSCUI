@@ -50,7 +50,7 @@
             <div class="ui-g-6 ui-md-2">
               <label for="completedDate" class="label-fontsize">Completed Date</label>
               <p-calendar name="completedDate" #completedDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                [(ngModel)]="CompletedDate"></p-calendar>
+                [(ngModel)]="CompletedDate" required></p-calendar>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <label for="Commodity" class="label-fontsize">Commodity</label>
@@ -68,12 +68,6 @@
                 oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                 appDecimalDigit required />
             </div>
-            <!-- <div class="ui-g-6 ui-md-2" *ngIf="isViewed">
-          <label for="additionalQty" class="label-fontsize">Additional Quantity</label>
-          <input pInputText name="additionalQty"  [(ngModel)]="Quantity" type="text" 
-          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" 
-          appDecimalDigit required/>
-        </div> -->
           </div>
           <div class="ui-g-2"></div>
           <div class="ui-g-10 ui-md-6">

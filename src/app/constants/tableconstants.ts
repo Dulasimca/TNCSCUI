@@ -194,6 +194,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No.' },
       { field: 'OrderNumber', header: 'Order Number' },
       //  { field: 'OrderDate', header: 'Order Date' },
+      { field: 'PartyRegion', header: 'Party Region' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'SpellName', header: 'Spell' },
       { field: 'TargetDate', header: 'Target Date' },

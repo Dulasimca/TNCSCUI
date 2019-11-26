@@ -44,7 +44,7 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="target_Date" class="label-fontsize">Target Date</label>
                 <p-calendar #target_Date name="target_Date" #targetDate="ngModel" [showIcon]="true"
-                  dateFormat="dd/mm/yy" [(ngModel)]="TargetDate" required>
+                  dateFormat="dd/mm/yy" (ngModelChange)="checkTargetDate($event)" [(ngModel)]="TargetDate" required>
                 </p-calendar>
               </div>
               <div class="ui-g-6 ui-md-1">
@@ -113,7 +113,8 @@
               </div>
             </div>
             <div class="ui-g-12 ui-fluid dashboard">
-              <p-table [columns]="tenderAllotmentCols" [value]="tenderAllotmentData" [paginator]="true" [rows]="20">
+              <p-table [columns]="tenderAllotmentCols" [value]="tenderAllotmentData" autoLayout="true"
+              [paginator]="true" [rows]="20" [loading]="loading" [responsive]="true">
                 <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
                     <col *ngFor="let col of columns">
@@ -144,7 +145,7 @@
         <div class="ui-g-12 ui-md-12 ui-lg-12 border-teal">
           <form #rf="ngForm" name="regTenderAllotment">
             <div class="ui-g-12 dashboard">
-              <div class="ui-g-2"></div>
+              <div class="ui-g-1"></div>
               <div class="ui-g-6 ui-md-2">
                 <label for="selected_order_Num" class="label-fontsize">Order Number</label>
                 <input name="selected_order_Num" type="text" size="15" pInputText [(ngModel)]="selectedOrderNo"
@@ -155,19 +156,24 @@
                 <input name="selected_commdity_type" type="text" size="15" pInputText [(ngModel)]="Commodity"
                   [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-2">
+              <div class="ui-g-6 ui-md-3">
+                  <label for="selected_party_region" class="label-fontsize">Party Region</label>
+                  <input name="selected_party_region" type="text" size="15" pInputText [(ngModel)]="selectedPartyRegion"
+                    [readonly]="true">
+                </div>
+              <div class="ui-g-6 ui-md-3">
                 <label for="selected_party_name" class="label-fontsize">Party Name</label>
                 <input name="selected_party_name" type="text" size="15" pInputText [(ngModel)]="selectedParty"
                   [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="selected_spell" class="label-fontsize">Spell</label>
-                <input name="selected_spell" type="text" size="15" pInputText [(ngModel)]="selectedSpell"
-                  [readonly]="true">
-              </div>
             </div>
             <div class="ui-g-12 dashboard">
-              <div class="ui-g-2"></div>
+              <div class="ui-g-1"></div>
+              <div class="ui-g-6 ui-md-2">
+                  <label for="selected_spell" class="label-fontsize">Spell</label>
+                  <input name="selected_spell" type="text" size="15" pInputText [(ngModel)]="selectedSpell"
+                    [readonly]="true">
+                </div>
               <div class="ui-g-6 ui-md-2">
                 <label for="selected_total_Qty" class="label-fontsize">Total Quantity</label>
                 <input name="selected_total_Qty" type="text" size="15" pInputText [(ngModel)]="RegAllottedQty"
@@ -199,7 +205,7 @@
             <div class="ui-g-12 ui-fluid">
               <p-table [columns]="tenderAllotmentRegionWiseCols" [value]="tenderAllotmentRegionWiseData" [rows]="10"
                 [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" selectionMode="single"
-                [responsive]="true" autoLayout="true">
+                [responsive]="true" autoLayout="true" [loading]="loading">
                 <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
                     <col *ngFor="let col of columns">
