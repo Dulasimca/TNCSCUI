@@ -448,7 +448,6 @@ export class RegionAllotmentComponent implements OnInit {
         this.tenderAllotmentRegionWiseData = [];
       } else {
         const lastIndex = this.tenderAllotmentRegionWiseData.length - 1;
-        // this.tenderAllotmentRegionWiseData[lastIndex].Quantity = (this.tenderAllotmentRegionWiseData[lastIndex].Quantity * 1) - (this.splicedRegQty * 1);
         let sno = 1;
         let totalQty = 0;
         this.tenderAllotmentRegionWiseData.forEach(x => {

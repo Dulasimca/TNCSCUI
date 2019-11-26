@@ -109,6 +109,8 @@ export class TableConstants {
   TenderQuantityCols: any[];
   ServiceProviderEntry: any;
   TenderAllotmentToGodownCols: any[];
+  ProcessToG2GIssueCols: any[];
+  ProcessToG2GCols: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -1290,5 +1292,21 @@ export class TableConstants {
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Remarks', header: 'Remarks' }
     ]
+
+    this.ProcessToG2GIssueCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'Stock Issue No', field: 'SINo' },
+      { header: 'Issuer Name', field: 'IssuerName' },
+      { header: 'Receivor Name', field: 'ReceivorName' },
+    ];
+
+    this.ProcessToG2GCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'DOC NO.', field: 'DocNumber' },
+      { header: 'Start Date', field: 'StartDate' },
+      { header: 'End Date', field: 'EndDate' },
+      { header: 'Error', field: 'Error' },
+      { header: 'Status', field: 'Status' }
+    ];
   }
 }

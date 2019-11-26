@@ -149,4 +149,9 @@ export class PathConstants {
   public static readonly PURCHASE_TENDER_ALLOTMENT_TO_GODOWN_POST = '/api/TenderAllotmentToGodown/Post';
   public static readonly PURCHASE_TENDER_ALLOTMENT_TO_GODOWN_GET = '/api/TenderAllotmentToGodown';
   ///End
+
+  ///G2G
+  public static readonly PROCESS_TO_G2G_POST = '/api/ProcessToG2G/Post';
+  public static readonly PROCESS_TO_G2G_GET = '/api/ProcessToG2G/Get';
+  ///End
 }

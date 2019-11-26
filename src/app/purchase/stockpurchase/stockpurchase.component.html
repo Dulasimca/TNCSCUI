@@ -87,7 +87,8 @@
         </div>
       </form>
       <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="isShowGrid">
-        <p-table [columns]="stockPurchaseDataCoulmns" [value]="stockPurchaseData" [paginator]="true" [rows]="20">
+        <p-table [columns]="stockPurchaseDataCoulmns" [value]="stockPurchaseData" 
+        [paginator]="true" [rows]="20" [responsive]="true" autoLayout="true">
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns">
