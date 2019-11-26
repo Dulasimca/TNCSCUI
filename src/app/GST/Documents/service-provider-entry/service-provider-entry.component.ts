@@ -205,7 +205,7 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.GST_SERVICE_PROVIDER_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE, 'percentage': y.TAXPERCENTAGE});
+                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE, 'percentage': y.TAXPERCENTAGE });
                 this.commodityOptions = commoditySelection;
               });
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });

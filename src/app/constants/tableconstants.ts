@@ -109,6 +109,7 @@ export class TableConstants {
   TenderQuantityCols: any[];
   ServiceProviderEntry: any;
   TenderAllotmentToGodownCols: any[];
+  AllotmentIssueQuantity: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1289,5 +1290,16 @@ export class TableConstants {
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Remarks', header: 'Remarks' }
     ]
+
+    this.AllotmentIssueQuantity = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'Allotmentmonth', header: 'Month' },
+      { field: 'SIDate', header: 'Date' },
+      { field: 'Societyshopcode', header: 'Shop Code' },
+      { field: 'SocietyName', header: 'Society Name' },
+      { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'CommodityName', header: 'Commodity' },
+      { field: 'Quantity', header: 'Quantity' }
+    ];
   }
 }
