@@ -73,7 +73,7 @@ export class RegionAllotmentComponent implements OnInit {
   completedDate: Date;
   PartyRCode: any;
   selectedPartyRegion: any;
- @ViewChild('orderNum') oredrNoPanel: Dropdown;
+  @ViewChild('orderNum') oredrNoPanel: Dropdown;
   @ViewChild('partyregion') partyRegionPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('party') partyNamePanel: Dropdown;
@@ -219,17 +219,21 @@ export class RegionAllotmentComponent implements OnInit {
                 + ((x.AdditionalQty !== null && x.AdditionalQty !== undefined) ? (x.AdditionalQty * 1) : 0);
               this.Commodity = x.ITDescription;
               this.completedDate = new Date(x.CompletedDate);
-              console.log('c', this.completedDate);
-                  x.SlNo = sno;
-                  sno += 1;
-                  x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
-                  x.TargetDate = this.datePipe.transform(x.TargetDate, 'dd/MM/yyyy');
-                  x.SpellName = 'Spell' + x.Spell;
-                  totalQty += (x.AssignedQty * 1);
+              x.SlNo = sno;
+              sno += 1;
+              x.tDate = this.datePipe.transform(x.TargetDate, 'MM/dd/yyyy');
+              x.TargetDate = this.datePipe.transform(x.TargetDate, 'dd/MM/yyyy');
+              x.SpellName = 'Spell' + x.Spell;
+              totalQty += (x.AssignedQty * 1);
             })
-            this.tenderAllotmentData = data;
-            this.tenderAllotmentData.push({ OrderNumber: 'Total', AssignedQty: totalQty });
-            if((this.AllottedQty * 1) === totalQty) {
+            if (data[0].PartyCode !== null && data[0].PartyCode !== undefined && data[0].Spell !== null &&
+              data[0].Spell !== undefined && data[0].AssignedQty !== null && data[0].AssignedQty !== undefined) {
+              this.tenderAllotmentData = data;
+              this.tenderAllotmentData.push({ OrderNumber: 'Total', AssignedQty: totalQty });
+            } else {
+              this.tenderAllotmentData = [];
+            }
+            if ((this.AllottedQty * 1) === totalQty) {
               this.blockEntry = true;
             } else {
               this.blockEntry = false;
@@ -240,15 +244,21 @@ export class RegionAllotmentComponent implements OnInit {
             let sno = 1;
             let totalQty = 0;
             data.forEach(x => {
-                  x.SlNo = sno;
-                  sno += 1;
-                  x.SpellName = 'Spell' + x.Spell;
-                  x.SelectedOrderNo = this.selectedOrderNo;
-                  totalQty += (x.Quantity * 1);
+              x.SlNo = sno;
+              sno += 1;
+              x.SpellName = 'Spell' + x.Spell;
+              x.SelectedOrderNo = this.selectedOrderNo;
+              totalQty += (x.Quantity * 1);
             })
-            this.tenderAllotmentRegionWiseData = data;
-            this.tenderAllotmentRegionWiseData.push({ SelectedOrderNo: 'Total', Quantity: totalQty });
-            if((this.RegAllottedQty * 1) === totalQty) {
+            if (data[0].RCode !== null && data[0].RCode !== undefined && data[0].Quantity !== null &&
+              data[0].Quantity !== undefined) {
+              this.tenderAllotmentRegionWiseData = data;
+              this.tenderAllotmentRegionWiseData.push({ SelectedOrderNo: 'Total', Quantity: totalQty });
+            } else {
+              this.tenderAllotmentRegionWiseData = [];
+            }
+
+            if ((this.RegAllottedQty * 1) === totalQty) {
               this.blockRegQty = true;
             } else {
               this.blockRegQty = false;
@@ -266,7 +276,7 @@ export class RegionAllotmentComponent implements OnInit {
   }
 
   checkTargetDate(date) {
-    if(date !== null && date !== undefined && this.completedDate !== null && this.completedDate !== undefined) {
+    if (date !== null && date !== undefined && this.completedDate !== null && this.completedDate !== undefined) {
       const cDate = this.completedDate.getDate();
       const cMonth = this.completedDate.getMonth() + 1;
       const cYear = this.completedDate.getFullYear();
@@ -274,8 +284,8 @@ export class RegionAllotmentComponent implements OnInit {
       const tDate = getTargetDate.getDate();
       const tMnth = getTargetDate.getMonth() + 1;
       const tYear = getTargetDate.getFullYear();
-      if((cDate === tDate && (cMonth < tMnth && cYear <= tYear)) || (cMonth < tMnth && cYear <= tYear)
-      || (cDate < tDate && (cMonth === tMnth && cYear === tYear)) || (cYear < tYear)) {
+      if ((cDate === tDate && (cMonth < tMnth && cYear <= tYear)) || (cMonth < tMnth && cYear <= tYear)
+        || (cDate < tDate && (cMonth === tMnth && cYear === tYear)) || (cYear < tYear)) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.PurchaseTargetDateValidation });
       }
@@ -403,7 +413,7 @@ export class RegionAllotmentComponent implements OnInit {
               }
             })
             this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
-            if((this.AllottedQty * 1) === totalQty) {
+            if ((this.AllottedQty * 1) === totalQty) {
               this.blockEntry = true;
             } else {
               this.blockEntry = false;
@@ -449,7 +459,7 @@ export class RegionAllotmentComponent implements OnInit {
           }
         })
         this.tenderAllotmentRegionWiseData[lastIndex].Quantity = totalQty;
-        if((this.RegAllottedQty * 1) === totalQty) {
+        if ((this.RegAllottedQty * 1) === totalQty) {
           this.blockRegQty = true;
         } else {
           this.blockRegQty = false;
@@ -657,7 +667,7 @@ export class RegionAllotmentComponent implements OnInit {
       this.regForm.form.markAsPristine();
       this.selectedPartyRegion = null; this.Commodity = null;
       this.selectedPartyID = null; this.selectedParty = null;
-      this.selectedSpellCode = null; this.selectedSpell = null; 
+      this.selectedSpellCode = null; this.selectedSpell = null;
       this.selectedOrderNo = null; this.RegAllottedQty = null;
       this.RegAllotmentID = null; this.RegQty = null;
       this.RCode = null; this.rCode = null; this.regionOptions = [];
