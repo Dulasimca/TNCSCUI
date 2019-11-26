@@ -108,11 +108,14 @@ export class ProcessToG2GComponent implements OnInit {
                 if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
                     this.loading = false;
                     let sno = 1;
-                    res.Table.forEach(data => {
+                    let filteredArr = res.Table.filter(x => {
+                        return (x.TyCode === 'TY002' || x.TyCode === 'TY003' || x.TyCode === 'TY004');
+                    })
+                    filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
                     })
-                    this.issueMemoDocData = res.Table;
+                    this.issueMemoDocData = filteredArr;
                 } else {
                     this.issueMemoDocData = [];
                     this.loading = false;
@@ -131,17 +134,21 @@ export class ProcessToG2GComponent implements OnInit {
     }
 
     onView() {
-        this.showPane = true;
         this.processToG2GCols = this.tableConstants.ProcessToG2GCols;
         const params = new HttpParams().set('RCode', this.RCode).append('GCode', this.GCode).append('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'));
         this.restAPIService.getByParameters(PathConstants.PROCESS_TO_G2G_GET, params).subscribe((res: any) => {
             if (res !== null && res !== undefined && res.length !== 0) {
+                this.showPane = true;
                 let sno = 1;
-                res.forEach(data => {
+                res.forEach((data, index) => {
                     data.SlNo = sno;
                     sno += 1;
                     data.StartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
-                    data.Status = this.getGPSStatus(data.GToGStatus);
+                    if (data.Status === 4) {
+                        res.splice(index, 1);
+                    } else {
+                        data.Status = this.getG2GStatus(data.GToGStatus);
+                    }
                 })
                 this.processToG2GData = res;
             } else {
@@ -161,9 +168,9 @@ export class ProcessToG2GComponent implements OnInit {
         });
     }
 
-    getGPSStatus(value): string {
+    getG2GStatus(value): string {
         let result;
-        if(value !== null && value !== undefined) {
+        if (value !== null && value !== undefined) {
             switch (value) {
                 case 0:
                     result = 'Pending';
