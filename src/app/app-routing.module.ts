@@ -98,7 +98,11 @@ import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-ta
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
+<<<<<<< HEAD
 import { AllotmentIssueQuantityComponent } from './reports/Allotment/allotment-issue-quantity/allotment-issue-quantity.component';
+=======
+import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
+>>>>>>> e0aa639e69871a81d54f88e3e904ee631ed40412
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -198,7 +202,11 @@ const routes: Routes = [
   { path: 'PurchaseTaxEntry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'ServiceProviderEntry', component: ServiceProviderEntryComponent, canActivate: [AuthGuard]},
   { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
+<<<<<<< HEAD
   { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard]},
+=======
+  { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
+>>>>>>> e0aa639e69871a81d54f88e3e904ee631ed40412
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

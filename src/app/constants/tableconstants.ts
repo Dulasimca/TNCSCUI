@@ -110,6 +110,8 @@ export class TableConstants {
   ServiceProviderEntry: any;
   TenderAllotmentToGodownCols: any[];
   AllotmentIssueQuantity: any;
+  ProcessToG2GIssueCols: any[];
+  ProcessToG2GCols: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -195,6 +197,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No.' },
       { field: 'OrderNumber', header: 'Order Number' },
       //  { field: 'OrderDate', header: 'Order Date' },
+      { field: 'PartyRegion', header: 'Party Region' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'SpellName', header: 'Spell' },
       { field: 'TargetDate', header: 'Target Date' },
@@ -1300,6 +1303,22 @@ export class TableConstants {
       { field: 'IssuerName', header: 'Issuer Name' },
       { field: 'CommodityName', header: 'Commodity' },
       { field: 'Quantity', header: 'Quantity' }
+    ];
+    
+    this.ProcessToG2GIssueCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'Stock Issue No', field: 'SINo' },
+      { header: 'Issuer Name', field: 'IssuerName' },
+      { header: 'Receivor Name', field: 'ReceivorName' },
+    ];
+
+    this.ProcessToG2GCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'DOC NO.', field: 'DocNumber' },
+      { header: 'Start Date', field: 'GToGStartDate' },
+      { header: 'End Date', field: 'GToGEndDate' },
+      { header: 'Error', field: 'GToGError' },
+      { header: 'Status', field: 'Status' }
     ];
   }
 }

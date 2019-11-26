@@ -786,6 +786,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.schemeOptions = []; this.marginSchemeOptions = [];
     this.marginRateInTermsOptions = undefined; this.rateInTermsOptions = undefined;
     this.itemDescOptions = []; this.marginItemDescOptions = [];
+    this.DeliveryDate = new Date(); this.PermitDate = new Date();
     // this.isSaved = false;
     //this.isViewed = false;
   }
