@@ -109,6 +109,7 @@ export class TableConstants {
   TenderQuantityCols: any[];
   ServiceProviderEntry: any;
   TenderAllotmentToGodownCols: any[];
+  AllotmentIssueQuantity: any;
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
 
@@ -1293,6 +1294,17 @@ export class TableConstants {
       { field: 'Remarks', header: 'Remarks' }
     ]
 
+    this.AllotmentIssueQuantity = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'Allotmentmonth', header: 'Month' },
+      { field: 'SIDate', header: 'Date' },
+      { field: 'Societyshopcode', header: 'Shop Code' },
+      { field: 'SocietyName', header: 'Society Name' },
+      { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'CommodityName', header: 'Commodity' },
+      { field: 'Quantity', header: 'Quantity' }
+    ];
+    
     this.ProcessToG2GIssueCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Stock Issue No', field: 'SINo' },

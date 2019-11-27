@@ -24,7 +24,7 @@ export class PathConstants {
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';
   public static readonly STOCK_TRUCK_MEMO_VIEW_DOCUMENT = '/api/StockTruckMemo/Get';
-  public static readonly TRUCK_MEMO_DUPLICATE_DOCUMENT = '/api/StockTruckMemo/Put'
+  public static readonly TRUCK_MEMO_DUPLICATE_DOCUMENT = '/api/StockTruckMemo/Put';
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrders/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_REPORT = '/api/StockDeliveryOrders/Get';
   public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
@@ -131,6 +131,7 @@ export class PathConstants {
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly GST_COMMODITY_MASTER = '/api/GSTCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
+  public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';

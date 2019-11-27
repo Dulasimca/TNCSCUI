@@ -147,6 +147,7 @@ import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/pu
 import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
+import { AllotmentIssueQuantityComponent } from './reports/Allotment/allotment-issue-quantity/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 
 @NgModule({
@@ -255,6 +256,7 @@ import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.compo
     PartyLedgerMasterComponent,
     AllotmentDetailsComponent,
     ServiceProviderEntryComponent,
+    AllotmentIssueQuantityComponent,
     ProcessToG2GComponent,
   ],
   imports: [
