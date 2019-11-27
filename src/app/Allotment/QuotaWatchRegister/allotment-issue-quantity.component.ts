@@ -161,7 +161,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         }
         if (this.societyOptions === undefined) {
           this.AllotmentQuantityData.forEach(res => {
-            //   societySelection.push({ 'label': S.SocietyName, 'value': S.SocietyCode });
+              societySelection.push({ 'label': res.SocietyName, 'value': res.SocietyCode });
             var result = Array.from(new Set(res.map((item: any) => item.SocietyName))); //Get distinct values from array
             var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
             for (var index in result && code) {
