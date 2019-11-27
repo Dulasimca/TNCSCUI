@@ -89,7 +89,10 @@ export class IssueSchemeCrsComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        } else {
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+          } else {
           this.godownOptions = godownSelection;
         }
         break;

@@ -38,6 +38,7 @@ export class ProcessToG2GComponent implements OnInit {
     @ViewChild('region') regionPanel: Dropdown;
     @ViewChild('godown') godownPanel: Dropdown;
     showPane: boolean;
+    showCheckBox: boolean;
 
     constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
         private restAPIService: RestAPIService, private authService: AuthService,
@@ -103,6 +104,7 @@ export class ProcessToG2GComponent implements OnInit {
     onDateChange() {
         if (this.GCode !== undefined && this.GCode !== null && this.Date !== null && this.Date !== undefined) {
             this.loading = true;
+            this.showCheckBox = false;
             const params = new HttpParams().set('value', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
             this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
                 if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
@@ -114,6 +116,11 @@ export class ProcessToG2GComponent implements OnInit {
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
+                        if(data.TyCode === 'TY002') {
+                            data.showCheckBox = true;
+                        } else {
+                            data.showCheckBox = false;
+                        }
                     })
                     this.issueMemoDocData = filteredArr;
                 } else {
@@ -148,6 +155,7 @@ export class ProcessToG2GComponent implements OnInit {
                     sno += 1;
                     data.GToGStartDate = this.datepipe.transform(data.GToGStartDate, 'dd/MM/yyyy');
                     data.GToGEndDate = this.datepipe.transform(data.GToGEndDate, 'dd/MM/yyyy');
+                    
                     // if (data.Status === 4) {
                     //     this.processToG2GData.splice(index, 1);
                     // } else {

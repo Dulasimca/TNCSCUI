@@ -12,14 +12,7 @@
     </p-header>
     <div class="ui-g ui-fluid">
       <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
-      <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
-        <p-footer>
-          <div class="ui-g-12 ui-md-12 dashboard">
-            <button type="button" pButton label="Edit" style="width: 80px !important;" (click)="cd.reject()"></button>
-            <button type="button" pButton label="Region Allot" (click)="cd.accept()"></button>
-          </div>
-        </p-footer>
-      </p-confirmDialog>
+      <!--  -->
       <div class="ui-g-12 ui-md-12 ui-lg-12">
         <form #f="ngForm" name="tenderAllotment">
           <div class="ui-g-12 ui-fluid dashboard  border-teal">
@@ -115,22 +108,21 @@
             <div class="ui-g-12 ui-fluid dashboard">
               <p-table [columns]="tenderAllotmentCols" [value]="tenderAllotmentData" autoLayout="true"
               [paginator]="true" [rows]="20" [loading]="loading" [responsive]="true">
-                <ng-template pTemplate="colgroup" let-columns>
-                  <colgroup>
-                    <col *ngFor="let col of columns">
-                  </colgroup>
-                </ng-template>
-                <ng-template pTemplate="header" let-columns>
+              <ng-template pTemplate="header" let-columns>
                   <tr>
-                    <th *ngFor="let col of columns">
-                      {{col.header}}
-                    </th>
+                      <th *ngFor="let col of columns">
+                          {{col.header}}
+                      </th>
+                      <th style="width:3.2em"></th>
                   </tr>
-                </ng-template>
+              </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                   <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex, '1')">
                     <td *ngFor="let col of columns">
                       {{rowData[col.field]}}
+                    </td>
+                    <td *ngIf="rowData['OrderNumber'] !== 'Total'">
+                        <button pButton icon="pi pi-plus" (click)="onSelectedRow(rowData, rowIndex, '2')"></button>
                     </td>
                   </tr>
                 </ng-template>
@@ -196,7 +188,6 @@
                   <span style="font-size: 11px; color:crimson;">Allot Quantity within Total Quantity!</span>
                 </div>
               </div>
-              <!-- <div class="ui-g-1"></div> -->
               <div class="ui-g-4 ui-md-1" style="margin-top: 20px;">
                 <button pButton label=Save [disabled]="(!rf.valid || (isSelected && !rf.dirty))"
                   (click)="onSave('2')"></button>
@@ -219,7 +210,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                  <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex, '2')">
+                  <tr [pSelectableRow]="rowData" (dblclick)="onSelectedRow(rowData, rowIndex, '3')">
                     <td *ngFor="let col of columns">
                       {{rowData[col.field]}}
                     </td>

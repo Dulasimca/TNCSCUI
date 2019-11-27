@@ -13,11 +13,11 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-receipt-detail-commodity',
-  templateUrl: './receipt-detail-commodity.component.html',
-  styleUrls: ['./receipt-detail-commodity.component.css']
+  selector: 'app-quantity-detail-commodity',
+  templateUrl: './quantity-detail-commodity.component.html',
+  styleUrls: ['./quantity-detail-commodity.component.css']
 })
-export class ReceiptDetailCommodityComponent implements OnInit {
+export class QuantityDetailCommodityComponent implements OnInit {
   QtyReceiptCols: any;
   QtyReceiptData: any = [];
   fromDate: any = new Date();

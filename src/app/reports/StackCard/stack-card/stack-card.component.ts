@@ -204,6 +204,7 @@ export class StackCardComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
+    else if(item === 'st_yr') { this.TStockNo = null; }
     this.StackCardData = [];
   }
 
