@@ -112,6 +112,7 @@ export class TableConstants {
   AllotmentIssueQuantity: any;
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
+  QuantityACIssueDetailsCommodity: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -1322,6 +1323,38 @@ export class TableConstants {
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Error', field: 'GToGError' },
       { header: 'Status', field: 'Status' }
+    ];
+
+    this.QuantityACIssueDetailsCommodity = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'OB+Receipt', field: 'OBR' },
+      { header: 'PDS/CRS', field: 'PDS' },
+      { header: 'CO-OP/ICDS/OMR', field: 'ICDS' },
+      { header: 'Po/Fi/Pr/Fo', field: 'Po' },
+      { header: 'NMP', field: 'NMP' },
+      { header: 'BUL/HOS/GAS/TEN/PONGAL', field: 'Scheme' },
+      { header: 'CREDIT', field: 'Credit' },
+      { header: 'OAP', field: 'Oap' },
+      { header: 'SRILANKA', field: 'srilanka' },
+      { header: 'AAY', field: 'Aay' },
+      { header: 'SPds CRS', field: 'SPdsCRS' },
+      { header: 'SPds COOP', field: 'SPdsCOOP' },
+      { header: 'Cement/Flood', field: 'Cement' },
+      { header: 'Total Sales', field: 'TotalSales' },
+      { header: 'PTNMGR', field: 'PTNMGR' },
+      { header: 'SGRY', field: 'SGRY' },
+      { header: 'AnnaPoorna', field: 'AnnaPoorna' },
+      { header: 'Total Free Rice', field: 'TotalFreeRice' },
+      { header: 'Issues to Processing  ', field: 'IssuestoProcessing  ' },
+      { header: 'Transfer Within Region', field: 'TransferWithinRegion' },
+      { header: 'Transfer Other Region', field: 'TransferOtherRegion' },
+      { header: 'WriteOff', field: 'WriteOff' },
+      { header: 'Cl/Pack/BULKING', field: 'BULKING' },
+      { header: 'Vc/Bt/Blg', field: 'Blg' },
+      { header: 'Purchase Return', field: 'PurchaseReturn' },
+      { header: 'Total Issues', field: 'Total Issues' },
+      { header: 'Closing Balance', field: 'ClosingBalance' },
     ];
   }
 }
