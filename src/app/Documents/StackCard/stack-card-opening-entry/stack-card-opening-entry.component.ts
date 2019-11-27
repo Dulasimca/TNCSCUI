@@ -9,6 +9,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { DataTable } from 'primeng/primeng';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -49,6 +50,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   totalRecords: number;
   blockScreen: boolean;
   disableCDate: boolean = false;
+  @ViewChild('f') ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -282,6 +284,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.newEntry = false; this.cardExits = false;
     this.disableCDate = false; this.flag = false; 
     this.Date = new Date(); this.ClosingDate = null;
+    this.ngForm.form.controls.LocNo.reset();
+    this.ngForm.form.controls.FormationNo.reset();
   }
 
   onSave() {

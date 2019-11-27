@@ -377,8 +377,8 @@ export class IssueReceiptComponent implements OnInit {
 
   parseMoisture(event) {
     let totalLength = event.target.value.length;
-    let value = event.target.value;
-    let findDot = this.Moisture.indexOf('.');
+    let value = (this.Moisture !== undefined && this.Moisture !== null) ? this.Moisture : '';
+    let findDot = value.indexOf('.');
     if ((event.keyCode >= 32 && event.keyCode <= 47) || (event.keyCode >= 58 && event.keyCode <= 64)
       || (event.keyCode >= 91 && event.keyCode <= 95) || (event.keyCode >= 123 && event.keyCode <= 127)
       || (findDot > 1)) {
@@ -388,15 +388,15 @@ export class IssueReceiptComponent implements OnInit {
     }
     else if (totalLength >= 2 && event.keyCode !== 8) {
       if (findDot < 0) {
-        let checkValue: any = this.Moisture.slice(0, 2);
+        let checkValue: any = value.slice(0, 2);
         checkValue = (checkValue * 1);
         if (checkValue > 25) {
-          let startValue = this.Moisture.slice(0, 1);
-          let endValue = this.Moisture.slice(1, totalLength);
+          let startValue = value.slice(0, 1);
+          let endValue = value.slice(1, totalLength);
           this.Moisture = startValue + '.' + endValue;
         } else {
-          let startValue = this.Moisture.slice(0, 2);
-          let endValue = this.Moisture.slice(2, totalLength);
+          let startValue = value.slice(0, 2);
+          let endValue = value.slice(2, totalLength);
           endValue = (endValue !== undefined && endValue !== '') ? endValue : '';
           this.Moisture = (endValue.trim() !== '') ? (startValue + '.' + endValue) : startValue;
         }
@@ -456,7 +456,8 @@ export class IssueReceiptComponent implements OnInit {
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value 
+    : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
     ind = stockNo.indexOf('/', 2);
     const totalLength = stockNo.length;
     this.godownNo = stockNo.slice(0, ind);
@@ -568,6 +569,7 @@ export class IssueReceiptComponent implements OnInit {
       Nkgs: this.NKgs,
       WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
       Moisture: this.Moisture,
+      StackYear: this.stackYear,
       Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
       SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
@@ -655,6 +657,7 @@ export class IssueReceiptComponent implements OnInit {
         this.NoPacking = (data.NoPacking * 1),
           this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
+        this.stackYear = data.StackYear;
         this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
@@ -860,7 +863,7 @@ export class IssueReceiptComponent implements OnInit {
             WmtType: i.WEType,
             PWeight: i.PWeight,
             StackDate: i.StackDate,
-            //     StackYear: i.StackYear,
+            StackYear: i.StackYear,
             RCode: i.RCode
           })
           sno += 1;
