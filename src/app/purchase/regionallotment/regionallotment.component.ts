@@ -370,70 +370,61 @@ export class RegionAllotmentComponent implements OnInit {
 
   onSelectedRow(data, index, type) {
     if (type === '1') {
-      // this.confirmationService.confirm({
-      //   message: 'Do you want edit or add additional quantity?',
-      //   header: 'Confirmation',
-      //   icon: 'pi pi-exclamation-triangle',
-      //   reject: () => {
-          this.isViewed = true;
-          this.form.form.markAsUntouched();
-          this.form.form.markAsPristine();
-          this.AllotmentID = data.AllotmentID;
-          this.PartyCode = data.PartyName;
-          this.partyID = data.PartyCode;
-          this.partyNameOptions = [{ label: data.PartyName, value: data.PartyCode }];
-          this.Spell = data.SpellName;
-          this.spellCode = data.Spell;
-          this.spellOptions = [{ label: data.SpellName, value: data.Spell }];
-          this.PartyRegion = data.PartyRegion;
-          this.PartyRCode = data.PartyRCode;
-          this.partyRegionOptions = [{ label: data.PartyRegion, value: data.PartyRCode }];
-          this.Quantity = (data.AssignedQty * 1);
-          this.TargetDate = data.TargetDate;
-          this.tDate = data.tDate;
-          this.TotalDays = data.TotalDays;
-          this.Rate = data.Rate;
-          this.Remarks = data.Remarks;
-          this.partyNamePanel.showClear = false;
-          this.spellPanel.showClear = false;
-          this.oredrNoPanel.showClear = false;
-          this.tenderAllotmentData.splice(index, 1);
-          this.splicedQty = this.tenderAllotmentData[index].AssignedQty;
-          if (this.tenderAllotmentData.length === 1 && this.tenderAllotmentData[0].OrderNumber === 'Total') {
-            this.tenderAllotmentData = [];
-          } else {
-            const lastIndex = this.tenderAllotmentData.length - 1;
-            let sno = 1;
-            let totalQty = 0;
-            this.tenderAllotmentData.forEach(x => {
-              if (x.OrderNumber !== 'Total') {
-                x.SlNo = sno;
-                sno += 1;
-                totalQty += (x.AssignedQty * 1);
-              }
-            })
-            this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
-            if ((this.AllottedQty * 1) === totalQty) {
-              this.blockEntry = true;
-            } else {
-              this.blockEntry = false;
-            }
+      this.isViewed = true;
+      this.form.form.markAsUntouched();
+      this.form.form.markAsPristine();
+      this.AllotmentID = data.AllotmentID;
+      this.PartyCode = data.PartyName;
+      this.partyID = data.PartyCode;
+      this.partyNameOptions = [{ label: data.PartyName, value: data.PartyCode }];
+      this.Spell = data.SpellName;
+      this.spellCode = data.Spell;
+      this.spellOptions = [{ label: data.SpellName, value: data.Spell }];
+      this.PartyRegion = data.PartyRegion;
+      this.PartyRCode = data.PartyRCode;
+      this.partyRegionOptions = [{ label: data.PartyRegion, value: data.PartyRCode }];
+      this.Quantity = (data.AssignedQty * 1);
+      this.TargetDate = data.TargetDate;
+      this.tDate = data.tDate;
+      this.TotalDays = data.TotalDays;
+      this.Rate = data.Rate;
+      this.Remarks = data.Remarks;
+      this.partyNamePanel.showClear = false;
+      this.spellPanel.showClear = false;
+      this.oredrNoPanel.showClear = false;
+      this.tenderAllotmentData.splice(index, 1);
+      this.splicedQty = this.tenderAllotmentData[index].AssignedQty;
+      if (this.tenderAllotmentData.length === 1 && this.tenderAllotmentData[0].OrderNumber === 'Total') {
+        this.tenderAllotmentData = [];
+      } else {
+        const lastIndex = this.tenderAllotmentData.length - 1;
+        let sno = 1;
+        let totalQty = 0;
+        this.tenderAllotmentData.forEach(x => {
+          if (x.OrderNumber !== 'Total') {
+            x.SlNo = sno;
+            sno += 1;
+            totalQty += (x.AssignedQty * 1);
           }
-        // },
-        // accept: () => {
-        } else if(type === '2') {
-          this.tenderAllotmentRegionWiseData.length = 0;
-          this.showPane = true;
-          this.selectedPartyRegion = data.PartyRegion;
-          this.selectedOrderNo = data.OrderNumber;
-          this.selectedParty = data.PartyName;
-          this.selectedPartyID = data.PartyCode;
-          this.selectedSpell = data.SpellName;
-          this.selectedSpellCode = data.Spell;
-          this.RegAllottedQty = (data.AssignedQty * 1);
-          this.onChangeOrderNo(type);
-       // }
-      // });
+        })
+        this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
+        if ((this.AllottedQty * 1) === totalQty) {
+          this.blockEntry = true;
+        } else {
+          this.blockEntry = false;
+        }
+      }
+    } else if (type === '2') {
+      this.tenderAllotmentRegionWiseData.length = 0;
+      this.showPane = true;
+      this.selectedPartyRegion = data.PartyRegion;
+      this.selectedOrderNo = data.OrderNumber;
+      this.selectedParty = data.PartyName;
+      this.selectedPartyID = data.PartyCode;
+      this.selectedSpell = data.SpellName;
+      this.selectedSpellCode = data.Spell;
+      this.RegAllottedQty = (data.AssignedQty * 1);
+      this.onChangeOrderNo(type);
     } else {
       this.RegAllotmentID = data.RegAllotementID;
       this.isSelected = true;
