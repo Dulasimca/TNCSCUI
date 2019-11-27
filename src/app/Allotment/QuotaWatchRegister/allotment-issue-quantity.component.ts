@@ -159,34 +159,30 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         if (type === 'enter') {
           this.societyPanel.overlayVisible = true;
         }
-        if (this.societyOptions === undefined) {
-          this.AllotmentQuantityData.forEach(res => {
-              societySelection.push({ 'label': res.SocietyName, 'value': res.SocietyCode });
-            var result = Array.from(new Set(res.map((item: any) => item.SocietyName))); //Get distinct values from array
-            var code = Array.from(new Set(res.map((item: any) => item.SocietyCode)));
-            for (var index in result && code) {
-              societySelection.push({ 'label': result[index], 'value': code[index] })
-            }
-          });
+        if (this.CompanyTitle !== undefined) {
+          var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
+          for (var index in result) {
+            societySelection.push({ 'label': result[index]})
+          }
+          this.societyOptions = societySelection;
         }
-        this.societyOptions = societySelection;
         break;
       case 'sh':
         if (type === 'enter') {
           this.shopPanel.overlayVisible = true;
         }
-        if (this.shopNameOptions !== undefined) {
-          this.AllotmentQuantityData.forEach(v => {
+        if (this.shopNameOptions === undefined) {
+          this.CompanyTitle.forEach(v => {
             // shopSelection.push({ 'label': vv.IssuerName, 'value': vv.Receivorcode });
 
-            var result = Array.from(new Set(v.map((item: any) => item.IssuerName))); //Get distinct values from array
-            var code = Array.from(new Set(v.map((item: any) => item.Receivorcode)));
+            var result = Array.from(new Set(this.CompanyTitle.map((item: any) => item.IssuerName))); //Get distinct values from array
+            var code = Array.from(new Set(this.CompanyTitle.map((item: any) => item.Acscode)));
             for (var index in result && code) {
               shopSelection.push({ 'label': result[index], 'value': code[index] })
             }
           });
+          this.shopNameOptions = shopSelection;
         }
-        this.shopNameOptions = shopSelection;
         break;
     }
   }
@@ -231,7 +227,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     });
   }
 
-  onSearch() {}
+  onSearch() { }
 
   onDateSelect() {
     this.checkValidDateSelection();
