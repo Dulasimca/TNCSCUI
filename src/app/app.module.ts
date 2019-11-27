@@ -124,12 +124,10 @@ import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receip
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
 import { IssueSchemeCoOpComponent } from './reports/Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
-import { ReceiptIssueOtherItemsComponent } from './reports/Quantity/receipt-issue-other-items/receipt-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
 import { LoginService } from './login/login.service';
-import { ReceiptDetailCommodityComponent } from './reports/Quantity/receipt-detail-commodity/receipt-detail-commodity.component';
 import { OapComponent } from './reports/DeliveryOrderReport/oap/oap.component';
 import { SplpdsComponent } from './reports/DeliveryOrderReport/splpds/splpds.component';
 import { AnnapoornaComponent } from './reports/DeliveryOrderReport/annapoorna/annapoorna.component';
@@ -149,6 +147,8 @@ import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotme
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
 import { AllotmentIssueQuantityComponent } from './reports/Allotment/allotment-issue-quantity/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
+import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
+import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
 
 @NgModule({
   declarations: [
@@ -211,8 +211,8 @@ import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.compo
     IssueSchemeCrsComponent,
     IssueSchemeCoOpComponent,
     TruckMemoSchemeComponent,
-    ReceiptDetailCommodityComponent,
-    ReceiptIssueOtherItemsComponent,
+    QuantityDetailCommodityComponent,
+    QuantityIssueOtherItemsComponent,
     SocietMasterComponent,
     OpeningBalanceDetailsComponent,
     DepositorCustomerMasterComponent,

@@ -22,7 +22,7 @@ export class RegionAllotmentComponent implements OnInit {
   tenderAllotmentRegionWiseCols: any[];
   tenderAllotmentRegionWiseData: any = [];
   tenderAllotmentCols: any;
-  tenderAllotmentData: any = [];
+  tenderAllotmentData: any[] = [];
   PartyCode: any;
   partyID: any;
   Quantity: any;

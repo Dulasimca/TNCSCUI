@@ -65,7 +65,7 @@
                      <div *ngIf="col.field === 'sno' || col.field === 'COMMODITY' || col.field === 'PACKINGNAME' || col.field === 'GODOWN'">
                         {{rowData[col.field]}}
                       </div>
-                      <div *ngIf="col.field !== 'sno' && col.field !== 'COMMODITY' && col.field !== 'PACKINGNAME' && col.field === 'GODOWN'">
+                      <div *ngIf="col.field !== 'sno' && col.field !== 'COMMODITY' && col.field !== 'PACKINGNAME' && col.field !== 'GODOWN'">
                         <div style="text-align: end !important">
                           {{rowData[col.field]}}
                         </div>

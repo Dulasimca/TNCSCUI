@@ -11,11 +11,11 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 
 @Component({
-  selector: 'app-receipt-issue-other-items',
-  templateUrl: './receipt-issue-other-items.component.html',
-  styleUrls: ['./receipt-issue-other-items.component.css']
+  selector: 'app-quantity-issue-other-items',
+  templateUrl: './quantity-issue-other-items.component.html',
+  styleUrls: ['./quantity-issue-other-items.component.css']
 })
-export class ReceiptIssueOtherItemsComponent implements OnInit {
+export class QuantityIssueOtherItemsComponent implements OnInit {
 
   QtyOtherCols: any;
   QtyOtherData: any;
