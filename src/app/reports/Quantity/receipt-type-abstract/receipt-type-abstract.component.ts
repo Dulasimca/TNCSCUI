@@ -56,27 +56,27 @@ export class ReceiptTypeAbstractComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -86,10 +86,13 @@ export class ReceiptTypeAbstractComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         } else {
           this.godownOptions = godownSelection;
         }
@@ -130,7 +133,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
           let total = 0;
           this.ReceiptAbstractCols.forEach(x => {
             let field = x.field;
-            if((typeof this.ReceiptAbstractData[i][field] !== 'string') && field !== 'sno') {
+            if ((typeof this.ReceiptAbstractData[i][field] !== 'string') && field !== 'sno') {
               total += (((this.ReceiptAbstractData[i][field] !== null && this.ReceiptAbstractData[i][field] !== undefined) ?
                 this.ReceiptAbstractData[i][field] : 0) * 1);
             }
@@ -176,7 +179,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.ReceiptAbstractData = [];
   }
 

@@ -20,6 +20,8 @@ import { saveAs } from 'file-saver';
 export class QuantityDetailCommodityComponent implements OnInit {
   QtyReceiptCols: any;
   QtyReceiptData: any = [];
+  QtyIssueCols: any;
+  QtyIssueData: any[] = [];
   fromDate: any = new Date();
   toDate: any = new Date();
   godownOptions: SelectItem[];
@@ -34,6 +36,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: string;
   userId: any;
+  showIssueDetails: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -44,6 +47,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetailsCommodity;
+    this.QtyIssueCols = this.tableConstants.QuantityACIssueDetailsCommodity
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
@@ -133,6 +137,10 @@ export class QuantityDetailCommodityComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     })
+  }
+
+  viewIssueDetails() {
+    this.showIssueDetails = true;
   }
 
   onDateSelect() {
