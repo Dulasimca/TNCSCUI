@@ -370,11 +370,11 @@ export class RegionAllotmentComponent implements OnInit {
 
   onSelectedRow(data, index, type) {
     if (type === '1') {
-      this.confirmationService.confirm({
-        message: 'Do you want edit or add additional quantity?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        reject: () => {
+      // this.confirmationService.confirm({
+      //   message: 'Do you want edit or add additional quantity?',
+      //   header: 'Confirmation',
+      //   icon: 'pi pi-exclamation-triangle',
+      //   reject: () => {
           this.isViewed = true;
           this.form.form.markAsUntouched();
           this.form.form.markAsPristine();
@@ -419,8 +419,9 @@ export class RegionAllotmentComponent implements OnInit {
               this.blockEntry = false;
             }
           }
-        },
-        accept: () => {
+        // },
+        // accept: () => {
+        } else if(type === '2') {
           this.tenderAllotmentRegionWiseData.length = 0;
           this.showPane = true;
           this.selectedPartyRegion = data.PartyRegion;
@@ -430,9 +431,9 @@ export class RegionAllotmentComponent implements OnInit {
           this.selectedSpell = data.SpellName;
           this.selectedSpellCode = data.Spell;
           this.RegAllottedQty = (data.AssignedQty * 1);
-          this.onChangeOrderNo('2');
-        }
-      });
+          this.onChangeOrderNo(type);
+       // }
+      // });
     } else {
       this.RegAllotmentID = data.RegAllotementID;
       this.isSelected = true;
