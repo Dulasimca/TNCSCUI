@@ -56,27 +56,27 @@ export class IssueSchemeCoOpComponent implements OnInit {
     let godownSelection = [];
     switch (item) {
       case 'reg':
-          this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regions !== undefined) {
-              this.regions.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'gd':
         if (type === 'enter') {
@@ -86,10 +86,13 @@ export class IssueSchemeCoOpComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         } else {
           this.godownOptions = godownSelection;
         }
@@ -130,13 +133,13 @@ export class IssueSchemeCoOpComponent implements OnInit {
           let total = 0;
           this.issueSchemeCoOpCols.forEach(x => {
             let field = x.field;
-            if((typeof this.issueSchemeCoOpData[i][field] !== 'string') && field !== 'sno') {
+            if ((typeof this.issueSchemeCoOpData[i][field] !== 'string') && field !== 'sno') {
 
-            // if (field !== 'COMMODITY' && field !== 'PACKINGNAME' && field !== 'sno') {
+              // if (field !== 'COMMODITY' && field !== 'PACKINGNAME' && field !== 'sno') {
               total += (((this.issueSchemeCoOpData[i][field] !== null && this.issueSchemeCoOpData[i][field] !== undefined) ?
                 this.issueSchemeCoOpData[i][field] : 0) * 1);
-            // }
-          }
+              // }
+            }
           })
           this.issueSchemeCoOpData[i].Total = total;
         }
@@ -167,23 +170,23 @@ export class IssueSchemeCoOpComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
       if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-      (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-       (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-    this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
-          this.fromDate = this.toDate = '';
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.issueSchemeCoOpData = [];
   }
 
-onPrint() {
-  const path = "../../assets/Reports/" + this.userId.user + "/";
-  const filename = this.GCode.value + GolbalVariable.QuantityACForIssueSchemeCOOP + ".txt";
-  saveAs(path + filename, filename);
-}
+  onPrint() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode.value + GolbalVariable.QuantityACForIssueSchemeCOOP + ".txt";
+    saveAs(path + filename, filename);
+  }
 }
