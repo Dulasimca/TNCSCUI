@@ -98,7 +98,7 @@ import { SalesTaxEntryComponent } from './GST/Documents/sales-tax-entry/sales-ta
 import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/purchase-tax-entry.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
-import { AllotmentIssueQuantityComponent } from './reports/Allotment/allotment-issue-quantity/allotment-issue-quantity.component';
+import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 
 const routes: Routes = [

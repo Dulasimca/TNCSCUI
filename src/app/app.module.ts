@@ -145,7 +145,7 @@ import { PurchaseTaxEntryComponent } from './GST/Documents/purchase-tax-entry/pu
 import { PartyLedgerMasterComponent } from './GST/Master/party-ledger-master/party-ledger-master.component';
 import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotment-details.component';
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
-import { AllotmentIssueQuantityComponent } from './reports/Allotment/allotment-issue-quantity/allotment-issue-quantity.component';
+import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
