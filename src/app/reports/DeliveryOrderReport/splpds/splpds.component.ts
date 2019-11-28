@@ -46,12 +46,11 @@ export class SplpdsComponent implements OnInit {
   SCode: any;
   maxDate: Date;
   roleId: any;
-  GName: any;
-  RName: any;
   canShowMenu: boolean;
   isShowErr: boolean;
   loading: boolean = false;
   loggedInRCode: any;
+  totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('transaction') transactionPanel: Dropdown;
@@ -67,13 +66,10 @@ export class SplpdsComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.SplpdsCols = this.tableConstants.DoSPLPDS;
     this.data = this.roleBasedService.getInstance();
-    this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.GCode = this.authService.getUserAccessible().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
-    this.RName = this.authService.getUserAccessible().rName;
-    this.GName = this.authService.getUserAccessible().gName;
     this.userId = JSON.parse(this.authService.getCredentials());
   }
 
@@ -112,10 +108,15 @@ export class SplpdsComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
           this.godownOptions = godownSelection;
         }
         break;
@@ -156,11 +157,12 @@ export class SplpdsComponent implements OnInit {
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
+      'GCode': this.GCode.value,
       // 'SCode': this.r_cd.value,
       'UserName': this.userId.user,
-      'GName': this.GName,
-      'RName': this.RName
+      'GName': this.GCode.label,
+      'RCode': this.RCode.value,
+      'RName': this.RCode.label
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SPLPDS, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -209,6 +211,7 @@ export class SplpdsComponent implements OnInit {
           }
         );
         this.splpdsData = this.FilterArray;
+        this.totalRecords = this.splpdsData.length;
       }
       else {
         this.loading = false;
@@ -291,11 +294,12 @@ export class SplpdsComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.splpdsData = [];
+    this.totalRecords = 0;
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOSPLPDSReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOSPLPDSReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

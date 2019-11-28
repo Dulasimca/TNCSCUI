@@ -68,8 +68,6 @@ export class OapComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
-    this.RName = this.authService.getUserAccessible().rName;
-    this.GName = this.authService.getUserAccessible().gName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
@@ -111,10 +109,15 @@ export class OapComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
           this.godownOptions = godownSelection;
         }
         break;
@@ -155,11 +158,12 @@ export class OapComponent implements OnInit {
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
+      'GCode': this.GCode.value,
       // 'SCode': this.r_cd.value,
       'UserName': this.userId.user,
-      'GName': this.GName,
-      'RName': this.RName
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
+      'RCode': this.RCode.value
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_OAP, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
@@ -294,7 +298,7 @@ export class OapComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOOAPReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOOAPReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

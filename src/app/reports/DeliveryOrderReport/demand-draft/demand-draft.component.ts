@@ -38,13 +38,11 @@ export class DemandDraftComponent implements OnInit {
   isShowErr: boolean;
   loggedInRCode: any;
   username: any;
-  RName: any;
-  GName: any;
   items: any;
   loading: boolean = false;
   selectedValue: string = 'Bank';
   // DateByOrder = string;
-
+  totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -60,8 +58,6 @@ export class DemandDraftComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
-    this.RName = this.authService.getUserAccessible().rName;
-    this.GName = this.authService.getUserAccessible().gName;
     this.username = JSON.parse(this.authService.getCredentials());
     this.items = [
       {
@@ -110,10 +106,15 @@ export class DemandDraftComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
           this.godownOptions = godownSelection;
         }
         break;
@@ -126,9 +127,10 @@ export class DemandDraftComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
-      'GName': this.GName,
-      'RName': this.RName,
+      'GCode': this.GCode.value,
+      'GName': this.GCode.label,
+      'RCode': this.RCode.value,
+      'RName': this.RCode.label,
       'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.DEMAND_DRAFT_POST, params).subscribe(res => {
@@ -159,7 +161,7 @@ export class DemandDraftComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
@@ -186,6 +188,7 @@ export class DemandDraftComponent implements OnInit {
       }
     });
     this.DemandDraftData = sortedArray;
+    this.totalRecords = this.DemandDraftData.length;
   }
 
   SortByBank() {
@@ -226,16 +229,17 @@ export class DemandDraftComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
+    this.totalRecords = 0;
     this.DemandDraftData = [];
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
     if (this.selectedValue === 'Bank') {
-      const filename = this.GCode + GolbalVariable.DODemandDraftBankFileName + ".txt";
+      const filename = this.GCode.value + GolbalVariable.DODemandDraftBankFileName + ".txt";
       saveAs(path + filename, filename);
     } else {
-      const filename = this.GCode + GolbalVariable.DODemandDraftDateFileName + ".txt";
+      const filename = this.GCode.value + GolbalVariable.DODemandDraftDateFileName + ".txt";
       saveAs(path + filename, filename);
     }
   }

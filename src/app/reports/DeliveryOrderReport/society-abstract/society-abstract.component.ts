@@ -26,8 +26,6 @@ export class SocietyAbstractComponent implements OnInit {
   regionOptions: SelectItem[];
   GCode: any;
   RCode: any;
-  RName: any;
-  GName: any;
   data: any;
   maxDate: Date;
   canShowMenu: boolean;
@@ -36,6 +34,7 @@ export class SocietyAbstractComponent implements OnInit {
   regionsData: any;
   roleId: any;
   loggedInRCode: any;
+  totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -49,8 +48,6 @@ export class SocietyAbstractComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.regionsData = this.roleBasedService.getRegions();
-    this.RName = this.authService.getUserAccessible().rName;
-    this.GName = this.authService.getUserAccessible().gName;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.maxDate = new Date();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
@@ -90,7 +87,7 @@ export class SocietyAbstractComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
@@ -98,6 +95,8 @@ export class SocietyAbstractComponent implements OnInit {
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -109,9 +108,10 @@ export class SocietyAbstractComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      'GCode': this.GCode,
-      'GName': this.GName,
-      'RName': this.RName,
+      'GCode': this.GCode.value,
+      'GName': this.GCode.label,
+      'RName': this.RCode.label,
+      'RCode': this.RCode.value,
       'UserName': this.userId.user,
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_SOCIETY_ABSTRACT, params).subscribe(res => {
@@ -126,6 +126,7 @@ export class SocietyAbstractComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
+        this.totalRecords = this.SocietyAbstractData.length;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -165,12 +166,13 @@ export class SocietyAbstractComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.SocietyAbstractData = [];
+    this.SocietyAbstractData.length = 0;
+    this.totalRecords = 0;
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
-    const filename = this.GCode + GolbalVariable.DOSocietyReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOSocietyReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

@@ -37,8 +37,6 @@ export class MarginAmountComponent implements OnInit {
   roleId: any;
   GCode: any;
   RCode: any;
-  GName: any;
-  RName: any;
   loggedInRCode: any;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -55,8 +53,6 @@ export class MarginAmountComponent implements OnInit {
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.GName = this.authService.getUserAccessible().gName;
-    this.RName = this.authService.getUserAccessible().rName;
     this.maxDate = new Date();
   }
 
@@ -93,7 +89,7 @@ export class MarginAmountComponent implements OnInit {
         }
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
+            if (x.RCode === this.RCode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
@@ -101,7 +97,9 @@ export class MarginAmountComponent implements OnInit {
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
-         }
+        } else {
+          this.godownOptions = godownSelection;
+        }
         break;
     }
   }
@@ -131,9 +129,10 @@ export class MarginAmountComponent implements OnInit {
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyy'),
-      'GCode': this.GCode,
-      'GName': this.GName,
-      'RName': this.RName,
+      'GCode': this.GCode.value,
+      'GName': this.GCode.label,
+      'RCode': this.RCode.value,
+      'RName': this.RCode.label,
       'UserName': this.username.user,
     };
     this.restAPIService.post(PathConstants.DELIVERY_ORDER_MARGIN_AMOUNT_POST, params).subscribe(res => {
@@ -194,7 +193,7 @@ export class MarginAmountComponent implements OnInit {
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode + GolbalVariable.DOMarginReportFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.DOMarginReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
 }

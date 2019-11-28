@@ -13,7 +13,8 @@
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+          optionLabel="label" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -24,7 +25,7 @@
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
           (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          placeholder="-select-">
+          optionLabel="label" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -83,7 +84,8 @@
       </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="SplpdsCols" [value]="splpdsData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading" exportFilename="DO_SPLPDS_Scheme">
+          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+          [totalRecords]="totalRecords" exportFilename="DO_SPLPDS_Scheme">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
