@@ -1304,13 +1304,16 @@ export class TableConstants {
 
     this.AllotmentIssueQuantity = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'Allotmentmonth', header: 'Month' },
-      { field: 'SIDate', header: 'Date' },
-      { field: 'Societyshopcode', header: 'Shop Code' },
+      { field: 'AllotmentMonth', header: 'Month' },
+      // { field: 'SIDate', header: 'Date' },
+      { field: 'SocietyCode', header: 'Society Name' },
       { field: 'SocietyName', header: 'Society Name' },
+      { field: 'Acscode', header: 'Shop Code' },
       { field: 'IssuerName', header: 'Issuer Name' },
-      { field: 'CommodityName', header: 'Commodity' },
-      { field: 'Quantity', header: 'Quantity' }
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'AllotmentQty', header: 'Allotment Quantity' },
+      { field: 'IssueQty', header: 'Issue Quantity' }
     ];
     
     this.ProcessToG2GIssueCols = [

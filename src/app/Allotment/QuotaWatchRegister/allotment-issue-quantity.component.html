@@ -100,7 +100,7 @@
 
       <div class="ui-g-12">
         <p-table #table [columns]="AllotmentQuantityCols" [value]="AllotmentQuantityData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" autoLayout="true"
           [paginator]="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
@@ -112,12 +112,12 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Quantity' || col.field === 'Allotmentmonth'">
+                <div *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field !== 'Quantity' && col.field !== 'Allotmentmonth'">
+                <div *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth'">
                   {{rowData[col.field]}}
                 </div>
               </td>
