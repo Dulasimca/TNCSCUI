@@ -113,6 +113,7 @@ export class TableConstants {
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
+  PartyName: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1223,6 +1224,15 @@ export class TableConstants {
       { field: 'Branch', header: 'Branch' },
       { field: 'IFSC', header: 'IFSC Code' },
       // { header: 'Modify' },
+    ];
+
+    this.PartyName = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'PartyName', header: 'Party Name' },
+      { field: 'StateCode', header: 'State Code' },
+      { field: 'Pan', header: 'Pan No' },
+      { field: 'GSTNo', header: 'GST' },
+      { field: 'TIN', header: 'GST No' },
     ];
 
     this.PurchaseTaxEntry = [

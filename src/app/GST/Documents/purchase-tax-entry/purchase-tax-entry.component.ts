@@ -22,9 +22,14 @@ export class PurchaseTaxEntryComponent implements OnInit {
   PurchaseTaxData: any = [];
   PurchaseTaxCols: any;
   PristineData: any = [];
+  CompanyTitleData: any;
+  CompanyTitleCols: any;
+  CompanyGlobal: any = [];
   filterArray = [];
   canShowMenu: boolean;
-  disableOkButton: boolean = true;
+  disableOkButton: boolean = false;
+  onDrop: boolean = true;
+  OnEdit: boolean = false;
   selectedRow: any;
   data?: any;
   roleId: any;
@@ -69,7 +74,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   loggedInRCode: any;
   viewPane: boolean = false;
   isViewed: boolean = false;
-  isEdited: boolean;
+  isEdited: boolean = false;
   loading: boolean = false;
   curMonth: any;
   State: any;
@@ -216,27 +221,55 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
-        if (this.companyOptions !== undefined) {
-          const params = {
-            'RCode': this.RCode,
-            'Type': 2
-          };
-          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
-            if (res !== undefined) {
-              this.CompanyTitle = res;
-              res.forEach(s => {
-                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
-                this.companyOptions = CompanySelection;
-              });
-              this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.Gst = this.CompanyName.gstno;
-              this.Pan = this.CompanyName.pan;
-              this.State = this.CompanyName.sc;
-            }
+        this.PristineData = this.CompanyGlobal;
+        if (this.companyOptions !== undefined && this.PristineData !== undefined) {
+          this.PristineData.forEach(s => {
+            CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
           });
+          this.companyOptions = CompanySelection;
+          // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.Gst = this.CompanyName.gstno;
+          this.Pan = this.CompanyName.pan;
+          this.State = this.CompanyName.sc;
         }
         break;
     }
+  }
+
+  onCompany() {
+    this.loading = true;
+    // if (this.CompanyGlobal === undefined && this.CompanyGlobal.length === 0) {
+    const params = {
+      'RCode': this.RCode,
+      'Type': 2
+    };
+    this.CompanyTitleCols = this.tableConstant.PartyName;
+    this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.CompanyTitleData = res;
+        this.CompanyGlobal = res;
+        this.isViewed = true;
+        this.disableOkButton = true;
+        this.onDrop = false;
+        this.loading = false;
+        let sno = 0;
+        this.CompanyTitleData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+    });
+    // }
+  }
+
+  onRow(event, selectedRow) {
+    this.isEdited = true;
+    this.isViewed = false;
+    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+    this.CompanyName = selectedRow.PartyName;
+    this.State = selectedRow.StateCode;
+    this.Pan = selectedRow.Pan;
+    this.Gst = selectedRow.GSTNo;
   }
 
   onView() {
@@ -253,6 +286,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
         this.PurchaseTaxData = res;
         this.CompanyTitle = res;
+        this.viewPane = true;
         let sno = 0;
         let bd = new Date();
         this.PurchaseTaxData.forEach(s => {
@@ -308,8 +342,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
   }
 
   onRowSelect(event, selectedRow) {
-    this.viewPane = true;
-    this.isEdited = true;
+    this.OnEdit = true;
+    this.viewPane = false;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
     this.Pan = selectedRow.Pan;
