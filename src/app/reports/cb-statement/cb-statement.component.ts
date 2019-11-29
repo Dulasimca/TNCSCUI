@@ -18,19 +18,6 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-cb-statement',
   templateUrl: './cb-statement.component.html',
-  styles: [`
-  :host ::ng-deep .ui-table .ui-table-thead > tr > th {
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0px;
-  }
-
-  @media screen and (max-width: 64em) {
-      :host ::ng-deep .ui-table .ui-table-thead > tr > th {
-          top: 100px;
-      }
-  }
-`],
   styleUrls: ['./cb-statement.component.css']
 })
 export class CBStatementComponent implements OnInit {

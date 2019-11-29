@@ -114,6 +114,7 @@ export class TableConstants {
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
   PartyName: any;
+  StackCardDocDetailsCols: any[];
 
   constructor() {
     this.DailyStockStatement = [
@@ -1372,6 +1373,16 @@ export class TableConstants {
       { header: 'Purchase Return', field: 'PurchaseReturn' },
       { header: 'Total Issues', field: 'Total Issues' },
       { header: 'Closing Balance', field: 'ClosingBalance' },
+    ];
+
+    this.StackCardDocDetailsCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'Doc.No', field: 'DocNo' },
+      { header: 'Party Name', field: 'ReceivedFrom'},
+      { header: 'Lorry No.', field: 'LorryNo' },
+      { header: 'Doc.created Date', field: 'CreatedDate' },
+      { header: 'Bags', field: 'NOOfPACKING'},
+      { header: 'Quantity', field: 'NETWT' },
     ];
   }
 }

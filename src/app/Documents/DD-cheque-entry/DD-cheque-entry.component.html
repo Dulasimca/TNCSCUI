@@ -100,7 +100,7 @@
                 <label for="chAmnt" class="label-fontsize-large">CA/CH/DD Amt</label>
                 <input type="text" size="20" name="chAmnt" [(ngModel)]="chequeAmount" maxlength="10" pInputText
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  autocomplete="off" required>
+                  appDecimalAmount autocomplete="off" required>
               </div>
               <div class="ui-g-1 ui-fluid" style="margin-top: 18px">
                 <button pButton type="button" label=Enter (click)="onEnter()" [disabled]="!f.valid"></button>

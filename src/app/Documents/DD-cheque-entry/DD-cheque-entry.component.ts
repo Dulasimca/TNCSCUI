@@ -30,6 +30,7 @@ export class DDChequeEntryComponent implements OnInit {
   paymentTypeOptions: SelectItem[];
   paymentList: any = [];
   paymentType: any;
+  paymentCode: any;
   rowId: any = 0;
   receivedFromOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
@@ -59,6 +60,7 @@ export class DDChequeEntryComponent implements OnInit {
   selected: any;
   totalRecords: number;
   blockScreen: boolean;
+  chDate: any;
   @ViewChild('receivor') receivorTypePanel: Dropdown;
   @ViewChild('pay') paymentTypePanel: Dropdown;
 
@@ -112,6 +114,7 @@ export class DDChequeEntryComponent implements OnInit {
     const params = new HttpParams().set('TyCode', this.receivorType.value).append('TRType', '-').append('GCode', this.GCode).append('TRCode', '-');
     this.restApiService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
+        this.isSelectedReceivor = false;
         res.forEach(rn => {
           receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode });
         })
@@ -235,10 +238,13 @@ export class DDChequeEntryComponent implements OnInit {
 
   onEnter() {
     this.DDChequeData.push({
-      PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : null,
+      PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : this.paymentCode,
       Payment: (this.paymentType.label !== undefined && this.paymentType.label !== null) ? this.paymentType.label : this.paymentType,
-      ChequeDate: this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
-      ChDate: this.datepipe.transform(this.chequeDate, 'dd/MM/yyyy'),
+      ChDate: (typeof this.chequeDate !== 'string') ? this.datepipe.transform(this.chequeDate, 'dd/MM/yyyy') : this.chequeDate,
+      // CDate: (typeof this.chequeDate === 'string' || (this.chDate !== null && this.chDate !== undefined)) 
+      // ? this.chDate : this.chequeDate,
+      ChequeDate: (typeof this.chequeDate === 'string' || (this.chDate !== null && this.chDate !== undefined)) 
+      ? this.datepipe.transform(this.chDate, 'MM/dd/yyyy') : this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
       ChequeNo: this.chequeNo,
       ReceiptDate: (this.isViewed) ? this.ReceiptDt : ((typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       ReceivedFrom: (this.receivedFrom.label !== undefined && this.receivedFrom.label !== null) ? this.receivedFrom.label : this.receivedFrom,
@@ -321,19 +327,21 @@ export class DDChequeEntryComponent implements OnInit {
     this.chequeAmount = (data.Amount * 1);
     this.totalAmount = ((this.totalAmount * 1) - (this.chequeAmount * 1));
     this.chequeNo = data.ChequeNo;
-    this.chequeDate = data.ChequeDate;
+    this.chequeDate = data.ChDate;
+    this.chDate = data.ChequeDate;
     let sno = 0;
     if (data.Payment !== undefined && data.Payment !== null) {
-      this.paymentType = data.PaymentType;
+      this.paymentType = data.Payment;
+      this.paymentCode = data.PaymentType;
       this.paymentTypeOptions = [{ label: data.PaymentType, value: data.Payment }];
-    } else {
-      let paymentType;
-      this.paymentList.filter(x => {
-        if (data.PaymentType === x.value)
-          paymentType = x.value;
-      })
-      this.paymentType = data.PaymentType;
-      this.paymentTypeOptions = [{ label: data.PaymentType, value: paymentType }];
+    // } else {
+    //   let paymentType;
+    //   this.paymentList.filter(x => {
+    //     if (data.PaymentType === x.value)
+    //       paymentType = x.value;
+    //   })
+    //   this.paymentType = data.PaymentType;
+    //   this.paymentTypeOptions = [{ label: data.PaymentType, value: paymentType }];
     }
     this.bank = data.Bank;
     this.receivedFrom = data.ReceivedFrom;
@@ -367,7 +375,8 @@ export class DDChequeEntryComponent implements OnInit {
     this.DDChequeData = []; this.ChequeReceiptNoData = []; this.paymentTypeOptions = [];
     this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
     this.receiptNo = null; this.bank = null; this.paymentType = null;
-    this.chequeDate = new Date(); this.chequeAmount = 0; this.totalAmount = 0;
+    this.chequeDate = new Date(); this.chDate = null;
+    this.chequeAmount = 0; this.totalAmount = 0;
     this.isSelectedReceivor = false; this.receivedFrom = null; this.chequeNo = null;
   }
 
