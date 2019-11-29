@@ -93,15 +93,25 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+            <tr ng-repeat="element in rowData">
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field !== 'AckDate'">
+                <div *ngIf="col.field !== 'AckDate' && col.field !== 'ReceiptQuantity' && col.field !== 'IssuesQuantity'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field === 'AckDate'">
+                 <div *ngIf="(col.field === 'AckDate' && (col.field !== 'ReceiptQuantity' || col.field !== 'ReceiptQuantity'))">
                   <div style="width: 90px !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div> 
+                <div *ngIf="col.field === 'ReceiptQuantity'">
+                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.ReceiptQuantity, 'line'),'color': getStyle(rowData.ReceiptQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '1')">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field === 'IssuesQuantity'">
+                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.IssuesQuantity, 'line'),'color': getStyle(rowData.IssuesQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '2')">
                     {{rowData[col.field]}}
                   </div>
                 </div>
@@ -113,3 +123,35 @@
     </div>
   </p-panel>
 </div>
+<p-dialog header={{selectedHeader}} [contentStyle]="{'overflow':'scroll'}" [modal]="true"
+[maximizable]="true" [(visible)]="showPane" [responsive]="true"
+[style]="{width: '1000px', height: '1500px !important'}">
+<div class="ui-g-12 ui-md-12 ui-lg-12 border-teal">
+    <div class="ui-g-12 ui-fluid">
+        <p-table #table [columns]="selectedRowCols" [value]="selectedRowData" [rows]="10"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" selectionMode="single"
+          [responsive]="true" autoLayout="true" [totalRecords]="totalRecords" [loading]="loading">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  </div>
+  </p-dialog>
+

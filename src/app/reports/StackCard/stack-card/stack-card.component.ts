@@ -10,6 +10,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
 import { Dropdown } from 'primeng/primeng';
+import { DatePipe } from '@angular/common';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-stack-card',
@@ -37,14 +39,21 @@ export class StackCardComponent implements OnInit {
   maxDate: Date;
   loggedInRCode: string;
   loading: boolean;
+  selectedHeader: string;
+  showPane: boolean;
+  selectedRowCols: any;
+  selectedRowData: any[] = [];
+  totalRecords: number;
   @ViewChild('region') RegionPanel: Dropdown;
   @ViewChild('godown') GodownPanel: Dropdown;
   @ViewChild('commodity') CommodityPanel: Dropdown;
   @ViewChild('stackYear') StackYearPanel: Dropdown;
   @ViewChild('stockNo') StockNoPanel: Dropdown;
+  @ViewChild('table') Table: Table;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, 
-    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService,
+    private authService: AuthService, private restAPIService: RestAPIService,
+    private roleBasedService: RoleBasedService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -182,10 +191,13 @@ export class StackCardComponent implements OnInit {
         let sno = 1;
         this.StackCardData.forEach(data => {
           data.SlNo = (data.AckDate !== 'Total') ? sno : '';
+          data.SDate = this.datepipe.transform(data.SDate, 'MM/dd/yyyy');
           data.AckDate = (data.AckDate).toString().replace('00:00:00', '');
-          data.ReceiptQuantity = (data.ReceiptQuantity * 1).toFixed(3);
-          data.IssuesQuantity = (data.IssuesQuantity * 1).toFixed(3);
-          data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+          data.ReceiptBags = (data.ReceiptBags !== null && data.ReceiptBags !== undefined) ? (data.ReceiptBags * 1) : '-';
+          data.IssuesBags = (data.IssuesBags !== null && data.IssuesBags !== undefined) ? (data.IssuesBags * 1) : '-';
+          data.ReceiptQuantity = (data.ReceiptQuantity !== null && data.ReceiptQuantity !== undefined) ? (data.ReceiptQuantity * 1).toFixed(3) : '-';
+          data.IssuesQuantity = (data.IssuesQuantity !== null && data.IssuesQuantity !== undefined) ? (data.IssuesQuantity * 1).toFixed(3) : '-';
+          data.ClosingBalance = (data.ClosingBalance !== null && data.ClosingBalance !== undefined) ? (data.ClosingBalance * 1).toFixed(3) : '-';
           sno += 1;
         });
       } else {
@@ -202,15 +214,77 @@ export class StackCardComponent implements OnInit {
     });
   }
 
+  onFieldClick(data, type) {
+    const params = {
+      'DocumentDate': data.SDate,
+      'GodownCode': this.GCode.value,
+      'RegionCode': this.RCode.value
+    }
+    this.selectedRowCols = this.tableConstants.StackCardDocDetailsCols;
+    this.Table.reset();
+    if (type === '1' && (data.ReceiptQuantity !== '-') && ((data.ReceiptQuantity * 1) !== 0)) {
+      this.loading = true;
+      this.selectedHeader = 'Receipt - Details';
+      this.loadData(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params, type);
+    } else if (type === '2' && (data.IssuesQuantity !== '-') && ((data.IssuesQuantity * 1) !== 0)) {
+      this.loading = true;
+      this.selectedHeader = 'Issue - Details';
+      this.loadData(PathConstants.DAILY_DOCUMENT_ISSUE_POST, params, type);
+    } else {
+      this.loading = false;
+      this.showPane = false;
+    }
+  }
+
+  loadData(path, params, type) {
+    let totalBags = 0;
+    let totalQty = 0;
+    let sno = 1;
+    this.restAPIService.post(path, params).subscribe(res => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+        this.showPane = true;
+        this.loading = false;
+        let filteredData = res.filter(x => {
+          return (x.StackNo.trim() === this.TStockNo.label.trim());
+        })
+        filteredData.forEach(y => {
+          y.CreatedDate = (type === '1') ? y.SRTime : y.SITime;
+          totalBags += (y.NOOfPACKING * 1);
+          totalQty += (y.NETWT * 1);
+          y.SlNo = sno;
+          sno += 1;
+        })
+        filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
+        this.selectedRowData = filteredData;
+        this.totalRecords = this.selectedRowData.length;
+      } else {
+        this.loading = false;
+        this.showPane = false;
+        this.totalRecords = 0;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination }); }
+    })
+  }
+
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    else if(item === 'st_yr') { this.TStockNo = null; }
+    else if (item === 'st_yr') { this.TStockNo = null; }
     this.StackCardData = [];
+    this.selectedRowData.length = 0;
+    this.totalRecords = 0;
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode.value + GolbalVariable.StackCardDetailsReport + ".txt";
     saveAs(path + filename, filename);
+  }
+
+  public getStyle(value: any, id): string {
+    if(id === 'line') {
+    return ((value * 1) !== 0 && value !== '-') ? "underline" : "none";
+    } else {
+    return ((value * 1) !== 0 && value !== '-') ? "#1377b9" : "black";
+    }
   }
 }
