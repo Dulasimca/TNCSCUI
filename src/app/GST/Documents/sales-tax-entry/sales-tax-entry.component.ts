@@ -22,11 +22,16 @@ export class SalesTaxEntryComponent implements OnInit {
 
   SalesTaxData: any = [];
   SalesTaxCols: any;
+  CompanyTitleCols: any;
+  CompanyTitleData: any;
+  CompanyGlobal: any;
   PristineData: any = [];
   filterArray = [];
+  onDrop: boolean = true;
   canShowMenu: boolean;
-  disableOkButton: boolean = true;
+  disableOkButton: boolean = false;
   selectedRow: any;
+  OnEdit: boolean = false;
   data?: any;
   roleId: any;
   fromDate: any;
@@ -235,24 +240,16 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
-        if (this.companyOptions !== undefined) {
-          const params = {
-            'RCode': this.RCode,
-            'Type': 2
-          };
-          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
-            if (res !== undefined) {
-              this.CompanyTitle = res;
-              res.forEach(s => {
-                CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
-                this.companyOptions = CompanySelection;
-              });
-              this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.Gst = this.CompanyName.gstno;
-              this.Pan = this.CompanyName.pan;
-              this.State = this.CompanyName.sc;
-            }
+        this.PristineData = this.CompanyGlobal;
+        if (this.companyOptions !== undefined && this.PristineData !== undefined) {
+          this.PristineData.forEach(s => {
+            CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
           });
+          this.companyOptions = CompanySelection;
+          // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.Gst = this.CompanyName.gstno;
+          this.Pan = this.CompanyName.pan;
+          this.State = this.CompanyName.sc;
         }
         break;
       case 'tax':
@@ -276,6 +273,42 @@ export class SalesTaxEntryComponent implements OnInit {
     }
   }
 
+  onCompany() {
+    this.loading = true;
+    // if (this.CompanyGlobal === undefined && this.CompanyGlobal.length === 0) {
+    const params = {
+      'RCode': this.RCode,
+      'Type': 2
+    };
+    this.CompanyTitleCols = this.tableConstant.PartyName;
+    this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.CompanyTitleData = res;
+        this.CompanyGlobal = res;
+        this.isViewed = true;
+        this.disableOkButton = true;
+        this.onDrop = false;
+        this.loading = false;
+        let sno = 0;
+        this.CompanyTitleData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+    });
+    // }
+  }
+
+  onRow(event, selectedRow) {
+    this.isEdited = true;
+    this.isViewed = false;
+    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+    this.CompanyName = selectedRow.PartyName;
+    this.State = selectedRow.StateCode;
+    this.Pan = selectedRow.Pan;
+    this.Gst = selectedRow.GSTNo;
+  }
+
   onView() {
     const params = {
       // 'RoleId': this.roleId,
@@ -287,10 +320,10 @@ export class SalesTaxEntryComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        // this.viewPane = true;
         this.SalesTaxCols = this.tableConstant.SalesTaxEntry;
         this.SalesTaxData = res;
         this.CompanyTitle = res;
+        this.viewPane = true;
         let sno = 0;
         let bd = new Date();
         this.SalesTaxData.forEach(s => {
@@ -308,20 +341,13 @@ export class SalesTaxEntryComponent implements OnInit {
     });
   }
 
-  // CalculateValue() {
-  //   // this.Quantity = this.Quantity * 1;
-  //   // this.Rate = this.Rate * 1;
-  //   this.Amount = this.Quantity * this.Rate;
-  //   // }
-  // }
-
   onGST() {
     // if (this.percentage !== undefined) {
     this.Amount = this.Quantity * this.Rate;
     let GA = (this.Amount / 100) * this.percentage;
     this.CGST = GA / 2;
     this.SGST = GA / 2;
-    this.Vat =   GA;
+    this.Vat = GA;
     this.Total = this.Amount + this.Vat;
     // }
   }
