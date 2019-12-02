@@ -71,6 +71,7 @@ export class SalesTaxEntryComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
   searchText: any;
+  searchParty: any;
   items: any;
   Month: any;
   Year: any;
@@ -363,16 +364,28 @@ export class SalesTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.SalesTaxData = this.CompanyTitle.filter(item => {
-        return item.Hsncode.toString().startsWith(value);
+        return item.GSTNo.toString().startsWith(value);
       });
     } else {
       this.SalesTaxData = this.CompanyTitle;
     }
   }
 
+  onSearchParty(value) {
+    this.CompanyTitleData = this.CompanyGlobal;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.CompanyTitleData = this.CompanyGlobal.filter(item => {
+        return item.PartyName.toString().startsWith(value);
+      });
+    } else {
+      this.CompanyTitleData = this.CompanyGlobal;
+    }
+  }
+
   onRowSelect(event, selectedRow) {
-    this.viewPane = true;
-    this.isEdited = true;
+    this.viewPane = false;
+    this.OnEdit = true;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];

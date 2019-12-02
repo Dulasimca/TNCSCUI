@@ -68,6 +68,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
   searchText: any;
+  searchParty: any;
   items: any;
   Month: any;
   Year: any;
@@ -334,10 +335,22 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PurchaseTaxData = this.CompanyTitle.filter(item => {
-        return item.BillNo.toString().startsWith(value);
+        return item.GSTNo.toString().startsWith(value);
       });
     } else {
       this.PurchaseTaxData = this.CompanyTitle;
+    }
+  }
+
+  onSearchParty(value) {
+    this.CompanyTitleData = this.CompanyGlobal;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.CompanyTitleData = this.CompanyGlobal.filter(item => {
+        return item.PartyName.toString().startsWith(value);
+      });
+    } else {
+      this.CompanyTitleData = this.CompanyGlobal;
     }
   }
 

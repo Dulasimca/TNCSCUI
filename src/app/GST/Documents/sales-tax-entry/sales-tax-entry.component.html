@@ -5,11 +5,6 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Sales Tax Entry</div>
-        <div class="ui-g-12 ui-md-8 dashboard" style="text-align: end !important;">
-          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Hsncode"
-            (ngModelChange)="onSearch($event)">
-          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-        </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
@@ -91,13 +86,13 @@
         <div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-5"></div>
-            <div class="ui-g-12 ui-md-3">Purchase Tax Entry</div>
+            <div class="ui-g-12 ui-md-3">Sales Tax Entry</div>
             <div class="ui-g-12 ui-md-5"></div>
           </div>
           <form #SalesForm="ngForm" (ngSubmit)="onSubmit(formUser)">
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-1" style="text-align: end; padding-top: 21px;">
-                <button pButton type="button" icon="fa fa-bars" [disabled]="disableOkButton"
+              <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
+                <button pButton type="button" icon="fa fa-bars" label="Party Name" [disabled]="disableOkButton"
                   (click)="onCompany()"></button>
               </div>
               <div class="ui-g-12 ui-md-3">
@@ -303,6 +298,11 @@
 
 <p-dialog header="Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
+  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+    <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
+      (ngModelChange)="onSearch($event)">
+    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+  </div>
   <div *ngIf="SalesTaxData" class="ui-g-12 ui-fluid">
     <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -336,6 +336,11 @@
 
 <p-dialog header="Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="isViewed" [responsive]="true">
+  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+    <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
+      (ngModelChange)="onSearchParty($event)">
+    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+  </div>
   <div class="ui-g-12 ui-fluid">
     <p-table #table [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
