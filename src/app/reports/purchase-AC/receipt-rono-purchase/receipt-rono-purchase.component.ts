@@ -109,6 +109,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
         this.loading = false;
         let sno = 0;
         this.receiptHOPurchaseData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, "dd/MM/yyyy");
           sno += 1;
           data.SlNo = sno;
         });
