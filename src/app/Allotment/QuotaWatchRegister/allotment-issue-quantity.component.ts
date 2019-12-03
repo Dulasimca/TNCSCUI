@@ -160,11 +160,21 @@ export class AllotmentIssueQuantityComponent implements OnInit {
           this.societyPanel.overlayVisible = true;
         }
         if (this.CompanyTitle !== undefined) {
-          var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
-          for (var index in result) {
-            societySelection.push({ 'label': result[index]})
-          }
+          // var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
+          // for (var index in result) {
+          //   societySelection.push({ 'label': result[index]})
+          // }
+          // this.societyOptions = societySelection;
+
+          this.CompanyTitle = this.CompanyTitle.filter(item => {
+            societySelection.push({ 'label': item.SocietyName, 'value': item.SocietyCode });
+            let result = Array.from(item.SocietyName);
+              societySelection.push({ 'label': result })
+          });
           this.societyOptions = societySelection;
+        }
+        else {
+          this.AllotmentQuantityData;
         }
         break;
       case 'sh':
@@ -183,6 +193,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
           });
           this.shopNameOptions = shopSelection;
         }
+
         break;
     }
   }
