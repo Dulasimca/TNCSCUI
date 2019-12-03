@@ -13,52 +13,61 @@
         <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
           <div class="ui-g-12 ui-md-12">
-            <div class="ui-g-6 ui-md-2 ui-fluid">
-              <span class="ui-float-label">
-                <input name="Region" type="text" size="20" pInputText autocomplete="off"
-                  [(ngModel)]="regionName" [readOnly]="true">
-                <label for="Region" class="float-input">Region Name</label>
-              </span>
+            <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -20px;">
+              <label class="label-fontsize dashboard">Region</label>
+              <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+                (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
+                (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
             </div>
-            <div class="ui-g-6 ui-md-2 ui-fluid">
-              <span class="ui-float-label">
-                <input name="Godown" type="text" size="20" pInputText autocomplete="off"
-                  [(ngModel)]="godownName" [readOnly]="true">
-                <label for="Godown" class="float-input">Godown Name</label>
-              </span>
+            <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -20px;">
+              <label class="label-fontsize dashboard">Godown</label>
+              <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+                (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+                (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+                placeholder="-select-">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
-              <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions" [(ngModel)]="month"
-                (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
+              <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions"
+                [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
+                filter="true" resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
-              <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions" [(ngModel)]="year"
-                (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
+              <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions"
+                [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
               </p-dropdown>
             </div>
-            <div class="ui-g-4 ui-md-4 ui-fluid" >
-              <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx" name="uploadExcel">
+            <div class="ui-g-4 ui-md-4 ui-fluid">
+              <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx"
+                name="uploadExcel">
             </div>
             <div class="ui-g-2"></div>
             <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
-              <button pButton label=Save (click)="onSave()" [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
+              <button pButton label=Save (click)="onSave()"
+                [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
           </div>
           <div class="ui-g-12">
             <p-table [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]"  [paginator]="true" [responsive]="true"
-              [scrollable]="true" [loading]="loading">
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [scrollable]="true"
+              [loading]="loading">
               <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
-                    <col *ngFor="let col of columns" style="width: 125px;">
+                  <col *ngFor="let col of columns" style="width: 125px;">
                 </colgroup>
-            </ng-template>
+              </ng-template>
               <ng-template pTemplate="header" let-columns>
-                <tr  >
+                <tr>
                   <th *ngFor="let col of columns">
                     {{col.header}}
                   </th>
@@ -67,12 +76,12 @@
               <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                 <tr>
                   <td *ngFor="let col of columns">
-                        {{rowData[col.field]}}
+                    {{rowData[col.field]}}
                   </td>
                 </tr>
               </ng-template>
             </p-table>
-        </div>
+          </div>
         </div>
       </div>
     </div>

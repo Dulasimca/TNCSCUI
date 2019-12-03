@@ -7,6 +7,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RoleBasedService } from 'src/app/common/role-based.service';
 
 @Component({
   selector: 'app-allotment-details',
@@ -36,16 +37,26 @@ export class AllotmentDetailsComponent implements OnInit {
   errMsg: string;
   loading: boolean;
   disableSave: boolean;
+  regions: any;
+  data: any;
+  regionOptions: SelectItem[];
+  loggedInRCode: any;
+  godownOptions: SelectItem[];
+  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
+
+ 
 
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
-    private messageService: MessageService) { }
+    private messageService: MessageService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.username = JSON.parse(this.authService.getCredentials());
     this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
@@ -55,8 +66,8 @@ export class AllotmentDetailsComponent implements OnInit {
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.regionName = this.authService.getUserAccessible().rName;
     this.godownName = this.authService.getUserAccessible().gName;
-    this.GCode = this.authService.getUserAccessible().gCode;
-    this.RCode = this.authService.getUserAccessible().rCode;
+    this.regions = this.roleBasedService.getRegions();
+    this.data = this.roleBasedService.getInstance();
     this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
       this.allotmentCommodity = data;
     })
@@ -67,6 +78,8 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   onSelect(selectedItem, type) {
+    let regionSelection = [];
+    let godownSelection = [];
     let yearArr: any = [];
     const range = 3;
     switch (selectedItem) {
@@ -98,6 +111,42 @@ export class AllotmentDetailsComponent implements OnInit {
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
+        case 'reg':
+          this.regions = this.roleBasedService.regionsData;
+          if (type === 'enter') {
+            this.regionPanel.overlayVisible = true;
+          }
+          if (this.roleId === 1) {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              });
+              this.regionOptions = regionSelection;
+            }
+          } else {
+            if (this.regions !== undefined) {
+              this.regions.forEach(x => {
+                if (x.RCode === this.loggedInRCode) {
+                  regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                }
+              });
+              this.regionOptions = regionSelection;
+            }
+          }
+          break;
+        case 'gd':
+          if (type === 'enter') {
+            this.godownPanel.overlayVisible = true;
+          }
+          if (this.data !== undefined) {
+            this.data.forEach(x => {
+              if (x.RCode === this.RCode) {
+                godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              }
+            });
+            this.godownOptions = godownSelection;
+          }
+          break;
     }
   }
 
@@ -209,6 +258,10 @@ export class AllotmentDetailsComponent implements OnInit {
       }
     })
     this.loading = false;
+  }
+
+  onResetTable(item) {
+    if(item === 'reg') { this.GCode = null; }
   }
 
   onSave() {
