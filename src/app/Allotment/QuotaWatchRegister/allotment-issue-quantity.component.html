@@ -5,11 +5,6 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Quota Watch Register</div>
-        <div class="ui-g-12 ui-md-8 dashboard" style="text-align: end !important;">
-          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
-            (ngModelChange)="onSearch()">
-          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-        </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
@@ -35,15 +30,6 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <!-- <div class="ui-g-6 ui-md-1">
-        <label class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
-        <p-inputMask mask="99" [(ngModel)]="Month" slotChar="__"></p-inputMask>
-      </div>
-      <div class="ui-g-6 ui-md-1">
-        <label class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
-        <p-inputMask mask="9999" [(ngModel)]="Year" slotChar="____"></p-inputMask>
-      </div> -->
-
       <div class="ui-g-6 ui-md-1 ui-fluid">
         <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
         <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
@@ -69,12 +55,12 @@
         <p-calendar class="ui-fluid dashboard" [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate"
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-12 ui-md-2"></div>
+      <!-- <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g label-fontsize dashboard">Society Name</label>
         <p-dropdown #society class="ui-g-12 ui-fluid dashboard" [options]="societyOptions" [(ngModel)]="Society"
-          (onClick)="onSelect('s', 'click')" (keydown.enter)="onSelect('s', 'click')"
-          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+          (onClick)="onSelect('s', 'click')" (keydown.enter)="onSelect('s', 'click')" filter="true"
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -83,13 +69,13 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g label-fontsize dashboard">Select Shop Name for the Selected Society</label>
         <p-dropdown #shop class="ui-fluid dashboard" id="float-input" [options]="shopNameOptions" [(ngModel)]="Shop"
-          (onClick)="onSelect('sh', 'click')" (keydown.enter)="onSelect('sh', 'enter')"
-          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          (onClick)="onSelect('sh', 'click')" (keydown.enter)="onSelect('sh', 'enter')" filter="true"
+          optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
-      </div>
+      </div> -->
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
           [disabled]="(!RCode || !GCode || !fromDate || !toDate || !Month || !Year)" label=View></button>
@@ -100,12 +86,22 @@
 
       <div class="ui-g-12">
         <p-table #table [columns]="AllotmentQuantityCols" [value]="AllotmentQuantityData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" autoLayout="true"
-          [paginator]="true" [loading]="loading">
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" autoLayout="true" [paginator]="true"
+          [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}
+              </th>
+            </tr>
+            <tr>
+              <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input class="ui-g-12 ui-md-12" *ngSwitchCase="'SocietyName'" pInputText type="text"
+                  [(ngModel)]="searchText" pInputText placeholder="Search by Society Name"
+                  (ngModelChange)="onSearch($event)">
+                <input class="ui-g-12 ui-md-12" *ngSwitchCase="'IssuerName'" pInputText type="text"
+                  [(ngModel)]="searchIss" pInputText placeholder="Search by Issuer Name"
+                  (ngModelChange)="onIssuer($event)">
               </th>
             </tr>
           </ng-template>

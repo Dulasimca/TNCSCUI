@@ -26,8 +26,8 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   selectedRow: any;
   data?: any;
   roleId: any;
-  fromDate: any;
-  toDate: any;
+  fromDate: any = new Date();
+  toDate: any = new Date();
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
   YearOptions: SelectItem[];
@@ -43,6 +43,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
   searchText: any;
+  searchIss: any;
   items: any;
   Month: any;
   Year: any;
@@ -155,46 +156,45 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
-      case 's':
-        if (type === 'enter') {
-          this.societyPanel.overlayVisible = true;
-        }
-        if (this.CompanyTitle !== undefined) {
-          // var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
-          // for (var index in result) {
-          //   societySelection.push({ 'label': result[index]})
-          // }
-          // this.societyOptions = societySelection;
+      // case 's':
+      //   if (type === 'enter') {
+      //     this.societyPanel.overlayVisible = true;
+      //   }
+      //   if (this.CompanyTitle !== undefined) {
+      //     // var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
+      //     // for (var index in result) {
+      //     //   societySelection.push({ 'label': result[index]})
+      //     // }
+      //     // this.societyOptions = societySelection;
 
-          this.CompanyTitle = this.CompanyTitle.filter(item => {
-            societySelection.push({ 'label': item.SocietyName, 'value': item.SocietyCode });
-            let result = Array.from(item.SocietyName);
-              societySelection.push({ 'label': result })
-          });
-          this.societyOptions = societySelection;
-        }
-        else {
-          this.AllotmentQuantityData;
-        }
-        break;
-      case 'sh':
-        if (type === 'enter') {
-          this.shopPanel.overlayVisible = true;
-        }
-        if (this.shopNameOptions === undefined) {
-          this.CompanyTitle.forEach(v => {
-            // shopSelection.push({ 'label': vv.IssuerName, 'value': vv.Receivorcode });
+      //     this.CompanyTitle = this.CompanyTitle.filter(item => {
+      //       societySelection.push({ 'label': item.SocietyName, 'value': item.SocietyCode });
+      //       let result = Array.from(item.SocietyName.map(it => it.SocietyName));
+      //       for (var index in result) {
+      //         societySelection.push({ 'label': result[index] });
+      //       }
+      //     });
+      //     this.societyOptions = societySelection;
+      //   }
+      //   break;
+      // case 'sh':
+      //   if (type === 'enter') {
+      //     this.shopPanel.overlayVisible = true;
+      //   }
+      //   if (this.shopNameOptions === undefined) {
+      //     this.CompanyTitle.forEach(v => {
+      //       // shopSelection.push({ 'label': vv.IssuerName, 'value': vv.Receivorcode });
 
-            var result = Array.from(new Set(this.CompanyTitle.map((item: any) => item.IssuerName))); //Get distinct values from array
-            var code = Array.from(new Set(this.CompanyTitle.map((item: any) => item.Acscode)));
-            for (var index in result && code) {
-              shopSelection.push({ 'label': result[index], 'value': code[index] })
-            }
-          });
-          this.shopNameOptions = shopSelection;
-        }
+      //       var result = Array.from(new Set(this.CompanyTitle.map((item: any) => item.IssuerName))); //Get distinct values from array
+      //       var code = Array.from(new Set(this.CompanyTitle.map((item: any) => item.Acscode)));
+      //       for (var index in result && code) {
+      //         shopSelection.push({ 'label': result[index], 'value': code[index] })
+      //       }
+      //     });
+      //     this.shopNameOptions = shopSelection;
+      //   }
 
-        break;
+      //   break;
     }
   }
 
@@ -238,7 +238,29 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     });
   }
 
-  onSearch() { }
+  onSearch(value) {
+    this.AllotmentQuantityData = this.CompanyTitle;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.AllotmentQuantityData = this.CompanyTitle.filter(item => {
+        return item.SocietyName.toString().startsWith(value);
+      });
+    } else {
+      this.AllotmentQuantityData = this.CompanyTitle;
+    }
+  }
+
+  onIssuer(value) {
+    this.AllotmentQuantityData = this.CompanyTitle;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.AllotmentQuantityData = this.CompanyTitle.filter(item => {
+        return item.IssuerName.toString().startsWith(value);
+      });
+    } else {
+      this.AllotmentQuantityData = this.CompanyTitle;
+    }
+  }
 
   onDateSelect() {
     this.checkValidDateSelection();
