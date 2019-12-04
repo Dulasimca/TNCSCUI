@@ -157,9 +157,6 @@ export class ServiceProviderEntryComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
         }
         break;
       case 'y':
@@ -315,19 +312,9 @@ export class ServiceProviderEntryComponent implements OnInit {
         });
       }
       else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     });
   }

@@ -76,7 +76,7 @@
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"  [disabled]="(ServiceTaxData.length=='0')"></button>
+        <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"></button>
       </div>
       <div class="ui-g-12"></div>
 
@@ -88,7 +88,7 @@
             <div class="ui-g-12 ui-md-3">Service Provider Entry</div>
             <div class="ui-g-12 ui-md-5"></div>
           </div>
-          <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
+          <form #ServiceForm="ngForm" (ngSubmit)="onSubmit(formUser)">
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
                 <button pButton type="button" icon="fa fa-bars" label="Party Name" [disabled]="disableOkButton"

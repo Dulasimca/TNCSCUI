@@ -1277,7 +1277,7 @@ export class TableConstants {
       { field: 'Month', header: 'Month' },
       { field: 'Year', header: 'Year' },
       { field: 'CompanyName', header: 'Company Name' },
-      { field: 'GSTNo', header: 'GST No' },
+      { field: 'TIN', header: 'GST No' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
       { field: 'CommodityName', header: 'Service Name' },
