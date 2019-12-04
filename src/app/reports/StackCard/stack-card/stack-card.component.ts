@@ -81,7 +81,7 @@ export class StackCardComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
           } else {
@@ -91,7 +91,7 @@ export class StackCardComponent implements OnInit {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -107,7 +107,7 @@ export class StackCardComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, rcode: x.RCode, rname: x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -121,7 +121,7 @@ export class StackCardComponent implements OnInit {
           this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                commoditySelection.push({ label: y.ITDescription, value: y.ITCode });
                 this.commodityOptions = commoditySelection;
               });
             } else {
@@ -136,7 +136,7 @@ export class StackCardComponent implements OnInit {
           this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                YearSelection.push({ 'label': y.ShortYear });
+                YearSelection.push({ label: y.ShortYear, value: y.ShortYear });
               });
               this.YearOptions = YearSelection;
             } else {
@@ -147,18 +147,18 @@ export class StackCardComponent implements OnInit {
         break;
       case 'st_no':
         if (type === 'enter') { this.StockNoPanel.overlayVisible = true; }
-        if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year.label !== undefined && this.Year.label !== null
+        if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year !== undefined && this.Year !== null
           && this.ITCode.value !== undefined && this.ITCode.value !== null) {
           const params = {
             'GCode': this.GCode.value,
-            'StackDate': this.Year.label,
+            'StackDate': this.Year,
             'ICode': this.ITCode.value,
             'Type': 3
           }
           this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
             if (res !== undefined && res !== null && res.length !== 0) {
               res.forEach(s => {
-                StackSelection.push({ 'label': s.StackNo, 'value': s.StackDate });
+                StackSelection.push({ label: s.StackNo, value: s.StackDate });
                 this.stackOptions = StackSelection;
               })
             }
@@ -182,6 +182,7 @@ export class StackCardComponent implements OnInit {
       'ITName': this.ITCode.label,
       'TStockNo': this.TStockNo.label,
       'UserName': this.userId.user,
+      'StackYear': this.Year,
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
@@ -268,6 +269,7 @@ export class StackCardComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
+    else if(item === 'cd') { this.TStockNo = null ;}
     else if (item === 'st_yr') { this.TStockNo = null; }
     this.StackCardData = [];
     this.selectedRowData.length = 0;

@@ -481,6 +481,7 @@ export class TruckReceiptComponent implements OnInit {
     this.NoPacking = (data.NoPacking * 1),
     this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
+    this.stackYear = data.StackYear;
     this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let index;
@@ -668,8 +669,9 @@ export class TruckReceiptComponent implements OnInit {
       Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
       PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
-        new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode
-    })
+        new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode,
+        StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
+      })
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
@@ -832,6 +834,7 @@ export class TruckReceiptComponent implements OnInit {
             WmtType: i.WEType,
             PWeight: i.PWeight,
             StackDate: i.StackDate,
+            StackYear: i.StackYear,
             RCode: i.RCode
           })
           sno += 1;
