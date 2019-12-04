@@ -51,12 +51,12 @@
             </p-header>
             <div class="form-group ui-g-6 ui-md-4">
               <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-              <input type="number" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20"
+              <input type="text" maxlength="11" name="BookBalanceBags" [(ngModel)]="BookBalanceBags" size="20"
                 [readonly]="true" pInputText autocomplete="off">
             </div>
             <div class="form-group ui-g-6 ui-md-8">
               <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
-              <input type="number" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" size="20" [readonly]="true"
+              <input type="text" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" size="20" [readonly]="true"
                 pInputText autocomplete="off">
             </div>
           </div>
@@ -68,18 +68,18 @@
             </p-header>
             <div class="form-group ui-g-6 ui-md-4">
               <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-              <input type="number" maxlength="6" name="PhysicalBalanceBags" [ngModel]="PhysicalBalanceBags" size="20"
+              <input type="text" maxlength="6" name="PhysicalBalanceBags" [ngModel]="PhysicalBalanceBags" size="20"
                 [readonly]="true" pInputText autocomplete="off">
             </div>
             <div class="form-group ui-g-6 ui-md-8">
               <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
-              <input type="number" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" size="20"
+              <input type="text" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" size="20"
                 [readonly]="true" pInputText autocomplete="off">
             </div>
           </div>
           <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
             <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulative Shortage</label>
-            <input class="ui-g-6" type="number" name="CummlativeShortage" [(ngModel)]="CumulativeShortage"
+            <input class="ui-g-6" type="text" name="CummlativeShortage" [(ngModel)]="CumulativeShortage"
               [readonly]="true" pInputText autocomplete="off">
           </div>
           <!-- <div class="ui-g-3 ui-md-1" style="padding-top: 53px">
@@ -92,7 +92,7 @@
           <div class="ui-g-12 ui-md-2  blue-border-with-shadow">
             <label class="ui-g-12 label-fontsize" for="CurYear" style="text-align: center">Current Year Pv
               Shortages</label>
-            <input type="number" value="WriteOff" name="WriteOff" [(ngModel)]="WriteOff" pInputText autocomplete="off"
+            <input type="text" value="WriteOff" name="WriteOff" [(ngModel)]="WriteOff" pInputText autocomplete="off"
               appDecimalDigit>
           </div>
           <div class="ui-g-5"></div>
