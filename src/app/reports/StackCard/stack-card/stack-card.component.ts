@@ -147,11 +147,11 @@ export class StackCardComponent implements OnInit {
         break;
       case 'st_no':
         if (type === 'enter') { this.StockNoPanel.overlayVisible = true; }
-        if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year.label !== undefined && this.Year.label !== null
+        if (this.GCode.value !== undefined && this.GCode.value !== null && this.Year !== undefined && this.Year !== null
           && this.ITCode.value !== undefined && this.ITCode.value !== null) {
           const params = {
             'GCode': this.GCode.value,
-            'StackDate': this.Year.label,
+            'StackDate': this.Year,
             'ICode': this.ITCode.value,
             'Type': 3
           }
