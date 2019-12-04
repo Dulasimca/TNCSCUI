@@ -269,16 +269,16 @@ export class AllotmentDetailsComponent implements OnInit {
     this.loading = true;
     const params = JSON.stringify(this.allotmentDetails);
     this.restAPIService.post(PathConstants.ALLOTMENT_QUANTITY_POST, this.allotmentDetails).subscribe((res: any) => {
-      if (res) {
+      if (res.Item1) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
        // this.disableSave = false;
         this.loading = false;
         this.disableSave = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
