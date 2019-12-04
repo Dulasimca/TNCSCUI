@@ -62,32 +62,33 @@ export class TransactionReceiptComponent implements OnInit {
     let regionSelection = [];
     switch (item) {
       case 'reg':
-          this.regionsData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionsData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
           }
-          if (this.roleId === 1) {
-            if (this.regionsData !== undefined) {
-              this.regionsData.forEach(x => {
+        } else {
+          if (this.regionsData !== undefined) {
+            this.regionsData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regionsData !== undefined) {
-              this.regionsData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
+              }
+            });
+            this.regionOptions = regionSelection;
           }
+        }
         break;
       case 'godown':
         if (type === 'enter') {
           this.godownPanel.overlayVisible = true;
         }
+        this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
@@ -95,13 +96,16 @@ export class TransactionReceiptComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
       case 'transaction':
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
         }
-         if (this.transactionOptions === undefined) {
+        if (this.transactionOptions === undefined) {
           this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -128,19 +132,19 @@ export class TransactionReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.TRANSACTION_RECEIPT_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.transactionReceiptData = res;
-      let sno = 0;
-      this.loading = false;
-      let TotalQty = 0;
-      this.transactionReceiptData.forEach(data => {
-        data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
-        data.Quantity = (data.Quantity * 1).toFixed(3);
-        sno += 1;
-        data.SlNo = sno;
-        TotalQty += data.Quantity !== undefined && data.Quantity !==null ? (data.Quantity * 1) : 0;
-      })
-      this.transactionReceiptData.push({
-        Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
-      })
+        let sno = 0;
+        this.loading = false;
+        let TotalQty = 0;
+        this.transactionReceiptData.forEach(data => {
+          data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
+          data.Quantity = (data.Quantity * 1).toFixed(3);
+          sno += 1;
+          data.SlNo = sno;
+          TotalQty += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+        })
+        this.transactionReceiptData.push({
+          Godownname: 'Total', Quantity: (TotalQty * 1).toFixed(3)
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -155,7 +159,7 @@ export class TransactionReceiptComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.transactionReceiptData = [];
   }
 
@@ -192,5 +196,5 @@ export class TransactionReceiptComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.TransactionReceiptReportFileName + ".txt";
     saveAs(path + filename, filename);
   }
-  
+
 }

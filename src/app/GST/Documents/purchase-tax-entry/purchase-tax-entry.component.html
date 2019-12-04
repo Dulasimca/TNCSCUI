@@ -141,7 +141,7 @@
                 <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
                 <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
                   [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-                  (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true"
+                  (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" optionLabel="label" filter="true"
                   resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>

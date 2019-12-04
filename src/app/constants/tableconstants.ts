@@ -1239,7 +1239,7 @@ export class TableConstants {
     this.PurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
-      { field: 'TIN', header: 'Tin No' },
+      { field: 'TIN', header: 'GST No' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
       { field: 'CommodityName', header: 'Commodity Name' },
@@ -1256,6 +1256,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },

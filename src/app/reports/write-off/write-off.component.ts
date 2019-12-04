@@ -92,6 +92,9 @@ export class WriteOffComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
     }
@@ -101,7 +104,7 @@ export class WriteOffComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode)
-    .append('UserName',this.username.user);
+      .append('UserName', this.username.user);
     this.restAPIService.getByParameters(PathConstants.WRITE_OFF_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.writeoffData = res;
@@ -112,7 +115,7 @@ export class WriteOffComponent implements OnInit {
           data.Quantity = (data.Quantity * 1).toFixed(3);
           sno += 1;
           data.SlNo = sno;
-          TotalQty += (data.NetWt !== undefined && data.NetWt !==null) ? (data.NetWt * 1) : 0;
+          TotalQty += (data.NetWt !== undefined && data.NetWt !== null) ? (data.NetWt * 1) : 0;
         })
         this.writeoffData.push({
           Godownname: 'Total', NetWt: (TotalQty * 1).toFixed(3),

@@ -92,6 +92,7 @@ export class SchemeReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.godownPanel.overlayVisible = true;
         }
+        this.godown_data = this.roleBasedService.instance;
         if (this.godown_data !== undefined) {
           this.godown_data.forEach(x => {
             if (x.RCode === this.RCode) {
@@ -99,6 +100,9 @@ export class SchemeReceiptComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
       case 'scheme':
@@ -187,9 +191,9 @@ export class SchemeReceiptComponent implements OnInit {
           }
           ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
         });
-        this.schemeReceiptData.push({Commodity: 'Abstract'});
+        this.schemeReceiptData.push({ Commodity: 'Abstract' });
         abstract.forEach(x => {
-          this.schemeReceiptData.push({Date: x.Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3)});;
+          this.schemeReceiptData.push({ Date: x.Date, Scheme: x.Scheme, Commodity: x.Commodity, Quantity: (x.Quantity * 1).toFixed(3) });;
         })
         ///End
       } else {
@@ -208,7 +212,7 @@ export class SchemeReceiptComponent implements OnInit {
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    this.schemeReceiptData = []; 
+    this.schemeReceiptData = [];
   }
 
   onDateSelect() {
