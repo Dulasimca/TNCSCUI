@@ -30,6 +30,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   RCode: any;
   Region: any;
   formUser = [];
+  searchText: any;
   Pan: any;
   State: any;
   Tin: any;
@@ -203,7 +204,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PartyLedgerData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.PartyName.toString().startsWith(value);
       });
     } else {
       this.PartyLedgerData = this.CompanyTitle;
