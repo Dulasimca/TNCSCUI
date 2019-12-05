@@ -8,6 +8,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-allotment-details',
@@ -170,12 +171,12 @@ export class AllotmentDetailsComponent implements OnInit {
       let workbook = XLSX.read(data, {
         type: 'binary'
       });
-      workbook.SheetNames.forEach((function (sheetName) {
-        // convert execl data into JSON 
+      let sheetName: any = workbook.SheetNames[0];
         let columns: Array<any> = [];
         let XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         let headers = get_header_row(workbook.Sheets[sheetName]);
-        //console.log('header', headers);
+        let isValid = this.checkValidHeaders(headers);
+        if(isValid.result) {
         headers.forEach(c => {
           this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
         })
@@ -187,12 +188,12 @@ export class AllotmentDetailsComponent implements OnInit {
         }, {});
         let json_object = JSON.stringify(XL_row_object);
         // bind the parse excel file data to Grid  
-        let data = JSON.parse(json_object);
-        if (data[1]['Godown Code'] === this.GCode) {
+        let JSONdata = JSON.parse(json_object);
+        if (JSONdata[1]['Godown Code'] === this.GCode) {
           this.loading = true;
           this.disableSave = false;
-          this.totalRecords = data.length;
-          this.AllotmentData = data;
+          this.totalRecords = JSONdata.length;
+          this.AllotmentData = JSONdata;
           let i = 0;
           const objLen = this.AllotmentCols.length - 6;
           for (let obj of this.AllotmentData) {
@@ -236,7 +237,17 @@ export class AllotmentDetailsComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
         }
-      }).bind(this), this);
+        } else {
+          let missingFields: string = '';
+          if(isValid.res.length > 1) {
+            isValid.res.forEach((x, index) => {
+              missingFields += (index + 1) + '.' + x.toUpperCase() + ' ';
+            })
+            missingFields += ' columns are missing!';
+          } else { missingFields = isValid.res[0].toUpperCase() + ' column is missing!'; }
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingFields });
+        }
     };
 
     reader.onerror = function (ex) {
@@ -245,12 +256,26 @@ export class AllotmentDetailsComponent implements OnInit {
     reader.readAsBinaryString(file);
   };
 
+  checkValidHeaders(headers): any {
+    let result: boolean;
+    let tempArr = ['Taluk', 'FPS Code', 'FPS Name', 'Godown Name', 'Godown Code'];
+    if(headers !== undefined && headers !== null && headers.length !== 0) {
+    let res =  tempArr.filter(f => !headers.includes(f));
+      if(res.length !== 0) {
+        result = false;
+      } else {
+        result = true;
+      }
+    return { result, res }
+  }
+}
+
   constructData(data) {
     let records = 1;
     data.forEach(i => {
       if (records < data.length) {
         this.allotmentDetails.push({
-          FPSName: i['FPS Name'], FPSCode: i['FPS Code'],
+          Type: 2, FPSName: i['FPS Name'], FPSCode: i['FPS Code'],
           ItemList: i.ItemList, GCode: this.GCode, RCode: this.RCode, Taluk: i.Taluk, SocietyCode: i.Societycode,
           AllotmentMonth: (this.month.value !== undefined) ? this.month.value : this.curMonth, AllotmentYear: this.year
         });
@@ -274,7 +299,6 @@ export class AllotmentDetailsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
-       // this.disableSave = false;
         this.loading = false;
         this.disableSave = false;
         this.messageService.clear();
@@ -295,7 +319,19 @@ export class AllotmentDetailsComponent implements OnInit {
     });
   }
 
+  onClear() {
+    this.AllotmentData = [];
+    this.AllotmentCols.length = 0;
+    this.RCode = null; this.GCode = null;
+    this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
+    this.month = this.datepipe.transform(new Date(), 'MMM');
+    this.monthOptions = [{ label: this.month, value: this.curMonth }];
+    this.year = new Date().getFullYear();
+    this.yearOptions = [{ label: this.year, value: this.year }];
+  }
 }
+
+
 
 function checkfile(sender) {
   var validExts = new Array(".xlsx", ".xls");
@@ -306,10 +342,6 @@ function checkfile(sender) {
     validExts.toString() + " types.";
     return false;
   }
-  // } else if (!fileName.startsWith('FPS_')) {
-  //   this.errMsg = "Invalid file selected, please select a valid file";
-  //   return false;
-  // }
   else return true;
 }
 
@@ -330,6 +362,7 @@ function get_header_row(sheet) {
 }
 
 export interface Allotment {
+  Type: number;
   FPSName: string;
   FPSCode: string;
   SocietyCode: string;

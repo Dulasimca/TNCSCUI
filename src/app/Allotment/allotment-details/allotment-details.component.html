@@ -56,6 +56,10 @@
               <button pButton label=Save (click)="onSave()"
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
+            <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
+                <button pButton label=Clear (click)="onClear()"
+                  [disabled]="(AllotmentData.length=='0')"></button>
+              </div>
           </div>
           <div class="ui-g-12">
             <p-table [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
