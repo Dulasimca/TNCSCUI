@@ -105,20 +105,21 @@ export class CommodityReceiptComponent implements OnInit {
           }
         }
         break;
-        case 'tr':
+      case 'tr':
         if (type === 'enter') { this.transactionPanel.overlayVisible = true; }
-       if(this.transactionOptions === undefined) {
-        this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
-          if (data !== undefined && data !== null && data.length !== 0) {
-            data.forEach(y => {
+        if (this.transactionOptions === undefined) {
+          this.restAPIService.get(PathConstants.TRANSACTION_MASTER).subscribe(data => {
+            if (data !== undefined && data !== null && data.length !== 0) {
+              data.forEach(y => {
                 transactoinSelection.push({ 'label': y.TRName, 'value': y.TRCode });
                 this.transactionOptions = transactoinSelection;
-            });
-          } else {
-            this.transactionOptions = transactoinSelection;
-          }
-        })
-      }
+              });
+              this.transactionOptions.unshift({ label: 'All', value: 'All' });
+            } else {
+              this.transactionOptions = transactoinSelection;
+            }
+          })
+        }
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
@@ -254,7 +255,7 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.commodityReceiptData = [];
   }
 
