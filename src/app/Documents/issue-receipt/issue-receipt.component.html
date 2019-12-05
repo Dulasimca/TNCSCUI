@@ -131,7 +131,8 @@
                       <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" filter="true"
-                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" (keydown)="showIssuerCode()"
+                        (onChange)="getAllotmentDetails()" (keydown)="showIssuerCode()"
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
                         required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -446,7 +447,7 @@
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-8 ui-md-8 ui-fluid no-pad-top">
-                      <input name="Text" pInputText autocomplete="off" [readOnly]="true">
+                      <input name="Text" pInputText autocomplete="off" [(ngModel)]="QuantityLimit" [readOnly]="true">
                     </div>
                     <div class="ui-g-2 ui-md-3"></div>
                     <div class="ui-g-2 ui-md-1 no-pad-top">

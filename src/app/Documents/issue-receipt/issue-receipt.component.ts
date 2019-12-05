@@ -120,6 +120,8 @@ export class IssueReceiptComponent implements OnInit {
   field: any;
   selected: any;
   disableYear: boolean;
+  ACSCode: string;
+  allotmentDetails: any[] = [];
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -786,6 +788,33 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
+  getAllotmentDetails() {
+    if(this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined && 
+      this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
+      && this.IssuerCode !== null && this.IssuerCode !== undefined) {
+        const params = {
+          'GCode': this.IssuingCode,
+          'RCode': this.RCode,
+          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
+          'IssRegAdv': this.RegularAdvance,
+          'Month': (this.RegularAdvance === 'A') ? (((this.curMonth * 1) > 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
+          'Year': this.year,
+          'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
+        }
+        this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
+          res.forEach(x => {
+            this.allotmentDetails.push({
+              AllotmentQty: x.AllotmentQty,
+              IssuQty: x.IssuQty,
+              AllotmentScheme: x.AllotmentScheme,
+              AllotmentCommodity: x.AllotmentCommodity
+            })
+          });
+        })
+
+      }
+  }
+
   onRowSelect(event) {
     this.selected = event;
     this.SINo = event.data.SINo;
@@ -835,8 +864,8 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].Receivorcode }];
         this.RNCode = res.Table[0].ReceivorName;
         this.rnCode = res.Table[0].Receivorcode;
-        let ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
-        this.IssuerCode = this.rnCode + '-' + ACSCode;
+        this.ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
+        this.IssuerCode = this.rnCode + '-' + this.ACSCode;
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo.toUpperCase();
         this.ManualDocNo = res.Table[0].Flag1;
@@ -908,7 +937,8 @@ export class IssueReceiptComponent implements OnInit {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = '-'; this.RegularAdvance = null; this.VehicleNo = null; this.Remarks = null;
+    this.WNo = '-'; this.RegularAdvance = null; this.ACSCode = null;
+    this.VehicleNo = null; this.Remarks = null;
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
