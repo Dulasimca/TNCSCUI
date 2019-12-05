@@ -6,8 +6,9 @@ import * as XLSX from 'xlsx';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -53,7 +54,8 @@ export class AllotmentDetailsComponent implements OnInit {
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
-    private messageService: MessageService, private roleBasedService: RoleBasedService) { }
+    private messageService: MessageService, private roleBasedService: RoleBasedService,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -329,7 +331,22 @@ export class AllotmentDetailsComponent implements OnInit {
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
   }
+
+  downloadSample() {
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet;charset=UTF-8';
+    this.getJSON().subscribe(data => {
+      // data.forEach(row => {
+      //   this.excel.push(row);
+      // });
+      // saveAs(blob, filename);
+      console.log('data', data);
+    });
+  }
+  public getJSON(): Observable<any> {
+    return this.http.get('../../assets/Sample_Excel.xlsx');
+  }
 }
+
 
 
 

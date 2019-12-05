@@ -35,5 +35,6 @@ export class StatusMessage {
     public static readonly SuccessValidationMsg = 'Proceed with save or print!';
     public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
     public static readonly PurchaseTargetDateValidation = 'You have entered target date beyond completed date!';
+    public static readonly AllotmentIssueQuantityValidation = 'No available balance in allotted quantity!';
 
 }

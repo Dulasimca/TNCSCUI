@@ -91,7 +91,7 @@ export class RoleBasedService {
             this.restApiService.get(PathConstants.SCHEMES).subscribe((res: any) => {
                 if (res !== undefined) {
                     res.forEach(value => {
-                        this.scheme_data.push({ 'SName': value.Name, 'SCode': value.SCCode });
+                        this.scheme_data.push({ 'SName': value.Name, 'SCode': value.SCCode, 'AScheme': value.AllotmentScheme });
                     })
                 }
             });

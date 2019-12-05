@@ -127,6 +127,7 @@ export class SchemeReceiptComponent implements OnInit {
       'FDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.GCode,
+      'RCode': this.RCode,
       'TRCode': this.Scheme,
       'UserName': this.username.user,
     };
