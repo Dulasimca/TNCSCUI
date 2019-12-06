@@ -181,10 +181,13 @@ export class StockPurchaseComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
         } else {
+          this.isViewed = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }, (err: HttpErrorResponse) => {
+        this.isViewed = false;
         this.blockScreen = false;
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
@@ -222,16 +225,17 @@ export class StockPurchaseComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
         } else {
           this.isViewed = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
+          this.isViewed = false;
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
-          this.isViewed = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }

@@ -106,6 +106,7 @@ export class TruckTransitComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
+      'RCode': this.RCode,
       'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'GCode': this.GCode,

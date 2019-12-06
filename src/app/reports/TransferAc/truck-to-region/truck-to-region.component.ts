@@ -102,7 +102,9 @@ export class TruckToRegionComponent implements OnInit {
   onView() {
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy')).append('GCode', this.GCode).append('UserName', this.username.user).append('GName', this.GName).append('RName', this.RName);
+    const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy'))
+    .append('GCode', this.GCode).append('UserName', this.username.user)
+    .append('GName', this.GName).append('RName', this.RName).append('RCode', this.RCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_TO_REGION_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.TruckToRegionData = res;

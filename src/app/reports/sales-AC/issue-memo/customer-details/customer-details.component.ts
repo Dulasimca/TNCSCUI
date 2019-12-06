@@ -181,6 +181,7 @@ export class CustomerDetailsComponent implements OnInit {
   onView() {
     const params = {
       'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
       'SCode': (this.Society !== undefined && this.Society !== null && this.Society.value !== undefined) ?
       this.Society.value : '0',
       'ShopCode': this.Shop.value,
