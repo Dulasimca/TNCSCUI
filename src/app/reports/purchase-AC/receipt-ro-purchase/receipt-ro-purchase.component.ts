@@ -34,6 +34,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
   username: any;
   loading: boolean;
   loggedInRCode: any;
+  totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -89,6 +90,11 @@ export class ReceiptROPurchaseComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -115,6 +121,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
+        this.totalRecords = this.receiptROPurchaseData.length;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -156,7 +163,8 @@ export class ReceiptROPurchaseComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.receiptROPurchaseData = [];
-  }
+    this.totalRecords = 0;
+   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";

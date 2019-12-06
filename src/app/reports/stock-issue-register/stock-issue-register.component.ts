@@ -129,7 +129,7 @@ export class StockIssueRegisterComponent implements OnInit {
              // 'SlNo': sno,
               'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/MM/yyyy'),
               'Lorryno': rec.Lorryno, 'To_Whom_Issued': rec.To_Whom_Issued, 'Stackno': rec.Stackno, 'Scheme': rec.Scheme,
-              'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt
+              'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt, 'Godownname': rec.Godownname
             });
           });
           this.record.forEach((data, index) => {
@@ -170,6 +170,7 @@ export class StockIssueRegisterComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.record = [];
     this.stockIssueRegData = [];
+    this.canFetch = true;
   }
 
   onDateSelect() {

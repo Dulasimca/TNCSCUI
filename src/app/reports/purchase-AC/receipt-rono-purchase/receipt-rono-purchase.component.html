@@ -6,8 +6,8 @@
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Receipt - RONO Purchase</div>
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
-            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
-              [disabled]="(!fromDate || !toDate || !GCode || !RCode || !orderNo)"></button>
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View 
+            (click)="onView();dt.reset()" [disabled]="(!fromDate || !toDate || !GCode || !RCode || !orderNo)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(receiptHOPurchaseData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
@@ -55,7 +55,8 @@
             </div>
           <div class="ui-g-12 uiu-md-12">
             <p-table #dt [columns]="receiptHOPurchaseCols" [value]="receiptHOPurchaseData"
-             [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" exportFilename="RECEIPT_RO_PURCHASE"
+             [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+              exportFilename="RECEIPT_RO_PURCHASE" [totalRecords]="totalRecords"
               [paginator]="true" autoLayout="true" [loading]="loading">
                     <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">

@@ -42,7 +42,7 @@
             dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-          <button pButton type="button" label=View (click)="onView()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
+          <button pButton type="button" label=View (click)="onView();dt.reset()" [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
         <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
           <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(receiptROPurchaseData.length=='0')"></button>
@@ -52,7 +52,8 @@
         </div>
           <div class="ui-g-12 ui-md-12">
           <p-table #dt [columns]="receiptROPurchaseCols" [value]="receiptROPurchaseData" [rows]="20"
-            [loading]="loading" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+            [loading]="loading" [rowsPerPageOptions]="[10,20,30,40,50,100]" 
+            [paginator]="true" [responsive]="true" [totalRecords]="totalRecords"
             autoLayout="true" exportFilename="RECEIPT_RO_PURCHASE">
                   <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">

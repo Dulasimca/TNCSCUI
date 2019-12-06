@@ -198,6 +198,9 @@ export class AllotmentDetailsComponent implements OnInit {
           this.AllotmentData = JSONdata;
           let i = 0;
           const objLen = this.AllotmentCols.length - 6;
+          var tempArr = [];
+          var k = 1;
+          let missingSocietyCode: string = '';
           for (let obj of this.AllotmentData) {
             for (let key in obj) {
               obj['FPSName'] = obj['FPS Name'];
@@ -206,11 +209,22 @@ export class AllotmentDetailsComponent implements OnInit {
                   if (x.ACSCode !== null) {
                     const acscode: string = x.ACSCode;
                     if (obj[key] === acscode.trim() && i < this.AllotmentData.length) {
+                      if(x.SocietyCode !== undefined && x.SocietyCode !== null) {
                       obj['Societycode'] = x.Societycode; //adding new key value pair
                       i += 1;
+                      } else {
+                       // const value = k + 
+                        tempArr.push(k + '. ' + x.SocietyCode + ' for ' + acscode);
+                      }
                     }
                   }
                 })
+                if(tempArr.length !== 0) {
+                   missingSocietyCode = tempArr + 'are missing!';
+                   this.onClear();
+                   this.messageService.clear();
+                   this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingSocietyCode });
+                }
               } else if (key !== 'FPS Code' && key !== '#' && key !== 'Taluk' && key !== 'FPS Name'
                 && key !== 'Godown Name' && key !== 'Godown Code') {
                 let j = 0;
@@ -324,6 +338,7 @@ export class AllotmentDetailsComponent implements OnInit {
   onClear() {
     this.AllotmentData = [];
     this.AllotmentCols.length = 0;
+    this.disableSave = false;
     this.RCode = null; this.GCode = null;
     this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
@@ -334,13 +349,16 @@ export class AllotmentDetailsComponent implements OnInit {
 
   downloadSample() {
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet;charset=UTF-8';
-    this.getJSON().subscribe(data => {
-      // data.forEach(row => {
-      //   this.excel.push(row);
-      // });
-      // saveAs(blob, filename);
-      console.log('data', data);
-    });
+    // this.getJSON().subscribe(data => {
+    //   // data.forEach(row => {
+    //   //   this.excel.push(row);
+    //   // });
+    //   // saveAs(blob, filename);
+    //   console.log('data', data);
+    // });
+    const path = "../../assets/Sample_Excel.xlsx";
+    const filename = 'Sample_Excel' + ".xlsx";
+    saveAs(path , filename);
   }
   public getJSON(): Observable<any> {
     return this.http.get('../../assets/Sample_Excel.xlsx');

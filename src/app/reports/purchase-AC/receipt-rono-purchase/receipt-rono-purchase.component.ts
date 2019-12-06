@@ -33,6 +33,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   orderNo: any;
   loading: boolean;
   loggedInRCode: string;
+  totalRecords: number;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -88,6 +89,11 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -114,6 +120,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
+        this.totalRecords = this.receiptHOPurchaseData.length;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -155,6 +162,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.receiptHOPurchaseData = [];
+    this.totalRecords = 0;
   }
 
   onPrint() { }
