@@ -100,6 +100,7 @@ import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotme
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
 import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
+import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -195,6 +196,7 @@ const routes: Routes = [
   { path: 'Stack Closing Card 2', component: StackClosingCard2Component, canActivate: [AuthGuard] },
   { path: 'Opening Balance Stack Details', component: OpeningBalanceStackDetailsComponent },
   { path: 'PartyLedgerMaster', component: PartyLedgerMasterComponent , canActivate: [AuthGuard]},
+  { path: 'PartyLedgerUpdate', component: PartyLedgerUpdateComponent , canActivate: [AuthGuard]},
   { path: 'SalesTaxEntry', component: SalesTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'PurchaseTaxEntry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
   { path: 'ServiceProviderEntry', component: ServiceProviderEntryComponent, canActivate: [AuthGuard]},
