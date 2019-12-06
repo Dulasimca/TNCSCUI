@@ -279,6 +279,7 @@ export class TableConstants {
     this.StockReceiptRegisterReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.No' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'Date', header: 'Date' },
       { field: 'TruckMemoNo', header: 'Truck Memo No' },
       { field: 'Lorryno', header: 'Lorry No' },
@@ -293,6 +294,7 @@ export class TableConstants {
     this.StockIssueRegisterReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Issue_Memono', header: 'Issue Memo No' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'DNo', header: 'Do No' },
       { field: 'Issue_Date', header: 'Date' },
       { field: 'Lorryno', header: 'Lorry No' },
@@ -307,6 +309,7 @@ export class TableConstants {
     this.TruckMemoRegisterReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Truck_Memono', header: 'Truck Memo No' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'Mono', header: 'Mo.No' },
       { field: 'Issue_Date', header: 'Date' },
       { field: 'RoNo', header: 'Ro.No' },
@@ -321,6 +324,7 @@ export class TableConstants {
     this.DeliveryMemoRegisterReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Dono', header: 'Delivery Order No' },
+      { field: 'Godown', header: 'Godown Name'},
       { field: 'DeliveryOrderDate', header: 'Date' },
       { field: 'Totals', header: 'Total (Rs)' },
       { field: 'To_Whom_Issued', header: 'Issuer Name' },
@@ -632,6 +636,7 @@ export class TableConstants {
     this.ReceiptROPurchaseReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'Date', header: 'DATE' },
       { field: 'Type', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
@@ -646,6 +651,7 @@ export class TableConstants {
     this.ReceiptHOPurchaseReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'Ack No' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'Date', header: 'Date' },
       { field: 'Type', header: 'Type' },
       { field: 'Depositor', header: 'Depositor' },
@@ -660,6 +666,7 @@ export class TableConstants {
     this.ReceiptRONOPurchaseReport = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK.NO' },
+      { field: 'Godownname', header: 'Godown Name'},
       { field: 'Date', header: 'DATE' },
       { field: 'Tyname', header: 'TYPE ' },
       { field: 'Depositor', header: 'DEPOSITOR' },
