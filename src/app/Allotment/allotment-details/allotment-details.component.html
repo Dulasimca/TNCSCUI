@@ -47,22 +47,21 @@
                 [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
               </p-dropdown>
             </div>
-            <div class="ui-g-4 ui-md-4 ui-fluid">
+            <div class="ui-g-4 ui-md-3 ui-fluid">
               <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx"
                 name="uploadExcel">
             </div>
-            <!-- <div class="ui-g-1"></div> -->
-            <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
+            <div class="ui-g-4 ui-md-1">
                 <button pButton icon="pi pi-download" (click)="downloadSample()">
                   <!-- <a href='assets/Sample_Excel.csv' download></a> -->
                   <!-- <a [href]="fileUrl" download="assets/Sample_Excel.csv">DownloadFile</a> -->
                 </button>
               </div>
-              <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
+              <div class="ui-g-4 ui-md-1">
               <button pButton label=Save (click)="onSave()"
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
-            <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
+            <div class="ui-g-4 ui-md-1">
                 <button pButton label=Clear (click)="onClear()"
                   [disabled]="(AllotmentData.length=='0')"></button>
               </div>
