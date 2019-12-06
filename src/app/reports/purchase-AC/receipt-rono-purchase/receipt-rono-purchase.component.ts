@@ -98,6 +98,7 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
     this.loading = true;
     const params = {
       'GCode': this.GCode,
+      'RCode': this.RCode,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'OrderNo': this.orderNo,
