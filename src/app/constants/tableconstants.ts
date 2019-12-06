@@ -115,6 +115,7 @@ export class TableConstants {
   QuantityACIssueDetailsCommodity: any[];
   PartyName: any;
   StackCardDocDetailsCols: any[];
+  IssuerPartyCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1384,6 +1385,14 @@ export class TableConstants {
       { header: 'Doc.created Date', field: 'CreatedDate' },
       { header: 'Bags', field: 'NOOfPACKING'},
       { header: 'Quantity', field: 'NETWT' },
+    ];
+
+    this.IssuerPartyCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'IssuerCode', header: 'Issuer Code' },
+      { field: 'Issuername', header: 'Issuer Name' },
+      // { field: 'PartyID', header: 'Party Code' },
+      { field: 'PartyName', header: 'Party Name' },
     ];
   }
 }

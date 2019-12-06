@@ -149,6 +149,7 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
+import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 
 @NgModule({
   declarations: [
@@ -258,6 +259,7 @@ import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-de
     ServiceProviderEntryComponent,
     AllotmentIssueQuantityComponent,
     ProcessToG2GComponent,
+    PartyLedgerUpdateComponent,
   ],
   imports: [
     BrowserModule,
