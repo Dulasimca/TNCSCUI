@@ -531,14 +531,12 @@ export class RegionAllotmentComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
           this.isViewed = false;
           this.blockScreen = false;
+          if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
-          this.isViewed = false;
-          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }
@@ -570,20 +568,19 @@ export class RegionAllotmentComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
         }
       }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.blockScreen = false;
-          this.isSelected = false;
+        this.isViewed = false;
+        this.blockScreen = false;
+         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         } else {
-          this.blockScreen = false;
-          this.isSelected = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
         }
       });
     } else {
       this.blockScreen = false;
+      this.isViewed = false;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: 'you cannot allot same region for same spell and party again!' });
     }
