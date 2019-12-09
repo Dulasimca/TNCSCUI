@@ -108,12 +108,12 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth'">
+                <div *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth' || col.field === 'Balance'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth'">
+                <div *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth' && col.field !== 'Balance'">
                   {{rowData[col.field]}}
                 </div>
               </td>

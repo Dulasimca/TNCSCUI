@@ -1334,7 +1334,8 @@ export class TableConstants {
       { field: 'Commodity', header: 'Commodity' },
       { field: 'Scheme', header: 'Scheme' },
       { field: 'AllotmentQty', header: 'Allotment Quantity' },
-      { field: 'IssueQty', header: 'Issue Quantity' }
+      { field: 'IssueQty', header: 'Issue Quantity' },
+      { field: 'Balance', header: 'Balance Quantity' }
     ];
 
     this.ProcessToG2GIssueCols = [

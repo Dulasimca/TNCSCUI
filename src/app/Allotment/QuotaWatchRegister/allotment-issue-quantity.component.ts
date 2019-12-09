@@ -214,8 +214,10 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         this.AllotmentQuantityData = res;
         this.CompanyTitle = res;
         let sno = 0;
+        let Balance;
         this.AllotmentQuantityData.forEach(s => {
           s.SIDate = this.datepipe.transform(s.SIDate, 'dd/MM/yyyy');
+          s.Balance = (s.AllotmentQty - s.IssueQty);
           sno += 1;
           s.SlNo = sno;
         });
