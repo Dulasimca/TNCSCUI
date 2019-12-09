@@ -103,7 +103,8 @@ export class CBStatementComponent implements OnInit {
 
   onView() {
     this.loading = true;
-    const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.GCode).append('RCode', this.RCode);
+    const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'))
+    .append('GCode', this.GCode).append('RCode', this.RCode).append('RoleId', this.roleId);
     this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe(response => {
       if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
         this.cbData = response.Table;
@@ -164,6 +165,8 @@ export class CBStatementComponent implements OnInit {
           record.WHEAT = (record.WHEAT * 1);
           record.SUGAR = (record.SUGAR !== 0) ? record.SUGAR.toFixed(3) : record.SUGAR;
           record.SUGAR = (record.SUGAR * 1);
+          record.GStatus = (record.CB) ? 'Approved' : 'Pending';
+          record.RStatus = (record.CB && record.Transfer && record.Issues && record.Receipt) ? 'Approved' : 'Pending';
         });
         this.cbData.splice(this.cbData.length, 0, '');
         let groupedData;
