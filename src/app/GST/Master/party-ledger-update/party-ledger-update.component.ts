@@ -123,6 +123,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
                 partySelection.push({ 'label': s.PartyName, 'value': s.PCode });
               });
               this.partyOptions = partySelection;
+              this.partyOptions.unshift({ 'label': '-select-', value: null, disabled: true });
             }
           });
         }
@@ -136,6 +137,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
             issuerSelection.push({ 'label': data.Issuername, 'value': data.IssuerCode });
           });
           this.issuerOptions = issuerSelection;
+          this.issuerOptions.unshift({ 'label': '-select-', value: null, disabled: true });
         }
         break;
     }
@@ -151,6 +153,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(res => {
       if (res !== undefined) {
         this.PartyLedgerData = res;
+        this.loading = false;
         this.IssuerData = res;
         this.CompanyTitle = res;
         let sno = 0;
@@ -158,9 +161,18 @@ export class PartyLedgerUpdateComponent implements OnInit {
           sno += 1;
           data.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.loading = false;
   }
 
   onSubmit() {
@@ -222,4 +234,8 @@ export class PartyLedgerUpdateComponent implements OnInit {
     }
   }
 
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+    this.IssuerData = [];
+  }
 }

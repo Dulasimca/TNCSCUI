@@ -22,13 +22,19 @@ export class PurchaseTaxEntryComponent implements OnInit {
   PurchaseTaxData: any = [];
   PurchaseTaxCols: any;
   PristineData: any = [];
+  PresistData: any = [];
   CompanyTitleData: any;
   CompanyTitleCols: any;
   CompanyGlobal: any = [];
+  CommodityGlobal: any = [];
+  CommodityData: any;
+  CommodityCols: any;
   filterArray = [];
   canShowMenu: boolean;
   disableOkButton: boolean = false;
+  disableButton: boolean = false;
   onDrop: boolean = true;
+  onPut: boolean = true;
   OnEdit: boolean = false;
   selectedRow: any;
   data?: any;
@@ -76,7 +82,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
   viewPane: boolean = false;
   isViewed: boolean = false;
   isEdited: boolean = false;
+  ifEdit: boolean = false;
   loading: boolean = false;
+  isCom: boolean = false;
+  isCommodity: boolean = false;
   curMonth: any;
   State: any;
   RName: any;
@@ -205,36 +214,37 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
-        if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName, 'TaxPer': y.TaxPercentage });
-                this.commodityOptions = commoditySelection;
-              });
-              this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.percentage = this.Commodity.TaxPer;
-              // if (this.percentage !== undefined && this.percentage !== null) {
-              //   this.Vat = (this.percentage * 100).toFixed(2);
-              // }
-            }
+        this.loading = true;
+        this.PresistData = this.CommodityGlobal;
+        if (this.commodityOptions !== undefined && this.PresistData !== undefined) {
+          this.PresistData.forEach(y => {
+            commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName, 'TaxPer': y.TaxPercentage });
           });
+          this.loading = false;
+          this.commodityOptions = commoditySelection;
+          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
+          // if (this.percentage !== undefined && this.percentage !== null) {
+          //   this.Vat = (this.percentage * 100).toFixed(2);
+          // }
         }
         break;
       case 'company':
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
+        this.loading = true;
         this.PristineData = this.CompanyGlobal;
         if (this.companyOptions !== undefined && this.PristineData !== undefined) {
           this.PristineData.forEach(s => {
             CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
           });
+          this.loading = false;
           this.companyOptions = CompanySelection;
-          // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.Gst = this.CompanyName.gstno;
-          this.Pan = this.CompanyName.pan;
-          this.State = this.CompanyName.sc;
+          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.Gst = (this.CompanyName.gstno !== undefined) ? this.CompanyName.gstno : '';
+          this.Pan = (this.CompanyName.pan !== undefined) ? this.CompanyName.pan : '';
+          this.State = (this.CompanyName.sc !== undefined) ? this.CompanyName.sc : '';
         }
         break;
     }
@@ -242,7 +252,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
 
   onCompany() {
     this.loading = true;
-    // if (this.CompanyGlobal === undefined && this.CompanyGlobal.length === 0) {
     const params = {
       'RCode': this.RCode,
       'Type': 2
@@ -251,19 +260,19 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.CompanyTitleData = res;
+        this.loading = false;
         this.CompanyGlobal = res;
         this.isViewed = true;
         this.disableOkButton = true;
         this.onDrop = false;
-        this.loading = false;
         let sno = 0;
         this.CompanyTitleData.forEach(s => {
           sno += 1;
           s.SlNo = sno;
         });
       }
+      this.loading = false;
     });
-    // }
   }
 
   onRow(event, selectedRow) {
@@ -274,6 +283,37 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.State = selectedRow.StateCode;
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
+  }
+
+  onCommoditySelect(event, selectedRow) {
+    this.ifEdit = true;
+    this.isCom = false;
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
+    this.Commodity = selectedRow.CommodityName;
+    this.percentage = selectedRow.TaxPercentage;
+    // this.Hsncode = selectedRow.Hsncode;
+  }
+
+  onCommodity() {
+    this.loading = true;
+    this.CommodityCols = this.tableConstant.GSTCommodityName;
+    this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
+      if (data !== undefined) {
+        this.CommodityData = data;
+        this.loading = false;
+        this.CommodityGlobal = data;
+        this.isCom = true;
+        this.onPut = false;
+        this.disableButton = true;
+        this.isCommodity = false;
+        let sno = 0;
+        this.CommodityData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+      this.loading = false;
+    });
   }
 
   onView() {

@@ -114,6 +114,7 @@ export class TableConstants {
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
   PartyName: any;
+  GSTCommodityName: any;
   StackCardDocDetailsCols: any[];
   IssuerPartyCols: any;
 
@@ -1245,6 +1246,14 @@ export class TableConstants {
       { field: 'Pan', header: 'Pan No' },
       { field: 'GSTNo', header: 'GST' },
       { field: 'TIN', header: 'GST No' },
+    ];
+
+    this.GSTCommodityName = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'CommodityID', header: 'Commodity Code' },
+      { field: 'TaxPercentage', header: 'State Code' },
+      { field: 'Hsncode', header: 'Pan No' }
     ];
 
     this.PurchaseTaxEntry = [

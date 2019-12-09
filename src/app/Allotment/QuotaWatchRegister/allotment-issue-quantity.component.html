@@ -7,8 +7,8 @@
         <div class="ui-g-4 dashboard">Quota Watch Register</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g">
+      <p-toast position="top-center" key="t-err"></p-toast>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -108,12 +108,14 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth' || col.field === 'Balance'">
+                <div
+                  *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth' || col.field === 'Balance'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth' && col.field !== 'Balance'">
+                <div
+                  *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth' && col.field !== 'Balance'">
                   {{rowData[col.field]}}
                 </div>
               </td>

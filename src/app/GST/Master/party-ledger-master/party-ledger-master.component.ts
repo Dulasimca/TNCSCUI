@@ -48,6 +48,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   maxDate: Date;
   loggedInRCode: any;
   GCode: any;
+  loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
   RName: any;
@@ -107,6 +108,7 @@ export class PartyLedgerMasterComponent implements OnInit {
 
 
   onView() {
+    this.loading = true;
     const params = {
       'RCode': this.RCode.value,
     };
@@ -114,6 +116,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
         this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
+        this.loading = false;
         this.CompanyTitle = res;
         this.PartyLedgerData = res;
         let sno = 0;
@@ -122,6 +125,16 @@ export class PartyLedgerMasterComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
@@ -156,7 +169,7 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onSubmit(formUser) {
     const params = {
-      'LedgerID': (this.LedgerID  !== undefined && this.LedgerID  !== null) ? this.LedgerID : '',
+      'LedgerID': (this.LedgerID !== undefined && this.LedgerID !== null) ? this.LedgerID : '',
       'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
       'Roleid': this.roleId,
       'Pan': this.Pan,

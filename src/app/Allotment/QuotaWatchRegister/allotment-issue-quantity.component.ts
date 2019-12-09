@@ -199,6 +199,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   }
 
   onView() {
+    this.loading = true;
     const params = {
       // 'RoleId': this.roleId,
       'GCode': this.GCode,
@@ -209,8 +210,9 @@ export class AllotmentIssueQuantityComponent implements OnInit {
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
     };
     this.restApiService.getByParameters(PathConstants.ALLOTMENT_QUANTITY_GET, params).subscribe(res => {
-      if (res !== undefined) {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.AllotmentQuantityCols = this.tableConstant.AllotmentIssueQuantity;
+        this.loading = false;
         this.AllotmentQuantityData = res;
         this.CompanyTitle = res;
         let sno = 0;
@@ -223,19 +225,15 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         });
       }
       else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
