@@ -62,6 +62,7 @@ export class TruckTransitComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
+    let transactionSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -104,6 +105,13 @@ export class TruckTransitComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
+      case 'transaction':
+        if (type === 'enter') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        if (this.transferOptions === undefined) {
+          transactionSelection.push({ 'label': 'Transfer', value: 'Transfer', })
+        }
     }
   }
 
