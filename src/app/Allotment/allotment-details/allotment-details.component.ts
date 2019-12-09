@@ -74,10 +74,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
       this.allotmentCommodity = data;
     })
-    const params = { 'Type': 2, 'GCode': this.GCode }
-    this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
-      this.societyData = data;
-    })
+   
   }
 
   onSelect(selectedItem, type) {
@@ -148,6 +145,12 @@ export class AllotmentDetailsComponent implements OnInit {
               }
             });
             this.godownOptions = godownSelection;
+            if(this.GCode !== undefined && this.GCode !== null) {
+            const params = { 'Type': 2, 'GCode': this.GCode }
+            this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
+              this.societyData = data;
+            })
+          }
           }
           break;
     }
@@ -209,7 +212,7 @@ export class AllotmentDetailsComponent implements OnInit {
                   if (x.ACSCode !== null) {
                     const acscode: string = x.ACSCode;
                     if (obj[key] === acscode.trim() && i < this.AllotmentData.length) {
-                      if(x.SocietyCode !== undefined && x.SocietyCode !== null) {
+                      if(x.Societycode !== undefined && x.Societycode !== null) {
                       obj['Societycode'] = x.Societycode; //adding new key value pair
                       i += 1;
                       } else {
@@ -349,19 +352,9 @@ export class AllotmentDetailsComponent implements OnInit {
 
   downloadSample() {
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet;charset=UTF-8';
-    // this.getJSON().subscribe(data => {
-    //   // data.forEach(row => {
-    //   //   this.excel.push(row);
-    //   // });
-    //   // saveAs(blob, filename);
-    //   console.log('data', data);
-    // });
-    const path = "../../assets/Sample_Excel.xlsx";
+    const path = "../../assets/Sample_Allotment/Sample_Excel.xlsx";
     const filename = 'Sample_Excel' + ".xlsx";
     saveAs(path , filename);
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('../../assets/Sample_Excel.xlsx');
   }
 }
 
