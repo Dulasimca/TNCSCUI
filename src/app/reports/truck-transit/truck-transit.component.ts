@@ -110,8 +110,9 @@ export class TruckTransitComponent implements OnInit {
           this.transactionPanel.overlayVisible = true;
         }
         if (this.transferOptions === undefined) {
-          transactionSelection.push({ 'label': 'Transfer', value: 'Transfer', })
+          transactionSelection.push({ 'label': 'TRANSFER', value: 'TRANSFER' }, { 'label': 'INTERNAL TRANSFER', value: 'INTERNAL TRANSFER' });
         }
+        this.transferOption = transactionSelection;
     }
   }
 

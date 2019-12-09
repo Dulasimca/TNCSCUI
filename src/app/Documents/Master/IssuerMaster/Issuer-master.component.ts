@@ -28,6 +28,7 @@ export class IssuerMasterComponent implements OnInit {
   CategoryType: any;
   ACSCode: any;
   Activeflag: any;
+  IssuerNo: any;
   IssuerCode: any;
   IssuerName: string;
   canShowMenu: boolean;
@@ -201,6 +202,7 @@ export class IssuerMasterComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.isEdited = true;
     this.viewPane = true;
+    this.IssuerNo = selectedRow.IssuerNo;
     this.IssuerCode = selectedRow.IssuerCode;
     this.IssuerName = selectedRow.Issuername.trim();
     this.ACSCode = selectedRow.ACSCode;
@@ -220,6 +222,7 @@ export class IssuerMasterComponent implements OnInit {
 
   onSave() {
     const params = {
+      'IssuerNo': (this.IssuerNo !== undefined && this.IssuerNo !== null) ? this.IssuerNo : 0,
       'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : 0,
       'Activeflag': this.Activeflag,
       'ACSCode': (this.ACSCode !== undefined && this.ACSCode !== null) ? this.ACSCode : '',

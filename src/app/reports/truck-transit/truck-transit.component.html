@@ -51,7 +51,7 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Transfer Type</label>
-        <p-dropdown class="ui-fluid dashboard" [options]="transferOptions" [(ngModel)]="TrCode"
+        <p-dropdown class="ui-fluid dashboard" [options]="transferOption" [(ngModel)]="TrCode"
           (keydown.enter)="onSelect('transaction', 'enter')" (onClick)="onSelect('transaction', 'click')"
           (ngModelChange)="onResetTable('transaction')" filter="true" optionLabel="label" resetFilterOnHide="true"
           [showClear]="true" placeholder="-select-">
