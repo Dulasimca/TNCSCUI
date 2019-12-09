@@ -128,15 +128,18 @@ export class PathConstants {
   public static readonly PURCHASE_TAX_ENTRY_POST = '/api/PurchaseTaxEntry/Post';
   public static readonly SALES_TAX_ENTRY_GET = '/api/SalesTaxEntry/Get';
   public static readonly SALES_TAX_ENTRY_POST = '/api/SalesTaxEntry/Post';
-  public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly GST_COMMODITY_MASTER = '/api/GSTCommodityMaster';
-  public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
-  public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';
-  public static readonly ALLOTMENT_BALANCE_POST = '/api/AllotmentBalance/Post';
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
 
+
+  //Allotment Module
+  public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
+  public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';
+  public static readonly ALLOTMENT_QUANTITY_POST = '/api/AllotmentQuantity/Post';
+  public static readonly ALLOTMENT_BALANCE_GET = '/api/AllotmentBalance/Get';
+  public static readonly ALLOTMENT_BALANCE_POST = '/api/AllotmentBalance/Post';
 
   ///Purchase Module
   public static readonly PURCHASE_TENDER_DETAILS_POST = '/api/TenderDetails/Post';

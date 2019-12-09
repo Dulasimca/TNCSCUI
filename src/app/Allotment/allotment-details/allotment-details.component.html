@@ -4,7 +4,12 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Allotment Details</div>
+        <div class="ui-g-4 dashboard">Allotment Details
+            <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
+                <button class="ui-g-3 dashboard inline-margin" pButton type="button" icon="pi pi-download"
+                  (click)="downloadSample()"></button>
+              </div>
+        </div>
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
@@ -38,25 +43,21 @@
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
               <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions"
                 [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
-                filter="true" resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" required>
+                (ngModelChange)="onResetTable('mon')" filter="true" resetFilterOnHide="true"
+                 optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
               <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions"
-                [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
+                [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
+                (ngModelChange)="onResetTable('yr')" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-3 ui-fluid">
               <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx"
                 name="uploadExcel" [disabled]="(!RCode || !GCode || !year || !month)">
             </div>
-            <div class="ui-g-4 ui-md-1">
-                <button pButton label=Sample (click)="downloadSample()">
-                  <!--icon="pi pi-download" <a href='assets/Sample_Excel.csv' download></a> -->
-                  <!-- <a [href]="fileUrl" download="assets/Sample_Excel.csv">DownloadFile</a> -->
-                </button>
-              </div>
               <div class="ui-g-4 ui-md-1">
               <button pButton label=Save (click)="onSave()"
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>

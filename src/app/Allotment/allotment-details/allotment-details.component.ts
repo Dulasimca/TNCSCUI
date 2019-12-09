@@ -6,10 +6,10 @@ import * as XLSX from 'xlsx';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { saveAs } from 'file-saver';
-import { Observable } from 'rxjs';
+import { TableConstants } from 'src/app/constants/tableconstants';
 
 @Component({
   selector: 'app-allotment-details',
@@ -55,7 +55,7 @@ export class AllotmentDetailsComponent implements OnInit {
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
-    private http: HttpClient) { }
+    private tableConstants: TableConstants) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -156,10 +156,48 @@ export class AllotmentDetailsComponent implements OnInit {
     }
   }
 
+  getAllotmentDetails() {
+    if(this.GCode !== undefined && this.GCode !== null && this.month !== null && this.month !== undefined
+     && ((this.month.value !== undefined && this.month.value !== null) 
+     || (this.curMonth !== undefined && this.curMonth !== null)) && this.year !== null 
+     && this.year !== undefined && this.curMonth !== null && this.curMonth !== undefined) {
+    const params = new HttpParams().set('GCode', this.GCode)
+    .append('AMonth', (this.month.value !== undefined && this.month.value !== null) ? this.month.value : this.curMonth)
+    .append('AYear', this.year);
+    this.restAPIService.getByParameters(PathConstants.ALLOTMENT_BALANCE_GET, params).subscribe(res => {
+      if(res.length !== 0 && res !== undefined && res !== null) {
+        this.AllotmentCols = this.tableConstants.AllotmentDetailsCols;
+        let sno = 1;
+        res.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+        })
+        this.AllotmentData = res;
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.disableSave = false;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.disableSave = false;
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+      }
+    });
+  }
+  }
+
   uploadData(event) {
-    this.AllotmentCols = [];
-    this.allotmentDetails = [];
-    this.AllotmentData = [];
+    this.AllotmentCols.length = 0;
+    this.allotmentDetails.length = 0;
+    this.AllotmentData.length = 0;
     let filesData = event.target.files;
     if (checkfile(filesData[0])) {
       this.parseExcel(filesData[0]);
@@ -305,7 +343,12 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if(item === 'reg') { 
+      this.GCode = null; 
+      this.getAllotmentDetails();
+    } else if(item === 'mon' || item === 'yr') {
+      this.getAllotmentDetails();
+    }
   }
 
   onSave() {
