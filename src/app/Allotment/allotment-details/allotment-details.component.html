@@ -49,7 +49,7 @@
             </div>
             <div class="ui-g-4 ui-md-4 ui-fluid">
               <input id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx"
-                name="uploadExcel">
+                name="uploadExcel" [disabled]="(!RCode || !GCode || !year || !month)">
             </div>
             <!-- <div class="ui-g-1"></div> -->
             <div class="ui-g-4 ui-md-1" style="margin-top: -20px;">
