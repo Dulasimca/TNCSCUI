@@ -116,6 +116,7 @@ export class TableConstants {
   PartyName: any;
   StackCardDocDetailsCols: any[];
   IssuerPartyCols: any;
+  AllotmentDetailsCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -455,6 +456,7 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Ackno', header: 'ACK. NO' },
       { field: 'Date', header: 'DATE' },
+      { field: 'Godownname', header: 'Godown Name' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Bags', header: 'BAGS' },
       { field: 'Quantity', header: 'QUANTITY' },
@@ -1403,5 +1405,16 @@ export class TableConstants {
       // { field: 'PartyID', header: 'Party Code' },
       { field: 'PartyName', header: 'Party Name' },
     ];
+
+    this.AllotmentDetailsCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Taluk Name', field: 'Taluk' },
+      { header: 'Godown Code', field: 'GCode' },
+      { header: 'Godown Name', field: 'Godownname' },
+      { header: 'Society Name', field: 'SocietyName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Quantity', field: 'Quantity' }
+
+    ]
   }
 }
