@@ -352,19 +352,9 @@ export class AllotmentDetailsComponent implements OnInit {
 
   downloadSample() {
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet;charset=UTF-8';
-    // this.getJSON().subscribe(data => {
-    //   // data.forEach(row => {
-    //   //   this.excel.push(row);
-    //   // });
-    //   // saveAs(blob, filename);
-    //   console.log('data', data);
-    // });
-    const path = "../../assets/Sample_Excel.xlsx";
+    const path = "../../assets/Sample_Allotment/Sample_Excel.xlsx";
     const filename = 'Sample_Excel' + ".xlsx";
     saveAs(path , filename);
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('../../assets/Sample_Excel.xlsx');
   }
 }
 
