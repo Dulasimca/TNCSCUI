@@ -224,7 +224,9 @@ export class TableConstants {
       { field: 'totalDhall', header: 'Dhall Total' },
       { field: 'uridDhall', header: 'URID Dhall' },
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
-      { field: 'cement', header: 'CEMENT' }
+      { field: 'cement', header: 'CEMENT' },
+      { field: 'GStatus', header: 'Godown Approval Status'},
+      { field: 'RStatus', header: 'Regional Approval Status'}
     ]
 
     this.DeliveryDocumentcolumns = [
