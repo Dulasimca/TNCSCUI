@@ -102,6 +102,8 @@ export class CommodityIssueMemoComponent implements OnInit {
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
       case 'cd':

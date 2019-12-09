@@ -90,6 +90,11 @@ export class GunnyGuGrComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -100,6 +105,7 @@ export class GunnyGuGrComponent implements OnInit {
     this.loading = true;
     const params = {
       'GCode': this.GCode,
+      'RCode': this.RCode,
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
       'UserName': this.username.user,
@@ -113,7 +119,7 @@ export class GunnyGuGrComponent implements OnInit {
         this.GunnyRepData.forEach(data => {
           data.Date = this.datePipe.transform(data.Date, 'dd-MM-yyyy');
           data.Quantity = (data.Quantity * 1).toFixed(3);
-          data.Year = (data.Year === null) ? '-' : data.Year;
+          data.Year = (data.Year !== null) ? data.Year : '-';
           sno += 1;
           data.SlNo = sno;
         })
