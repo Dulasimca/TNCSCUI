@@ -1424,6 +1424,7 @@ export class TableConstants {
       { header: 'Godown Code', field: 'GCode' },
       { header: 'Godown Name', field: 'Godownname' },
       { header: 'Society Name', field: 'SocietyName' },
+      { header: 'FPS Code', field: 'FPSCode'},
       { header: 'Commodity', field: 'Commodity' },
       { header: 'Quantity', field: 'Quantity' }
 

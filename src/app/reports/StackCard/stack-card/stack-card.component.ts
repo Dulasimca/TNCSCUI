@@ -223,11 +223,11 @@ export class StackCardComponent implements OnInit {
     }
     this.selectedRowCols = this.tableConstants.StackCardDocDetailsCols;
     this.Table.reset();
-    if (type === '1' && (data.ReceiptQuantity !== '-') && ((data.ReceiptQuantity * 1) !== 0)) {
+    if (type === '1' && (data.ReceiptQuantity !== '-') && ((data.ReceiptQuantity * 1) !== 0) && data.AckDate !== 'Total') {
       this.loading = true;
       this.selectedHeader = 'Receipt - Details';
       this.loadData(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params, type);
-    } else if (type === '2' && (data.IssuesQuantity !== '-') && ((data.IssuesQuantity * 1) !== 0)) {
+    } else if (type === '2' && (data.IssuesQuantity !== '-') && ((data.IssuesQuantity * 1) !== 0) && data.AckDate !== 'Total') {
       this.loading = true;
       this.selectedHeader = 'Issue - Details';
       this.loadData(PathConstants.DAILY_DOCUMENT_ISSUE_POST, params, type);
@@ -282,11 +282,11 @@ export class StackCardComponent implements OnInit {
     saveAs(path + filename, filename);
   }
 
-  public getStyle(value: any, id): string {
+  public getStyle(title: string, value: any, id: string): string {
     if(id === 'line') {
-    return ((value * 1) !== 0 && value !== '-') ? "underline" : "none";
+    return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "underline" : "none";
     } else {
-    return ((value * 1) !== 0 && value !== '-') ? "#1377b9" : "black";
+    return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "#1377b9" : "black";
     }
   }
 }

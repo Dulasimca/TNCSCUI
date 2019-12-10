@@ -123,6 +123,11 @@ export class StackCardOpeningComponent implements OnInit {
                 commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
               });
               this.commodityOptions = commoditySelection;
+              if (this.roleId !== 3) {
+                this.commodityOptions.unshift({ label: 'All', value: 'All' });
+              }
+            } else {
+              this.commodityOptions = commoditySelection;
             }
           });
         }

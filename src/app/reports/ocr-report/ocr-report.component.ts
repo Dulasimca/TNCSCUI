@@ -88,6 +88,11 @@ export class OCRReportComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          this.godownOptions = godownSelection;
         }
         break;
     }
@@ -97,6 +102,7 @@ export class OCRReportComponent implements OnInit {
     this.loading = true;
     const params = {
       'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
       'GName': this.GCode.label,
       'RName': this.RCode.label,
       'UserID': this.username.user,

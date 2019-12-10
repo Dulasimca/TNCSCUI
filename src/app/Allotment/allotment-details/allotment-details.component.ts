@@ -48,11 +48,6 @@ export class AllotmentDetailsComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
-
- 
-
-
-
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
     private tableConstants: TableConstants) { }
@@ -74,7 +69,6 @@ export class AllotmentDetailsComponent implements OnInit {
     this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
       this.allotmentCommodity = data;
     })
-   
   }
 
   onSelect(selectedItem, type) {
@@ -146,14 +140,19 @@ export class AllotmentDetailsComponent implements OnInit {
             });
             this.godownOptions = godownSelection;
             if(this.GCode !== undefined && this.GCode !== null) {
+              if(this.societyData === undefined) {
             const params = { 'Type': 2, 'GCode': this.GCode }
             this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
               this.societyData = data;
             })
           }
+          if(this.godownOptions.length <= 1 && this.AllotmentData.length === 0) {
+          this.getAllotmentDetails();
+          }
           }
           break;
     }
+  }
   }
 
   getAllotmentDetails() {
@@ -164,6 +163,9 @@ export class AllotmentDetailsComponent implements OnInit {
     const params = new HttpParams().set('GCode', this.GCode)
     .append('AMonth', (this.month.value !== undefined && this.month.value !== null) ? this.month.value : this.curMonth)
     .append('AYear', this.year);
+    this.loading = true;
+    this.AllotmentData = [];
+    this.AllotmentCols = [];
     this.restAPIService.getByParameters(PathConstants.ALLOTMENT_BALANCE_GET, params).subscribe(res => {
       if(res.length !== 0 && res !== undefined && res !== null) {
         this.AllotmentCols = this.tableConstants.AllotmentDetailsCols;
@@ -173,20 +175,20 @@ export class AllotmentDetailsComponent implements OnInit {
           sno += 1;
         })
         this.AllotmentData = res;
+        this.loading = false;
+        this.disableSave = true;
       } else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
+      this.disableSave = false;
+      this.loading = false;
       if (err.status === 0 || err.status === 400) {
-        this.disableSave = false;
-        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } else {
-        this.disableSave = false;
-        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
@@ -344,7 +346,11 @@ export class AllotmentDetailsComponent implements OnInit {
 
   onResetTable(item) {
     if(item === 'reg') { 
-      this.GCode = null; 
+      this.GCode = null;
+      const params = { 'Type': 2, 'GCode': this.GCode }
+      this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
+        this.societyData = data;
+      })
       this.getAllotmentDetails();
     } else if(item === 'mon' || item === 'yr') {
       this.getAllotmentDetails();
