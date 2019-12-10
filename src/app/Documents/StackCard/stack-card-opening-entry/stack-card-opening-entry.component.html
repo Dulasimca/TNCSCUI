@@ -87,9 +87,12 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div *ngIf="nonEditable" class="ui-g-6 ui-md-2 no-pad-top blue-border-with-shadow">
             <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
-            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" 
-            [disabled]="disableCDate" [(ngModel)]="ClosingDate" required></p-calendar>
-          </div>
+            <!-- <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" 
+            [disabled]="disableCDate" [(ngModel)]="ClosingDate" required></p-calendar> -->
+            <input type="text" name="CDate" [(ngModel)]="ClosingDate" pInputText [readonly]="true" required>
+            <div style="float: right;" *ngIf="(ClosingDate == null)" class="spinner-border spinner-border-sm float-right" role="status">
+              </div> 
+            </div>
         </div>
         <div class="ui-g-12 dashboard">
           <div class="ui-g-12 ui-md-4"></div>
