@@ -79,6 +79,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   minDate: Date;
   searchText: any;
   searchParty: any;
+  searchCommodity: any;
   items: any;
   Month: any;
   Year: any;
@@ -228,9 +229,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.commodityOptions = commoditySelection;
           this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
-          // if (this.percentage !== undefined && this.percentage !== null) {
-          //   this.Vat = (this.percentage * 100).toFixed(2);
-          // }
+          this.Vat = (this.Amount / 100) * this.percentage;
+          this.Total = this.Amount + this.Vat;
         }
         break;
       case 'company':
@@ -274,8 +274,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
     });
   }
 
@@ -297,7 +306,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Commodity = selectedRow.CommodityName;
     this.CommodityID = selectedRow.CommodityID;
     this.percentage = selectedRow.TaxPercentage;
-    // this.Hsncode = selectedRow.Hsncode;
   }
 
   onCommodity() {
@@ -317,8 +325,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
-      this.loading = false;
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
     });
   }
 
@@ -340,28 +357,28 @@ export class PurchaseTaxEntryComponent implements OnInit {
         let sno = 0;
         let bd = new Date();
         this.PurchaseTaxData.forEach(s => {
-          // this.Bdate = s.BillDate;
-          // s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
-      }
-      else {
+      } else {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
   }
 
   onGST() {
-    // if (this.percentage !== undefined) {
     this.Amount = this.Quantity * this.Rate;
     this.Vat = (this.Amount / 100) * this.percentage;
-    // let per = this.percentage * 100;
     this.Total = this.Amount + this.Vat;
-    // }
   }
 
   onClear() {
@@ -393,6 +410,18 @@ export class PurchaseTaxEntryComponent implements OnInit {
     }
   }
 
+  onSearchCommodity(value) {
+    this.CommodityData = this.CommodityGlobal;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.CommodityData = this.CommodityGlobal.filter(item => {
+        return item.CommodityName.toString().startsWith(value);
+      });
+    } else {
+      this.CommodityData = this.CommodityGlobal;
+    }
+  }
+
   onRowSelect(event, selectedRow) {
     this.OnEdit = true;
     this.viewPane = false;
@@ -405,7 +434,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
     this.CommodityID = selectedRow.CommodityID;
-    // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.Quantity = selectedRow.Quantity;
@@ -420,7 +448,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   onSubmit(formUser) {
     const params = {
       'Roleid': this.roleId,
-      'PurchaseID': this.PurchaseID || '',
+      'PurchaseID': (this.PurchaseID !== undefined && this.PurchaseID !== null) ? this.PurchaseID : 0,
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
@@ -430,8 +458,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.Party.value || this.PartyID,
-      'CommodityName': this.Commodity.value || this.CommodityID,
+      'CompanyName': (this.Party.value !== undefined && this.Party.value !== null) ? this.Party.value : this.PartyID,
+      'CommodityName': (this.Commodity.value !== undefined && this.Commodity.value !== null) ? this.Commodity.value : this.CommodityID,
       'Quantity': this.Quantity,
       'Rate': this.Rate,
       'Amount': this.Amount,
@@ -447,19 +475,24 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.restApiService.post(PathConstants.PURCHASE_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
-
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
       } else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage });
       }
-    }
-      , (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
     this.onClear();
   }
 

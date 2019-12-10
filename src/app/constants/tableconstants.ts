@@ -227,8 +227,8 @@ export class TableConstants {
       { field: 'uridDhall', header: 'URID Dhall' },
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
       { field: 'cement', header: 'CEMENT' },
-      { field: 'GStatus', header: 'Godown Approval Status'},
-      { field: 'RStatus', header: 'Regional Approval Status'}
+      { field: 'GStatus', header: 'Godown Approval Status' },
+      { field: 'RStatus', header: 'Regional Approval Status' }
     ]
 
     this.DeliveryDocumentcolumns = [
@@ -1253,8 +1253,8 @@ export class TableConstants {
 
     this.GSTCommodityName = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'CommodityID', header: 'Commodity Code' },
+      { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TaxPercentage', header: 'Tax Percentage' },
       { field: 'Hsncode', header: 'Hsncode' }
     ];
@@ -1262,10 +1262,10 @@ export class TableConstants {
     this.PurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
+      { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
-      { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Amount' },
@@ -1424,7 +1424,7 @@ export class TableConstants {
       { header: 'Godown Code', field: 'GCode' },
       { header: 'Godown Name', field: 'Godownname' },
       { header: 'Society Name', field: 'SocietyName' },
-      { header: 'FPS Code', field: 'FPSCode'},
+      { header: 'FPS Code', field: 'FPSCode' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'Quantity', field: 'Quantity' }
 
