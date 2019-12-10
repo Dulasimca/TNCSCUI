@@ -189,24 +189,22 @@ export class PartyLedgerUpdateComponent implements OnInit {
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
         });
-
       } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
         });
       }
-    }
-      , (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-          });
-        }
-      });
+    });
   }
 
   onRowSelect(event) {
