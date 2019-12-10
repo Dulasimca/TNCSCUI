@@ -96,11 +96,12 @@
                   (click)="onCompany()"></button>
               </div>
               <div class="ui-g-12 ui-md-3">
-                <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
-                <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-                  [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
-                  (keydown.enter)="onSelect('company', 'enter')" (ngModelChange)="onResetTable('company')" [virtualScroll]="true" [itemSize]="31"
-                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" resetFilterOnHide="true">
+                <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
+                <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+                  [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true"
+                  [itemSize]="31" (keydown.enter)="onSelect('company', 'enter')"
+                  (ngModelChange)="onResetTable('company')" [showClear]="true" filter="true" optionLabel="label"
+                  [disabled]="onDrop" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -137,18 +138,21 @@
             </div>
 
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-1"></div>
-              <div class="ui-g-12 ui-md-3">
-                <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
-                <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-                  [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-                  (keydown.enter)="onSelect('commodity','enter')" [virtualScroll]="true" [itemSize]="31" [showClear]="true" filter="true" optionLabel="label"
-                  resetFilterOnHide="true">
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
+                <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
+                  <button pButton type="button" icon="fa fa-bars" label="Commodity" [disabled]="disableButton"
+                    (click)="onCommodity()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
+                  <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+                    [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
+                    (keydown.enter)="onSelect('commodity','enter')" [virtualScroll]="true" [itemSize]="31"
+                    [showClear]="true" optionLabel="label" filter="true" [disabled]="onPut" resetFilterOnHide="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
                 <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
@@ -181,7 +185,7 @@
               <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Hsncode" name="Hsncode"
-                    autocomplete="off" readonly='true' required>
+                    autocomplete="off" readonly='true' [disabled]="onPut" required>
                   <label for="Hsncode">Hsncode</label>
                 </div>
               </div>
@@ -239,7 +243,7 @@
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage"
                     oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                    (input)="onGST()" name="percentage" autocomplete="off" required>
+                    (input)="onGST()" name="percentage" autocomplete="off" [disabled]="onPut" required>
                   <label for="percentage">Tax Percentage</label>
                 </div>
               </div>
@@ -280,7 +284,7 @@
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
                 <div class="ui-g-6 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
-                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
+                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
                     label=Save></button>
                 </div>
                 <div class="ui-g-6 ui-md-6 ui-fluid">
@@ -334,7 +338,7 @@
   </div>
 </p-dialog>
 
-<p-dialog header="Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Party Ledger Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="isViewed" [responsive]="true">
   <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
@@ -359,6 +363,50 @@
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" (dblclick)="onRow($event, rowData)">
+          <td *ngFor="let col of columns">
+            <div
+              *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
+              <div style="text-align: end !important">
+                {{rowData[col.field]}}
+              </div>
+            </div>
+            <div
+              *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'Percentage' && col.field !== 'VatAmount' && col.field !== 'Total'">
+              {{rowData[col.field]}}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+
+<p-dialog header="Commodity" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="isCom" [responsive]="true">
+  <!-- <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+    <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
+      (ngModelChange)="onSearchParty($event)">
+    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+  </div> -->
+  <div class="ui-g-12 ui-fluid">
+    <p-table #table [columns]="CommodityCols" [value]="CommodityData" [rows]="20"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+      [paginator]="true" [loading]="loading">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" (dblclick)="onCommoditySelect($event, rowData)">
           <td *ngFor="let col of columns">
             <div
               *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
