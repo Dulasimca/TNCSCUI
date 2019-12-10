@@ -4,11 +4,12 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Allotment Details
-            <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
-                <button class="ui-g-3 dashboard inline-margin" pButton type="button" icon="pi pi-download"
-                  (click)="downloadSample()"></button>
-              </div>
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-4 dashboard">Allotment Details</div>
+          <div class="ui-g-3"></div>
+          <div class="ui-g-4 ui-md-2 dashboard" style="float: right !important;">
+            <button class="ui-g-2 dashboard" style="float: right !important;" pButton type="button" icon="pi pi-download" (click)="downloadSample()"></button>
+          </div>
         </div>
       </div>
     </p-header>
@@ -32,7 +33,7 @@
               <label class="label-fontsize dashboard">Godown</label>
               <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
                 (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-                (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+                (ngModelChange)="onResetTable('gd');dt.reset();" filter="true" resetFilterOnHide="true" [showClear]="true"
                 placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
@@ -43,7 +44,7 @@
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
               <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions"
                 [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
-                (ngModelChange)="onResetTable('mon')" filter="true" resetFilterOnHide="true"
+                (ngModelChange)="onResetTable('mon');dt.reset();" filter="true" resetFilterOnHide="true"
                  optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
@@ -51,7 +52,7 @@
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
               <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions"
                 [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
-                (ngModelChange)="onResetTable('yr')" required>
+                (ngModelChange)="onResetTable('yr');dt.reset();" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-3 ui-fluid">
@@ -63,12 +64,12 @@
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-                <button pButton label=Clear (click)="onClear()"
+                <button pButton label=Clear (click)="onClear();dt.reset();"
                   [disabled]="(AllotmentData.length=='0')"></button>
               </div>
           </div>
           <div class="ui-g-12">
-            <p-table [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
+            <p-table #dt [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
               [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [scrollable]="true"
               [loading]="loading">
               <ng-template pTemplate="colgroup" let-columns>
