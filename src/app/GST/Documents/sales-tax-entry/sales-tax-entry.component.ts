@@ -225,11 +225,11 @@ export class SalesTaxEntryComponent implements OnInit {
             if (data !== undefined) {
               data.forEach(y => {
                 commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'hsncode': y.Hsncode, 'TaxPer': y.TaxPercentage });
-                this.commodityOptions = commoditySelection;
               });
+              this.commodityOptions = commoditySelection;
               this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.Hsncode = this.Commodity.hsncode;
-              this.percentage = this.Commodity.TaxPer;
+              this.Hsncode = (this.Commodity.hsncode !== undefined) ? this.Commodity.hsncode : '';
+              this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
               // if (this.percentage !== undefined && this.percentage !== null) {
               //   let GA = this.percentage * 100;
               //   this.CGST = GA / 2;
@@ -250,10 +250,10 @@ export class SalesTaxEntryComponent implements OnInit {
             CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
           });
           this.companyOptions = CompanySelection;
-          // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.Gst = this.CompanyName.gstno;
-          this.Pan = this.CompanyName.pan;
-          this.State = this.CompanyName.sc;
+          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.Gst = (this.CompanyName.gstno !== undefined) ? this.CompanyName.gstno : '';
+          this.Pan = (this.CompanyName.pan !== undefined) ? this.CompanyName.pan : '';
+          this.State = (this.CompanyName.sc !== undefined) ? this.CompanyName.sc : '';
         }
         break;
       case 'tax':
@@ -279,7 +279,6 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onCompany() {
     this.loading = true;
-    // if (this.CompanyGlobal === undefined && this.CompanyGlobal.length === 0) {
     const params = {
       'RCode': this.RCode,
       'Type': 2
@@ -300,7 +299,6 @@ export class SalesTaxEntryComponent implements OnInit {
         });
       }
     });
-    // }
   }
 
   onRow(event, selectedRow) {
