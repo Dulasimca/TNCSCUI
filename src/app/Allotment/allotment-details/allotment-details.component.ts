@@ -10,6 +10,7 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { saveAs } from 'file-saver';
 import { TableConstants } from 'src/app/constants/tableconstants';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-allotment-details',
@@ -30,7 +31,7 @@ export class AllotmentDetailsComponent implements OnInit {
   totalRecords: number;
   allotmentCommodity = [];
   itemList = [];
-  societyData = [];
+  societyData: any;
   allotmentDetails: Array<Allotment> = [];
   regionName: string;
   godownName: string;
@@ -139,17 +140,11 @@ export class AllotmentDetailsComponent implements OnInit {
               }
             });
             this.godownOptions = godownSelection;
-            if(this.GCode !== undefined && this.GCode !== null) {
-              if(this.societyData === undefined) {
-            const params = { 'Type': 2, 'GCode': this.GCode }
-            this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
-              this.societyData = data;
-            })
-          }
-          if(this.godownOptions.length <= 1 && this.AllotmentData.length === 0) {
-          this.getAllotmentDetails();
-          }
-          }
+            if (this.GCode !== undefined && this.GCode !== null) {
+              if (this.godownOptions.length <= 1 && this.AllotmentData.length === 0) {
+                this.getAllotmentDetails();
+              }
+            }
           break;
     }
   }
@@ -201,11 +196,21 @@ export class AllotmentDetailsComponent implements OnInit {
     this.allotmentDetails.length = 0;
     this.AllotmentData.length = 0;
     let filesData = event.target.files;
-    if (checkfile(filesData[0])) {
-      this.parseExcel(filesData[0]);
-    } else {
-      this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: this.errMsg });
+    if(this.GCode !== undefined && this.GCode !== null) {
+      const params = { 'Type': 2, 'GCode': this.GCode }
+      this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
+        this.societyData = data.filter(x => {
+          return (x.ACSCode.trim() !== '');
+        });
+        let sortedArray = _.sortBy(this.societyData, 'ACSCode');
+        this.societyData = sortedArray;
+        if (checkfile(filesData[0])) {
+          this.parseExcel(filesData[0]);
+        } else {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: this.errMsg });
+        }
+      })
     }
   }
 
@@ -239,7 +244,6 @@ export class AllotmentDetailsComponent implements OnInit {
           this.disableSave = false;
           this.totalRecords = JSONdata.length;
           this.AllotmentData = JSONdata;
-          let i = 0;
           const objLen = this.AllotmentCols.length - 6;
           var tempArr = [];
           var k = 1;
@@ -248,22 +252,17 @@ export class AllotmentDetailsComponent implements OnInit {
             for (let key in obj) {
               obj['FPSName'] = obj['FPS Name'];
               if (key === 'FPS Code') {
-                this.societyData.forEach(x => {
-                  if (x.ACSCode !== null) {
-                    const acscode: string = x.ACSCode;
-                    if (obj[key] === acscode.trim() && i < this.AllotmentData.length) {
-                      if(x.Societycode !== undefined && x.Societycode !== null) {
-                      obj['Societycode'] = x.Societycode; //adding new key value pair
-                      i += 1;
-                      } else {
-                       // const value = k + 
-                        tempArr.push(k + '. ' + x.SocietyCode + ' for ' + acscode);
-                      }
-                    }
-                  }
-                })
+                const acscode: string =  obj[key].trim();
+                let matchCode = this.societyData.find(x => x.ACSCode.trim() === acscode);
+                if(matchCode !== undefined && matchCode !== null) {
+                  obj['Societycode'] = matchCode.Societycode;
+                } else {
+                  tempArr.push(' ' + k + ') ' +  obj[key]);
+                  k += 1;
+                }
                 if(tempArr.length !== 0) {
-                   missingSocietyCode = tempArr + 'are missing!';
+                   const content = (tempArr.length === 1) ? ' is missing !' : ' are missing !';
+                   missingSocietyCode = ' SocietyCode for the following FPS Code ' + tempArr + content;
                    this.onClear();
                    this.messageService.clear();
                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingSocietyCode });
@@ -347,12 +346,8 @@ export class AllotmentDetailsComponent implements OnInit {
   onResetTable(item) {
     if(item === 'reg') { 
       this.GCode = null;
-      const params = { 'Type': 2, 'GCode': this.GCode }
-      this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
-        this.societyData = data;
-      })
       this.getAllotmentDetails();
-    } else if(item === 'mon' || item === 'yr') {
+    } else {
       this.getAllotmentDetails();
     }
   }
@@ -390,6 +385,7 @@ export class AllotmentDetailsComponent implements OnInit {
   onClear() {
     this.AllotmentData = [];
     this.AllotmentCols.length = 0;
+    this.totalRecords = 0;
     this.disableSave = false;
     this.RCode = null; this.GCode = null;
     this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);

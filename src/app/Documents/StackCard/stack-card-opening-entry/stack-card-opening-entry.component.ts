@@ -21,7 +21,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   stackOpeningData: any = [];
   nonEditable: boolean = false;
   RowId: any;
-  ClosingDate: Date;
+  ClosingDate: any;
   data: any;
   Opening_Balance: any = []
   godownName: any;
@@ -49,7 +49,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
   flag: boolean;
   totalRecords: number;
   blockScreen: boolean;
-  disableCDate: boolean = false;
+  CDate: string;
+  // disableCDate: boolean = false;
   @ViewChild('f') ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -183,14 +184,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onRowSelect(event, data) {
     this.selectedRow = data;
     this.ClosingDate = null;
+    this.CDate = null;
     if (this.selectedRow !== undefined) {
       if (this.selectedRow.Flag1 === 'R') {
         this.nonEditable = true;
         this.flag = true;
-        this.disableCDate = false;
+       // this.disableCDate = false;
         this.RowId = this.selectedRow.RowId;
         this.Date = new Date(this.selectedRow.StackDate);
-        this.StackNo = this.selectedRow.StackNo.toUpperCase();
+        this.StackNo = this.selectedRow.StackNo.trim().toUpperCase();
         let index;
         index = this.StackNo.toString().indexOf('/', 1);
         const totalLength = this.StackNo.toString().length;
@@ -202,6 +204,24 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
         this.Bags = this.selectedRow.StackBalanceBags;
         this.Weights = this.selectedRow.StackBalanceWeight;
+        const params = {
+          'GCode': this.GCode.value,
+          'StackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
+          'ICode': this.ICode.value,
+          'StackYear': data.CurYear,
+          'TStockNo': this.StackNo,
+          'Type': 4
+        }
+        this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+          if (res) {
+            res.forEach(x => {
+              if(x.StackNo.trim() === this.StackNo && x.AckDate !== 'Total') {
+                this.ClosingDate = this.datepipe.transform(x.SDate, 'dd/MM/yyyy');
+                this.CDate = this.datepipe.transform(x.SDate, 'MM/dd/yyyy');
+              }
+            })
+          }
+        })
       } else if(this.selectedRow.Flag1 === 'C') {
         this.nonEditable = true;
         this.RowId = this.selectedRow.RowId;
@@ -218,8 +238,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
         this.Bags = this.selectedRow.StackBalanceBags;
         this.Weights = this.selectedRow.StackBalanceWeight;
-        this.ClosingDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? new Date(this.selectedRow.closingStackDate) : null;
-        this.disableCDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? true : false;
+        this.ClosingDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? this.selectedRow.clstackdate : null;
+        this.CDate = (this.selectedRow.closingStackDate !== undefined && this.selectedRow.closingStackDate !== null) 
+        ? this.datepipe.transform(this.selectedRow.closingStackDate, 'MM/dd/yyyy') : null;
+     //   this.disableCDate = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? true : false;
         this.flag = (this.selectedRow.clstackdate !== undefined && this.selectedRow.clstackdate !== null) ? false : true;
       } else {
         this.onClear();
@@ -282,7 +304,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.Location = null; this.Formation = null; this.StackNo = null;
     this.Bags = 0; this.Weights = 0;
     this.newEntry = false; this.cardExits = false;
-    this.disableCDate = false; this.flag = false; 
+    // this.disableCDate = false;
+    this.flag = false; this.CDate = null;
     this.Date = new Date(); this.ClosingDate = null;
     this.ngForm.form.controls.LocNo.reset();
     this.ngForm.form.controls.FormationNo.reset();
@@ -346,7 +369,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
       } else {
         const closingParams = {
-          'ClosedDate': this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'),
+          'ClosedDate': (this.CDate !== null && this.CDate !== undefined) ?
+          this.CDate : this.datepipe.transform(this.ClosingDate, 'MM/dd/yyyy'),
           'RowId': this.RowId
         };
         this.restAPIService.put(PathConstants.STACK_OPENING_ENTRY_REPORT_PUT, closingParams).subscribe(res => {
