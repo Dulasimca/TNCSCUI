@@ -50,6 +50,8 @@ export class ServiceProviderEntryComponent implements OnInit {
   AccountingYear: any;
   CompanyName: any;
   Company: any;
+  Party: any;
+  PartyID: any;
   Pan: any;
   Tin: any;
   Bill: any;
@@ -157,6 +159,9 @@ export class ServiceProviderEntryComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
       case 'y':
@@ -224,16 +229,18 @@ export class ServiceProviderEntryComponent implements OnInit {
         if (type === 'enter') {
           this.companyPanel.overlayVisible = true;
         }
+        this.loading = true;
         this.PristineData = this.CompanyGlobal;
         if (this.companyOptions !== undefined && this.PristineData !== undefined) {
           this.PristineData.forEach(s => {
             CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
           });
+          this.loading = false;
           this.companyOptions = CompanySelection;
-          // this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.Gst = this.CompanyName.gstno;
-          this.Pan = this.CompanyName.pan;
-          this.State = this.CompanyName.sc;
+          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+          this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+          this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
         }
         break;
       case 'tax':
@@ -250,7 +257,6 @@ export class ServiceProviderEntryComponent implements OnInit {
 
   onCompany() {
     this.loading = true;
-    // if (this.CompanyGlobal === undefined && this.CompanyGlobal.length === 0) {
     const params = {
       'RCode': this.RCode,
       'Type': 2
@@ -271,16 +277,32 @@ export class ServiceProviderEntryComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
-    // }
   }
 
   onRow(event, selectedRow) {
     this.isEdited = true;
     this.isViewed = false;
     this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.CompanyName = selectedRow.PartyName;
+    this.Party = selectedRow.PartyName;
+    this.PartyID = selectedRow.PartyID;
     this.State = selectedRow.StateCode;
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
@@ -304,29 +326,36 @@ export class ServiceProviderEntryComponent implements OnInit {
         let sno = 0;
         let bd = new Date();
         this.ServiceTaxData.forEach(s => {
-          // this.Bdate = s.BillDate;
-          // s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
-      }
-      else {
+      } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
 
   onGST() {
-    // if (this.percentage !== undefined) {
     let GA = (this.Amount / 100) * this.percentage;
     this.CGST = GA / 2;
     this.SGST = GA / 2;
     this.Vat = GA;
     this.Total = this.Amount + this.Vat;
-    // }
   }
 
   onClear() {
@@ -361,7 +390,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.viewPane = false;
     this.OnEdit = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.SACCODE }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.Pan = selectedRow.Pan;
@@ -370,7 +399,8 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.TaxType = selectedRow.TaxType;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
-    this.CompanyName = selectedRow.CompanyName;
+    this.Party = selectedRow.CompanyName;
+    this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
@@ -387,7 +417,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   onSubmit(formUser) {
     const params = {
       // 'Roleid': this.roleId,
-      'ServiceID': this.ServiceID || '',
+      'ServiceID': (this.ServiceID !== undefined && this.ServiceID !== null) ? this.ServiceID : 0,
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
@@ -397,7 +427,7 @@ export class ServiceProviderEntryComponent implements OnInit {
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.CompanyName.label || this.CompanyName,
+      'CompanyName': (this.Party.value !== undefined && this.Party.value !== null) ? this.Party.value : this.PartyID,
       'CommodityName': this.Commodity.label || this.Commodity,
       'TaxType': this.TaxType,
       'CGST': this.CGST,
@@ -416,18 +446,24 @@ export class ServiceProviderEntryComponent implements OnInit {
       if (value) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
-
       } else {
+        this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
+        });
       }
-    }
-      , (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
     this.onClear();
   }
 

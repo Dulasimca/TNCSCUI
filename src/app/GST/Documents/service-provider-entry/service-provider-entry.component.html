@@ -9,6 +9,7 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g">
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -66,7 +67,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-6 ui-md-1"></div>
+      <!-- <div class="ui-g-6 ui-md-1"></div> -->
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
@@ -75,9 +76,10 @@
         <button pButton type="button" icon="pi pi-plus" label=Add (click)="OnEdit = true;onClear()"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
       </div>
-      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+      <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"></button>
-      </div>
+      </div> -->
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12"></div>
 
 
@@ -90,21 +92,21 @@
           </div>
           <form #ServiceForm="ngForm" (ngSubmit)="onSubmit(formUser)">
             <div class="ui-g">
-              <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
-                <button pButton type="button" icon="fa fa-bars" label="Party Name" [disabled]="disableOkButton"
-                  (click)="onCompany()"></button>
-              </div>
-              <div class="ui-g-12 ui-md-3">
-                <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
-                <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-                  [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
-                  (keydown.enter)="onSelect('company', 'enter')" (ngModelChange)="onResetTable('company')"
-                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" resetFilterOnHide="true">
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
+                <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
+                    <button pButton type="button" icon="fa fa-bars" label="Party Name" [disabled]="disableOkButton"
+                      (click)="onCompany()"></button>
+                  </div>
+                  <div class="ui-g-12 ui-md-3">
+                    <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
+                    <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+                      [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true" [itemSize]="31"
+                      (keydown.enter)="onSelect('company', 'enter')" (ngModelChange)="onResetTable('company')"
+                      [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" resetFilterOnHide="true">
+                      <ng-template let-item pTemplate="selectedItem">
+                        <span style="vertical-align:middle">{{item.label}}</span>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
               <div class="ui-g-4 dashboard" style="padding-top: 11px">
                 <div class="ui-g-4 ui-md-3">
                   <div class="ui-float-label">
@@ -229,7 +231,7 @@
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
                 <div class="ui-g-6 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
-                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !TaxType || !Amount || !Vat || !Bill || !Billdate || !CGST || !SGST || !percentage || !Total)"
+                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !TaxType || !Amount || !Vat || !Bill || !Billdate || !CGST || !SGST || !percentage || !Total)"
                     label=Save></button>
                 </div>
                 <div class="ui-g-6 ui-md-6 ui-fluid">
@@ -246,11 +248,14 @@
 
 <p-dialog header="Service Provider Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
-  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+  <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
+  <div class="ui-g-6 ui-md-1 ui-fluid" style="padding: 1px;">
+      <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
+    </div>
   <div *ngIf="ServiceTaxData" class="ui-g-12 ui-fluid">
     <p-table #table [columns]="ServiceTaxCols" [value]="ServiceTaxData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
@@ -283,7 +288,7 @@
 </p-dialog>
 
 
-<p-dialog header="Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Party Ledger Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="isViewed" [responsive]="true">
   <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
@@ -291,7 +296,7 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
+    <p-table #pm [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading">
       <ng-template pTemplate="colgroup" let-columns>
@@ -309,14 +314,12 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" (dblclick)="onRow($event, rowData)">
           <td *ngFor="let col of columns">
-            <div
-              *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
+            <div *ngIf="col.field === 'PartyID' || col.field === 'StateCode'">
               <div style="text-align: end !important">
                 {{rowData[col.field]}}
               </div>
             </div>
-            <div
-              *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'Percentage' && col.field !== 'VatAmount' && col.field !== 'Total'">
+            <div *ngIf="col.field !== 'PartyID' && col.field !== 'StateCode'">
               {{rowData[col.field]}}
             </div>
           </td>
