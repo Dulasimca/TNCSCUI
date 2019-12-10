@@ -26,12 +26,18 @@ export class SalesTaxEntryComponent implements OnInit {
   CompanyTitleData: any;
   CompanyGlobal: any;
   PristineData: any = [];
+  PresistData: any = [];
+  CommodityGlobal: any = [];
+  CommodityData: any;
+  CommodityCols: any;
   filterArray = [];
   onDrop: boolean = true;
   canShowMenu: boolean;
   disableOkButton: boolean = false;
+  disableButton: boolean = false;
   selectedRow: any;
   OnEdit: boolean = false;
+  onPut: boolean = true;
   data?: any;
   roleId: any;
   fromDate: any;
@@ -52,6 +58,9 @@ export class SalesTaxEntryComponent implements OnInit {
   AccountingYear: any;
   CompanyName: any;
   Company: any;
+  Party: any;
+  PartyID: any;
+  CommodityID: any;
   Pan: any;
   Tin: any;
   Bill: any;
@@ -88,7 +97,10 @@ export class SalesTaxEntryComponent implements OnInit {
   viewPane: boolean = false;
   isViewed: boolean = false;
   isEdited: boolean;
+  ifEdit: boolean = false;
   loading: boolean = false;
+  isCom: boolean = false;
+  isCommodity: boolean = false;
   curMonth: any;
   State: any;
   RName: any;
@@ -220,42 +232,43 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'enter') {
           this.commodityPanel.overlayVisible = true;
         }
-        if (this.commodityOptions !== undefined) {
-          this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'hsncode': y.Hsncode, 'TaxPer': y.TaxPercentage });
-              });
-              this.commodityOptions = commoditySelection;
-              this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-              this.Hsncode = (this.Commodity.hsncode !== undefined) ? this.Commodity.hsncode : '';
-              this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
-              // if (this.percentage !== undefined && this.percentage !== null) {
-              //   let GA = this.percentage * 100;
-              //   this.CGST = GA / 2;
-              //   this.SGST = GA / 2;
-              //   this.Vat = this.percentage * 100;
-              // }
-            }
+        this.loading = true;
+        this.PresistData = this.CommodityGlobal;
+        if (this.commodityOptions !== undefined && this.PresistData !== undefined) {
+          this.PresistData.forEach(y => {
+            commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'TaxPer': y.TaxPercentage, 'Hsncode': y.Hsncode });
           });
+          this.loading = false;
+          this.commodityOptions = commoditySelection;
+          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
+          this.Hsncode = (this.Commodity.Hsncode !== undefined) ? this.Commodity.Hsncode : '';
+          // if (this.percentage !== undefined && this.percentage !== null) {
+          //   let GA = this.percentage * 100;
+          //   this.CGST = GA / 2;
+          //   this.SGST = GA / 2;
+          //   this.Vat = this.percentage * 100;
+          // }
         }
         break;
-      case 'company':
-        if (type === 'enter') {
-          this.companyPanel.overlayVisible = true;
-        }
-        this.PristineData = this.CompanyGlobal;
-        if (this.companyOptions !== undefined && this.PristineData !== undefined) {
-          this.PristineData.forEach(s => {
-            CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
-          });
-          this.companyOptions = CompanySelection;
-          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.Gst = (this.CompanyName.gstno !== undefined) ? this.CompanyName.gstno : '';
-          this.Pan = (this.CompanyName.pan !== undefined) ? this.CompanyName.pan : '';
-          this.State = (this.CompanyName.sc !== undefined) ? this.CompanyName.sc : '';
-        }
-        break;
+        case 'company':
+          if (type === 'enter') {
+            this.companyPanel.overlayVisible = true;
+          }
+          this.loading = true;
+          this.PristineData = this.CompanyGlobal;
+          if (this.companyOptions !== undefined && this.PristineData !== undefined) {
+            this.PristineData.forEach(s => {
+              CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
+            });
+            this.loading = false;
+            this.companyOptions = CompanySelection;
+            this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+            this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+            this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+            this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          }
+          break;
       case 'tax':
         if (type === 'enter') {
           this.TaxPanel.overlayVisible = true;
@@ -305,10 +318,43 @@ export class SalesTaxEntryComponent implements OnInit {
     this.isEdited = true;
     this.isViewed = false;
     this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.CompanyName = selectedRow.PartyName;
+    this.Party = selectedRow.PartyName;
+    this.PartyID = selectedRow.PartyID;
     this.State = selectedRow.StateCode;
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
+  }
+
+  onCommoditySelect(event, selectedRow) {
+    this.ifEdit = true;
+    this.isCom = false;
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
+    this.Commodity = selectedRow.CommodityName;
+    this.CommodityID = selectedRow.CommodityID;
+    this.percentage = selectedRow.TaxPercentage;
+    this.Hsncode = selectedRow.Hsncode;
+  }
+
+  onCommodity() {
+    this.loading = true;
+    this.CommodityCols = this.tableConstant.GSTCommodityName;
+    this.restApiService.get(PathConstants.GST_COMMODITY_MASTER).subscribe(data => {
+      if (data !== undefined) {
+        this.CommodityData = data;
+        this.loading = false;
+        this.CommodityGlobal = data;
+        this.isCom = true;
+        this.onPut = false;
+        this.disableButton = true;
+        this.isCommodity = false;
+        let sno = 0;
+        this.CommodityData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+      this.loading = false;
+    });
   }
 
   onView() {
@@ -387,8 +433,8 @@ export class SalesTaxEntryComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.viewPane = false;
     this.OnEdit = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
-    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.measurement }];
     this.Pan = selectedRow.Pan;
@@ -399,8 +445,10 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
-    this.CompanyName = selectedRow.CompanyName;
+    this.Party = selectedRow.CompanyName;
+    this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
+    this.CommodityID = selectedRow.CommodityID;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
@@ -435,8 +483,8 @@ export class SalesTaxEntryComponent implements OnInit {
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.CompanyName.label || this.CompanyName,
-      'CommodityName': this.Commodity.label || this.Commodity,
+      'CompanyName': this.Party.value || this.PartyID,
+      'CommodityName': this.Commodity.value || this.CommodityID,
       'CreditSales': (this.Credit == true) ? true : false,
       'TaxType': this.TaxType,
       'Measurement': this.Measurement,

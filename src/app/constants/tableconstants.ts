@@ -1243,6 +1243,7 @@ export class TableConstants {
 
     this.PartyName = [
       { header: 'S.No', field: 'SlNo' },
+      { field: 'PartyID', header: 'Party Code' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'StateCode', header: 'State Code' },
       { field: 'Pan', header: 'Pan No' },
@@ -1254,8 +1255,8 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'CommodityID', header: 'Commodity Code' },
-      { field: 'TaxPercentage', header: 'State Code' },
-      { field: 'Hsncode', header: 'Pan No' }
+      { field: 'TaxPercentage', header: 'Tax Percentage' },
+      { field: 'Hsncode', header: 'Hsncode' }
     ];
 
     this.PurchaseTaxEntry = [

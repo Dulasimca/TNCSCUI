@@ -56,6 +56,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
   PurchaseID: any;
   CompanyName: any;
   Company: any;
+  Party: any;
+  PartyID: any;
+  CommodityID: any;
+  CompanyID: any;
   Pan: any;
   Tin: any;
   Bill: any;
@@ -218,7 +222,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.PresistData = this.CommodityGlobal;
         if (this.commodityOptions !== undefined && this.PresistData !== undefined) {
           this.PresistData.forEach(y => {
-            commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityName, 'TaxPer': y.TaxPercentage });
+            commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'TaxPer': y.TaxPercentage });
           });
           this.loading = false;
           this.commodityOptions = commoditySelection;
@@ -242,9 +246,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.loading = false;
           this.companyOptions = CompanySelection;
           this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-          this.Gst = (this.CompanyName.gstno !== undefined) ? this.CompanyName.gstno : '';
-          this.Pan = (this.CompanyName.pan !== undefined) ? this.CompanyName.pan : '';
-          this.State = (this.CompanyName.sc !== undefined) ? this.CompanyName.sc : '';
+          this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+          this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+          this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
         }
         break;
     }
@@ -279,7 +283,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.isEdited = true;
     this.isViewed = false;
     this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.CompanyName = selectedRow.PartyName;
+    this.Party = selectedRow.PartyName;
+    this.PartyID = selectedRow.PartyID;
     this.State = selectedRow.StateCode;
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
@@ -290,6 +295,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.isCom = false;
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.Commodity = selectedRow.CommodityName;
+    this.CommodityID = selectedRow.CommodityID;
     this.percentage = selectedRow.TaxPercentage;
     // this.Hsncode = selectedRow.Hsncode;
   }
@@ -390,13 +396,15 @@ export class PurchaseTaxEntryComponent implements OnInit {
   onRowSelect(event, selectedRow) {
     this.OnEdit = true;
     this.viewPane = false;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.PartyID }];
-    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.ITCode }];
+    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
     this.State = selectedRow.StateCode;
-    this.CompanyName = selectedRow.CompanyName;
+    this.Party = selectedRow.CompanyName;
+    this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
+    this.CommodityID = selectedRow.CommodityID;
     // this.Tin = selectedRow.TIN;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
@@ -422,8 +430,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
-      'CompanyName': this.CompanyName.label || this.CompanyName,
-      'CommodityName': this.Commodity,
+      'CompanyName': this.Party.value || this.PartyID,
+      'CommodityName': this.Commodity.value || this.CommodityID,
       'Quantity': this.Quantity,
       'Rate': this.Rate,
       'Amount': this.Amount,

@@ -95,9 +95,9 @@
                   (click)="onCompany()"></button>
               </div>
               <div class="ui-g-12 ui-md-3">
-                <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
-                <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-                  [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')" [virtualScroll]="true"
+                <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
+                <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+                  [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true"
                   [itemSize]="31" (keydown.enter)="onSelect('company', 'enter')"
                   (ngModelChange)="onResetTable('company')" [showClear]="true" filter="true" optionLabel="label"
                   [disabled]="onDrop" resetFilterOnHide="true">
@@ -201,7 +201,7 @@
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage" name="percentage"
-                    autocomplete="off" (input)="onGST()" [disabled]="onPut" required>
+                    autocomplete="off" (input)="onGST()" required>
                   <label for="percentage">GST %</label>
                 </div>
               </div>
@@ -222,7 +222,7 @@
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
                 <div class="ui-g-6 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
-                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
+                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
                     label=Save></button>
                 </div>
                 <div class="ui-g-6 ui-md-6 ui-fluid">
@@ -407,9 +407,9 @@
       <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-7">
-            <label class="ui-g-10 label-fontsize dashboard" for="CompanyName">Company Name</label>
-            <p-dropdown #company name="CompanyName" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-              [(ngModel)]="CompanyName" (onClick)="onSelect('company','click')"
+            <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
+            <p-dropdown #company name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
+              [(ngModel)]="Party" (onClick)="onSelect('company','click')"
               (keydown.enter)="onSelect('company', 'enter')"
               [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
               <ng-template let-item pTemplate="selectedItem">
@@ -526,7 +526,7 @@
           <div class="ui-g-12 ui-md-4"></div>
           <div class="ui-g-6 ui-md-2 ui-fluid">
             <button pButton type="button" (click)="onSubmit(formUser)"
-              [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !CompanyName || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
+              [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
               label=Save></button>
           </div>
 
