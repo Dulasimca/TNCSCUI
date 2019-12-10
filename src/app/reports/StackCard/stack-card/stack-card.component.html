@@ -106,12 +106,12 @@
                   </div>
                 </div> 
                 <div *ngIf="col.field === 'ReceiptQuantity'">
-                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.ReceiptQuantity, 'line'),'color': getStyle(rowData.ReceiptQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '1')">
+                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.AckDate, rowData.ReceiptQuantity, 'line'),'color': getStyle(rowData.AckDate, rowData.ReceiptQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '1')">
                     {{rowData[col.field]}}
                   </div>
                 </div>
                 <div *ngIf="col.field === 'IssuesQuantity'">
-                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.IssuesQuantity, 'line'),'color': getStyle(rowData.IssuesQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '2')">
+                  <div class="cursor-pointer" [ngStyle]="{'text-decoration': getStyle(rowData.AckDate, rowData.IssuesQuantity, 'line'),'color': getStyle(rowData.AckDate, rowData.IssuesQuantity, 'color')}" style="text-align: end !important;" (click)="onFieldClick(rowData, '2')">
                     {{rowData[col.field]}}
                   </div>
                 </div>
