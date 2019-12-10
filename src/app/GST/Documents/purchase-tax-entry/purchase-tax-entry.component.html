@@ -247,7 +247,7 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-6 ui-md-1 ui-fluid" style="padding: 1px;">
-    <button pButton type="button" label=Excel (click)="table.exportCSV()"></button>
+    <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
   </div>
   <div *ngIf="PurchaseTaxData" class="ui-g-12 ui-fluid">
     <p-table #table [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
@@ -293,7 +293,7 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
+    <p-table #pm [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading">
       <ng-template pTemplate="colgroup" let-columns>
@@ -335,7 +335,7 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="CommodityCols" [value]="CommodityData" [rows]="20"
+    <p-table #cm [columns]="CommodityCols" [value]="CommodityData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading">
       <ng-template pTemplate="colgroup" let-columns>
