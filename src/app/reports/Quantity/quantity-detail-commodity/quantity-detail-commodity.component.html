@@ -96,7 +96,7 @@
         <div class="ui-g-12 dashboard">
           <div class="ui-g-3 ui-md-1 dashboard" style="float: right;">
             <button pButton type="button" label=Excel (click)="dt_iss.exportCSV()"
-              [disabled]="(QtyIssueData.length=='0')"></button>
+              [disabled]="(QtyIssueData.length==0)"></button>
           </div>
           <div class="ui-g-12 no-right-pad no-left-pad">
             <p-table #dt_iss [columns]="QtyIssueCols" [value]="QtyIssueData" [rows]="10"
