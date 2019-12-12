@@ -120,7 +120,7 @@
             <!-- <div class="bottom" style="padding-left: 95px"> -->
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
-                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !RCode)"
+                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !RCode || !isActive)"
                 label=Submit></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">

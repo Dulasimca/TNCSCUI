@@ -54,6 +54,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   isViewed: boolean = false;
   RName: any;
   isActive: any;
+  Flag: any;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('active') activePanel: Dropdown;
 
@@ -159,7 +160,7 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onClear() {
     this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = null;
-    this.RCode = undefined;
+    this.RCode = this.isActive = undefined;
   }
 
   onRowSelect(event) {
@@ -183,6 +184,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.IFSC = this.selectedRow.IFSC;
     this.LedgerID = this.selectedRow.LedgerID;
     this.PartyCode = this.selectedRow.PCode;
+    this.Flag = this.selectedRow.isActive;
   }
 
   onSubmit(formUser) {
@@ -201,6 +203,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Bank': this.Bank,
       'Branch': this.Branch,
       'IFSC': this.IFSC,
+      'Flag': (this.isActive.value === 'Active') ? 1 : 0
     };
     this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
       if (value) {
