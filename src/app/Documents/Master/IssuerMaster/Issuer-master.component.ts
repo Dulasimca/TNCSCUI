@@ -25,6 +25,7 @@ export class IssuerMasterComponent implements OnInit {
   issuerTypeOptions: SelectItem[];
   categoryOptions: SelectItem[];
   searchText: any;
+  searchAcs: any;
   CategoryType: any;
   ACSCode: any;
   Activeflag: any;
