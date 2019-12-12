@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Dropdown, SelectItem, MessageService } from 'primeng/primeng';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { DatePipe } from '@angular/common';
@@ -49,6 +49,8 @@ export class AllotmentDetailsComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
+  @ViewChild('fileSelector') fileSelector: ElementRef;
+
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
     private tableConstants: TableConstants) { }
@@ -250,6 +252,7 @@ export class AllotmentDetailsComponent implements OnInit {
           let missingSocietyCode: string = '';
           for (let obj of this.AllotmentData) {
             for (let key in obj) {
+              if(obj['#'] !== 'Total') {
               obj['FPSName'] = obj['FPS Name'];
               if (key === 'FPS Code') {
                 const acscode: string =  obj[key].trim();
@@ -286,6 +289,7 @@ export class AllotmentDetailsComponent implements OnInit {
                   }
                 })
               }
+            }
             }
             this.itemList = [];
           }
@@ -393,6 +397,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
+    this.fileSelector.nativeElement.value = null;
   }
 
   downloadSample() {
