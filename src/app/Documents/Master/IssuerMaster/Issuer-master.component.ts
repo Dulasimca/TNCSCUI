@@ -294,6 +294,18 @@ export class IssuerMasterComponent implements OnInit {
     }
   }
 
+  onIssuer(value) {
+    this.IssuerMasterData = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.IssuerMasterData = this.PristineData.filter(item => {
+        return item.ACSCode.toString().toUpperCase().startsWith(value);
+      });
+    } else {
+      this.IssuerMasterData = this.PristineData;
+    }
+  }
+
   exportAsXLSX(): void {
     var IssuerMaster = [];
     this.IssuerMasterData.forEach(data => {
