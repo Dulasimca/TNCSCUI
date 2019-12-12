@@ -177,6 +177,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.QtyReceiptData = [];
+    this.QtyIssueData = [];
   }
 
   onPrint() {
