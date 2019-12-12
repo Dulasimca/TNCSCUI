@@ -36,7 +36,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: string;
   userId: any;
-  showIssueDetails: boolean;
+ // showIssueDetails: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
 
@@ -95,6 +95,9 @@ export class QuantityDetailCommodityComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         } else {
           this.godownOptions = godownSelection;
         }
@@ -114,16 +117,20 @@ export class QuantityDetailCommodityComponent implements OnInit {
       RName: this.RCode.label,
       GName: this.GCode.label
     };
-    this.restAPIService.post(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
+    this.restAPIService.post(PathConstants.QUANTITY_RECISS_COMMODITY_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.QtyReceiptData = res;
+        this.QtyIssueData = res;
         this.loading = false;
-        let sno = 0;
+        let r_sno = 0;
+        let i_sno = 0;
         this.QtyReceiptData.forEach(data => {
-          data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
-          data.Nkgs = (data.Nkgs * 1).toFixed(3);
-          sno += 1;
-          data.SlNo = sno;
+          r_sno += 1;
+          data.SlNo = r_sno;
+        })
+        this.QtyIssueData.forEach(data => {
+          i_sno += 1;
+          data.SlNo = i_sno;
         })
       } else {
         this.loading = false;
@@ -139,9 +146,9 @@ export class QuantityDetailCommodityComponent implements OnInit {
     })
   }
 
-  viewIssueDetails() {
-    this.showIssueDetails = true;
-  }
+  // viewIssueDetails() {
+  //   this.showIssueDetails = true;
+  // }
 
   onDateSelect() {
     this.checkValidDateSelection();

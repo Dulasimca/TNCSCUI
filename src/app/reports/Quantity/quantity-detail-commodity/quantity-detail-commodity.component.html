@@ -48,15 +48,15 @@
             [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-          <button pButton type="button" label=Excel (click)="dt.exportCSV()"
+          <button pButton type="button" label=Excel (click)="dt_rec.exportCSV()"
             [disabled]="(QtyReceiptData.length=='0')"></button>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>
         </div>
         <div class="ui-g-12 dashboard">
-          <p-table #dt [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="20"
-            exportFilename="QTY_A/C_RECEIPT_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          <p-table #dt_rec [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="10"
+            exportFilename="QTY_AC_RECEIPT_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
@@ -68,7 +68,14 @@
             <ng-template pTemplate="body" let-rowData let-columns="columns">
               <tr>
                 <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
+                  <div *ngIf="col.field !== 'GName' && col.field !== 'Commodity'">
+                    <div style="text-align: end !important">
+                      {{rowData[col.field]}}
+                    </div>
+                  </div>
+                  <div *ngIf="col.field === 'GName' || col.field === 'Commodity'">
+                    {{rowData[col.field]}}
+                  </div>
                 </td>
               </tr>
             </ng-template>
@@ -77,12 +84,8 @@
       </div>
     </p-panel>
   </div>
-  <div class="ui-g-11"></div>
-  <div class="ui-g-4 ui-md-1">
-      <button pButton type="button" label="Issue Details" (click)="viewIssueDetails()"
-      [disabled]="(QtyReceiptData.length=='0')"></button>
-  </div>
-  <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="showIssueDetails">
+  <hr class="ui-g-12 dashboard border-teal">
+  <div class="ui-g-12 ui-md-12 ui-lg-12">
     <p-panel>
       <p-header>
         <div class="ui-g panel-header">
@@ -92,12 +95,12 @@
       <div class="ui-g ui-fluid">
         <div class="ui-g-12 dashboard">
           <div class="ui-g-3 ui-md-1 dashboard" style="float: right;">
-            <button pButton type="button" label=Excel (click)="table.exportCSV()"
+            <button pButton type="button" label=Excel (click)="dt_iss.exportCSV()"
               [disabled]="(QtyIssueData.length=='0')"></button>
           </div>
-          <div class="ui-g-12 dashboard">
-            <p-table #table [columns]="QtyIssueCols" [value]="QtyIssueData" [rows]="20"
-              exportFilename="QTY_A/C_ISSUE_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          <div class="ui-g-12 no-right-pad no-left-pad">
+            <p-table #dt_iss [columns]="QtyIssueCols" [value]="QtyIssueData" [rows]="10"
+              exportFilename="QTY_AC_ISSUE_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
               [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
@@ -109,7 +112,14 @@
               <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
                   <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
+                    <div *ngIf="col.field !== 'GName' && col.field !== 'Commodity'">
+                      <div style="text-align: end !important">
+                        {{rowData[col.field]}}
+                      </div>
+                    </div>
+                    <div *ngIf="col.field === 'GName' || col.field === 'Commodity'">
+                      {{rowData[col.field]}}
+                    </div>
                   </td>
                 </tr>
               </ng-template>

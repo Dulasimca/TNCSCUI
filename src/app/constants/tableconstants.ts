@@ -1099,12 +1099,13 @@ export class TableConstants {
 
     this.QuantityACReceiptDetailsCommodity = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'GName', header: 'Godown Name'},
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
-      { field: 'RecPDS ', header: 'PDS/Purchase' },
+      { field: 'RecPDS', header: 'PDS/Purchase' },
       { field: 'RecPRIORITY', header: 'Priority' },
       { field: 'RecTIDEOVER', header: 'Tide Over' },
-      { field: 'RecAAY ', header: 'AAY' },
+      { field: 'RecAAY', header: 'AAY' },
       { field: 'MMS2GEN', header: 'MMS2GEN' },
       { field: 'MMS2SC', header: 'MMS2SC' },
       { field: 'MMS2ST', header: 'MMS2ST' },
@@ -1371,8 +1372,9 @@ export class TableConstants {
 
     this.QuantityACIssueDetailsCommodity = [
       { header: 'S.No', field: 'SlNo' },
+      { header: 'Godown Name', field: 'GName'},
       { header: 'Commodity', field: 'Commodity' },
-      { header: 'OB+Receipt', field: 'OBR' },
+      { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
       { header: 'PDS', field: 'IsPDS' },
       { header: 'Coop', field: 'IsCOOP' },
       { header: 'Police', field: 'IsPOLICE' },
