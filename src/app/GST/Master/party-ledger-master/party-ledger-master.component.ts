@@ -26,6 +26,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   data?: any;
   roleId: any;
   regionOptions: SelectItem[];
+  ActiveOptions: SelectItem[];
   regions: any;
   RCode: any;
   Region: any;
@@ -52,7 +53,9 @@ export class PartyLedgerMasterComponent implements OnInit {
   viewPane: boolean;
   isViewed: boolean = false;
   RName: any;
+  isActive: any;
   @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('active') activePanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -60,9 +63,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
-    // this.RName = this.authService.getUserAccessible().rName;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    // this.GCode = this.authService.getUserAccessible().gCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.userdata = this.fb.group({
@@ -79,6 +80,7 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onSelect(item, type) {
     let regionSelection = [];
+    let ActiveSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -91,6 +93,9 @@ export class PartyLedgerMasterComponent implements OnInit {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
             this.regionOptions = regionSelection;
+            if (this.roleId !== 3) {
+              this.regionOptions.unshift({ label: 'All', value: 'All' });
+            }
           }
         } else {
           if (this.regions !== undefined) {
@@ -100,7 +105,19 @@ export class PartyLedgerMasterComponent implements OnInit {
               }
             });
             this.regionOptions = regionSelection;
+            if (this.roleId !== 3) {
+              this.regionOptions.unshift({ label: 'All', value: 'All' });
+            }
           }
+        }
+        break;
+      case 'active':
+        if (type === 'enter') {
+          this.activePanel.overlayVisible = true;
+        }
+        if (this.ActiveOptions === undefined) {
+          ActiveSelection.push({ 'label': 'Active', 'value': 'Active' }, { 'label': 'InActive', 'value': 'InActive' });
+          this.ActiveOptions = ActiveSelection;
         }
         break;
     }
@@ -110,6 +127,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
+      'Type': (this.isActive !== undefined && this.isActive !== null) ? this.isActive.value : 'Active',
       'RCode': this.RCode.value,
     };
     this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
@@ -121,7 +139,6 @@ export class PartyLedgerMasterComponent implements OnInit {
         this.PartyLedgerData = res;
         let sno = 0;
         this.PartyLedgerData.forEach(s => {
-          s.RName = this.RCode.label;
           sno += 1;
           s.SlNo = sno;
         });
@@ -138,6 +155,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       }
     });
   }
+
 
   onClear() {
     this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = null;

@@ -8,11 +8,21 @@
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
-    <div class="employee-main" style="max-width: 700px">
-      <div class="ui-g dashboard">
-        <a class="ui-g-12 ui-md-7" style="text-align: end">Party Ledger Master</a>
+    <div class="employee-main" style="max-width: 700px; margin: 50px auto !important;">
+      <div class="ui-g">
+        <a class="ui-g-12 ui-md-5">Party Ledger Details</a>
         <div class="ui-g-12 ui-md-2"></div>
-        <div class="ui-g-12 ui-md-2 ui-fluid">
+        <div class="ui-g-12 ui-md-3">
+          <label class="ui-g-10 label-fontsize dashboard" for="isActive">Active</label>
+          <p-dropdown #active name="Active" class="ui-g-12 ui-fluid dashboard" [options]="ActiveOptions"
+            [(ngModel)]="isActive" (onClick)="onSelect('active','click')" (keydown.enter)="onSelect('active','enter')"
+            optionLabel="label" [showClear]="true" filter="true" resetFilterOnHide="true" placeholder="Active">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-top: 23px;">
           <button pButton type="button" (click)="onView()" [disabled]="(!RCode)" label=View></button>
         </div>
       </div>
