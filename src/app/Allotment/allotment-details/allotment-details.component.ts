@@ -202,7 +202,7 @@ export class AllotmentDetailsComponent implements OnInit {
       const params = { 'Type': 2, 'GCode': this.GCode }
       this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
         this.societyData = data.filter(x => {
-          return (x.ACSCode.trim() !== '');
+          return (x.ACSCode.trim() !== '' && x.Activeflag.trim() === 'A');
         });
         let sortedArray = _.sortBy(this.societyData, 'ACSCode');
         this.societyData = sortedArray;
