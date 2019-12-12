@@ -20,6 +20,17 @@
             </div>
           </p-footer>
       </p-confirmDialog>
+      <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle"
+      [style]="{width: '400px', height: '145px'}" [modal]="true" [(visible)]="showDialog">
+      <span icon="pi pi-exclamation-triangle"> Do you want to proceed?</span>
+          <p-footer>
+            <div class="ui-g-12 ui-md-12 dashboard">
+              <div class="ui-g-8"></div>
+                <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="Yes" (click)="saveClosingDate()"></button>
+                <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="No" (click)="showDialog = false;"></button>
+            </div>
+          </p-footer>
+      </p-dialog >
       <form #f="ngForm" name="form">
         <div class="ui-g-12 no-pad-top border-teal">
         <div class="ui-g-12">
@@ -87,10 +98,10 @@
           <div class="ui-g-12 ui-md-1"></div>
           <div *ngIf="nonEditable" class="ui-g-6 ui-md-2 no-pad-top blue-border-with-shadow">
             <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
-            <!-- <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="CDate" 
-            [disabled]="disableCDate" [(ngModel)]="ClosingDate" required></p-calendar> -->
+            <div class="ui-g-10 dashboard">
             <input type="text" name="CDate" [(ngModel)]="ClosingDate" pInputText [readonly]="true" required>
-            <div style="float: right;" *ngIf="(ClosingDate == null)" class="spinner-border spinner-border-sm float-right" role="status">
+          </div>
+            <div style="float: right;" *ngIf="activateLoader" class="ui-g-1 dashboard spinner-border spinner-border-sm float-right" role="status">
               </div> 
             </div>
         </div>
@@ -113,7 +124,7 @@
       <div class="ui-g-12 ui-md-12 dashboard">
         <p-table #dt [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10" [totalRecords]="totalRecords"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-          [paginator]="true">
+          [paginator]="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
