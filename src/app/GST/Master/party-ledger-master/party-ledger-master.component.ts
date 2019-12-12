@@ -168,7 +168,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.selectedRow = event.data;
   }
 
-  showSelectedData() {
+  showSelectedData(event, selectedRow) {
     this.viewPane = false;
     this.isViewed = true;
     this.regionOptions = [{ label: this.selectedRow.RName, value: this.selectedRow.RCode }];

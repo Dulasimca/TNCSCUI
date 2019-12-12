@@ -134,17 +134,31 @@
     <!-- </div> -->
   </p-panel>
 </div>
+
+
 <p-dialog header="Party Ledger Master Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
   [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
-  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+  <div class="ui-g-12 ui-md-10" style="text-align: end !important; padding-top: 7px;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by PartyName"
       (ngModelChange)="onSearch($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
+  <!-- <div class="ui-g-4 ui-md-1 no-right-pad">
+      <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+        (click)="showSelectedData()"></button>
+    </div> -->
+  <div class="ui-g-4 ui-md-1 ui-fluid">
+    <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!PartyLedgerData" label=Excel
+      (click)="dt.exportCSV()"></button>
+  </div>
+  <div class="ui-g-4 ui-md-1 ui-fluid">
+    <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
+  </div>
   <div class="ui-g-12 ui-fluid">
     <p-table #dt [columns]="PartyLedgerCols" [value]="PartyLedgerData" [rows]="20"
       exportFilename="PARTY_LEDGER_MASTER_DETAILS" [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single"
-      [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)">
+      [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)" [loading]="loading"
+      exportFilename="PARTY_LEDGER_MASTER_DETAILS">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
           <col *ngFor="let col of columns" style="width:80px">
@@ -157,25 +171,13 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" (dblclick)="showSelectedData($event, rowData)">
           <td *ngFor="let col of columns">
             {{rowData[col.field]}}
           </td>
         </tr>
       </ng-template>
     </p-table>
-  </div>
-  <div class="ui-g-4 ui-md-9"></div>
-  <div class="ui-g-4 ui-md-1 no-right-pad">
-    <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
-      (click)="showSelectedData()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1">
-    <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!PartyLedgerData" label=Excel
-      (click)="dt.exportCSV()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1 no-left-pad">
-    <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
   </div>
 </p-dialog>
