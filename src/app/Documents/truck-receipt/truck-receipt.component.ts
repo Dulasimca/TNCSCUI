@@ -394,14 +394,14 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-      //  } 
+        //  } 
         break;
       case 'wmt':
         if (type === 'enter') {
           this.weighmentPanel.overlayVisible = true;
         }
         // if (this.wmtOptions === undefined) {
-             this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
+        this.restAPIService.get(PathConstants.PACKING_AND_WEIGHMENT).subscribe((res: any) => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table1.forEach(w => {
               weighment.push({ 'label': w.WEType, 'value': w.WECode });
@@ -410,7 +410,7 @@ export class TruckReceiptComponent implements OnInit {
           }
           this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-      // }
+        // }
         break;
       case 'fc':
         if (type === 'enter') {
@@ -479,7 +479,7 @@ export class TruckReceiptComponent implements OnInit {
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
     this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
     this.NoPacking = (data.NoPacking * 1),
-    this.GKgs = (data.GKgs * 1).toFixed(3);
+      this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
     this.stackYear = data.StackYear;
     this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
@@ -596,61 +596,50 @@ export class TruckReceiptComponent implements OnInit {
   onStackNoChange(event) {
     this.messageService.clear();
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
-      this.stackYear = this.TStockNo.stack_yr;
-      let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
-        this.TStockNo.value : this.TStockNo;
-      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
-        index = TStockNo.toString().indexOf('/', 2);
-        const totalLength = TStockNo.length;
-        this.GodownNo = TStockNo.toString().slice(0, index);
-        this.LocationNo = TStockNo.toString().slice(index + 1, totalLength);
-      } else {
-        this.GodownNo = this.stackYear = this.LocationNo = null;
+      this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
+      let stack_data = (event.value !== undefined) ? event.value : event;
+      let ind;
+      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+      ind = stockNo.indexOf('/', 2);
+      const totalLength = stockNo.length;
+      this.GodownNo = stockNo.slice(0, ind);
+      this.LocationNo = stockNo.slice(ind + 1, totalLength);
+      const params = {
+        DocNo: (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0,
+        TStockNo: stockNo,
+        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        GCode: this.GCode,
+        ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+        Type: 1
       }
+      this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+          this.StackBalance = (this.StackBalance * 1);
+          if (this.StackBalance > 0) {
+            this.isValidStackBalance = false;
+            this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+            if (this.itemData.length !== 0) {
+              this.itemData.forEach(x => {
+                if (x.TStockNo.trim() === stockNo.trim()) {
+                  this.CurrentDocQtv += (x.Nkgs * 1);
+                  this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+                }
+              })
+            }
+          } else {
+            this.isValidStackBalance = true;
+            this.CurrentDocQtv = 0;
+            this.NetStackBalance = 0;
+            this.messageService.clear();
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
+          }
+        }
+      })
     } else {
       this.GodownNo = this.stackYear = this.LocationNo = null;
     }
-    let stack_data = (event.value !== undefined) ? event.value : event;
-    let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
-    ind = stockNo.indexOf('/', 2);
-    const totalLength = stockNo.length;
-    this.GodownNo = stockNo.slice(0, ind);
-    this.LocationNo = stockNo.slice(ind + 1, totalLength);
-    const params = {
-      DocNo: (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0,
-      TStockNo: stockNo,
-      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
-      GCode: this.GCode,
-      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-      Type: 1
-    }
-    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0) {
-          this.isValidStackBalance = false;
-          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
-          if (this.itemData.length !== 0) {
-            this.itemData.forEach(x => {
-              if (x.TStockNo.trim() === stockNo.trim()) {
-                this.CurrentDocQtv += (x.Nkgs * 1);
-                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-              }
-            })
-          }
-        } else {
-          this.isValidStackBalance = true;
-          this.CurrentDocQtv = 0;
-          this.NetStackBalance = 0;
-          this.messageService.clear();
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
-        }
-      }
-    })
   }
 
   onEnter() {
@@ -670,8 +659,8 @@ export class TruckReceiptComponent implements OnInit {
       PWeight: (this.IPCode.weight !== undefined) ? this.IPCode.weight : this.PWeight,
       StackDate: (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
         new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode,
-        StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
-      })
+      StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
+    })
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
@@ -687,14 +676,14 @@ export class TruckReceiptComponent implements OnInit {
       let lastIndex = this.itemData.length - 1;
       if (this.CurrentDocQtv > this.StackBalance) {
         this.itemData.splice(lastIndex, 1);
-       ///calculating current document quantity based on stock number after splicing data from table
-       this.CurrentDocQtv = 0;
-       this.itemData.forEach(x => {
-         if (x.TStockNo.trim() === stock_no.trim()) {
-           this.CurrentDocQtv += (x.Nkgs * 1);
-         }
-       });
-       ///end 
+        ///calculating current document quantity based on stock number after splicing data from table
+        this.CurrentDocQtv = 0;
+        this.itemData.forEach(x => {
+          if (x.TStockNo.trim() === stock_no.trim()) {
+            this.CurrentDocQtv += (x.Nkgs * 1);
+          }
+        });
+        ///end 
         // this.NetStackBalance = 0;
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
@@ -979,33 +968,33 @@ export class TruckReceiptComponent implements OnInit {
       this.isViewed = false;
     }
   }
-  
+
   onSubmit(form) {
     this.submitted = true;
     let arr = [];
     let no = 0;
-    if(form.invalid) {
+    if (form.invalid) {
       for (var key in form.value) {
-       if(key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
-       && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal') {
-         if(this.itemData.length !== 0 && (key !== 'Schemes' && key !== 'Commodity' && key !== 'NetWt'
-         && key !== 'GrossWt' && key !== 'StockNo' && key !== 'PackingType' && key !== 'NoOfPacking'
-         && key !== 'MoistureNo' && key !== 'WmtType') && (form.value[key] === null || form.value[key] === undefined
-           || form.value[key] === '')) {
-         no += 1;
-         arr.push({label: no, value: no + '.' + key});
-         this.missingFields = arr;
-        } else if ((this.itemData.length === 0) && (form.value[key] === null || form.value[key] === undefined || form.value[key] === '')) {
-          no += 1;
-          arr.push({label: no, value: no + '.' + key});
-          this.missingFields = arr;
+        if (key !== 'TNo' && key !== 'GodownNum' && key !== 'LocNo'
+          && key !== 'TareWt' && key !== 'StackBal' && key !== 'CurQtv' && key !== 'NetStackBal') {
+          if (this.itemData.length !== 0 && (key !== 'Schemes' && key !== 'Commodity' && key !== 'NetWt'
+            && key !== 'GrossWt' && key !== 'StockNo' && key !== 'PackingType' && key !== 'NoOfPacking'
+            && key !== 'MoistureNo' && key !== 'WmtType') && (form.value[key] === null || form.value[key] === undefined
+              || form.value[key] === '')) {
+            no += 1;
+            arr.push({ label: no, value: no + '.' + key });
+            this.missingFields = arr;
+          } else if ((this.itemData.length === 0) && (form.value[key] === null || form.value[key] === undefined || form.value[key] === '')) {
+            no += 1;
+            arr.push({ label: no, value: no + '.' + key });
+            this.missingFields = arr;
+          }
         }
-        }
-       }
+      }
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! '});
+      arr.push({ label: '1', value: 'Please add item details! ' });
       this.missingFields = arr;
-    }  else {
+    } else {
       this.submitted = false;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });

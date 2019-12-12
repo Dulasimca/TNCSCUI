@@ -440,63 +440,51 @@ export class IssueReceiptComponent implements OnInit {
       let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
         this.Trcode.value : this.trCode;
       this.checkTrType = (trcode === 'TR024') ? false : true;
-      this.stackYear = this.TStockNo.stack_yr;
-      let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
-        this.TStockNo.value : this.TStockNo;
-      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
-        index = TStockNo.toString().indexOf('/', 2);
-        const totalLength = TStockNo.length;
-        this.godownNo = TStockNo.toString().slice(0, index);
-        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
-      } else {
-        this.godownNo = null; this.stackYear = null;
-        this.locationNo = null; this.stackCompartment = null;
+      this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
+      let stack_data = (event.value !== undefined && event.value !== null) ? event.value : event;
+      let ind;
+      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value
+        : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
+      ind = stockNo.indexOf('/', 2);
+      const totalLength = stockNo.length;
+      this.godownNo = stockNo.slice(0, ind);
+      this.locationNo = stockNo.slice(ind + 1, totalLength);
+      const params = {
+        DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
+        TStockNo: stockNo,
+        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        GCode: this.IssuingCode,
+        ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+        Type: 1
       }
+      this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+          this.StackBalance = (this.StackBalance * 1);
+          if (this.StackBalance > 0 || !this.checkTrType) {
+            this.isValidStackBalance = false;
+            this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+            if (this.itemData.length !== 0) {
+              this.itemData.forEach(x => {
+                if (x.TStockNo.trim() === stockNo.trim()) {
+                  this.CurrentDocQtv += (x.Nkgs * 1);
+                  this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+                }
+              })
+            }
+          } else {
+            this.isValidStackBalance = true;
+            this.CurrentDocQtv = 0;
+            this.NetStackBalance = 0;
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
+          }
+        }
+      })
     } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
     }
-    let stack_data = (event.value !== undefined) ? event.value : event;
-    let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value 
-    : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
-    ind = stockNo.indexOf('/', 2);
-    const totalLength = stockNo.length;
-    this.godownNo = stockNo.slice(0, ind);
-    this.locationNo = stockNo.slice(ind + 1, totalLength);
-    const params = {
-      DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-      TStockNo: stockNo,
-      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
-      GCode: this.IssuingCode,
-      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-      Type: 1
-    }
-    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0 || !this.checkTrType) {
-          this.isValidStackBalance = false;
-          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
-          if (this.itemData.length !== 0) {
-            this.itemData.forEach(x => {
-              if (x.TStockNo.trim() === stockNo.trim()) {
-                this.CurrentDocQtv += (x.Nkgs * 1);
-                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-              }
-            })
-          }
-        } else {
-          this.isValidStackBalance = true;
-          this.CurrentDocQtv = 0;
-          this.NetStackBalance = 0;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
-        }
-      }
-    })
   }
 
   checkRegAdv(value) {
@@ -790,30 +778,30 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   getAllotmentDetails() {
-    if(this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined && 
+    if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
       this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
       && this.IssuerCode !== null && this.IssuerCode !== undefined) {
-        const params = {
-          'GCode': this.IssuingCode,
-          'RCode': this.RCode,
-          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
-          'IssRegAdv': this.RegularAdvance,
-          'Month': (this.RegularAdvance === 'A') ? (((this.curMonth * 1) > 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
-          'Year': this.year,
-          'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
-        }
-        this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
-          res.forEach(x => {
-            this.allotmentDetails.push({
-              AllotmentQty: x.AllotmentQty,
-              IssuQty: x.IssuQty,
-              AllotmentScheme: x.AllotmentScheme,
-              AllotmentCommodity: x.AllotmentCommodity
-            })
-          });
-        })
-
+      const params = {
+        'GCode': this.IssuingCode,
+        'RCode': this.RCode,
+        'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
+        'IssRegAdv': this.RegularAdvance,
+        'Month': (this.RegularAdvance === 'A') ? (((this.curMonth * 1) > 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
+        'Year': this.year,
+        'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
       }
+      this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
+        res.forEach(x => {
+          this.allotmentDetails.push({
+            AllotmentQty: x.AllotmentQty,
+            IssuQty: x.IssuQty,
+            AllotmentScheme: x.AllotmentScheme,
+            AllotmentCommodity: x.AllotmentCommodity
+          })
+        });
+      })
+
+    }
   }
 
   onRowSelect(event) {
@@ -1003,7 +991,7 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.missingFields = arr;
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! '});
+      arr.push({ label: '1', value: 'Please add item details! ' });
       this.missingFields = arr;
     } else {
       this.submitted = false;

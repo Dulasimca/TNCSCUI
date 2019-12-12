@@ -228,7 +228,7 @@ export class StockReceiptComponent implements OnInit {
             this.transactionOptions = transactoinSelection.slice(0);
           }
         })
-      // }
+        // }
         break;
       case 'sc':
         if (type === 'enter') {
@@ -353,7 +353,7 @@ export class StockReceiptComponent implements OnInit {
             this.packingTypeOptions = packingTypes;
           }
         });
-      // }
+        // }
         break;
       case 'wmt':
         if (type === 'enter') {
@@ -369,7 +369,7 @@ export class StockReceiptComponent implements OnInit {
             this.wmtOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
           }
         });
-      //  }
+        //  }
         break;
     }
   }
@@ -471,62 +471,50 @@ export class StockReceiptComponent implements OnInit {
   }
 
   onCalculateWt() {
-  if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
-    let grossWt = (this.GKgs * 1);
-    let netWt = (this.NKgs * 1);
-    if (grossWt < netWt) {
-      this.NKgs = null; this.GKgs = null; this.tareWt = null;
-    } else {
-      this.tareWt = (grossWt - netWt).toFixed(3);
+    if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
+      let grossWt = (this.GKgs * 1);
+      let netWt = (this.NKgs * 1);
+      if (grossWt < netWt) {
+        this.NKgs = null; this.GKgs = null; this.tareWt = null;
+      } else {
+        this.tareWt = (grossWt - netWt).toFixed(3);
+      }
     }
   }
-}
 
   onStackNoChange(event) {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
-      this.Trcode.value : this.trCode;
+        this.Trcode.value : this.trCode;
       this.checkTrType = (trcode === 'TR023') ? false : true;
-      this.stackYear = this.TStockNo.stack_yr;
-      let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
-        this.TStockNo.value : this.TStockNo;
-      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
-        index = TStockNo.toString().indexOf('/', 2);
-        const totalLength = TStockNo.length;
-        this.godownNo = TStockNo.toString().slice(0, index);
-        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
-      } else {
-        this.godownNo = null; this.stackYear = null;
-        this.locationNo = null; this.stackCompartment = null;
+      this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
+      let stack_data = (event.value !== undefined) ? event.value : event;
+      let ind;
+      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+      ind = stockNo.indexOf('/', 2);
+      const totalLength = stockNo.length;
+      this.godownNo = stockNo.slice(0, ind);
+      this.locationNo = stockNo.slice(ind + 1, totalLength);
+      const params = {
+        DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
+        TStockNo: stockNo,
+        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        GCode: this.ReceivingCode,
+        ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+        Type: 1
       }
+      this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+          this.StackBalance = (this.StackBalance * 1);
+        }
+      })
     } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
     }
-    let stack_data = (event.value !== undefined) ? event.value : event;
-    let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
-    ind = stockNo.indexOf('/', 2);
-    const totalLength = stockNo.length;
-    this.godownNo = stockNo.slice(0, ind);
-    this.locationNo = stockNo.slice(ind + 1, totalLength);
-    const params = {
-      DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
-      TStockNo: stockNo,
-      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
-      GCode: this.ReceivingCode,
-      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-      Type: 1
-    }
-    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
-      }
-    })
   }
 
   onStackInput(event) {
@@ -598,7 +586,7 @@ export class StockReceiptComponent implements OnInit {
     this.SRNo = (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0;
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.UnLoadingSlip = (this.SRNo !== 0) ? this.UnLoadingSlip : 'N';
-     const params = {
+    const params = {
       'Type': type,
       'SRNo': this.SRNo,
       'RowId': this.RowId,
@@ -634,7 +622,7 @@ export class StockReceiptComponent implements OnInit {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
           this.blockScreen = false;
-          this.DOCNumber = res.Item3; 
+          this.DOCNumber = res.Item3;
           if (type !== '2') {
             this.isSaveSucceed = true;
             this.isViewed = false;
@@ -792,7 +780,7 @@ export class StockReceiptComponent implements OnInit {
       this.loadDocument();
       const params = { DOCNumber: this.DOCNumber }
       this.restAPIService.put(PathConstants.STOCK_RECEIPT_DUPLICATE_DOCUMENT, params).subscribe(res => {
-        if(res) { this.DOCNumber = null; }
+        if (res) { this.DOCNumber = null; }
       });
       this.isSaveSucceed = false;
       this.isViewed = false;
@@ -844,22 +832,22 @@ export class StockReceiptComponent implements OnInit {
     this.submitted = true;
     let arr = [];
     let no = 0;
-    if(form.invalid) {
+    if (form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
-       && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
-         no += 1;
-         arr.push({label: no, value: no + '.' + key});
+        if ((form.value[key] === undefined || form.value[key] === '') && (key !== 'receiptNo' && key !== 'GodownNo' && key !== 'LocNo'
+          && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBalance')) {
+          no += 1;
+          arr.push({ label: no, value: no + '.' + key });
         }
-       }
-       this.missingFields = arr;
+      }
+      this.missingFields = arr;
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! '});
+      arr.push({ label: '1', value: 'Please add item details! ' });
       this.missingFields = arr;
     } else {
       this.submitted = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg }); 
-     }
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
+    }
   }
 }
