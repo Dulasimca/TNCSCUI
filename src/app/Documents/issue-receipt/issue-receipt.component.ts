@@ -122,6 +122,7 @@ export class IssueReceiptComponent implements OnInit {
   disableYear: boolean;
   ACSCode: string;
   allotmentDetails: any[] = [];
+  QuantityLimit: string;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;

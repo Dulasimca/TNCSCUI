@@ -25,6 +25,7 @@ export class IssuerMasterComponent implements OnInit {
   issuerTypeOptions: SelectItem[];
   categoryOptions: SelectItem[];
   searchText: any;
+  searchAcs: any;
   CategoryType: any;
   ACSCode: any;
   Activeflag: any;
@@ -288,6 +289,18 @@ export class IssuerMasterComponent implements OnInit {
       value = value.toString().toUpperCase();
       this.IssuerMasterData = this.PristineData.filter(item => {
         return item.Issuername.toString().toUpperCase().startsWith(value);
+      });
+    } else {
+      this.IssuerMasterData = this.PristineData;
+    }
+  }
+
+  onIssuer(value) {
+    this.IssuerMasterData = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.IssuerMasterData = this.PristineData.filter(item => {
+        return item.ACSCode.toString().toUpperCase().startsWith(value);
       });
     } else {
       this.IssuerMasterData = this.PristineData;

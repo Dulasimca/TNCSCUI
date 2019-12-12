@@ -9,6 +9,7 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g">
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -66,7 +67,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-6 ui-md-1"></div>
+      <!-- <div class="ui-g-6 ui-md-1"></div> -->
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
@@ -75,10 +76,11 @@
         <button pButton type="button" icon="pi pi-plus" label=Add (click)="OnEdit = true;onClear()"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
       </div>
-      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+      <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"
           [disabled]="(PurchaseTaxData.length=='0')"></button>
-      </div>
+      </div> -->
+      <div class="ui-g-6 ui-md-1"></div>
       <div class="ui-g-12"></div>
 
       <div *ngIf="OnEdit" class="ui-g-12" style="border: 1px solid #18c5a9">
@@ -97,10 +99,9 @@
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
                 <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-                  [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true"
-                  [itemSize]="31" (keydown.enter)="onSelect('company', 'enter')"
-                  (ngModelChange)="onResetTable('company')" [showClear]="true" filter="true" optionLabel="label"
-                  [disabled]="onDrop" resetFilterOnHide="true">
+                  [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true" [itemSize]="31"
+                  (keydown.enter)="onSelect('company', 'enter')" (ngModelChange)="onResetTable('company')"
+                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -240,10 +241,13 @@
 
 <p-dialog header="Purchase Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
-  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+  <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+  </div>
+  <div class="ui-g-6 ui-md-1 ui-fluid" style="padding: 1px;">
+    <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
   </div>
   <div *ngIf="PurchaseTaxData" class="ui-g-12 ui-fluid">
     <p-table #table [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
@@ -289,7 +293,7 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
+    <p-table #pm [columns]="CompanyTitleCols" [value]="CompanyTitleData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading">
       <ng-template pTemplate="colgroup" let-columns>
@@ -307,14 +311,12 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" (dblclick)="onRow($event, rowData)">
           <td *ngFor="let col of columns">
-            <div
-              *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
+            <div *ngIf="col.field === 'PartyID' || col.field === 'StateCode'">
               <div style="text-align: end !important">
                 {{rowData[col.field]}}
               </div>
             </div>
-            <div
-              *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'Percentage' && col.field !== 'VatAmount' && col.field !== 'Total'">
+            <div *ngIf="col.field !== 'PartyID' && col.field !== 'StateCode'">
               {{rowData[col.field]}}
             </div>
           </td>
@@ -327,13 +329,13 @@
 
 <p-dialog header="Commodity" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="isCom" [responsive]="true">
-  <!-- <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
-    <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
-      (ngModelChange)="onSearchParty($event)">
+  <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
+    <input class="search-masters" type="text" [(ngModel)]="searchCommodity" pInputText
+      placeholder="Search CommodityName" (ngModelChange)="onSearchCommodity($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-  </div> -->
+  </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="CommodityCols" [value]="CommodityData" [rows]="20"
+    <p-table #cm [columns]="CommodityCols" [value]="CommodityData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading">
       <ng-template pTemplate="colgroup" let-columns>
@@ -351,14 +353,12 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" (dblclick)="onCommoditySelect($event, rowData)">
           <td *ngFor="let col of columns">
-            <div
-              *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
+            <div *ngIf="col.field === 'CommodityID' || col.field === 'Hsncode' || col.field === 'TaxPercentage'">
               <div style="text-align: end !important">
                 {{rowData[col.field]}}
               </div>
             </div>
-            <div
-              *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'Percentage' && col.field !== 'VatAmount' && col.field !== 'Total'">
+            <div *ngIf="col.field !== 'CommodityID' && col.field !== 'Hsncode' && col.field !== 'TaxPercentage'">
               {{rowData[col.field]}}
             </div>
           </td>
@@ -367,175 +367,3 @@
     </p-table>
   </div>
 </p-dialog>
-
-
-<!-- <p-dialog header="Purchase Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [responsive]="true" [style]="{width: '900px', height: '1000px'}">
-<div class="ui-g-12">
-    <p-table #table [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
-      [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-      [paginator]="true" [loading]="loading" exportFilename="PURCHASE_TAX_REPORT">
-      <ng-template pTemplate="header" let-columns>
-        <tr style="text-align: center;">
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
-          <td *ngFor="let col of columns">
-            <div *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'VatAmount' || col.field === 'Percentage' || col.field === 'Total'">
-              <div style="text-align: end !important">
-                {{rowData[col.field]}}
-              </div>
-            </div>
-            <div *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'Percentage' && col.field !== 'VatAmount' && col.field !== 'Total'">
-              {{rowData[col.field]}}
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</p-dialog> -->
-
-<!-- <p-dialog header="Purchase Tax Entry Form" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [responsive]="true" [style]="{width: '900px', height: '1000px'}">
-  <div class="employee-main" style="max-width: 700px; box-shadow: none">
-    <div>
-      <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-7">
-            <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
-            <p-dropdown #company name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
-              [(ngModel)]="Party" (onClick)="onSelect('company','click')"
-              (keydown.enter)="onSelect('company', 'enter')"
-              [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
-          <div class="ui-g-12 ui-md-5">
-            <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
-            <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-              [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-              (keydown.enter)="onSelect('commodity','enter')" [showClear]="true" filter="true" resetFilterOnHide="true">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-7 dashboard" style="padding-top: 5px">
-            <div class="ui-g-12 ui-md-3">
-              <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State"
-                  autocomplete="off" maxlength="2" readonly="true" required>
-                <label for="State">State</label>
-              </div>
-            </div>
-            <div class="ui-g-12 ui-md-6">
-              <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan" autocomplete="off"
-                  maxlength="10" readonly="true" required>
-                <label for="Pan">PAN</label>
-              </div>
-            </div>
-            <div class="ui-g-12 ui-md-3">
-              <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
-                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3" readonly="true"
-                  required>
-                <label for="Gst">GST</label>
-              </div>
-            </div>
-          </div>
-          <div class="ui-g-12 ui-md-5" style="padding-top: 15px">
-            <a>GSTNo - {{State + Pan + Gst}}</a>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-6 ui-md-6" style="padding-top: 17px">
-            <div class="ui-float-label">
-              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Bill" name="Bill" autocomplete="off"
-                required>
-              <label for="Bill">Bill No</label>
-            </div>
-          </div>
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-g">
-              <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date</label>
-              <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy" [maxDate]="maxDate"
-                name="Billdate" [(ngModel)]="Billdate" required>
-              </p-calendar>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Quantity" name="Quantity"
-                autocomplete="off" (input)="onGST()" required>
-              <label for="Quantity">Quantity</label>
-            </div>
-          </div>
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate" autocomplete="off"
-              (input)="onGST()" required>
-              <label for="Rate">Rate</label>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
-                autocomplete="off" (input)="onGST()" readonly="true" required>
-              <label for="Amount">Amount(Exclusive of GST)</label>
-            </div>
-          </div>
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage" name="percentage"
-                autocomplete="off" (input)="onGST()" required>
-              <label for="percentage">GST %</label>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" autocomplete="off"
-              (input)="onGST()" readonly="true" required>
-              <label for="Vat">GST Amount</label>
-            </div>
-          </div>
-          <div class="ui-g-6 ui-md-6">
-            <div class="ui-float-label">
-              <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Total" name="Total"
-                autocomplete="off" (input)="onGST()" readonly="true" required>
-              <label for="Total">Total</label>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-4"></div>
-          <div class="ui-g-6 ui-md-2 ui-fluid">
-            <button pButton type="button" (click)="onSubmit(formUser)"
-              [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
-              label=Save></button>
-          </div>
-
-          <div class="ui-g-6 ui-md-2 ui-fluid">
-            <button pButton type="button" (click)="onClear()" label=Clear></button>
-          </div>
-          <div class="ui-g-12 ui-md-4"></div>
-        </div>
-      </form>
-    </div>
-  </div>
-</p-dialog> -->
