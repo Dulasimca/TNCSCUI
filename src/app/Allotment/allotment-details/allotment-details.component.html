@@ -56,7 +56,7 @@
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-3 ui-fluid">
-              <input #fileSelector id="my-file-selector" type="file" (change)="uploadData($event)" accept=".xls,.xlsx"
+              <input #fileSelector id="my-file-selector" type="file" (change)="uploadData($event);dt.reset();" accept=".xls,.xlsx"
                 name="uploadExcel" [disabled]="(!RCode || !GCode || !year || !month)">
             </div>
             <div class="ui-g-1"></div>

@@ -258,11 +258,13 @@ export class AllotmentDetailsComponent implements OnInit {
                 const acscode: string =  obj[key].trim();
                 let matchCode = this.societyData.find(x => x.ACSCode.trim() === acscode);
                 if(matchCode !== undefined && matchCode !== null) {
+                  if(matchCode.Societycode !== null && matchCode.Societycode !== undefined) {
                   obj['Societycode'] = matchCode.Societycode;
-                } else {
+                  } else {
                   tempArr.push(' ' + k + ') ' +  obj[key]);
                   k += 1;
                 }
+              }
                 if(tempArr.length !== 0) {
                    const content = (tempArr.length === 1) ? ' is missing !' : ' are missing !';
                    missingSocietyCode = ' SocietyCode for the following FPS Code ' + tempArr + content;

@@ -15,11 +15,22 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-quantity-detail-commodity',
   templateUrl: './quantity-detail-commodity.component.html',
+  styles: [`
+  .loading-text {
+      display: block;
+      background-color: #f1f1f1;
+      min-height: 19px;
+      animation: pulse 1s infinite ease-in-out;
+      text-indent: -99999px;
+      overflow: hidden;
+  }
+`],
   styleUrls: ['./quantity-detail-commodity.component.css']
 })
 export class QuantityDetailCommodityComponent implements OnInit {
   QtyReceiptCols: any;
   QtyReceiptData: any = [];
+  frozenQtyReceiptCols: any;
   QtyIssueCols: any;
   QtyIssueData: any[] = [];
   fromDate: any = new Date();
@@ -47,6 +58,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetailsCommodity;
+    this.frozenQtyReceiptCols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity;
     this.QtyIssueCols = this.tableConstants.QuantityACIssueDetailsCommodity
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);

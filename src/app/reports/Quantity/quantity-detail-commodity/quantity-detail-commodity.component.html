@@ -56,9 +56,15 @@
         </div>
         <div class="ui-g-12 dashboard">
           <p-table #dt_rec [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="10"
+          [frozenColumns]="frozenQtyReceiptCols" frozenWidth="400px" [scrollable]="true" scrollHeight="200px"
             exportFilename="QTY_AC_RECEIPT_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-            [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
-            <ng-template pTemplate="header" let-columns>
+            [paginator]="true" [loading]="loading">
+            <ng-template pTemplate="colgroup" let-columns>
+                 <colgroup>
+                    <col *ngFor="let col of columns" style="width:400px">
+                </colgroup> 
+            </ng-template>
+             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
                   {{col.header}}
