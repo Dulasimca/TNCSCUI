@@ -9,6 +9,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-process-to-G2G',
@@ -35,10 +36,11 @@ export class ProcessToG2GComponent implements OnInit {
     selectedData: any;
     issueList: any = [];
     blockScreen: boolean;
-    @ViewChild('region') regionPanel: Dropdown;
-    @ViewChild('godown') godownPanel: Dropdown;
     showPane: boolean;
     showCheckBox: boolean;
+    @ViewChild('region') regionPanel: Dropdown;
+    @ViewChild('godown') godownPanel: Dropdown;
+    @ViewChild('dt') table: Table;
 
     constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
         private restAPIService: RestAPIService, private authService: AuthService,
@@ -101,6 +103,10 @@ export class ProcessToG2GComponent implements OnInit {
         if (item === 'reg') { this.GCode = null; }
     }
 
+    isRowSelected(rowData: any) {
+        return (rowData.isSelected) ? "rowSelected" : "rowUnselected";
+      }
+
     onDateChange() {
         if (this.GCode !== undefined && this.GCode !== null && this.Date !== null && this.Date !== undefined) {
             this.loading = true;
@@ -116,11 +122,11 @@ export class ProcessToG2GComponent implements OnInit {
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
-                        if(data.TyCode === 'TY002') {
-                            data.showCheckBox = true;
-                        } else {
-                            data.showCheckBox = false;
-                        }
+                        // if(data.TyCode === 'TY002') {
+                        //     data.showCheckBox = true;
+                        // } else {
+                        //     data.showCheckBox = false;
+                        // }
                     })
                     this.issueMemoDocData = filteredArr;
                 } else {

@@ -93,6 +93,7 @@ export class TableConstants {
   DemandDraftDetailsReportCols: any;
   StackCardRegister: any;
   QuantityACReceiptDetailsCommodity: any;
+  FrozenQuantityACReceiptDetailsCommodity: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
@@ -1097,10 +1098,16 @@ export class TableConstants {
       { field: 'Bank', header: 'W/OFF Quantity' }
     ];
 
-    this.QuantityACReceiptDetailsCommodity = [
+    this.FrozenQuantityACReceiptDetailsCommodity = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GName', header: 'Godown Name'},
-      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'Commodity', header: 'COMMODITY' }
+    ];
+
+    this.QuantityACReceiptDetailsCommodity = [
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
+      // { field: 'GName', header: 'Godown Name'},
+      // { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
       { field: 'RecPDS', header: 'PDS/Purchase' },
       { field: 'RecPRIORITY', header: 'Priority' },

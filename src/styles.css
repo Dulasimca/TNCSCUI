@@ -791,6 +791,16 @@ h3 a {
   font-weight: normal;
 }
 
+tr.rowUnselected > td {
+  color: black;
+  background-color: white !important;
+}
+
+tr.rowSelected > td {
+  color: black;
+  background-color: #dff0d8 !important;
+}
+
   .overlay-content{
     margin: 20px;
     white-space: nowrap;

@@ -51,8 +51,9 @@
               </div>
         </div>
         <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <p-table [columns]="issueMemoDocCols" [value]="issueMemoDocData" [(selection)]="selectedData"
-            [paginator]="true" [rows]="20" [responsive]="true" autoLayout="true" [loading]="loading">
+            <p-table #dt [columns]="issueMemoDocCols" [value]="issueMemoDocData" [(selection)]="selectedData"
+            [paginator]="true" [rows]="20" [responsive]="true" autoLayout="true"
+            [tableStyleClass]="isRowSelected"  [loading]="loading">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width: 3em">
