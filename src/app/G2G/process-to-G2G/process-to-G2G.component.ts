@@ -37,7 +37,6 @@ export class ProcessToG2GComponent implements OnInit {
     issueList: any = [];
     blockScreen: boolean;
     showPane: boolean;
-    showCheckBox: boolean;
     @ViewChild('region') regionPanel: Dropdown;
     @ViewChild('godown') godownPanel: Dropdown;
     @ViewChild('dt') table: Table;
@@ -107,10 +106,14 @@ export class ProcessToG2GComponent implements OnInit {
         return (rowData.isSelected) ? "rowSelected" : "rowUnselected";
       }
 
+      public getColor(data: any): string {
+          console.log('d', data);
+        return (data === 'Grand Total') ? "#53aae5" : "white";
+      }
+
     onDateChange() {
         if (this.GCode !== undefined && this.GCode !== null && this.Date !== null && this.Date !== undefined) {
             this.loading = true;
-            this.showCheckBox = false;
             const params = new HttpParams().set('value', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
             this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
                 if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
@@ -122,11 +125,6 @@ export class ProcessToG2GComponent implements OnInit {
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
-                        // if(data.TyCode === 'TY002') {
-                        //     data.showCheckBox = true;
-                        // } else {
-                        //     data.showCheckBox = false;
-                        // }
                     })
                     this.issueMemoDocData = filteredArr;
                 } else {

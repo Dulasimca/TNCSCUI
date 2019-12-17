@@ -790,16 +790,15 @@ h3 a {
   text-align: center;
   font-weight: normal;
 }
-
-tr.rowUnselected > td {
+/* .ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: #FFFFFF;
   color: black;
-  background-color: white !important;
 }
 
-tr.rowSelected > td {
+.ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+  background-color: #FFFFFF;
   color: black;
-  background-color: #dff0d8 !important;
-}
+} */
 
   .overlay-content{
     margin: 20px;
