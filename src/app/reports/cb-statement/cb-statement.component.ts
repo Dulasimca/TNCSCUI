@@ -108,7 +108,6 @@ export class CBStatementComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
       if (response !== undefined && response !== null && response.length !== 0) {
         this.cbData = response;
-        console.log('cb', this.cbData);
         this.record = response;
         this.cbData.forEach(record => {
           let boiledRiceTotal = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
