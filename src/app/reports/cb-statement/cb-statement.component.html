@@ -53,9 +53,9 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
-          <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RGNAME].index === rowIndex">
+          <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RNAME].index === rowIndex">
             <td colspan="13">
-              <span style="font-weight:bold">{{data.RGNAME}}</span>
+              <span style="font-weight:bold">{{data.RNAME}}</span>
             </td>
           </tr>
           <tr [ngStyle]="{'background-color': getColor(data.TNCSName)}">

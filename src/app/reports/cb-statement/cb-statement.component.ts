@@ -105,11 +105,11 @@ export class CBStatementComponent implements OnInit {
     this.loading = true;
     const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'))
     .append('GCode', this.GCode).append('RCode', this.RCode).append('RoleId', this.roleId);
-    this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe(response => {
-      if (response.Table !== undefined && response.Table !== null && response.Table.length !== 0) {
-        this.cbData = response.Table;
-        this.record = response.Table.slice(0);
-        let totalData = response.Table1;
+    this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
+      if (response !== undefined && response !== null && response.length !== 0) {
+        this.cbData = response;
+        console.log('cb', this.cbData);
+        this.record = response;
         this.cbData.forEach(record => {
           let boiledRiceTotal = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
             ((record.BOILED_RICE_A_HULLING !== null && record.BOILED_RICE_A_HULLING !== undefined) ? (record.BOILED_RICE_A_HULLING * 1) : 0) +
@@ -165,17 +165,15 @@ export class CBStatementComponent implements OnInit {
           record.WHEAT = (record.WHEAT * 1);
           record.SUGAR = (record.SUGAR !== 0) ? record.SUGAR.toFixed(3) : record.SUGAR;
           record.SUGAR = (record.SUGAR * 1);
-          record.GStatus = (record.CB) ? 'Approved' : 'Pending';
-          record.RStatus = (record.CB && record.Transfer && record.Issues && record.Receipt) ? 'Approved' : 'Pending';
         });
         this.cbData.splice(this.cbData.length, 0, '');
         let groupedData;
         Rx.Observable.from(this.cbData)
-          .groupBy((x: any) => x.RGNAME) // using groupBy from Rxjs
+          .groupBy((x: any) => x.RNAME) // using groupBy from Rxjs
           .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
           .map(g => {// mapping 
             return {
-              RGNAME: g[0].RGNAME,//take the first name because we grouped them by name
+              RNAME: g[0].RNAME,//take the first name because we grouped them by name
               TNCSCapacity: _.sumBy(g, 'TNCSCapacity'),
               boiledRice: _.sumBy(g, 'boiledRice'), // using lodash to sum quantity
               rawRice: _.sumBy(g, 'rawRice'),
@@ -196,7 +194,7 @@ export class CBStatementComponent implements OnInit {
         let index = 0;
         let item;
         for (let i = 0; i < this.cbData.length; i++) {
-          if (this.cbData[i].RGNAME !== groupedData[index].RGNAME) {
+          if (this.cbData[i].RNAME !== groupedData[index].RNAME) {
             item = {
               TNCSName: 'TOTAL', TNCSCapacity: groupedData[index].TNCSCapacity,
               boiledRice: (groupedData[index].boiledRice * 1).toFixed(3),
@@ -217,17 +215,17 @@ export class CBStatementComponent implements OnInit {
 
         for (let i = 0; i < this.cbData.length; i++) {
           let rowData = this.cbData[i];
-          let RGNAME = rowData.RGNAME;
+          let RNAME = rowData.RNAME;
           if (i == 0) {
-            this.rowGroupMetadata[RGNAME] = { index: 0, size: 1 };
+            this.rowGroupMetadata[RNAME] = { index: 0, size: 1 };
           }
           else {
             let previousRowData = this.cbData[i - 1];
-            let previousRowGroup = previousRowData.RGNAME;
-            if (RGNAME === previousRowGroup)
-              this.rowGroupMetadata[RGNAME].size++;
+            let previousRowGroup = previousRowData.RNAME;
+            if (RNAME === previousRowGroup)
+              this.rowGroupMetadata[RNAME].size++;
             else
-              this.rowGroupMetadata[RGNAME] = { index: i, size: 1 };
+              this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
           }
         }
         this.loading = false;
