@@ -94,6 +94,7 @@ export class TableConstants {
   DemandDraftDetailsReportCols: any;
   StackCardRegister: any;
   QuantityACReceiptDetailsCommodity: any;
+  FrozenQuantityACReceiptDetailsCommodity: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
@@ -1104,10 +1105,16 @@ export class TableConstants {
       { field: 'Bank', header: 'W/OFF Quantity' }
     ];
 
-    this.QuantityACReceiptDetailsCommodity = [
+    this.FrozenQuantityACReceiptDetailsCommodity = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'GName', header: 'Godown Name' },
-      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'GName', header: 'Godown Name'},
+      { field: 'Commodity', header: 'COMMODITY' }
+    ];
+
+    this.QuantityACReceiptDetailsCommodity = [
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
+      // { field: 'GName', header: 'Godown Name'},
+      // { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
       { field: 'RecPDS', header: 'PDS/Purchase' },
       { field: 'RecPRIORITY', header: 'Priority' },
@@ -1364,6 +1371,7 @@ export class TableConstants {
     this.ProcessToG2GIssueCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Stock Issue No', field: 'SINo' },
+      { header: 'Doc Date', field: 'DocDate'},
       { header: 'Issuer Name', field: 'IssuerName' },
       { header: 'Receivor Name', field: 'ReceivorName' },
     ];
@@ -1373,7 +1381,7 @@ export class TableConstants {
       { header: 'DOC NO.', field: 'DocNumber' },
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
-      { header: 'Error', field: 'GToGError' },
+      { header: 'Error', field: 'Error' },
       { header: 'Status', field: 'Status' }
     ];
 

@@ -790,6 +790,15 @@ h3 a {
   text-align: center;
   font-weight: normal;
 }
+/* .ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: #FFFFFF;
+  color: black;
+}
+
+.ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+  background-color: #FFFFFF;
+  color: black;
+} */
 
   .overlay-content{
     margin: 20px;

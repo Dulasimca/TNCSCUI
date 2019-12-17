@@ -202,7 +202,9 @@ export class AllotmentDetailsComponent implements OnInit {
       const params = { 'Type': 2, 'GCode': this.GCode }
       this.restAPIService.getByParameters(PathConstants.ISSUER_MASTER_GET, params).subscribe(data => {
         this.societyData = data.filter(x => {
-          return (x.ACSCode.trim() !== '' && x.Activeflag.trim() === 'A');
+          const acsCode: string = (x.ACSCode !== null) ? x.ACSCode : '';
+          const flag: string = (x.Activeflag !== null) ? x.Activeflag : '';
+          return (acsCode.trim() !== '' && x.Activeflag.trim() === 'A');
         });
         let sortedArray = _.sortBy(this.societyData, 'ACSCode');
         this.societyData = sortedArray;
@@ -247,30 +249,11 @@ export class AllotmentDetailsComponent implements OnInit {
           this.totalRecords = JSONdata.length;
           this.AllotmentData = JSONdata;
           const objLen = this.AllotmentCols.length - 6;
-          var tempArr = [];
-          var k = 1;
-          let missingSocietyCode: string = '';
           for (let obj of this.AllotmentData) {
             for (let key in obj) {
               if(obj['#'] !== 'Total') {
               obj['FPSName'] = obj['FPS Name'];
-              if (key === 'FPS Code') {
-                const acscode: string =  obj[key].trim();
-                let matchCode = this.societyData.find(x => x.ACSCode.trim() === acscode);
-                if(matchCode !== undefined && matchCode !== null) {
-                  obj['Societycode'] = matchCode.Societycode;
-                } else {
-                  tempArr.push(' ' + k + ') ' +  obj[key]);
-                  k += 1;
-                }
-                if(tempArr.length !== 0) {
-                   const content = (tempArr.length === 1) ? ' is missing !' : ' are missing !';
-                   missingSocietyCode = ' SocietyCode for the following FPS Code ' + tempArr + content;
-                   this.onClear();
-                   this.messageService.clear();
-                   this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingSocietyCode });
-                }
-              } else if (key !== 'FPS Code' && key !== '#' && key !== 'Taluk' && key !== 'FPS Name'
+              if (key !== 'FPS Code' && key !== '#' && key !== 'Taluk' && key !== 'FPS Name'
                 && key !== 'Godown Name' && key !== 'Godown Code') {
                 let j = 0;
                 this.allotmentCommodity.forEach(c => {
@@ -338,7 +321,7 @@ export class AllotmentDetailsComponent implements OnInit {
       if (records < data.length) {
         this.allotmentDetails.push({
           Type: 2, FPSName: i['FPS Name'], FPSCode: i['FPS Code'],
-          ItemList: i.ItemList, GCode: this.GCode, RCode: this.RCode, Taluk: i.Taluk, SocietyCode: i.Societycode,
+          ItemList: i.ItemList, GCode: this.GCode, RCode: this.RCode, Taluk: i.Taluk,
           AllotmentMonth: (this.month.value !== undefined) ? this.month.value : this.curMonth, AllotmentYear: this.year
         });
         records += 1;
@@ -443,7 +426,6 @@ export interface Allotment {
   Type: number;
   FPSName: string;
   FPSCode: string;
-  SocietyCode: string;
   GCode: string;
   RCode: string;
   Taluk: string;

@@ -38,7 +38,7 @@
           <div class="ui-g-6 ui-md-2">
               <label class="ui-g-7 label-fontsize dashboard">Date</label>
               <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate"
-                dateFormat="dd/mm/yy" (ngModelChange)="onDateChange()"></p-calendar>
+              [minDate]="minDate"  dateFormat="dd/mm/yy" (ngModelChange)="onDateChange()"></p-calendar>
             </div>
             <div class="ui-g-3"></div>
             <div class="ui-g-4 ui-md-1">
@@ -51,8 +51,9 @@
               </div>
         </div>
         <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <p-table [columns]="issueMemoDocCols" [value]="issueMemoDocData" [(selection)]="selectedData"
-            [paginator]="true" [rows]="20" [responsive]="true" autoLayout="true" [loading]="loading">
+            <p-table #dt [columns]="issueMemoDocCols" [value]="issueMemoDocData" [(selection)]="selectedData"
+            [paginator]="true" [rows]="20" [responsive]="true" autoLayout="true"
+             [loading]="loading" >
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width: 3em">
@@ -64,12 +65,9 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr [pSelectableRow]="rowData">
-                    <td *ngIf="rowData['showCheckBox']">
-                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-                    </td>
-                    <td *ngIf="!rowData['showCheckBox']">
-                        
+                <tr [pSelectableRow]="rowData"  [ngStyle]="{'background-color': 'white !important'}">
+                    <td>
+                        <p-tableCheckbox  [value]="rowData"></p-tableCheckbox>
                     </td>
                     <td *ngFor="let col of columns">
                         {{rowData[col.field]}}
