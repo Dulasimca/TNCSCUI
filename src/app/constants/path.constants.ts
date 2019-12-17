@@ -6,6 +6,7 @@ export class PathConstants {
   public static readonly DASHBOARD = '/api/DashboardMaster';
   public static readonly GODOWN_MASTER = '/api/GodownMaster';
   public static readonly NOTIFICATIONS = '/api/notifications';
+  public static readonly NOTIFICATIONS_POST = '/api/notifications/Post';
   public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB';
 
   ///Masters

@@ -41,7 +41,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   Empname: any;
   Empno: any;
   Designation: any;
-  DesigCode: any;
+  DesignationCode: any;
   Jrtype: Boolean;
   Jrdate: Date;
   Refno: any;
@@ -53,6 +53,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   loggedInRCode: any;
   viewPane: boolean;
   isViewed: boolean = false;
+  loading: boolean = false;
+  OnEdit: boolean = false;
   GName: any;
   RName: any;
   @ViewChild('godown') godownPanel: Dropdown;
@@ -155,6 +157,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   }
 
   onView() {
+    this.loading = true;
     const params = {
       'GCode': this.GCode,
       'RCode': this.RCode,
@@ -172,13 +175,35 @@ export class GodownEmployeeDetailsComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
 
+  onAdd() {
+    this.OnEdit = true;
+  }
+
   onClear() {
-    this.formUser = [];
-    this.Join = this.Relieve = false;
+    // this.formUser = [];
+    this.Empname = this.Empno = this.Jrdate = this.Refdate = this.Refno = this.Jrtype = undefined;
+    this.designationOptions = undefined;
+    // this.Join = this.Relieve = false;
   }
 
   onRowSelect(event) {
@@ -187,30 +212,19 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   }
 
   showSelectedData() {
+    this.OnEdit = true;
     this.viewPane = false;
     this.isViewed = true;
     this.designationOptions = [{ label: this.selectedRow.DesignationName, value: this.selectedRow.Designation }];
     this.Empno = this.selectedRow.Empno;
     this.Empname = this.selectedRow.Empname;
-    // this.DesigCode = this.selectedRow.Designation;
     this.Designation = this.selectedRow.DesignationName;
+    this.DesignationCode = this.selectedRow.Designation;
     this.Refno = this.selectedRow.Refno;
     this.Refdate = this.selectedRow.Refdate;
     this.Jrdate = this.selectedRow.Jrdate;
     this.Jrtype = this.selectedRow.Jrtype;
   }
-
-  // onDesignation() {
-  //   this.restApiService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {
-  //     if (res !== undefined && res !== null && res.length !== 0) {
-  //       res.forEach(s => {
-  //         this.designationSelection.push({ 'label': s.DESIGNATIONNAME, 'value': s.DESGINATIONCODE });
-  //       });
-  //     }
-  //     this.designationOptions = this.designationSelection;
-  //   });
-  //   this.designationOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-  // }
 
   onDateSelect() {
     this.checkValidDateSelection();
@@ -228,8 +242,10 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-         summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -242,7 +258,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
       'Roleid': this.roleId,
       'Empno': this.Empno,
       'Empname': this.Empname,
-      'Designation': this.Designation.value,
+      'Designation': this.Designation.value || this.DesignationCode,
       // 'Jrtype': (this.Join === true) ? 'J' : 'R',
       // 'Jrtype': (this.Join || this.Relieve),
       'Jrtype': this.Jrtype,
@@ -254,20 +270,26 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-         summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
 
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-        summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
+        });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         }
       });
     this.onClear();
