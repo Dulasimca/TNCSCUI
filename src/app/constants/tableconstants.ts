@@ -349,6 +349,7 @@ export class TableConstants {
 
     this.CommodityReceiptReport = [
       { field: 'SlNo', header: 'S.No' },
+      { field: 'Region', header: 'Region Name'},
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Ackno', header: 'Ack. No' },
