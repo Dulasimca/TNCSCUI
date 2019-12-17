@@ -31,7 +31,7 @@
                 </div>
               </div>
             </div>
-            <div id="aads" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+            <div id="aads" #AADS class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
               (click)="onGridClicked('aads')">
               <div class="ui-g ui-fluid colorbox colorbox-green">
                 <div class="ui-g-4 card colorbox colorbox-icon-green">
@@ -119,14 +119,16 @@
             </div>
           </div>
         </div>
-        <div class="ui-g-12 ui-md-4 ui-fluid dashboard card no-padding colorbox">
+        <div class="ui-g-12 ui-md-4 ui-fluid dashboard card no-padding colorbox" [style.height.px]="notificationsHeight">
           <div class="ui-g colorbox colorbox-notifications-header">
             <span class="ui-g-12 ui-fluid">Notifications</span>
           </div>
           <marquee class="ui-g-12 marquee" scrollamount="1" scrolldelay="10" direction="up" onmouseover="this.stop()"
             onmouseout="this.start()">
             <ul style="text-align: center">
-              <li *ngFor="let list of notifications"> {{list}}</li>
+              <li *ngFor="let list of notifications"> {{list}}
+                <hr class="ui-g-12 dashboard border-teal">
+              </li>
             </ul>
           </marquee>
         </div>

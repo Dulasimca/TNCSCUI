@@ -1364,6 +1364,7 @@ export class TableConstants {
     this.ProcessToG2GIssueCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Stock Issue No', field: 'SINo' },
+      { header: 'Doc Date', field: 'DocDate'},
       { header: 'Issuer Name', field: 'IssuerName' },
       { header: 'Receivor Name', field: 'ReceivorName' },
     ];
@@ -1373,7 +1374,7 @@ export class TableConstants {
       { header: 'DOC NO.', field: 'DocNumber' },
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
-      { header: 'Error', field: 'GToGError' },
+      { header: 'Error', field: 'Error' },
       { header: 'Status', field: 'Status' }
     ];
 

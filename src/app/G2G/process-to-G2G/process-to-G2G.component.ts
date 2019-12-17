@@ -20,6 +20,7 @@ export class ProcessToG2GComponent implements OnInit {
     canShowMenu: boolean;
     Date: Date;
     maxDate: Date = new Date();
+    minDate: Date;
     GCode: any;
     RCode: any;
     regionOptions: SelectItem[];
@@ -52,6 +53,14 @@ export class ProcessToG2GComponent implements OnInit {
         this.data = this.roleBasedService.getInstance();
         this.regions = this.roleBasedService.getRegions();
         this.issueMemoDocCols = this.tableConstants.ProcessToG2GIssueCols;
+        let today = new Date();
+        let date = today.getDate();
+        let month = today.getMonth();
+        let year = today.getFullYear();
+        this.minDate = new Date();
+        let formDate = (month + 1) + "-" + (date - 1) + "-" + year;
+        this.minDate = new Date(formDate);
+
     }
 
     onSelect(item, type) {
@@ -125,6 +134,7 @@ export class ProcessToG2GComponent implements OnInit {
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
+                        data.DocDate = this.datepipe.transform(data.SIDate, 'dd/MM/yyyy');
                     })
                     this.issueMemoDocData = filteredArr;
                 } else {
@@ -154,11 +164,12 @@ export class ProcessToG2GComponent implements OnInit {
                 this.processToG2GData = res.filter(x => {
                     return (x.DocType === 2 && x.GToGStatus !== 4)
                 });
+                if(this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
                 this.processToG2GData.forEach(data => {
                     data.SlNo = sno;
                     sno += 1;
-                    data.GToGStartDate = this.datepipe.transform(data.GToGStartDate, 'dd/MM/yyyy');
-                    data.GToGEndDate = this.datepipe.transform(data.GToGEndDate, 'dd/MM/yyyy');
+                    data.GToGStartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
+                    data.GToGEndDate = this.datepipe.transform(data.EndDate, 'dd/MM/yyyy');
                     
                     // if (data.Status === 4) {
                     //     this.processToG2GData.splice(index, 1);
@@ -166,7 +177,12 @@ export class ProcessToG2GComponent implements OnInit {
                         data.Status = this.getG2GStatus(data.GToGStatus);
                     // }
                 })
-               // this.processToG2GData = res;
+            } else {
+                this.processToG2GData = [];
+                this.showPane = false;
+                this.messageService.clear();
+                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+            }
             } else {
                 this.processToG2GData = [];
                 this.showPane = false;
@@ -206,6 +222,9 @@ export class ProcessToG2GComponent implements OnInit {
                 case 5:
                     result = 'Unable to Transfer';
                     break;
+                case 6:
+                    result = 'Acknowledgement from G2G';
+                    break;
             }
             return result;
         }
@@ -218,6 +237,8 @@ export class ProcessToG2GComponent implements OnInit {
                 this.issueList.push({
                     GCode: this.GCode,
                     RCode: this.RCode,
+                    Date: this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
+                    DocDate: this.datepipe.transform(x.SIDate, 'MM/dd/yyyy'),
                     DocType: 2,
                     TripType: 2,
                     G2GStatus: 0,
@@ -255,5 +276,7 @@ export class ProcessToG2GComponent implements OnInit {
         this.selectedData = null;
         this.blockScreen = false;
         this.issueList = [];
+        this.issueMemoDocData = [];
+        this.processToG2GData = [];
     }
 }

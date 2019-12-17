@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { DatePipe, LocationStrategy } from '@angular/common';
@@ -60,12 +60,16 @@ export class HomeComponent implements OnInit {
   isCBClicked: boolean = true;
   isReceiptClicked: boolean = false;
   isIssueClicked: boolean = false;
+  notificationsHeight: any;
+  @ViewChild('AADS') divAADS: ElementRef;
+
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
     private router: Router, private locationStrategy: LocationStrategy, private messageService: MessageService) { }
 
   ngOnInit() {
     this.preventBackButton();
+    this.calculateHeight();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -750,10 +754,16 @@ export class HomeComponent implements OnInit {
         break;
     }
   }
+
   preventBackButton() {
     history.pushState(null, null, location.href);
     this.locationStrategy.onPopState(() => {
       history.pushState(null, null, location.href);
     })
+  }
+
+  calculateHeight() {
+   const height = this.divAADS.nativeElement.offsetHeight;
+   this.notificationsHeight = (height * 4);
   }
 }
