@@ -10,6 +10,7 @@ export class TableConstants {
   SupplierData: any;
   AadsData: any;
   Notification: any;
+  NotificationCols: any;
   SchemeData: any;
   TenderDetailsCols: any;
   CBStatementColumns: any;
@@ -185,6 +186,12 @@ export class TableConstants {
     this.Notification = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'Notes', header: 'Description' }
+    ];
+
+    this.NotificationCols = [
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Notes', header: 'Description' },
+      { field: 'Reason', header: 'Reason' }
     ]
 
     this.TenderDetailsCols = [
@@ -1099,7 +1106,7 @@ export class TableConstants {
 
     this.QuantityACReceiptDetailsCommodity = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'GName', header: 'Godown Name'},
+      { field: 'GName', header: 'Godown Name' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
       { field: 'RecPDS', header: 'PDS/Purchase' },
@@ -1372,7 +1379,7 @@ export class TableConstants {
 
     this.QuantityACIssueDetailsCommodity = [
       { header: 'S.No', field: 'SlNo' },
-      { header: 'Godown Name', field: 'GName'},
+      { header: 'Godown Name', field: 'GName' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
       { header: 'PDS', field: 'IsPDS' },

@@ -150,6 +150,7 @@ import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-is
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -260,6 +261,7 @@ import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employ
     ProcessToG2GComponent,
     PartyLedgerUpdateComponent,
     GodownEmployeeDetailsComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

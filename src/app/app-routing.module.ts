@@ -101,6 +101,7 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -164,7 +165,7 @@ const routes: Routes = [
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent, canActivate: [AuthGuard] },
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent, canActivate: [AuthGuard] },
-  { path: 'GodownEmployeeMaster', component: GodownEmployeeDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'GodownEmployeeDetails', component: GodownEmployeeDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Rate Master', component: RateMasterComponent, canActivate: [AuthGuard] },
   { path: 'User Master', component: UserMasterComponent, canActivate: [AuthGuard] },
   { path: 'Shop Society Update', component: ShopSocietUpdateMasterComponent, canActivate: [AuthGuard] },
@@ -203,6 +204,7 @@ const routes: Routes = [
   { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
   { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard]},
   { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
+  { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
