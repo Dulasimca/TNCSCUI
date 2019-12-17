@@ -12,11 +12,11 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 
 @Component({
-  selector: 'app-employee-master',
-  templateUrl: './employee-master.component.html',
-  styleUrls: ['./employee-master.component.css']
+  selector: 'app-godown-employee-details',
+  templateUrl: './godown-employee-details.component.html',
+  styleUrls: ['./godown-employee-details.component.css']
 })
-export class EmployeeMasterComponent implements OnInit {
+export class GodownEmployeeDetailsComponent implements OnInit {
   employeeName: any;
   employeeUser: any;
   EmployeeData: any;
@@ -78,9 +78,6 @@ export class EmployeeMasterComponent implements OnInit {
       'JRDate': new FormControl(''),
       'Refno': new FormControl(''),
       'RefDate': new FormControl('')
-      // 'telno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(11)])),
-      // 'mobno': new FormControl('', Validators.compose([Validators.required, Validators.minLength(10)])),
-      // 'faxno': new FormControl('', Validators.compose([Validators.required]))
     });
     // const params = {
     //   'Gcode': this.gCode,
@@ -151,7 +148,7 @@ export class EmployeeMasterComponent implements OnInit {
             });
           }
           this.designationOptions = designationSelection;
-          this.designationOptions.unshift({label: '-select-', value: null });
+          this.designationOptions.unshift({ label: '-select-', value: null });
         });
         break;
     }
@@ -231,7 +228,8 @@ export class EmployeeMasterComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+         summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -256,27 +254,28 @@ export class EmployeeMasterComponent implements OnInit {
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+         summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
 
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+        summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }
       , (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
     this.onClear();
   }
-  onResetTable(item)
-  {
+  onResetTable(item) {
 
   }
-  onDesignation()
-  {
+  onDesignation() {
 
   }
 }

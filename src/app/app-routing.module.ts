@@ -46,7 +46,6 @@ import { TruckTransitComponent } from './reports/truck-transit/truck-transit.com
 import { SocietMasterComponent } from './Documents/Master/society-master/societ-master.component';
 import { OpeningBalanceDetailsComponent } from './Documents/Master/opening-balance-details/opening-balance-details.component';
 import { DepositorCustomerMasterComponent } from './Documents/Master/depositor-customer-master/depositor-customer-master.component';
-import { EmployeeMasterComponent } from './Documents/Master/employee-master/employee-master.component';
 import { RateMasterComponent } from './Documents/Master/rate-master/rate-master.component';
 import { ShopSocietUpdateMasterComponent } from './Documents/Master/shopSocietyUpdate/shopSocietyUpdate.component';
 import { ItemMasterModificationComponent } from './Documents/Master/item-master-modification/item-master-modification.component';
@@ -101,6 +100,7 @@ import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-
 import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
+import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -164,7 +164,7 @@ const routes: Routes = [
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent, canActivate: [AuthGuard] },
   { path: 'Depositor Master', component: DepositorCustomerMasterComponent, canActivate: [AuthGuard] },
-  { path: 'Employee Master', component: EmployeeMasterComponent, canActivate: [AuthGuard] },
+  { path: 'GodownEmployeeMaster', component: GodownEmployeeDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Rate Master', component: RateMasterComponent, canActivate: [AuthGuard] },
   { path: 'User Master', component: UserMasterComponent, canActivate: [AuthGuard] },
   { path: 'Shop Society Update', component: ShopSocietUpdateMasterComponent, canActivate: [AuthGuard] },
