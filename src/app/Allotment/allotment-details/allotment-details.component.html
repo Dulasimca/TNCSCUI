@@ -33,7 +33,7 @@
               <label class="label-fontsize dashboard">Godown</label>
               <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
                 (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-                (ngModelChange)="onResetTable('gd');dt.reset();" filter="true" resetFilterOnHide="true" [showClear]="true"
+                (ngModelChange)="onResetTable('gd');" filter="true" resetFilterOnHide="true" [showClear]="true"
                 placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
@@ -44,7 +44,7 @@
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
               <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions"
                 [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
-                (ngModelChange)="onResetTable('mon');dt.reset();" filter="true" resetFilterOnHide="true"
+                (ngModelChange)="onResetTable('mon');" filter="true" resetFilterOnHide="true"
                  optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
@@ -52,11 +52,11 @@
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
               <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions"
                 [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
-                (ngModelChange)="onResetTable('yr');dt.reset();" required>
+                (ngModelChange)="onResetTable('yr');" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-3 ui-fluid">
-              <input #fileSelector id="my-file-selector" type="file" (change)="uploadData($event);dt.reset();" accept=".xls,.xlsx"
+              <input #fileSelector id="my-file-selector" type="file" (change)="uploadData($event);" accept=".xls,.xlsx"
                 name="uploadExcel" [disabled]="(!RCode || !GCode || !year || !month)">
             </div>
             <div class="ui-g-1"></div>
@@ -65,7 +65,7 @@
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-                <button pButton label=Clear (click)="onClear();dt.reset();"
+                <button pButton label=Clear (click)="onClear();"
                   [disabled]="(AllotmentData.length=='0')"></button>
               </div>
           </div>

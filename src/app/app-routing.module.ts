@@ -101,6 +101,7 @@ import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.compo
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
 import { NotificationComponent } from './notification/notification.component';
+import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -174,6 +175,7 @@ const routes: Routes = [
   { path: 'Transaction Status', component: TransactionStatusComponent, canActivate: [AuthGuard] },
   { path: 'Daily Receipt', component: DailyDocumentsComponent, canActivate: [AuthGuard] },
   { path: 'Daily Issue', component: DailyDocumentIssueComponent, canActivate: [AuthGuard] },
+  { path: 'Daily Truck', component: DailyDocumentTruckComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening', component: StackCardOpeningComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card', component: StackCardComponent, canActivate: [AuthGuard] },
   { path: 'Godown Profile', component: GodownProfileComponent, canActivate: [AuthGuard] },

@@ -187,7 +187,7 @@ export class StackCardComponent implements OnInit {
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res) {
+      if (res.length !== 0 && res !== null && res !== undefined && res[0].AckDate !== 'Total') {
         this.StackCardData = res;
         this.loading = false;
         let sno = 1;

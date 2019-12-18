@@ -153,6 +153,7 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   getAllotmentDetails() {
+    this.onResetTable('');
     if(this.GCode !== undefined && this.GCode !== null && this.month !== null && this.month !== undefined
      && ((this.month.value !== undefined && this.month.value !== null) 
      || (this.curMonth !== undefined && this.curMonth !== null)) && this.year !== null 
@@ -337,6 +338,8 @@ export class AllotmentDetailsComponent implements OnInit {
     } else {
       this.getAllotmentDetails();
     }
+    this.AllotmentData = [];
+    this.totalRecords = 0;
   }
 
   onSave() {

@@ -4,13 +4,13 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Daily Document Issue</div>
+        <div class="ui-g-4 dashboard">Daily Document Truck Memo</div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Commodity"
             (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
-          [disabled]="(DailyDocumentIssueData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
+          [disabled]="(DailyDocumentTruckData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
           <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
             (click)="onPrint()" [disabled]="true"></button>
         </div>
@@ -20,7 +20,7 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
         <div class="ui-g-12 ui-md-2">
-          <label class="ui-g label-fontsize dashboard" for="SIDate">Date</label>
+          <label class="ui-g label-fontsize dashboard" for="STDate">Date</label>
           <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" name="DocumentDate"
             [(ngModel)]="DocumentDate" (ngModelChange)="onResetTable('date')">
           </p-calendar>
@@ -73,9 +73,9 @@
         </p-table>
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
-        <p-table #dt [columns]="DailyDocumentIssueCols" [value]="DailyDocumentIssueData" [rows]="20"
+        <p-table #dt [columns]="DailyDocumentTruckCols" [value]="DailyDocumentTruckData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-           autoLayout="true" [loading]="loading" exportFilename="DAILY_ISSUE_REPORT">
+           autoLayout="true" [loading]="loading" exportFilename="DAILY_TRUCK_REPORT">
             <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -102,10 +102,10 @@
     </div>
   </p-panel>
 </div>
-<p-dialog header="Daily Document Issues" [modal]="true" [maximizable]="true"
+<p-dialog header="Daily Document Truck" [modal]="true" [maximizable]="true"
 [(visible)]="viewPane" [responsive]="true">
     <div>
-        <p-table [columns]="IssueDocumentDetailCols" [value]="IssueDocumentDetailData"
+        <p-table [columns]="TruckDocumentDetailCols" [value]="TruckDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" 
         [responsive]="true" autoLayout="true"> 
           <ng-template pTemplate="colgroup" let-columns>

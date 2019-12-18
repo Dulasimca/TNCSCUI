@@ -70,6 +70,8 @@ export class TableConstants {
   DetailDailyDocumentReceiptReport: any;
   DailyDocumentIssueReport: any;
   DetailDailyDocumentIssueReport: any;
+  DailyDocumentTruckReport: any;
+  DetailDailyDocumentTruckReport: any;
   StockIssueMemoViewBySINOCols: any;
   StackCardOpening: any;
   StackCard: any;
@@ -933,6 +935,32 @@ export class TableConstants {
       { field: 'ReceivedFrom', header: 'Issued To' },
       { field: 'SITime', header: 'Created Date' }
     ];
+
+    this.DailyDocumentTruckReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'TransactionType', header: 'Transaction Type' },
+      { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'STTime', header: 'Created Date' }
+    ];
+
+    this.DetailDailyDocumentTruckReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'DocNo', header: 'Doc No' },
+      { field: 'DocDate', header: 'Doc Date' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'TransactionType', header: 'Transaction Type' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'PackingType', header: 'Packing type' },
+      { field: 'NOOfPACKING', header: 'No of Packing/Bags' },
+      { field: 'GROSSWT', header: 'Gross Wt' },
+      { field: 'NETWT', header: 'Net Wt' },
+      { field: 'SCHEME', header: 'Scheme' },
+      { field: 'ReceivedFrom', header: 'Issued To' },
+      { field: 'STTime', header: 'Created Date' }
+    ];
+
 
     this.StackCardOpening = [
       { field: 'SlNo', header: 'SlNo' },
