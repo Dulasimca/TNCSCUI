@@ -28,11 +28,12 @@ export class DailyStockStatementComponent implements OnInit {
   items: any;
   filterArray: any;
   totalRecords: number;
-  @ViewChild('dailyStockTable')
-  dailyStockTable: ElementRef;
   selectedRow = 0;
   loading: boolean;
   searchText: any;
+  @ViewChild('dailyStockTable')
+  dailyStockTable: ElementRef;
+
 
   constructor(private tableConstants: TableConstants, private excelService: ExcelService,
     private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService) { }

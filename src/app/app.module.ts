@@ -146,7 +146,6 @@ import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotme
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
 import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
-import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
@@ -214,7 +213,6 @@ import { NotificationComponent } from './notification/notification.component';
     IssueSchemeCoOpComponent,
     TruckMemoSchemeComponent,
     QuantityDetailCommodityComponent,
-    QuantityIssueOtherItemsComponent,
     SocietMasterComponent,
     OpeningBalanceDetailsComponent,
     DepositorCustomerMasterComponent,

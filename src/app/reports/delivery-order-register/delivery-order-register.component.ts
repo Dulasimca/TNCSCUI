@@ -116,6 +116,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),

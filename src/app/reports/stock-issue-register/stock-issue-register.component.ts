@@ -107,6 +107,7 @@ export class StockIssueRegisterComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     const params = {
       'FromDate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),

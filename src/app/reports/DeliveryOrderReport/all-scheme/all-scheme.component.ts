@@ -153,6 +153,7 @@ export class AllSchemeComponent implements OnInit {
 
   onView() {
     this.checkValidDateSelection();
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),

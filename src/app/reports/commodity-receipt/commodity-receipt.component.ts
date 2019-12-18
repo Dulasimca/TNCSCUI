@@ -142,9 +142,9 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
-    this.commodityReceiptData.length = 0;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),

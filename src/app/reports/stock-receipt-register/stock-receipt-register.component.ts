@@ -99,6 +99,7 @@ export class StockReceiptRegisterComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     const params = {

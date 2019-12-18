@@ -100,6 +100,7 @@ export class IssueSchemeCrsComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
@@ -176,6 +177,7 @@ export class IssueSchemeCrsComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
+  
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.issueSchemeCRSData = [];

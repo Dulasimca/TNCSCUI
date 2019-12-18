@@ -105,6 +105,7 @@ export class TruckToRegionComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy'))

@@ -76,7 +76,6 @@ import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receip
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
 import { IssueSchemeCoOpComponent } from './reports/Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
-import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
@@ -160,7 +159,6 @@ const routes: Routes = [
   { path: 'Quantity AC All Scheme Issue Coop', component: IssueSchemeCoOpComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC All Scheme Truck', component: TruckMemoSchemeComponent, canActivate: [AuthGuard] },
   { path: 'QADetailsForCommodity', component: QuantityDetailCommodityComponent, canActivate: [AuthGuard] },
-  { path: 'Quantity Ac Receipt/Issue - OtherItems', component: QuantityIssueOtherItemsComponent, canActivate: [AuthGuard] },
   { path: 'Society Master', component: SocietMasterComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent, canActivate: [AuthGuard] },

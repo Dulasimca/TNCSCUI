@@ -125,8 +125,8 @@ export class CommodityIssueMemoComponent implements OnInit {
 
   onView() {
     this.messageService.clear();
-    this.commodityIssueMemoData = [];
     this.checkValidDateSelection();
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),

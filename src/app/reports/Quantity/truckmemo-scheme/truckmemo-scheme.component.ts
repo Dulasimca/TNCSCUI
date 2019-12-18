@@ -100,6 +100,7 @@ export class TruckMemoSchemeComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     const params = {

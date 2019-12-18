@@ -172,6 +172,7 @@ export class StackCardComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'GCode': this.GCode.value,

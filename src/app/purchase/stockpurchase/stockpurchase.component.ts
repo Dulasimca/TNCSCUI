@@ -76,6 +76,7 @@ export class StockPurchaseComponent implements OnInit {
 
   onView(type) {
     if (type === '1') {
+      this.stockPurchaseData = [];
       this.isShowGrid = true;
       // const params = new HttpParams().set('Value', '').append('type', type);
       this.restApiService.get(PathConstants.PURCHASE_TENDER_DETAILS_GET).subscribe(data => {
@@ -95,6 +96,7 @@ export class StockPurchaseComponent implements OnInit {
         }
       })
     } else {
+      this.tenderQtyData = [];
       this.isShowQtyGrid = true;
       const params = new HttpParams().set('Value', this.AOrderNo).append('type', type);
       this.restApiService.getByParameters(PathConstants.PURCHASE_TENDER_DETAILS_GET, params).subscribe(data => {
