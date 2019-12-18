@@ -95,6 +95,7 @@ export class TableConstants {
   StackCardRegister: any;
   QuantityACReceiptDetailsCommodity: any;
   FrozenQuantityACReceiptDetailsCommodity: any;
+  FrozenQuantityACIssueDetailsCommodity: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
@@ -1109,14 +1110,52 @@ export class TableConstants {
     this.FrozenQuantityACReceiptDetailsCommodity = [
    //   { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GName', header: 'Godown Name'},
-      { field: 'Commodity', header: 'COMMODITY' }
+      { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'OpeningBalance', header: 'Opening Balance' },
+    ];
+
+    this.FrozenQuantityACIssueDetailsCommodity = [
+      { header: 'Godown Name', field: 'GName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
+    ];
+
+    this.QuantityACIssueDetailsCommodity = [
+ //     { header: 'S.No', field: 'SlNo' },
+      { header: 'PDS', field: 'IsPDS' },
+      { header: 'Coop', field: 'IsCOOP' },
+      { header: 'Police', field: 'IsPOLICE' },
+      { header: 'NMP', field: 'IsNMP' },
+      { header: 'Scheme', field: 'IsBULK' },
+      { header: 'CREDIT', field: 'IsCREDIT' },
+      { header: 'OAP', field: 'IsOAP' },
+      { header: 'SRILANKA', field: 'IsSRILANKA' },
+      { header: 'AAY', field: 'IsAAY' },
+      { header: 'SPds CRS', field: 'IsSPLPDS' },
+      { header: 'SPds COOP', field: 'IsPDSCOOP' },
+      { header: 'Cement/Flood', field: 'IsCEMENTFLOOD' },
+      { header: 'Total Sales', field: 'IsTotalSales' },
+      { header: 'PTNMGR', field: 'IsPTMGR' },
+      { header: 'SGRY', field: 'IsSGRY' },
+      { header: 'AnnaPoorna', field: 'IsANNAPOORNA' },
+      { header: 'Total Free Rice', field: ' IsTotalFreeRiceIssues' },
+      { header: 'Issues to Processing  ', field: 'IsISSUESTOPROCESSING  ' },
+      { header: 'Transfer Within Region', field: 'IsTRANSFERWITHINREGION' },
+      { header: 'Transfer Other Region', field: 'IsTRANSFEROTHERREGION' },
+      { header: 'WriteOff', field: 'IsWRITEOFF' },
+      { header: 'Cl/Pack/BULKING', field: 'IsCLEANING' },
+      { header: 'Vc/Bt/Blg', field: 'IsVCBLG' },
+      { header: 'Purchase Return', field: 'IsPURCHASERETURN' },
+      { header: 'Total Other Issues', field: 'IsTotalOtherIssues' },
+      { header: 'Total Issues', field: 'IsTotalIssues' },
+      { header: 'Closing Balance', field: 'IsBalanceQty' },
     ];
 
     this.QuantityACReceiptDetailsCommodity = [
       // { header: 'S.No', field: 'SlNo', width: '40px' },
       // { field: 'GName', header: 'Godown Name'},
       // { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'OpeningBalance', header: 'Opening Balance' },
+    //  { field: 'OpeningBalance', header: 'Opening Balance' },
       { field: 'RecPDS', header: 'PDS/Purchase' },
       { field: 'RecPRIORITY', header: 'Priority' },
       { field: 'RecTIDEOVER', header: 'Tide Over' },
@@ -1388,40 +1427,7 @@ export class TableConstants {
       { header: 'Status', field: 'Status' }
     ];
 
-    this.QuantityACIssueDetailsCommodity = [
-      { header: 'S.No', field: 'SlNo' },
-      { header: 'Godown Name', field: 'GName' },
-      { header: 'Commodity', field: 'Commodity' },
-      { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
-      { header: 'PDS', field: 'IsPDS' },
-      { header: 'Coop', field: 'IsCOOP' },
-      { header: 'Police', field: 'IsPOLICE' },
-      { header: 'NMP', field: 'IsNMP' },
-      { header: 'Scheme', field: 'IsBULK' },
-      { header: 'CREDIT', field: 'IsCREDIT' },
-      { header: 'OAP', field: 'IsOAP' },
-      { header: 'SRILANKA', field: 'IsSRILANKA' },
-      { header: 'AAY', field: 'IsAAY' },
-      { header: 'SPds CRS', field: 'IsSPLPDS' },
-      { header: 'SPds COOP', field: 'IsPDSCOOP' },
-      { header: 'Cement/Flood', field: 'IsCEMENTFLOOD' },
-      { header: 'Total Sales', field: 'IsTotalSales' },
-      { header: 'PTNMGR', field: 'IsPTMGR' },
-      { header: 'SGRY', field: 'IsSGRY' },
-      { header: 'AnnaPoorna', field: 'IsANNAPOORNA' },
-      { header: 'Total Free Rice', field: ' IsTotalFreeRiceIssues' },
-      { header: 'Issues to Processing  ', field: 'IsISSUESTOPROCESSING  ' },
-      { header: 'Transfer Within Region', field: 'IsTRANSFERWITHINREGION' },
-      { header: 'Transfer Other Region', field: 'IsTRANSFEROTHERREGION' },
-      { header: 'WriteOff', field: 'IsWRITEOFF' },
-      { header: 'Cl/Pack/BULKING', field: 'IsCLEANING' },
-      { header: 'Vc/Bt/Blg', field: 'IsVCBLG' },
-      { header: 'Purchase Return', field: 'IsPURCHASERETURN' },
-      { header: 'Total Other Issues', field: 'IsTotalOtherIssues' },
-      { header: 'Total Issues', field: 'IsTotalIssues' },
-      { header: 'Closing Balance', field: 'IsBalanceQty' },
-    ];
-
+    
     this.StackCardDocDetailsCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Doc.No', field: 'DocNo' },

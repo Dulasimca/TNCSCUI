@@ -32,6 +32,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   QtyReceiptData: any = [];
   frozenQtyReceiptCols: any;
   QtyIssueCols: any;
+  frozenQtyIssueCols: any;
   QtyIssueData: any[] = [];
   fromDate: any = new Date();
   toDate: any = new Date();
@@ -60,6 +61,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
     this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetailsCommodity;
     this.frozenQtyReceiptCols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity;
     this.QtyIssueCols = this.tableConstants.QuantityACIssueDetailsCommodity
+    this.frozenQtyIssueCols = this.tableConstants.FrozenQuantityACIssueDetailsCommodity;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
