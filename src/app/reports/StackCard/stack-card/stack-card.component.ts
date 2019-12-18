@@ -262,12 +262,6 @@ export class StackCardComponent implements OnInit {
             this.selectedRowData = filteredData;
             this.totalRecords = this.selectedRowData.length;
           } else { this.showPane = false; }
-        } else {
-          this.loading = false;
-          this.showPane = false;
-          this.totalRecords = 0;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
@@ -336,26 +330,12 @@ export class StackCardComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
       });
-      // if (filteredData.length !== 0 && filteredData !== null) {
-      //   this.showPane = true;
-      //   this.loading = false;
-      //   filteredData.forEach(y => {
-      //     y.CreatedDate = y.SITime;
-      //     totalBags += (y.NOOfPACKING * 1);
-      //     totalQty += (y.NETWT * 1);
-      //     y.SlNo = sno;
-      //     sno += 1;
-      //   })
-        // filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
-        // this.selectedRowData = filteredData;
-        // this.totalRecords = this.selectedRowData.length;
-      // } else {
-      //   this.loading = false;
-      //   this.showPane = false;
-      //   this.totalRecords = 0;
-      //   this.messageService.clear();
-      //   this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-      // }
+      if (this.selectedRowData.length !== 0 && this.selectedRowData !== null && !this.loading) {
+        this.loading = false;
+        this.totalRecords = 0;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
     }
   }
 
