@@ -246,7 +246,6 @@ export class DDChequeEntryComponent implements OnInit {
       ChequeDate: (typeof this.chequeDate === 'string' || (this.chDate !== null && this.chDate !== undefined)) 
       ? this.datepipe.transform(this.chDate, 'MM/dd/yyyy') : this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
       ChequeNo: this.chequeNo,
-      ReceiptDate: (this.isViewed) ? this.ReceiptDt : ((typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       ReceivedFrom: (this.receivedFrom.label !== undefined && this.receivedFrom.label !== null) ? this.receivedFrom.label : this.receivedFrom,
       ReceivorCode: (this.receivorCode !== undefined && this.receivorCode !== null) ? this.receivorCode : '-',
       Amount: (this.chequeAmount * 1).toFixed(2),
@@ -290,6 +289,7 @@ export class DDChequeEntryComponent implements OnInit {
       'RegionName': this.regionName,
       'UserID': this.UserID.user,
       'Total': this.totalAmount,
+      'ReceiptDate': ((typeof this.receiptDate === 'string') ? this.ReceiptDt : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       'DDChequeItems': this.DDChequeData
     }
     this.restApiService.post(PathConstants.DD_CHEQUE_ENTRY_POST, params).subscribe((res: any) => {
