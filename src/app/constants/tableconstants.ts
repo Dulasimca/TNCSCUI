@@ -1107,7 +1107,7 @@ export class TableConstants {
     ];
 
     this.FrozenQuantityACReceiptDetailsCommodity = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
+   //   { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GName', header: 'Godown Name'},
       { field: 'Commodity', header: 'COMMODITY' }
     ];
@@ -1167,6 +1167,8 @@ export class TableConstants {
 
     this.CashReceiptRegCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'RegionName', header: 'Region Name'},
+      { field: 'GodownName', header: 'Godown Name'},
       { field: 'ReceivedFrom', header: 'Received From' },
       { field: 'ReceiptNo', header: 'REC.No' },
       { field: 'Date', header: 'Date' },
