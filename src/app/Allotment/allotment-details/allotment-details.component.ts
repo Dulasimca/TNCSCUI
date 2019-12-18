@@ -153,7 +153,6 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   getAllotmentDetails() {
-    this.onResetTable('');
     if(this.GCode !== undefined && this.GCode !== null && this.month !== null && this.month !== undefined
      && ((this.month.value !== undefined && this.month.value !== null) 
      || (this.curMonth !== undefined && this.curMonth !== null)) && this.year !== null 
@@ -164,6 +163,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.loading = true;
     this.AllotmentData = [];
     this.AllotmentCols = [];
+    this.totalRecords = 0;
     this.restAPIService.getByParameters(PathConstants.ALLOTMENT_BALANCE_GET, params).subscribe(res => {
       if(res.length !== 0 && res !== undefined && res !== null) {
         this.AllotmentCols = this.tableConstants.AllotmentDetailsCols;
