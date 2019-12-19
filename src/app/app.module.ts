@@ -28,6 +28,7 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ListboxModule } from 'primeng/listbox';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {InputMaskModule} from 'primeng/inputmask';
+import {FileUploadModule} from 'primeng/fileupload';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -150,7 +151,8 @@ import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-is
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationComponent } from './notification/notification/notification.component';
+import { NotificationPopupComponent } from './Notification/notification-popup/notification-popup.component';
 
 @NgModule({
   declarations: [
@@ -262,6 +264,7 @@ import { NotificationComponent } from './notification/notification.component';
     PartyLedgerUpdateComponent,
     GodownEmployeeDetailsComponent,
     NotificationComponent,
+    NotificationPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -296,7 +299,8 @@ import { NotificationComponent } from './notification/notification.component';
     BlockUIModule,
     ListboxModule,
     ProgressSpinnerModule,
-    InputMaskModule
+    InputMaskModule,
+    FileUploadModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],

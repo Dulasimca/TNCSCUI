@@ -101,7 +101,8 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationComponent } from './notification/notification/notification.component';
+import { NotificationPopupComponent } from './Notification/notification-popup/notification-popup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -205,6 +206,7 @@ const routes: Routes = [
   { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard]},
   { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
   { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
+  { path: 'NotificationPopup', component: NotificationPopupComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
