@@ -101,6 +101,7 @@ export class ReceiptROPurchaseComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     const params = {

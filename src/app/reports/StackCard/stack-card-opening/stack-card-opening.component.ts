@@ -144,6 +144,7 @@ export class StackCardOpeningComponent implements OnInit {
 
 
   onView() {
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'GCode': this.GCode,

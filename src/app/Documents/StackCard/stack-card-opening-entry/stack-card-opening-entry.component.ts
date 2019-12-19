@@ -52,8 +52,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
   CDate: string;
   showDialog: boolean;
   loading: boolean;
-  @ViewChild('f') ngForm: NgForm;
   activateLoader: boolean;
+  @ViewChild('f') ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,

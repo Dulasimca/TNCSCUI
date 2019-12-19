@@ -11,6 +11,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { saveAs } from 'file-saver';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import * as _ from 'lodash';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-allotment-details',
@@ -45,11 +46,13 @@ export class AllotmentDetailsComponent implements OnInit {
   regionOptions: SelectItem[];
   loggedInRCode: any;
   godownOptions: SelectItem[];
+  blockScreen: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('fileSelector') fileSelector: ElementRef;
+  @ViewChild('dt') table: Table;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
@@ -142,17 +145,13 @@ export class AllotmentDetailsComponent implements OnInit {
               }
             });
             this.godownOptions = godownSelection;
-            if (this.GCode !== undefined && this.GCode !== null) {
-              if (this.godownOptions.length <= 1 && this.AllotmentData.length === 0) {
-                this.getAllotmentDetails();
-              }
-            }
           break;
     }
   }
   }
 
   getAllotmentDetails() {
+    this.table.reset();
     if(this.GCode !== undefined && this.GCode !== null && this.month !== null && this.month !== undefined
      && ((this.month.value !== undefined && this.month.value !== null) 
      || (this.curMonth !== undefined && this.curMonth !== null)) && this.year !== null 
@@ -163,6 +162,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.loading = true;
     this.AllotmentData = [];
     this.AllotmentCols = [];
+    this.totalRecords = 0;
     this.restAPIService.getByParameters(PathConstants.ALLOTMENT_BALANCE_GET, params).subscribe(res => {
       if(res.length !== 0 && res !== undefined && res !== null) {
         this.AllotmentCols = this.tableConstants.AllotmentDetailsCols;
@@ -204,7 +204,7 @@ export class AllotmentDetailsComponent implements OnInit {
         this.societyData = data.filter(x => {
           const acsCode: string = (x.ACSCode !== null) ? x.ACSCode : '';
           const flag: string = (x.Activeflag !== null) ? x.Activeflag : '';
-          return (acsCode.trim() !== '' && x.Activeflag.trim() === 'A');
+          return (acsCode.trim() !== '' && flag.trim() === 'A');
         });
         let sortedArray = _.sortBy(this.societyData, 'ACSCode');
         this.societyData = sortedArray;
@@ -219,6 +219,8 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   parseExcel(file) {
+    this.table.reset();
+    this.blockScreen = true;
     let reader = new FileReader();
     reader.onload = (e) => {
       let data = (<any>e.target).result;
@@ -244,7 +246,6 @@ export class AllotmentDetailsComponent implements OnInit {
         // bind the parse excel file data to Grid  
         let JSONdata = JSON.parse(json_object);
         if (JSONdata[1]['Godown Code'] === this.GCode) {
-          this.loading = true;
           this.disableSave = false;
           this.totalRecords = JSONdata.length;
           this.AllotmentData = JSONdata;
@@ -278,7 +279,7 @@ export class AllotmentDetailsComponent implements OnInit {
           }
           this.constructData(this.AllotmentData);
         } else {
-          this.loading = false;
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
         }
@@ -327,29 +328,29 @@ export class AllotmentDetailsComponent implements OnInit {
         records += 1;
       }
     })
-    this.loading = false;
+    this.blockScreen = false;
   }
 
   onResetTable(item) {
     if(item === 'reg') { 
       this.GCode = null;
-      this.getAllotmentDetails();
-    } else {
-      this.getAllotmentDetails();
     }
+    this.AllotmentData = [];
+    this.totalRecords = 0;
   }
 
   onSave() {
     this.disableSave = true;
-    this.loading = true;
+    this.blockScreen = true;
     const params = JSON.stringify(this.allotmentDetails);
     this.restAPIService.post(PathConstants.ALLOTMENT_QUANTITY_POST, this.allotmentDetails).subscribe((res: any) => {
       if (res.Item1) {
-        this.loading = false;
+        this.blockScreen = false;
+        this.onClear();
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
       } else {
-        this.loading = false;
+        this.blockScreen = false;
         this.disableSave = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
@@ -357,12 +358,12 @@ export class AllotmentDetailsComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.disableSave = false;
-        this.loading = false;
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       } else {
         this.disableSave = false;
-        this.loading = false;
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
@@ -372,8 +373,11 @@ export class AllotmentDetailsComponent implements OnInit {
   onClear() {
     this.AllotmentData = [];
     this.AllotmentCols.length = 0;
+    this.table.reset();
     this.totalRecords = 0;
     this.disableSave = false;
+    this.blockScreen = false;
+    this.loading = false;
     this.RCode = null; this.GCode = null;
     this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');

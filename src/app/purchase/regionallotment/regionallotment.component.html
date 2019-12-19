@@ -16,9 +16,10 @@
       <div class="ui-g-12 ui-md-12 ui-lg-12">
         <form #f="ngForm" name="tenderAllotment">
           <div class="ui-g-12 ui-fluid dashboard  border-teal">
-            <div class="ui-g-12 ui-fluid dashboard">
-              <div class="ui-g-1"></div>
-              <div class="ui-g-6 ui-md-2">
+            <div class="ui-g-12 ui-fluid">
+              <div class="ui-g-3"></div>
+              <div class="ui-g-6 no-pad-top no-pad-bottom border-teal">
+              <div class="ui-g-12 ui-md-4">
                 <label for="order_Num" class="label-fontsize">Order Number</label>
                 <p-dropdown #orderNum name="order_Num" [options]="orderNoOptions" [(ngModel)]="OrderNo"
                   (onClick)="onSelect('order', 'click')" (keydown.enter)="onSelect('order', 'enter')"
@@ -26,30 +27,18 @@
                   [showClear]="true" required>
                 </p-dropdown>
               </div>
-              <div class="ui-g-6 ui-md-2" tabindex="-1">
+              <div class="ui-g-12 ui-md-5" tabindex="-1">
                 <label for="commdity_type" class="label-fontsize">Commodity</label>
                 <input name="commdity_type" type="text" size="15" pInputText [(ngModel)]="Commodity" [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-2" tabindex="-1">
+              <div class="ui-g-12 ui-md-3" tabindex="-1">
                 <label for="total_Qty" class="label-fontsize">Total Quantity</label>
                 <input name="total_Qty" type="text" size="15" pInputText [(ngModel)]="AllottedQty" [readonly]="true">
               </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="target_Date" class="label-fontsize">Target Date</label>
-                <p-calendar #target_Date name="target_Date" #targetDate="ngModel" [showIcon]="true"
-                  dateFormat="dd/mm/yy" (ngModelChange)="checkTargetDate($event)" [(ngModel)]="TargetDate" required>
-                </p-calendar>
-              </div>
-              <div class="ui-g-6 ui-md-1">
-                <label for="total_days" class="label-fontsize">Total No.Of Days</label>
-                <input pInputText name="total_days" minlength="1" maxlength="3" [(ngModel)]="TotalDays" type="text"
-                  autocomplete="off"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                  required />
               </div>
             </div>
             <div class="ui-g-12 ui-fluid dashboard">
-              <div class="ui-g-1"></div>
+              <div class="ui-g-2"></div>
               <div class="ui-g-6 ui-md-2">
                 <label for="party_region" class="label-fontsize">Party Region</label>
                 <p-dropdown #partyregion name="party_region" class="ui-g-12 ui-fluid dashboard"
@@ -73,6 +62,22 @@
                 </p-dropdown>
               </div>
               <div class="ui-g-6 ui-md-2">
+                <label for="target_Date" class="label-fontsize">Target Date</label>
+                <p-calendar #target_Date name="target_Date" #targetDate="ngModel" [showIcon]="true"
+                  dateFormat="dd/mm/yy" (ngModelChange)="checkTargetDate($event)" [(ngModel)]="TargetDate" required>
+                </p-calendar>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-fluid dashboard">
+              <div class="ui-g-2"></div>
+              <div class="ui-g-6 ui-md-1">
+                <label for="total_days" class="label-fontsize">Total No.Of Days</label>
+                <input pInputText name="total_days" minlength="1" maxlength="3" [(ngModel)]="TotalDays" type="text"
+                  autocomplete="off"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  required />
+              </div>
+              <div class="ui-g-6 ui-md-2">
                 <label for="assigning_qty" class="label-fontsize">Quantity</label>
                 <input pInputText name="assigning_qty" [(ngModel)]="Quantity" type="text"
                   (input)="calculateQty(Quantity, '1')" autocomplete="off"
@@ -88,24 +93,21 @@
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   [readonly]="blockEntry" appDecimalAmount required />
               </div>
-            </div>
-            <div class="ui-g-12 ui-fluid dashboard">
-              <div class="ui-g-1"></div>
               <div class="ui-g-6 ui-g-4">
                 <div><label class="label-fontsize" for="RemarksText">Remarks</label></div>
-                <textarea name="remarks_text" [rows]="3" [cols]="50" [(ngModel)]="Remarks" pInputTextarea></textarea>
+                <textarea name="remarks_text" [rows]="2" [cols]="50" [(ngModel)]="Remarks" pInputTextarea></textarea>
               </div>
             </div>
           </div>
         </form>
         <div class="ui-g-12 ui-fluid dashboard">
-          <div class="ui-g-9"></div>
-          <div class="ui-g-4 ui-md-1 no-pad-top">
-            <button pButton name="clear" label=Clear (click)="onClear('3')"></button>
-          </div>
-          <div class="ui-g-4 ui-md-1 no-pad-top">
+          <div class="ui-g-10"></div>
+          <div class="ui-g-4 ui-md-1">
             <button pButton name="save" label=Save [disabled]="(!f.valid || (isViewed && !f.dirty))"
               (click)="onSave('1')"></button>
+          </div>
+          <div class="ui-g-4 ui-md-1">
+            <button pButton name="clear" label=Clear (click)="onClear('3')"></button>
           </div>
         </div>
         <div class="ui-g-12 ui-fluid dashboard" tabindex="-1">
@@ -190,7 +192,7 @@
                 <span style="font-size: 11px; color:crimson;">Allot Quantity within Total Quantity!</span>
               </div>
             </div>
-            <div class="ui-g-4 ui-md-1" style="margin-top: 20px;">
+            <div class="ui-g-4 ui-md-2" style="margin-top: 20px;">
               <button pButton name="regSave" label=Save [disabled]="(!rf.valid || (isSelected && !rf.dirty))"
                 (click)="onSave('2')"></button>
             </div>

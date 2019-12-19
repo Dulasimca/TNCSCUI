@@ -64,6 +64,7 @@ export class PathConstants {
   public static readonly STOCK_STATEMENT_REPORT = '/api/StockStatement/Post';
   public static readonly DAILY_DOCUMENT_RECEIPT_POST = '/api/DailyReceipt/Post';
   public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
+  public static readonly DAILY_DOCUMENT_TRUCK_POST = '/api/DailyTruckMemo/Post';
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';
   public static readonly SOCIETY_MASTER_GET = '/api/SocietyMaster/Get';
   public static readonly ISSUER_MASTER_GET = '/api/IssuerMaster/Get';

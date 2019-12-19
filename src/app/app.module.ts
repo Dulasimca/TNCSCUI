@@ -147,12 +147,17 @@ import { AllotmentDetailsComponent } from './Allotment/allotment-details/allotme
 import { ServiceProviderEntryComponent } from './GST/Documents/service-provider-entry/service-provider-entry.component';
 import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/allotment-issue-quantity.component';
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
-import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { QuantityDetailCommodityComponent } from './reports/Quantity/quantity-detail-commodity/quantity-detail-commodity.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
+<<<<<<< HEAD
 import { NotificationComponent } from './notification/notification/notification.component';
 import { NotificationPopupComponent } from './Notification/notification-popup/notification-popup.component';
+=======
+import { NotificationComponent } from './notification/notification.component';
+import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
+import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
+>>>>>>> b399ad2484a82aecf0c93ef87690a99a705e300c
 
 @NgModule({
   declarations: [
@@ -216,7 +221,6 @@ import { NotificationPopupComponent } from './Notification/notification-popup/no
     IssueSchemeCoOpComponent,
     TruckMemoSchemeComponent,
     QuantityDetailCommodityComponent,
-    QuantityIssueOtherItemsComponent,
     SocietMasterComponent,
     OpeningBalanceDetailsComponent,
     DepositorCustomerMasterComponent,
@@ -264,7 +268,12 @@ import { NotificationPopupComponent } from './Notification/notification-popup/no
     PartyLedgerUpdateComponent,
     GodownEmployeeDetailsComponent,
     NotificationComponent,
+<<<<<<< HEAD
     NotificationPopupComponent,
+=======
+    DailyDocumentTruckComponent,
+    DailyStatementComponent,
+>>>>>>> b399ad2484a82aecf0c93ef87690a99a705e300c
   ],
   imports: [
     BrowserModule,

@@ -32,6 +32,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   QtyReceiptData: any = [];
   frozenQtyReceiptCols: any;
   QtyIssueCols: any;
+  frozenQtyIssueCols: any;
   QtyIssueData: any[] = [];
   fromDate: any = new Date();
   toDate: any = new Date();
@@ -60,6 +61,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
     this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetailsCommodity;
     this.frozenQtyReceiptCols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity;
     this.QtyIssueCols = this.tableConstants.QuantityACIssueDetailsCommodity
+    this.frozenQtyIssueCols = this.tableConstants.FrozenQuantityACIssueDetailsCommodity;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
@@ -146,12 +148,16 @@ export class QuantityDetailCommodityComponent implements OnInit {
         })
       } else {
         this.loading = false;
+        this.QtyIssueData.length = 0;
+        this.QtyReceiptData.length = 0;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
+        this.QtyIssueData.length = 0;
+        this.QtyReceiptData.length = 0;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }

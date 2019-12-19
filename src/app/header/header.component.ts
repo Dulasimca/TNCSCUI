@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit {
   RCode: any;
   GCode: any;
   LoggedIn: any;
+  MappingName: string;
   constructor(private router: Router, private restApiService: RestAPIService, private messageService: MessageService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
@@ -45,14 +46,13 @@ export class HeaderComponent implements OnInit {
     this.godownName = this.authService.getUserAccessible().gName;
     this.RCode = this.authService.getUserAccessible().rCode;
     this.GCode = this.authService.getUserAccessible().gCode;
+    this.MappingName = this.authService.getUserAccessible().mappingName;
     if(this.roleId === 3) {
     this.LoggedIn = (this.godownName + '- ' + this.GCode);
     } else if(this.roleId === 2) {
     this.LoggedIn = (this.regionName + '- ' + this.RCode);
-    } else if(this.roleId === 1){
-      this.LoggedIn = 'HEAD OFFICE'
-    } else {
-      this.LoggedIn = '';
+  } else {
+      this.LoggedIn = this.MappingName.toUpperCase();
     }
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],

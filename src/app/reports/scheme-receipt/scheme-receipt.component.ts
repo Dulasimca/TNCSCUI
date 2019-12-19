@@ -120,6 +120,7 @@ export class SchemeReceiptComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
     this.schemeReceiptData = [];

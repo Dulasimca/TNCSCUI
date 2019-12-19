@@ -69,6 +69,7 @@ export class CBStatementComponent implements OnInit {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
             this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
         } else {
           if (this.regions !== undefined) {
@@ -102,6 +103,7 @@ export class CBStatementComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.loading = true;
     const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'))
     .append('GCode', this.GCode).append('RCode', this.RCode).append('RoleId', this.roleId);
@@ -249,6 +251,7 @@ export class CBStatementComponent implements OnInit {
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.cbData = [];
+    this.record = [];
   }
   
 }

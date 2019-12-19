@@ -76,7 +76,6 @@ import { ReceiptSchemeComponent } from './reports/Quantity/receipt-scheme/receip
 import { IssueSchemeComponent } from './reports/Quantity/IssueScheme/issue-scheme/issue-scheme.component';
 import { IssueSchemeCrsComponent } from './reports/Quantity/IssueScheme/issue-scheme-crs/issue-scheme-crs.component';
 import { IssueSchemeCoOpComponent } from './reports/Quantity/IssueScheme/issue-scheme-co-op/issue-scheme-co-op.component';
-import { QuantityIssueOtherItemsComponent } from './reports/Quantity/quantity-issue-other-items/quantity-issue-other-items.component';
 import { IssueTypeAbstractComponent } from './reports/Quantity/issue-type-abstract/issue-type-abstract.component';
 import { ReceiptTypeAbstractComponent } from './reports/Quantity/receipt-type-abstract/receipt-type-abstract.component';
 import { TruckMemoSchemeComponent } from './reports/Quantity/truckmemo-scheme/truckmemo-scheme.component';
@@ -101,8 +100,13 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
+<<<<<<< HEAD
 import { NotificationComponent } from './notification/notification/notification.component';
 import { NotificationPopupComponent } from './Notification/notification-popup/notification-popup.component';
+=======
+import { NotificationComponent } from './notification/notification.component';
+import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
+>>>>>>> b399ad2484a82aecf0c93ef87690a99a705e300c
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -161,7 +165,6 @@ const routes: Routes = [
   { path: 'Quantity AC All Scheme Issue Coop', component: IssueSchemeCoOpComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC All Scheme Truck', component: TruckMemoSchemeComponent, canActivate: [AuthGuard] },
   { path: 'QADetailsForCommodity', component: QuantityDetailCommodityComponent, canActivate: [AuthGuard] },
-  { path: 'Quantity Ac Receipt/Issue - OtherItems', component: QuantityIssueOtherItemsComponent, canActivate: [AuthGuard] },
   { path: 'Society Master', component: SocietMasterComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent, canActivate: [AuthGuard] },
@@ -177,6 +180,7 @@ const routes: Routes = [
   { path: 'Transaction Status', component: TransactionStatusComponent, canActivate: [AuthGuard] },
   { path: 'Daily Receipt', component: DailyDocumentsComponent, canActivate: [AuthGuard] },
   { path: 'Daily Issue', component: DailyDocumentIssueComponent, canActivate: [AuthGuard] },
+  { path: 'Daily Truck', component: DailyDocumentTruckComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening', component: StackCardOpeningComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card', component: StackCardComponent, canActivate: [AuthGuard] },
   { path: 'Godown Profile', component: GodownProfileComponent, canActivate: [AuthGuard] },

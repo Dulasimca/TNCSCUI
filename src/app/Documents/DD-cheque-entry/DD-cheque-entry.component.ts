@@ -198,8 +198,8 @@ export class DDChequeEntryComponent implements OnInit {
             PaymentType: x.PaymentType,
             Payment: paymentName,
             ChequeNo: x.ChequeNo,
-            ChDate: this.datepipe.transform(x.ChequeDate, 'dd/MM/yyyy'),
-            ChequeDate: this.datepipe.transform(x.ChequeDate, 'MM/dd/yyyy'),
+            ChDate: this.datepipe.transform(x.ChequeDate, 'dd/MM/yyyy'), //display
+            ChequeDate: this.datepipe.transform(x.ChequeDate, 'MM/dd/yyyy'), //backend
             Amount: x.Amount,
             Bank: x.Bank,
             ReceivedFrom: x.ReceivedFrom,
@@ -241,12 +241,9 @@ export class DDChequeEntryComponent implements OnInit {
       PaymentType: (this.paymentType.value !== undefined && this.paymentType.value !== null) ? this.paymentType.value : this.paymentCode,
       Payment: (this.paymentType.label !== undefined && this.paymentType.label !== null) ? this.paymentType.label : this.paymentType,
       ChDate: (typeof this.chequeDate !== 'string') ? this.datepipe.transform(this.chequeDate, 'dd/MM/yyyy') : this.chequeDate,
-      // CDate: (typeof this.chequeDate === 'string' || (this.chDate !== null && this.chDate !== undefined)) 
-      // ? this.chDate : this.chequeDate,
-      ChequeDate: (typeof this.chequeDate === 'string' || (this.chDate !== null && this.chDate !== undefined)) 
+      ChequeDate: (typeof this.chequeDate === 'string' && (this.chDate !== null && this.chDate !== undefined)) 
       ? this.datepipe.transform(this.chDate, 'MM/dd/yyyy') : this.datepipe.transform(this.chequeDate, 'MM/dd/yyyy'),
       ChequeNo: this.chequeNo,
-      ReceiptDate: (this.isViewed) ? this.ReceiptDt : ((typeof this.receiptDate === 'string') ? this.receiptDate : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       ReceivedFrom: (this.receivedFrom.label !== undefined && this.receivedFrom.label !== null) ? this.receivedFrom.label : this.receivedFrom,
       ReceivorCode: (this.receivorCode !== undefined && this.receivorCode !== null) ? this.receivorCode : '-',
       Amount: (this.chequeAmount * 1).toFixed(2),
@@ -290,6 +287,7 @@ export class DDChequeEntryComponent implements OnInit {
       'RegionName': this.regionName,
       'UserID': this.UserID.user,
       'Total': this.totalAmount,
+      'ReceiptDate': ((typeof this.receiptDate === 'string') ? this.ReceiptDt : this.datepipe.transform(this.receiptDate, 'MM/dd/yyyy')),
       'DDChequeItems': this.DDChequeData
     }
     this.restApiService.post(PathConstants.DD_CHEQUE_ENTRY_POST, params).subscribe((res: any) => {
@@ -327,8 +325,8 @@ export class DDChequeEntryComponent implements OnInit {
     this.chequeAmount = (data.Amount * 1);
     this.totalAmount = ((this.totalAmount * 1) - (this.chequeAmount * 1));
     this.chequeNo = data.ChequeNo;
-    this.chequeDate = data.ChDate;
-    this.chDate = data.ChequeDate;
+    this.chequeDate = data.ChDate; //display
+    this.chDate = data.ChequeDate; //backend
     let sno = 0;
     if (data.Payment !== undefined && data.Payment !== null) {
       this.paymentType = data.Payment;

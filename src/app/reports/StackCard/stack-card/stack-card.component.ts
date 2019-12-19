@@ -172,6 +172,7 @@ export class StackCardComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'GCode': this.GCode.value,
@@ -186,7 +187,7 @@ export class StackCardComponent implements OnInit {
       'Type': 4
     }
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res) {
+      if (res.length !== 0 && res !== null && res !== undefined && res[0].AckDate !== 'Total') {
         this.StackCardData = res;
         this.loading = false;
         let sno = 1;
@@ -241,42 +242,106 @@ export class StackCardComponent implements OnInit {
     let totalBags = 0;
     let totalQty = 0;
     let sno = 1;
-    this.restAPIService.post(path, params).subscribe(res => {
-      if (res !== null && res !== undefined && res.length !== 0) {
-        this.showPane = true;
+    if (type === '1') {
+      this.restAPIService.post(path, params).subscribe(res => {
+        if (res !== null && res !== undefined && res.length !== 0) {
+          let filteredData = res.filter(x => {
+            return (x.StackNo.trim() === this.TStockNo.label.trim());
+          })
+          if (filteredData.length !== 0 && filteredData !== null) {
+            this.showPane = true;
+            this.loading = false;
+            filteredData.forEach(y => {
+              y.CreatedDate = y.SRTime;
+              totalBags += (y.NOOfPACKING * 1);
+              totalQty += (y.NETWT * 1);
+              y.SlNo = sno;
+              sno += 1;
+            })
+            filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
+            this.selectedRowData = filteredData;
+            this.totalRecords = this.selectedRowData.length;
+          } else { this.showPane = false; }
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+    } else if (type === '2') {
+      let filteredData = [];
+      this.restAPIService.post(path, params).subscribe(res => {
+        if (res !== null && res !== undefined && res.length !== 0) {
+          res.filter(x => {
+            if (x.StackNo.trim() === this.TStockNo.label.trim()) {
+              filteredData.push(x);
+            }
+          })
+          if (filteredData.length !== 0 && filteredData !== null) {
+            this.showPane = true;
+            this.loading = false;
+            filteredData.forEach(y => {
+              y.CreatedDate = y.SITime;
+              totalBags += (y.NOOfPACKING * 1);
+              totalQty += (y.NETWT * 1);
+              y.SlNo = sno;
+              sno += 1;
+            })
+            filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
+            this.selectedRowData = filteredData;
+            this.totalRecords = this.selectedRowData.length;
+        } else { this.showPane = false; }
+      }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+      this.restAPIService.post(PathConstants.DAILY_DOCUMENT_TRUCK_POST, params).subscribe(res => {
+        if (res !== null && res !== undefined && res.length !== 0) {
+          res.filter(x => {
+            if (x.StackNo.trim() === this.TStockNo.label.trim()) {
+              filteredData.push(x);
+            }
+          })
+          if (filteredData.length !== 0 && filteredData !== null) {
+            this.showPane = true;
+            this.loading = false;
+            filteredData.forEach(y => {
+              y.CreatedDate = y.STTime;
+              totalBags += (y.NOOfPACKING * 1);
+              totalQty += (y.NETWT * 1);
+              y.SlNo = sno;
+              sno += 1;
+            })
+            filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
+            this.selectedRowData = filteredData;
+            this.totalRecords = this.selectedRowData.length;
+        } else { this.showPane = false; }
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
+      if (this.selectedRowData.length !== 0 && this.selectedRowData !== null && !this.loading) {
         this.loading = false;
-        let filteredData = res.filter(x => {
-          return (x.StackNo.trim() === this.TStockNo.label.trim());
-        })
-        filteredData.forEach(y => {
-          y.CreatedDate = (type === '1') ? y.SRTime : y.SITime;
-          totalBags += (y.NOOfPACKING * 1);
-          totalQty += (y.NETWT * 1);
-          y.SlNo = sno;
-          sno += 1;
-        })
-        filteredData.push({ DocNo: 'Total', NOOfPACKING: totalBags, NETWT: totalQty });
-        this.selectedRowData = filteredData;
-        this.totalRecords = this.selectedRowData.length;
-      } else {
-        this.loading = false;
-        this.showPane = false;
         this.totalRecords = 0;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-       }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
-    });
+    }
   }
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
-    else if(item === 'cd') { this.TStockNo = null ;}
+    else if (item === 'cd') { this.TStockNo = null; }
     else if (item === 'st_yr') { this.TStockNo = null; }
     this.StackCardData = [];
     this.selectedRowData.length = 0;
@@ -290,10 +355,10 @@ export class StackCardComponent implements OnInit {
   }
 
   public getStyle(title: string, value: any, id: string): string {
-    if(id === 'line') {
-    return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "underline" : "none";
+    if (id === 'line') {
+      return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "underline" : "none";
     } else {
-    return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "#1377b9" : "black";
+      return (((value * 1) !== 0 && value !== '-') && title !== 'Total') ? "#1377b9" : "black";
     }
   }
 }

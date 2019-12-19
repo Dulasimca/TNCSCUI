@@ -142,9 +142,9 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
-    this.commodityReceiptData.length = 0;
     const params = {
       'FDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
@@ -165,7 +165,7 @@ export class CommodityReceiptComponent implements OnInit {
         let TotalBags = 0;
 
         ///Sorting Array
-        let sortedArray = _.sortBy(this.commodityReceiptData, 'Commodity');
+        let sortedArray = _.sortBy(this.commodityReceiptData, 'Region', 'Commodity');
         this.commodityReceiptData = sortedArray;
         ///End
 
@@ -175,50 +175,47 @@ export class CommodityReceiptComponent implements OnInit {
           data.Truckmemodate = this.datePipe.transform(data.Truckmemodate, 'dd-MM-yyyy');
           sno += 1;
           data.SlNo = sno;
-          TotalBags += data.Bags_No !== undefined && data.Bags_No !== null ? (data.Bags_No * 1) : 0;
-          TotalQty += data.Quantity !== undefined && data.Quantity !== null ? (data.Quantity * 1) : 0;
+          data.Quantity = (data.ITBweighment === 'NOS') ? (data.Quantity * 1): (data.Quantity * 1).toFixed(3);
+          TotalBags += (data.Bags_No !== undefined && data.Bags_No !== null) ? (data.Bags_No * 1) : 0;
+          TotalQty += (data.Quantity !== undefined && data.Quantity !== null) ? (data.Quantity * 1) : 0;
         });
         ///End
 
-        ///Grand total display
-        this.commodityReceiptData.push({
-          Godownname: 'Grand Total', Quantity: (TotalQty * 1).toFixed(3), Bags_No: TotalBags
-        })
+        ///Grouping Array based on 'Commodity' & sum
+        let arr = this.commodityReceiptData;
+        var hash = Object.create(null),
+        groupedData = [];
+        arr.forEach(function (o) {
+          var key = ['Region', 'Commodity'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = { Region: o.Region, ITBweighment: o.ITBweighment, Commodity: o.Commodity, Quantity: 0, Bags_No: 0 };
+            groupedData.push(hash[key]);
+          }
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Bags_No'].forEach(function (j) { hash[key][j] += (o[j] * 1); });
+        });
         ///End
 
-        ///Grouping Array based on 'Commodity' & sum
-        let groupedData;
-        Rx.Observable.from(this.commodityReceiptData)
-          .groupBy((x: any) => x.Commodity) // using groupBy from Rxjs
-          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
-          .map(g => {// mapping 
-            return {
-              Commodity: g[0].Commodity,//take the first name because we grouped them by name
-              Quantity: _.sumBy(g, 'Quantity'),
-              Bags_No: _.sumBy(g, 'Bags_No') // using lodash to sum quantity
-            }
+          ///Grand total display
+          this.commodityReceiptData.push({
+            Region: 'GRAND TOTAL', Quantity: TotalQty, Bags_No: TotalBags
           })
-          .toArray() //.toArray because I guess you want to loop on it with ngFor      
-          .do(sum => sum) // just for debug
-          .subscribe(d => groupedData = d);
-        ///End
+          ///End
 
         ///Inserting total in an array
-        let index = 0;
-        let item;
-        for (let i = 0; i < this.commodityReceiptData.length; i++) {
-          if (this.commodityReceiptData[i].Commodity !== groupedData[index].Commodity) {
-            item = {
-              Godownname: 'TOTAL',
-              Bags_No: (groupedData[index].Bags_No * 1),
-              Quantity: (groupedData[index].Quantity * 1).toFixed(3),
-            };
-            this.commodityReceiptData.splice(i, 0, item);
-            index += 1;
-          }
+    //    this.commodityReceiptData.splice(this.commodityReceiptData.length, 0, '');
+        for (let i = 0; i < groupedData.length; i++) {
+          const lastIndex = this.commodityReceiptData.map(x =>
+            x.Region === groupedData[i].Region && x.Commodity === groupedData[i].Commodity).lastIndexOf(true);
+          let item;
+          item = {
+            Region: 'TOTAL',
+            Bags_No: groupedData[i].Bags_No,
+            Quantity: (groupedData[i].ITBweighment === 'NOS') ? (groupedData[i].Quantity * 1) : (groupedData[i].Quantity * 1).toFixed(3),
+          };
+          this.commodityReceiptData.splice(lastIndex + 1, 0, item);
         }
         ///End 
-        this.commodityReceiptData.forEach(x => x.Quantity = (x.Quantity * 1).toFixed(3));
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -263,7 +260,11 @@ export class CommodityReceiptComponent implements OnInit {
   }
 
   public getColor(name: string): string {
-    return (name === 'Grand Total') ? "#53aae5" : "white";
+      return (name === 'GRAND TOTAL') ? "#53aae5" : "#FFFFFF";
+  }
+
+  public getStyle(name: string): string {
+      return (name === 'TOTAL') ? "#53aae5" : "black";
   }
 
   onPrint() {

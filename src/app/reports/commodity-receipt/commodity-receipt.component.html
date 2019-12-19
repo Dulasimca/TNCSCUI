@@ -80,22 +80,25 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-             <tr [ngStyle]="{'background-color': getColor(rowData.Godownname)}"> 
+             <tr [ngStyle]="{'background-color': getColor(rowData.Region)}"> 
               <!-- <tr> -->
               <td *ngFor="let col of columns">
                 <div *ngIf="col.field === 'Bags_No' || col.field === 'Quantity'">
-                  <div style="text-align: end !important">
+                  <div style="text-align: end !important" [ngStyle]="{'color': getStyle(rowData.Region)}">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field === 'Date'">
+                 <!-- <div *ngIf="col.field === 'Date'">
                   <div style="width: 90px !important">
                     {{rowData[col.field]}}
-                  </div>
-                </div>
-                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity' && col.field !== 'Date'">
+                  </div> -->
+                   <!-- && col.field !== 'Date' -->
+                <!-- </div>  -->
+                <div *ngIf="col.field !== 'Bags_No' && col.field !== 'Quantity'">
+                    <div [ngStyle]="{'color': getStyle(rowData.Region)}">  
                   {{rowData[col.field]}}
-                </div>
+                  </div>  
+              </div>
               </td>
             </tr>
           </ng-template>

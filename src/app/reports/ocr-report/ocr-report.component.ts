@@ -65,6 +65,7 @@ export class OCRReportComponent implements OnInit {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
               });
               this.regionOptions = regionSelection;
+              this.regionOptions.unshift({ label: 'All', value: 'All' });
             }
           } else {
             if (this.regions !== undefined) {
@@ -99,6 +100,7 @@ export class OCRReportComponent implements OnInit {
   }
 
   onView() {
+    this.onResetTable('');
     this.loading = true;
     const params = {
       'GCode': this.GCode.value,

@@ -66,6 +66,7 @@ export class TransactionStatusComponent implements OnInit {
   // For Checkbox
 
   onView() {
+    this.TransactionStatusData = [];
     this.loading = true;
     if (this.godownOptions !== undefined) {
       const params = {
@@ -104,6 +105,7 @@ export class TransactionStatusComponent implements OnInit {
 
   onTable() {
     this.loading = true;
+    this.TransactionStatusTableData = [];
     if (this.roleId === 2) {
       this.TransactionStatusCols = this.tableConstants.TransactionStatus;
       const params = {

@@ -219,7 +219,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <label for="NoOfPacking" class="label-fontsize">No.of Packing</label>
                       <input name="NoOfPacking" [(ngModel)]="NoPacking" pInputText autocomplete="off"
-                        [readonly]="isValidStackBalance"
+                        [readonly]="isValidStackBalance" minlength="1" maxlength="10"
                         oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                         (input)="onCalculateKgs()">
                     </div>
