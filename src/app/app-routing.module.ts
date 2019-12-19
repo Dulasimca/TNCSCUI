@@ -100,13 +100,9 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
-<<<<<<< HEAD
 import { NotificationComponent } from './notification/notification/notification.component';
-import { NotificationPopupComponent } from './Notification/notification-popup/notification-popup.component';
-=======
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
->>>>>>> b399ad2484a82aecf0c93ef87690a99a705e300c
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
