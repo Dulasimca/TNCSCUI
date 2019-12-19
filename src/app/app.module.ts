@@ -151,6 +151,7 @@ import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/par
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
+import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
 
 @NgModule({
   declarations: [
@@ -262,6 +263,7 @@ import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-docum
     GodownEmployeeDetailsComponent,
     NotificationComponent,
     DailyDocumentTruckComponent,
+    DailyStatementComponent,
   ],
   imports: [
     BrowserModule,
