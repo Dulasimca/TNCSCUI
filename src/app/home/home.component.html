@@ -291,3 +291,13 @@
     </div>
   </div>
 </div>
+
+<p-dialog *ngIf="noti" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px', background:'linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%'}" [minY]="70" 
+[maximizable]="false" [baseZIndex]="10000">
+      <div style="text-align: center">
+        <img class="PB-img" src="../../assets/layout/images/NotificationPopup/HappyNewYear.jpg"
+          style="height: 150px; width: auto;" />
+        <p>It has been a rewarding experience working with you and may this New Year bring forth many such rewarding moments for us to share!</p>
+          <p>Wishing you and your Family A Happy New Year</p>
+      </div>
+</p-dialog>
