@@ -11,7 +11,7 @@
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(sectionDailyStatementData.length==0)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
-              (click)="onPrint()" [disabled]="(sectionDailyStatementData.length==0)"></button>
+              (click)="onPrint()" [disabled]="true"></button>
           </div> </div>
     </p-header>
     <div class="ui-g">
@@ -60,7 +60,7 @@
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="sectionDailyStatementCols" [value]="sectionDailyStatementData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-           autoLayout="true" exportFilename="COMMODITY_RECEIPT_REPORT">
+           autoLayout="true" exportFilename="DAILY_STATEMENT_SECTION_REPORT">
              <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
