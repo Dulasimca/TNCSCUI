@@ -60,14 +60,19 @@ export class HomeComponent implements OnInit {
   isCBClicked: boolean = true;
   isReceiptClicked: boolean = false;
   isIssueClicked: boolean = false;
+  display: boolean = false;
   notificationsHeight: any;
+  noti: any;
   @ViewChild('AADS') divAADS: ElementRef;
+  @ViewChild('element') toastObj;
 
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
     private router: Router, private locationStrategy: LocationStrategy, private messageService: MessageService) { }
 
   ngOnInit() {
+    this.display = true;
+    this.noti = (this.authService.isLoggedIn()) ? this.showDialog : null;
     this.preventBackButton();
     this.calculateHeight();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -623,7 +628,7 @@ export class HomeComponent implements OnInit {
         this.wheatPB = this.wheatCB;
         this.sugarCB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
         this.sugarPB = this.sugarCB;
-      }else {
+      } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
       }
@@ -666,7 +671,7 @@ export class HomeComponent implements OnInit {
         break;
       case 'PB':
         if (this.isCBClicked) {
-        this.router.navigate(['cbStatement']);
+          this.router.navigate(['cbStatement']);
         } else if (this.isReceiptClicked) {
           // this.router.navigate(['']);
         } else {
@@ -763,7 +768,11 @@ export class HomeComponent implements OnInit {
   }
 
   calculateHeight() {
-   const height = this.divAADS.nativeElement.offsetHeight;
-   this.notificationsHeight = (height * 4);
+    const height = this.divAADS.nativeElement.offsetHeight;
+    this.notificationsHeight = (height * 4);
+  }
+
+  showDialog() {
+    this.display = true;
   }
 }

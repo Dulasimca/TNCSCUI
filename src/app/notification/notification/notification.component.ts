@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared-services/auth.service';
+import { AuthService } from '../../shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { RestAPIService } from '../shared-services/restAPI.service';
+import { RestAPIService } from '../../shared-services/restAPI.service';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from '../constants/path.constants';
-import { StatusMessage } from '../constants/Messages';
-import { TableConstants } from '../constants/tableconstants';
+import { PathConstants } from '../../constants/path.constants';
+import { StatusMessage } from '../../constants/Messages';
+import { TableConstants } from '../../constants/tableconstants';
 
 @Component({
   selector: 'app-notification',

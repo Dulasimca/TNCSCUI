@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DailystockstatementComponent } from './dailystockstatement.component';
+import { DailyStockStatementComponent } from './dailystockstatement.component';
 
 describe('DailystockstatementComponent', () => {
-  let component: DailystockstatementComponent;
-  let fixture: ComponentFixture<DailystockstatementComponent>;
+  let component: DailyStockStatementComponent;
+  let fixture: ComponentFixture<DailyStockStatementComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DailystockstatementComponent ]
+      declarations: [ DailyStockStatementComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DailystockstatementComponent);
+    fixture = TestBed.createComponent(DailyStockStatementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,16 +15,16 @@
         <!-- <div class="ui-float-label"> -->
         <label class="ui-g label-fontsize-large">Notes</label>
         <textarea class="icon2" [rows]="4" [cols]="60" [(ngModel)]="Notes" pInputTextarea
-          autoResize="autoResize"></textarea>
+        autoResize="autoResize"></textarea>
         <!-- <label for="float-input">Notes</label> -->
         <!-- </div> -->
       </div>
       <div class="ui-g-12 ui-md-2">
         <!-- <div class="ui-float-label"> -->
-            <label class="ui-g label-fontsize-large">Reason</label>
-          <textarea class="icon2" [rows]="2" [cols]="40" [(ngModel)]="Reason" pInputTextarea
-            autoResize="autoResize"></textarea>
-          <!-- <label for="float-input">Reason</label> -->
+        <label class="ui-g label-fontsize-large">Reason</label>
+        <textarea class="icon2" [rows]="1" [cols]="60" [(ngModel)]="Reason" pInputTextarea
+        autoResize="autoResize"></textarea>
+        <!-- <label for="float-input">Reason</label> -->
         <!-- </div> -->
       </div>
       <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
@@ -66,3 +66,13 @@
     </div>
   </p-panel>
 </div>
+
+
+<!-- <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+        multiple="multiple" accept="image/*" maxFileSize="1000000">
+    <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+        </ul>
+    </ng-template>
+</p-fileUpload> -->

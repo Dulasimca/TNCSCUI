@@ -100,7 +100,8 @@ import { AllotmentIssueQuantityComponent } from './Allotment/QuotaWatchRegister/
 import { ProcessToG2GComponent } from './G2G/process-to-G2G/process-to-G2G.component';
 import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/party-ledger-update.component';
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationComponent } from './notification/notification/notification.component';
+import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
 import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
 
@@ -207,6 +208,7 @@ const routes: Routes = [
   { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
   { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
   { path: 'Daily Statement', component: DailyStatementComponent, canActivate: [AuthGuard]},
+  { path: 'NotificationPopup', component: NotificationPopupComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
