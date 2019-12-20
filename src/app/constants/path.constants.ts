@@ -173,4 +173,8 @@ export class PathConstants {
   public static readonly PROCESS_TO_G2G_POST = '/api/ProcessToG2G/Post';
   public static readonly PROCESS_TO_G2G_GET = '/api/ProcessToG2G/Get';
   ///End
+
+  ///Settings
+  public static readonly SETTINGS_GET = '/api/Settings';
+  ///End
 }

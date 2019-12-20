@@ -102,6 +102,7 @@ import { PartyLedgerUpdateComponent } from './GST/Master/party-ledger-update/par
 import { GodownEmployeeDetailsComponent } from './Documents/Master/godown-employee-details/godown-employee-details.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
+import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -175,7 +176,7 @@ const routes: Routes = [
   { path: 'Transaction Status', component: TransactionStatusComponent, canActivate: [AuthGuard] },
   { path: 'Daily Receipt', component: DailyDocumentsComponent, canActivate: [AuthGuard] },
   { path: 'Daily Issue', component: DailyDocumentIssueComponent, canActivate: [AuthGuard] },
-  { path: 'Daily Truck', component: DailyDocumentTruckComponent, canActivate: [AuthGuard] },
+  { path: 'Daily TruckMemo', component: DailyDocumentTruckComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Opening', component: StackCardOpeningComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card', component: StackCardComponent, canActivate: [AuthGuard] },
   { path: 'Godown Profile', component: GodownProfileComponent, canActivate: [AuthGuard] },
@@ -205,6 +206,7 @@ const routes: Routes = [
   { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard]},
   { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
   { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
+  { path: 'Daily Statement', component: DailyStatementComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

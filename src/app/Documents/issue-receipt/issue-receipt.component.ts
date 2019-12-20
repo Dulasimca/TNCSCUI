@@ -11,7 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -43,7 +43,7 @@ export class IssueReceiptComponent implements OnInit {
   stackOptions: SelectItem[];
   wmtOptions: SelectItem[];
   viewPane: boolean = false;
-  isValidStackBalance: boolean;
+  isValidStackBalance: boolean = false;
   isReceivorNameDisabled: boolean;
   isReceivorTypeDisabled: boolean;
   isSaveSucceed: boolean = false;
@@ -57,6 +57,8 @@ export class IssueReceiptComponent implements OnInit {
   ipCode: string;
   tStockCode: string;
   schemeCode: string;
+  allotmentGroup: string;
+  allotmentScheme: string;
   transType: string = 'I';
   TKgs: any;
   month: string;
@@ -122,7 +124,12 @@ export class IssueReceiptComponent implements OnInit {
   disableYear: boolean;
   ACSCode: string;
   allotmentDetails: any[] = [];
-  QuantityLimit: string;
+  QuantityLimit: any;
+  exceedAllotBal: boolean;
+  AllotmentQty: any;
+  BalanceQty: any;
+  IssueQty: any;
+  AllotmentStatus: any;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -132,6 +139,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
+
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -154,6 +162,7 @@ export class IssueReceiptComponent implements OnInit {
     this.issuingGodownName = this.authService.getUserAccessible().gName;
     this.IssuingCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
+    this.checkAllotmentStatus('Allotment');
   }
 
   onSelect(selectedItem, type) {
@@ -212,7 +221,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
           this.scheme_data.forEach(y => {
-            schemeSelection.push({ 'label': y.SName, 'value': y.SCode });
+            schemeSelection.push({ 'label': y.SName, 'value': y.SCode, 'ascheme': y.AScheme });
           });
           this.schemeOptions = schemeSelection;
           this.schemeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -279,7 +288,7 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(i => {
-                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'group': i.Allotmentgroup });
                 })
                 this.itemDescOptions = itemDesc;
                 this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -358,11 +367,16 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
-        this.iCode = null; this.ICode = null; this.TStockNo = null;
+        this.iCode = null; this.ICode = null;
+        this.TStockNo = null; this.QuantityLimit = null;
+        this.allotmentScheme = null;
         break;
       case 'i_desc':
         this.stackOptions = [];
         this.TStockNo = null;
+        this.QuantityLimit = null;
+        this.allotmentGroup = null;
+        this.checkAllotmentBalance('1');
         break;
       case 'rt':
         this.receiverNameOptions = [];
@@ -414,8 +428,10 @@ export class IssueReceiptComponent implements OnInit {
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.GKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
+      this.checkAllotmentBalance('2');
     } else {
       this.GKgs = null; this.NKgs = null; this.TKgs = null;
     }
@@ -427,6 +443,8 @@ export class IssueReceiptComponent implements OnInit {
       let netWt = (this.NKgs * 1);
       if (grossWt < netWt) {
         this.NKgs = null; this.GKgs = null; this.TKgs = null;
+      }else if(grossWt >= netWt) {
+        this.checkAllotmentBalance('2');
       } else {
         this.TKgs = (grossWt - netWt).toFixed(3);
       }
@@ -436,55 +454,68 @@ export class IssueReceiptComponent implements OnInit {
   onStackNoChange(event) {
     this.messageService.clear();
     this.stackCompartment = null;
-    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+    const hasValue = (event.value !== undefined && event.value !== null) ? event.value : event;
+    if (hasValue !== undefined && hasValue !== null) {
       let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
         this.Trcode.value : this.trCode;
       this.checkTrType = (trcode === 'TR024') ? false : true;
-      this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
-      let stack_data = (event.value !== undefined && event.value !== null) ? event.value : event;
-      let ind;
-      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value
-        : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
-      ind = stockNo.indexOf('/', 2);
-      const totalLength = stockNo.length;
-      this.godownNo = stockNo.slice(0, ind);
-      this.locationNo = stockNo.slice(ind + 1, totalLength);
-      const params = {
-        DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-        TStockNo: stockNo,
-        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
-        GCode: this.IssuingCode,
-        ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-        Type: 1
+      this.stackYear = this.TStockNo.stack_yr;
+      let index;
+      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+        this.TStockNo.value : this.TStockNo;
+      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
+        index = TStockNo.toString().indexOf('/', 2);
+        const totalLength = TStockNo.length;
+        this.godownNo = TStockNo.toString().slice(0, index);
+        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
+      } else {
+        this.godownNo = null; this.stackYear = null;
+        this.locationNo = null; this.stackCompartment = null;
       }
-      this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-        if (res !== undefined && res !== null && res.length !== 0) {
-          this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-          this.StackBalance = (this.StackBalance * 1);
-          if (this.StackBalance > 0 || !this.checkTrType) {
-            this.isValidStackBalance = false;
-            this.CurrentDocQtv = 0; this.NetStackBalance = 0;
-            if (this.itemData.length !== 0) {
-              this.itemData.forEach(x => {
-                if (x.TStockNo.trim() === stockNo.trim()) {
-                  this.CurrentDocQtv += (x.Nkgs * 1);
-                  this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
-                }
-              })
-            }
-          } else {
-            this.isValidStackBalance = true;
-            this.CurrentDocQtv = 0;
-            this.NetStackBalance = 0;
-            this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
-          }
-        }
-      })
     } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
     }
+    let stack_data = (event.value !== undefined) ? event.value : event;
+    let ind;
+    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value 
+    : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
+    ind = stockNo.indexOf('/', 2);
+    const totalLength = stockNo.length;
+    this.godownNo = stockNo.slice(0, ind);
+    this.locationNo = stockNo.slice(ind + 1, totalLength);
+    const params = {
+      DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
+      TStockNo: stockNo,
+      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+      GCode: this.IssuingCode,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+      Type: 1
+    }
+    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+        this.StackBalance = (this.StackBalance * 1);
+        if (this.StackBalance > 0 || !this.checkTrType) {
+          this.isValidStackBalance = false;
+          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+          if (this.itemData.length !== 0) {
+            this.itemData.forEach(x => {
+              if (x.TStockNo.trim() === stockNo.trim()) {
+                this.CurrentDocQtv += (x.Nkgs * 1);
+                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+              }
+            })
+          }
+        } else {
+          this.isValidStackBalance = true;
+          this.CurrentDocQtv = 0;
+          this.NetStackBalance = 0;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
+        }
+      }
+    })
   }
 
   checkRegAdv(value) {
@@ -507,6 +538,7 @@ export class IssueReceiptComponent implements OnInit {
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
     }
+    this.getAllotmentDetails();
   }
 
   onStackInput(event) {
@@ -530,7 +562,7 @@ export class IssueReceiptComponent implements OnInit {
     this.DDate = this.DeliveryOrderDate;
     this.SI_Date = this.SIDate;
     this.issueData.push({
-      SINo: (this.SINo !== undefined) ? this.SINo : '-',
+      SINo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : '-',
       SIDate: this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
       DNo: this.DeliveryOrderNo,
       DDate: this.datepipe.transform(this.DeliveryOrderDate, 'MM/dd/yyyy'),
@@ -549,17 +581,19 @@ export class IssueReceiptComponent implements OnInit {
   onItemDetailsEnter() {
     this.messageService.clear();
     this.itemData.push({
-      TStockNo: (this.TStockNo.value !== undefined) ?
+      TStockNo: (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '')
         : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
-      ICode: (this.ICode.value !== undefined) ? this.ICode.value : this.iCode,
-      IPCode: (this.IPCode.value !== undefined) ? this.IPCode.value : this.ipCode,
+      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+      IPCode: (this.IPCode.value !== undefined && this.IPCode.value !== null) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
       GKgs: this.GKgs,
       Nkgs: this.NKgs,
-      WTCode: (this.WTCode.value !== undefined) ? this.WTCode.value : this.wtCode,
+      WTCode: (this.WTCode.value !== undefined && this.WTCode.value !== null) ? this.WTCode.value : this.wtCode,
       Moisture: this.Moisture,
-      Scheme: (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode,
+      Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
+      AllotmentScheme: (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme,
+      AllotmentGroup: (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup,
       CommodityName: (this.ICode.label !== undefined) ? this.ICode.label : this.ICode,
       SchemeName: (this.Scheme.label !== undefined) ? this.Scheme.label : this.Scheme,
       PackingName: (this.IPCode.label !== undefined) ? this.IPCode.label : this.IPCode,
@@ -572,6 +606,7 @@ export class IssueReceiptComponent implements OnInit {
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
+      this.QuantityLimit = null;
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       ///calculating current document quantity based on stock number
@@ -634,7 +669,10 @@ export class IssueReceiptComponent implements OnInit {
         this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.StackDate = data.StackDate;
-        this.Scheme = data.SchemeName; this.schemeCode = data.Scheme;
+        this.Scheme = data.SchemeName; 
+        this.schemeCode = data.Scheme;
+        this.allotmentGroup = data.AllotmentGroup;
+        this.allotmentScheme = data.AllotmentScheme;
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.ICode = data.CommodityName; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
@@ -661,6 +699,7 @@ export class IssueReceiptComponent implements OnInit {
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
+        this.checkAllotmentBalance('1');
         break;
     }
   }
@@ -777,31 +816,130 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
+  checkAllotmentStatus(value) {
+    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, {sValue: value}).subscribe(status => {
+      this.AllotmentStatus = status[0].TNCSCValue;
+    })
+  }
+
   getAllotmentDetails() {
-    if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
+    if(this.AllotmentStatus === 'YES') {
+    if(this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined && 
       this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
       && this.IssuerCode !== null && this.IssuerCode !== undefined) {
-      const params = {
-        'GCode': this.IssuingCode,
-        'RCode': this.RCode,
-        'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
-        'IssRegAdv': this.RegularAdvance,
-        'Month': (this.RegularAdvance === 'A') ? (((this.curMonth * 1) > 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
-        'Year': this.year,
-        'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
+        const params = {
+          'GCode': this.IssuingCode,
+          'RCode': this.RCode,
+          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
+          'IssRegAdv': this.RegularAdvance.toUpperCase(),
+          'Month': (this.RegularAdvance.toUpperCase() === 'A') ? (((this.curMonth * 1) < 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
+          'Year': this.year,
+          'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
+        }
+        this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
+          res.forEach(x => {
+            this.allotmentDetails.push({
+              AllotmentQty: x.AllotmentQty,
+              IssueQty: x.IssueQty,
+              AllotmentScheme: x.AllotmentSchemeCode,
+              AllotmentGroup: x.AllotmentGroup,
+              BalanceQty: x.BalanceQty
+            })
+          });
+        })
       }
-      this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
-        res.forEach(x => {
-          this.allotmentDetails.push({
-            AllotmentQty: x.AllotmentQty,
-            IssuQty: x.IssuQty,
-            AllotmentScheme: x.AllotmentScheme,
-            AllotmentCommodity: x.AllotmentCommodity
-          })
-        });
-      })
+      } else {
+        this.allotmentDetails.length = 0;
+      }
+  }
 
-    }
+  checkAllotmentBalance(type) {
+    // let AllotmentQty = 0;
+    // let IssueQty = 0;
+    // let BalanceQty = 0;
+    if(this.allotmentDetails !== undefined && this.allotmentDetails !== null 
+      && this.allotmentDetails.length !== 0 && ((this.ICode.group !== null && this.ICode.group !== undefined)
+      ||(this.allotmentGroup !== undefined && this.allotmentGroup !== null)) && 
+      ((this.Scheme.ascheme !== null && this.Scheme.ascheme !== undefined)
+      ||(this.allotmentScheme !== undefined && this.allotmentScheme !== null))) {
+        const allot_Group = (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup;
+        const allot_schemeCode = (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme;
+        if(type === '1') {
+        for(let a = 0; a < this.allotmentDetails.length; a++) {
+          if(this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
+           this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
+            this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+            this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
+            this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
+            this.QuantityLimit = ' ALLOT_QTY ' + ' - ' + this.AllotmentQty + ' ISS_QTY ' + 
+            ' - ' +  this.IssueQty + ' - ' + ' BALANCE ' + this.BalanceQty;
+            /// ---------------- Allotment balance check ------------------ ///
+          //   if(this.BalanceQty <= 0 && this.itemData.length === 0) {
+          //     this.exceedAllotBal = true;
+          //     this.messageService.clear();
+          //     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.AllotmentIssueQuantityValidation });
+          //   } else if((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
+          //     let netwt = 0; 
+          //     this.itemData.forEach(x => {
+          //       if(x.AllotmentGroup.trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
+          //         netwt += (x.Nkgs * 1);
+          //         if((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
+          //           this.exceedAllotBal = true;
+          //           this.isValidStackBalance = true;
+          //           this.messageService.clear();
+          //           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.AllotmentIssueQuantityValidation });
+          //         } else {
+          //           this.exceedAllotBal = false;
+          //           this.isValidStackBalance = false;
+          //         } 
+          //         this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+          //         this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
+          //         this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
+          //         this.QuantityLimit = ' ALLOT_QTY ' + ' - ' + this.AllotmentQty + ' ISS_QTY ' + 
+          //         ' - ' + this.IssueQty  + ' - ' + ' BAL_QTY ' + this.BalanceQty;
+          //        }
+          //     })
+          //   }
+          //   break;
+          // } else {
+          //   this.exceedAllotBal = false;
+          //   this.isValidStackBalance = false;
+          //   this.QuantityLimit = null;
+          //   continue;
+           /// ------------------ END ----------------------- ///
+           }
+        }
+          } else if(type === '2') {
+            /// ---------------- Allotment balance check ------------------ ///
+
+            // if(this.BalanceQty !== null && this.BalanceQty !== undefined) {
+            //   if(this.BalanceQty < (this.NKgs * 1)) {
+            //     this.NKgs = null;
+            //    // this.isValidStackBalance = true;
+            //     this.messageService.clear();
+            //     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.AllotmentIssueQuantityValidation });
+            //   } else {
+            //     // this.isValidStackBalance = false;
+            //   }
+            // }
+           /// ------------------ END ----------------------- ///
+
+          } else {
+            /// ---------------- Allotment balance check ------------------ ///
+
+          //   this.isValidStackBalance = false;
+          //  // this.AllotmentQty = 0; this.BalanceQty = 0; this.IssueQty = 0;
+          //   this.QuantityLimit = null;
+          //   this.exceedAllotBal = false;
+           /// ------------------ END ----------------------- ///
+
+          }
+        } else if(this.AllotmentStatus !== 'NO') {
+          this.QuantityLimit = ' ALLOT_QTY ' + ' - ' + 0 + ' ISS_QTY ' + 
+          ' - ' +  0 + ' - ' + ' BAL_QTY ' + 0;
+        } else {
+          this.QuantityLimit = null;
+        }
   }
 
   onRowSelect(event) {
@@ -861,6 +999,7 @@ export class IssueReceiptComponent implements OnInit {
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
+        this.getAllotmentDetails();
         res.Table.forEach(i => {
           this.itemData.push({
             sno: sno,
@@ -875,6 +1014,8 @@ export class IssueReceiptComponent implements OnInit {
             Scheme: i.Scheme,
             CommodityName: i.ITName,
             SchemeName: i.SchemeName,
+            AllotmentGroup: i.Allotmentgroup,
+            AllotmentScheme: i.AllotmentScheme,
             PackingName: i.PName,
             WmtType: i.WEType,
             PWeight: i.PWeight,
@@ -944,6 +1085,9 @@ export class IssueReceiptComponent implements OnInit {
     this.packingTypeOptions = undefined; this.transactionOptions = undefined;
     this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
+    this.allotmentDetails = []; this.exceedAllotBal = false;
+    this.QuantityLimit = null;
+    this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
   }
 
   openNext() {
@@ -991,7 +1135,7 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.missingFields = arr;
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! ' });
+      arr.push({ label: '1', value: 'Please add item details! '});
       this.missingFields = arr;
     } else {
       this.submitted = false;

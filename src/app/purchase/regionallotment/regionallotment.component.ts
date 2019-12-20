@@ -73,6 +73,7 @@ export class RegionAllotmentComponent implements OnInit {
   completedDate: Date;
   PartyRCode: any;
   selectedPartyRegion: any;
+  UserInfo: any;
   @ViewChild('orderNum') oredrNoPanel: Dropdown;
   @ViewChild('partyregion') partyRegionPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -90,6 +91,7 @@ export class RegionAllotmentComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.regions = this.roleBasedService.getRegions();
+    this.UserInfo = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.tenderAllotmentRegionWiseCols = this.tableConstants.TenderAllotmentToRegionCols;
@@ -516,7 +518,9 @@ export class RegionAllotmentComponent implements OnInit {
         'TotalDays': this.TotalDays,
         'Spell': (this.spellCode !== null && this.spellCode !== undefined) ? this.spellCode : this.Spell,
         'TargetDate': (this.tDate !== undefined && this.tDate !== null) ? this.tDate : this.datePipe.transform(this.TargetDate, 'MM/dd/yyyy'),
-        'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : ''
+        'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '',
+        'RoleId': this.roleId,
+        'Username': this.UserInfo.user,
       }
       this.restApiService.post(PathConstants.PURCHASE_TENDER_ALLOTMENT_DETAILS_POST, params).subscribe(res => {
         if (res.Item1) {
@@ -553,7 +557,9 @@ export class RegionAllotmentComponent implements OnInit {
         'OrderNumber': this.selectedOrderNo,
         'Spell': this.selectedSpellCode,
         'Quantity': this.RegQty,
-        'PartyCode': this.selectedPartyID
+        'PartyCode': this.selectedPartyID,
+        'RoleId': this.roleId,
+        'Username': this.UserInfo.user
       }
       this.restApiService.post(PathConstants.PURCHASE_TENDER_ALLOTMENT_TO_REGIONAL_POST, params).subscribe(res => {
         if (res.Item1) {

@@ -47,6 +47,8 @@ export class StockPurchaseComponent implements OnInit {
   orderDate: Date;
   completedDate: Date;
   blockScreen: boolean;
+  UserInfo: any;
+  roleId: any;
   @ViewChild('commodity') commodityPanel: Dropdown;
   @ViewChild('f') form: NgForm;
   @ViewChild('qf') qtyForm: NgForm;
@@ -58,6 +60,8 @@ export class StockPurchaseComponent implements OnInit {
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stockPurchaseDataCoulmns = this.tableConstants.TenderDetailsCols;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.UserInfo = JSON.parse(this.authService.getCredentials());
     this.restApiService.get(PathConstants.COMMODITY_BREAK_ITEM_MASTER_MODIFICATION).subscribe(data => {
       if (data !== undefined && data !== null && data.length !== 0) {
         data.forEach(x => {
@@ -113,20 +117,6 @@ export class StockPurchaseComponent implements OnInit {
     }
   }
 
-  // onChangeDate(id) {
-  //   switch (id) {
-  //     case 'td':
-  //       this.tenderDate = null;
-  //       break;
-  //     case 'od':
-  //       this.orderDate = null;
-  //       break;
-  //     case 'cd':
-  //       this.completedDate = null;
-  //       break;
-  //   }
-  // }
-
   onSelectedRow(data, index, type) {
     if (type === '1') {
       this.confirmationService.confirm({
@@ -173,6 +163,8 @@ export class StockPurchaseComponent implements OnInit {
         'TenderQtyID': TenderQtyId,
         'OrderNumber': this.AOrderNo,
         'AdditionalQty': this.AdditionalQty,
+        'RoleId': this.roleId,
+        'Username': this.UserInfo.user,
         'Type': type
       }
       this.restApiService.post(PathConstants.PURCHASE_TENDER_DETAILS_POST, params).subscribe(res => {
@@ -217,7 +209,9 @@ export class StockPurchaseComponent implements OnInit {
         'OrderDate': (this.orderDate !== null && this.orderDate !== undefined &&
           (typeof this.OrderDate === 'string'))
           ? this.orderDate : this.datePipe.transform(this.OrderDate, 'MM/dd/yyyy'),
-        'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : ''
+        'Remarks': (this.Remarks !== undefined && this.Remarks !== null) ? this.Remarks : '',
+        'RoleId': this.roleId,
+        'Username': this.UserInfo.user
       }
       this.restApiService.post(PathConstants.PURCHASE_TENDER_DETAILS_POST, params).subscribe(res => {
         if (res.Item1) {

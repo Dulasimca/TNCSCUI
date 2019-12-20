@@ -123,6 +123,7 @@ export class TableConstants {
   StackCardDocDetailsCols: any[];
   IssuerPartyCols: any;
   AllotmentDetailsCols: any;
+  SectionDailyStatementReportColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1483,7 +1484,15 @@ export class TableConstants {
       { header: 'FPS Code', field: 'FPSCode' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'Quantity', field: 'Quantity' }
-
     ]
+
+    this.SectionDailyStatementReportColumns = [
+        { header: 'S.No', field: 'SlNo', width: '40px' },
+        { header: 'Locations', field: 'Locations' },
+        { header: 'Allotment', field: 'Allotment' },
+        { header: 'On The Day(QTY)', field: 'Ontheday' },
+        { header: 'Up To Day(QTY)', field: 'Uptoday' },
+        { header: 'Balance', field: 'Balance' },
+      ]
   }
 }
