@@ -32,17 +32,16 @@ export class NotificationPopupComponent implements OnInit {
   selectedFile: File = null;
   noti: any;
   display: boolean = false;
+  TNCSCKey: string = 'Notification';
 
   constructor(private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService, private datePipe: DatePipe) { }
 
   ngOnInit() {
-    this.display = true;
-    this.noti = (this.authService.isLoggedIn()) ? this.showDialog : null;
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    const params = { 'Type': 1 };
-    this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, params).subscribe(res => {
+    const param = { 'Type': 1 };
+    this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.NotificationsCols = this.tableConstant.NotificationCols;
+        this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
       } else {
         this.messageService.clear();
@@ -80,7 +79,7 @@ export class NotificationPopupComponent implements OnInit {
     const params = { 'Type': 1 };
     this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.NotificationsCols = this.tableConstant.NotificationCols;
+        this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
       } else {
         this.messageService.clear();
@@ -107,7 +106,7 @@ export class NotificationPopupComponent implements OnInit {
       'Notes': this.Notes,
       'Reason': this.Reason,
       'isActive': 1,
-      'ImageName': this.imgsrc
+      'ImageName': 'HappyNewYear.jpg'
     };
     this.restApiService.post(PathConstants.NOTIFICATIONS_POST, params).subscribe(res => {
       if (res) {
@@ -173,24 +172,21 @@ export class NotificationPopupComponent implements OnInit {
   showConfirm() {
     this.messageService.clear();
     this.messageService.add({
-      key: 'c', sticky: true, severity:'success', summary:'Notification', detail:'Happy New Year'});
-}
+      key: 'c', sticky: true, severity: 'success', summary: 'Notification', detail: 'Happy New Year'
+    });
+  }
 
-onConfirm() {
-  this.messageService.clear('c');
-}
+  onConfirm() {
+    this.messageService.clear('c');
+  }
 
-onReject() {
-  this.messageService.clear('c');
-}
+  onReject() {
+    this.messageService.clear('c');
+  }
 
-clear() {
-  this.messageService.clear();
-}
-
-showDialog() {
-  this.display = true;
-}
+  clear() {
+    this.messageService.clear();
+  }
 
   // showAnimationChange(e) {
   //   this.toastObj.animation.show.effect = 'FadeZoomIn';
