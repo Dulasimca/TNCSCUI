@@ -11,6 +11,7 @@ export class TableConstants {
   AadsData: any;
   Notification: any;
   NotificationCols: any;
+  NotificationPopup: any;
   SchemeData: any;
   TenderDetailsCols: any;
   CBStatementColumns: any;
@@ -197,7 +198,14 @@ export class TableConstants {
       { field: 'SlNo', header: 'S.No' },
       { field: 'Notes', header: 'Description' },
       { field: 'Reason', header: 'Reason' }
-    ]
+    ];
+
+    this.NotificationPopup = [
+      { field: 'SlNo', header: 'S.No' },
+      { field: 'Notes', header: 'Description' },
+      { field: 'Reason', header: 'Reason' },
+      { field: 'ImageName', header: 'Image' }
+    ];
 
     this.TenderDetailsCols = [
       { field: 'SlNo', header: 'S.No.' },

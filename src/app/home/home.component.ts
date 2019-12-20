@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
   display: boolean = false;
   notificationsHeight: any;
   noti: any;
+  NotificationsData: any;
+  TNCSCKey: string = 'Notification';
   @ViewChild('AADS') divAADS: ElementRef;
   @ViewChild('element') toastObj;
 
@@ -71,8 +73,7 @@ export class HomeComponent implements OnInit {
     private router: Router, private locationStrategy: LocationStrategy, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.display = true;
-    this.noti = (this.authService.isLoggedIn()) ? this.showDialog : null;
+    this.showDialog();
     this.preventBackButton();
     this.calculateHeight();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -773,6 +774,24 @@ export class HomeComponent implements OnInit {
   }
 
   showDialog() {
-    this.display = true;
+    const param = { 'Type': 1 };
+    this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.NotificationsData = res[0];
+        this.NotificationsData = this.NotificationsData.Notes;
+      }
+    });
+    const params = { 'sValue': this.TNCSCKey };
+    this.restApiService.getByParameters(PathConstants.TNCSC_SETTINGS, params).subscribe(res => {
+      if (res !== undefined) {
+        this.noti = res[0];
+        if (this.noti.TNCSCValue === 'NO') {
+          this.display = false;
+        }
+        if (this.noti.TNCSCValue === 'YES') {
+          this.display = true;
+        }
+      }
+    });
   }
 }
