@@ -1498,8 +1498,8 @@ export class TableConstants {
         { header: 'S.No', field: 'SlNo', width: '40px' },
         { header: 'Locations', field: 'Locations' },
         { header: 'Allotment', field: 'Allotment' },
-        { header: 'On The Day(QTY)', field: 'Ontheday' },
-        { header: 'Up To Day(QTY)', field: 'Uptoday' },
+        { header: 'On The Day(QTY)', field: 'OnTheDayQty' },
+        { header: 'Up To Day(QTY)', field: 'UpToDayQty' },
         { header: 'Balance', field: 'Balance' },
       ]
   }
