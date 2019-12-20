@@ -7,6 +7,8 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { Dropdown, SelectItem } from 'primeng/primeng';
 import { PathConstants } from 'src/app/constants/path.constants';
+import { StatusMessage } from 'src/app/constants/Messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-daily-statement',
@@ -29,8 +31,8 @@ export class DailyStatementComponent implements OnInit {
   GCode: any;
   commodityOptions: SelectItem[];
   ITCode: any;
-  FromDate: Date;
-  ToDate: Date;
+  FromDate: any;
+  ToDate: any;
   loading: boolean;
   @ViewChild('godown') godownPanel: Dropdown;
   @ViewChild('region') regionPanel: Dropdown;
@@ -110,5 +112,57 @@ export class DailyStatementComponent implements OnInit {
         break;
     }
   }
+
+  onView() {
+    this.onResetTable('');
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {};
+    this.restAPIService.post(PathConstants.SECTION_DAILY_STATEMENT_GET, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+  } else {
+    this.loading = false;
+    this.messageService.clear();
+    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+  }
+}, (err: HttpErrorResponse) => {
+  if (err.status === 0 || err.status === 400) {
+    this.loading = false;
+    this.messageService.clear();
+    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+  }
+})
+  }
+
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+
+  checkValidDateSelection() {
+    if (this.FromDate !== undefined && this.ToDate !== undefined && this.FromDate !== '' && this.ToDate !== '') {
+      let selectedFromDate = this.FromDate.getDate();
+      let selectedToDate = this.ToDate.getDate();
+      let selectedFromMonth = this.FromDate.getMonth();
+      let selectedToMonth = this.ToDate.getMonth();
+      let selectedFromYear = this.FromDate.getFullYear();
+      let selectedToYear = this.ToDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.FromDate = this.ToDate = '';
+      }
+      return this.FromDate, this.ToDate;
+    }
+  }
+
+  onResetTable(item) {
+    if (item === 'reg') { this.GCode = null; }
+    this.sectionDailyStatementData = [];
+  }
+
+  onPrint() { }
 
 }
