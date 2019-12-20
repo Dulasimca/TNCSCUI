@@ -71,13 +71,19 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
              <tr > 
               <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Locations' || col.field === 'SlNo'">
                     {{rowData[col.field]}}
+                </div>
+                <div *ngIf="col.field !== 'Locations' && col.field !== 'SlNo'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
               </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-      <!-- </div> -->
     </div>
   </p-panel>
 </div>
