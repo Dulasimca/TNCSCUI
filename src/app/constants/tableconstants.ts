@@ -248,7 +248,9 @@ export class TableConstants {
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
       { field: 'cement', header: 'CEMENT' },
       { field: 'GStatus', header: 'Godown Approval Status' },
-      { field: 'RStatus', header: 'Regional Approval Status' }
+      { field: 'GRemarks', header: 'Godown Remarks'},
+      { field: 'RStatus', header: 'Regional Approval Status' },
+      { field: 'RRemarks', header: 'Region Remarks'}
     ]
 
     this.DeliveryDocumentcolumns = [
