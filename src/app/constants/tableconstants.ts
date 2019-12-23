@@ -782,10 +782,11 @@ export class TableConstants {
 
     this.ItemMasterModification = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'ITCode', header: 'CODE' },
-      { field: 'ITDescription', header: 'ITEM NAME' },
+      { field: 'ITCode', header: 'Code' },
+      { field: 'ITDescription', header: 'Item Name' },
       // { field: 'GRName', header: 'GROUP' },
-      { field: 'ItemType', header: 'ACTIVE' },
+      { field: 'ItemType', header: 'Item Type' },
+      { field: 'Status', header: 'Status'}
 
     ];
 
