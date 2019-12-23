@@ -11,6 +11,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-document-correction',
@@ -54,6 +55,7 @@ export class DocumentCorrectionComponent implements OnInit {
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
   @ViewChild('docStatus') docStatusPanel: Dropdown;
+  @ViewChild('f') CSForm: NgForm;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe, private tableConstants: TableConstants, private roleBasedService: RoleBasedService) { }
@@ -278,6 +280,8 @@ export class DocumentCorrectionComponent implements OnInit {
     this.fromDate = new Date(); this.toDate = new Date();
     this.DocStatus = 'Pending'; this.status = '0';
     this.loading = false;
+    this.CSForm.form.markAsUntouched();
+    this.CSForm.form.markAsPristine();
   }
 
   onRowSelect(event, data) {
