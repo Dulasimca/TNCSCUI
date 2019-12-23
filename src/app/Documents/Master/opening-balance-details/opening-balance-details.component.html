@@ -13,10 +13,16 @@
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-md-12 ui-fluid">
       <div class="ui-g-12 ui-fluid border-teal">
-      <form  #f="ngForm" name="form">
+      <form  #f="ngForm" name="openingBalForm">
       <div class="form-group ui-g-12 dashboard">
         <div class="ui-g-2"></div>
-        <div class="ui-g-12 ui-md-3">
+        <div class="form-group ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
+          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" (keydown.enter)="onSelect('y')"
+           [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
+          </p-dropdown>
+        </div>
+         <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
               <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
               (keydown.enter)="onSelect('gd')" filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
@@ -32,12 +38,6 @@
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
-          </p-dropdown>
-        </div>
-        <div class="form-group ui-g-12 ui-md-2">
-          <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
-          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" (keydown.enter)="onSelect('y')"
-           [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
         <div class="ui-g-2"></div>
@@ -91,7 +91,7 @@
         <div class="ui-g-2"></div>
       </div>
       <div class="form-group ui-g-12 dashboard">
-        <div class="ui-g-3 ui-md-5"></div>
+        <div class="ui-g-3 ui-md-4"></div>
           <div class="form-group ui-g-3 ui-md-1">
             <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
              (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Save (click)="onSave()"></button>

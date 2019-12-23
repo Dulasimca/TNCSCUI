@@ -107,8 +107,8 @@
                 </div>
                 <div class="ui-g-5 ui-md-7"></div>
                 <div class="ui-g-1 ui-md-1">
-                  <button type="button" pButton icon="fa fa-file" iconPos="left" label="Excel"
-                  [disabled]="(CorrectionSlipApproveStatusData.length=='0')" (click)="dt.exportCSV()"></button>
+                  <button type="button" pButton icon="fa fa-file" iconPos="left" label="Pdf"
+                  [disabled]="(CorrectionSlipApproveStatusData.length=='0')" (click)="exportPdf()"></button>
                 </div>
               <div class="ui-g-12 no-pad-top">
                 <p-table #dt tabindex="-1" [columns]="CorrectionSlipApproveStatusCols"

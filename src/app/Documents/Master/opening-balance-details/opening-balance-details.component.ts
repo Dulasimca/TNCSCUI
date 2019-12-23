@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -8,6 +8,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { DatePipe } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-opening-balance-details',
@@ -45,6 +46,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   validationErr: boolean = false;
   totalRecords: number;
   blockScreen: boolean;
+  @ViewChild('f') OBForm: NgForm;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService,
@@ -68,7 +70,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   calculateCS() {
     if (this.BookBalanceWeight !== undefined && this.PhysicalBalanceWeight !== undefined) {
-      if (this.BookBalanceWeight < this.PhysicalBalanceWeight) {
+      if ((this.BookBalanceWeight * 1) < (this.PhysicalBalanceWeight * 1)) {
         this.showErr = true;
         this.PhysicalBalanceWeight = this.CumulativeShortage = null;
       } else {
@@ -84,7 +86,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
 
   calculateBagS() {
     if (this.BookBalanceBags !== undefined && this.PhysicalBalanceBags !== undefined) {
-      if (this.BookBalanceBags < this.PhysicalBalanceBags) {
+      if ((this.BookBalanceBags * 1) < (this.PhysicalBalanceBags * 1)) {
         this.validationErr = true;
         this.PhysicalBalanceBags = null;
       } else {
@@ -158,10 +160,11 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.BookBalanceWeight = (this.selectedRow.BookBalanceWeight * 1);
     this.PhysicalBalanceBags = this.selectedRow.PhysicalBalanceBags;
     this.PhysicalBalanceWeight = (this.selectedRow.PhysicalBalanceWeight * 1);
-    this.CumulativeShortage = (this.selectedRow.CumulativeShortage * 1);
+    this.CumulativeShortage = (this.selectedRow.CumulitiveShortage * 1);
   }
 
   onView() {
+    this.blockScreen = true;
     this.openingBalanceData = []; this.opening_balance = [];
     const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
@@ -170,6 +173,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         let sno = 0;
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
         this.openingBalanceData = res;
+        this.blockScreen = false;
           this.openingBalanceData.forEach(x => {
             sno += 1;
             x.SlNo = sno;
@@ -181,11 +185,13 @@ export class OpeningBalanceDetailsComponent implements OnInit {
           this.totalRecords = this.openingBalanceData.length;
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
+        this.blockScreen = false;
         this.viewPane = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -194,9 +200,20 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   }
 
   onClear() {
-    this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-      this.c_cd = this.commodityCd = this.CumulativeShortage = this.Year = null;
+    this.OBForm.form.markAsUntouched();
+    this.OBForm.form.markAsPristine();
+    this.BookBalanceBags = null;
+    this.BookBalanceWeight = null;
+    this.PhysicalBalanceBags = null;
+    this.PhysicalBalanceWeight = null;
+    this.c_cd = null;
+    this.commodityCd = null;
+    this.CumulativeShortage = null;
+    this.Year = null;
+    this.blockScreen = false;
     this.commodityOptions = [];
+    this.openingBalanceData = [];
+    this.opening_balance = [];
   }
 
   onSave() {
