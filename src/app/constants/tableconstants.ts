@@ -125,6 +125,8 @@ export class TableConstants {
   IssuerPartyCols: any;
   AllotmentDetailsCols: any;
   SectionDailyStatementReportColumns: any;
+  LoadMenWagesLoadingReportColumns: any;
+  LoadMenWagesUnLoadingReportColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1505,6 +1507,31 @@ export class TableConstants {
         { header: 'On The Day(QTY)', field: 'OnTheDayQty' },
         { header: 'Up To Day(QTY)', field: 'UpToDayQty' },
         { header: 'Balance', field: 'Balance' },
-      ]
+      ];
+
+      this.LoadMenWagesLoadingReportColumns = [
+        { header: 'S.No', field: 'SlNo', width: '40px' },
+        { header: 'Date', field: 'Date' },
+        { header: 'Scheme', field: 'SchemeName' },
+        { header: 'Commodity', field: 'Commodity' },
+        { header: 'Bags', field: 'NoPacking' },
+        { header: 'Quantity', field: 'Qty' },
+        { header: 'LoadingCharges', field: 'LoadingCharges' },
+        { header: 'HandlingCharges', field: 'HandlingCharges' },
+        { header: 'Total', field: 'Total' },
+
+      ];
+
+      this.LoadMenWagesUnLoadingReportColumns = [
+        { header: 'S.No', field: 'SlNo', width: '40px' },
+        { header: 'Date', field: 'Date' },
+        { header: 'Scheme', field: 'SchemeName' },
+        { header: 'Commodity', field: 'Commodity' },
+        { header: 'Bags', field: 'NoPacking' },
+        { header: 'Quantity', field: 'Qty' },
+        { header: 'UnLoadingCharges', field: 'UnLoadingCharges' },
+        { header: 'Total', field: 'Total' },
+
+      ];
   }
 }

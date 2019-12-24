@@ -101,6 +101,7 @@ export class PathConstants {
   public static readonly ISSUER_MASTER_POST = '/api/IssuerMaster/Post';
   public static readonly QUANTITY_RECISS_COMMODITY_POST = '/api/QuantityAccountIssuesAndRecipt/Post';
   public static readonly SECTION_DAILY_STATEMENT_POST = '/api/DailyStatement/Post';
+  public static readonly WAGES_LOADING_POST = '/api/WagesLoading/Post';
 
   ///Documents
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';

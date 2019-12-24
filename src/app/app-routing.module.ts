@@ -104,6 +104,8 @@ import { NotificationComponent } from './notification/notification/notification.
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
 import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
+import { LoadMenWagesComponent } from './reports/wages/load-men-wages/load-men-wages.component';
+import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloading-wages/load-men-unloading-wages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -209,6 +211,8 @@ const routes: Routes = [
   { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
   { path: 'Daily Statement', component: DailyStatementComponent, canActivate: [AuthGuard]},
   { path: 'NotificationPopup', component: NotificationPopupComponent, canActivate: [AuthGuard]},
+  { path: 'WagesLoading', component: LoadMenWagesComponent, canActivate: [AuthGuard]},
+  { path: 'WagesUnLoading', component: LoadMenUnloadingWagesComponent, canActivate: [AuthGuard]},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

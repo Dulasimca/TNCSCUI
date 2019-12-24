@@ -154,6 +154,8 @@ import { NotificationComponent } from './notification/notification/notification.
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { DailyDocumentTruckComponent } from './reports/DailyDocument/daily-document-truck/daily-document-truck.component';
 import { DailyStatementComponent } from './reports/sections/daily-statement/daily-statement.component';
+import { LoadMenWagesComponent } from './reports/wages/load-men-wages/load-men-wages.component';
+import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloading-wages/load-men-unloading-wages.component';
 
 @NgModule({
   declarations: [
@@ -267,6 +269,8 @@ import { DailyStatementComponent } from './reports/sections/daily-statement/dail
     NotificationPopupComponent,
     DailyDocumentTruckComponent,
     DailyStatementComponent,
+    LoadMenWagesComponent,
+    LoadMenUnloadingWagesComponent,
   ],
   imports: [
     BrowserModule,
