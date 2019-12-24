@@ -18,13 +18,13 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-4"></div>
       <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (onClick)="dt.reset();onDepositor()"
+        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (ngModelChange)="onResetTable()" (onClick)="onDepositor()"
           [(ngModel)]="val1" inputId="opt1">
         </p-radioButton>
       </div>
       <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" [(ngModel)]="val1"
-          (onClick)="dt.reset();onKeroseneSuppliers()" inputId="opt3">
+        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()" [(ngModel)]="val1"
+          (onClick)="onKeroseneSuppliers()" inputId="opt3">
         </p-radioButton>
       </div>
       <div class="ui-g-12 ui-md-4"></div>
@@ -39,7 +39,7 @@
       </div> -->
       <div class="ui-g-12"></div>
       <div class="table-screen-size">
-          <p-table #dt [columns]="SuppliersData" [value]="SuppliersData" [rows]="20"
+          <p-table #dt [columns]="(DepositorCols || KeroseneSuppliersCols)" [value]="(DepositorData || KeroseneSuppliersData)" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
           [loading]="loading">
           <ng-template pTemplate="header" let-columns>

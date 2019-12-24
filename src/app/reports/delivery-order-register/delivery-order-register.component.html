@@ -5,13 +5,11 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Delivery Order Details Report</div>
-        <div class="ui-g-7"></div>
-        <div class="ui-g-3 ui-md-1 dashboard" style="text-align: end">
-
-          <p-splitButton class="inline-padding" label="GST" icon="pi pi-download" [model]="items"
-          styleClass="ui-button-danger"></p-splitButton> 
-          <!-- <button pButton type="button" label=GST icon="pi pi-download" (click)="onGST()"
-            [disabled]="(deliveryReceiptRegData.length=='0')"></button> -->
+        <div class="ui-g-6"></div>
+        <!-- <div class="ui-g-3 ui-md-1 no-pad-top" style="padding-left: 90%">
+        </div> -->
+        <div class="no-pad-top" style="float: right;">
+           <p-splitButton class="no-pad-top" label="GST" icon="pi pi-download" [model]="items"></p-splitButton>  
         </div>
       </div>
     </p-header>
