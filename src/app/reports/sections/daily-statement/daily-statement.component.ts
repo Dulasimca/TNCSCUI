@@ -95,6 +95,7 @@ export class DailyStatementComponent implements OnInit {
           this.godownOptions = godownSelection;
           if (this.roleId !== 3) {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
+            this.godownOptions.unshift({ label: '-', value: '-' });
           }
         } else {
           this.godownOptions = godownSelection;
