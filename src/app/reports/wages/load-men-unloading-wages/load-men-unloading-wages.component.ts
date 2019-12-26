@@ -151,5 +151,9 @@ export class LoadMenUnloadingWagesComponent implements OnInit {
   }
 
   onPrint() { }
+  onDateSelect()
+  {
+    
+  }
 
 }
