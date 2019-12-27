@@ -23,7 +23,7 @@
         <div class="ui-g-12 ui-md-3">
           <!-- <img class="PB-img" src="../../assets/layout/images/NotificationPopup/HappyNewYear.jpg"
     style="height: 150px; width: auto;" /> -->
-          <img src="../../assets/NotificationPopup/HappyNewYear.jpg" style="width: 250px; height: 140px;">
+          <img src='{{imgPost}}' style="width: 250px; height: 140px;">
           <input #file type="file" accept=".png, .jpg, .jpeg" multiple (change)="upload(file.files)" />
           <br />
           <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
@@ -78,7 +78,7 @@
   [style]="{width: '350px', top: '240px', minWidth: '200px', background:'linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%'}"
   [minY]="70" [maximizable]="false" [baseZIndex]="10000">
   <div style="text-align: center">
-    <img class="PB-img" src="../../assets/layout/images/NotificationPopup/HappyNewYear.jpg"
+    <img class="PB-img" src='{{imgPost}}'
       style="height: 150px; width: auto;" />
       <p></p>
     <!-- <p>It has been a rewarding experience working with you and may this New Year bring forth many such rewarding moments
