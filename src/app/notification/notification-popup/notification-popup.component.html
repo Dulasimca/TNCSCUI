@@ -20,57 +20,57 @@
           autoResize="autoResize"></textarea>
       </div>
       <div class="ui-g-12 ui-md-1"></div>
-        <div class="ui-g-12 ui-md-3">
-          <!-- <img class="PB-img" src="../../assets/layout/images/NotificationPopup/HappyNewYear.jpg"
-    style="height: 150px; width: auto;" /> -->
-          <img src='{{imgPost}}' style="width: 250px; height: 140px;">
-          <input #file type="file" accept=".png, .jpg, .jpeg" multiple (change)="upload(file.files)" />
-          <br />
-          <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
-            {{progress}}%
-          </span>
+      <div class="ui-g-12 ui-md-3">
+        <img src='{{imgPost}}' style="width: 250px; height: 140px;">
+        <input #file type="file" accept=".png, .jpg, .jpeg" multiple (change)="handleFileInput($event.target.files)" />
 
-          <span style="font-weight:bold;color:green;" *ngIf="message">
-            {{message}}
-          </span>
-        </div>
+        <!-- <input #file type="file" accept=".png, .jpg, .jpeg" multiple (change)="upload(file.files)" /> -->
+        <br />
+        <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+          {{progress}}%
+        </span>
 
-
-        <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" (click)="onView()" label=View></button>
-        </div>
-        <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" (click)="onSubmit()" [disabled]="(!Notes || !Reason)" label=Submit></button>
-        </div>
-        <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" (click)="showDialog()" label=Dialog></button>
-        </div>
-
-        <div class="ui-g-12 dashboard">
-          <p-table [columns]="NotificationsCols" [value]="NotificationsData" [loading]="loading" selectionMode="single"
-            [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
-            <ng-template pTemplate="colgroup" let-columns>
-              <colgroup>
-                <col *ngFor="let col of columns">
-              </colgroup>
-            </ng-template>
-            <ng-template pTemplate="header" let-columns>
-              <tr>
-                <th *ngFor="let col of columns">
-                  {{col.header}}
-                </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-              <tr [pSelectableRow]="rowData" (dblclick)="showSelectedData($event, rowData)">
-                <td *ngFor="let col of columns">
-                  {{rowData[col.field]}}
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
+        <span style="font-weight:bold;color:green;" *ngIf="message">
+          {{message}}
+        </span>
       </div>
+
+
+      <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
+        <button pButton type="button" (click)="onView()" label=View></button>
+      </div>
+      <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
+        <button pButton type="button" (click)="upload(file.files)" [disabled]="(!Notes || !Reason)" label=Submit></button>
+      </div>
+      <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px;">
+        <button pButton type="button" (click)="showDialog()" label=Dialog></button>
+      </div>
+
+      <div class="ui-g-12 dashboard">
+        <p-table [columns]="NotificationsCols" [value]="NotificationsData" [loading]="loading" selectionMode="single"
+          [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="showSelectedData($event, rowData)">
+              <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
   </p-panel>
 </div>
 
@@ -78,15 +78,9 @@
   [style]="{width: '350px', top: '240px', minWidth: '200px', background:'linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%'}"
   [minY]="70" [maximizable]="false" [baseZIndex]="10000">
   <div style="text-align: center">
-    <img class="PB-img" src='{{imgPost}}'
-      style="height: 150px; width: auto;" />
-      <p></p>
-    <!-- <p>It has been a rewarding experience working with you and may this New Year bring forth many such rewarding moments
-      for us to share!</p> -->
-    <!-- <p>Wishing you and your Family a Joyfull Happy New Year</p> -->
+    <img class="PB-img" src='{{imgPost}}' style="height: 150px; width: auto;" />
     <div>
       {{NotificationsData}}
     </div>
   </div>
 </p-dialog>
-

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../shared-services/auth.service';
-import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { RestAPIService } from '../../shared-services/restAPI.service';
 import { HttpParams, HttpErrorResponse, HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
@@ -25,26 +24,20 @@ export class NotificationPopupComponent implements OnInit {
   Reason: any;
   isActive: any;
   canShowMenu: boolean;
-  date: any;
   loading: boolean;
   selectedRow: any;
   uploadedFiles: any[] = [];
   Image: any;
-  imgsrc = 'https://c.staticblitz.com/assets/client/components/SideMenu/blitz_logo-11cebad97cad4b50bc955cf72f532d1b.png';
-  // selectedFile: ImageSnippet;
-  selectedFile: File = null;
+  imgsrc = '';
   noti: any;
   display: boolean = false;
   TNCSCKey: string = 'Notification';
   public progress: number;
   public message: string;
-  magpath: string;
   imgUrl = "../../assets/NotificationPopup/";
   imgPost = "";
-  fileToUpload: File = null;
-  bearerToken  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService, private datePipe: DatePipe) { }
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -53,7 +46,7 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
-       this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+        this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -73,50 +66,45 @@ export class NotificationPopupComponent implements OnInit {
   }
 
   upload(files) {
-    if (files.length === 0)
-      return;
+    {
+      if (files.length === 0)
+        return;
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    for (let file of files)
-      formData.append(file.name, file);
+      for (let file of files)
+        formData.append(file.name, file);
 
-    this.noti = files;
-    // var reader = new FileReader();
-    // reader.onload = (event: any) => {
-    //   this.imgUrl = event.target.result;
-    // }
-    // reader.readAsDataURL(this.noti);
-    // const uploadReq = new HttpRequest("POST", '/assets/layout/images/NotificationPopup/', formData,
-    var path=this.restApiService.BASEURL+'/api/Upload';
-    const uploadReq = new HttpRequest("POST", path, formData,
-      {
-        reportProgress: true,
+      this.noti = files;
+      // const uploadReq = new HttpRequest("POST", '/assets/layout/images/NotificationPopup/', formData,
+      var path = this.restApiService.BASEURL + '/api/Upload';
+      const uploadReq = new HttpRequest("POST", path, formData,
+        {
+          reportProgress: true,
+        });
+
+      this.http.request(uploadReq).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+        }
+        else
+          if (event.type === HttpEventType.Response) {
+            this.message = event.body.toString();
+          }
       });
-
-    this.http.request(uploadReq).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.progress = Math.round(100 * event.loaded / event.total);
-      else if (event.type === HttpEventType.Response)
-        this.message = event.body.toString();
-    });
+    }
+    this.onSubmit();
   }
 
 
-  handleFileInput(file: FileList) {
-    this.fileToUpload = file.item(0);
-
+  handleFileInput(file) {
+    this.noti = file.item(0);
     //Show image 
     var reader = new FileReader();
     reader.onload = (event: any) => {
       this.imgPost = event.target.result;
     }
     reader.readAsDataURL(this.noti);
-  }
-
-  transform(imgPost) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(imgPost);
-    // this.ImagePath = this._DomSanitizationService.bypassSecurityTrustUrl(this.FilePath);
   }
 
   onRowSelect(event) {
@@ -137,8 +125,8 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
-       this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
-       
+        this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -158,7 +146,6 @@ export class NotificationPopupComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.loadDocument();
     const params = {
       'Type': 1,
       'ID': 1,
@@ -191,44 +178,6 @@ export class NotificationPopupComponent implements OnInit {
       }
     });
     this.onClear();
-  }
-
-  // loadDocument() {
-  //   const path = "../../assets/NotificationPopup/";
-  //   const filename = GolbalVariable.PopupImage;
-  //   let filepath = path + filename + ".jpg";
-  //   var w = window.open(filepath);
-  // }
-
-  fileChange(e) {
-    const file = e.srcElement.files[0];
-    this.imgsrc = window.URL.createObjectURL(file);
-    this.Image = this.imgsrc;
-
-  }
-
-  onUpload(event) {
-    for (let file of event.file) {
-      this.uploadedFiles.push(file.name);
-      this.Image = this.uploadedFiles;
-    }
-
-    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: 'Image Saved Successfully' });
-  }
-
-
-  onFileselected(event) {
-    console.log(event);
-    this.selectedFile = <File>event.target.files[0];
-  }
-
-  onUp() {
-    const fd = new FormData();
-    fd.append('image', this.selectedFile, this.selectedFile.name);
-    this.http.post("C:\Users\Subash\TNCSCUI\src\assets\layout\images\NotificationPopup", fd).subscribe(res => {
-      this.imgsrc = window.URL.createObjectURL(fd);
-      console.log(res);
-    });
   }
 
   onClear() {
