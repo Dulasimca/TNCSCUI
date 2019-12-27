@@ -20,7 +20,7 @@ export class GolbalVariable {
     public static readonly SchemeIssueMemo = 'SCHEMEISS';
     public static readonly HullingDetailsReportFileName = 'HULREG';
     public static readonly SchemeReceiptReportFileName = 'SCREC';
-    public static readonly TransactionReceiptReportFileName = 'TRREC';    
+    public static readonly TransactionReceiptReportFileName = 'TRREC';
     public static readonly WriteOffReportFileName = 'WOFF';
     public static readonly GUReportFileName = 'GU';
     public static readonly GRReportFileName = "GR";
@@ -62,4 +62,8 @@ export class GolbalVariable {
     public static readonly DeliveryOrderDocument = 'DODOC';
     public static readonly DDChequeDocument = 'DDCHE';
     public static readonly GSTFileName = 'GST';
+
+    ///IMAGES
+    public static readonly PopupImage = 'Image';
+
 }

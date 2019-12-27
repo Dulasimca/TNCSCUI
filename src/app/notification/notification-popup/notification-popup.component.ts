@@ -1,17 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../shared-services/auth.service';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { RestAPIService } from '../../shared-services/restAPI.service';
-import { HttpParams, HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
 import { PathConstants } from '../../constants/path.constants';
 import { StatusMessage } from '../../constants/Messages';
 import { TableConstants } from '../../constants/tableconstants';
+import { FormsModule } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-notification-popup',
   templateUrl: './notification-popup.component.html',
-  styleUrls: ['./notification-popup.component.css']
+  styleUrls: ['./notification-popup.component.css'],
 })
 export class NotificationPopupComponent implements OnInit {
 
@@ -33,8 +36,15 @@ export class NotificationPopupComponent implements OnInit {
   noti: any;
   display: boolean = false;
   TNCSCKey: string = 'Notification';
+  public progress: number;
+  public message: string;
+  magpath: string;
+  imgUrl = 'C:/LocalRepository/TNCSCUI/dist/GoodsStock/assets/layout/images/NotificationPopup/MCHNY.jpg';
+  imgPost = "C:\LocalRepository\TNCSCUI\dist\GoodsStock\assets\layout\images\NotificationPopup\MCHNY.jpg";
+  fileToUpload: File = null;
+  bearerToken  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
-  constructor(private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService, private datePipe: DatePipe) { }
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -43,6 +53,7 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
+        // this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -61,7 +72,52 @@ export class NotificationPopupComponent implements OnInit {
     });
   }
 
+  upload(files) {
+    if (files.length === 0)
+      return;
 
+    const formData = new FormData();
+
+    for (let file of files)
+      formData.append(file.name, file);
+
+    this.noti = files;
+    // var reader = new FileReader();
+    // reader.onload = (event: any) => {
+    //   this.imgUrl = event.target.result;
+    // }
+    // reader.readAsDataURL(this.noti);
+    // const uploadReq = new HttpRequest("POST", '/assets/layout/images/NotificationPopup/', formData,
+
+    const uploadReq = new HttpRequest("POST", 'http://localhost:55922/api/Upload', formData,
+      {
+        reportProgress: true,
+      });
+
+    this.http.request(uploadReq).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+        this.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response)
+        this.message = event.body.toString();
+    });
+  }
+
+
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file.item(0);
+
+    //Show image 
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imgPost = event.target.result;
+    }
+    reader.readAsDataURL(this.noti);
+  }
+
+  transform(imgPost) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(imgPost);
+    // this.ImagePath = this._DomSanitizationService.bypassSecurityTrustUrl(this.FilePath);
+  }
 
   onRowSelect(event) {
     this.selectedRow = event.data;
@@ -81,6 +137,8 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
+        // this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+       
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -100,13 +158,14 @@ export class NotificationPopupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loadDocument();
     const params = {
       'Type': 1,
       'ID': 1,
       'Notes': this.Notes,
       'Reason': this.Reason,
       'isActive': 1,
-      'ImageName': 'HappyNewYear.jpg'
+      'ImageName': this.noti[0].name
     };
     this.restApiService.post(PathConstants.NOTIFICATIONS_POST, params).subscribe(res => {
       if (res) {
@@ -132,6 +191,13 @@ export class NotificationPopupComponent implements OnInit {
       }
     });
     this.onClear();
+  }
+
+  loadDocument() {
+    const path = "../../assets/NotificationPopup/";
+    const filename = GolbalVariable.PopupImage;
+    let filepath = path + filename + ".jpg";
+    var w = window.open(filepath);
   }
 
   fileChange(e) {
@@ -169,59 +235,25 @@ export class NotificationPopupComponent implements OnInit {
     this.Notes = this.Reason = this.isActive = this.ID = null;
   }
 
-  showConfirm() {
-    this.messageService.clear();
-    this.messageService.add({
-      key: 'c', sticky: true, severity: 'success', summary: 'Notification', detail: 'Happy New Year'
+  showDialog() {
+    const param = { 'Type': 1 };
+    this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.NotificationsData = res[0];
+        this.NotificationsData = this.NotificationsData.Notes;
+      }
+    });
+    const params = { 'sValue': this.TNCSCKey };
+    this.restApiService.getByParameters(PathConstants.TNCSC_SETTINGS, params).subscribe(res => {
+      if (res !== undefined) {
+        this.noti = res[0];
+        if (this.noti.TNCSCValue === 'NO') {
+          this.display = false;
+        }
+        if (this.noti.TNCSCValue === 'YES') {
+          this.display = true;
+        }
+      }
     });
   }
-
-  onConfirm() {
-    this.messageService.clear('c');
-  }
-
-  onReject() {
-    this.messageService.clear('c');
-  }
-
-  clear() {
-    this.messageService.clear();
-  }
-
-  // showAnimationChange(e) {
-  //   this.toastObj.animation.show.effect = 'FadeZoomIn';
-  // }
-
-  // hideAnimationChange(e) {
-  //   this.toastObj.animation.hide.effect = 'FadeZoomIn';
-  // }
-
-  // toastShow() {
-  //   setTimeout(
-  //     () => {
-  //       this.toastObj.show();
-  //     }, 700);
-  // }
-
-  // public get animate(): any {
-  //   if (this.enabled) {
-  //     return {
-  //       type: this.type,
-  //       direction: this.direction,
-  //       duration: this.duration
-  //     };
-  //   }
-
-  //   return false;
-  // }
-
-  // public get hasDirection(): boolean {
-  //   return this.type === 'slide' || this.type === 'expand';
-  // }
-
-  // public onToggle(): void {
-  //   this.show = !this.show;
-  //   this.toggleText = this.show ? "Hide" : "Show";
-  // }
 }
-
