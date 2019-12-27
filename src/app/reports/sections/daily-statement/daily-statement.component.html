@@ -11,7 +11,7 @@
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(sectionDailyStatementData.length==0)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
-              (click)="onPrint()" [disabled]="(sectionDailyStatementData.length==0)"></button>
+              (click)="onPrint()" [disabled]="true"></button>
           </div> </div>
     </p-header>
     <div class="ui-g">
@@ -41,7 +41,7 @@
           <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
           <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions" [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')"
             (keydown.enter)="onSelect('cd', 'enter')" (ngModelChange)="onResetTable('comm')" filter="true"
-            resetFilterOnHide="true" optionLabel="label" [showClear]="true" placeholder="-select-">
+            resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -60,7 +60,7 @@
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="sectionDailyStatementCols" [value]="sectionDailyStatementData" [loading]="loading" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-           autoLayout="true" exportFilename="COMMODITY_RECEIPT_REPORT">
+           autoLayout="true" exportFilename="DAILY_STATEMENT_SECTION_REPORT">
              <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -71,13 +71,19 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
              <tr > 
               <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Locations' || col.field === 'SlNo'">
                     {{rowData[col.field]}}
+                </div>
+                <div *ngIf="col.field !== 'Locations' && col.field !== 'SlNo'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
               </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-      <!-- </div> -->
     </div>
   </p-panel>
 </div>

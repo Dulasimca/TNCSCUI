@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
@@ -6,6 +6,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-opening-balance-current-year',
@@ -41,6 +42,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   canShowMenu: boolean;
+  @ViewChild('f') OBCurYrFrom: NgForm;
 
   constructor(private authService: AuthService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
@@ -122,8 +124,18 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   showSelectedData() { }
 
   onClear() {
-    this.BookBalanceBags = this.BookBalanceWeight = this.PhysicalBalanceBags = this.PhysicalBalanceWeight =
-      this.c_cd = this.commodityCd = this.g_cd = this.CumulativeShortage = this.WriteOff = this.Year = null;
+    this.BookBalanceBags = null;
+    this.BookBalanceWeight = null;
+    this.PhysicalBalanceBags = null;
+    this.PhysicalBalanceWeight = null;
+    this.c_cd = null;
+    this.commodityCd = null;
+    this.g_cd = null;
+    this.CumulativeShortage = null;
+    this.WriteOff = null;
+    this.Year = null;
+    this.OBCurYrFrom.form.markAsPristine();
+    this.OBCurYrFrom.form.markAsUntouched();
   }
 
   onSave() {

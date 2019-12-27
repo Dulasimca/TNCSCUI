@@ -10,7 +10,8 @@
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-fluid border-teal">
-        <div class="ui-g-12 dashboard">
+        <form  #f="ngForm" name="openingBalCSForm">
+          <div class="ui-g-12 dashboard">
           <div class="ui-g-2"></div>
           <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
@@ -107,13 +108,13 @@
           <button class="ui-g-10 dashboard" pButton label=Ok [disabled]="disableOkButton"></button>
         </div> -->
           <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
-            (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Clear
+            <button pButton type="submit" label=Clear
               (click)="onClear()"></button>
           </div>
 
           <div class="ui-g-5"></div>
         </div>
+        </form>
       </div>
     </div>
   </p-panel>

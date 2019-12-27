@@ -9,6 +9,9 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-document-correction',
@@ -45,13 +48,14 @@ export class DocumentCorrectionComponent implements OnInit {
   regionData: any;
   ApprovalStatus: number;
   Id: any;
-  fromDate: Date =  new Date();
-  toDate: Date =  new Date();
+  fromDate: any =  new Date();
+  toDate: any =  new Date();
   blockScreen: boolean;
   @ViewChild('region') regionPanel: Dropdown;
   @ViewChild('docType') docTypePanel: Dropdown;
   @ViewChild('docNum') docNoPanel: Dropdown;
   @ViewChild('docStatus') docStatusPanel: Dropdown;
+  @ViewChild('f') CSForm: NgForm;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe, private tableConstants: TableConstants, private roleBasedService: RoleBasedService) { }
@@ -160,7 +164,10 @@ export class DocumentCorrectionComponent implements OnInit {
   }
 
   onView() {
-    if (this.fromDate !== undefined && this.fromDate !== null && this.toDate !== undefined && this.toDate !== null) {
+    this.checkValidDateSelection();
+    this.onResetFields('');
+    if (this.fromDate !== undefined && this.fromDate !== null && this.toDate !== undefined 
+      && this.toDate !== null && this.fromDate !== '' && this.toDate !== '') {
       this.loading = true;
       const params = new HttpParams().set('Code', this.GCode).append('Value', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
       .append('ToDate', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '1');
@@ -215,7 +222,8 @@ export class DocumentCorrectionComponent implements OnInit {
   }
 
   onLoadData() {
-    if(this.fromDate !== null && this.fromDate !== undefined && this.toDate !== null && this.toDate !== undefined) {
+    if(this.fromDate !== null && this.fromDate !== undefined && 
+      this.toDate !== null && this.toDate !== undefined) {
       this.loading = true;
       const params = new HttpParams().set('Code', this.RCode).append('Value', this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'))
       .append('ToDate', this.datepipe.transform(this.toDate, 'MM/dd/yyyy')).append('Type', '3');
@@ -241,6 +249,25 @@ export class DocumentCorrectionComponent implements OnInit {
     }
   }
 
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = this.toDate = '';
+      }
+      return this.fromDate, this.toDate;
+    }
+  }
+
   onResetFields(item) {
      if (item === 'dt') { this.DocNo = null; }
     else if (item === 'ddate') { this.DocNo = null; }
@@ -252,6 +279,9 @@ export class DocumentCorrectionComponent implements OnInit {
     this.DocNo = null; this.Reason = null;
     this.fromDate = new Date(); this.toDate = new Date();
     this.DocStatus = 'Pending'; this.status = '0';
+    this.loading = false;
+    this.CSForm.form.markAsUntouched();
+    this.CSForm.form.markAsPristine();
   }
 
   onRowSelect(event, data) {
@@ -328,6 +358,21 @@ export class DocumentCorrectionComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
     });
+  }
+
+  exportPdf() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    doc.setTextColor(37,174,248);
+    var col = this.CorrectionSlipApproveStatusCols;
+    var rows = [];
+    this.CorrectionSlipApproveStatusData.forEach(element => {
+      var temp = [element.SlNo, element.DocNumber, element.ApprovalStatus, 
+      element.ApprovedDate, element.ApproverReason];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
+    doc.save('Document_Correction.pdf');
   }
 
 }

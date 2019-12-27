@@ -11,7 +11,6 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { saveAs } from 'file-saver';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import * as Rx from 'rxjs';
 import * as _ from 'lodash';
 
 @Component({

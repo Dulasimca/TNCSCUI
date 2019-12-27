@@ -8,7 +8,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { Dropdown, SelectItem } from 'primeng/primeng';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-daily-statement',
@@ -93,6 +93,10 @@ export class DailyStatementComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+            this.godownOptions.unshift({ label: '-', value: '-' });
+          }
         } else {
           this.godownOptions = godownSelection;
         }
@@ -117,21 +121,48 @@ export class DailyStatementComponent implements OnInit {
     this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
-    const params = {};
-    this.restAPIService.post(PathConstants.SECTION_DAILY_STATEMENT_GET, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-  } else {
-    this.loading = false;
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
-  }
-}, (err: HttpErrorResponse) => {
-  if (err.status === 0 || err.status === 400) {
-    this.loading = false;
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-  }
-})
+    const params = {
+      'FromDate': this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.ToDate, 'MM/dd/yyyy'),
+      'RoleId': this.roleId,
+      'ITCode': this.ITCode,
+      'RCode': this.RCode,
+      'GCode': this.GCode
+    };
+    this.restAPIService.post(PathConstants.SECTION_DAILY_STATEMENT_POST, params).subscribe(res => {
+      if (res !== undefined && res !== null && (res.Table1.length !== 0 || res.Table.length !== 0)) {
+        this.sectionDailyStatementData = res.Table;
+        let sno = 1;
+        this.sectionDailyStatementData.forEach(x => {
+          x.SlNo = sno;
+          x.Allotment = 0;
+          x.Balance = 0;
+          if(res.Table1.length !== 0) {
+          res.Table1.forEach(y => {
+            if(x.Locations.trim() === y.Locations.trim()) {
+              x.OnTheDayQty = y.OnTheDayQty;
+            } else {
+              x.OnTheDayQty = 0;
+            }
+          })
+        } else {
+          x.OnTheDayQty = 0;
+        }
+        sno += 1;
+        })
+        this.loading = false;
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    })
   }
 
   onDateSelect() {

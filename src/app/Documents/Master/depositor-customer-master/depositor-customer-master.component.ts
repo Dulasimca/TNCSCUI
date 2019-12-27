@@ -118,7 +118,10 @@ export class DepositorCustomerMasterComponent implements OnInit {
   }
 
   onResetTable() {
-    this.DepositorData = this.KeroseneSuppliersData = this.KeroseneSuppliersCols = this.DepositorCols = null;
+    this.DepositorData = null;
+    this.KeroseneSuppliersData = null;
+    this.KeroseneSuppliersCols = null;
+    this.DepositorCols = null;
   }
 
   exportAsXLSX(): void {

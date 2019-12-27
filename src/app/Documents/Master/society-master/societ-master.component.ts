@@ -52,57 +52,6 @@ export class SocietMasterComponent implements OnInit {
       }]
   }
 
-  // onSelect(item) {
-  //   let godownSelection = [];
-  //   let typeSelection = [];
-  //   switch (item) {
-  //     case 'gd':
-  //       this.data = this.roleBasedService.instance;
-  //       if (this.data !== undefined) {
-  //         this.data.forEach(x => {
-  //           godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-  //           this.godownOptions = godownSelection;
-  //         });
-  //       }
-  //       break;
-  //     case 'type':
-  //       if (this.typeOptions === undefined) {
-  //         const params = new HttpParams().set('GCode', this.g_cd.value);
-  //         this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //           this.Type = res;
-  //           if (this.Type !== undefined && this.Type !== 0) {
-
-  //             this.Type = res.filter((value: { Tyname: any; }) => { return res.Tyname === this.typeOptions });
-  //             // this.Type.forEach(y => {
-  //             // typeSelection.push({ 'label': y.Tyname, 'value': y.SocietyType });
-
-  //             this.typeOptions = typeSelection;
-  //             // });
-  //             this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COPERATIVES LEADING', 'value': this.typeOptions });
-
-  //           }
-  //         });
-  //       }
-  //       break;
-  //   }
-  // }
-
-
-  // onView() {
-  //   // this.onSelect('type');
-  //   this.SocietyMasterCols = this.tableConstants.SocietyMaster;
-  //   const params = new HttpParams().set('GCode', this.g_cd.value);
-  //   this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //     if (this.SocietyMasterData === undefined) {
-  //       // if (this.SocietyMasterData !== undefined && this.SocietyMasterData !== 0) {
-  //         this.SocietyMasterData = res.filter((value: { Tyname: any; }) => { return res.Tyname === this.typeOptions });
-  //         this.SocietyMasterData = res;
-  //       // }
-  //     }
-  //     });
-  // }
-
-
   onSelect() {
     let options = [];
     this.data = this.roleBasedService.instance;
@@ -114,22 +63,6 @@ export class SocietMasterComponent implements OnInit {
     }
   }
 
-  // onType() {
-  //   let type = [];
-  //   if (this.typeOptions === undefined) {
-
-  //     const params = new HttpParams().set('GCode', this.g_cd.value);
-
-  //     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
-  //       this.Type = res;
-  //       type.push({ 'label': this.Type.Tyname, 'value': res.GowdonCode });
-  //       this.typeOptions = type;
-  //       this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COPERATIVE LEADING', 'value': this.typeOptions }, { 'label': 'COPERATIVE PRIMARY', 'value': this.typeOptions });
-  //       // this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'value': type.values });
-  //     });
-  //   }
-  // }
-
   onType() {
     let type = [];
     if (this.typeOptions === undefined) {
@@ -137,47 +70,42 @@ export class SocietMasterComponent implements OnInit {
       this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
         this.Type = res;
         if (this.typeOptions === undefined) {
-          // type = res.filter((value: { Tyname: any; }) => { return res[0].Tyname === res[0].SocietyName });
-          // type.push({ 'label': res[0].Tyname, 'value': type[0].Tyname });
           this.typeOptions = type;
         }
-        this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CRS', 'value': this.typeOptions }, { 'label': 'COOPERATIVES LEADING', 'value': this.typeOptions }, { 'label': 'COOPERATIVES PRIMARY', 'value': this.typeOptions });
-        // this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true }, { 'value': type.values });
+        this.typeOptions = [{ label: 'All', value: 'All'},
+         { label: 'CRS', value: this.typeOptions },
+          { label: 'COOPERATIVES LEADING', value: this.typeOptions }, 
+          { label: 'COOPERATIVES PRIMARY', value: this.typeOptions }];
       });
     }
   }
 
   onView() {
-    this.onType();
-    // this.loading = true;
+   // this.onType();
+    this.loading = true;
     const params = new HttpParams().set('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
       this.SocietyMasterData = res;
       this.filterArray = res;
       this.SocietyMasterCols = this.tableConstants.SocietyMaster;
       if (this.SocietyMasterData !== undefined && this.SocietyMasterData !== 0) {
+        if(this.t_cd.value !== 'All') {
         this.SocietyMasterData = res.filter((value: { Tyname: any; }) => { return value.Tyname === this.t_cd.label });
-        // if (value.Transfertype === this.tr_cd.label) {
-        // this.SocietyMasterData.push(value);
-        // this.totalRecords = this.SocietyMasterData.length;
-        // }
-        // })
-      }
+        } 
       let sno = 0;
       this.SocietyMasterData.forEach(data => {
         sno += 1;
         data.SlNo = sno;
-        // this.loading = false;
       });
-      if (this.SocietyMasterData !== undefined && this.SocietyMasterData.length !== 0) {
-        this.isActionDisabled = false;
-      } else {
+      this.loading = false;
+    } else {
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
-        // this.loading = false;
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
@@ -194,9 +122,7 @@ export class SocietMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.SocietyMasterData = this.SocietyMasterData.filter(item => {
-        // if (item.DepositorName.toString().startsWith(value)) {
         return item.Issuername.toString().startsWith(value);
-        // }
       });
     }
   }
@@ -214,8 +140,6 @@ export class SocietMasterComponent implements OnInit {
   exportAsPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
-    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
     var col = this.SocietyMasterCols;
     var rows = [];
     this.SocietyMasterData.forEach(element => {
