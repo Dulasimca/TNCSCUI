@@ -1,0 +1,312 @@
+<div class="ui-g content no-pad-top">
+  <div class="ui-g-12 dashboard">
+    <app-header></app-header>
+  </div>
+  <div class="ui-g-12">
+    <app-menu *ngIf="canShowMenu"></app-menu>
+    <div class="ui-g-12 card">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-8 ui-g-nopad">
+          <div class="ui-g-12 dashboard">
+            <div id="godown" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('godown')">
+              <div class="ui-g ui-fluid colorbox colorbox-lightBlue">
+                <div class="ui-g-4 colorbox colorbox-icon-lightBlue">
+                  <i class="fa fa-home fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">GODOWNS</span>
+                  <span class="colorbox-count">{{godownCount}}</span>
+                </div>
+              </div>
+            </div>
+            <div id="mrm" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer" (click)="onGridClicked('mrm')">
+              <div class="ui-g ui-fluid colorbox colorbox-yellow">
+                <div class="ui-g-4 colorbox colorbox-icon-yellow">
+                  <i class="fa fa-industry fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">MRM</span>
+                  <span class="colorbox-count">{{mrmCount}}</span>
+                </div>
+              </div>
+            </div>
+            <div id="aads" #AADS class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('aads')">
+              <div class="ui-g ui-fluid colorbox colorbox-green">
+                <div class="ui-g-4 card colorbox colorbox-icon-green">
+                  <i class="fa fa-cubes fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">AADS</span>
+                  <span class="colorbox-count">{{aadsCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 dashboard">
+            <div id="fci" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer" (click)="onGridClicked('fci')">
+              <div class="ui-g ui-fluid colorbox colorbox-pink">
+                <div class="ui-g-4 colorbox colorbox-icon-pink">
+                  <i class="fa fa-pagelines fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">FCI</span>
+                  <span class="colorbox-count">{{fciCount}}</span>
+                </div>
+              </div>
+            </div>
+            <div id="regions" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('regions')">
+              <div class="ui-g ui-fluid colorbox colorbox-gray">
+                <div class="ui-g-4 colorbox colorbox-icon-gray">
+                  <i class="fa fa-map fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">REGIONS</span>
+                  <span class="colorbox-count">{{regionCount}}</span>
+                </div>
+              </div>
+            </div>
+            <div id="shops" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('shops')">
+              <div class="ui-g ui-fluid colorbox colorbox-blue">
+                <div class="ui-g-4 colorbox colorbox-icon-blue">
+                  <i class="fa fa-shopping-cart fa-2x" style="margin-top: 12px"></i>
+                </div>
+                <div class="ui-g-8 colorbox">
+                  <span class="colorbox-name">SHOPS</span>
+                  <span class="colorbox-count">{{shopsCount}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 dashboard">
+            <div id="hullingAgencies" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('hullingAgencies')">
+              <div class="ui-g overview">
+                <div class="ui-g-10 overview-content clearfix">
+                  <span class="ui-g-6 overview-title">HULLING AGENCIES</span>
+                  <span class="ui-g-4 overview-detail">{{hullingAgencies}}</span>
+                </div>
+                <div class="overview-footer">
+                  <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+            <div id="depositors" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('depositors')">
+              <div class="ui-g ui-fluid overview">
+                <div class="ui-g-10 overview-content clearfix">
+                  <span class="ui-g-6 overview-title">DEPOSITORS /SUPPLIERS</span>
+                  <span class="ui-g-4 overview-detail">{{suppliersCount}}</span>
+                </div>
+                <div class="overview-footer">
+                  <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
+                </div>
+              </div>
+            </div>
+            <div id="schemes" class="ui-g-12 ui-md-6 ui-lg-4 card no-padding cursor-pointer"
+              (click)="onGridClicked('schemes')">
+              <div class="ui-g ui-fluid overview">
+                <div class="ui-g-10 overview-content clearfix">
+                  <span class="ui-g-6 overview-title">SCHEME</span>
+                  <span class="ui-g-4 overview-detail">{{schemeCount}}</span>
+                </div>
+                <div class="overview-footer">
+                  <img src="../../assets/layout/images/dashboard/views.svg" style="width: 100%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-fluid dashboard card no-padding colorbox"
+          [style.height.px]="notificationsHeight">
+          <div class="ui-g colorbox colorbox-notifications-header">
+            <span class="ui-g-12 ui-fluid">Notifications</span>
+          </div>
+          <marquee class="ui-g-12 marquee" scrollamount="1" scrolldelay="10" direction="up" onmouseover="this.stop()"
+            onmouseout="this.start()">
+            <ul style="text-align: center">
+              <li *ngFor="let list of notifications"> {{list}}
+                <hr class="ui-g-12 dashboard border-teal">
+              </li>
+            </ul>
+          </marquee>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 card">
+      <div class="ui-g">
+        <div class="ui-g-12 dashboard">
+          <div class="ui-g-12 ui-md-6 ui-lg-2 card no-padding cursor-pointer" id="PB" (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-blue">
+              <div class="ui-g ui-fluid colorbox-icon-blue">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/rice.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">RAW RICE(Mts)</span>
+                <span class="colorbox-PB-count">{{rawRicePB | number}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2 card no-padding cursor-pointer" id="PB" (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-lightBlue">
+              <div class="ui-g ui-fluid colorbox-icon-lightBlue">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/rice.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">BOILED RICE(Mts)</span>
+                <span class="colorbox-PB-count">{{boiledRicePB | number}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2 card no-padding cursor-pointer" id="PB" (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-yellow">
+              <div class="ui-g ui-fluid colorbox-icon-yellow">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/red-dal.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">DHALL(Mts)</span>
+                <span class="colorbox-PB-count">{{dhallPB | number}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2 ui-fluid card no-padding cursor-pointer" id="PB"
+            (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-dirtyGreen">
+              <div class="ui-g ui-fluid colorbox-icon-dirtyGreen">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/palmoil.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">P-OIL(No's)</span>
+                <span class="colorbox-PB-count">{{pOilPB | number}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2 ui-fluid card no-padding cursor-pointer" id="PB"
+            (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-green">
+              <div class="ui-g ui-fluid colorbox-icon-green">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/wheat.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">WHEAT(Mts)</span>
+                <span class="colorbox-PB-count">{{wheatPB | number}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-2 card no-padding cursor-pointer" id="PB" (click)="onGridClicked('PB')">
+            <div class="ui-g ui-fluid colorbox colorbox-gray">
+              <div class="ui-g ui-fluid colorbox-icon-gray">
+                <img class="PB-img" src="../../assets/layout/images/dashboard/sugar-cubes.png" style="height: 50px;" />
+              </div>
+              <div class="ui-g-8 colorbox">
+                <span class="colorbox-PB-name">SUGAR(Mts)</span>
+                <span class="colorbox-PB-count">{{sugarPB | number}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12 card ui-fluid content" style="padding-top: 2px">
+      <div class="ibox-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="ibox-body">
+              <ul class="nav nav-tabs tabs-line tabs-line-2x nav-fill tabs-line-success fontfamily">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#CB" data-toggle="tab" (click)="calculateQuantity('CB')">Closing
+                    Balance</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#Receipt" data-toggle="tab" (click)="calculateQuantity('R')">Receipt</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#Issue" data-toggle="tab" (click)="calculateQuantity('I')">Issue</a>
+                </li>
+              </ul>
+
+              <div class="tab-content">
+                <div class="col-md-12 tab-pane show active" id="CB">
+                  <div class="ui-g-12 card" *ngIf="CBRiceData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="CBRiceData"
+                      style="height: 400px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="CBDhallAndOilData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="CBDhallAndOilData"
+                      style="height: 400px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="CBWheatAndSugarData">
+                    <div style="width: 100%;">
+                      <highcharts-chart [Highcharts]="Highcharts" [options]="CBWheatAndSugarData"
+                        style="height: 400px; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 tab-pane" id="Receipt">
+                  <div class="ui-g-12 card" *ngIf="ReceiptRiceData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="ReceiptRiceData"
+                      style="height: 400px; display: block">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="ReceiptDhallAndOilData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="ReceiptDhallAndOilData"
+                      style="height: 400px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="ReceiptWheatAndSugarData">
+                    <div style="width: 100%;">
+                      <highcharts-chart [Highcharts]="Highcharts" [options]="ReceiptWheatAndSugarData"
+                        style="height: 400px; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 tab-pane" id="Issue">
+                  <div class="ui-g-12 card" *ngIf="IssueRiceData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="IssueRiceData"
+                      style="height: 400px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="IssueDhallAndOilData">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="IssueDhallAndOilData"
+                      style="height: 400px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="ui-g-12 card" *ngIf="IssueWheatAndSugarData">
+                    <div style="width: 100%;">
+                      <highcharts-chart [Highcharts]="Highcharts" [options]="IssueWheatAndSugarData"
+                        style="height: 400px; display: block;">
+                      </highcharts-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog *ngIf="noti" [(visible)]="display" [modal]="true" [responsive]="true"
+  [style]="{width: '350px', top: '240px', minWidth: '200px', background:'linear-gradient(to bottom, #f6f7f9 0%, #ebedf0 100%'}"
+  [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+  <div style="text-align: center">
+    <img class="PB-img" src="../../assets/layout/images/NotificationPopup/HappyNewYear.jpg"
+      style="height: 150px; width: auto;" />
+      <p></p>
+    <!-- <p>It has been a rewarding experience working with you and may this New Year bring forth many such rewarding moments
+      for us to share!</p> -->
+    <!-- <p>Wishing you and your Family a Joyfull Happy New Year</p> -->
+    <div>
+      {{NotificationsData}}
+    </div>
+  </div>
+</p-dialog>
