@@ -39,8 +39,8 @@ export class NotificationPopupComponent implements OnInit {
   public progress: number;
   public message: string;
   magpath: string;
-  imgUrl = 'C:/LocalRepository/TNCSCUI/dist/GoodsStock/assets/layout/images/NotificationPopup/MCHNY.jpg';
-  imgPost = "C:\LocalRepository\TNCSCUI\dist\GoodsStock\assets\layout\images\NotificationPopup\MCHNY.jpg";
+  imgUrl = "../../assets/NotificationPopup/";
+  imgPost = "";
   fileToUpload: File = null;
   bearerToken  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
@@ -53,7 +53,7 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
-        // this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+       this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -88,8 +88,8 @@ export class NotificationPopupComponent implements OnInit {
     // }
     // reader.readAsDataURL(this.noti);
     // const uploadReq = new HttpRequest("POST", '/assets/layout/images/NotificationPopup/', formData,
-
-    const uploadReq = new HttpRequest("POST", 'http://localhost:55922/api/Upload', formData,
+    var path=this.restApiService.BASEURL+'/api/Upload';
+    const uploadReq = new HttpRequest("POST", path, formData,
       {
         reportProgress: true,
       });
@@ -137,7 +137,7 @@ export class NotificationPopupComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsCols = this.tableConstant.NotificationPopup;
         this.NotificationsData = res;
-        // this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+       this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
        
       } else {
         this.messageService.clear();
@@ -158,7 +158,7 @@ export class NotificationPopupComponent implements OnInit {
   }
 
   onSubmit() {
-    this.loadDocument();
+    // this.loadDocument();
     const params = {
       'Type': 1,
       'ID': 1,
@@ -193,12 +193,12 @@ export class NotificationPopupComponent implements OnInit {
     this.onClear();
   }
 
-  loadDocument() {
-    const path = "../../assets/NotificationPopup/";
-    const filename = GolbalVariable.PopupImage;
-    let filepath = path + filename + ".jpg";
-    var w = window.open(filepath);
-  }
+  // loadDocument() {
+  //   const path = "../../assets/NotificationPopup/";
+  //   const filename = GolbalVariable.PopupImage;
+  //   let filepath = path + filename + ".jpg";
+  //   var w = window.open(filepath);
+  // }
 
   fileChange(e) {
     const file = e.srcElement.files[0];
