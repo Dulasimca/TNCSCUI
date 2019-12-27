@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
   TNCSCKey: string = 'Notification';
   imgUrl = "../../assets/NotificationPopup/";
   imgPost = "";
+  NotificationNotes: any;
   @ViewChild('AADS') divAADS: ElementRef;
   @ViewChild('element') toastObj;
 
@@ -780,8 +781,8 @@ export class HomeComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsData = res[0];
-        this.NotificationsData = this.NotificationsData.Notes;
-        this.imgPost = this.imgUrl + this.NotificationsData[0].ImageName;
+        this.NotificationNotes = this.NotificationsData.Notes;
+        this.imgPost = this.imgUrl + this.NotificationsData.ImageName;
       }
     });
     const params = { 'sValue': this.TNCSCKey };
