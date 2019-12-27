@@ -16,14 +16,25 @@
     </p-header>
     <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-4"></div>
+      <div class="ui-g-12 ui-md-3"></div>
       <div class="ui-g-3 ui-md-2">
         <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (ngModelChange)="onResetTable()" (onClick)="onDepositor()"
-          [(ngModel)]="val1" inputId="opt1">
+          [(ngModel)]="supplierType" inputId="opt1">
         </p-radioButton>
       </div>
+      <div class="ui-g-12 ui-md-2" style="margin-top: -10px;">
+        <label for="Depositortype" class="label-fontsize">Depositor Type</label>
+        <p-dropdown #depositor name="Depositortype" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
+          (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
+          (onChange)="dt.reset();filterDepositor($event)" filter="true" optionLabel="label" resetFilterOnHide="true"
+          [showClear]="true" [disabled]="isDepositor" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
       <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()" [(ngModel)]="val1"
+        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()" [(ngModel)]="supplierType"
           (onClick)="onKeroseneSuppliers()" inputId="opt3">
         </p-radioButton>
       </div>
