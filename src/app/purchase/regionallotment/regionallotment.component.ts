@@ -81,6 +81,7 @@ export class RegionAllotmentComponent implements OnInit {
   @ViewChild('spell') spellPanel: Dropdown;
   @ViewChild('f') form: NgForm;
   @ViewChild('rf') regForm: NgForm;
+  message: string;
 
 
 
@@ -237,8 +238,11 @@ export class RegionAllotmentComponent implements OnInit {
             }
             if ((this.AllottedQty * 1) === totalQty) {
               this.blockEntry = true;
+              this.showErrMsg = true;
+              this.message = 'No balance quantity is available!';
             } else {
               this.blockEntry = false;
+              this.showErrMsg = false;
             }
           } else {
             this.tenderAllotmentRegionWiseData = [];
@@ -262,8 +266,11 @@ export class RegionAllotmentComponent implements OnInit {
 
             if ((this.RegAllottedQty * 1) === totalQty) {
               this.blockRegQty = true;
+              this.showRErrMsg = true;
+              this.message = 'No balance quantity is available!';
             } else {
               this.blockRegQty = false;
+              this.showRErrMsg = false;
             }
           }
         } else {
@@ -304,6 +311,7 @@ export class RegionAllotmentComponent implements OnInit {
             if (Qty > AllottedQty) {
               this.Quantity = null;
               this.showErrMsg = true;
+              this.message = 'Allot Quantity within Total Quantity!';
             } else if (this.tenderAllotmentData.length !== 0) {
               let enteredQty = 0;
               this.tenderAllotmentData.forEach(x => {
@@ -311,10 +319,12 @@ export class RegionAllotmentComponent implements OnInit {
                   enteredQty += (x.AssignedQty * 1);
                 }
               })
-              let remainingQty = ((AllottedQty * 1) - (enteredQty * 1));
+              let remainingQty: any = ((AllottedQty * 1) - (enteredQty * 1)).toFixed(3);
+              remainingQty = (remainingQty * 1);
               if (Qty > remainingQty && remainingQty !== 0) {
                 this.Quantity = null;
                 this.showErrMsg = true;
+                this.message = 'Allot Quantity within Total Quantity!';
               } else {
                 this.showErrMsg = false;
               }
@@ -324,6 +334,7 @@ export class RegionAllotmentComponent implements OnInit {
               if (Qty > remainingQty && remainingQty !== 0) {
                 this.Quantity = null;
                 this.showErrMsg = true;
+                this.message = 'Allot Quantity within Total Quantity!';
               } else {
                 this.showErrMsg = false;
               }
@@ -338,6 +349,7 @@ export class RegionAllotmentComponent implements OnInit {
             if (Qty > RegAllottedQty) {
               this.RegQty = null;
               this.showRErrMsg = true;
+              this.message = 'Allot Quantity within Total Quantity!';
             } else if (this.tenderAllotmentRegionWiseData.length !== 0) {
               let enteredQty = 0;
               this.tenderAllotmentRegionWiseData.forEach(x => {
@@ -345,10 +357,12 @@ export class RegionAllotmentComponent implements OnInit {
                   enteredQty += (x.Quantity * 1);
                 }
               })
-              let remainingQty = ((RegAllottedQty * 1) - (enteredQty * 1));
+              let remainingQty: any = ((RegAllottedQty * 1) - (enteredQty * 1)).toFixed(3);
+              remainingQty = (remainingQty * 1);
               if (Qty > remainingQty && remainingQty !== 0) {
                 this.RegQty = null;
                 this.showRErrMsg = true;
+                this.message = 'Allot Quantity within Total Quantity!';
               } else {
                 this.showRErrMsg = false;
               }
@@ -358,6 +372,7 @@ export class RegionAllotmentComponent implements OnInit {
               if (Qty > remainingQty && remainingQty !== 0) {
                 this.RegQty = null;
                 this.showRErrMsg = true;
+                this.message = 'Allot Quantity within Total Quantity!';
               } else {
                 this.showRErrMsg = false;
               }
@@ -412,11 +427,15 @@ export class RegionAllotmentComponent implements OnInit {
         this.tenderAllotmentData[lastIndex].AssignedQty = totalQty;
         if ((this.AllottedQty * 1) === totalQty) {
           this.blockEntry = true;
+          this.showErrMsg = true;
+          this.message = 'No balance quantity is available!';
         } else {
           this.blockEntry = false;
+          this.showErrMsg = false;
         }
       }
     } else if (type === '2') {
+      this.onClear(type);
       this.tenderAllotmentRegionWiseData.length = 0;
       this.showPane = true;
       this.selectedPartyRegion = data.PartyRegion;
@@ -454,8 +473,11 @@ export class RegionAllotmentComponent implements OnInit {
         this.tenderAllotmentRegionWiseData[lastIndex].Quantity = totalQty;
         if ((this.RegAllottedQty * 1) === totalQty) {
           this.blockRegQty = true;
-        } else {
+          this.showRErrMsg = true;
+          this.message = 'No balance quantity is available!';
+         } else {
           this.blockRegQty = false;
+          this.showRErrMsg = false;
         }
       }
     }

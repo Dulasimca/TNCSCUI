@@ -56,7 +56,7 @@
         </div>
         <div class="ui-g-12 dashboard">
           <p-table #dt_rec [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="10"
-          [frozenColumns]="frozenQtyReceiptCols" frozenWidth="600px" [scrollable]="true" scrollHeight="210px"
+          [frozenColumns]="frozenQtyReceiptCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
             exportFilename="QTY_AC_RECEIPT_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
             [paginator]="true" [loading]="loading">
             <ng-template pTemplate="colgroup" let-columns>
@@ -106,7 +106,7 @@
           </div>
           <div class="ui-g-12 no-right-pad no-left-pad">
             <p-table #dt_iss [columns]="QtyIssueCols" [value]="QtyIssueData" [rows]="10"
-            [frozenColumns]="frozenQtyIssueCols" frozenWidth="600px" [scrollable]="true" scrollHeight="190px"
+            [frozenColumns]="frozenQtyIssueCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
               exportFilename="QTY_AC_ISSUE_COMMODITY_REPORT" [rowsPerPageOptions]="[10,20,30,40,50,100]"
               [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
               <ng-template pTemplate="colgroup" let-columns>
