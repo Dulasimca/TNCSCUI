@@ -31,7 +31,7 @@ export class LoadMenWagesComponent implements OnInit {
   toDate: any = new Date();
   loading: boolean;
   GCode: any;
-
+  totalRecords : any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -122,7 +122,10 @@ export class LoadMenWagesComponent implements OnInit {
             }
           })
   }
-
+  onDateSelect()
+  {
+    
+  }
   onResetTable(item) {
     if(item === 'reg') {
       this.GCode = null;

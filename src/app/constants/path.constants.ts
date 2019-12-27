@@ -180,5 +180,10 @@ export class PathConstants {
 
   ///Settings
   public static readonly SETTINGS_GET = '/api/Settings';
+
+  ///TrackIP
+  public static readonly IMAGE_UPLOAD = '/api/Upload';
+  
+
   ///End
 }

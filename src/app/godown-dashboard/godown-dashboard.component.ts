@@ -10,11 +10,11 @@ import { MessageService } from 'primeng/api';
 import { StatusMessage } from '../constants/Messages';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-godown-dashboard',
+  templateUrl: './godown-dashboard.component.html',
+  styleUrls: ['./godown-dashboard.component.css']
 })
-export class HomeComponent implements OnInit {
+export class GodownDashboardComponent implements OnInit {
   cbRice: string = 'line';
   cbDhall: string = 'column';
   date: any;
@@ -65,9 +65,6 @@ export class HomeComponent implements OnInit {
   noti: any;
   NotificationsData: any;
   TNCSCKey: string = 'Notification';
-  imgUrl = "../../assets/NotificationPopup/";
-  imgPost = "";
-  NotificationNotes: any;
   @ViewChild('AADS') divAADS: ElementRef;
   @ViewChild('element') toastObj;
 
@@ -781,8 +778,7 @@ export class HomeComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.NotificationsData = res[0];
-        this.NotificationNotes = this.NotificationsData.Notes;
-        this.imgPost = this.imgUrl + this.NotificationsData.ImageName;
+        this.NotificationsData = this.NotificationsData.Notes;
       }
     });
     const params = { 'sValue': this.TNCSCKey };
