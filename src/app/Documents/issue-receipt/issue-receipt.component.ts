@@ -503,7 +503,8 @@ export class IssueReceiptComponent implements OnInit {
             this.itemData.forEach(x => {
               if (x.TStockNo.trim() === stockNo.trim()) {
                 this.CurrentDocQtv += (x.Nkgs * 1);
-                this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+                this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
+                this.NetStackBalance = (this.NetStackBalance * 1);
               }
             })
           }
@@ -636,7 +637,8 @@ export class IssueReceiptComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
         } else {
-          this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
+          this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
+          this.NetStackBalance = (this.NetStackBalance * 1);
           this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
           this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
           this.TKgs = null; this.WTCode = null; this.Moisture = null;

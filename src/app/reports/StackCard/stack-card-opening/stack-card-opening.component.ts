@@ -182,8 +182,10 @@ export class StackCardOpeningComponent implements OnInit {
 
   deleteSelectedRow(index, selectedRow) {
     let rowId = selectedRow.Sno;
+    const status = selectedRow.Status.trim();
     let stackNo = selectedRow.Stackno.trim();
-    const statusOfCard = (selectedRow.Status === 'R') ? stackNo + ' is Running Card! ' : stackNo + ' is Closed Card! ';
+    if(status !== 'C') {
+    const statusOfCard =  stackNo + ' is Running Card! ';
      const httpParams = new HttpParams().set('GCode', this.GCode).append('RowId', rowId);
      let options = { params: httpParams};
     this.confirmationService.confirm({
@@ -206,6 +208,7 @@ export class StackCardOpeningComponent implements OnInit {
       },
       reject: () => {  }
     });
+  }
   }
 
   onResetTable(item) {

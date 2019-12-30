@@ -1518,8 +1518,8 @@ export class TableConstants {
         { header: 'Commodity', field: 'Commodity' },
         { header: 'Bags', field: 'NoPacking' },
         { header: 'Quantity', field: 'Qty' },
-        { header: 'LoadingCharges', field: 'LoadingCharges' },
-        { header: 'HandlingCharges', field: 'HandlingCharges' },
+        { header: 'Loading Charges', field: 'Loading' },
+        { header: 'Handling Charges', field: 'Handling' },
         { header: 'Total', field: 'Total' },
 
       ];
@@ -1531,9 +1531,7 @@ export class TableConstants {
         { header: 'Commodity', field: 'Commodity' },
         { header: 'Bags', field: 'NoPacking' },
         { header: 'Quantity', field: 'Qty' },
-        { header: 'UnLoadingCharges', field: 'UnLoadingCharges' },
-        { header: 'Total', field: 'Total' },
-
+        { header: 'UnLoading Charges', field: 'UnLoading' },
       ];
   }
 }

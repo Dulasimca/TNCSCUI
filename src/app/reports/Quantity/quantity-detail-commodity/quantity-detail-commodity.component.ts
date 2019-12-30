@@ -11,6 +11,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-quantity-detail-commodity',
@@ -53,7 +54,7 @@ export class QuantityDetailCommodityComponent implements OnInit {
   @ViewChild('region') regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService,
+    private authService: AuthService, private excelService: ExcelService,
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -196,6 +197,46 @@ export class QuantityDetailCommodityComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.QtyReceiptData = [];
     this.QtyIssueData = [];
+  }
+
+  exportExcel(type) {
+    let data = [];
+    let cols = [];
+    if(type === '1') {
+      this.QtyReceiptData.forEach(el => {
+        data.push({ GName: el.GName, Commodity: el.Commodity, OpeningBalance: (el.OpeningBalance * 1),
+          RecPDS: (el.RecPDS * 1), RecPRIORITY: (el.RecPRIORITY * 1), RecTIDEOVER: (el.RecTIDEOVER * 1), RecAAY: (el.RecAAY * 1),
+          RecSPLPDS: (el.RecSPLPDS * 1), RecCEMENT: (el.RecCEMENT * 1), RecHOPURCHASE: (el.RecHOPURCHASE * 1),
+          RecSEIZUR: (el.RecSEIZUR * 1), Total: (el.Total * 1), RecPTMGRNMP: (el.RecPTMGRNMP * 1), RecSGRY: (el.RecSGRY * 1),
+          RecANNAPURNA: (el.RecANNAPURNA * 1), TotalFreeRice: (el.TotalFreeRice * 1), RecRECEIVEDFROM: (el.RecRECEIVEDFROM * 1),
+          RecTRANSFERWITHINREGION: (el.RecTRANSFERWITHINREGION * 1), RecTRANSFEROTHERREGION: (el.RecTRANSFEROTHERREGION * 1),
+          RecEXCESS: (el.RecEXCESS * 1), RecCLEANINGANDPACKING: (el.RecCLEANINGANDPACKING * 1),
+          RecVCFLOOD: (el.RecVCFLOOD * 1), RecSALESRETURN: (el.RecSALESRETURN * 1), TotalReceipt: (el.TotalReceipt * 1),
+          TotalOtherReceipt: (el.TotalOtherReceipt * 1), GrandTotalReceipt: (el.GrandTotalReceipt * 1)
+         });
+      })
+      cols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity + this.tableConstants.QuantityACReceiptDetailsCommodity;
+    //  cols.unshift({ field: 'Commodity', header: 'Commodity'});
+    //  cols.unshift({ field: 'Opening Balance', header: 'OpeningBalance'});
+    //  cols.unshift({ field: 'GName', header: 'Godown Name'});
+      this.excelService.exportAsExcelFile(data, 'QTY_AC_RECEIPT_COMMODITY_REPORT', cols);
+    } else {
+    this.QtyIssueData.forEach(el => {
+      data.push({ GName: el.GName, Commodity: el.Commodity, OpeningBalance: (el.OpeningBalance * 1),
+        IsPDS: (el.IsPDS * 1), IsCOOP: (el.IsCOOP * 1), IsPOLICE: (el.IsPOLICE * 1), IsNMP: (el.IsNMP * 1),
+        IsBULK: (el.IsBULK * 1), IsCREDIT: (el.IsCREDIT * 1), IsOAP: (el.IsOAP * 1), IsSRILANKA: (el.IsSRILANKA * 1),
+        IsAAY: (el.IsAAY * 1), IsSPLPDS: (el.IsSPLPDS * 1), IsPDSCOOP: (el.IsPDSCOOP * 1), IsCEMENTFLOOD: (el.IsCEMENTFLOOD * 1),
+        IsTotalSales: (el.IsTotalSales * 1), IsPTMGR: (el.IsPTMGR * 1), IsSGRY: (el.IsSGRY * 1), IsANNAPOORNA: (el.IsANNAPOORNA * 1),
+        IsTotalFreeRiceIssues: (el.IsTotalFreeRiceIssues * 1), IsISSUESTOPROCESSING: (el.IsISSUESTOPROCESSING * 1),
+        IsTRANSFERWITHINREGION: (el.IsTRANSFERWITHINREGION * 1), IsTRANSFEROTHERREGION: (el.IsTRANSFEROTHERREGION * 1),
+        IsWRITEOFF: (el.IsWRITEOFF * 1), IsCLEANING: (el.IsCLEANING * 1), IsVCBLG: (el.IsVCBLG * 1),
+        IsPURCHASERETURN: (el.IsPURCHASERETURN * 1), IsTotalOtherIssues: (el.IsTotalOtherIssues * 1),
+        IsTotalIssues: (el.IsTotalIssues * 1), IsBalanceQty: (el.IsBalanceQty * 1)
+       });
+    })
+    cols = this.tableConstants.FrozenQuantityACIssueDetailsCommodity + this.tableConstants.QuantityACIssueDetailsCommodity;
+    this.excelService.exportAsExcelFile(data, 'QTY_AC_ISSUE_COMMODITY_REPORT', cols);
+  }
   }
 
   onPrint() {

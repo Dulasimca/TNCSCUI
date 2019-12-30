@@ -84,7 +84,7 @@
                   oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                   [readonly]="blockEntry" appDecimalDigit required />
                 <div *ngIf="showErrMsg">
-                  <span style="font-size: 11px; color:crimson;">Allot Quantity within Total Quantity!</span>
+                  <span style="font-size: 11px; color:crimson;">{{message}}</span>
                 </div>
               </div>
               <div class="ui-g-6 ui-md-1">
@@ -189,7 +189,7 @@
                 oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                 appDecimalDigit required />
               <div *ngIf="showRErrMsg">
-                <span style="font-size: 11px; color:crimson;">Allot Quantity within Total Quantity!</span>
+                <span style="font-size: 11px; color:crimson;">{{message}}</span>
               </div>
             </div>
             <div class="ui-g-4 ui-md-2" style="margin-top: 20px;">
