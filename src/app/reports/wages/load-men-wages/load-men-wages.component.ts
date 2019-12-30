@@ -107,6 +107,7 @@ export class LoadMenWagesComponent implements OnInit {
                 x.SlNo = sno;
                 sno += 1;
                 x.Date = this.datePipe.transform(x.Date, 'dd/MM/yyyy');
+                x.Total = (x.Loading * 1) + (x.Handling);
               });
               this.loadMenWagesData = res;
              } else {

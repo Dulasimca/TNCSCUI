@@ -1530,8 +1530,6 @@ export class TableConstants {
         { header: 'Bags', field: 'NoPacking' },
         { header: 'Quantity', field: 'Qty' },
         { header: 'UnLoading Charges', field: 'UnLoading' },
-        { header: 'Total', field: 'Total' },
-
       ];
   }
 }
