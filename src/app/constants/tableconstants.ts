@@ -430,6 +430,7 @@ export class TableConstants {
       { field: 'Issue_Memono', header: 'I.MEMO NO' },
       { field: 'Issue_Date', header: 'DATE' },
       { field: 'Commodity', header: 'COMMODITY' },
+      { field: 'NoPacking', header: 'BAGS' },
       { field: 'Quantity', header: 'QUANTITY' },
       { field: 'Issuedto', header: 'ISSUED TO' }
     ];
@@ -1063,13 +1064,14 @@ export class TableConstants {
 
     this.EmployeeMaster = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'Empname', header: 'Employee Name' },
       { field: 'Empno', header: 'Employee No' },
+      { field: 'FPFNO', header: 'FPFNO' },
+      { field: 'Empname', header: 'Employee Name' },
       { field: 'DesignationName', header: 'Designation' },
-      { field: 'Jrtype', header: 'Join Type' },
-      { field: 'Jrdate', header: 'Join Date' },
-      { field: 'Refno', header: 'Reference No' },
-      { field: 'Refdate', header: 'Reference Date' }
+      { field: 'Gender', header: 'Gender' },
+      { field: 'DOB', header: 'DOB' },
+      { field: 'FatherName', header: 'Father Name' },
+      { field: 'UANNO', header: 'UAN NO' },
     ];
 
     this.IssuerMaster = [
