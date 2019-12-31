@@ -11,7 +11,7 @@
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(receiptHOPurchaseData.length=='0')"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print
-              (click)="onPrint()" [disabled]="true"></button>
+              (click)="onPrint()" [disabled]="(receiptHOPurchaseData.length=='0')"></button>
           </div> 
           </div>
     </p-header>

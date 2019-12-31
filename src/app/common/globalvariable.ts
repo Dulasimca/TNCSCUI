@@ -31,7 +31,7 @@ export class GolbalVariable {
     //Purchase
     public static readonly HoPurchaseFileName = 'HOPURCHASE';
     public static readonly RoPurchaseFileName = 'ROPURCHASE';
-    public static readonly RonoPurchaseFileName = 'RONOPURCHASE';
+    public static readonly RoNoPurchaseFileName = 'RONOPURCHASE';
 
     //DeliveryOrderReport
     public static readonly DOAllSchemeReportFileName = 'DOALLSCH';
