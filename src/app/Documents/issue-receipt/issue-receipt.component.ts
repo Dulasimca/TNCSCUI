@@ -695,7 +695,7 @@ export class IssueReceiptComponent implements OnInit {
           this.godownNo = this.TStockNo.toString().slice(0, index);
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
-        this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+        this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
         this.itemData.splice(index, 1);
         let sno = 1;
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });

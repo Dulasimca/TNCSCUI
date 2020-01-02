@@ -69,12 +69,14 @@
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">From</label>
-        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [minDate]="minDate" [maxDate]="maxDate" [showIcon]="true"
+        <!-- [minDate]="minDate"  -->
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" [maxDate]="maxDate" [showIcon]="true"
           dateFormat="dd/mm/yy" [disabled]="(!StackStatus || StackStatus!='C')" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">To</label>
-        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [minDate]="minDate" [maxDate]="maxDate" [showIcon]="true"
+        <!-- [minDate]="minDate"  -->
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="toDate" [maxDate]="maxDate" [showIcon]="true"
           dateFormat="dd/mm/yy" [disabled]="(!StackStatus || StackStatus!='C')" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-12 dashboard">
