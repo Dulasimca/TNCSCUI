@@ -35,7 +35,7 @@ export class ItemMasterModificationComponent implements OnInit {
         this.ItemMasterData.forEach(data => {
           sno += 1;
           data.SlNo = sno;
-          data.Status = (data.SFlag) ? 'Active' : 'InActive';
+          data.Activeflag = (data.Activeflag) ? 'Active' : 'InActive';
         });
       }
       this.items = [

@@ -442,7 +442,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.SalesTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.TIN.toString().startsWith(value);
       });
     } else {
       this.SalesTaxData = this.CompanyTitle;
@@ -454,7 +454,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.CompanyTitleData = this.CompanyGlobal.filter(item => {
-        return item.PartyName.toString().startsWith(value);
+        return item.PartyName.startsWith(value) || item.TIN.toString().startsWith(value);
       });
     } else {
       this.CompanyTitleData = this.CompanyGlobal;

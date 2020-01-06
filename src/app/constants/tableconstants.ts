@@ -790,7 +790,7 @@ export class TableConstants {
       { field: 'ITDescription', header: 'Item Name' },
       // { field: 'GRName', header: 'GROUP' },
       { field: 'ItemType', header: 'Item Type' },
-      { field: 'Status', header: 'Status'}
+      { field: 'Activeflag', header: 'Status'}
 
     ];
 
