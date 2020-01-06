@@ -173,28 +173,44 @@
 
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-3 dashboard">
+                <div class="ui-g-12 ui-md-6">
+                  <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
+                  <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
+                    [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keydown.enter)="onSelect('tax','enter')"
+                    [showClear]="true" filter="true" resetFilterOnHide="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <label class="ui-g-10 label-fontsize dashboard" for="Measurement">Measurements</label>
+                  <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
+                    [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
+                    (keydown.enter)="onSelect('measurement','enter')" [showClear]="true" filter="true"
+                    resetFilterOnHide="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-3" style="padding-top: 18px">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Quantity" name="Quantity"
                     autocomplete="off" (input)="onGST()" required>
                   <label for="Quantity">Quantity</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-3" style="padding-top: 18px">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate"
                     autocomplete="off" (input)="onGST()" required>
                   <label for="Rate">Rate</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
-                <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
-                    autocomplete="off" (input)="onGST()" readonly="true" required>
-                  <label for="Amount">Amount(Exclusive of GST)</label>
-                </div>
-              </div>
-              <div class="ui-g-12 ui-md-2"></div>
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
             </div>
 
             <div class="ui-g">
@@ -208,9 +224,33 @@
               </div>
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="CGST" name="CGST"
+                    (input)="onGST()" autocomplete="off" readonly="true" required>
+                  <label for="CGST">CGST Amount</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-3">
+                <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="SGST" name="SGST"
+                    (input)="onGST()" autocomplete="off" readonly="true" required>
+                  <label for="SGST">SGST Amount</label>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-3">
+                <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat"
                     autocomplete="off" (input)="onGST()" readonly="true" required>
                   <label for="Vat">GST Amount</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-3">
+                <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
+                    autocomplete="off" (input)="onGST()" readonly="true" required>
+                  <label for="Amount">Amount(Exclusive of GST)</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-3">
@@ -223,7 +263,7 @@
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
                 <div class="ui-g-6 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
-                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Vat || !Bill || !Billdate || !Quantity || !Rate || !percentage || !Total)"
+                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Party || !Amount || !Vat || !Bill || !Billdate || !TaxType || !Measurement || !CGST || !SGST || !Quantity || !Rate || !percentage || !Total)"
                     label=Save></button>
                 </div>
                 <div class="ui-g-6 ui-md-6 ui-fluid">
