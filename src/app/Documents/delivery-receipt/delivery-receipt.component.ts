@@ -8,7 +8,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, RadioButton } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 
@@ -98,7 +98,7 @@ export class DeliveryReceiptComponent implements OnInit {
   PAmount: any;
   PayableAt: any;
   OnBank: any;
-  PrevOrderNo: any;
+  PrevOrderNo: string;
   PrevOrderDate: any = new  Date();
   AdjusmentAmount: any;
   AdjustmentType: string;
@@ -129,6 +129,8 @@ export class DeliveryReceiptComponent implements OnInit {
   CurrDAmount: any;
   CurrCAmount: any;
   AmntType: any;
+  PrevBalType: any;
+  disablePBType: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -142,8 +144,6 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
   @ViewChild('pay') paymentPanel: Dropdown;
  
-
-
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe) { }
@@ -530,7 +530,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
         this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         this.paymentData.splice(index, 1);
         let psno = 1;
         this.paymentData.forEach(x => { x.sno = psno; psno += 1; });
@@ -545,7 +545,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Balance = (data.Balance * 1);
         this.AdjusmentCAmount = ((this.AdjusmentAmount * 1) < 0) ? (this.AdjusmentAmount * 1) : 0;
         this.AdjusmentDAmount = ((this.AdjusmentAmount * 1) >= 0) ? (this.AdjusmentAmount * 1): 0;
-        this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toString().slice(1) : (this.AdjusmentCAmount * 1);
+        this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toFixed(2).slice(1) : (this.AdjusmentCAmount * 1);
         this.AdjustmentType = data.AdjustmentType;
         this.paymentBalData.splice(index, 1);
         let sNo = 1;
@@ -581,7 +581,7 @@ export class DeliveryReceiptComponent implements OnInit {
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
           this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-          this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+          this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
           this.Scheme = null; this.ICode = null; this.NKgs = null;
           this.RateTerm = null; this.Rate = null; this.TotalAmount = null;
           this.schemeOptions = this.rateInTermsOptions = this.itemDescOptions = [];
@@ -616,7 +616,7 @@ export class DeliveryReceiptComponent implements OnInit {
           ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
           this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-          this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+          this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
           this.MarginScheme = null;
           this.MICode = null; this.MarginNKgs = null;
           this.MarginRateInTerms = null; this.MarginRate = null; this.MarginAmount = null;
@@ -653,9 +653,9 @@ export class DeliveryReceiptComponent implements OnInit {
             this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
             this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
               ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
-              this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
-              this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-              this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+              this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
+              this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
+              this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1).toFixed(2);
             this.ChequeDate = new Date();
             this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
             this.OnBank = null; this.PAmount = 0;
@@ -741,27 +741,23 @@ export class DeliveryReceiptComponent implements OnInit {
     }
   }
 
-  loadPrevDOAmnt(event) {
-    const value = event.target.value;
-    if(value !== undefined && value !== null) {
-      if(this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined) {
-        const amount = (this.AdjusmentAmount * 1);
-        if(amount < 0) {
-          this.AdjusmentCAmount = ((this.AdjusmentAmount * 1) < 0) ? (this.AdjusmentAmount * 1).toFixed(2) : 0;
-          this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toFixed(2).slice(1) : (this.AdjusmentCAmount * 1).toFixed(2);
+  loadPrevBal(value) {
+    if(value !== null && value !== undefined) {
+      switch (value) {
+        case 'Credit':
+          this.AdjusmentCAmount = (this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined) ? (this.AdjusmentAmount * 1).toFixed(2) : 0;
           this.AdjusmentDAmount = 0;
           this.onCalculateBalance();
-        } else if(amount > 0) {
-          this.AdjusmentDAmount = ((this.AdjusmentAmount * 1) >= 0) ? (this.AdjusmentAmount * 1).toFixed(2) : 0;
+          break;
+        case 'Debit':
+          this.AdjusmentDAmount = (this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined) ? (this.AdjusmentAmount * 1).toFixed(2) : 0;
           this.AdjusmentCAmount = 0;
           this.onCalculateBalance();
-        } else {
-          this.AdjusmentCAmount = 0;
-          this.AdjusmentDAmount = 0;
-        }
+          break;
       }
     }
   }
+  
 
   onCalculateBalance() {
     if(this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined &&
@@ -769,7 +765,7 @@ export class DeliveryReceiptComponent implements OnInit {
       && this.BalanceAmount !== undefined) {
         this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
         this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         let totalCAmount = (this.AdjusmentCAmount * 1) + (this.CurrCAmount * 1) + (this.OtherCAmount * 1);
         let totalDAmount = (this.AdjusmentDAmount * 1) + (this.CurrDAmount * 1) + (this.OtherDAmount * 1);
         if(totalCAmount > totalDAmount) {
@@ -840,7 +836,7 @@ export class DeliveryReceiptComponent implements OnInit {
       Type: 2,
       DoDate: this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
       GCode: this.GCode,
-      DoNo: (this.PrevOrderNo !== undefined && this.PrevOrderNo !== null) ? this.PrevOrderNo : 0,
+      DoNo: (this.PrevOrderNo !== undefined && this.PrevOrderNo !== null && this.PrevOrderNo.trim() !== "") ? this.PrevOrderNo : 0,
       ReceivorCode: (this.PName !== undefined && this.PName !== null) ?
         ((this.PName.value !== undefined && this.PName.value !== null) ? this.PName.value : this.pCode) : 0
     }
@@ -849,14 +845,31 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderNo = res[0].Dono;
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
-        this.AdjusmentCAmount = ((this.AdjusmentAmount * 1) < 0) ? (this.AdjusmentAmount * 1) : 0;
-        this.AdjusmentDAmount = ((this.AdjusmentAmount * 1) >= 0) ? (this.AdjusmentAmount * 1) : 0;
-        this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toString().slice(1) : (this.AdjusmentCAmount * 1);
+        if((this.AdjusmentAmount * 1) < 0) {
+          this.disablePBType = true;
+          this.PrevBalType = 'Credit';
+          this.AdjusmentDAmount = 0;
+          this.AdjusmentCAmount = (this.AdjusmentAmount * 1);
+          this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toFixed(2).slice(1) : (this.AdjusmentCAmount * 1);
+        } else if ((this.AdjusmentAmount * 1) > 0) {
+          this.AdjusmentDAmount = (this.AdjusmentAmount * 1);
+          this.disablePBType = true;
+          this.PrevBalType = 'Debit';
+          this.AdjusmentCAmount = 0;
+        } else {
+          this.disablePBType = false;
+          this.AdjusmentCAmount = 0;
+          this.AdjusmentDAmount = 0;
+        }
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
       }
     })
+  }
+
+  resetPBType() {
+    this.PrevBalType = null;
   }
 
   onView() {
@@ -968,7 +981,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.BalanceAmount = (this.DueAmount * 1) - (this.PaidAmount * 1);
         this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
         this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         this.totalAmount = 0; this.marginTotal = 0;
         let i_sno = 1;
         res.Table.forEach(i => {
@@ -1033,7 +1046,7 @@ export class DeliveryReceiptComponent implements OnInit {
            this.BalanceAmount = ((this.DueAmount * 1) - (this.PaidAmount * 1));
            this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
            this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-           this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toString().slice(1) : (this.CurrCAmount * 1);
+           this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
