@@ -11,6 +11,11 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { saveAs } from 'file-saver';
+import * as Rx from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-purchase-tax-entry',
@@ -425,7 +430,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PurchaseTaxData = this.CompanyTitle.filter(item => {
-        return item.GSTNo.toString().startsWith(value);
+        return item.TIN.toString().startsWith(value);
       });
     } else {
       this.PurchaseTaxData = this.CompanyTitle;
@@ -437,7 +442,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.CompanyTitleData = this.CompanyGlobal.filter(item => {
-        return item.PartyName.toString().startsWith(value);
+        return item.PartyName.startsWith(value) || item.TIN.toString().startsWith(value);
       });
     } else {
       this.CompanyTitleData = this.CompanyGlobal;
@@ -501,7 +506,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'TaxType': this.TaxType,
       'Measurement': this.Measurement,
       'CompanyName': (this.Party.value !== undefined && this.Party.value !== null) ? this.Party.value : this.PartyID,
-      'CommodityName': 'TESTINGCOMMODITY', //(this.Commodity.value !== undefined && this.Commodity.value !== null) ? this.Commodity.value : this.CommodityID,
+      'CommodityName': (this.Commodity.value !== undefined && this.Commodity.value !== null) ? this.Commodity.value : this.CommodityID,
       'Quantity': this.Quantity,
       'Rate': this.Rate,
       'Amount': this.Amount,

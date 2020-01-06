@@ -287,16 +287,18 @@
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
   <div class="ui-g-6 ui-md-1 ui-fluid" style="padding: 1px;">
-    <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
+    <button pButton type="button" label=Excel (click)="dt.exportCSV()"></button>
   </div>
   <div *ngIf="PurchaseTaxData" class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
+    <p-table #dt [columns]="PurchaseTaxCols" [value]="PurchaseTaxData" [rows]="20"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
       [paginator]="true" [loading]="loading" exportFilename="PURCHASE_TAX_REPORT">
-      <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-          <col *ngFor="let col of columns" style="width:80px">
-        </colgroup>
+      <ng-template pTemplate="header" let-columns>
+        <tr style="text-align: center;">
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -328,7 +330,7 @@
 <p-dialog header="Party Ledger Master" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="isViewed" [responsive]="true">
   <div class="ui-g-12 ui-md-12 dashboard" style="text-align: end !important;">
-    <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by PartyName"
+    <input class="search-masters" type="text" [(ngModel)]="searchParty" pInputText placeholder="Search by Party, GSTNO"
       (ngModelChange)="onSearchParty($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>

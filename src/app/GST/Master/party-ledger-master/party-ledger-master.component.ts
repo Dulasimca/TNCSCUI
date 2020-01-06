@@ -238,7 +238,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.PartyLedgerData = this.CompanyTitle.filter(item => {
-        return item.PartyName.toString().startsWith(value);
+        return item.PartyName.startsWith(value) || item.TIN.toString().startsWith(value);
       });
     } else {
       this.PartyLedgerData = this.CompanyTitle;
