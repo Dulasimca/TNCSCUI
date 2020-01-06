@@ -77,6 +77,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     this.curMonth = new Date().getMonth() + 1;
+    this.curMonth = (this.curMonth <= 9) ? '0' + this.curMonth : this.curMonth;
     this.Month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
@@ -204,7 +205,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
       // 'RoleId': this.roleId,
       'GCode': this.GCode,
       'RCode': this.RCode,
-      'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
+      'Month': (this.Month.value !== undefined && this.Month.value !== null) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'FromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
