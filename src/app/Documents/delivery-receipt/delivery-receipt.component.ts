@@ -931,6 +931,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.marginRateInTermsOptions = undefined; this.rateInTermsOptions = undefined;
     this.itemDescOptions = []; this.marginItemDescOptions = [];
     this.DeliveryDate = new Date(); this.PermitDate = new Date();
+    this.PrevBalType = null; this.AmntType = null;
     this.onResetFieldset();
     // this.isSaved = false;
     //this.isViewed = false;
@@ -1067,6 +1068,7 @@ export class DeliveryReceiptComponent implements OnInit {
           pb_sno += 1;
         });
       }
+          this.onCalculateBalance();
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
