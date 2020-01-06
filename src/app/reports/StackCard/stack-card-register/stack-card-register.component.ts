@@ -62,8 +62,8 @@ export class StackCardRegisterComponent implements OnInit {
     this.Username = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
     const curYear = new Date().getFullYear();
-    const formDate = '04' + '-' + '01' + '-' + curYear;
-    this.minDate = new Date(formDate);
+  //  const formDate = '04' + '-' + '01' + '-' + curYear;
+   // this.minDate = new Date(formDate);
   }
 
   onSelect(item, type) {

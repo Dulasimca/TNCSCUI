@@ -476,10 +476,10 @@
                   <hr class="ui-g-12 dashboard border-teal">
                   <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-12 ui-md-7 dashboard">
-                      <div class="ui-g-12 ui-md-12 dashboard">
+                      <div class="ui-g-12 ui-md-12 dashboard" style="margin-top: -18px;">
                     <div class="ui-g-4 ui-md-2">
                       <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                        (click)="getPreviousBalance()" [disabled]="(!PrevOrderNo || !PrevOrderDate || !PName)"
+                        (click)="getPreviousBalance()" [disabled]="(!PName)"
                         tooltipPosition="top"></button>
                     </div>
                     <div class="ui-g-6 ui-md-4">
@@ -493,17 +493,30 @@
                       <p-calendar name="PreviousOrderDate" dateFormat="dd/mm/yy" [(ngModel)]="PrevOrderDate"
                         [maxDate]="maxDate" [showIcon]="true"></p-calendar>
                     </div>
-                    <div class="ui-g-6 ui-md-3">
-                      <span class="ui-float-label">
-                        <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText type="text"
-                          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                          autocomplete="off">
-                        <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
-                      </span>
-                    </div>
                   </div>
                   <div class="ui-g-12 ui-md-12 no-left-pad">
-                    <!-- <div class="ui-g-12 ui-md-12 no-left-pad"> -->
+                    <div class="ui-g-6 ui-md-4">
+                    <span class="ui-float-label">
+                      <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText type="text"
+                        oninput="this.value = this.value.replace(/[^0-9.-]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                       (input)="resetPBType()" autocomplete="off">
+                      <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-4 ui-md-2">
+                    <p-radioButton #rb name="PType" label="Credit" value="Credit" [disabled]="disablePBType"
+                     [(ngModel)]="PrevBalType" (onClick)="loadPrevBal(PrevBalType)">
+                      <!-- (onClick)="onCalculateBalance()" -->
+                    </p-radioButton>
+                  </div>
+                  <div class="ui-g-4 ui-md-2">
+                    <p-radioButton #rb name="PType" label="Debit" value="Debit" [disabled]="disablePBType"
+                     [(ngModel)]="PrevBalType" (onClick)="loadPrevBal(PrevBalType)">
+                      <!-- (onClick)="onCalculateBalance()" -->
+                    </p-radioButton>
+                  </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-12 no-left-pad" style="margin-top: -5px;">
                       <div class="ui-g-6 ui-md-4">
                         <span class="ui-float-label">
                           <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
@@ -513,18 +526,18 @@
                         </span>
                       </div>
                       <div class="ui-g-4 ui-md-2">
-                        <p-radioButton name="AdjType" label="Credit" value="Credit"
-                         [(ngModel)]="AdjustmentType" (onClick)="onCalculateBalance()">
+                        <p-radioButton name="OType" label="Credit" value="Credit"
+                         [(ngModel)]="AmntType" (onClick)="loadOtherAmnt(AmntType)">
                           <!-- (onClick)="onCalculateBalance()" -->
                         </p-radioButton>
                       </div>
                       <div class="ui-g-4 ui-md-2">
-                        <p-radioButton name="AdjType" label="Debit" value="Debit"
-                         [(ngModel)]="AdjustmentType" (onClick)="onCalculateBalance()">
+                        <p-radioButton name="OType" label="Debit" value="Debit"
+                         [(ngModel)]="AmntType" (onClick)="loadOtherAmnt(AmntType)">
                           <!-- (onClick)="onCalculateBalance()" -->
                         </p-radioButton>
                       </div>
-                      <div class="ui-g-4 ui-md-2">
+                      <div class="ui-g-4 ui-md-2 no-pad-top">
                         <button pButton label="Enter"
                           [disabled]="((!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null || OtherAmount==null || Balance==null))"
                           (click)="onEnter('Adjustment')"></button>
