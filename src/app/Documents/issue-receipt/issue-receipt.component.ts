@@ -141,7 +141,6 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
 
-
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -1077,7 +1076,7 @@ export class IssueReceiptComponent implements OnInit {
       }
     });
   }
-
+ 
   resetForm(issueMemoForm: NgForm) {
     issueMemoForm.form.markAsUntouched();
     issueMemoForm.form.markAsPristine();
@@ -1094,22 +1093,24 @@ export class IssueReceiptComponent implements OnInit {
     this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
     this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
     this.WNo = '-'; this.RegularAdvance = null; this.ACSCode = null;
-    this.VehicleNo = null; this.Remarks = null;
+    this.VehicleNo = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
     this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
     this.godownNo = null; this.locationNo = null; this.stackCompartment = null;
-    this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
+    this.NoPacking = null; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.year = new Date().getFullYear(); this.SIDate = new Date();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
+    this.iCode = null; this.ICode = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;
     this.TStockNo = null; this.stackYear = null; this.IssuerCode = null;
     this.packingTypeOptions = undefined; this.transactionOptions = undefined;
-    this.itemDescOptions = []; this.schemeOptions = this.stackOptions = []; this.wmtOptions = undefined;
+    this.itemDescOptions = []; this.schemeOptions = [];
+    this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.allotmentDetails = []; this.exceedAllotBal = false;
     this.QuantityLimit = null;
