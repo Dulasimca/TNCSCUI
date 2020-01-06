@@ -12,6 +12,7 @@ import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 import { flatMap } from 'rxjs/operators';
+import { tokenName } from '@angular/compiler';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -444,6 +445,7 @@ export class IssueReceiptComponent implements OnInit {
       if (grossWt < netWt) {
         this.NKgs = null; this.GKgs = null; this.TKgs = null;
       }else if(grossWt >= netWt) {
+        this.TKgs = (grossWt - netWt).toFixed(3);
         this.checkAllotmentBalance('2');
       } else {
         this.TKgs = (grossWt - netWt).toFixed(3);
@@ -581,6 +583,13 @@ export class IssueReceiptComponent implements OnInit {
 
   onItemDetailsEnter() {
     this.messageService.clear();
+    let totalBags = 0;
+    let totalGkgs = 0;
+    let totalNkgs = 0;
+    let index = this.itemData.length;
+    if(this.itemData.length !== 0 && this.itemData[index - 1].TStockNo === 'Total') {
+      this.itemData.splice(index - 1, 1);
+    }
     this.itemData.push({
       TStockNo: (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '')
@@ -617,7 +626,13 @@ export class IssueReceiptComponent implements OnInit {
           this.CurrentDocQtv += (x.Nkgs * 1);
         }
         sno += 1;
+        totalBags += x.NoPacking;
+        totalGkgs += (x.GKgs * 1);
+        totalNkgs += (x.Nkgs * 1);
       });
+      var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+      index = this.itemData.length;
+      this.itemData.splice(index, 0, item);
       ///end
       let lastIndex = this.itemData.length - 1;
       if (this.checkTrType) {
@@ -668,6 +683,7 @@ export class IssueReceiptComponent implements OnInit {
         this.issueData.splice(index, 1);
         break;
       case 'item':
+        if(data.TStockNo !== 'Total') {
         this.TStockNo = data.TStockNo;
         this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
         this.StackDate = data.StackDate;
@@ -703,6 +719,7 @@ export class IssueReceiptComponent implements OnInit {
         this.onStackNoChange(list);
         this.checkAllotmentBalance('1');
         break;
+      }
     }
   }
 
@@ -1002,6 +1019,9 @@ export class IssueReceiptComponent implements OnInit {
         this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
         this.getAllotmentDetails();
+        let totalBags = 0;
+        let totalGkgs = 0;
+        let totalNkgs = 0;
         res.Table.forEach(i => {
           this.itemData.push({
             sno: sno,
@@ -1026,6 +1046,9 @@ export class IssueReceiptComponent implements OnInit {
             RCode: i.RCode
           })
           sno += 1;
+          totalBags += i.NoPacking;
+          totalGkgs += (i.GKgs * 1);
+          totalNkgs += (i.Nkgs * 1);
         })
         res.Table1.forEach(j => {
           this.issueData.push({
@@ -1040,6 +1063,7 @@ export class IssueReceiptComponent implements OnInit {
             RCode: j.RCode
           })
         })
+        this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
       } else {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }

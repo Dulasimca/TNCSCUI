@@ -870,6 +870,7 @@ export class DeliveryReceiptComponent implements OnInit {
 
   resetPBType() {
     this.PrevBalType = null;
+    this.disablePBType = false;
   }
 
   onView() {
