@@ -868,9 +868,13 @@ export class DeliveryReceiptComponent implements OnInit {
     })
   }
 
-  resetPBType() {
+  resetPBType(type) {
+    if(type === 'PB') {
     this.PrevBalType = null;
     this.disablePBType = false;
+    } else {
+      this.AmntType = null;
+    }
   }
 
   onView() {

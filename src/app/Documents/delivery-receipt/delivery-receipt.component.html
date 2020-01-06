@@ -499,7 +499,7 @@
                     <span class="ui-float-label">
                       <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText type="text"
                         oninput="this.value = this.value.replace(/[^0-9.-]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       (input)="resetPBType()" autocomplete="off">
+                       (input)="resetPBType('PB')" autocomplete="off">
                       <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
                     </span>
                   </div>
@@ -521,7 +521,7 @@
                         <span class="ui-float-label">
                           <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
                           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                          appDecimalAmount>
+                          (input)="resetPBType('OA')" appDecimalAmount>
                           <label for="OtherAmnt" class="float-input">Other Amt</label>
                         </span>
                       </div>
@@ -539,7 +539,8 @@
                       </div>
                       <div class="ui-g-4 ui-md-2 no-pad-top">
                         <button pButton label="Enter"
-                          [disabled]="((!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null || OtherAmount==null || Balance==null))"
+                          [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null 
+                          || OtherAmount==null || Balance==null || AmntType==null || PrevBalType==null)"
                           (click)="onEnter('Adjustment')"></button>
                       </div>
                       <!-- <div class="ui-g-12 ui-md-4">
