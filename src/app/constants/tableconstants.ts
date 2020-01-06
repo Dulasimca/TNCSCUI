@@ -334,6 +334,7 @@ export class TableConstants {
       { field: 'NoPacking', header: 'No Packing' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'NetWt', header: 'Net Wt' },
+      { field: 'ACSCode', header: 'ACSCode'}
     ];
 
     this.TruckMemoRegisterReport = [
