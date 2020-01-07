@@ -645,6 +645,7 @@ export class IssueReceiptComponent implements OnInit {
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
+          if(this.itemData.length > 1) {
           sno = 1;
           totalNkgs = 0;
           totalBags = 0;
@@ -659,6 +660,9 @@ export class IssueReceiptComponent implements OnInit {
           var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
           index = this.itemData.length;
           this.itemData.splice(index, 0, item);
+        } else {
+          this.itemData.length = 0;
+        }
         } else {
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
           this.NetStackBalance = (this.NetStackBalance * 1);
