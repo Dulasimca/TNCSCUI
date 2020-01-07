@@ -763,23 +763,28 @@ export class DeliveryReceiptComponent implements OnInit {
     if(this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined &&
       this.OtherAmount !== null && this.OtherAmount !== undefined && this.BalanceAmount !== null
       && this.BalanceAmount !== undefined) {
+        this.BalanceCAmount = 0;
+        this.BalanceDAmount = 0;
+        this.Balance = 0;
         this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
         this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
         this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         let totalCAmount = (this.AdjusmentCAmount * 1) + (this.CurrCAmount * 1) + (this.OtherCAmount * 1);
         let totalDAmount = (this.AdjusmentDAmount * 1) + (this.CurrDAmount * 1) + (this.OtherDAmount * 1);
         if(totalCAmount > totalDAmount) {
-          this.Balance = (totalCAmount * 1) - (totalDAmount * 1);
-          this.BalanceCAmount = this.Balance.toFixed(2);
+          this.Balance = ((totalCAmount * 1) - (totalDAmount * 1)).toFixed(2);
+          this.BalanceCAmount = this.Balance;
           this.BalanceDAmount = 0;
           this.AdjustmentType = 'Credit';
         } else if(totalCAmount < totalDAmount) {
-          this.Balance = (totalDAmount * 1) - (totalCAmount * 1);
-          this.BalanceDAmount = this.Balance.toFixed(2);
+          this.Balance = ((totalDAmount * 1) - (totalCAmount * 1)).toFixed(2);
+          this.BalanceDAmount = this.Balance;
           this.BalanceCAmount = 0;
           this.AdjustmentType = 'Debit';
         } else {
           this.Balance = 0;
+          this.BalanceCAmount = 0;
+          this.BalanceDAmount = 0;
           this.AdjustmentType = null;
         }
         }

@@ -539,8 +539,9 @@
                       </div>
                       <div class="ui-g-4 ui-md-2 no-pad-top">
                         <button pButton label="Enter"
-                          [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType || AdjusmentAmount==null 
-                          || OtherAmount==null || Balance==null || AmntType==null || PrevBalType==null)"
+                          [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType 
+                          || AdjusmentAmount==null || !AdjusmentAmount || OtherAmount==null
+                          || !OtherAmount || !Balance || Balance==null || AmntType==null || PrevBalType==null)"
                           (click)="onEnter('Adjustment')"></button>
                       </div>
                       <!-- <div class="ui-g-12 ui-md-4">

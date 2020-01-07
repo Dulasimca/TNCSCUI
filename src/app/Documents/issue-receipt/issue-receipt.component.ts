@@ -11,8 +11,6 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
-import { flatMap } from 'rxjs/operators';
-import { tokenName } from '@angular/compiler';
 
 @Component({
   selector: 'app-issue-receipt',
@@ -629,9 +627,6 @@ export class IssueReceiptComponent implements OnInit {
         totalGkgs += (x.GKgs * 1);
         totalNkgs += (x.Nkgs * 1);
       });
-      var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
-      index = this.itemData.length;
-      this.itemData.splice(index, 0, item);
       ///end
       let lastIndex = this.itemData.length - 1;
       if (this.checkTrType) {
@@ -650,9 +645,26 @@ export class IssueReceiptComponent implements OnInit {
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
+          sno = 1;
+          totalNkgs = 0;
+          totalBags = 0;
+          totalGkgs = 0;
+          this.itemData.forEach(x => {
+            x.sno = sno;
+            sno += 1;
+            totalBags += x.NoPacking;
+            totalGkgs += (x.GKgs * 1);
+            totalNkgs += (x.Nkgs * 1);
+          });
+          var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+          index = this.itemData.length;
+          this.itemData.splice(index, 0, item);
         } else {
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
           this.NetStackBalance = (this.NetStackBalance * 1);
+          var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+          index = this.itemData.length;
+          this.itemData.splice(index, 0, item);
           this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
           this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
           this.TKgs = null; this.WTCode = null; this.Moisture = null;
@@ -671,15 +683,15 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
-  deleteRow(id, data, index) {
-    this.selectedIndex = index;
+  deleteRow(id, data, rowIndex) {
+    this.selectedIndex = rowIndex;
     switch (id) {
       case 'issue':
         this.SIDate = new Date(data.SIDate);
         this.SINo = data.SINo;
         this.DeliveryOrderNo = data.DNo;
         this.DeliveryOrderDate = new Date(data.DDate);
-        this.issueData.splice(index, 1);
+        this.issueData.splice(rowIndex, 1);
         break;
       case 'item':
         if(data.TStockNo !== 'Total') {
@@ -711,9 +723,25 @@ export class IssueReceiptComponent implements OnInit {
           this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
         }
         this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
-        this.itemData.splice(index, 1);
+        this.itemData.splice(rowIndex, 1);
+        if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+          this.itemData.length = 0;
+        } else {
         let sno = 1;
-        this.itemData.forEach(x => { x.sno = sno; sno += 1; });
+        let totalBags = 0;
+        let totalGkgs = 0;
+        let totalNkgs = 0;
+        let lastIndex = this.itemData.length;
+        this.itemData.splice(lastIndex - 1, 1);
+        this.itemData.forEach(x => { 
+          x.sno = sno;
+          sno += 1;
+          totalBags += (x.NoPacking * 1);
+          totalGkgs += (x.GKgs * 1);
+          totalNkgs += (x.Nkgs * 1);
+         });
+        this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
+         }
         const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
         this.onStackNoChange(list);
         this.checkAllotmentBalance('1');
