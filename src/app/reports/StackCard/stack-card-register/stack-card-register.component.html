@@ -6,7 +6,7 @@
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Stack Card Register</div>
         <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
-            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+            <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="dt.reset();onView()"
               [disabled]="(!RCode || !GCode || !ITCode || !StackStatus)"></button>
             <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
                [disabled]="(StackCardRegisterData.length=='0')"></button>

@@ -130,7 +130,6 @@ export class DeliveryReceiptComponent implements OnInit {
   CurrCAmount: any;
   AmntType: any;
   PrevBalType: any;
-  disablePBType: boolean;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
@@ -851,18 +850,15 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
         if((this.AdjusmentAmount * 1) < 0) {
-          this.disablePBType = true;
           this.PrevBalType = 'Credit';
           this.AdjusmentDAmount = 0;
           this.AdjusmentCAmount = (this.AdjusmentAmount * 1);
           this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toFixed(2).slice(1) : (this.AdjusmentCAmount * 1);
         } else if ((this.AdjusmentAmount * 1) > 0) {
           this.AdjusmentDAmount = (this.AdjusmentAmount * 1);
-          this.disablePBType = true;
           this.PrevBalType = 'Debit';
           this.AdjusmentCAmount = 0;
         } else {
-          this.disablePBType = false;
           this.AdjusmentCAmount = 0;
           this.AdjusmentDAmount = 0;
         }
@@ -876,7 +872,6 @@ export class DeliveryReceiptComponent implements OnInit {
   resetPBType(type) {
     if(type === 'PB') {
     this.PrevBalType = null;
-    this.disablePBType = false;
     } else {
       this.AmntType = null;
     }
