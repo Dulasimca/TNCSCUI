@@ -75,7 +75,8 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
-    this.maxDate = new Date();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.curMonth = new Date().getMonth() + 1;
     this.curMonth = (this.curMonth <= 9) ? '0' + this.curMonth : this.curMonth;
     this.Month = this.datepipe.transform(new Date(), 'MMM');

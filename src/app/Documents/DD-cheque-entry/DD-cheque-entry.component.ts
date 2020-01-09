@@ -26,7 +26,7 @@ export class DDChequeEntryComponent implements OnInit {
   receiptNo: any;
   ReceiptDt: any;
   canShowMenu: boolean;
-  maxDate: Date = new Date();
+  maxDate: Date;
   paymentTypeOptions: SelectItem[];
   paymentList: any = [];
   paymentType: any;
@@ -85,7 +85,9 @@ export class DDChequeEntryComponent implements OnInit {
     this.chequeAmount = 0;
     this.paymentList = [{ label: 'Cash', value: 'CA' },
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
-  }
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+   }
 
 
   onSelect(type, id) {

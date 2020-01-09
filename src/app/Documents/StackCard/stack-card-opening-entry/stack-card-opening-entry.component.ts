@@ -64,7 +64,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
     this.gdata = this.roleBasedService.getInstance();
-    this.maxDate = new Date();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
       if (data !== null && data !== undefined) {
         this.curYear_data = data;

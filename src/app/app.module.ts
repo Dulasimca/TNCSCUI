@@ -157,6 +157,8 @@ import { DailyStatementComponent } from './reports/sections/daily-statement/dail
 import { LoadMenWagesComponent } from './reports/wages/load-men-wages/load-men-wages.component';
 import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloading-wages/load-men-unloading-wages.component';
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
+import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
+
 
 @NgModule({
   declarations: [
@@ -273,6 +275,7 @@ import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.co
     LoadMenWagesComponent,
     LoadMenUnloadingWagesComponent,
     GodownDashboardComponent,
+    ProcessToGPSComponent,
   ],
   imports: [
     BrowserModule,

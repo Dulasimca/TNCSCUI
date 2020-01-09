@@ -26,7 +26,7 @@ export class IssueReceiptComponent implements OnInit {
   issuingGodownName: string;
   showMsg: any;
   data: any;
-  maxDate: Date = new Date();
+  maxDate: Date;
   scheme_data: any;
   stackYear: any;
   issueMemoDocData: any = [];
@@ -151,7 +151,8 @@ export class IssueReceiptComponent implements OnInit {
     this.itemCols = this.tableConstants.StockIssueMemoItemDetailsColumns;
     this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
     this.UserID = JSON.parse(this.authService.getCredentials());
-    this.maxDate = new Date();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.year = new Date().getFullYear();

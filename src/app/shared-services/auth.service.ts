@@ -27,8 +27,13 @@ export class AuthService {
   public setValidUser(value) {
     this.isSignedIn = value;
   }
+
   public setMenu(data) {
     localStorage.setItem('MENU', JSON.stringify(data));
+  }
+
+  public setServerDate(date) {
+    localStorage.setItem('SERVER_DATE', JSON.stringify(date));
   }
 
    public login(userInfo: User, obj) {
@@ -100,6 +105,11 @@ export class AuthService {
     }
   }
 
+  public getServerDate() {
+    let serverDate = localStorage.getItem('SERVER_DATE');
+    return serverDate;
+  }
+
   public logout() {
     // let isRemembered = JSON.parse(localStorage.getItem('KEEP_ME_LOGGED_IN'));
     // if(!isRemembered) {
@@ -115,6 +125,7 @@ export class AuthService {
     localStorage.removeItem('MAPPINGID');
     localStorage.removeItem('MAPPINGNAME');
     localStorage.removeItem('MAPPINGNAME');
+    localStorage.removeItem('SERVER_DATE');
     this.isSignedIn = false;
     this.router.navigateByUrl('');
   }

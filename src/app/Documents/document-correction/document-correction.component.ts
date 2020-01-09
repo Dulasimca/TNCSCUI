@@ -21,7 +21,7 @@ import { NgForm } from '@angular/forms';
 export class DocumentCorrectionComponent implements OnInit {
   data = [];
   canShowMenu: boolean;
-  maxDate: Date = new Date();
+  maxDate: Date;
   docTypeOptions: SelectItem[];
   docNumOptions: SelectItem[];
   docStatusOptions: SelectItem[];
@@ -75,6 +75,8 @@ export class DocumentCorrectionComponent implements OnInit {
     }
     this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
     { label: 'Rejected', value: '2' }];
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
   }
 
   onSelect(item, type) {

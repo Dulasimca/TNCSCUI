@@ -31,7 +31,7 @@ export class TruckReceiptComponent implements OnInit {
   truckMemoViewCol: any;
   truckMemoViewData: any = [];
   index: number = 0;
-  maxDate: Date = new Date();
+  maxDate: Date;
   selectedValues: string[] = ['Road'];
   enableReceivorRegn: boolean = true;
   disableRailHead: boolean = true;
@@ -172,6 +172,8 @@ export class TruckReceiptComponent implements OnInit {
     this.godownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
   }
 
   onSelect(selectedItem, type) {

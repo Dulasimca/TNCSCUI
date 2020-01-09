@@ -43,6 +43,9 @@ export class LoginComponent implements OnInit {
       pswd: ['', Validators.required]
     })
     this.isChecked = JSON.parse(this.authService.getKeepMeLoggedInStatus());
+    this.restApiService.get(PathConstants.SERVER_DATE).subscribe(date => {
+     this.authService.setServerDate(date[0].Column1);
+    })
     // if (this.isChecked) {
     //   this.userName =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.userName;
     //  }

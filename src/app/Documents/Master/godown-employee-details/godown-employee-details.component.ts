@@ -73,6 +73,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.userdata = this.fb.group({
       'EmpName': new FormControl(''),
       'Designation': new FormControl(''),

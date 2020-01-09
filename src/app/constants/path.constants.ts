@@ -9,6 +9,9 @@ export class PathConstants {
   public static readonly NOTIFICATIONS_POST = '/api/notifications/Post';
   public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB';
 
+  ///Server Date 
+  public static readonly SERVER_DATE = '/api/ServerDate';
+
   ///Masters
   public static readonly AADS = '/api/AADS';
   public static readonly CRS = '/api/CRS';
@@ -177,6 +180,10 @@ export class PathConstants {
   public static readonly PROCESS_TO_G2G_POST = '/api/ProcessToG2G/Post';
   public static readonly PROCESS_TO_G2G_GET = '/api/ProcessToG2G/Get';
   ///End
+
+  ///GPS
+  public static readonly PROCESS_TO_GPS_POST = '/api/ProcessToGPS/Post';
+  public static readonly PROCESS_TO_GPS_GET = '/api/ProcessToGPS/Get';
 
   ///Settings
   public static readonly SETTINGS_GET = '/api/Settings';

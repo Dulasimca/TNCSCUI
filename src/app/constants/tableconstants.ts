@@ -127,6 +127,7 @@ export class TableConstants {
   SectionDailyStatementReportColumns: any;
   LoadMenWagesLoadingReportColumns: any;
   LoadMenWagesUnLoadingReportColumns: any;
+  ProcessToGPSCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1533,6 +1534,15 @@ export class TableConstants {
         { header: 'Bags', field: 'NoPacking' },
         { header: 'Quantity', field: 'Qty' },
         { header: 'UnLoading Charges', field: 'UnLoading' },
+      ];
+
+      this.ProcessToGPSCols = [
+        { header: 'S.No', field: 'SlNo' },
+        { header: 'DOC NO.', field: 'DocNumber' },
+        { header: 'Start Date', field: 'GPSStartDate' },
+        { header: 'End Date', field: 'GPSEndDate' },
+        { header: 'Error', field: 'GPSError' },
+        { header: 'Status', field: 'GPSStatus' }
       ];
   }
 }

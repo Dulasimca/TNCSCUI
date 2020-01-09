@@ -66,7 +66,8 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.maxDate = new Date();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.username = JSON.parse(this.authService.getCredentials());
   }
 

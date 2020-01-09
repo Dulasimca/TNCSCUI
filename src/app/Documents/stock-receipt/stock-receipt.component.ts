@@ -40,7 +40,7 @@ export class StockReceiptComponent implements OnInit {
   year: any;
   isSaveSucceed: boolean = false;
   tareWt: any;
-  maxDate: Date = new Date();
+  maxDate: Date;
   enableActions: boolean = true;
   viewDate: Date = new Date();
   moistureOptions: SelectItem[];
@@ -157,7 +157,6 @@ export class StockReceiptComponent implements OnInit {
     this.scheme_data = this.roleBasedService.getSchemeData();
     this.itemCol = this.tableConstants.StockReceiptItemColumns;
     this.documentViewCol = this.tableConstants.StockReceiptDocumentViewCols;
-    this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
@@ -168,6 +167,8 @@ export class StockReceiptComponent implements OnInit {
     this.godownName = this.authService.getUserAccessible().gName;
     this.ReceivingCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
   }
 
   onSelect(selectedItem, type) {

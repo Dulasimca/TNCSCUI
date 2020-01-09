@@ -37,7 +37,7 @@ export class DeliveryReceiptComponent implements OnInit {
   paymentBalData: any = [];
   itemSchemeCols: any;
   itemSchemeData: any = [];
-  maxDate: Date = new Date();
+  maxDate: Date;
   transactionOptions: SelectItem[];
   yearOptions: SelectItem[];
   receivorTypeOptions: SelectItem[];
@@ -171,7 +171,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.GodownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
-  }
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+   }
 
   onSelect(selectedItem, type) {
     let transactoinSelection = [];
