@@ -629,9 +629,10 @@ export class IssueReceiptComponent implements OnInit {
         totalNkgs += (x.Nkgs * 1);
       });
       ///end
+      this.CurrentDocQtv = (this.CurrentDocQtv * 1).toFixed(3);
       let lastIndex = this.itemData.length - 1;
       if (this.checkTrType) {
-        if (this.CurrentDocQtv > this.StackBalance) {
+        if ((this.CurrentDocQtv * 1) > this.StackBalance) {
           this.messageService.clear();
           this.itemData.splice(lastIndex, 1);
           ///calculating current document quantity based on stock number after splicing data from table
