@@ -130,7 +130,8 @@ export class StockIssueRegisterComponent implements OnInit {
              // 'SlNo': sno,
               'Issue_Memono': rec.Issue_Memono, 'DNo': rec.DNo, 'Issue_Date': this.datePipe.transform(rec.Issue_Date, 'dd/MM/yyyy'),
               'Lorryno': rec.Lorryno, 'To_Whom_Issued': rec.To_Whom_Issued, 'Stackno': rec.Stackno, 'Scheme': rec.Scheme,
-              'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt, 'Godownname': rec.Godownname
+              'NoPacking': rec.NoPacking, 'Commodity': rec.Commodity, 'NetWt': rec.NetWt,
+              'Godownname': rec.Godownname, 'ACSCode': rec.ACSCode.trim()
             });
           });
           this.record.forEach((data, index) => {

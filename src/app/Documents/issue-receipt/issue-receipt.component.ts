@@ -436,7 +436,11 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
-  onCalculateWt() {
+  onCalculateWt(value, id) {
+    let kgs = (value * 1);
+    if(kgs !== null && kgs !== undefined) {
+      if(id === 'gross') { this.NKgs = kgs; }
+    }
     if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
       let grossWt = (this.GKgs * 1);
       let netWt = (this.NKgs * 1);
