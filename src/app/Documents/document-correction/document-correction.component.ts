@@ -75,8 +75,8 @@ export class DocumentCorrectionComponent implements OnInit {
     }
     this.docStatusOptions = [{ label: 'Pending', value: '0' }, { label: 'Approved', value: '1' },
     { label: 'Rejected', value: '2' }];
-   // const maxDate = new Date(this.authService.getServerDate());
-   this.maxDate =  new Date(); //(maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    const maxDate = new Date(this.authService.getServerDate());
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
   }
 
   onSelect(item, type) {

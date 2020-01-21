@@ -171,8 +171,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.GodownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
-    // const maxDate = new Date(this.authService.getServerDate());
-    this.maxDate =  new Date(); //(maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    const maxDate = new Date(this.authService.getServerDate());
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
    }
 
   onSelect(selectedItem, type) {
