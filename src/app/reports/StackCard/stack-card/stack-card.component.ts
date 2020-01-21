@@ -262,6 +262,10 @@ export class StackCardComponent implements OnInit {
             this.selectedRowData = filteredData;
             this.totalRecords = this.selectedRowData.length;
           } else { this.showPane = false; }
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {
@@ -293,6 +297,10 @@ export class StackCardComponent implements OnInit {
             this.selectedRowData = filteredData;
             this.totalRecords = this.selectedRowData.length;
         } else { this.showPane = false; }
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
       }, (err: HttpErrorResponse) => {
         if (err.status === 0 || err.status === 400) {

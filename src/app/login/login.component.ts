@@ -43,9 +43,7 @@ export class LoginComponent implements OnInit {
       pswd: ['', Validators.required]
     })
     this.isChecked = JSON.parse(this.authService.getKeepMeLoggedInStatus());
-    this.restApiService.get(PathConstants.SERVER_DATE).subscribe(date => {
-     this.authService.setServerDate(date[0].Column1);
-    })
+   
     // if (this.isChecked) {
     //   this.userName =  (this.authService.getCredentials() !== null) ? this.authService.getCredentials() : this.userName;
     //  }
@@ -62,6 +60,9 @@ export class LoginComponent implements OnInit {
       return;
     } else {
       let username = new HttpParams().append('userName', this.userName);
+      this.restApiService.get(PathConstants.SERVER_DATE).subscribe(date => {
+        this.authService.setServerDate(date[0].ServerDate);
+       })
       this.restApiService.getByParameters(PathConstants.LOGIN, username).subscribe(credentials => {
         if (credentials !== undefined && credentials !== null && credentials.length !== 0) {
           if (this.userName.toLowerCase() === credentials[0].UserName.toLowerCase() && this.password === credentials[0].Pwd) {

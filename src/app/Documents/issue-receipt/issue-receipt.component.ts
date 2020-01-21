@@ -138,6 +138,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
+  itemGRName: string;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -271,6 +272,9 @@ export class IssueReceiptComponent implements OnInit {
             });
             if (this.RNCode !== undefined && this.RNCode !== null) {
               this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+              if(this.allotmentDetails.length === 0) {
+              this.getAllotmentDetails();
+              }
             }
           }
         } else {
@@ -287,7 +291,7 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(i => {
-                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'group': i.Allotmentgroup });
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'GRName': i.GRName, 'group': i.Allotmentgroup });
                 })
                 this.itemDescOptions = itemDesc;
                 this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -304,8 +308,10 @@ export class IssueReceiptComponent implements OnInit {
         }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
-            const params = new HttpParams().set('GCode', this.IssuingCode).append('ITCode', (this.ICode.value !== undefined) ? this.ICode.value : this.iCode)
-              .append('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode);
+            const params = new HttpParams().set('GCode', this.IssuingCode)
+             .append('ITCode', (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode)
+             .append('TRCode', (this.Trcode.value !== undefined && this.Trcode.value !== null) ? this.Trcode.value : this.trCode)
+             .append('SchemeCode', (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(s => {
@@ -363,6 +369,7 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = []; this.receiverTypeOptions = [];
         this.rtCode = null; this.RTCode = null; this.rnCode = null;
         this.RNCode = null; this.IssuerCode = null;
+        this.itemData.length = 0;
         break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
@@ -380,6 +387,7 @@ export class IssueReceiptComponent implements OnInit {
       case 'rt':
         this.receiverNameOptions = [];
         this.rnCode = null; this.RNCode = null; this.IssuerCode = null;
+        this.getAllotmentDetails();
         break;
     }
   }
@@ -460,9 +468,13 @@ export class IssueReceiptComponent implements OnInit {
     this.stackCompartment = null;
     const hasValue = (event.value !== undefined && event.value !== null) ? event.value : event;
     if (hasValue !== undefined && hasValue !== null) {
-      let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+      const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
         this.Trcode.value : this.trCode;
-      this.checkTrType = (trcode === 'TR024') ? false : true;
+      const itemGroup: string = (this.ICode.GRName !== undefined && this.ICode.GRName !== null) ?
+        this.ICode.GRName : this.itemGRName;
+        const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
+        this.Scheme.value : this.schemeCode;
+      this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
       this.stackYear = this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
@@ -597,6 +609,7 @@ export class IssueReceiptComponent implements OnInit {
         this.TStockNo.value.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : '')
         : this.TStockNo.trim() + ((this.stackCompartment !== undefined && this.stackCompartment !== null) ? this.stackCompartment.toUpperCase() : ''),
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+      ItemGRName: (this.ICode.GRName !== undefined && this.ICode.GRName !== null) ? this.ICode.GRName : this.itemGRName,
       IPCode: (this.IPCode.value !== undefined && this.IPCode.value !== null) ? this.IPCode.value : this.ipCode,
       NoPacking: this.NoPacking,
       GKgs: this.GKgs,
@@ -651,7 +664,6 @@ export class IssueReceiptComponent implements OnInit {
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
-          if(this.itemData.length > 1) {
           sno = 1;
           totalNkgs = 0;
           totalBags = 0;
@@ -667,9 +679,6 @@ export class IssueReceiptComponent implements OnInit {
           index = this.itemData.length;
           this.itemData.splice(index, 0, item);
         } else {
-          this.itemData.length = 0;
-        }
-        } else {
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
           this.NetStackBalance = (this.NetStackBalance * 1);
           var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
@@ -683,6 +692,20 @@ export class IssueReceiptComponent implements OnInit {
           this.packingTypeOptions = []; this.wmtOptions = []; this.stackCompartment = null;
         }
       } else {
+        sno = 1;
+        totalNkgs = 0;
+        totalBags = 0;
+        totalGkgs = 0;
+        this.itemData.forEach(x => {
+          x.sno = sno;
+          sno += 1;
+          totalBags += x.NoPacking;
+          totalGkgs += (x.GKgs * 1);
+          totalNkgs += (x.Nkgs * 1);
+        });
+        var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+        index = this.itemData.length;
+        this.itemData.splice(index, 0, item);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
         this.TKgs = null; this.WTCode = null; this.Moisture = null;
@@ -715,15 +738,19 @@ export class IssueReceiptComponent implements OnInit {
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.ICode = data.CommodityName; this.iCode = data.ICode;
         this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
+        this.itemGRName = data.ItemGRName;
         this.IPCode = data.PackingName; this.ipCode = data.IPCode;
         this.PWeight = (data.PWeight * 1);
         this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
         this.WTCode = data.WmtType; this.wtCode = data.WTCode;
         this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
         this.NoPacking = (data.NoPacking * 1),
-          this.GKgs = (data.GKgs * 1).toFixed(3);
+        this.GKgs = (data.GKgs * 1).toFixed(3);
         this.NKgs = (data.Nkgs * 1).toFixed(3);
         this.stackYear = data.StackYear;
+        const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+        this.Trcode.value : this.trCode;
+        this.checkTrType = (trcode === 'TR024' || (data.Scheme === 'SC025' && data.ItemGRName === 'M024')) ? false : true;
         this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
         if (this.TStockNo !== undefined && this.TStockNo !== null) {
           let index;
@@ -1071,6 +1098,7 @@ export class IssueReceiptComponent implements OnInit {
             WTCode: i.WTCode,
             Moisture: i.Moisture,
             Scheme: i.Scheme,
+            ItemGRName: i.GRName,
             CommodityName: i.ITName,
             SchemeName: i.SchemeName,
             AllotmentGroup: i.Allotmentgroup,
