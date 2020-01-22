@@ -176,14 +176,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
         break;
       case 'cd':
         this.messageService.clear();
-        if(this.ICode.group !== undefined && this.ICode.group !== null) {
-          if(this.ICode.group === 'M024') {
-          this.allowInput = false;
-          this.flag = false;
-        } else {
-          this.allowInput = true;
-        }
-      }
         if (this.ICode.value !== undefined && this.ICode.value !== null) {
           this.onView();
         } else {
