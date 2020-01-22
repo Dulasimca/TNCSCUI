@@ -37,6 +37,7 @@ export class PathConstants {
   public static readonly SOCIETY_MASTER = '/api/SocietyMaster';
   public static readonly DESIGNATION_MASTER = '/api/DesignationMaster';
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
+  public static readonly CATEGORY_TYPECODE_DISTINCT_GET = '/api/TypeCategoryMaster';
   public static readonly TNCSC_SETTINGS = '/api/Settings';
 
 

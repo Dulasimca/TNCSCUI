@@ -167,7 +167,7 @@ export class StockReceiptComponent implements OnInit {
     this.godownName = this.authService.getUserAccessible().gName;
     this.ReceivingCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
-    const maxDate = new Date(this.authService.getServerDate());
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
   }
 

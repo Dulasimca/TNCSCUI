@@ -85,7 +85,7 @@ export class DDChequeEntryComponent implements OnInit {
     this.chequeAmount = 0;
     this.paymentList = [{ label: 'Cash', value: 'CA' },
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
-    const maxDate = new Date(this.authService.getServerDate());
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
    }
 
