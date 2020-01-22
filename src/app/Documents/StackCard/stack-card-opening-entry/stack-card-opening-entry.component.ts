@@ -75,7 +75,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
           data.forEach(y => {
-            this.commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+            this.commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode, 'group': y.GRName });
             this.commodityOptions = this.commoditySelection;
           });
           this.commodityOptions.unshift({ 'label': '-select-', 'value': null });
@@ -175,7 +175,15 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
       case 'cd':
         this.messageService.clear();
-        if (this.ICode !== undefined && this.ICode.value !== null) {
+        if(this.ICode.group !== undefined && this.ICode.group !== null) {
+          if(this.ICode.group === 'M024') {
+          this.allowInput = false;
+          this.flag = false;
+        } else {
+          this.allowInput = true;
+        }
+      }
+        if (this.ICode.value !== undefined && this.ICode.value !== null) {
           this.onView();
         } else {
           this.openView = false;
