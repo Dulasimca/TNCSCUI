@@ -280,7 +280,7 @@ export class IssueReceiptComponent implements OnInit {
               this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
               if(this.categoryTypeCodeList.length !== 0) {
                 this.categoryTypeCodeList.forEach(i => {
-
+                  // if(i === this.RNCode)
                 })
               }
               if(this.allotmentDetails.length === 0) {
@@ -978,7 +978,7 @@ export class IssueReceiptComponent implements OnInit {
             if(this.BalanceQty <= 0 && this.itemData.length === 0) {
               this.exceedAllotBal = true;
               this.messageService.clear();
-              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.AllotmentIssueQuantityValidation });
+              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
             } else if((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
               let netwt = 0; 
               this.itemData.forEach(x => {
@@ -986,12 +986,12 @@ export class IssueReceiptComponent implements OnInit {
                   netwt += (x.Nkgs * 1);
                   if((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
                     this.exceedAllotBal = true;
-                    this.isValidStackBalance = true;
+                    // this.isValidStackBalance = true;
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.AllotmentIssueQuantityValidation });
+                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
                   } else {
                     this.exceedAllotBal = false;
-                    this.isValidStackBalance = false;
+                    // this.isValidStackBalance = false;
                   } 
                   this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
                   this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
@@ -1004,7 +1004,7 @@ export class IssueReceiptComponent implements OnInit {
             break;
           } else {
             this.exceedAllotBal = false;
-            this.isValidStackBalance = false;
+            // this.isValidStackBalance = false;
             this.QuantityLimit = null;
             continue;
            /// ------------------ END ----------------------- ///
@@ -1028,7 +1028,7 @@ export class IssueReceiptComponent implements OnInit {
           } else {
             /// ---------------- Allotment balance check ------------------ ///
 
-            this.isValidStackBalance = false;
+            // this.isValidStackBalance = false;
            // this.AllotmentQty = 0; this.BalanceQty = 0; this.IssueQty = 0;
             this.QuantityLimit = null;
             this.exceedAllotBal = false;
