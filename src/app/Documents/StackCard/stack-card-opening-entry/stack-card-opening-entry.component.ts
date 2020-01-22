@@ -173,6 +173,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
           });
           this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
+        break;
       case 'cd':
         this.messageService.clear();
         if(this.ICode.group !== undefined && this.ICode.group !== null) {
