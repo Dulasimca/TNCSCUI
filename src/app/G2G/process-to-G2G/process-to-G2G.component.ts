@@ -59,7 +59,7 @@ export class ProcessToG2GComponent implements OnInit {
         let year = today.getFullYear();
         this.minDate = new Date();
         let formDate = (month + 1) + "-" + (date - 1) + "-" + year;
-        this.minDate = new Date(formDate);
+      //  this.minDate = new Date(formDate);
 
     }
 

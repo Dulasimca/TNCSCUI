@@ -233,7 +233,7 @@
                       <label class="label-fontsize" for="GrossWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="GrossWt" type="text" size="20" [(ngModel)]="GKgs" pInputText
-                          (input)="onCalculateWt()" [readonly]="isValidStackBalance" autocomplete="off"
+                          (input)="onCalculateWt(GKgs, 'gkgs')" [readonly]="isValidStackBalance" autocomplete="off"
                           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           appDecimalDigit>
                       </span>
@@ -248,7 +248,7 @@
                       <label class="label-fontsize" for="NetWt" style="float: right">Gms</label>
                       <span class="ui-float-label">
                         <input name="NetWt" type="text" size="20" [(ngModel)]="NKgs" pInputText
-                          (input)="onCalculateWt()" [readonly]="isValidStackBalance"
+                          (input)="onCalculateWt(NKgs, 'nkgs')" [readonly]="isValidStackBalance"
                           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           autocomplete="off" appDecimalDigit>
                       </span>
