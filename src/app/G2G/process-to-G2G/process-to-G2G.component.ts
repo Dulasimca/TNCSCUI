@@ -34,10 +34,12 @@ export class ProcessToG2GComponent implements OnInit {
     issueMemoDocData: any = [];
     processToG2GCols: any;
     processToG2GData: any = [];
+    primalData: any[] = [];
     selectedData: any;
     issueList: any = [];
     blockScreen: boolean;
     showPane: boolean;
+    CheckRegAdv: string = 'R';
     @ViewChild('region') regionPanel: Dropdown;
     @ViewChild('godown') godownPanel: Dropdown;
     @ViewChild('dt') table: Table;
@@ -59,7 +61,7 @@ export class ProcessToG2GComponent implements OnInit {
         let year = today.getFullYear();
         this.minDate = new Date();
         let formDate = (month + 1) + "-" + (date - 1) + "-" + year;
-      //  this.minDate = new Date(formDate);
+        //  this.minDate = new Date(formDate);
 
     }
 
@@ -113,14 +115,14 @@ export class ProcessToG2GComponent implements OnInit {
 
     isRowSelected(rowData: any) {
         return (rowData.isSelected) ? "rowSelected" : "rowUnselected";
-      }
+    }
 
-      public getColor(data: any): string {
-          console.log('d', data);
+    public getColor(data: any): string {
+        console.log('d', data);
         return (data === 'Grand Total') ? "#53aae5" : "white";
-      }
+    }
 
-    onDateChange() {
+    onLoadData() {
         if (this.GCode !== undefined && this.GCode !== null && this.Date !== null && this.Date !== undefined) {
             this.loading = true;
             const params = new HttpParams().set('value', this.datepipe.transform(this.Date, 'MM/dd/yyyy')).append('GCode', this.GCode).append('Type', '1');
@@ -136,9 +138,17 @@ export class ProcessToG2GComponent implements OnInit {
                         sno += 1;
                         data.DocDate = this.datepipe.transform(data.SIDate, 'dd/MM/yyyy');
                     })
+                    if (filteredArr !== null && filteredArr !== undefined && filteredArr.length !== 0) {
+                        this.messageService.clear();
+                        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                    }
                     this.issueMemoDocData = filteredArr;
+                    this.primalData = filteredArr;
+                    this.filterByType(this.CheckRegAdv);
+
                 } else {
                     this.issueMemoDocData = [];
+                    this.primalData = [];
                     this.loading = false;
                     this.messageService.clear();
                     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
@@ -146,11 +156,26 @@ export class ProcessToG2GComponent implements OnInit {
             }, (err: HttpErrorResponse) => {
                 this.loading = false;
                 if (err.status === 0 || err.status === 400) {
+                    this.primalData = [];
                     this.issueMemoDocData = [];
                     this.messageService.clear();
                     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
                 }
             });
+        }
+    }
+
+    filterByType(value) {
+        if (value !== null && value !== undefined) {
+            this.issueMemoDocData = this.primalData.filter(x => {
+                return x.IssueType === value;
+            })
+            if (this.issueMemoDocData.length !== 0) {
+                this.messageService.clear();
+                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+            }
+        } else {
+            this.issueMemoDocData = this.primalData;
         }
     }
 
@@ -164,25 +189,25 @@ export class ProcessToG2GComponent implements OnInit {
                 this.processToG2GData = res.filter(x => {
                     return (x.DocType === 2 && x.GToGStatus !== 4)
                 });
-                if(this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
-                this.processToG2GData.forEach(data => {
-                    data.SlNo = sno;
-                    sno += 1;
-                    data.GToGStartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
-                    data.GToGEndDate = this.datepipe.transform(data.EndDate, 'dd/MM/yyyy');
-                    
-                    // if (data.Status === 4) {
-                    //     this.processToG2GData.splice(index, 1);
-                    // } else {
+                if (this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
+                    this.processToG2GData.forEach(data => {
+                        data.SlNo = sno;
+                        sno += 1;
+                        data.GToGStartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
+                        data.GToGEndDate = this.datepipe.transform(data.EndDate, 'dd/MM/yyyy');
+
+                        // if (data.Status === 4) {
+                        //     this.processToG2GData.splice(index, 1);
+                        // } else {
                         data.Status = this.getG2GStatus(data.GToGStatus);
-                    // }
-                })
-            } else {
-                this.processToG2GData = [];
-                this.showPane = false;
-                this.messageService.clear();
-                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-            }
+                        // }
+                    })
+                } else {
+                    this.processToG2GData = [];
+                    this.showPane = false;
+                    this.messageService.clear();
+                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+                }
             } else {
                 this.processToG2GData = [];
                 this.showPane = false;
@@ -278,5 +303,6 @@ export class ProcessToG2GComponent implements OnInit {
         this.issueList = [];
         this.issueMemoDocData = [];
         this.processToG2GData = [];
+        this.primalData = [];
     }
 }
