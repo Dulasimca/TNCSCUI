@@ -484,14 +484,15 @@ export class IssueReceiptComponent implements OnInit {
         this.Trcode.value : this.trCode;
       const itemGroup: string = (this.ICode.GRName !== undefined && this.ICode.GRName !== null) ?
         this.ICode.GRName : this.itemGRName;
-        const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
+      const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
         this.Scheme.value : this.schemeCode;
       this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
-      this.stackYear = this.TStockNo.stack_yr;
+      this.stackYear = (this.stackYear !== undefined && this.stackYear !== null &&
+        hasValue.stack_year !== null && hasValue.stack_year !== undefined) ? this.stackYear : this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value : this.TStockNo;
-      if (this.TStockNo.value !== undefined && this.TStockNo.value !== null) {
+      if (TStockNo !== undefined && TStockNo !== null) {
         index = TStockNo.toString().indexOf('/', 2);
         const totalLength = TStockNo.length;
         this.godownNo = TStockNo.toString().slice(0, index);
@@ -795,7 +796,7 @@ export class IssueReceiptComponent implements OnInit {
          });
         this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
          }
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate }
+        const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_year: this.stackYear }
         this.onStackNoChange(list);
         this.checkAllotmentBalance('1');
         break;
@@ -982,7 +983,7 @@ export class IssueReceiptComponent implements OnInit {
             } else if((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
               let netwt = 0; 
               this.itemData.forEach(x => {
-                if(x.AllotmentGroup.trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
+                if(x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
                   netwt += (x.Nkgs * 1);
                   if((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
                     this.exceedAllotBal = true;
