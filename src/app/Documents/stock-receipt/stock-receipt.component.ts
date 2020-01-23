@@ -519,13 +519,15 @@ export class StockReceiptComponent implements OnInit {
     } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
+      this.StackBalance = null;
     }
   }
 
   onStackInput(event) {
     let value = event.data;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
-      this.stackYear = this.TStockNo.stack_yr;
+      this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ?
+        this.TStockNo.stack_yr : this.stackYear;
       let index;
       index = this.TStockNo.value.toString().indexOf('/', 2);
       const totalLength = this.TStockNo.value.length;
