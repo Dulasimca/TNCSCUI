@@ -380,7 +380,6 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = []; this.receiverTypeOptions = [];
         this.rtCode = null; this.RTCode = null; this.rnCode = null;
         this.RNCode = null; this.IssuerCode = null;
-        this.itemData.length = 0;
         break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];

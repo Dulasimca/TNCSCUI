@@ -471,7 +471,11 @@ export class StockReceiptComponent implements OnInit {
     }
   }
 
-  onCalculateWt() {
+  onCalculateWt(value, id) {
+    const kgs = (value * 1);
+    if(kgs !== null && kgs !== undefined) {
+      if(id === 'gkgs') { this.NKgs = kgs; }
+    }
     if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
       let grossWt = (this.GKgs * 1);
       let netWt = (this.NKgs * 1);
