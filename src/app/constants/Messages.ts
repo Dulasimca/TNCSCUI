@@ -36,5 +36,8 @@ export class StatusMessage {
     public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
     public static readonly PurchaseTargetDateValidation = 'You have entered target date beyond completed date!';
     public static readonly AllotmentIssueQuantityValidation = 'No available balance in allotted quantity!';
-
+    public static readonly NoSocietyCodeForIssue = 'Society Code is missing for issuer: ';
+    public static readonly NoACSCodeForIssue = 'ACSCode is missing for issuer: ';
+    public static readonly NoSocietyAndACSCodeForIssue = 'Society and ACSCode are missing for issuer: ';
+    public static readonly NotValidReceiptDateForStackCard = 'Receipt date must be before or on the selected stack card date';
 }

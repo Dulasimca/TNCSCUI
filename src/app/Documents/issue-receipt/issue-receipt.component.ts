@@ -131,6 +131,7 @@ export class IssueReceiptComponent implements OnInit {
   AllotmentStatus: any;
   itemGRName: string;
   categoryTypeCodeList: any = [];
+  disableSave: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('y') yearPanel: Dropdown;
   @ViewChild('rt') receivorTypePanel: Dropdown;
@@ -140,6 +141,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no') stackNoPanel: Dropdown;
   @ViewChild('pt') packingPanel: Dropdown;
   @ViewChild('wmt') weightmentPanel: Dropdown;
+  SocietyCode: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -270,7 +272,7 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(rn => {
-                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'ACSCode': rn.ACSCode });
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.SocietyCode });
                 })
                 this.receiverNameOptions = receivorNameList;
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -278,11 +280,11 @@ export class IssueReceiptComponent implements OnInit {
             });
             if (this.RNCode !== undefined && this.RNCode !== null) {
               this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
-              if(this.categoryTypeCodeList.length !== 0) {
-                this.categoryTypeCodeList.forEach(i => {
-                  // if(i === this.RNCode)
-                })
-              }
+              // if(this.categoryTypeCodeList.length !== 0) {
+              //   this.categoryTypeCodeList.forEach(i => {
+              //      if(i === this.RNCode)
+              //   })
+              // }
               if(this.allotmentDetails.length === 0) {
               this.getAllotmentDetails();
               }
@@ -374,6 +376,10 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
+  onChangeIssuer() {
+    this.checkFieldsOfIssuer(this.RNCode.SocietyCode, this.RTCode.value, this.RNCode.ACSCode);
+  }
+
   refreshSelect(id) {
     switch (id) {
       case 'tr':
@@ -405,6 +411,28 @@ export class IssueReceiptComponent implements OnInit {
   showIssuerCode() {
     if (this.RNCode !== undefined && this.RNCode !== null) {
       this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+    }
+  }
+
+  checkFieldsOfIssuer(SocietyCode, Tycode, ACSCode) {
+    if(Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
+      if((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
+        && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
+       this.disableSave = true;
+       this.messageService.clear();
+       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
+     } else if(SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
+      this.disableSave = true;
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
+     } else if(ACSCode === null || ACSCode === undefined && ACSCode === '') {
+      this.disableSave = true;
+      this.messageService.clear();
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
+     } else {
+      this.disableSave = false;
+      this.messageService.clear();
+     }
     }
   }
 
@@ -1094,7 +1122,10 @@ export class IssueReceiptComponent implements OnInit {
         this.RNCode = res.Table[0].ReceivorName;
         this.rnCode = res.Table[0].Receivorcode;
         this.ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
+        this.SocietyCode = (res.Table[0].Societycode !== null && res.Table[0].Societycode !== undefined) ?
+          res.Table[0].Societycode : '';
         this.IssuerCode = this.rnCode + '-' + this.ACSCode;
+        this.checkFieldsOfIssuer(res.Table[0].Societycode.trim(), res.Table[0].issuetype1, res.Table[0].ACSCode.trim());
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo.toUpperCase();
         this.ManualDocNo = res.Table[0].Flag1;
@@ -1175,9 +1206,12 @@ export class IssueReceiptComponent implements OnInit {
 
   onClear() {
     this.itemData = []; this.issueData = [];
-    this.trCode = null; this.Trcode = null; this.rtCode = null; this.RTCode = null;
-    this.rnCode = null; this.RNCode = null; this.wtCode = null; this.WTCode = null;
-    this.WNo = '-'; this.RegularAdvance = null; this.ACSCode = null;
+    this.trCode = null; this.Trcode = null;
+    this.rtCode = null; this.RTCode = null;
+    this.rnCode = null; this.RNCode = null;
+    this.wtCode = null; this.WTCode = null;
+    this.WNo = '-'; this.RegularAdvance = null;
+    this.ACSCode = null; this.SocietyCode = null;
     this.VehicleNo = null; this.Remarks = null; this.DeliveryOrderNo = null;
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
@@ -1198,7 +1232,7 @@ export class IssueReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.allotmentDetails = []; this.exceedAllotBal = false;
-    this.QuantityLimit = null;
+    this.QuantityLimit = null; this.disableSave = false;
     this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
   }
 

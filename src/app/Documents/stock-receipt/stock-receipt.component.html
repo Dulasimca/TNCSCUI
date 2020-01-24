@@ -36,7 +36,7 @@
                         <div class="ui-g-12 ui-md-6" style="margin-top: -20px">
                           <label for="StockDate" class="label-fontsize">Date</label>
                           <p-calendar name="StockDate" #receiptDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                            [maxDate]="maxDate" [(ngModel)]="SRDate" required></p-calendar>
+                            [maxDate]="maxDate" [(ngModel)]="SRDate" (ngModelChange)="onSRDateChange()" required></p-calendar>
                         </div>
                       </div>
                     </p-card>
@@ -573,7 +573,7 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button name="save" style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
+                [disabled]="(!f.valid || disableSave || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">

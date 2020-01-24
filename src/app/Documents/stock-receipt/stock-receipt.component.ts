@@ -133,6 +133,7 @@ export class StockReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  disableSave: boolean = false;
   // isSaved: boolean = false;
   @ViewChild('tr') transactionPanel: Dropdown;
   @ViewChild('m') monthPanel: Dropdown;
@@ -491,13 +492,15 @@ export class StockReceiptComponent implements OnInit {
     this.messageService.clear();
     this.stackCompartment = null;
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
-      let trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+      const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
         this.Trcode.value : this.trCode;
       this.checkTrType = (trcode === 'TR023') ? false : true;
       this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
-      let stack_data = (event.value !== undefined) ? event.value : event;
+      // const stackDate = (this.TStockNo.stack_date !== undefined && this.TStockNo.stack_date !== null) ?
+      // this.TStockNo.stack_date : this.stackda
+      this.checkStackAndReceiptDate(new Date(this.TStockNo.stack_date));
       let ind;
-      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value : stack_data.stack_no;
+      let stockNo: string = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       ind = stockNo.indexOf('/', 2);
       const totalLength = stockNo.length;
       this.godownNo = stockNo.slice(0, ind);
@@ -505,7 +508,7 @@ export class StockReceiptComponent implements OnInit {
       const params = {
         DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
         TStockNo: stockNo,
-        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        StackDate: this.datepipe.transform(this.TStockNo.stack_date, 'MM/dd/yyyy'),
         GCode: this.ReceivingCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
         Type: 1
@@ -520,6 +523,31 @@ export class StockReceiptComponent implements OnInit {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
       this.StackBalance = null;
+    }
+  }
+
+  onSRDateChange() {
+    this.checkStackAndReceiptDate(new Date(this.TStockNo.stack_date));
+  }
+
+  checkStackAndReceiptDate(stackCardDate) {
+    if(stackCardDate !== null && stackCardDate !== undefined && this.SRDate !== undefined && this.SRDate !== null) {
+      const receiptDate = this.SRDate.getDate();
+      const receiptYear = this.SRDate.getFullYear();
+      const receiptMonth = this.SRDate.getMonth() + 1;
+      const stackDate = stackCardDate.getDate();
+      const stackYear = stackCardDate.getFullYear();
+      const stackMonth = stackCardDate.getMonth() + 1;
+      if ((stackDate > receiptDate && ((stackMonth >= receiptMonth && stackYear >= receiptYear) ||
+      (stackMonth === receiptMonth && stackYear === receiptYear))) ||
+      (stackMonth > receiptMonth && stackYear === receiptYear) || (stackYear > receiptYear)) {
+         this.disableSave = true;
+         this.messageService.clear();
+         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotValidReceiptDateForStackCard });
+        } else {
+          this.disableSave = false;
+          this.messageService.clear();
+        }
     }
   }
 
