@@ -35,10 +35,10 @@ export class StackCardOpeningComponent implements OnInit {
   maxDate: Date;
   loggedInRCode: any;
   loading: boolean;
-  @ViewChild('region') RegionPanel: Dropdown;
-  @ViewChild('godown') GodownPanel: Dropdown;
-  @ViewChild('commodity') CommodityPanel: Dropdown;
-  @ViewChild('stackYear') StackYearPanel: Dropdown;
+  @ViewChild('region', { static: false }) RegionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
+  @ViewChild('stackYear', { static: false }) StackYearPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, 

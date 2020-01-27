@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { DataTableModule, ButtonModule, MenubarModule } from 'primeng/primeng';
+import { ButtonModule, MenubarModule } from 'primeng/primeng';
+import {TableModule} from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
@@ -12,7 +13,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -289,7 +289,6 @@ import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.compo
     AppRoutingModule,
     MenubarModule,
     BrowserAnimationsModule,
-    DataTableModule,
     CheckboxModule,
     RadioButtonModule,
     DropdownModule,

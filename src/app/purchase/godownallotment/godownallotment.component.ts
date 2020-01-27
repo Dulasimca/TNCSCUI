@@ -50,11 +50,11 @@ GodownAllotementID: any;
 Spell: any;
 spellOptions: SelectItem[];
 spellCode: any;
-@ViewChild('godown') godownPanel: Dropdown;
-@ViewChild('region') regionPanel: Dropdown;
-@ViewChild('orderNum') oredrNoPanel: Dropdown;
-@ViewChild('spell') spellPanel: Dropdown;
-@ViewChild('f') form: NgForm;
+@ViewChild('godown', { static: false }) godownPanel: Dropdown;
+@ViewChild('region', { static: false }) regionPanel: Dropdown;
+@ViewChild('orderNum', { static: false }) oredrNoPanel: Dropdown;
+@ViewChild('spell', { static: false }) spellPanel: Dropdown;
+@ViewChild('f', { static: false }) form: NgForm;
   isDataAvailable: boolean;
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private messageService: MessageService,

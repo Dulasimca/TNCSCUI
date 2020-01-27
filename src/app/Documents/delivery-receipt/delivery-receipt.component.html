@@ -97,7 +97,7 @@
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
                         (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
                         (onChange)="refreshSelect('rt')" filter="true" optionLabel="label" resetFilterOnHide="true"
-                        [showClear]="true" required>
+                        [showClear]="true" filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -107,7 +107,7 @@
                       <label for="PartyName" class="label-fontsize">Party Name</label>
                       <p-dropdown #pn name="PartyName" [options]="partyNameOptions" [(ngModel)]="PName"
                         (onClick)="onSelect('pn', 'click')" (keydown.enter)="onSelect('pn', 'enter')" filter="true"
-                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
+                       (ngModelChange)="getGSTNo()" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -115,17 +115,28 @@
                     </div>
                   </div>
                   <div class="ui-g-12">
-                    <div class="ui-g-10 ui-md-10" style="margin-top: -24px">
+                    <div class="ui-g-12 ui-md-6" style="margin-top: -24px">
                       <label class="label-fontsize" for="Instructions">Special Instructions If Any</label>
                       <textarea name="Instructions" [rows]="3" [cols]="110" [(ngModel)]="Remarks" pInputTextarea
                         required></textarea>
                     </div>
-                    <div class="ui-g-2 ui-md-2">
+                    <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
+                      <label class="label-fontsize" for="GST">GST No.</label>
+                      <input name="GST" pInputText (ngModelChange)="onGSTInput($event)"
+                      minlength="15" maxlength="15" style="text-transform: uppercase !important" 
+                       oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                       [(ngModel)]="GSTNumber" autocomplete="off" required>
+                    </div>
+                    <div class="ui-g-3 ui-md-1">
+                      <button pButton type="button" label="Update"
+                        [disabled]="isGSTModified" (click)="onUpdateGST()"></button>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-fluid no-pad-top">
+                    <div class="ui-g-2 ui-md-2 no-pad-top">
                       <button pButton type="button" label="Payment Details"
                         [disabled]="(!Trcode || !DeliveryDate || !PName)" (click)="checkPayment()"></button>
                     </div>
-                  </div>
-                  <div class="ui-g-12 ui-fluid">
                     <div class="ui-g-12 no-pad-top">
                       <p-table [columns]="deliveryCols" [value]="deliveryData" [responsive]="true" [scrollable]="true"
                         [autoLayout]="true" scrollHeight="150px">

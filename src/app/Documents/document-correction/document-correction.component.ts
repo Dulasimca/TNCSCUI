@@ -51,11 +51,11 @@ export class DocumentCorrectionComponent implements OnInit {
   fromDate: any =  new Date();
   toDate: any =  new Date();
   blockScreen: boolean;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('docType') docTypePanel: Dropdown;
-  @ViewChild('docNum') docNoPanel: Dropdown;
-  @ViewChild('docStatus') docStatusPanel: Dropdown;
-  @ViewChild('f') CSForm: NgForm;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('docType', { static: false }) docTypePanel: Dropdown;
+  @ViewChild('docNum', { static: false }) docNoPanel: Dropdown;
+  @ViewChild('docStatus', { static: false }) docStatusPanel: Dropdown;
+  @ViewChild('f', { static: false }) CSForm: NgForm;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private datepipe: DatePipe, private tableConstants: TableConstants, private roleBasedService: RoleBasedService) { }

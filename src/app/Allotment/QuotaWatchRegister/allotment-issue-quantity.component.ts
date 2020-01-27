@@ -57,13 +57,13 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   curMonth: any;
   RName: any;
   CompanyTitle: any = [];
-  @ViewChild('region') RegionPanel: Dropdown;
-  @ViewChild('godown') GodownPanel: Dropdown;
-  @ViewChild('commodity') commodityPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('shop') shopPanel: Dropdown;
-  @ViewChild('society') societyPanel: Dropdown;
+  @ViewChild('region', { static: false }) RegionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('shop', { static: false }) shopPanel: Dropdown;
+  @ViewChild('society', { static: false }) societyPanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }

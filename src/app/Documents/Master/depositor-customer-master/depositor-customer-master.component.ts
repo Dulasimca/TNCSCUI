@@ -35,7 +35,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
   depositorTypeOptions: SelectItem[];
   depositorTypeList: any = [];
   GCode: string;
-  @ViewChild('depositor') depositorTypePanel : Dropdown;
+  @ViewChild('depositor', { static: false }) depositorTypePanel : Dropdown;
 
   constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
 

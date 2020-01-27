@@ -51,11 +51,11 @@ export class OtherSchemesComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: any;
   userId: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
-  @ViewChild('receiver') societyPanel: Dropdown;
-  @ViewChild('scheme') schemePanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('receiver', { static: false }) societyPanel: Dropdown;
+  @ViewChild('scheme', { static: false }) schemePanel: Dropdown;
 
 
 

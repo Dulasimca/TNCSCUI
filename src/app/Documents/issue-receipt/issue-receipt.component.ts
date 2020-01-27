@@ -131,17 +131,17 @@ export class IssueReceiptComponent implements OnInit {
   AllotmentStatus: any;
   itemGRName: string;
   categoryTypeCodeList: any = [];
-  disableSave: boolean = false;
-  @ViewChild('tr') transactionPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('rt') receivorTypePanel: Dropdown;
-  @ViewChild('rn') receivorNamePanel: Dropdown;
-  @ViewChild('sc') schemePanel: Dropdown;
-  @ViewChild('i_desc') commodityPanel: Dropdown;
-  @ViewChild('st_no') stackNoPanel: Dropdown;
-  @ViewChild('pt') packingPanel: Dropdown;
-  @ViewChild('wmt') weightmentPanel: Dropdown;
   SocietyCode: any;
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
+  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
+  @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
+  SocietyName: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -272,14 +272,17 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(rn => {
-                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.SocietyCode });
+                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 
+                   'SocietyName': rn.Societyname, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.Societycode });
                 })
                 this.receiverNameOptions = receivorNameList;
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
             });
             if (this.RNCode !== undefined && this.RNCode !== null) {
-              this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+              const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
+              this.IssuerCode = this.RNCode.value.trim() + '-' + acs_code;
+              this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
               // if(this.categoryTypeCodeList.length !== 0) {
               //   this.categoryTypeCodeList.forEach(i => {
               //      if(i === this.RNCode)
@@ -384,8 +387,10 @@ export class IssueReceiptComponent implements OnInit {
     switch (id) {
       case 'tr':
         this.receiverNameOptions = []; this.receiverTypeOptions = [];
-        this.rtCode = null; this.RTCode = null; this.rnCode = null;
-        this.RNCode = null; this.IssuerCode = null;
+        this.rtCode = null; this.RTCode = null;
+        this.rnCode = null; this.RNCode = null;
+        this.IssuerCode = null; this.SocietyName = null;
+        this.SocietyCode = null;
         break;
       case 'sc':
         this.itemDescOptions = []; this.stackOptions = [];
@@ -402,7 +407,9 @@ export class IssueReceiptComponent implements OnInit {
         break;
       case 'rt':
         this.receiverNameOptions = [];
-        this.rnCode = null; this.RNCode = null; this.IssuerCode = null;
+        this.rnCode = null; this.RNCode = null;
+        this.IssuerCode = null; this.SocietyName = null;
+        this.SocietyCode = null;
         this.getAllotmentDetails();
         break;
     }
@@ -410,7 +417,9 @@ export class IssueReceiptComponent implements OnInit {
 
   showIssuerCode() {
     if (this.RNCode !== undefined && this.RNCode !== null) {
-      this.IssuerCode = this.RNCode.value.trim() + '-' + this.RNCode.ACSCode.trim();
+      const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
+      this.IssuerCode = this.RNCode.value.trim() + '-' + acs_code;
+      this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
     }
   }
 
@@ -418,19 +427,18 @@ export class IssueReceiptComponent implements OnInit {
     if(Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
       if((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
         && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
-       this.disableSave = true;
+       this.TStockNo = null;
        this.messageService.clear();
        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
      } else if(SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
-      this.disableSave = true;
+      this.TStockNo = null;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
-     } else if(ACSCode === null || ACSCode === undefined && ACSCode === '') {
-      this.disableSave = true;
+     } else if(ACSCode === null || ACSCode === undefined || ACSCode === '') {
+      this.TStockNo = null;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
      } else {
-      this.disableSave = false;
       this.messageService.clear();
      }
     }
@@ -672,7 +680,6 @@ export class IssueReceiptComponent implements OnInit {
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
-     // this.QuantityLimit = null;
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
       ///calculating current document quantity based on stock number
@@ -1015,12 +1022,10 @@ export class IssueReceiptComponent implements OnInit {
                   netwt += (x.Nkgs * 1);
                   if((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
                     this.exceedAllotBal = true;
-                    // this.isValidStackBalance = true;
                     this.messageService.clear();
                     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
                   } else {
                     this.exceedAllotBal = false;
-                    // this.isValidStackBalance = false;
                   } 
                   this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
                   this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
@@ -1033,7 +1038,6 @@ export class IssueReceiptComponent implements OnInit {
             break;
           } else {
             this.exceedAllotBal = false;
-            // this.isValidStackBalance = false;
             this.QuantityLimit = null;
             continue;
            /// ------------------ END ----------------------- ///
@@ -1041,34 +1045,26 @@ export class IssueReceiptComponent implements OnInit {
         }
           } else if(type === '2') {
             /// ---------------- Allotment balance check ------------------ ///
-
             if(this.BalanceQty !== null && this.BalanceQty !== undefined) {
               if(this.BalanceQty < (this.NKgs * 1)) {
-              //  this.NKgs = null;
-               // this.isValidStackBalance = true;
                 this.messageService.clear();
                 this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
               } else {
-                // this.isValidStackBalance = false;
+                this.messageService.clear();
               }
             }
            /// ------------------ END ----------------------- ///
 
           } else {
             /// ---------------- Allotment balance check ------------------ ///
-
-            // this.isValidStackBalance = false;
-           // this.AllotmentQty = 0; this.BalanceQty = 0; this.IssueQty = 0;
             this.QuantityLimit = null;
             this.exceedAllotBal = false;
            /// ------------------ END ----------------------- ///
-
           }
         } else if(this.AllotmentStatus !== 'NO') {
-          this.QuantityLimit = ' ALLOT_QTY ' + ': ' + 0 + '  '+ ' ISS_QTY ' + 
-          ': ' +  0 + '  '+ ': ' + ' BAL_QTY ' + 0;
-        } else {
           this.QuantityLimit = null;
+        } else {
+          this.QuantityLimit = StatusMessage.NoAllotmentBalance;
         }
   }
 
@@ -1124,6 +1120,8 @@ export class IssueReceiptComponent implements OnInit {
         this.ACSCode = (res.Table[0].ACSCode !== null) ? res.Table[0].ACSCode.trim() : '';
         this.SocietyCode = (res.Table[0].Societycode !== null && res.Table[0].Societycode !== undefined) ?
           res.Table[0].Societycode : '';
+        this.SocietyName = (res.Table[0].Societyname !== null && res.Table[0].Societyname !== undefined) ?
+          res.Table[0].Societyname : '';
         this.IssuerCode = this.rnCode + '-' + this.ACSCode;
         this.checkFieldsOfIssuer(res.Table[0].Societycode.trim(), res.Table[0].issuetype1, res.Table[0].ACSCode.trim());
         this.IRelates = res.Table[0].IRelates;
@@ -1227,12 +1225,13 @@ export class IssueReceiptComponent implements OnInit {
     this.iCode = null; this.ICode = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;
     this.TStockNo = null; this.stackYear = null; this.IssuerCode = null;
+    this.SocietyName = null; this.SocietyCode = null;
     this.packingTypeOptions = undefined; this.transactionOptions = undefined;
     this.itemDescOptions = []; this.schemeOptions = [];
     this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.allotmentDetails = []; this.exceedAllotBal = false;
-    this.QuantityLimit = null; this.disableSave = false;
+    this.QuantityLimit = null;
     this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
   }
 

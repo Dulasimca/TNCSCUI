@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { Dropdown, MessageService, DataTable } from 'primeng/primeng';
+import { Dropdown, MessageService } from 'primeng/primeng';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -34,8 +34,8 @@ export class OCRReportComponent implements OnInit {
   roleId: any;
   loggedInRCode: any;
   regions: any;
-  @ViewChild('gd') godownPanel: Dropdown;
-  @ViewChild('reg') regionPanel: Dropdown;
+  @ViewChild('gd', { static: false }) godownPanel: Dropdown;
+  @ViewChild('reg', { static: false }) regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }

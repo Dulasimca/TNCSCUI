@@ -50,11 +50,11 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
   IssuerSelection = [];
   disableSociety: boolean = true;
   Shop: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('shop') shopPanel: Dropdown;
-  @ViewChild('society') societyPanel: Dropdown;
-  @ViewChild('receivor') receiverPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('shop', { static: false }) shopPanel: Dropdown;
+  @ViewChild('society', { static: false }) societyPanel: Dropdown;
+  @ViewChild('receivor', { static: false }) receiverPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private authService: AuthService) { }

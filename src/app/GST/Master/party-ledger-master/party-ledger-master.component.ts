@@ -55,8 +55,8 @@ export class PartyLedgerMasterComponent implements OnInit {
   RName: any;
   isActive: any;
   Flag: any;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('active') activePanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('active', { static: false }) activePanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }

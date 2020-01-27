@@ -61,8 +61,8 @@ export class DDChequeEntryComponent implements OnInit {
   totalRecords: number;
   blockScreen: boolean;
   chDate: any;
-  @ViewChild('receivor') receivorTypePanel: Dropdown;
-  @ViewChild('pay') paymentTypePanel: Dropdown;
+  @ViewChild('receivor', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('pay', { static: false }) paymentTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService,
     private authService: AuthService, private datepipe: DatePipe, private http: HttpClient,

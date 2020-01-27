@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { DataTable } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-mrmdata',
@@ -23,7 +23,7 @@ export class MRMDataComponent implements OnInit {
   filterArray: any;
   searchText: any;
   loading: boolean;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private tableConstants: TableConstants, private messageService: MessageService) { }

@@ -34,9 +34,9 @@ export class CorrectionSlipComponent implements OnInit {
   roleId: any;
   loggedInRCode: any;
   regions: any;
-  @ViewChild('gd') godownPanel: Dropdown;
-  @ViewChild('reg') regionPanel: Dropdown;
-  @ViewChild('dt') docTypePanel: Dropdown;
+  @ViewChild('gd', { static: false }) godownPanel: Dropdown;
+  @ViewChild('reg', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) docTypePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }

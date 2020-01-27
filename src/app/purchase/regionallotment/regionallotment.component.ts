@@ -74,13 +74,13 @@ export class RegionAllotmentComponent implements OnInit {
   PartyRCode: any;
   selectedPartyRegion: any;
   UserInfo: any;
-  @ViewChild('orderNum') oredrNoPanel: Dropdown;
-  @ViewChild('partyregion') partyRegionPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('party') partyNamePanel: Dropdown;
-  @ViewChild('spell') spellPanel: Dropdown;
-  @ViewChild('f') form: NgForm;
-  @ViewChild('rf') regForm: NgForm;
+  @ViewChild('orderNum', { static: false }) oredrNoPanel: Dropdown;
+  @ViewChild('partyregion', { static: false }) partyRegionPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('party', { static: false }) partyNamePanel: Dropdown;
+  @ViewChild('spell', { static: false }) spellPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
+  @ViewChild('rf', { static: false }) regForm: NgForm;
   message: string;
 
 

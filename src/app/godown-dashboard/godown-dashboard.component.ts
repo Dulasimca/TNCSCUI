@@ -65,8 +65,8 @@ export class GodownDashboardComponent implements OnInit {
   noti: any;
   NotificationsData: any;
   TNCSCKey: string = 'Notification';
-  @ViewChild('AADS') divAADS: ElementRef;
-  @ViewChild('element') toastObj;
+  @ViewChild('AADS', { static: false }) divAADS: ElementRef;
+  @ViewChild('element', { static: false }) toastObj;
 
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,

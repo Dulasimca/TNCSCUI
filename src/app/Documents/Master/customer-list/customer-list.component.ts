@@ -17,7 +17,7 @@ export class CustomerListComponent implements OnInit {
   canShowMenu: Boolean;
   loading: boolean;
   isSaveSucceed: boolean;
-  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private authService: AuthService,) { }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { RestAPIService } from '../../shared-services/restAPI.service';

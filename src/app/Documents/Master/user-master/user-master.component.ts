@@ -19,9 +19,9 @@ export class UserMasterComponent implements OnInit {
   godownOptions: SelectItem[];
   regionCode: any;
   regionOptions: SelectItem[];
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('role') rolePanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('role', { static: false }) rolePanel: Dropdown;
 
   constructor(private authService: AuthService) { }
 

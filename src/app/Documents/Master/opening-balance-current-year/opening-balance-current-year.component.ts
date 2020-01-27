@@ -42,7 +42,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   canShowMenu: boolean;
-  @ViewChild('f') OBCurYrFrom: NgForm;
+  @ViewChild('f', { static: false }) OBCurYrFrom: NgForm;
 
   constructor(private authService: AuthService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 

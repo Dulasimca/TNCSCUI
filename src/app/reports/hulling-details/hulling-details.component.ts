@@ -34,8 +34,8 @@ export class HullingDetailsComponent implements OnInit {
   maxDate: Date;
   username: any;
   loading: boolean = false;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
   loggedInRCode: any;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,

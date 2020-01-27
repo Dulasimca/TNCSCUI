@@ -106,16 +106,16 @@ export class SalesTaxEntryComponent implements OnInit {
   State: any;
   RName: any;
   CompanyTitle: any = [];
-  @ViewChild('region') RegionPanel: Dropdown;
-  @ViewChild('godown') GodownPanel: Dropdown;
-  @ViewChild('commodity') commodityPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('accountingYear') accountingYearPanel: Dropdown;
-  @ViewChild('company') companyPanel: Dropdown;
-  @ViewChild('tax') TaxPanel: Dropdown;
-  @ViewChild('measurement') MeasurementPanel: Dropdown;
-  @ViewChild('f') form: NgForm;
+  @ViewChild('region', { static: false }) RegionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('accountingYear', { static: false }) accountingYearPanel: Dropdown;
+  @ViewChild('company', { static: false }) companyPanel: Dropdown;
+  @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
+  @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }

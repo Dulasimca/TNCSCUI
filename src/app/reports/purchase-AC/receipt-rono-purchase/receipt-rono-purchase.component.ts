@@ -36,8 +36,8 @@ export class ReceiptRONOPurchaseComponent implements OnInit {
   loading: boolean;
   loggedInRCode: string;
   totalRecords: number;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,
     private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }

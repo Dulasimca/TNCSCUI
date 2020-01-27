@@ -135,18 +135,18 @@ export class StockReceiptComponent implements OnInit {
   selected: any;
   disableSave: boolean = false;
   // isSaved: boolean = false;
-  @ViewChild('tr') transactionPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('dt') depositorTypePanel: Dropdown;
-  @ViewChild('dn') depositorNamePanel: Dropdown;
-  @ViewChild('sc') schemePanel: Dropdown;
-  @ViewChild('i_desc') commodityPanel: Dropdown;
-  @ViewChild('st_no') stackNoPanel: Dropdown;
-  @ViewChild('pt') packingPanel: Dropdown;
-  @ViewChild('wmt') weightmentPanel: Dropdown;
-  @ViewChild('vc') vehiclePanel: Dropdown;
-  @ViewChild('fc') freightPanel: Dropdown;
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('dt', { static: false }) depositorTypePanel: Dropdown;
+  @ViewChild('dn', { static: false }) depositorNamePanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
+  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
+  @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
+  @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
+  @ViewChild('fc', { static: false }) freightPanel: Dropdown;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,

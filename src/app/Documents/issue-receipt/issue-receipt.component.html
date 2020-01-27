@@ -182,9 +182,11 @@
                         <label for="ManualDocNum" class="float-input">Manual Document No</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-3 ui-fluid">
+                    <div class="ui-g-6 ui-md-4 ui-fluid no-pad-top">
                       <label for="IssuerCode" class="label-fontsize-large">Issuer Code:</label>
-                      <span>{{IssuerCode}}</span>
+                      <span>{{IssuerCode}}</span><br>
+                      <label for="IssuerCode" class="label-fontsize-large">Society Name:</label>
+                      <span>{{SocietyName}}</span>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid dashboard">
@@ -457,7 +459,7 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button name="save" style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || disableSave || itemData.length=='0' || issueData.length=='0' || (isViewed && !f.dirty))"
+                [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0' || (isViewed && !f.dirty))"
                 label=Save (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">

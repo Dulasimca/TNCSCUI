@@ -44,12 +44,12 @@ export class StackCardComponent implements OnInit {
   selectedRowCols: any;
   selectedRowData: any[] = [];
   totalRecords: number;
-  @ViewChild('region') RegionPanel: Dropdown;
-  @ViewChild('godown') GodownPanel: Dropdown;
-  @ViewChild('commodity') CommodityPanel: Dropdown;
-  @ViewChild('stackYear') StackYearPanel: Dropdown;
-  @ViewChild('stockNo') StockNoPanel: Dropdown;
-  @ViewChild('table') Table: Table;
+  @ViewChild('region', { static: false }) RegionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
+  @ViewChild('stackYear', { static: false }) StackYearPanel: Dropdown;
+  @ViewChild('stockNo', { static: false }) StockNoPanel: Dropdown;
+  @ViewChild('table', { static: false }) Table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private authService: AuthService, private restAPIService: RestAPIService,

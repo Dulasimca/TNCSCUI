@@ -40,10 +40,10 @@ export class CommodityReceiptComponent implements OnInit {
   roleId: any;
   username: any;
   loggedInRCode: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('commodity') commodityPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,

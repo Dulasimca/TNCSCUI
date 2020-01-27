@@ -42,9 +42,9 @@ export class SchemeIssueMemoComponent implements OnInit {
   loggedInRCode: any;
   SchemeIssueAbstractData: any;
   loading: boolean = false;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('scheme') schemePanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('scheme', { static: false }) schemePanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private messageService: MessageService, private authService: AuthService,

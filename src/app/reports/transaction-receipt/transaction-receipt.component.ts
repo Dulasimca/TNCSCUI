@@ -36,9 +36,9 @@ export class TransactionReceiptComponent implements OnInit {
   loading: boolean = false;
   regionsData: any;
   roleId: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
   loggedInRCode: string;
   username: any;
 

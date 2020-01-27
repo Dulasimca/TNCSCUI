@@ -47,12 +47,12 @@ export class AllotmentDetailsComponent implements OnInit {
   loggedInRCode: any;
   godownOptions: SelectItem[];
   blockScreen: boolean;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('fileSelector') fileSelector: ElementRef;
-  @ViewChild('dt') table: Table;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('fileSelector', { static: false }) fileSelector: ElementRef;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,

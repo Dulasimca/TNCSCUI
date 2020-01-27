@@ -32,9 +32,9 @@ export class StackClosingCard2Component implements OnInit {
   loading: boolean;
   username: any;
   loggedInRCode: string;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('year') yearPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('year', { static: false }) yearPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,

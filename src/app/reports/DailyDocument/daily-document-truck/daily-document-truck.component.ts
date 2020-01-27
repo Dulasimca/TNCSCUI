@@ -47,9 +47,9 @@ export class DailyDocumentTruckComponent implements OnInit {
   regionData: any;
   viewPane: boolean;
   loggedInRCode: string;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('dt') table: Table;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private restAPIService: RestAPIService, private datepipe: DatePipe,

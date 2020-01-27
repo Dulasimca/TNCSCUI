@@ -8,7 +8,6 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { DataTable } from 'primeng/primeng';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -53,7 +52,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   showDialog: boolean;
   loading: boolean;
   activateLoader: boolean;
-  @ViewChild('f') ngForm: NgForm;
+  @ViewChild('f', { static: false }) ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,

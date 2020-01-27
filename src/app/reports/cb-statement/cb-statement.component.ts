@@ -38,8 +38,8 @@ export class CBStatementComponent implements OnInit {
   maxDate: Date = new Date();  
   loggedInRCode: string;
   regions: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private tableConstants: TableConstants, private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }

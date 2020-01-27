@@ -135,7 +135,15 @@
             </p-radioButton>
           </div>
         </div>
-        <div class="ui-g-5"></div>
+        <div class="ui-g-6 ui-md-4">
+          <span class="ui-float-label">
+            <input name="GST_No" pInputText [(ngModel)]="GSTNumber"
+            oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+            style="text-transform: uppercase !important"  minlength="15" maxlength="15" autocomplete="off">
+            <label for="GST_No" class="float-input">GST No.</label>
+          </span>
+        </div>
+        <div class="ui-g-1"></div>
         <div class="ui-g-4 ui-md-1">
           <button pButton label=Save
             [disabled]="(!GName || !RName || !Activeflag || !IssuerName || !IssuerType || !Beneficiaries || (isEdited && !f.dirty))"

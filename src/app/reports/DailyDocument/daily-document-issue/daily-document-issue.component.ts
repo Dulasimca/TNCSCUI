@@ -48,9 +48,9 @@ export class DailyDocumentIssueComponent implements OnInit {
   regionData: any;
   viewPane: boolean;
   loggedInRCode: string;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('dt') table: Table;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 

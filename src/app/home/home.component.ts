@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit, ElementRef } from '@angular/core';
 import { AuthService } from '../shared-services/auth.service';
 import { RestAPIService } from '../shared-services/restAPI.service';
 import { DatePipe, LocationStrategy } from '@angular/common';
@@ -14,7 +14,7 @@ import { StatusMessage } from '../constants/Messages';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterContentInit {
   cbRice: string = 'line';
   cbDhall: string = 'column';
   date: any;
@@ -68,8 +68,8 @@ export class HomeComponent implements OnInit {
   imgUrl = "../../assets/NotificationPopup/";
   imgPost = "";
   NotificationNotes: any;
-  @ViewChild('AADS') divAADS: ElementRef;
-  @ViewChild('element') toastObj;
+  @ViewChild('AADS', { static: false }) divAADS: ElementRef;
+  @ViewChild('element', { static: false }) toastObj;
 
 
   constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
@@ -78,7 +78,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.showDialog();
     this.preventBackButton();
-    this.calculateHeight();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
     let params = new HttpParams().set('Date', this.date);
@@ -771,7 +770,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  calculateHeight() {
+  ngAfterContentInit() {
     const height = this.divAADS.nativeElement.offsetHeight;
     this.notificationsHeight = (height * 4);
   }

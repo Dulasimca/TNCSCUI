@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DataTable } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-hulling-agencies',
@@ -23,7 +23,7 @@ export class HullingAgenciesComponent implements OnInit {
   filterArray: any;
   loading: boolean = false;
   searchText: any;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('dt', { static: false }) table: Table;
   
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private tableConstants: TableConstants, private messageService: MessageService) { }

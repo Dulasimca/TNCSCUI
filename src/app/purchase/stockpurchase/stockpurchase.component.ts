@@ -49,9 +49,9 @@ export class StockPurchaseComponent implements OnInit {
   blockScreen: boolean;
   UserInfo: any;
   roleId: any;
-  @ViewChild('commodity') commodityPanel: Dropdown;
-  @ViewChild('f') form: NgForm;
-  @ViewChild('qf') qtyForm: NgForm;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
+  @ViewChild('qf', { static: false }) qtyForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private authService: AuthService,
     private restApiService: RestAPIService, private datePipe: DatePipe,

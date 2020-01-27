@@ -57,8 +57,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   OnEdit: boolean = false;
   GName: any;
   RName: any;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('designation') designationPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('designation', { static: false }) designationPanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }

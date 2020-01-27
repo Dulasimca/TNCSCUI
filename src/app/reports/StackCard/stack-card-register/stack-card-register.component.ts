@@ -41,11 +41,11 @@ export class StackCardRegisterComponent implements OnInit {
   Username: any;
   fromDate: any;
   toDate: any;
-  @ViewChild('region') RegionPanel: Dropdown;
-  @ViewChild('godown') GodownPanel: Dropdown;
-  @ViewChild('commodity') CommodityPanel: Dropdown;
-  @ViewChild('stackYear') StackYearPanel: Dropdown;
-  @ViewChild('stackCardStatus') StackStatusPanel: Dropdown;
+  @ViewChild('region', { static: false }) RegionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
+  @ViewChild('stackYear', { static: false }) StackYearPanel: Dropdown;
+  @ViewChild('stackCardStatus', { static: false }) StackStatusPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,

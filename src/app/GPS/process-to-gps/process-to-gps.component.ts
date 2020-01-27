@@ -32,9 +32,9 @@ export class ProcessToGPSComponent implements OnInit {
   roleId: any;
   processToGPSCols: any;
   processToGPSData: any = [];
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('dt') table: Table;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
       private restAPIService: RestAPIService, private authService: AuthService,

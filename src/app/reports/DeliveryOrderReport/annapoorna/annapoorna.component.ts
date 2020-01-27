@@ -50,10 +50,10 @@ export class AnnapoornaComponent implements OnInit {
   loading: boolean = false;
   loggedInRCode: any;
   totalRecords: number;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('transaction') transactionPanel: Dropdown;
-  @ViewChild('receiver') societyPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('receiver', { static: false }) societyPanel: Dropdown;
 
 
 

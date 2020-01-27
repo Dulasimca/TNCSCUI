@@ -128,20 +128,20 @@ export class TruckReceiptComponent implements OnInit {
   field: any;
   selected: any;
   // isSaved: boolean = false;
-  @ViewChild('tr') transactionPanel: Dropdown;
-  @ViewChild('sc') schemePanel: Dropdown;
-  @ViewChild('rt') receivorTypePanel: Dropdown;
-  @ViewChild('rn') receivorNamePanel: Dropdown;
-  @ViewChild('rr') receivorRegionPanel: Dropdown;
-  @ViewChild('i_desc') commodityPanel: Dropdown;
-  @ViewChild('wmt') weighmentPanel: Dropdown;
-  @ViewChild('pt') packingPanel: Dropdown;
-  @ViewChild('st_no') stackPanel: Dropdown;
-  @ViewChild('fs') fromStationPanel: Dropdown;
-  @ViewChild('ts') toStationPanel: Dropdown;
-  @ViewChild('fc') freightPanel: Dropdown;
-  @ViewChild('vc') vehiclePanel: Dropdown;
-  @ViewChild('rh') railHeadPanel: Dropdown;
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
+  @ViewChild('rr', { static: false }) receivorRegionPanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('wmt', { static: false }) weighmentPanel: Dropdown;
+  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
+  @ViewChild('st_no', { static: false }) stackPanel: Dropdown;
+  @ViewChild('fs', { static: false }) fromStationPanel: Dropdown;
+  @ViewChild('ts', { static: false }) toStationPanel: Dropdown;
+  @ViewChild('fc', { static: false }) freightPanel: Dropdown;
+  @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
+  @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
   itemGroup: any;
 
 

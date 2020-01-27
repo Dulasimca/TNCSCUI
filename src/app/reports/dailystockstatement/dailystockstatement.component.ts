@@ -31,7 +31,7 @@ export class DailyStockStatementComponent implements OnInit {
   selectedRow = 0;
   loading: boolean;
   searchText: any;
-  @ViewChild('dailyStockTable')
+  @ViewChild('dailyStockTable', { static: false })
   dailyStockTable: ElementRef;
 
 

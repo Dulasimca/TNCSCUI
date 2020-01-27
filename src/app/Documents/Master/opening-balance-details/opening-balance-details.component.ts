@@ -46,7 +46,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   validationErr: boolean = false;
   totalRecords: number;
   blockScreen: boolean;
-  @ViewChild('f') OBForm: NgForm;
+  @ViewChild('f', { static: false }) OBForm: NgForm;
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants, private messageService: MessageService,

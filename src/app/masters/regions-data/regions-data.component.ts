@@ -9,7 +9,7 @@ import { PrintService } from 'src/app/print.service';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { DataTable } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-regions-data',
@@ -25,7 +25,7 @@ export class RegionsDataComponent implements OnInit {
   filterArray: any;
   selectedrow: any;
   loading: boolean;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private printService: PrintService,
     private authService: AuthService, private tableConstants: TableConstants,

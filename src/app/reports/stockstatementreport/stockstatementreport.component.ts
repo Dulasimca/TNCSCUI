@@ -10,9 +10,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
-import { Dropdown, DataTable } from 'primeng/primeng';
+import { Dropdown } from 'primeng/primeng';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-stockstatementreport',
@@ -37,9 +38,9 @@ export class StockstatementreportComponent implements OnInit {
   roleId: any;
   loggedInRCode: any;
   regions: any;
-  @ViewChild('gd') godownPanel: Dropdown;
-  @ViewChild('reg') regionPanel: Dropdown;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('gd', { static: false }) godownPanel: Dropdown;
+  @ViewChild('reg', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private restApiService: RestAPIService, private roleBasedService: RoleBasedService,
     private authService: AuthService, private datePipe: DatePipe, private messageService: MessageService) { }

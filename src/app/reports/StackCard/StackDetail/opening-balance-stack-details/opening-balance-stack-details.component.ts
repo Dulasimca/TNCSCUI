@@ -36,9 +36,9 @@ export class OpeningBalanceStackDetailsComponent implements OnInit {
   loggedInRCode: string;
   StackDate: Date;
   maxDate: Date = new Date();
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('year') yearPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('year', { static: false }) yearPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private messageService: MessageService,

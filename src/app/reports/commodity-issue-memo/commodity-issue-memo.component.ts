@@ -41,9 +41,9 @@ export class CommodityIssueMemoComponent implements OnInit {
   issuedToDepositor: string[];
   issuedToGodown: string[];
   username: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('commodity') commodityPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,

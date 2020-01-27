@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/shared-services/auth.service';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DataTable } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-crsdata',
@@ -24,7 +24,7 @@ export class CRSDataComponent implements OnInit {
   canShowMenu: boolean;
   filterArray: any;
   loading: boolean = false;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private tableConstants: TableConstants) { }

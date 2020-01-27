@@ -12,7 +12,8 @@ import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
 import 'rxjs/add/observable/from';
 import * as Rx from 'rxjs';
-import { Dropdown, DataTable } from 'primeng/primeng';
+import { Dropdown } from 'primeng/primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-daily-documents',
@@ -45,9 +46,9 @@ export class DailyDocumentsComponent implements OnInit {
   regionData: any;
   viewPane: boolean;
   loggedInRCode: any;
-  @ViewChild('godown') godownPanel: Dropdown;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('dt') table: DataTable;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 

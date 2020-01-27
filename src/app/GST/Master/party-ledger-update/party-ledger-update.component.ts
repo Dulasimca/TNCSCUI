@@ -48,10 +48,10 @@ export class PartyLedgerUpdateComponent implements OnInit {
   searchText: any;
   RName: any;
   loading: boolean = false;
-  @ViewChild('region') regionPanel: Dropdown;
-  @ViewChild('party') partyPanel: Dropdown;
-  @ViewChild('issuer') issuerPanel: Dropdown;
-  @ViewChild('godown') godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('party', { static: false }) partyPanel: Dropdown;
+  @ViewChild('issuer', { static: false }) issuerPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }

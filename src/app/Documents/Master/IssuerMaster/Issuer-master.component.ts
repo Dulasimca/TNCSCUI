@@ -50,8 +50,9 @@ export class IssuerMasterComponent implements OnInit {
   Tycode: any;
   Beneficiaries: any;
   enableSociety: boolean = true;
-  @ViewChild('society') societyPanel: Dropdown;
-  @ViewChild('f') form: NgForm;
+  GSTNumber: string;
+  @ViewChild('society', { static: false }) societyPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -199,7 +200,6 @@ export class IssuerMasterComponent implements OnInit {
     }
   }
 
-
   onRowSelect(event, selectedRow) {
     this.isEdited = true;
     this.viewPane = true;
@@ -218,6 +218,7 @@ export class IssuerMasterComponent implements OnInit {
     this.IssuerType = selectedRow.Tyname;
     this.Tycode = selectedRow.IssuerType;
     this.issuerTypeOptions = [{ label: selectedRow.Tyname, value: selectedRow.IssuerType }];
+    this.GSTNumber = selectedRow.GSTNumber.toUpperCase().trim();
     this.onChange();
   }
 
@@ -237,7 +238,8 @@ export class IssuerMasterComponent implements OnInit {
       'CategoryId':  (this.CategoryType !== undefined && this.CategoryType !== null &&
           this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value
           : (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId : 0,
-      'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0
+      'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0,
+      'GSTNumber': (this.GSTNumber !== null && this.GSTNumber.trim() !== '' && this.GSTNumber !== undefined ) ? this.GSTNumber.trim().toUpperCase() : ''
 
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
@@ -275,12 +277,14 @@ export class IssuerMasterComponent implements OnInit {
     this.form.controls.Category_Type.reset();
     this.form.controls.Issuer_Type.reset();
     this.form.controls.No_of_beneficaries.reset();
+    this.form.controls.GST_No.reset();
     this.SocietyCode = null; this.Tycode = null; this.CategoryId = null;
     this.IssuerCode = null; this.IssuerType = null; this.Society = null;
     this.ACSCode = null; this.IssuerName = null; this.Activeflag = null;
     this.CategoryType = null; this.Beneficiaries = null;
     this.issuerTypeOptions = []; this.societyOptions = []; this.categoryOptions = [];
     this.isEdited = false; this.Activeflag = 'A';
+    this.GSTNumber = null;
   }
 
   onSearch(value) {

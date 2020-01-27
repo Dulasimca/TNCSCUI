@@ -128,18 +128,20 @@ export class DeliveryReceiptComponent implements OnInit {
   CurrCAmount: any;
   AmntType: any;
   PrevBalType: any;
-  @ViewChild('tr') transactionPanel: Dropdown;
-  @ViewChild('m') monthPanel: Dropdown;
-  @ViewChild('y') yearPanel: Dropdown;
-  @ViewChild('rt') receivorTypePanel: Dropdown;
-  @ViewChild('pn') partyNamePanel: Dropdown;
-  @ViewChild('sc') schemePanel: Dropdown;
-  @ViewChild('i_desc') commodityPanel: Dropdown;
-  @ViewChild('rate') weighmentPanel: Dropdown;
-  @ViewChild('ms') marginSchemePanel: Dropdown;
-  @ViewChild('margin_id') marginCommodityPanel: Dropdown;
-  @ViewChild('margin_rate') marginWeighmentPanel: Dropdown;
-  @ViewChild('pay') paymentPanel: Dropdown;
+  GSTNumber: string;
+  isGSTModified: boolean = true;
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('pn', { static: false }) partyNamePanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('rate', { static: false }) weighmentPanel: Dropdown;
+  @ViewChild('ms', { static: false }) marginSchemePanel: Dropdown;
+  @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
+  @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
+  @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
  
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -288,7 +290,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(dn => {
-                  partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode });
+                  partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode, 'GST': dn.GSTNumber });
                 })
                 this.partyNameOptions = partyNameList;
               }
@@ -415,6 +417,8 @@ export class DeliveryReceiptComponent implements OnInit {
       case 'rt':
         this.partyNameOptions = [];
         this.pCode = null; this.PName = null;
+        this.GSTNumber = null;
+        this.isGSTModified = true;
         break;
       case 'sc':
         this.itemDescOptions = [];
@@ -425,6 +429,40 @@ export class DeliveryReceiptComponent implements OnInit {
         this.miCode = null; this.MICode = null;
         break;
     }
+  }
+
+  getGSTNo() {
+    if (this.PName !== undefined && this.PName !== null) {
+      this.GSTNumber = (this.PName.GST !== null && this.PName.GST !== undefined) ? this.PName.GST : '';
+      this.GSTNumber.trim();
+    }
+  }
+
+  onGSTInput(event) {
+    if(event !== null && event !== undefined && event !== '') {
+      this.isGSTModified = false;
+    } else {
+      this.isGSTModified = true;
+    }
+  }
+
+  onUpdateGST() {
+    const params = {
+      'GSTNumber' : this.GSTNumber.toUpperCase(),
+      'IssuerCode': (this.PName.value !== null && this.PName.value !== undefined) ? this.PName.value : this.pCode,
+      'GCode': this.GCode
+    } 
+    this.restAPIService.post(PathConstants.DO_GST_UPDATE, params).subscribe(res => {
+      if (res.Item1) {
+        this.isGSTModified = true;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 })
+      } else {
+        this.isGSTModified = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage })
+      }
+    });
   }
 
   onRowSelect(event) {
@@ -892,6 +930,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.itemDescOptions = []; this.marginItemDescOptions = [];
     this.DeliveryDate = new Date(); this.PermitDate = new Date();
     this.PrevBalType = null; this.AmntType = null;
+    this.GSTNumber = null;
     this.onResetFieldset();
     // this.isSaved = false;
     //this.isViewed = false;
