@@ -501,7 +501,7 @@ export class TruckReceiptComponent implements OnInit {
       this.GodownNo = this.TStockNo.toString().slice(0, index);
       this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
     }
-    this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+    this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3)  : 0;
     this.itemData.splice(index, 1);
     this.itemData.forEach(x => { x.sno = sno; sno += 1; })
     const list = { stack_no: this.TStockNo, stack_date: this.StackDate, curDocQty: this.NKgs }

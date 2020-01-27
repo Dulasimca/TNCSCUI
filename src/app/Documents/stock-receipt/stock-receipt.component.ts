@@ -424,7 +424,7 @@ export class StockReceiptComponent implements OnInit {
     }
     this.StackBalance = ((this.StackBalance * 1) > (this.NKgs * 1)) ?
       ((this.StackBalance * 1) - (this.NKgs * 1)) : (this.StackBalance * 1);
-    this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)) : 0;
+    this.tareWt = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
     this.itemData.splice(index, 1);
     this.itemData.forEach(x => { x.sno = sno; sno += 1; })
   }
