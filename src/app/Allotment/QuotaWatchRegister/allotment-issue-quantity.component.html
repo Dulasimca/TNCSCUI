@@ -13,7 +13,8 @@
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" placeholder="-select-">
+          (ngModelChange)="onResetTable('reg')" filter="true" filterMatchMode="startsWith"
+          resetFilterOnHide="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -23,7 +24,8 @@
         <label class="ui-g-12 label-fontsize dashboard">Godown</label>
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+          (ngModelChange)="onResetTable('gd')" filter="true" filterMatchMode="startsWith"
+          resetFilterOnHide="true" [showClear]="true"
           placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -34,7 +36,8 @@
         <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
         <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
           (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
-          (ngModelChange)="onResetTable('m')" filter="true" resetFilterOnHide="true" optionLabel="label"
+          (ngModelChange)="onResetTable('m')" filter="true" filterMatchMode="startsWith"
+          resetFilterOnHide="true" optionLabel="label"
           filterMatchMode="startsWith" required>
         </p-dropdown>
       </div>

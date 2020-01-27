@@ -19,7 +19,7 @@
                 <p-dropdown #region name="region_name" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions"
                   [(ngModel)]="RCode" (onClick)="onSelect('reg', 'change')" 
                   (keydown.enter)="onSelect('reg', 'enter')" [readonly]="isViewed"
-                  [showClear]="true" filter="true" optionLabel="label" resetFilterOnHide="true">
+                  [showClear]="true" filter="true" filterMatchMode="startsWith" optionLabel="label" resetFilterOnHide="true">
                 </p-dropdown>
                 <!--(onChange)="onChangeList('reg')"-->
               </div>
@@ -28,7 +28,7 @@
                 <p-dropdown #orderNum name="order_Num" [options]="orderNoOptions" [(ngModel)]="OrderNo"
                   (onClick)="onSelect('order', 'click')" (keydown.enter)="onSelect('order', 'enter')"
                    filter="true" resetFilterOnHide="true" (onChange)="onChangeList()"
-                  [readonly]="isViewed" [showClear]="true" required>
+                  [readonly]="isViewed" [showClear]="true" filterMatchMode="startsWith" required>
                 </p-dropdown>
                 <!--(onChange)="onChangeList('order')"-->
               </div>
@@ -36,7 +36,7 @@
                 <label for="spell_cycle" class="label-fontsize">Spell</label>
                 <p-dropdown #spell name="spell_cycle" [options]="spellOptions" [(ngModel)]="Spell"
                   (onClick)="onSelect('spell', 'click')" (keydown.enter)="onSelect('spell', 'enter')" 
-                  filter="true" (onChange)="onChangeList()"
+                  filter="true" (onChange)="onChangeList()" filterMatchMode="startsWith"
                   resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
                 </p-dropdown>
               </div>

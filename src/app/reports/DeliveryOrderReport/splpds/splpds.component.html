@@ -14,7 +14,7 @@
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
           (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
-          optionLabel="label" placeholder="-select-">
+          filterMatchMode="startsWith" optionLabel="label" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -25,7 +25,7 @@
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
           (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          optionLabel="label" placeholder="-select-">
+          filterMatchMode="startsWith" optionLabel="label" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -66,7 +66,8 @@
         <label class="ui-g-12 label-fontsize dashboard">Transaction Type</label>
         <p-dropdown #transaction id="float-input" [options]="transactionOptions" [(ngModel)]="t_cd"
           (onClick)="onSelect('t', 'click')" (keydown.enter)="onSelect('t', 'enter')" (ngModelChange)="onResetTable('')"
-          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true"
+          filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -76,7 +77,8 @@
         <label class="ui-g-12 label-fontsize dashboard">Society Type</label>
         <p-dropdown #receiver id="float-input" [options]="receiverOptions" [(ngModel)]="r_cd"
           (onClick)="onSelect('r', 'click')" (keydown.enter)="onSelect('r', 'enter')" (ngModelChange)="onResetTable('')"
-          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          filter="true" optionLabel="label" resetFilterOnHide="true" [showClear]="true" 
+          filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>

@@ -17,7 +17,7 @@
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
             <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
               (keydown.enter)="onSelect('gd')" (onChange)="onChange()" filter="true" optionLabel="label"
-              resetFilterOnHide="true" [showClear]="true" required>
+              filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -26,7 +26,7 @@
           <div class="form-group ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="Commodity">Commodity</label>
             <p-dropdown [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
-              (onChange)="onChange()" filter="true" optionLabel="label" 
+              (onChange)="onChange()" filter="true" optionLabel="label" filterMatchMode="startsWith"
               resetFilterOnHide="true" [showClear]="true" name="Commodity" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>

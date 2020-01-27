@@ -14,7 +14,7 @@
           <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
             (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
              (ngModelChange)="onResetTable('reg')" filter="true" optionLabel="label"
-            resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+             filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
@@ -24,7 +24,7 @@
         <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" placeholder="-select-"
           (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-          optionLabel="label" [showClear]="true">
+          filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -34,7 +34,8 @@
         <label class="ui-g-7 label-fontsize dashboard">Document Type</label>
         <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="docTypeOptions" [(ngModel)]="DocType"
         (ngModelChange)="onResetTable('dt')" filter="true" resetFilterOnHide="true" placeholder="-select-"
-        (onClick)="onSelect('dt', 'click')" (keydown.enter)="onSelect('dt', 'enter')" [showClear]="true">
+        (onClick)="onSelect('dt', 'click')" (keydown.enter)="onSelect('dt', 'enter')"
+        filterMatchMode="startsWith" [showClear]="true">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>

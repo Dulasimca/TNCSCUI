@@ -26,7 +26,8 @@
         <label for="Depositortype" class="label-fontsize">Depositor Type</label>
         <p-dropdown #depositor name="Depositortype" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
           (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
-          (onChange)="dt.reset();filterDepositor($event)" filter="true" optionLabel="label" resetFilterOnHide="true"
+          (onChange)="dt.reset();filterDepositor($event)" filter="true" optionLabel="label"
+          filterMatchMode="startsWith" resetFilterOnHide="true"
           [showClear]="true" [disabled]="isDepositor" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>

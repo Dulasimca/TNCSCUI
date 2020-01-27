@@ -21,7 +21,7 @@
         <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
          (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
-          [showClear]="true" placeholder="-select-">
+         filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>  
@@ -32,7 +32,7 @@
         <p-dropdown #godown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (keydown.enter)="onSelect('godown', 'enter')" (onClick)="onSelect('godown', 'click')"
           (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
-           [showClear]="true" placeholder="-select-">
+          filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -42,7 +42,7 @@
               <label class="ui-g-7 label-fontsize dashboard">Transaction</label>
               <p-dropdown #transaction class="ui-g-12 ui-fluid dashboard" [options]="transactionOptions" [(ngModel)]="TrCode"
               (onClick)="onSelect('transaction', 'click')" (keydown.enter)="onSelect('transaction', 'enter')" 
-              (ngModelChange)="onResetTable('transaction')" filter="true" 
+              (ngModelChange)="onResetTable('transaction')" filter="true" filterMatchMode="startsWith" 
               resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>

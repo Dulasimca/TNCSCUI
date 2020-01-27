@@ -98,7 +98,7 @@
                             <div for="Username" class="icon2">
                               <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
                               <input type="text" class="form-control input-lg" formControlName="user" id="userName"
-                                [(ngModel)]="userName" readonly="true" placeholder="Username" filter="true" tabindex="0" required>
+                                [(ngModel)]="userName" readonly="true" placeholder="Username" filter="true" filterMatchMode="startsWith" tabindex="0" required>
                             </div>
                             <div for="OldPassword" class="icon2">
                               <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText autocomplete="off"> -->

@@ -74,7 +74,8 @@
                   <label class="ui-g label-fontsize-large" for="Designation">Designation</label>
                   <p-dropdown #designation class="ui-g-12 ui-fluid dashboard" [options]="designationOptions"
                     [(ngModel)]="Designation" (onClick)="onSelect('d', 'click')"
-                    (keydown.enter)="onSelect('d', 'click')" filter="true" resetFilterOnHide="true" optionLabel="label"
+                    (keydown.enter)="onSelect('d', 'click')" filter="true" resetFilterOnHide="true"
+                    filterMatchMode="startsWith" optionLabel="label"
                     [showClear]="true" name="Designation" required>
                     <ng-template let-item pTemplate="selectedItem">
                       <span style="vertical-align:middle">{{item.label}}</span>

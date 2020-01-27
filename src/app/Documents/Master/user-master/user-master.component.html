@@ -13,7 +13,7 @@
       <label class="ui-g label-fontsize dashboard" for="rCode">Region</label>
       <p-dropdown #region class="ui-g ui-fluid" name="rCode" [options]="regionOptions" [(ngModel)]="regionCode" 
       (onClick)="onSelect('click', 'reg')" (keydown.enter)="onSelect('enter', 'reg')" filter="true"
-      resetFilterOnHide="true" optionLabel="label"
+      filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label"
         [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
@@ -24,7 +24,7 @@
       <label class="ui-g label-fontsize dashboard" for="gCode">Godown Name</label>
       <p-dropdown #godown class="ui-g ui-fluid" [options]="godownOptions" [(ngModel)]="godownCode"
       (onClick)="onSelect('click', 'gd')" (keydown.enter)="onSelect('enter', 'gd')" filter="true"
-      resetFilterOnHide="true" optionLabel="label"
+      resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith"
         name="gCode" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
@@ -34,7 +34,8 @@
     <div class="ui-g-12 ui-md-2">
       <label class="ui-g label-fontsize dashboard" for="roleId">Role</label>
       <p-dropdown #role class="ui-g ui-fluid" [options]="roleIdOptions" [(ngModel)]="roleId"
-      (onClick)="onSelect('click', 'role')" (keydown.enter)="onSelect('enter', 'role')" filter="true"resetFilterOnHide="true"  optionLabel="label"
+      (onClick)="onSelect('click', 'role')" (keydown.enter)="onSelect('enter', 'role')"
+      filterMatchMode="startsWith" filter="true"resetFilterOnHide="true"  optionLabel="label"
         [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
