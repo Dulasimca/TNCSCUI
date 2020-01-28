@@ -31,7 +31,7 @@ export class IssueReceiptComponent implements OnInit {
   stackYear: any;
   issueMemoDocData: any = [];
   issueMemoDocCols: any;
-  viewDate: Date = new Date();
+  viewDate: Date;
   yearOptions: SelectItem[];
   transactionOptions: SelectItem[];
   receiverTypeOptions: SelectItem[];
@@ -64,20 +64,20 @@ export class IssueReceiptComponent implements OnInit {
   year: any;
   curMonth: any;
   SINo: any;
-  SIDate: Date = new Date();
+  SIDate: Date;
   IssuingCode: any;
   RCode: any;
   StackBalance: any = 0;
   RegularAdvance: string;
   RowId: any;
-  DDate: Date = new Date();
+  DDate: Date;
   SI_Date: Date;
   DNo: any;
   canShowMenu: boolean;
   ///Issue details
   Trcode: any;
   IRelates: any;
-  DeliveryOrderDate: Date = new Date();
+  DeliveryOrderDate: Date;
   DeliveryOrderNo: any;
   RTCode: any;
   RNCode: any;
@@ -157,6 +157,10 @@ export class IssueReceiptComponent implements OnInit {
     this.UserID = JSON.parse(this.authService.getCredentials());
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate =  (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
+    this.SIDate = this.maxDate; 
+    this.DDate = this.maxDate;
+    this.DeliveryOrderDate = this.maxDate;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.year = new Date().getFullYear();
