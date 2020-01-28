@@ -1185,12 +1185,16 @@ export class DeliveryReceiptComponent implements OnInit {
        && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
        key !== 'MarginSchemes' &&  key !== 'MarginCommodity' &&  key !== 'MarginWt' &&  key !== 'MarginRateTerms' 
        &&  key !== 'MarginRateRS' &&  key !== 'PaymentMode' &&  key !== 'ChequeNumber' && key !== 'AdjType' &&
-       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate')) {
+       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate' &&
+       key !== 'PType' && key !== 'OType')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
         }
        }
        this.missingFields = arr;
+    } else if (this.itemData.length === 0) {
+      arr.push({ label: '1', value: 'Please add item details! '});
+      this.missingFields = arr;
     } else {
       this.submitted = false;
       this.messageService.clear();

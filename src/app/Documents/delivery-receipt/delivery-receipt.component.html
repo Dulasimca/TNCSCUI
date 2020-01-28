@@ -189,7 +189,8 @@
                       <label class="label-fontsize" for="Commodity" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('commodity', 'click')" (keydown.enter)="onSelect('commodity', 'enter')"
-                        filter="true" optionLabel="label" resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true">
+                        filter="true" optionLabel="label" resetFilterOnHide="true" 
+                        filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
