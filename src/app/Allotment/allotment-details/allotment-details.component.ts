@@ -319,7 +319,7 @@ export class AllotmentDetailsComponent implements OnInit {
   constructData(data) {
     let records = 1;
     data.forEach(i => {
-      if (records < data.length) {
+      if (records <= data.length) {
         this.allotmentDetails.push({
           Type: 2, FPSName: i['FPS Name'], FPSCode: i['FPS Code'],
           ItemList: i.ItemList, GCode: this.GCode, RCode: this.RCode, Taluk: i.Taluk,
