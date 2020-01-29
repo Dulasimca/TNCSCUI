@@ -131,9 +131,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
     const selectedMonth = date.getMonth() + 1;
     if (selectedDate === 1 && selectedMonth === 4) {
       this.allowInput = false;
+      this.Bags = 0;
+      this.Weights = 0;
       this.flag = false;
     } else {
       this.allowInput = true;
+      this.Bags = 0;
+      this.Weights = 0;
     }
   }
 
