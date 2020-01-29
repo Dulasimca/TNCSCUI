@@ -31,7 +31,7 @@ export class IssueReceiptComponent implements OnInit {
   stackYear: any;
   issueMemoDocData: any = [];
   issueMemoDocCols: any;
-  viewDate: Date = new Date();
+  viewDate: Date;
   yearOptions: SelectItem[];
   transactionOptions: SelectItem[];
   receiverTypeOptions: SelectItem[];
@@ -64,24 +64,24 @@ export class IssueReceiptComponent implements OnInit {
   year: any;
   curMonth: any;
   SINo: any;
-  SIDate: Date = new Date();
+  SIDate: Date;
   IssuingCode: any;
   RCode: any;
   StackBalance: any = 0;
   RegularAdvance: string;
   RowId: any;
-  DDate: Date = new Date();
+  DDate: Date;
   SI_Date: Date;
   DNo: any;
   canShowMenu: boolean;
   ///Issue details
   Trcode: any;
   IRelates: any;
-  DeliveryOrderDate: Date = new Date();
+  DeliveryOrderDate: Date;
   DeliveryOrderNo: any;
   RTCode: any;
   RNCode: any;
-  IssuerCode: any;
+  IssCode: any;
   WNo: any = '-';
   TransporterCharges: any = 0;
   VehicleNo: any;
@@ -132,6 +132,8 @@ export class IssueReceiptComponent implements OnInit {
   itemGRName: string;
   categoryTypeCodeList: any = [];
   SocietyCode: any;
+  SocietyName: any;
+  disableSave: boolean;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -141,7 +143,6 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
-  SocietyName: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -157,6 +158,10 @@ export class IssueReceiptComponent implements OnInit {
     this.UserID = JSON.parse(this.authService.getCredentials());
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate =  (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
+    this.SIDate = this.maxDate; 
+    this.DDate = this.maxDate;
+    this.DeliveryOrderDate = this.maxDate;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.year = new Date().getFullYear();
@@ -281,7 +286,7 @@ export class IssueReceiptComponent implements OnInit {
             });
             if (this.RNCode !== undefined && this.RNCode !== null) {
               const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
-              this.IssuerCode = this.RNCode.value.trim() + '-' + acs_code;
+              this.IssCode = this.RNCode.value.trim() + '-' + acs_code;
               this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
               // if(this.categoryTypeCodeList.length !== 0) {
               //   this.categoryTypeCodeList.forEach(i => {
@@ -389,7 +394,7 @@ export class IssueReceiptComponent implements OnInit {
         this.receiverNameOptions = []; this.receiverTypeOptions = [];
         this.rtCode = null; this.RTCode = null;
         this.rnCode = null; this.RNCode = null;
-        this.IssuerCode = null; this.SocietyName = null;
+        this.IssCode = null; this.SocietyName = null;
         this.SocietyCode = null;
         break;
       case 'sc':
@@ -408,7 +413,7 @@ export class IssueReceiptComponent implements OnInit {
       case 'rt':
         this.receiverNameOptions = [];
         this.rnCode = null; this.RNCode = null;
-        this.IssuerCode = null; this.SocietyName = null;
+        this.IssCode = null; this.SocietyName = null;
         this.SocietyCode = null;
         this.getAllotmentDetails();
         break;
@@ -418,7 +423,7 @@ export class IssueReceiptComponent implements OnInit {
   showIssuerCode() {
     if (this.RNCode !== undefined && this.RNCode !== null) {
       const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
-      this.IssuerCode = this.RNCode.value.trim() + '-' + acs_code;
+      this.IssCode = this.RNCode.value.trim() + '-' + acs_code;
       this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
     }
   }
@@ -427,18 +432,19 @@ export class IssueReceiptComponent implements OnInit {
     if(Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
       if((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
         && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
-       this.TStockNo = null;
+       this.disableSave = true;
        this.messageService.clear();
        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
      } else if(SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
-      this.TStockNo = null;
+      this.disableSave = true;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
      } else if(ACSCode === null || ACSCode === undefined || ACSCode === '') {
-      this.TStockNo = null;
+      this.disableSave = true;
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
      } else {
+       this.disableSave = false;
       this.messageService.clear();
      }
     }
@@ -879,7 +885,7 @@ export class IssueReceiptComponent implements OnInit {
       'RegionName': this.regionName,
       'TransactionType': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
       'ReceiverName': (this.RNCode.label !== undefined && this.RNCode.label !== null) ? this.RNCode.label : this.RNCode,
-      'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : '-',
+      'IssuerCode': (this.IssCode !== undefined && this.IssCode !== null) ? this.IssCode : '-',
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F'
@@ -961,7 +967,7 @@ export class IssueReceiptComponent implements OnInit {
     if(this.AllotmentStatus === 'YES') {
     if(this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined && 
       this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
-      && this.IssuerCode !== null && this.IssuerCode !== undefined) {
+      && this.IssCode !== null && this.IssCode !== undefined) {
         const params = {
           'GCode': this.IssuingCode,
           'RCode': this.RCode,
@@ -1122,7 +1128,7 @@ export class IssueReceiptComponent implements OnInit {
           res.Table[0].Societycode : '';
         this.SocietyName = (res.Table[0].Societyname !== null && res.Table[0].Societyname !== undefined) ?
           res.Table[0].Societyname : '';
-        this.IssuerCode = this.rnCode + '-' + this.ACSCode;
+        this.IssCode = this.rnCode + '-' + this.ACSCode;
         this.checkFieldsOfIssuer(res.Table[0].Societycode.trim(), res.Table[0].issuetype1, res.Table[0].ACSCode.trim());
         this.IRelates = res.Table[0].IRelates;
         this.VehicleNo = res.Table[0].LorryNo.toUpperCase();
@@ -1224,7 +1230,7 @@ export class IssueReceiptComponent implements OnInit {
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.iCode = null; this.ICode = null;
     this.ipCode = null; this.IPCode = null; this.tStockCode = null;
-    this.TStockNo = null; this.stackYear = null; this.IssuerCode = null;
+    this.TStockNo = null; this.stackYear = null; this.IssCode = null;
     this.SocietyName = null; this.SocietyCode = null;
     this.packingTypeOptions = undefined; this.transactionOptions = undefined;
     this.itemDescOptions = []; this.schemeOptions = [];
@@ -1273,7 +1279,8 @@ export class IssueReceiptComponent implements OnInit {
       for (var key in form.value) {
         if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0))
           && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
-            && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && key !== 'CurDocQty' && key !== 'NetStackBal')) {
+            && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && 
+            key !== 'CurDocQty' && key !== 'NetStackBal' && key != 'QtyLimit')) {
           no += 1;
           arr.push({ label: no, value: no + '.' + key });
         }

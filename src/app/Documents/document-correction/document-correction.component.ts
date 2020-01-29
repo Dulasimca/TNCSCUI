@@ -48,8 +48,8 @@ export class DocumentCorrectionComponent implements OnInit {
   regionData: any;
   ApprovalStatus: number;
   Id: any;
-  fromDate: any =  new Date();
-  toDate: any =  new Date();
+  fromDate: any;
+  toDate: any;
   blockScreen: boolean;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('docType', { static: false }) docTypePanel: Dropdown;
@@ -77,6 +77,8 @@ export class DocumentCorrectionComponent implements OnInit {
     { label: 'Rejected', value: '2' }];
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.fromDate = this.maxDate;
+    this.toDate = this.maxDate;
   }
 
   onSelect(item, type) {

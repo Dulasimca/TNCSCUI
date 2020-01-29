@@ -21,7 +21,7 @@ export class DeliveryReceiptComponent implements OnInit {
   data: any;
   isSaveSucceed: boolean = false;
   username: any;
-  viewDate: Date = new Date();
+  viewDate: Date;
   viewPane: boolean = false;
   deliveryCols: any;
   deliveryData: any = [];
@@ -58,14 +58,14 @@ export class DeliveryReceiptComponent implements OnInit {
   canShowMenu: boolean;
   rowId: any;
   UnLoadingSlip: any;
-  DeliveryDate: Date = new Date();
+  DeliveryDate: Date;
   DeliveryOrderNo: any;
   Trcode: any;
   trCode: any;
   TransType: string = 'I';
   IndentNo: any = '-';
   OrderPeriod: any;
-  PermitDate: Date = new Date();
+  PermitDate: Date;
   PMonth: any;
   PYear: any;
   RCode: string;
@@ -94,12 +94,12 @@ export class DeliveryReceiptComponent implements OnInit {
   GrandTotal: any = 0;
   Payment: string;
   ChequeNo: any;
-  ChequeDate: any = new Date();
+  ChequeDate: any;
   PAmount: any;
   PayableAt: any;
   OnBank: any;
   PrevOrderNo: string;
-  PrevOrderDate: any = new  Date();
+  PrevOrderDate: any;
   AdjusmentAmount: number = 0;
   AdjustmentType: string;
   OtherAmount: number = 0;
@@ -175,6 +175,11 @@ export class DeliveryReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.PrevOrderDate = this.maxDate;
+    this.PermitDate = this.maxDate;
+    this.ChequeDate = this.maxDate;
+    this.DeliveryDate = this.maxDate;
+    this.viewDate = this.maxDate;
    }
 
   onSelect(selectedItem, type) {
@@ -1185,12 +1190,16 @@ export class DeliveryReceiptComponent implements OnInit {
        && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
        key !== 'MarginSchemes' &&  key !== 'MarginCommodity' &&  key !== 'MarginWt' &&  key !== 'MarginRateTerms' 
        &&  key !== 'MarginRateRS' &&  key !== 'PaymentMode' &&  key !== 'ChequeNumber' && key !== 'AdjType' &&
-       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate')) {
+       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate' &&
+       key !== 'PType' && key !== 'OType')) {
          no += 1;
          arr.push({label: no, value: no + '.' + key});
         }
        }
        this.missingFields = arr;
+    } else if (this.itemData.length === 0) {
+      arr.push({ label: '1', value: 'Please add item details! '});
+      this.missingFields = arr;
     } else {
       this.submitted = false;
       this.messageService.clear();

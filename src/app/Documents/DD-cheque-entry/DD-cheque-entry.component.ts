@@ -22,7 +22,7 @@ export class DDChequeEntryComponent implements OnInit {
   DDChequeData: any = [];
   ChequeReceiptNoCols: any;
   ChequeReceiptNoData: any = [];
-  receiptDate: any = new Date();
+  receiptDate: any;
   receiptNo: any;
   ReceiptDt: any;
   canShowMenu: boolean;
@@ -36,7 +36,7 @@ export class DDChequeEntryComponent implements OnInit {
   receivorTypeOptions: SelectItem[];
   receivedFrom: any;
   filteredNames: any[];
-  chequeDate: any = new Date();
+  chequeDate: any;
   bank: any;
   chequeAmount: any = 0;
   chequeNo: any;
@@ -48,7 +48,7 @@ export class DDChequeEntryComponent implements OnInit {
   amount: any;
   GCode: any;
   RCode: any;
-  viewDate: Date = new Date();
+  viewDate: Date;
   viewPane: boolean;
   receivorType: any;
   receivorCode: any;
@@ -87,6 +87,9 @@ export class DDChequeEntryComponent implements OnInit {
     { label: 'Cheque', value: 'CH' }, { label: 'Demand Draft', value: 'DA' }];
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
+    this.chequeDate = this.maxDate;
+    this.receiptDate = this.maxDate;
    }
 
 

@@ -27,7 +27,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   Location: string;
   Formation: string;
   StackNo: string;
-  Date: any = new Date();
+  Date: any;
   GCode: any;
   ICode: any;
   selectedRow: any;
@@ -65,6 +65,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.gdata = this.roleBasedService.getInstance();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.Date = this.maxDate;
     this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
       if (data !== null && data !== undefined) {
         this.curYear_data = data;
@@ -130,9 +131,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
     const selectedMonth = date.getMonth() + 1;
     if (selectedDate === 1 && selectedMonth === 4) {
       this.allowInput = false;
+      this.Bags = 0;
+      this.Weights = 0;
       this.flag = false;
     } else {
       this.allowInput = true;
+      this.Bags = 0;
+      this.Weights = 0;
     }
   }
 

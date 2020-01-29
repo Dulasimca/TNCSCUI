@@ -42,7 +42,7 @@ export class StockReceiptComponent implements OnInit {
   tareWt: any;
   maxDate: Date;
   enableActions: boolean = true;
-  viewDate: Date = new Date();
+  viewDate: Date;
   moistureOptions: SelectItem[];
   itemDescOptions: SelectItem[];
   schemeOptions: SelectItem[];
@@ -67,7 +67,7 @@ export class StockReceiptComponent implements OnInit {
   TransType: string = 'R';
   godownNo: any;
   OrderNo: any = '-';
-  OrderDate: Date = new Date();
+  OrderDate: Date;
   StackBalance: any = 0;
   viewPane: boolean;
   canShowMenu: boolean;
@@ -75,14 +75,14 @@ export class StockReceiptComponent implements OnInit {
   RCode: any;
   //SR-Details
   SRNo: any;
-  SRDate: Date = new Date();
+  SRDate: Date;
   PAllotment: any;
   MTransport: string;
   Trcode: any;
   DepositorType: any;
   DepositorCode: any;
   TruckMemoNo: any = '-';
-  TruckMemoDate: Date = new Date();
+  TruckMemoDate: Date;
   ManualDocNo: any = '-';
   LNo: any;
   LFrom: any = '-';
@@ -100,7 +100,7 @@ export class StockReceiptComponent implements OnInit {
   //SR-Freight Details
   TransporterName: any = '-';
   LWBillNo: any = '-';
-  LWBillDate: Date = new Date();
+  LWBillDate: Date;
   Kilometers: number = 0;
   FreightAmount: number = 0;
   WHDNo: any;
@@ -118,7 +118,7 @@ export class StockReceiptComponent implements OnInit {
   TStation: string;
   FStation: string;
   RRNo: any = 0;
-  LDate: Date = new Date();
+  LDate: Date;
   WNo: any = 0;
   Remarks: string;
   username: any;
@@ -170,6 +170,12 @@ export class StockReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
+    this.SRDate = this.maxDate;
+    this.OrderDate = this.maxDate;
+    this.TruckMemoDate = this.maxDate;
+    this.LWBillDate = this.maxDate;
+    this.LDate = this.maxDate;
   }
 
   onSelect(selectedItem, type) {

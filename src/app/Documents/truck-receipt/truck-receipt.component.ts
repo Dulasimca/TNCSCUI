@@ -21,7 +21,7 @@ export class TruckReceiptComponent implements OnInit {
   viewPane: boolean = false;
   isValidStackBalance: boolean;
   isSaveSucceed: boolean = false;
-  viewDate: Date = new Date();
+  viewDate: Date;
   data: any;
   username: any;
   regions: any;
@@ -58,14 +58,14 @@ export class TruckReceiptComponent implements OnInit {
   MTransport: any;
   TKgs: any;
   STNo: any;
-  STDate: Date = new Date();
+  STDate: Date;
   Trcode: any;
   trCode: any;
   transType: string = "I";
   OrderNo: any = '-';
-  OrderDate: Date = new Date();
+  OrderDate: Date;
   RNo: any = '-';
-  RDate: Date = new Date();
+  RDate: Date;
   LorryNo: any;
   RHCode: any;
   rhCode: any;
@@ -103,7 +103,7 @@ export class TruckReceiptComponent implements OnInit {
   WCharges: any = 0;
   Kilometers: any = 0;
   FreightAmount: any = 0;
-  LWBillDate: Date = new Date();
+  LWBillDate: Date;
   Gunnyutilised: any = 0;
   GunnyReleased: any = 0;
   FCode: string;
@@ -113,7 +113,7 @@ export class TruckReceiptComponent implements OnInit {
   TStation: any;
   tStationCode: any;
   RRNo: any = 0;
-  LDate: Date = new Date();
+  LDate: Date;
   WNo: any = 0;
   RailFreightAmt: any = 0;
   Remarks: string;
@@ -127,6 +127,7 @@ export class TruckReceiptComponent implements OnInit {
   missingFields: any;
   field: any;
   selected: any;
+  itemGroup: any;
   // isSaved: boolean = false;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('sc', { static: false }) schemePanel: Dropdown;
@@ -142,7 +143,6 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
-  itemGroup: any;
 
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
@@ -175,6 +175,12 @@ export class TruckReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate =  (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
+    this.STDate = this.maxDate;
+    this.LWBillDate = this.maxDate;
+    this.OrderDate = this.maxDate;
+    this.LDate = this.maxDate;
+    this.RDate = this.maxDate;
   }
 
   onSelect(selectedItem, type) {
