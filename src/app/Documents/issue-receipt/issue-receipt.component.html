@@ -20,7 +20,7 @@
             <p-tabView [activeIndex]="index">
               <p-tabPanel header="Issue Details">
                 <div class="ui-g-12 ui-md-12 ui-fluid border-teal">
-                  <div class="ui-g-12 dasboard">
+                  <div class="ui-g-12 ui-md-12 ui-fluid dashboard">
                     <div class="ui-g-12 ui-md-2 no-pad-top">
                       <label for="StockIssueNo" class="label-fontsize">Stock Issue No</label>
                       <input name="StockIssueNo" type="text" size="20" pInputText [readOnly]="true" [(ngModel)]="SINo"
@@ -81,14 +81,14 @@
                         </ng-template>
                       </p-table>
                     </div>
-                    <div class="ui-g-6 ui-md-2 no-left-pad">
+                    <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: 5px;">
                       <span class="ui-float-label">
                         <input name="WCNo" type="text" minlength="1" maxlength="20" [(ngModel)]="WNo" pInputText
                           autocomplete="off" required>
                         <label for="WCNo" class="float-input">Weigment Certificate No</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-1">
+                    <div class="ui-g-6 ui-md-1" style="margin-top: 5px;">
                       <span class="ui-float-label">
                         <input name="IssueRegAdv" type="text" onkeypress="return /[A&R]/i.test(event.key)"
                           style="text-transform: uppercase !important" maxlength="1" [(ngModel)]="RegularAdvance"
@@ -96,7 +96,7 @@
                         <label for="IssueRegAdv" class="float-input">Reg/Adv</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-2">
+                    <div class="ui-g-6 ui-md-2" style="margin-top: 5px;">
                       <span class="ui-float-label">
                         <input name="GodownName" [readOnly]="true" [(ngModel)]="issuingGodownName" pInputText
                           autocomplete="off" required>
@@ -182,11 +182,12 @@
                         <label for="ManualDocNum" class="float-input">Manual Document No</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-4 ui-fluid no-pad-top">
-                      <label for="IssuerCode" class="label-fontsize-large">Issuer Code:</label>
-                      <span>{{IssuerCode}}</span><br>
-                      <label for="IssuerCode" class="label-fontsize-large">Society Name:</label>
-                      <span>{{SocietyName}}</span>
+                    <div class="ui-g-6 ui-md-2">
+                      <span class="ui-float-label">
+                        <input name="SocietyCode" type="text" [(ngModel)]="SocietyName"
+                          pInputText [readonly]="true" required>
+                        <label for="SocietyCode" class="float-input">Society Name</label>
+                      </span>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid dashboard">
@@ -195,6 +196,13 @@
                         <textarea name="RemarksText" rows="2" cols="70" minlength="1" maxlength="150"
                           [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
                         <label for="RemarksText" class="float-input">Remarks</label>
+                      </span>
+                    </div>
+                    <div class="ui-g-6 ui-md-2" style="margin-top: 5px;">
+                      <span class="ui-float-label">
+                        <input name="IssuerCode" type="text" [(ngModel)]="IssCode"
+                          pInputText [readonly]="true" required>
+                        <label for="IssuerCode" class="float-input">Issuer Code</label>
                       </span>
                     </div>
                   </div>
@@ -438,7 +446,7 @@
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-8 ui-md-8 ui-fluid no-pad-top">
-                      <input name="Text" pInputText autocomplete="off" [(ngModel)]="QuantityLimit" [readOnly]="true">
+                      <input name="QtyLimit" pInputText autocomplete="off" [(ngModel)]="QuantityLimit" [readOnly]="true">
                     </div>
                     <div class="ui-g-2 ui-md-3"></div>
                     <div class="ui-g-2 ui-md-1 no-pad-top">
@@ -459,12 +467,12 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button name="save" style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || itemData.length=='0' || issueData.length=='0' || (isViewed && !f.dirty))"
+                [disabled]="(!f.valid || itemData.length=='0' || disableSave || issueData.length=='0' || (isViewed && !f.dirty))"
                 label=Save (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
               <button name="print" style="margin-top:5px" pButton type="button"
-                [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
+                [disabled]="((isViewed && f.dirty) ||  (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
                 label=Print (click)="onPrint()"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid">
