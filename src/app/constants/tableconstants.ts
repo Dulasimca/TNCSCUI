@@ -128,6 +128,7 @@ export class TableConstants {
   LoadMenWagesLoadingReportColumns: any;
   LoadMenWagesUnLoadingReportColumns: any;
   ProcessToGPSCols: any;
+  IssueMemoLorryAbstractColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1544,5 +1545,15 @@ export class TableConstants {
         { header: 'Error', field: 'GPSError' },
         { header: 'Status', field: 'GPSStatus' }
       ];
+
+      this.IssueMemoLorryAbstractColumns = [
+        { header: 'S.No', field: 'SlNo' },
+        { header: 'Doc No.', field: 'SINo' },
+        { header: 'Doc Date', field: 'SIDate' },
+        { header: 'Godown Name', field: 'TNCSName' },
+        { header: 'Lorry No', field: 'LorryNo' },
+        { header: 'Receivor Name', field: 'ReceivorName' },
+        { header: 'Receivor Type', field: 'ReceivorType' },
+      ]
   }
 }

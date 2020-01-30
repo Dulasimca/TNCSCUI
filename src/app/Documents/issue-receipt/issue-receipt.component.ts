@@ -8,7 +8,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe } from '@angular/common';
 import { GolbalVariable } from 'src/app/common/globalvariable';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown, Dialog } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 
@@ -41,6 +41,8 @@ export class IssueReceiptComponent implements OnInit {
   packingTypeOptions: SelectItem[];
   stackOptions: SelectItem[];
   wmtOptions: SelectItem[];
+  issueDocNoList: SelectItem[];
+  issueLorryNoList: SelectItem[];
   viewPane: boolean = false;
   isValidStackBalance: boolean = false;
   isReceivorNameDisabled: boolean;
@@ -134,6 +136,8 @@ export class IssueReceiptComponent implements OnInit {
   SocietyCode: any;
   SocietyName: any;
   disableSave: boolean;
+  showAbstract: boolean;
+  DocNo: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -143,6 +147,9 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
+  SelectedLorryNo: any;
+  issueMemoLorryAbstractCols: any[];
+  issueMemoLorryAbstractData: any[];
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -157,9 +164,9 @@ export class IssueReceiptComponent implements OnInit {
     this.issueMemoDocCols = this.tableConstants.StockIssueMemoViewBySINOCols;
     this.UserID = JSON.parse(this.authService.getCredentials());
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
-    this.maxDate =  (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.viewDate = this.maxDate;
-    this.SIDate = this.maxDate; 
+    this.SIDate = this.maxDate;
     this.DDate = this.maxDate;
     this.DeliveryOrderDate = this.maxDate;
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -172,7 +179,7 @@ export class IssueReceiptComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     this.checkAllotmentStatus('Allotment');
     this.restAPIService.get(PathConstants.CATEGORY_TYPECODE_DISTINCT_GET).subscribe(res => {
-      if(res.length !== 0 && res !== null && res !== undefined) {
+      if (res.length !== 0 && res !== null && res !== undefined) {
         this.categoryTypeCodeList = res;
       }
     })
@@ -277,8 +284,10 @@ export class IssueReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(rn => {
-                  receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 
-                   'SocietyName': rn.Societyname, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.Societycode });
+                  receivorNameList.push({
+                    'label': rn.DepositorName, 'value': rn.DepositorCode,
+                    'SocietyName': rn.Societyname, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.Societycode
+                  });
                 })
                 this.receiverNameOptions = receivorNameList;
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -293,8 +302,8 @@ export class IssueReceiptComponent implements OnInit {
               //      if(i === this.RNCode)
               //   })
               // }
-              if(this.allotmentDetails.length === 0) {
-              this.getAllotmentDetails();
+              if (this.allotmentDetails.length === 0) {
+                this.getAllotmentDetails();
               }
             }
           }
@@ -330,9 +339,9 @@ export class IssueReceiptComponent implements OnInit {
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
           if ((this.ICode.value !== undefined && this.ICode.value !== null) || (this.iCode !== undefined && this.iCode !== null)) {
             const params = new HttpParams().set('GCode', this.IssuingCode)
-             .append('ITCode', (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode)
-             .append('TRCode', (this.Trcode.value !== undefined && this.Trcode.value !== null) ? this.Trcode.value : this.trCode)
-             .append('SchemeCode', (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode);
+              .append('ITCode', (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode)
+              .append('TRCode', (this.Trcode.value !== undefined && this.Trcode.value !== null) ? this.Trcode.value : this.trCode)
+              .append('SchemeCode', (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.STACK_DETAILS, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(s => {
@@ -429,24 +438,24 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkFieldsOfIssuer(SocietyCode, Tycode, ACSCode) {
-    if(Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
-      if((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
+    if (Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
+      if ((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
         && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
-       this.disableSave = true;
-       this.messageService.clear();
-       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
-     } else if(SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
-      this.disableSave = true;
-      this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
-     } else if(ACSCode === null || ACSCode === undefined || ACSCode === '') {
-      this.disableSave = true;
-      this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
-     } else {
-       this.disableSave = false;
-      this.messageService.clear();
-     }
+        this.disableSave = true;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
+      } else if (SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
+        this.disableSave = true;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
+      } else if (ACSCode === null || ACSCode === undefined || ACSCode === '') {
+        this.disableSave = true;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
+      } else {
+        this.disableSave = false;
+        this.messageService.clear();
+      }
     }
   }
 
@@ -491,7 +500,7 @@ export class IssueReceiptComponent implements OnInit {
       this.GKgs = ((this.NoPacking * 1) * (wt * 1));
       this.NKgs = ((this.NoPacking * 1) * (wt * 1));
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
-     // this.checkAllotmentBalance('2');
+      // this.checkAllotmentBalance('2');
     } else {
       this.GKgs = null; this.NKgs = null; this.TKgs = null;
     }
@@ -499,17 +508,17 @@ export class IssueReceiptComponent implements OnInit {
 
   onCalculateWt(value, id) {
     let kgs = (value * 1);
-    if(kgs !== null && kgs !== undefined) {
-      if(id === 'gross') { this.NKgs = kgs; }
+    if (kgs !== null && kgs !== undefined) {
+      if (id === 'gross') { this.NKgs = kgs; }
     }
     if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
       let grossWt = (this.GKgs * 1);
       let netWt = (this.NKgs * 1);
       if (grossWt < netWt) {
         this.NKgs = null; this.GKgs = null; this.TKgs = null;
-      }else if(grossWt >= netWt) {
+      } else if (grossWt >= netWt) {
         this.TKgs = (grossWt - netWt).toFixed(3);
-       // this.checkAllotmentBalance('2');
+        // this.checkAllotmentBalance('2');
       } else {
         this.TKgs = (grossWt - netWt).toFixed(3);
       }
@@ -548,8 +557,8 @@ export class IssueReceiptComponent implements OnInit {
     }
     let stack_data = (event.value !== undefined) ? event.value : event;
     let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value 
-    : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
+    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value
+      : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
     ind = stockNo.indexOf('/', 2);
     const totalLength = stockNo.length;
     this.godownNo = stockNo.slice(0, ind);
@@ -656,7 +665,7 @@ export class IssueReceiptComponent implements OnInit {
     let totalGkgs = 0;
     let totalNkgs = 0;
     let index = this.itemData.length;
-    if(this.itemData.length !== 0 && this.itemData[index - 1].TStockNo === 'Total') {
+    if (this.itemData.length !== 0 && this.itemData[index - 1].TStockNo === 'Total') {
       this.itemData.splice(index - 1, 1);
     }
     this.itemData.push({
@@ -718,22 +727,22 @@ export class IssueReceiptComponent implements OnInit {
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
-          if(this.itemData.length !== 0) {
-          sno = 1;
-          totalNkgs = 0;
-          totalBags = 0;
-          totalGkgs = 0;
-          this.itemData.forEach(x => {
-            x.sno = sno;
-            sno += 1;
-            totalBags += x.NoPacking;
-            totalGkgs += (x.GKgs * 1);
-            totalNkgs += (x.Nkgs * 1);
-          });
-          var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
-          index = this.itemData.length;
-          this.itemData.splice(index, 0, item);
-        }
+          if (this.itemData.length !== 0) {
+            sno = 1;
+            totalNkgs = 0;
+            totalBags = 0;
+            totalGkgs = 0;
+            this.itemData.forEach(x => {
+              x.sno = sno;
+              sno += 1;
+              totalBags += x.NoPacking;
+              totalGkgs += (x.GKgs * 1);
+              totalNkgs += (x.Nkgs * 1);
+            });
+            var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+            index = this.itemData.length;
+            this.itemData.splice(index, 0, item);
+          }
         } else {
           this.checkAllotmentBalance('2');
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
@@ -785,63 +794,63 @@ export class IssueReceiptComponent implements OnInit {
         this.issueData.splice(rowIndex, 1);
         break;
       case 'item':
-        if(data.TStockNo !== 'Total') {
-        this.TStockNo = data.TStockNo;
-        this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
-        this.StackDate = data.StackDate;
-        this.Scheme = data.SchemeName; 
-        this.schemeCode = data.Scheme;
-        this.allotmentGroup = data.AllotmentGroup;
-        this.allotmentScheme = data.AllotmentScheme;
-        this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
-        this.ICode = data.CommodityName; this.iCode = data.ICode;
-        this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
-        this.itemGRName = data.ItemGRName;
-        this.IPCode = data.PackingName; this.ipCode = data.IPCode;
-        this.PWeight = (data.PWeight * 1);
-        this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
-        this.WTCode = data.WmtType; this.wtCode = data.WTCode;
-        this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
-        this.NoPacking = (data.NoPacking * 1),
-        this.GKgs = (data.GKgs * 1).toFixed(3);
-        this.NKgs = (data.Nkgs * 1).toFixed(3);
-        this.stackYear = data.StackYear;
-        const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
-        this.Trcode.value : this.trCode;
-        this.checkTrType = (trcode === 'TR024' || (data.Scheme === 'SC025' && data.ItemGRName === 'M024')) ? false : true;
-        this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
-        if (this.TStockNo !== undefined && this.TStockNo !== null) {
-          let index;
-          index = this.TStockNo.toString().indexOf('/', 2);
-          const totalLength = this.TStockNo.length;
-          this.godownNo = this.TStockNo.toString().slice(0, index);
-          this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+        if (data.TStockNo !== 'Total') {
+          this.TStockNo = data.TStockNo;
+          this.stackOptions = [{ label: data.TStockNo, value: data.TStockNo }];
+          this.StackDate = data.StackDate;
+          this.Scheme = data.SchemeName;
+          this.schemeCode = data.Scheme;
+          this.allotmentGroup = data.AllotmentGroup;
+          this.allotmentScheme = data.AllotmentScheme;
+          this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
+          this.ICode = data.CommodityName; this.iCode = data.ICode;
+          this.itemDescOptions = [{ label: data.CommodityName, value: data.ICode }];
+          this.itemGRName = data.ItemGRName;
+          this.IPCode = data.PackingName; this.ipCode = data.IPCode;
+          this.PWeight = (data.PWeight * 1);
+          this.packingTypeOptions = [{ label: data.PackingName, value: data.IPCode }];
+          this.WTCode = data.WmtType; this.wtCode = data.WTCode;
+          this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
+          this.NoPacking = (data.NoPacking * 1),
+            this.GKgs = (data.GKgs * 1).toFixed(3);
+          this.NKgs = (data.Nkgs * 1).toFixed(3);
+          this.stackYear = data.StackYear;
+          const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+            this.Trcode.value : this.trCode;
+          this.checkTrType = (trcode === 'TR024' || (data.Scheme === 'SC025' && data.ItemGRName === 'M024')) ? false : true;
+          this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
+          if (this.TStockNo !== undefined && this.TStockNo !== null) {
+            let index;
+            index = this.TStockNo.toString().indexOf('/', 2);
+            const totalLength = this.TStockNo.length;
+            this.godownNo = this.TStockNo.toString().slice(0, index);
+            this.locationNo = this.TStockNo.toString().slice(index + 1, totalLength);
+          }
+          this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
+          this.itemData.splice(rowIndex, 1);
+          if (this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+            this.itemData.length = 0;
+          } else {
+            let sno = 1;
+            let totalBags = 0;
+            let totalGkgs = 0;
+            let totalNkgs = 0;
+            let lastIndex = this.itemData.length;
+            this.itemData.splice(lastIndex - 1, 1);
+            this.itemData.forEach(x => {
+              x.sno = sno;
+              sno += 1;
+              totalBags += (x.NoPacking * 1);
+              totalGkgs += (x.GKgs * 1);
+              totalNkgs += (x.Nkgs * 1);
+            });
+            this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
+          }
+          const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_year: this.stackYear }
+          this.onStackNoChange(list);
+          this.checkAllotmentBalance('1');
+          break;
         }
-        this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
-        this.itemData.splice(rowIndex, 1);
-        if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
-          this.itemData.length = 0;
-        } else {
-        let sno = 1;
-        let totalBags = 0;
-        let totalGkgs = 0;
-        let totalNkgs = 0;
-        let lastIndex = this.itemData.length;
-        this.itemData.splice(lastIndex - 1, 1);
-        this.itemData.forEach(x => { 
-          x.sno = sno;
-          sno += 1;
-          totalBags += (x.NoPacking * 1);
-          totalGkgs += (x.GKgs * 1);
-          totalNkgs += (x.Nkgs * 1);
-         });
-        this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
-         }
-        const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_year: this.stackYear }
-        this.onStackNoChange(list);
-        this.checkAllotmentBalance('1');
-        break;
-      }
     }
   }
 
@@ -958,16 +967,16 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkAllotmentStatus(value) {
-    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, {sValue: value}).subscribe(status => {
+    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value }).subscribe(status => {
       this.AllotmentStatus = status[0].TNCSCValue;
     })
   }
 
   getAllotmentDetails() {
-    if(this.AllotmentStatus === 'YES') {
-    if(this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined && 
-      this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
-      && this.IssCode !== null && this.IssCode !== undefined) {
+    if (this.AllotmentStatus === 'YES') {
+      if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
+        this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
+        && this.IssCode !== null && this.IssCode !== undefined) {
         const params = {
           'GCode': this.IssuingCode,
           'RCode': this.RCode,
@@ -989,9 +998,9 @@ export class IssueReceiptComponent implements OnInit {
           });
         })
       }
-      } else {
-        this.allotmentDetails.length = 0;
-      }
+    } else {
+      this.allotmentDetails.length = 0;
+    }
   }
 
   checkAllotmentBalance(type) {
@@ -999,46 +1008,46 @@ export class IssueReceiptComponent implements OnInit {
     // let IssueQty = 0;
     // let BalanceQty = 0;
     const allotmentGroup = (this.allotmentGroup !== null && this.allotmentGroup !== undefined) ?
-       this.allotmentGroup : this.ICode.group;
+      this.allotmentGroup : this.ICode.group;
     const allotmentScheme = (this.allotmentScheme !== null && this.allotmentScheme !== undefined) ?
-       this.allotmentScheme : this.Scheme.ascheme;
-    if(this.allotmentDetails !== undefined && this.allotmentDetails !== null 
-      && this.allotmentDetails.length !== 0 && (allotmentGroup !== undefined && allotmentGroup !== null) && 
+      this.allotmentScheme : this.Scheme.ascheme;
+    if (this.allotmentDetails !== undefined && this.allotmentDetails !== null
+      && this.allotmentDetails.length !== 0 && (allotmentGroup !== undefined && allotmentGroup !== null) &&
       (allotmentScheme !== undefined && allotmentScheme !== null)) {
-        const allot_Group = (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup;
-        const allot_schemeCode = (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme;
-        if(type === '1') {
-        for(let a = 0; a < this.allotmentDetails.length; a++) {
-          if(this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
-           this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
+      const allot_Group = (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup;
+      const allot_schemeCode = (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme;
+      if (type === '1') {
+        for (let a = 0; a < this.allotmentDetails.length; a++) {
+          if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
+            this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
             this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
             this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
             this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
-            this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' + 
-            ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
+            this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' +
+              ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
             /// ---------------- Allotment balance check ------------------ ///
-            if(this.BalanceQty <= 0 && this.itemData.length === 0) {
+            if (this.BalanceQty <= 0 && this.itemData.length === 0) {
               this.exceedAllotBal = true;
               this.messageService.clear();
               this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
-            } else if((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
-              let netwt = 0; 
+            } else if ((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
+              let netwt = 0;
               this.itemData.forEach(x => {
-                if(x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
+                if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
                   netwt += (x.Nkgs * 1);
-                  if((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
+                  if ((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
                     this.exceedAllotBal = true;
                     this.messageService.clear();
                     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
                   } else {
                     this.exceedAllotBal = false;
-                  } 
+                  }
                   this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
                   this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
                   this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
-                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' + 
-                  ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
-                 }
+                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' +
+                    ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
+                }
               })
             }
             break;
@@ -1046,32 +1055,32 @@ export class IssueReceiptComponent implements OnInit {
             this.exceedAllotBal = false;
             this.QuantityLimit = null;
             continue;
-           /// ------------------ END ----------------------- ///
-           }
-        }
-          } else if(type === '2') {
-            /// ---------------- Allotment balance check ------------------ ///
-            if(this.BalanceQty !== null && this.BalanceQty !== undefined) {
-              if(this.BalanceQty < (this.NKgs * 1)) {
-                this.messageService.clear();
-                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
-              } else {
-                this.messageService.clear();
-              }
-            }
-           /// ------------------ END ----------------------- ///
-
-          } else {
-            /// ---------------- Allotment balance check ------------------ ///
-            this.QuantityLimit = null;
-            this.exceedAllotBal = false;
-           /// ------------------ END ----------------------- ///
+            /// ------------------ END ----------------------- ///
           }
-        } else if(this.AllotmentStatus !== 'NO') {
-          this.QuantityLimit = null;
-        } else {
-          this.QuantityLimit = StatusMessage.NoAllotmentBalance;
         }
+      } else if (type === '2') {
+        /// ---------------- Allotment balance check ------------------ ///
+        if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
+          if (this.BalanceQty < (this.NKgs * 1)) {
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
+          } else {
+            this.messageService.clear();
+          }
+        }
+        /// ------------------ END ----------------------- ///
+
+      } else {
+        /// ---------------- Allotment balance check ------------------ ///
+        this.QuantityLimit = null;
+        this.exceedAllotBal = false;
+        /// ------------------ END ----------------------- ///
+      }
+    } else if (this.AllotmentStatus !== 'NO') {
+      this.QuantityLimit = null;
+    } else {
+      this.QuantityLimit = StatusMessage.NoAllotmentBalance;
+    }
   }
 
   onRowSelect(event) {
@@ -1184,6 +1193,7 @@ export class IssueReceiptComponent implements OnInit {
         })
         this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
       } else {
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
@@ -1196,7 +1206,95 @@ export class IssueReceiptComponent implements OnInit {
       }
     });
   }
- 
+
+  onAbstract() {
+    let issueLorrySelection = [];
+    let gropuingArr = [];
+    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, { Type: '3' }).subscribe((res: any) => {
+      if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
+        this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
+        this.showAbstract = true;
+        // construct object of unique values with keys
+        let formObject = {};
+        for (var i = 0; i < res.Table.length; i++) {
+          formObject[res.Table[i].LorryNo] = 'LorryNo';
+          formObject[res.Table[i].DocNo] = res.Table[i].LorryNo;
+        }
+        let array = Object.keys(formObject).reduce((acc, k) => {
+          let values = formObject[k];
+          acc[values] = acc[values] || [];
+          acc[values].push(k);
+          return acc;
+        }, {});
+        //End
+        res.Table.forEach(x => {
+          let value: string = '';
+          if (array[x.LorryNo].length <= 1) {
+            array[x.LorryNo].forEach(i => {
+              value += i;
+            })
+          } else {
+            array[x.LorryNo].forEach(i => {
+              value += i + '~';
+            })
+           value = value.slice(0, value.length - 1);
+          }
+          gropuingArr.push({ label: x.LorryNo, value: value })
+        })
+        //Get distinct values from an array
+        var LorryNo = Array.from(new Set(gropuingArr.map((item: any) => item.label)));
+        var DocNo = Array.from(new Set(gropuingArr.map((item: any) => item.value)));
+        for (var index in LorryNo && DocNo) {
+        issueLorrySelection.push({ label: LorryNo[index], value: DocNo[index] });
+        }
+        //End
+        this.issueLorryNoList = issueLorrySelection;
+        this.issueLorryNoList.unshift({ label: '-select-', value: null });
+      } else {
+        this.showAbstract = false;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.showAbstract = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
+      }
+    });
+  }
+
+  onChangeLorryNo() {
+    const params = new HttpParams().set('value', this.SelectedLorryNo.value).append('Type', '4');
+    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe(res => {
+      if(res.Table.length !== 0 && res.Table !== null && res.Table !== undefined) {
+        this.issueMemoLorryAbstractData = res.Table;
+        let sno = 1;
+        this.issueMemoLorryAbstractData.forEach(x => {
+          x.SlNo = sno;
+          x.SIDate = this.datepipe.transform(x.SIDate, 'dd/MM/yyyy');
+          sno += 1;
+        })
+      } else {
+        this.issueMemoLorryAbstractData = [];
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.issueMemoLorryAbstractData = [];
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
+      }
+    });
+  }
+
   resetForm(issueMemoForm: NgForm) {
     issueMemoForm.form.markAsUntouched();
     issueMemoForm.form.markAsPristine();
@@ -1237,9 +1335,15 @@ export class IssueReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.allotmentDetails = []; this.exceedAllotBal = false;
-    this.QuantityLimit = null;
+    this.QuantityLimit = null; this.showAbstract = false;
     this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
+    this.issueMemoLorryAbstractData = [];
   }
+
+  showDialogMaximized(event, dialog: Dialog) {
+    dialog.maximized = false;
+    dialog.toggleMaximize(event);
+}
 
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
@@ -1271,6 +1375,8 @@ export class IssueReceiptComponent implements OnInit {
     }
   }
 
+  onPrintAbstract() { }
+
   onSubmit(form) {
     this.submitted = true;
     let arr = [];
@@ -1279,7 +1385,7 @@ export class IssueReceiptComponent implements OnInit {
       for (var key in form.value) {
         if ((form.value[key] === undefined || form.value[key] === '' || (key === 'DONO' && this.issueData.length === 0))
           && (key !== 'StockIssueNo' && key !== 'GodownNo' && key !== 'LocNo'
-            && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' && 
+            && key !== 'TareWt' && key !== 'GU/GR' && key !== 'StackBal' &&
             key !== 'CurDocQty' && key !== 'NetStackBal' && key != 'QtyLimit')) {
           no += 1;
           arr.push({ label: no, value: no + '.' + key });
@@ -1287,7 +1393,7 @@ export class IssueReceiptComponent implements OnInit {
       }
       this.missingFields = arr;
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! '});
+      arr.push({ label: '1', value: 'Please add item details! ' });
       this.missingFields = arr;
     } else {
       this.submitted = false;

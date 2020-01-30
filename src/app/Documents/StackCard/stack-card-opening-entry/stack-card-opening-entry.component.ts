@@ -52,6 +52,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   showDialog: boolean;
   loading: boolean;
   activateLoader: boolean;
+  lastStacCardNo: string = '-';
   @ViewChild('f', { static: false }) ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -274,13 +275,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.loading = true;
     this.openView = true;
     this.stackOpeningData.length = 0;
-    let curYrOptions = [];
     const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
         this.loading = false;
         let sno = 0;
+        this.lastStacCardNo = res.Table[0].StackNo;
         res.Table.forEach(i => {
           sno += 1;
           this.stackOpeningData.push({
@@ -303,11 +304,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
       } else {
         this.loading = false;
         this.openView = false;
+        this.lastStacCardNo = '-';
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
       this.loading = false;
+      this.lastStacCardNo = '-';
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -330,6 +333,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.ngForm.form.controls.FormationNo.reset();
     this.showDialog = false; 
     this.activateLoader = false;
+    this.lastStacCardNo = '-';
   }
 
   onSave() {

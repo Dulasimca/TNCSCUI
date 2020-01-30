@@ -1759,6 +1759,10 @@ body {
   border: 1px solid #18c5a9 !important;
 }
 
+.border-blue {
+  border: 1px solid #44a3ec !important;
+}
+
 .underlined-lightgrey {
   border-bottom:1px solid #D5D5D5
 }

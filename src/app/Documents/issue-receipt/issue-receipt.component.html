@@ -460,23 +460,26 @@
               <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate
                 (click)="onSubmit(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-6"></div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-12 ui-md-6"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
               <button name="view" style="margin-top:5px" pButton type="button" label=View
                 (click)="resetForm(f);onView();"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button name="save" style="margin-top:5px" pButton type="button"
                 [disabled]="(!f.valid || itemData.length=='0' || disableSave || issueData.length=='0' || (isViewed && !f.dirty))"
                 label=Save (click)="onSave('1');resetForm(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button name="print" style="margin-top:5px" pButton type="button"
                 [disabled]="((isViewed && f.dirty) ||  (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
                 label=Print (click)="onPrint()"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button" label=Clear (click)="onClear()"></button>
+            </div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
+              <button style="margin-top:5px" pButton type="button" label=Abstract (click)="onAbstract()"></button>
             </div>
           </form>
         </div>
@@ -532,5 +535,49 @@
   <div>
     <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value" [listStyle]="{'max-height':'250px'}">
     </p-listbox>
-  </div>
+  </div >
 </p-dialog>
+<p-dialog  #dialDetail header="Stock-Issue-Memo-Abstract(Lorry-Tracking)" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="showAbstract" [responsive]="true" [style]="{width: '50vw'}" (onShow)="showDialogMaximized($event,dialDetail)">
+  <div class="ui-g-12 ui-md-12 ui-lg-12 border-blue">
+    <div class="ui-g-6 ui-md-3 ui-fluid">
+      <label for="LorryNo" class="label-fontsize-large">Lorry Number</label>
+        <p-dropdown #doc name="LorryNo" [options]="issueLorryNoList" [(ngModel)]="SelectedLorryNo"
+        (onChange)="onChangeLorryNo()" filter="true" resetFilterOnHide="true"
+       optionLabel="label" filterMatchMode="startsWith" [showClear]="true">
+        <ng-template let-item pTemplate="selectedItem">
+          <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+        </ng-template>
+      </p-dropdown>  
+    </div>
+    <div class="ui-g-12 ui-md-8"></div>
+   <div class="ui-g-3 ui-md-1 ui-fluid">
+      <button style="margin-top:5px" pButton type="button" label=Print (click)="onPrintAbstract()"></button>
+    </div>
+    <div class="ui-g-12 ui-fluid">
+      <p-table tabindex="-1" [columns]="issueMemoLorryAbstractCols" [value]="issueMemoLorryAbstractData"
+        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+        [responsive]="true" autoLayout="true">
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col *ngFor="let col of columns" style="width:80px">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  </p-dialog>
