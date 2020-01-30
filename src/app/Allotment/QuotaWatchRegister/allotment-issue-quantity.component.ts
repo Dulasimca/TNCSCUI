@@ -19,6 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AllotmentIssueQuantityComponent implements OnInit {
   AllotmentQuantityData: any;
   AllotmentQuantityCols: any;
+  AllotmentQuantityAbstractData: any;
   PristineData: any = [];
   filterArray = [];
   canShowMenu: boolean;
@@ -66,7 +67,8 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   @ViewChild('society', { static: false }) societyPanel: Dropdown;
 
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
+    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -158,52 +160,12 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
-      // case 's':
-      //   if (type === 'enter') {
-      //     this.societyPanel.overlayVisible = true;
-      //   }
-      //   if (this.CompanyTitle !== undefined) {
-      //     // var result = Array.from(this.CompanyTitle.map(item => item.SocietyName));
-      //     // for (var index in result) {
-      //     //   societySelection.push({ 'label': result[index]})
-      //     // }
-      //     // this.societyOptions = societySelection;
-
-      //     this.CompanyTitle = this.CompanyTitle.filter(item => {
-      //       societySelection.push({ 'label': item.SocietyName, 'value': item.SocietyCode });
-      //       let result = Array.from(item.SocietyName.map(it => it.SocietyName));
-      //       for (var index in result) {
-      //         societySelection.push({ 'label': result[index] });
-      //       }
-      //     });
-      //     this.societyOptions = societySelection;
-      //   }
-      //   break;
-      // case 'sh':
-      //   if (type === 'enter') {
-      //     this.shopPanel.overlayVisible = true;
-      //   }
-      //   if (this.shopNameOptions === undefined) {
-      //     this.CompanyTitle.forEach(v => {
-      //       // shopSelection.push({ 'label': vv.IssuerName, 'value': vv.Receivorcode });
-
-      //       var result = Array.from(new Set(this.CompanyTitle.map((item: any) => item.IssuerName))); //Get distinct values from array
-      //       var code = Array.from(new Set(this.CompanyTitle.map((item: any) => item.Acscode)));
-      //       for (var index in result && code) {
-      //         shopSelection.push({ 'label': result[index], 'value': code[index] })
-      //       }
-      //     });
-      //     this.shopNameOptions = shopSelection;
-      //   }
-
-      //   break;
     }
   }
 
   onView() {
     this.loading = true;
     const params = {
-      // 'RoleId': this.roleId,
       'GCode': this.GCode,
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined && this.Month.value !== null) ? this.Month.value : this.curMonth,
@@ -216,6 +178,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         this.AllotmentQuantityCols = this.tableConstant.AllotmentIssueQuantity;
         this.loading = false;
         this.AllotmentQuantityData = res;
+        this.AllotmentQuantityAbstractData = res;
         this.CompanyTitle = res;
         let sno = 0;
         let Balance;
@@ -224,6 +187,35 @@ export class AllotmentIssueQuantityComponent implements OnInit {
           s.Balance = (s.AllotmentQty - s.IssueQty);
           sno += 1;
           s.SlNo = sno;
+        });
+
+        //Abstract
+        var hash = Object.create(null),
+          abstract = [];
+        this.AllotmentQuantityAbstractData.forEach(function (o) {
+          var key = ['SocietyName'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = {
+              AllotmentMonth: o.AllotmentMonth, SocietyName: o.SocietyName, Scheme: o.Scheme,
+              Commodity: o.Commodity, AllotmentQty: 0, IssueQty: 0, Balance: 0
+            };
+            abstract.push(hash[key]);
+          }
+          ['AllotmentQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['IssueQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          // s.Balance = (s.AllotmentQty - s.IssueQty);
+          // ['Balance'].forEach(function (k) { (o.AllotmentQty - o.IssueQty).toFixed(3); });
+        });
+        // let sno = 0;
+        this.AllotmentQuantityData.push({ Commodity: 'Abstract' });
+        abstract.forEach(x => {
+          sno = 0;
+          sno += 1;
+          this.AllotmentQuantityData.push({
+            SlNo: sno, AllotmentMonth: x.AllotmentMonth, SocietyName: x.SocietyName,
+            Scheme: x.Scheme, Commodity: x.Commodity, AllotmentQty: (x.AllotmentQty * 1).toFixed(3),
+            IssueQty: (x.IssueQty * 1).toFixed(3), Balance: (x.AllotmentQty - x.IssueQty).toFixed(3)
+          });
         });
       }
       else {
