@@ -7,36 +7,38 @@
         <div class="ui-g-4 dashboard">Depositor/Kerosene Master
         </div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
+            placeholder="Search by Depositor" (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             styleClass="ui-button-danger"></p-splitButton>
-          <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
-            (click)="print()"></button>
+          <!-- <button class="inline-padding" pButton type="button" icon="fa fa-print" class="ui-button-warn"
+            (click)="print()"></button> -->
         </div>
       </div>
     </p-header>
     <p-toast position="top-center" [modal]="true" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-3"></div>
-      <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (ngModelChange)="onResetTable()" (onClick)="onDepositor()"
-          [(ngModel)]="supplierType" inputId="opt1">
-        </p-radioButton>
-      </div>
       <div class="ui-g-12 ui-md-2" style="margin-top: -10px;">
         <label for="Depositortype" class="label-fontsize">Depositor Type</label>
         <p-dropdown #depositor name="Depositortype" [options]="depositorTypeOptions" [(ngModel)]="DepositorType"
           (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')"
-          (onChange)="dt.reset();filterDepositor($event)" filter="true" optionLabel="label"
-          filterMatchMode="startsWith" resetFilterOnHide="true"
-          [showClear]="true" [disabled]="isDepositor" placeholder="-select-">
+          (onChange)="dt.reset();filterDepositor($event)" filter="true" optionLabel="label" filterMatchMode="startsWith"
+          resetFilterOnHide="true" [showClear]="true" [disabled]="isDepositor" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-3 ui-md-2">
-        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()" [(ngModel)]="supplierType"
-          (onClick)="onKeroseneSuppliers()" inputId="opt3">
+      <div class="ui-g-3 ui-md-2" style="padding-top: 22px;">
+        <p-radioButton name="customer" value="Option 1" label="DepositorMaster" (ngModelChange)="onResetTable()"
+          (onClick)="onDepositor()" [(ngModel)]="supplierType" inputId="opt1">
+        </p-radioButton>
+      </div>
+      <div class="ui-g-3 ui-md-3" style="padding-top: 22px;">
+        <p-radioButton name="customer" value="Option 2" label="Kerosene Main Suppliers" (ngModelChange)="onResetTable()"
+          [(ngModel)]="supplierType" (onClick)="onKeroseneSuppliers()" inputId="opt3">
         </p-radioButton>
       </div>
       <div class="ui-g-12 ui-md-4"></div>
@@ -51,9 +53,9 @@
       </div> -->
       <div class="ui-g-12"></div>
       <div class="table-screen-size">
-          <p-table #dt [columns]="(DepositorCols || KeroseneSuppliersCols)" [value]="(DepositorData || KeroseneSuppliersData)" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+        <p-table #dt [columns]="(DepositorCols || KeroseneSuppliersCols)"
+          [value]="(DepositorData || KeroseneSuppliersData)" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+          [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">

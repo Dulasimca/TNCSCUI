@@ -29,15 +29,17 @@ export class DepositorCustomerMasterComponent implements OnInit {
   filterArray: any;
   items: any;
   supplierType: any;
+  searchText: any;
   loading: boolean = false;
   isDepositor: boolean = true;
   DepositorType: any;
   depositorTypeOptions: SelectItem[];
   depositorTypeList: any = [];
   GCode: string;
-  @ViewChild('depositor', { static: false }) depositorTypePanel : Dropdown;
+  @ViewChild('depositor', { static: false }) depositorTypePanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService, private restApiService: RestAPIService) { }
+  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private authService: AuthService,
+    private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -54,15 +56,15 @@ export class DepositorCustomerMasterComponent implements OnInit {
           this.exportAsPDF();
         }
       }]
-      const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
-      this.restApiService.getByParameters(PathConstants.DEPOSITOR, params).subscribe((res: any) => {
-        if (res !== undefined && res !== null && res.length !== 0) {
-          res.forEach(dt => {
-            this.depositorTypeList.push({ label: dt.Tyname, value: dt.DepositorType });
-          })
-          this.depositorTypeOptions = this.depositorTypeList;
-        }
-      });
+    const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
+    this.restApiService.getByParameters(PathConstants.DEPOSITOR, params).subscribe((res: any) => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(dt => {
+          this.depositorTypeList.push({ label: dt.Tyname, value: dt.DepositorType });
+        })
+        this.depositorTypeOptions = this.depositorTypeList;
+      }
+    });
   }
 
   onSelect(type) {
@@ -72,14 +74,16 @@ export class DepositorCustomerMasterComponent implements OnInit {
     let distinctValues = [];
     var name = Array.from(new Set(this.depositorTypeList.map((item: any) => item.label)));
     var code = Array.from(new Set(this.depositorTypeList.map((item: any) => item.value)));
-            for (var index in name && code) {
-              distinctValues.push({ 'label': name[index], 'value': code[index] });
-            }
-            this.depositorTypeOptions = distinctValues;
+    for (var index in name && code) {
+      distinctValues.push({ 'label': name[index], 'value': code[index] });
+    }
+    this.depositorTypeOptions = distinctValues;
   }
 
   onKeroseneSuppliers() {
+    this.loading = true;
     this.isDepositor = true;
+    this.depositorTypeOptions = this.DepositorType = undefined;
     this.KeroseneSuppliersCols = this.tableConstants.KeroseneSuppliers;
     this.restApiService.get(PathConstants.KEROSENE_SUPPLIERS).subscribe(res => {
       if (res !== undefined) {
@@ -96,6 +100,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
   }
 
   onDepositor() {
+    this.loading = true;
     this.isDepositor = false;
     this.DepositorCols = this.tableConstants.SupplierData;
     this.restApiService.get(PathConstants.DEPOSITOR).subscribe(res => {
@@ -114,25 +119,25 @@ export class DepositorCustomerMasterComponent implements OnInit {
   }
 
   filterDepositor(event) {
-    if(event.value !== null && event.value !== undefined) {
+    if (event.value !== null && event.value !== undefined) {
       const matchingCode = event.value;
-    let data = this.DepositorAllData.filter(x => {
-      return x.DepositorType === matchingCode.value;
-    })
-    this.DepositorData = data;
-    let sno = 0;
-        this.DepositorData.forEach(data => {
-          sno += 1;
-          data.SlNo = sno;
-        });
-  } else {
-    this.DepositorData = this.DepositorAllData;
-    let sno = 0;
-        this.DepositorData.forEach(data => {
-          sno += 1;
-          data.SlNo = sno;
-        });
-  }
+      let data = this.DepositorAllData.filter(x => {
+        return x.DepositorType === matchingCode.value;
+      });
+      this.DepositorData = data;
+      let sno = 0;
+      this.DepositorData.forEach(data => {
+        sno += 1;
+        data.SlNo = sno;
+      });
+    } else {
+      this.DepositorData = this.DepositorAllData;
+      let sno = 0;
+      this.DepositorData.forEach(data => {
+        sno += 1;
+        data.SlNo = sno;
+      });
+    }
   }
 
   onResetTable() {
@@ -158,6 +163,16 @@ export class DepositorCustomerMasterComponent implements OnInit {
         });
         this.excelService.exportAsExcelFile(KeroseneMaster, 'Kerosene_Suppliers_Master', this.KeroseneSuppliersCols);
       }
+    }
+  }
+
+  onSearch(value) {
+    this.DepositorData = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.DepositorData = this.DepositorData.filter(item => {
+        return item.DepositorName.toString().startsWith(value);
+      });
     }
   }
 
