@@ -20,8 +20,11 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   AllotmentQuantityData: any;
   AllotmentQuantityCols: any;
   AllotmentQuantityAbstractData: any;
+  AllotmentQuantityAbtractCols: any;
   PristineData: any = [];
   filterArray = [];
+  AllotmentAbstractData: any;
+  AbstractData: any;
   canShowMenu: boolean;
   disableOkButton: boolean = true;
   selectedRow: any;
@@ -176,6 +179,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.ALLOTMENT_QUANTITY_GET, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.AllotmentQuantityCols = this.tableConstant.AllotmentIssueQuantity;
+        this.AllotmentQuantityAbtractCols = this.tableConstant.AllotmentIssueQuantityAbstract;
         this.loading = false;
         this.AllotmentQuantityData = res;
         this.AllotmentQuantityAbstractData = res;
@@ -192,42 +196,40 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         //Abstract
         var hash = Object.create(null),
           abstract = [];
+        sno = 0;
         this.AllotmentQuantityAbstractData.forEach(function (o) {
-          var key = ['SocietyName'].map(function (k) { return o[k]; }).join('|');
+          var key = ['SocietyName', 'Commodity'].map(function (k) { return o[k]; }).join('|');
           if (!hash[key]) {
+            sno += 1;
             hash[key] = {
-              AllotmentMonth: o.AllotmentMonth, SocietyName: o.SocietyName, Scheme: o.Scheme,
-              Commodity: o.Commodity, AllotmentQty: 0, IssueQty: 0, Balance: 0
+              SlNo: sno, AllotmentMonth: o.AllotmentMonth, SocietyCode: o.SocietyCode, SocietyName: o.SocietyName,
+              Scheme: o.Scheme, Commodity: o.Commodity, AllotmentQty: 0, IssueQty: 0, Balance: (o.AllotmentQty - o.IssueQty)
             };
+            // this.AllotmentAbstractData.push({ Commodity: 'Abstract' });
             abstract.push(hash[key]);
           }
           ['AllotmentQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['IssueQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-          // s.Balance = (s.AllotmentQty - s.IssueQty);
-          // ['Balance'].forEach(function (k) { (o.AllotmentQty - o.IssueQty).toFixed(3); });
+          ['Balance'].forEach(function (k) { hash[key][k] += (o[k] * 1); }); //{ (o.AllotmentQty - o.IssueQty); });
         });
-        // let sno = 0;
-        this.AllotmentQuantityData.push({ Commodity: 'Abstract' });
-        abstract.forEach(x => {
-          sno = 0;
-          sno += 1;
-          this.AllotmentQuantityData.push({
-            SlNo: sno, AllotmentMonth: x.AllotmentMonth, SocietyName: x.SocietyName,
-            Scheme: x.Scheme, Commodity: x.Commodity, AllotmentQty: (x.AllotmentQty * 1).toFixed(3),
-            IssueQty: (x.IssueQty * 1).toFixed(3), Balance: (x.AllotmentQty - x.IssueQty).toFixed(3)
-          });
-        });
+        this.AllotmentAbstractData = abstract;
       }
       else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -272,7 +274,10 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
