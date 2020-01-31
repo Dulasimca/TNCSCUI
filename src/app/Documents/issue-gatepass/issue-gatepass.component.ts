@@ -21,6 +21,8 @@ export class IssueGatepassComponent implements OnInit {
   issueMemoLorryAbstractCols: any;
   issueMemoLorryAbstractData: any = [];
   issueLorryNoList: SelectItem[];
+  RCode: string;
+  GCode: string;
 
   constructor(private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -29,13 +31,16 @@ export class IssueGatepassComponent implements OnInit {
 
   ngOnInit() {
     this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.RCode = this.authService.getUserAccessible().rCode;
     this.onLoadIssueLorryDetails();
   }
 
   onLoadIssueLorryDetails() {
     let issueLorrySelection = [];
     let gropuingArr = [];
-    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, { Type: '3' }).subscribe((res: any) => {
+    const params = new HttpParams().set('value', this.GCode).append('Type', '3');
+    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
         // construct object of unique values with keys
         let formObject = {};
@@ -117,6 +122,8 @@ export class IssueGatepassComponent implements OnInit {
       }
     });
   }
+
+  onView() { }
 
   onPrintAbstract() { }
 
