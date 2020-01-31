@@ -41,8 +41,6 @@ export class IssueReceiptComponent implements OnInit {
   packingTypeOptions: SelectItem[];
   stackOptions: SelectItem[];
   wmtOptions: SelectItem[];
-  issueDocNoList: SelectItem[];
-  issueLorryNoList: SelectItem[];
   viewPane: boolean = false;
   isValidStackBalance: boolean = false;
   isReceivorNameDisabled: boolean;
@@ -136,8 +134,6 @@ export class IssueReceiptComponent implements OnInit {
   SocietyCode: any;
   SocietyName: any;
   disableSave: boolean;
-  showAbstract: boolean;
-  DocNo: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -147,10 +143,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
-  SelectedLorryNo: any;
-  issueMemoLorryAbstractCols: any[];
-  issueMemoLorryAbstractData: any[];
-
+  
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -456,6 +449,8 @@ export class IssueReceiptComponent implements OnInit {
         this.disableSave = false;
         this.messageService.clear();
       }
+    } else {
+      this.disableSave = false;
     }
   }
 
@@ -1207,94 +1202,6 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
-  onAbstract() {
-    let issueLorrySelection = [];
-    let gropuingArr = [];
-    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, { Type: '3' }).subscribe((res: any) => {
-      if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
-        this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
-        this.showAbstract = true;
-        // construct object of unique values with keys
-        let formObject = {};
-        for (var i = 0; i < res.Table.length; i++) {
-          formObject[res.Table[i].LorryNo] = 'LorryNo';
-          formObject[res.Table[i].DocNo] = res.Table[i].LorryNo;
-        }
-        let array = Object.keys(formObject).reduce((acc, k) => {
-          let values = formObject[k];
-          acc[values] = acc[values] || [];
-          acc[values].push(k);
-          return acc;
-        }, {});
-        //End
-        res.Table.forEach(x => {
-          let value: string = '';
-          if (array[x.LorryNo].length <= 1) {
-            array[x.LorryNo].forEach(i => {
-              value += i;
-            })
-          } else {
-            array[x.LorryNo].forEach(i => {
-              value += i + '~';
-            })
-           value = value.slice(0, value.length - 1);
-          }
-          gropuingArr.push({ label: x.LorryNo, value: value })
-        })
-        //Get distinct values from an array
-        var LorryNo = Array.from(new Set(gropuingArr.map((item: any) => item.label)));
-        var DocNo = Array.from(new Set(gropuingArr.map((item: any) => item.value)));
-        for (var index in LorryNo && DocNo) {
-        issueLorrySelection.push({ label: LorryNo[index], value: DocNo[index] });
-        }
-        //End
-        this.issueLorryNoList = issueLorrySelection;
-        this.issueLorryNoList.unshift({ label: '-select-', value: null });
-      } else {
-        this.showAbstract = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.showAbstract = false;
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
-      }
-    });
-  }
-
-  onChangeLorryNo() {
-    const params = new HttpParams().set('value', this.SelectedLorryNo.value).append('Type', '4');
-    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe(res => {
-      if(res.Table.length !== 0 && res.Table !== null && res.Table !== undefined) {
-        this.issueMemoLorryAbstractData = res.Table;
-        let sno = 1;
-        this.issueMemoLorryAbstractData.forEach(x => {
-          x.SlNo = sno;
-          x.SIDate = this.datepipe.transform(x.SIDate, 'dd/MM/yyyy');
-          sno += 1;
-        })
-      } else {
-        this.issueMemoLorryAbstractData = [];
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.issueMemoLorryAbstractData = [];
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
-      }
-    });
-  }
-
   resetForm(issueMemoForm: NgForm) {
     issueMemoForm.form.markAsUntouched();
     issueMemoForm.form.markAsPristine();
@@ -1335,15 +1242,9 @@ export class IssueReceiptComponent implements OnInit {
     this.stackOptions = []; this.wmtOptions = undefined;
     this.receiverNameOptions = []; this.receiverTypeOptions = [];
     this.allotmentDetails = []; this.exceedAllotBal = false;
-    this.QuantityLimit = null; this.showAbstract = false;
+    this.QuantityLimit = null; this.disableSave = false;
     this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
-    this.issueMemoLorryAbstractData = [];
   }
-
-  showDialogMaximized(event, dialog: Dialog) {
-    dialog.maximized = false;
-    dialog.toggleMaximize(event);
-}
 
   openNext() {
     this.index = (this.index === 2) ? 0 : this.index + 1;
@@ -1374,8 +1275,6 @@ export class IssueReceiptComponent implements OnInit {
       this.isViewed = false;
     }
   }
-
-  onPrintAbstract() { }
 
   onSubmit(form) {
     this.submitted = true;

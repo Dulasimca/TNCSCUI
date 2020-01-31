@@ -285,12 +285,15 @@ export class AllotmentDetailsComponent implements OnInit {
         }
         } else {
           let missingFields: string = '';
+          this.blockScreen = false;
           if(isValid.res.length > 1) {
             isValid.res.forEach((x, index) => {
               missingFields += (index + 1) + '.' + x.toUpperCase() + ' ';
             })
             missingFields += ' columns are missing!';
-          } else { missingFields = isValid.res[0].toUpperCase() + ' column is missing!'; }
+          } else { 
+            missingFields = isValid.res[0].toUpperCase() + ' column is missing!'; 
+          }
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingFields });
         }

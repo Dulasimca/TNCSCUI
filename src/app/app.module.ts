@@ -158,6 +158,7 @@ import { LoadMenWagesComponent } from './reports/wages/load-men-wages/load-men-w
 import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloading-wages/load-men-unloading-wages.component';
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
+import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
 
 
 @NgModule({
@@ -276,6 +277,7 @@ import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.compo
     LoadMenUnloadingWagesComponent,
     GodownDashboardComponent,
     ProcessToGPSComponent,
+    IssueGatepassComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,56 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+    <app-menu *ngIf="canShowMenu"></app-menu>
+    <p-panel>
+        <p-header>
+            <div class="ui-g panel-header">
+                <div class="ui-g-12 ui-md-4 dashboard">Stock Issue Memo - Gate Pass</div>
+            </div>
+        </p-header>
+        <div class="ui-g ui-fluid">
+            <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <div class="ui-g-6 ui-md-3 ui-fluid">
+                    <label for="LorryNo" class="label-fontsize-large">Lorry Number</label>
+                    <p-dropdown #doc name="LorryNo" [options]="issueLorryNoList" [(ngModel)]="SelectedLorryNo"
+                        (onChange)="onChangeLorryNo()" filter="true" resetFilterOnHide="true" optionLabel="label"
+                        filterMatchMode="startsWith" [showClear]="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-3 ui-md-1 ui-fluid">
+                    <button style="margin-top:5px" pButton type="button" label=Print
+                        (click)="onPrintAbstract()"></button>
+                </div>
+                <div class="ui-g-12 ui-fluid">
+                    <p-table tabindex="-1" [columns]="issueMemoLorryAbstractCols" [value]="issueMemoLorryAbstractData"
+                        [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+                        autoLayout="true">
+                        <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                                <col *ngFor="let col of columns" style="width:80px">
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</div>
