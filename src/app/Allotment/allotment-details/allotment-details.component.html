@@ -17,7 +17,7 @@
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
-      <p-toast position="top-center" key="t-err"></p-toast>
+      <p-toast position="top-center" key="t-err" [modal]="true" [hideTransitionOptions]="'8ms'"></p-toast>
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-3"></div>
         <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
@@ -74,8 +74,7 @@
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-                <button pButton label=Clear (click)="onClear();"
-                  [disabled]="(AllotmentData.length=='0')"></button>
+                <button pButton label=Clear (click)="onClear();"></button>
               </div>
           </div>
           <div class="ui-g-12">

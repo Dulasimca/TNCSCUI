@@ -228,7 +228,6 @@ export class AllotmentDetailsComponent implements OnInit {
         type: 'binary'
       });
       let sheetName: any = workbook.SheetNames[0];
-        let columns: Array<any> = [];
         let XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         let headers = get_header_row(workbook.Sheets[sheetName]);
         let isValid = this.checkValidHeaders(headers);
@@ -236,19 +235,15 @@ export class AllotmentDetailsComponent implements OnInit {
         headers.forEach(c => {
           this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
         })
-        let object = Object.keys(XL_row_object).reduce((acc, k) => {
-          let key = XL_row_object[k];
-          acc[key] = acc[key] || [];
-          acc[key].push(k);
-          return acc;
-        }, {});
         let json_object = JSON.stringify(XL_row_object);
         // bind the parse excel file data to Grid  
         let JSONdata = JSON.parse(json_object);
-        if (JSONdata[1]['Godown Code'] === this.GCode) {
+        // trim the space in json key and value
+        const excelData = trimObj(JSONdata);
+        if (excelData[1]['Godown Code'] === this.GCode) {
           this.disableSave = false;
-          this.totalRecords = JSONdata.length;
-          this.AllotmentData = JSONdata;
+          this.totalRecords = excelData.length;
+          this.AllotmentData = excelData;
           const objLen = this.AllotmentCols.length - 6;
           for (let obj of this.AllotmentData) {
             for (let key in obj) {
@@ -421,12 +416,20 @@ function get_header_row(sheet) {
   for (C = range.s.c; C <= range.e.c; ++C) {
     var cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })] /* find the cell in the first row */
 
-    var hdr = "HEADER " + C; // <-- replace with your desired default 
+    var hdr: any = "HEADER " + C; // <-- replace with your desired default 
     if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-
+    hdr = hdr.trimRight();
     headers.push(hdr);
   }
   return headers;
+}
+
+function trimObj(obj) {
+  if (!Array.isArray(obj) && typeof obj != 'object') return obj;
+  return Object.keys(obj).reduce(function(acc, key) {
+    acc[key.trim()] = typeof obj[key] == 'string'? obj[key].trim() : trimObj(obj[key]);
+    return acc;
+  }, Array.isArray(obj)? []:{});
 }
 
 export interface Allotment {

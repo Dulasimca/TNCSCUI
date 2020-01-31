@@ -163,7 +163,8 @@
                       <span class="ui-float-label">
                         <input name="VehicleNo" type="text" maxlength="12" size="10" [(ngModel)]="LNo" pInputText
                           autocomplete="off" style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, '');
+                          this.value = this.value.replace(/(\..*)\./g, '$1');this.value = this.value.trim()"
                           required>
                         <label for="VehicleNo" class="float-input">Vehicle No</label>
                       </span>
@@ -567,22 +568,22 @@
               <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate
                 (click)="onSubmit(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-6"></div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-7"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
               <button name="view" style="margin-top:5px" pButton type="button" label=View
                 (click)="onView();resetForm(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button name="save" style="margin-top:5px" pButton type="button"
                 [disabled]="(!f.valid || disableSave || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button name="print" style="margin-top:5px" pButton type="button"
                 [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
                 label=Print (click)="onPrint()"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button" label=Clear (click)="onClear()"></button>
             </div>
           </div>

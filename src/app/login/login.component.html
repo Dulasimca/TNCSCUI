@@ -65,13 +65,16 @@
                     <form [formGroup]="loginForm" ngSubmit="OnSignIn()">
                         <div for="userName" class="icon1">
                             <span class="fa fa-user"></span>
-                            <input type="text" class="inputxt" formControlName="user" id="userName"
-                              autofocus="true" [(ngModel)]="userName" placeholder="Username" tabindex="0" required="">
+                            <input type="text" class="inputxt" formControlName="user" id="userName" 
+                              autofocus="true" [(ngModel)]="userName" placeholder="Username" tabindex="0" required>
                         </div>
                         <div for="password" class="icon1">
                             <span class="fa fa-lock"></span>
-                            <input type="password" class="inputxt" formControlName="pswd" [(ngModel)]="password"
-                                placeholder="Password" tabindex="0" (keydown.enter)="onSignIn()" required="">
+                            <input id="pswd" class="ui-g-8 dashboard" type="password" class="inputxt" formControlName="pswd" [(ngModel)]="password"
+                              placeholder="Password" tabindex="0" (keydown.enter)="onSignIn()"
+                              required>
+                             <i *ngIf="!showPswd" disabled class="fa fa-eye" style="margin-left: -10px;color: black;" (click)="onShowPswd()" aria-hidden="true"></i>
+                             <i *ngIf="showPswd" class="fa fa-eye-slash" style="margin-left: -10px;color: black;" (click)="onShowPswd()" aria-hidden="true"></i>
                         </div>
                     </form>
                     <div class="login-check">

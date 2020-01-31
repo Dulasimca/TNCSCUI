@@ -18,8 +18,8 @@ export class IssueGatepassComponent implements OnInit {
   canShowMenu: boolean;
   DocNo: any;
   SelectedLorryNo: any;
-  issueMemoLorryAbstractCols: any[];
-  issueMemoLorryAbstractData: any[];
+  issueMemoLorryAbstractCols: any;
+  issueMemoLorryAbstractData: any = [];
   issueLorryNoList: SelectItem[];
 
   constructor(private restAPIService: RestAPIService, private messageService: MessageService,
@@ -28,14 +28,15 @@ export class IssueGatepassComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
+    this.onLoadIssueLorryDetails();
   }
 
-  onAbstract() {
+  onLoadIssueLorryDetails() {
     let issueLorrySelection = [];
     let gropuingArr = [];
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, { Type: '3' }).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
-        this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
         // construct object of unique values with keys
         let formObject = {};
         for (var i = 0; i < res.Table.length; i++) {
@@ -91,7 +92,7 @@ export class IssueGatepassComponent implements OnInit {
 
   onChangeLorryNo() {
     const params = new HttpParams().set('value', this.SelectedLorryNo.value).append('Type', '4');
-    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe(res => {
+    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if(res.Table.length !== 0 && res.Table !== null && res.Table !== undefined) {
         this.issueMemoLorryAbstractData = res.Table;
         let sno = 1;
