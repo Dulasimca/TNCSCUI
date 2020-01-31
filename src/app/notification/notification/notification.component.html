@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Notification Entry</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
+    <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
     <div class="ui-g">
       <div class="ui-g-12 ui-md-2"></div>
       <!-- <div style="border: 1px solid forestgreen;"> -->

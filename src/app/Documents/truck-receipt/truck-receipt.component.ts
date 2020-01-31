@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-truck-receipt',
@@ -143,7 +144,6 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
-
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -581,6 +581,10 @@ export class TruckReceiptComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
+
   onClear() {
     this.itemData = []; this.STTDetails = [];
     this.STDate = new Date(); this.OrderDate = new Date(); this.RDate = new Date();
@@ -720,7 +724,7 @@ export class TruckReceiptComponent implements OnInit {
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-        life:200, sticky: true, detail: StatusMessage.ExceedingStackBalance });
+        life:5000, detail: StatusMessage.ExceedingStackBalance });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;

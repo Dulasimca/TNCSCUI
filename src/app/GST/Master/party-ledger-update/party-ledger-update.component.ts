@@ -192,7 +192,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 200, sticky: true,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -235,5 +235,9 @@ export class PartyLedgerUpdateComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.IssuerData = [];
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

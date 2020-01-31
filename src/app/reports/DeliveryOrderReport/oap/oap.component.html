@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Delivery Order Report for OAP</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
+    <p-toast position="top-center" (onClose)="onClose()" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Region</label>

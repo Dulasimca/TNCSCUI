@@ -172,7 +172,7 @@ export class ReceiptTypeAbstractComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:100, sticky: true
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:5000
         ,summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
@@ -191,5 +191,8 @@ export class ReceiptTypeAbstractComponent implements OnInit {
     saveAs(path + filename, filename);
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 }
 

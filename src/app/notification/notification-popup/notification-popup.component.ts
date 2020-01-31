@@ -164,7 +164,7 @@ export class NotificationPopupComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 200, sticky: true,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -184,6 +184,10 @@ export class NotificationPopupComponent implements OnInit {
     this.Notes = this.Reason = this.isActive = this.ID = null;
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
+  
   showDialog() {
     const param = { 'Type': 1 };
     this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {

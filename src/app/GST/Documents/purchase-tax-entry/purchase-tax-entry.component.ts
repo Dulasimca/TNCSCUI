@@ -10,12 +10,9 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { InputMaskModule } from 'primeng/inputmask';
-import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { saveAs } from 'file-saver';
-import * as Rx from 'rxjs';
 import * as _ from 'lodash';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-purchase-tax-entry',
@@ -116,7 +113,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
   @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
@@ -533,7 +529,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,life: 200, sticky: true,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -554,5 +550,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.PurchaseTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

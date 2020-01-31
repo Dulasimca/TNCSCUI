@@ -233,7 +233,7 @@ export class CommodityIssueMemoComponent implements OnInit {
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
-        summary: StatusMessage.SUMMARY_INVALID, life:100, sticky: true,
+        summary: StatusMessage.SUMMARY_INVALID, life:5000,
         detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
@@ -250,6 +250,10 @@ export class CommodityIssueMemoComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.CommodityIssueMemoReport + ".txt";
     saveAs(path + filename, filename);
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 
 }

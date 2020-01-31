@@ -80,7 +80,7 @@ export class HeaderComponent implements OnInit {
   onForgetPswd() {
     if (this.ChangeForm.invalid) {
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 200, sticky: true,
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000,
       summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
           this.onClear();
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, 
-          life: 200, sticky: true, detail: StatusMessage.ValidCredentialsErrorMessage });
+          life: 5000, detail: StatusMessage.ValidCredentialsErrorMessage });
         }
       });
     }
@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit {
         if (res) {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
-          life:100, sticky: true, detail: StatusMessage.PasswordChangeSuccessMessage });
+          life: 5000, detail: StatusMessage.PasswordChangeSuccessMessage });
           // setTimeout(this.onTime, 3000);
         } else {
           this.messageService.clear();
@@ -134,7 +134,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-      life: 100, sticky: true, detail: StatusMessage.PasswordMatchErrorMessage });
+      life: 5000, detail: StatusMessage.PasswordMatchErrorMessage });
     }
     this.onClear();
     // this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: 'Error Message', detail: 'Please try again!' });
@@ -146,6 +146,10 @@ export class HeaderComponent implements OnInit {
 
   onClear() {
     this.OldPassword = this.NewPassword = '';
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 
   setUsername(username) {

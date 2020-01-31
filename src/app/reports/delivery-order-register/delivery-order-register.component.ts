@@ -174,7 +174,7 @@ export class DeliveryOrderRegisterComponent implements OnInit {
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_INVALID, life:100, sticky: true, detail: StatusMessage.ValidDateErrorMessage });
+        summary: StatusMessage.SUMMARY_INVALID, life:5000, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -259,5 +259,9 @@ export class DeliveryOrderRegisterComponent implements OnInit {
     const path = "../../assets/Reports/" + this.username.user + "/";
     const filename = this.GCode + GolbalVariable.GSTFileName + ".txt";
     saveAs(path + filename, filename);
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

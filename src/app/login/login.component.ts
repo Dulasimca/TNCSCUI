@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
-      life: 200, sticky: true, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
+      life: 5000, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
       return;
     } else {
       let username = new HttpParams().append('userName', this.userName);
@@ -105,12 +105,12 @@ export class LoginComponent implements OnInit {
             this.clearFields();
             this.messageService.clear();
             this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR
-            ,life: 200, sticky: true, detail: StatusMessage.ValidCredentialsErrorMessage });
+            ,life: 5000, detail: StatusMessage.ValidCredentialsErrorMessage });
           }
         } else {
           // this.clearFields();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 200, sticky: true,
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000,
           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ValidCredentialsErrorMessage });
         }
       }, (err: HttpErrorResponse) => {
@@ -134,5 +134,9 @@ export class LoginComponent implements OnInit {
     this.userName = '';
     this.password = '';
     this.showPswd = false;
+  }
+  
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

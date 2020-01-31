@@ -340,7 +340,7 @@ export class AllSchemeComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
         summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage,
-        life:100, sticky: true });
+        life:5000 });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -356,5 +356,9 @@ export class AllSchemeComponent implements OnInit {
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode.value + GolbalVariable.DOAllSchemeReportFileName + ".txt";
     saveAs(path + filename, filename);
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

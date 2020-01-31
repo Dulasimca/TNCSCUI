@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Toast } from 'primeng/toast';
 
 
 @Component({
@@ -550,7 +551,7 @@ export class StockReceiptComponent implements OnInit {
          this.disableSave = true;
          this.messageService.clear();
          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-         life:300, sticky: true, detail: StatusMessage.NotValidReceiptDateForStackCard });
+         life:5000, detail: StatusMessage.NotValidReceiptDateForStackCard });
         } else {
           this.disableSave = false;
           this.messageService.clear();
@@ -891,5 +892,9 @@ export class StockReceiptComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
     }
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

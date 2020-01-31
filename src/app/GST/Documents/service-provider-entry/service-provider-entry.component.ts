@@ -11,6 +11,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InputMaskModule } from 'primeng/inputmask';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-service-provider-entry',
@@ -96,7 +97,6 @@ export class ServiceProviderEntryComponent implements OnInit {
   @ViewChild('company', { static: false }) companyPanel: Dropdown;
   @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
@@ -451,7 +451,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 200, sticky: true,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -472,5 +472,9 @@ export class ServiceProviderEntryComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.ServiceTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

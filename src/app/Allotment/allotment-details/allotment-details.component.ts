@@ -12,6 +12,7 @@ import { saveAs } from 'file-saver';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import * as _ from 'lodash';
 import { Table } from 'primeng/table';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-allotment-details',
@@ -213,7 +214,7 @@ export class AllotmentDetailsComponent implements OnInit {
         } else {
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-          life:500, sticky: true, detail: this.errMsg });
+          life:5000, detail: this.errMsg });
         }
       })
     }
@@ -278,7 +279,7 @@ export class AllotmentDetailsComponent implements OnInit {
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, 
-          life:500, sticky: true, detail: StatusMessage.GodownCodeMismatch });
+          life:5000, detail: StatusMessage.GodownCodeMismatch });
         }
         } else {
           let missingFields: string = '';
@@ -293,7 +294,7 @@ export class AllotmentDetailsComponent implements OnInit {
           }
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, 
-          life:500, sticky: true, detail: missingFields });
+          life:5000, detail: missingFields });
         }
     };
 
@@ -393,6 +394,10 @@ export class AllotmentDetailsComponent implements OnInit {
     const path = "../../assets/Sample_Allotment/Sample_Excel.xlsx";
     const filename = 'Sample_Excel' + ".xlsx";
     saveAs(path , filename);
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }
 

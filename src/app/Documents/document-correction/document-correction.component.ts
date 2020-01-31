@@ -12,6 +12,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { NgForm } from '@angular/forms';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-document-correction',
@@ -266,8 +267,9 @@ export class DocumentCorrectionComponent implements OnInit {
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID,
-        life:100, sticky: true, detail: StatusMessage.ValidDateErrorMessage });
-        this.fromDate = this.toDate = '';
+        life:5000, detail: StatusMessage.ValidDateErrorMessage });
+        this.fromDate = '';
+        this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
@@ -380,4 +382,7 @@ export class DocumentCorrectionComponent implements OnInit {
     doc.save('Document_Correction.pdf');
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 }
