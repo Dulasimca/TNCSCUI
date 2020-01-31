@@ -436,15 +436,18 @@ export class IssueReceiptComponent implements OnInit {
         && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+        life:500, sticky: true, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
       } else if (SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+        life:500, sticky: true, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
       } else if (ACSCode === null || ACSCode === undefined || ACSCode === '') {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+        life:500, sticky: true, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
       } else {
         this.disableSave = false;
         this.messageService.clear();
@@ -721,7 +724,8 @@ export class IssueReceiptComponent implements OnInit {
           this.NoPacking = null;
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExceedingStackBalance });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:200, sticky: true, detail: StatusMessage.ExceedingStackBalance });
           if (this.itemData.length !== 0) {
             sno = 1;
             totalNkgs = 0;
@@ -908,7 +912,8 @@ export class IssueReceiptComponent implements OnInit {
           this.DOCNumber = res.Item3;
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, 
+          life:300, sticky: true, detail: res.Item2 });
           this.onClear();
         } else {
           this.isViewed = false;
@@ -1024,7 +1029,8 @@ export class IssueReceiptComponent implements OnInit {
             if (this.BalanceQty <= 0 && this.itemData.length === 0) {
               this.exceedAllotBal = true;
               this.messageService.clear();
-              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
+              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+              life:300, sticky: true, detail: StatusMessage.AllotmentIssueQuantityValidation });
             } else if ((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
               let netwt = 0;
               this.itemData.forEach(x => {
@@ -1033,7 +1039,8 @@ export class IssueReceiptComponent implements OnInit {
                   if ((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
                     this.exceedAllotBal = true;
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
+                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, 
+                    life:300, sticky: true, detail: StatusMessage.AllotmentIssueQuantityValidation });
                   } else {
                     this.exceedAllotBal = false;
                   }
@@ -1058,7 +1065,8 @@ export class IssueReceiptComponent implements OnInit {
         if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
           if (this.BalanceQty < (this.NKgs * 1)) {
             this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.AllotmentIssueQuantityValidation });
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+            life:300, sticky: true, detail: StatusMessage.AllotmentIssueQuantityValidation });
           } else {
             this.messageService.clear();
           }

@@ -10,7 +10,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Stock Receipt Slip</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
+    <p-toast position="top-center" key="t-err" [modal]="true" [hideTransitionOptions]="'500ms'"></p-toast>
     <form #f="ngForm" name="receiptForm">
       <div class="ibox-body">
         <div class="row">

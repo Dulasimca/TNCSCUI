@@ -308,7 +308,8 @@ export class DDChequeEntryComponent implements OnInit {
           this.isViewed = false;
         }
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
+        life:300, sticky: true, detail: res.Item2 });
       } else {
         this.blockScreen = false;
         this.messageService.clear();

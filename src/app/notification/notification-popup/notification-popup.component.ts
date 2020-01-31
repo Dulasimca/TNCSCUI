@@ -164,7 +164,7 @@ export class NotificationPopupComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 200, sticky: true,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }

@@ -672,13 +672,15 @@ export class DeliveryReceiptComponent implements OnInit {
         if (!validateBank) {
           this.OnBank = null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.BankNameInDO })
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+          life:300, sticky: true, detail: StatusMessage.BankNameInDO })
         }
         else if ((this.Payment === 'Cheque' || this.Payment === 'Draft' || this.Payment === 'PayOrder') && (this.ChequeNo === '-' || this.PayableAt === '-')) {
           this.ChequeNo = (this.ChequeNo !== '-') ? this.ChequeNo : null;
           this.PayableAt = (this.PayableAt !== '-') ? this.PayableAt : null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.CHAndPayableAtInDO })
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+          life:300, sticky: true, detail: StatusMessage.CHAndPayableAtInDO })
         } else {
           this.paymentData.push({
             PaymentMode: this.Payment, ChequeNo: this.ChequeNo,

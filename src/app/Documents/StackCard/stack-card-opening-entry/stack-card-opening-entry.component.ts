@@ -266,7 +266,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
       } else {
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+        life:100, sticky: true, detail: StatusMessage.StackCardClosedMessage });
       }
     }
   }
@@ -344,12 +345,14 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.RunningStackCardErrMessage });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:200, sticky: true, detail: StatusMessage.RunningStackCardErrMessage });
         }
       });
     } else if (this.cardExits) {
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+      life:200, sticky: true, detail: StatusMessage.StackCardClosedMessage });
       this.onClear();
     } else {
       this.postData();
@@ -374,7 +377,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (res.Item1) {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExistingStackCardErrMessage });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:100, sticky: true, detail: StatusMessage.ExistingStackCardErrMessage });
         } else if (res.Item2) {
           this.onView();
           this.blockScreen = false;
@@ -405,7 +409,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.ClosingDate < this.Date) {
       this.blockScreen = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+      life:200, sticky: true, detail: StatusMessage.StackCardClosingDateErrMessage });
     } else {
       const closingParams = {
         'ClosedDate': (this.CDate !== null && this.CDate !== undefined) ?
@@ -418,7 +423,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.onClear();
           this.nonEditable = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackCardClosedSucceesMessage });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, 
+          life:100, sticky: true, detail: StatusMessage.StackCardClosedSucceesMessage });
         } else {
           this.blockScreen = false;
           this.messageService.clear();

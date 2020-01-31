@@ -20,6 +20,7 @@ export class StatusMessage {
     public static readonly StackCardClosedMessage = 'Stack Card has been closed  already!';
     public static readonly RunningStackCardErrMessage = 'You have entered running stack card number!';
     public static readonly ExistingStackCardErrMessage = 'Stack card is existing!';
+    public static readonly StackCardClosingDateErrMessage = 'Closing date must be greater than opening date!';
     public static readonly StackCardClosedSucceesMessage = 'Card Closed!';
     public static readonly ValidCredentialsErrorMessage = 'Please Enter Valid Credentials!';
     public static readonly PasswordChangeSuccessMessage = 'Password changed Successfully!';

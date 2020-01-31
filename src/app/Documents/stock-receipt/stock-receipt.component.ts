@@ -549,7 +549,8 @@ export class StockReceiptComponent implements OnInit {
       (stackMonth > receiptMonth && stackYear === receiptYear) || (stackYear > receiptYear)) {
          this.disableSave = true;
          this.messageService.clear();
-         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotValidReceiptDateForStackCard });
+         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+         life:300, sticky: true, detail: StatusMessage.NotValidReceiptDateForStackCard });
         } else {
           this.disableSave = false;
           this.messageService.clear();

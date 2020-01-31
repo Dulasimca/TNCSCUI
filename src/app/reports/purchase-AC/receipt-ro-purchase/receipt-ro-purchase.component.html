@@ -9,7 +9,7 @@
     </p-header>
     <div class="ui-g ui-md-12">
       <div>
-        <p-toast position="top-center" key="t-err"></p-toast>
+        <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
         <div class="ui-g-6 ui-md-2">
             <label class="ui-g-7 label-fontsize dashboard">Region</label>
           <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"

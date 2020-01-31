@@ -338,7 +338,9 @@ export class AllSchemeComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+        summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage,
+        life:100, sticky: true });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;

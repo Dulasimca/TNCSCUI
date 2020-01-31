@@ -212,7 +212,8 @@ export class AllotmentDetailsComponent implements OnInit {
           this.parseExcel(filesData[0]);
         } else {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: this.errMsg });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:500, sticky: true, detail: this.errMsg });
         }
       })
     }
@@ -276,7 +277,8 @@ export class AllotmentDetailsComponent implements OnInit {
         } else {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.GodownCodeMismatch });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, 
+          life:500, sticky: true, detail: StatusMessage.GodownCodeMismatch });
         }
         } else {
           let missingFields: string = '';
@@ -290,7 +292,8 @@ export class AllotmentDetailsComponent implements OnInit {
             missingFields = isValid.res[0].toUpperCase() + ' column is missing!'; 
           }
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: missingFields });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, 
+          life:500, sticky: true, detail: missingFields });
         }
     };
 

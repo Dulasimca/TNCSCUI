@@ -17,7 +17,7 @@
         </div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err"></p-toast>
+    <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
         <p-table #table [columns]="IssuerMasterCols" [value]="IssuerMasterData" [rows]="20"

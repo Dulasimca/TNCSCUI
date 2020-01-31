@@ -16,7 +16,7 @@
       </div>
     </p-header>
     <div class="ui-g">
-      <p-toast position="top-center" key="t-err"></p-toast>
+      <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
@@ -189,7 +189,7 @@
                       </div>
                     </p-header>
                     <div class="ui-g">
-                      <p-toast position="top-center" key="t-err"></p-toast>
+                      <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
                       <div class="ui-g-12">
                         <p-table #DW [columns]="DateWiseCols" [value]="DateWiseData" [rows]="10"
                           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
@@ -241,7 +241,7 @@
                       </div>
                     </p-header>
                     <div class="ui-g">
-                      <p-toast position="top-center" key="t-err"></p-toast>
+                      <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
                       <div class="ui-g-12">
                         <p-table #SS [columns]="SchemeCols" [value]="SchemeData" [rows]="10"
                           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
@@ -293,7 +293,7 @@
                       </div>
                     </p-header>
                     <div class="ui-g">
-                      <p-toast position="top-center" key="t-err"></p-toast>
+                      <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
                       <div class="ui-g-12">
                         <p-table #SAA [columns]="SchemeAbstractCols" [value]="SchemeAbstractData" [rows]="10"
                           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
