@@ -7,7 +7,7 @@
         <div class="ui-g-7 dashboard">Purchase Tax Entry</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err"></p-toast>
+    <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g">
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-6 ui-md-2">

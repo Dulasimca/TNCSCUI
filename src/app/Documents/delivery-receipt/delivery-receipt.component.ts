@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { Dropdown, RadioButton } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-delivery-receipt',
@@ -672,13 +673,15 @@ export class DeliveryReceiptComponent implements OnInit {
         if (!validateBank) {
           this.OnBank = null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.BankNameInDO })
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+          life:5000, detail: StatusMessage.BankNameInDO });
         }
         else if ((this.Payment === 'Cheque' || this.Payment === 'Draft' || this.Payment === 'PayOrder') && (this.ChequeNo === '-' || this.PayableAt === '-')) {
           this.ChequeNo = (this.ChequeNo !== '-') ? this.ChequeNo : null;
           this.PayableAt = (this.PayableAt !== '-') ? this.PayableAt : null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED, detail: StatusMessage.CHAndPayableAtInDO })
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+          life:5000, detail: StatusMessage.CHAndPayableAtInDO })
         } else {
           this.paymentData.push({
             PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
@@ -1214,5 +1217,9 @@ export class DeliveryReceiptComponent implements OnInit {
     } else {
       return 'black';
     }
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

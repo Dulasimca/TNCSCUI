@@ -11,6 +11,7 @@ import { GolbalVariable } from 'src/app/common/globalvariable';
 import { NgForm } from '@angular/forms';
 import { Dropdown } from 'primeng/primeng';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-DD-cheque-entry',
@@ -308,7 +309,8 @@ export class DDChequeEntryComponent implements OnInit {
           this.isViewed = false;
         }
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
+        life:5000, detail: res.Item2 });
       } else {
         this.blockScreen = false;
         this.messageService.clear();
@@ -381,6 +383,10 @@ export class DDChequeEntryComponent implements OnInit {
     this.chequeDate = new Date(); this.chDate = null;
     this.chequeAmount = 0; this.totalAmount = 0;
     this.isSelectedReceivor = false; this.receivedFrom = null; this.chequeNo = null;
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 
 }

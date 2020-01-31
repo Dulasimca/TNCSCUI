@@ -84,7 +84,7 @@
           <i style="float: right; color: aliceblue" class="fas fa-times-circle"></i>
         </div>
         <div class="modal-content">
-            <p-toast position="top-center" key="t-err"></p-toast>
+            <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
           <div class="modal-body">
             <div class="col-md-12">
               <div class="panel panel-default">

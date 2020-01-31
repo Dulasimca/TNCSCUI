@@ -9,6 +9,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -33,6 +34,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   selectedRow: any;
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
+  currYearOptions: SelectItem[];
   commoditySelection: any[] = [];
   Weights: any = 0;
   Bags: any = 0;
@@ -52,6 +54,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   showDialog: boolean;
   loading: boolean;
   activateLoader: boolean;
+  CurrYear: number;
   lastStacCardNo: string = '-';
   @ViewChild('f', { static: false }) ngForm: NgForm;
 
@@ -168,6 +171,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onSelect(selectedItem) {
     let godownSelection = [];
+    let currYrSelection = [];
+    const range = 10;
     switch (selectedItem) {
       case 'gd':
         this.messageService.clear();
@@ -186,6 +191,24 @@ export class StackCardOpeningEntryComponent implements OnInit {
         } else {
           this.openView = false;
         }
+        break;
+      case 'cy':
+        this.messageService.clear();
+        const year = new Date().getFullYear();
+        for (let i = 0; i <= range; i++) {
+          if (i === 0) {
+            currYrSelection.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+          } 
+          // if (i === 0) {
+          //   yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+          // } else if (i === 1) {
+          //   yearArr.push({ 'label': (year).toString(), 'value': year });
+          // } else {
+          //   yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
+          // }
+        }
+        this.currYearOptions = currYrSelection;
+        this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
     }
   }
@@ -266,7 +289,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
       } else {
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+        life:5000, detail: StatusMessage.StackCardClosedMessage });
       }
     }
   }
@@ -344,12 +368,14 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.RunningStackCardErrMessage });
-        }
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:5000, detail: StatusMessage.RunningStackCardErrMessage });
+          }
       });
     } else if (this.cardExits) {
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.StackCardClosedMessage });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+      life:5000, detail: StatusMessage.StackCardClosedMessage });
       this.onClear();
     } else {
       this.postData();
@@ -374,8 +400,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (res.Item1) {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ExistingStackCardErrMessage });
-        } else if (res.Item2) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life:5000, detail: StatusMessage.ExistingStackCardErrMessage });
+          } else if (res.Item2) {
           this.onView();
           this.blockScreen = false;
           this.messageService.clear();
@@ -405,7 +432,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.ClosingDate < this.Date) {
       this.blockScreen = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: 'warn', summary: 'Warning Message!', detail: 'Closing date must be greater than opening date!' });
+      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+      life:5000, detail: StatusMessage.StackCardClosingDateErrMessage });
     } else {
       const closingParams = {
         'ClosedDate': (this.CDate !== null && this.CDate !== undefined) ?
@@ -418,8 +446,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.onClear();
           this.nonEditable = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackCardClosedSucceesMessage });
-        } else {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, 
+          life:5000, detail: StatusMessage.StackCardClosedSucceesMessage });
+          } else {
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -435,5 +464,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
       })
     }
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

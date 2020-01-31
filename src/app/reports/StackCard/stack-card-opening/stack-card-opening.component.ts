@@ -202,7 +202,8 @@ export class StackCardOpeningComponent implements OnInit {
               data.SlNo = sno;
             });
             this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackcardDeleted });
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            life:5000, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.StackcardDeleted });
           }
         })
       },
@@ -217,4 +218,8 @@ export class StackCardOpeningComponent implements OnInit {
   }
 
   onPrint() { }
+  
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 }

@@ -106,7 +106,7 @@ export class NotificationComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -139,7 +139,7 @@ export class NotificationComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -158,4 +158,9 @@ export class NotificationComponent implements OnInit {
   onClear() {
     this.Notes = this.Reason = this.isActive = this.ID = null;
   }
+
+  onClose() {
+    this.messageService.clear('t-err');
+  }
+  
 }

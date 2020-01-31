@@ -182,7 +182,8 @@ export class DailyStatementComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:5000
+        ,summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
         this.FromDate = this.ToDate = '';
       }
       return this.FromDate, this.ToDate;
@@ -192,6 +193,10 @@ export class DailyStatementComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.sectionDailyStatementData = [];
+  }
+  
+  onClose() {
+    this.messageService.clear('t-err');
   }
 
   onPrint() { }

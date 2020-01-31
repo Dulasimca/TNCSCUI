@@ -58,7 +58,6 @@ export class PartyLedgerMasterComponent implements OnInit {
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
 
-
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
@@ -217,7 +216,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -246,5 +245,9 @@ export class PartyLedgerMasterComponent implements OnInit {
   }
 
   onResetTable(item) { }
+
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 
 }

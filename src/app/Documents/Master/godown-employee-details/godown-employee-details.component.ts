@@ -10,6 +10,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-godown-employee-details',
@@ -59,7 +60,6 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   RName: any;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
-
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
@@ -254,7 +254,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID,
+        life:5000, detail: StatusMessage.ValidDateErrorMessage });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -286,7 +287,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
       } else {
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
@@ -301,5 +302,9 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         }
       });
     this.onClear();
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }

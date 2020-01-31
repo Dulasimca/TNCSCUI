@@ -296,7 +296,9 @@ export class RegionAllotmentComponent implements OnInit {
       if ((cDate === tDate && (cMonth < tMnth && cYear <= tYear)) || (cMonth < tMnth && cYear <= tYear)
         || (cDate < tDate && (cMonth === tMnth && cYear === tYear)) || (cYear < tYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.PurchaseTargetDateValidation });
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, 
+        life: 5000,
+        summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.PurchaseTargetDateValidation });
       }
     }
   }
@@ -693,4 +695,9 @@ export class RegionAllotmentComponent implements OnInit {
       this.isSelected = false;
     }
   }
+
+  onClose() {
+    this.messageService.clear('t-err');
+  }
+  
 }

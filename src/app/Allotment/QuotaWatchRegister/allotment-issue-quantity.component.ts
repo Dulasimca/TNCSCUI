@@ -10,6 +10,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-allotment-issue-quantity',
@@ -68,7 +69,6 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('shop', { static: false }) shopPanel: Dropdown;
   @ViewChild('society', { static: false }) societyPanel: Dropdown;
-
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -274,9 +274,13 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
+        // this.messageService.add({
+        //   key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+        //   summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        // });
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID,
+          life: 5000, detail: StatusMessage.ValidDateErrorMessage
         });
         this.fromDate = this.toDate = '';
       }
@@ -287,5 +291,9 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.AllotmentQuantityData = [];
+  }
+
+  onClose() {
+    this.messageService.clear('t-err');
   }
 }
