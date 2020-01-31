@@ -108,6 +108,7 @@ import { LoadMenWagesComponent } from './reports/wages/load-men-wages/load-men-w
 import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloading-wages/load-men-unloading-wages.component';
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
+import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -217,6 +218,7 @@ const routes: Routes = [
   { path: 'WagesUnLoading', component: LoadMenUnloadingWagesComponent, canActivate: [AuthGuard]},
   { path: 'GodownDashboard', component: GodownDashboardComponent, canActivate: [AuthGuard]},
   { path: 'ProcessToGPS', component: ProcessToGPSComponent, canActivate: [AuthGuard] },
+  { path: 'IssueGatePass', component: IssueGatepassComponent},
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

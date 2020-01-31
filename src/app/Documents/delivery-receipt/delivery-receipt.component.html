@@ -683,21 +683,21 @@
               <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=validate
                 (click)="onSubmit(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-6"></div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-7"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
               <button style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button"
                 [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button"
                 [disabled]="((isViewed && f.dirty) || (!isViewed && !isSaveSucceed) || (!isViewed && f.dirty))"
                 label=Print (click)="onPrint()"></button>
             </div>
-            <div class="ui-g-3 ui-md-1 ui-fluid">
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button" label=Clear (click)="onClear()"></button>
             </div>
           </form>

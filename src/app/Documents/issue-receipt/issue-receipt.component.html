@@ -10,7 +10,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Stock Issue Memo Slip</div>
       </div>
     </p-header>
-    <p-toast position="top-center" key="t-err" [hideTransitionOptions]="'500ms'"></p-toast>
+    <p-toast position="top-center" key="t-err"  [modal]="true" [hideTransitionOptions]="'2000ms'"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -154,9 +154,10 @@
                   <div class="ui-g-12 ui-fluid dashboard">
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="VechileNum" maxlength="13" [(ngModel)]="VehicleNo" pInputText autocomplete="off"
+                        <input name="VechileNum" maxlength="12" [(ngModel)]="VehicleNo" pInputText autocomplete="off"
                           style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); 
+                          this.value = this.value.replace(/(\..*)\./g, '$1'); this.value = this.value.trim()"
                           required>
                         <label for="VechileNum" class="float-input">Vehicle Number</label>
                       </span>
