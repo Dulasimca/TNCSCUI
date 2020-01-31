@@ -64,7 +64,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
           });
           this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
-      })
+      });
     }
   }
 
@@ -131,7 +131,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.openingBalanceData = this.openingBalanceData.filter(x => { return x.ITDescription === selectedItem.label });
         if (this.openingBalanceData.length === 0) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+          });
         }
       } else {
         this.openingBalanceData = this.opening_balance;
@@ -174,27 +177,33 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.openingBalanceCols = this.tableConstants.OpeningBalanceMasterEntry;
         this.openingBalanceData = res;
         this.blockScreen = false;
-          this.openingBalanceData.forEach(x => {
-            sno += 1;
-            x.SlNo = sno;
-            x.BookBalanceWeight = (x.BookBalanceWeight * 1).toFixed(3),
+        this.openingBalanceData.forEach(x => {
+          sno += 1;
+          x.SlNo = sno;
+          x.BookBalanceWeight = (x.BookBalanceWeight * 1).toFixed(3),
             x.PhysicalBalanceWeight = (x.PhysicalBalanceWeight * 1).toFixed(3),
             x.CumulitiveShortage = (x.CumulitiveShortage * 1).toFixed(3),
             x.ObDate = this.datepipe.transform(x.ObDate, 'dd-MM-yyyy')
-          })
-          this.totalRecords = this.openingBalanceData.length;
+        });
+        this.totalRecords = this.openingBalanceData.length;
         this.opening_balance = this.openingBalanceData.slice(0);
       } else {
         this.blockScreen = false;
         this.viewPane = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -212,6 +221,10 @@ export class OpeningBalanceDetailsComponent implements OnInit {
     this.Year = null;
     this.blockScreen = false;
     this.commodityOptions = [];
+    this.godownOptions = [];
+    this.yearOptions = [];
+    this.Year = null;
+    this.g_cd = null;
     this.openingBalanceData = [];
     this.opening_balance = [];
   }
@@ -235,8 +248,8 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
       } else {
-      this.blockScreen = false;
-      this.messageService.clear();
+        this.blockScreen = false;
+        this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     }, (err: HttpErrorResponse) => {
@@ -248,7 +261,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
       }
-    })
+    });
     this.onClear();
   }
 }

@@ -13,8 +13,8 @@
       <div class="ui-g-6 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Society Type</label>
         <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="typeOptions" [(ngModel)]="t_cd" (onClick)="ontype()"
-          (onChange)="ontype()" filter="true" optionLabel="label" filterMatchMode="startsWith"
-          resetFilterOnHide="true" [showClear]="true" placeholder="-select-">
+          (onChange)="ontype()" filter="true" name="Type" optionLabel="label" filterMatchMode="startsWith"
+          resetFilterOnHide="true" [showClear]="true">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -33,14 +33,14 @@
         <button pButton type="button" label=New (click)="onNew()"></button>
       </div> -->
       <div class="ui-g-3 ui-md-1" style="padding-top: 23px">
-        <button pButton type="button" label=Save  [disabled]="(!t_cd || !Name)" (click)="onSave()"></button>
+        <button pButton type="button" label=Save [disabled]="(!t_cd || !Name)" (click)="onSave()"></button>
       </div>
 
       <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="SocietyMasterEntryCols" [value]="SocietyMasterEntryData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [paginator]="true" [responsive]="true"
+          autoLayout="true" [loading]="loading" exportFilename="SOCIETY_MASTER_REPORT">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -48,8 +48,8 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>
