@@ -929,7 +929,8 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
 .marquee{
   overflow: initial;
   overflow-y: hidden;
-  height: 100%;
+  height: 146px;
+  /* height: 100%; */
   color: 3f3f3f;
 }
 
