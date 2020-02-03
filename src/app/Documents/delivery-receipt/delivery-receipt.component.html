@@ -124,7 +124,7 @@
                     <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
                       <label class="label-fontsize" for="GST">GST No.</label>
                       <input name="GST" pInputText (ngModelChange)="onGSTInput($event)"
-                      minlength="15" maxlength="15" style="text-transform: uppercase !important" 
+                      minlength="3" maxlength="15" style="text-transform: uppercase !important" 
                        oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                        [(ngModel)]="GSTNumber" autocomplete="off" required>
                     </div>
