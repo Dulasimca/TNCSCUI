@@ -493,4 +493,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
       saveAs(path + filename1, filename1);
     }
   }
+  onClose() {
+    this.messageService.clear('t-err');
+  }  
 }

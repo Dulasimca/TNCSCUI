@@ -61,7 +61,8 @@
           [disabled]="(!RCode || !GCode || !fromDate || !toDate || !Month || !Year)" label=View></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Excel style="padding: 1px;" [disabled]="(!RCode || !GCode || !fromDate || !toDate || !Month || !Year)"
+        <button pButton type="button" label=Excel style="padding: 1px;"
+          [disabled]="(!RCode || !GCode || !fromDate || !toDate || !Month || !Year)"
           (click)="table.exportCSV()"></button>
       </div>
 
@@ -106,4 +107,53 @@
       </div>
     </div>
   </p-panel>
+
+  <hr class="ui-g-12 dashboard border-teal">
+  <div class="ui-g-12 ui-md-12 ui-lg-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-g panel-header">
+          <div class="ui-g-4 dashboard">Quota Watch Register Abstract</div>
+          <div class="ui-g-8 dashboard" style="text-align: end !important;">
+            <button pButton type="button" label=Excel style="padding: 1px;"
+              [disabled]="(!RCode || !GCode || !fromDate || !toDate || !Month || !Year)"
+              (click)="t.exportCSV()"></button>
+          </div>
+        </div>
+      </p-header>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <p-table #t [columns]="AllotmentQuantityAbtractCols" [value]="AllotmentAbstractData" [rows]="20"
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [responsive]="true" autoLayout="true" [paginator]="true"
+            [loading]="loading" exportFilename="QUOTA_WATCH_REGISTER_ABSTRACT_REPORT">
+            <ng-template pTemplate="header" let-columns>
+              <tr style="text-align: center;">
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+              <tr>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of columns">
+                  <div
+                    *ngIf="col.field === 'AllotmentQty' || col.field === 'IssueQty' || col.field === 'AllotmentMonth' || col.field === 'Balance'">
+                    <div style="text-align: end !important">
+                      {{rowData[col.field]}}
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="col.field !== 'AllotmentQty' && col.field !== 'IssueQty' && col.field !== 'AllotmentMonth' && col.field !== 'Balance'">
+                    {{rowData[col.field]}}
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-panel>
+  </div>
 </div>

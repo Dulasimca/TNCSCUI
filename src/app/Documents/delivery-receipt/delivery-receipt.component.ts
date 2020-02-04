@@ -969,6 +969,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
         this.onClear();
+        this.GSTNumber=res.Table[0].GSTNumber;
         this.rowId = res.Table[0].RowId;
         this.DeliveryOrderNo = res.Table[0].Dono;
         this.DeliveryDate = new Date(res.Table[0].DoDate);

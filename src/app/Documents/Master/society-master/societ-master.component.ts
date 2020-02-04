@@ -33,7 +33,8 @@ export class SocietMasterComponent implements OnInit {
   filterArray: any;
   loading: boolean = false;
 
-  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService, private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
+  constructor(private tableConstants: TableConstants, private excelService: ExcelService, private messageService: MessageService,
+    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -49,7 +50,7 @@ export class SocietMasterComponent implements OnInit {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }
-      }]
+      }];
   }
 
   onSelect() {
@@ -72,16 +73,16 @@ export class SocietMasterComponent implements OnInit {
         if (this.typeOptions === undefined) {
           this.typeOptions = type;
         }
-        this.typeOptions = [{ label: 'All', value: 'All'},
-         { label: 'CRS', value: this.typeOptions },
-          { label: 'COOPERATIVES LEADING', value: this.typeOptions }, 
-          { label: 'COOPERATIVES PRIMARY', value: this.typeOptions }];
+        this.typeOptions = [{ label: 'All', value: 'All' },
+        { label: 'CRS', value: this.typeOptions },
+        { label: 'COOPERATIVES LEADING', value: this.typeOptions },
+        { label: 'COOPERATIVES PRIMARY', value: this.typeOptions }];
       });
     }
   }
 
   onView() {
-   // this.onType();
+    // this.onType();
     this.loading = true;
     const params = new HttpParams().set('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.SOCIETY_MASTER_GET, params).subscribe(res => {
@@ -89,25 +90,31 @@ export class SocietMasterComponent implements OnInit {
       this.filterArray = res;
       this.SocietyMasterCols = this.tableConstants.SocietyMaster;
       if (this.SocietyMasterData !== undefined && this.SocietyMasterData !== 0) {
-        if(this.t_cd.value !== 'All') {
-        this.SocietyMasterData = res.filter((value: { Tyname: any; }) => { return value.Tyname === this.t_cd.label });
-        } 
-      let sno = 0;
-      this.SocietyMasterData.forEach(data => {
-        sno += 1;
-        data.SlNo = sno;
-      });
-      this.loading = false;
-    } else {
+        if (this.t_cd.value !== 'All') {
+          this.SocietyMasterData = res.filter((value: { Tyname: any; }) => { return value.Tyname === this.t_cd.label });
+        }
+        let sno = 0;
+        this.SocietyMasterData.forEach(data => {
+          sno += 1;
+          data.SlNo = sno;
+        });
+        this.loading = false;
+      } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -131,7 +138,10 @@ export class SocietMasterComponent implements OnInit {
     var SocietyMaster = [];
     this.SocietyMasterData.forEach(data => {
       if (data.Tyname === "CRS" || data.Tyname === "COOPERATIVES LEADING" || data.Tyname === "COOPERATIVES PRIMARY") {
-        SocietyMaster.push({ SlNo: data.SlNo, Godown_Name: data.GodownName, Type_Name: data.Tyname, Society_Name: data.SocietyName, Society_Type: data.SocietyType, Society_Code: data.SocietyCode, Issuer_Name: data.Issuername })
+        SocietyMaster.push({
+          SlNo: data.SlNo, Godown_Name: data.GodownName, Type_Name: data.Tyname,
+          Society_Name: data.SocietyName, Society_Type: data.SocietyType, Society_Code: data.SocietyCode, Issuer_Name: data.Issuername
+        });
       }
     });
     this.excelService.exportAsExcelFile(SocietyMaster, 'SocietyMaster', this.SocietyMasterCols);
@@ -143,7 +153,8 @@ export class SocietMasterComponent implements OnInit {
     var col = this.SocietyMasterCols;
     var rows = [];
     this.SocietyMasterData.forEach(element => {
-      var temp = [element.SlNo, element.GodownName, element.Tyname, element.SocietyName, element.SocietyType, element.SocietyCode, element.Issuername];
+      var temp = [element.SlNo, element.GodownName, element.Tyname, element.SocietyName,
+      element.SocietyType, element.SocietyCode, element.Issuername];
       rows.push(temp);
     });
     doc.autoTable(col, rows);

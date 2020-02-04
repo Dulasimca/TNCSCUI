@@ -16,29 +16,29 @@
         </div>
       </div>
     </p-header>
-    <!-- <p-toast [style]="{background: '#FFAEAE'}" position="top-center" key="t-err"></p-toast> -->
+    <p-toast position="top-center" key="t-err"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Godown</label>
-        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd" (ngModelChange)="onResetTable()" (onClick)="onSelect()"
-          filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-          filterMatchMode="startsWith" placeholder="-select-">
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="g_cd"
+          (ngModelChange)="onResetTable()" (onClick)="onSelect()" filter="true" resetFilterOnHide="true"
+          optionLabel="label" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-3">
-          <label class="ui-g-7 label-fontsize dashboard">Type Name</label>
-          <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="typeOptions" [(ngModel)]="t_cd" (ngModelChange)="onResetTable()" (onClick)="onType()"
-            filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-            filterMatchMode="startsWith" placeholder="-select-">
-            <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle">{{item.label}}</span>
-            </ng-template>
-          </p-dropdown>
-        </div>
+        <label class="ui-g-7 label-fontsize dashboard">Type Name</label>
+        <p-dropdown class="ui-g-12 ui-fluid dashboard" [options]="typeOptions" [(ngModel)]="t_cd"
+          (ngModelChange)="onResetTable()" (onClick)="onType()" filter="true" resetFilterOnHide="true"
+          optionLabel="label" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
       <!-- <div class="ui-g-12 ui-md-4">
         <label class="ui-g-7 label-fontsize dashboard">Society Name</label>
         <input type="text" size="20" [(ngModel)]="OrderNo" maxlength="20" pInputText autocomplete="off">
@@ -53,8 +53,8 @@
 
       <div class="ui-g-12 dashboard">
         <p-table [columns]="SocietyMasterCols" [value]="SocietyMasterData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [paginator]="true" [responsive]="true"
+          autoLayout="true" [loading]="loading" exportFilename="SOCIETY_MASTER_ENTRY">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -62,8 +62,8 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
               </td>

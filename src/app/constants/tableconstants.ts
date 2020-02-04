@@ -116,6 +116,7 @@ export class TableConstants {
   ServiceProviderEntry: any;
   TenderAllotmentToGodownCols: any[];
   AllotmentIssueQuantity: any;
+  AllotmentIssueQuantityAbstract: any;
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
@@ -780,7 +781,7 @@ export class TableConstants {
     ];
 
     this.SocietyMasterNewEntry = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'S.No', field: 'Sno', width: '40px' },
       { field: 'Societyname', header: 'Society Name' },
       { field: 'Tyname', header: 'Type Name' },
       { field: 'Eflag', header: 'EFlag' },
@@ -1447,10 +1448,22 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'AllotmentMonth', header: 'Month' },
       // { field: 'SIDate', header: 'Date' },
-      { field: 'SocietyCode', header: 'Society Name' },
+      { field: 'SocietyCode', header: 'Society Code' },
       { field: 'SocietyName', header: 'Society Name' },
       { field: 'Acscode', header: 'Shop Code' },
       { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'Commodity', header: 'Commodity' },
+      { field: 'Scheme', header: 'Scheme' },
+      { field: 'AllotmentQty', header: 'Allotment Quantity' },
+      { field: 'IssueQty', header: 'Issue Quantity' },
+      { field: 'Balance', header: 'Balance Quantity' }
+    ];
+
+    this.AllotmentIssueQuantityAbstract = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'AllotmentMonth', header: 'Month' },
+      { field: 'SocietyCode', header: 'Society Code' },
+      { field: 'SocietyName', header: 'Society Name' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'Scheme', header: 'Scheme' },
       { field: 'AllotmentQty', header: 'Allotment Quantity' },
