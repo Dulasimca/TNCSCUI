@@ -155,4 +155,8 @@ export class IssueGatepassComponent implements OnInit {
     w.print();
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
+
 }
