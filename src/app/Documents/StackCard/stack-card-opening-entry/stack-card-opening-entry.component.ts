@@ -197,15 +197,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
         const year = new Date().getFullYear();
         for (let i = 0; i <= range; i++) {
           if (i === 0) {
-            currYrSelection.push({ 'label': (year - 1).toString(), 'value': year - 1 });
-          } 
-          // if (i === 0) {
-          //   yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
-          // } else if (i === 1) {
-          //   yearArr.push({ 'label': (year).toString(), 'value': year });
-          // } else {
-          //   yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
-          // }
+            currYrSelection.push({ 'label': year, 'value': year });
+          } else {
+            currYrSelection.push({ 'label': (year - i), 'value': year - i });
+          }
         }
         this.currYearOptions = currYrSelection;
         this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -237,11 +232,12 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Formation = nextValue.toString().slice(nextIndex + 1, totalLength);
         this.Bags = this.selectedRow.StackBalanceBags;
         this.Weights = this.selectedRow.StackBalanceWeight;
+        this.CurrYear = data.CurYear;
         const params = {
           'GCode': this.GCode.value,
           'StackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
           'ICode': this.ICode.value,
-          'StackYear': data.CurYear,
+          'StackYear': this.CurrYear,
           'TStockNo': this.StackNo,
           'Type': 4
         }
@@ -348,7 +344,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onClear() {
     this.nonEditable = false;
     this.Location = null; this.Formation = null; this.StackNo = null;
-    this.Bags = 0; this.Weights = 0;
+    this.Bags = 0; this.Weights = 0; this.CurrYear = null;
     this.newEntry = false; this.cardExits = false;
     this.blockScreen = false; this.loading = false;
     this.flag = false; this.CDate = null;
@@ -388,6 +384,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
         'GodownCode': this.GCode.value,
         'CommodityCode': this.ICode.value,
         'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
+        'CurrYear': this.CurrYear,
         'Location': this.Location,
         'Formation': this.Formation,
         'StackNo': this.StackNo,

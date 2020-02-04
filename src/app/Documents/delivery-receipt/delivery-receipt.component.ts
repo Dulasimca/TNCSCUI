@@ -143,6 +143,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
+  showGSTErrMsg: boolean = false;
  
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -446,6 +447,13 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onGSTInput(event) {
     if(event !== null && event !== undefined && event !== '') {
+      if(event.length < 3) {
+        this.showGSTErrMsg = true;
+      } else if(event.length > 3 && event.length < 15) {
+        this.showGSTErrMsg = true;
+      } else {
+        this.showGSTErrMsg = false;
+      }
       this.isGSTModified = false;
     } else {
       this.isGSTModified = true;
