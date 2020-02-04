@@ -436,10 +436,6 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
       return this.fromDate, this.toDate;
     }
   }
-  
-  onClose() {
-    this.messageService.clear('t-err');
-  }
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
@@ -493,6 +489,7 @@ export class SocietyWiseCommodityAbstractComponent implements OnInit {
       saveAs(path + filename1, filename1);
     }
   }
+  
   onClose() {
     this.messageService.clear('t-err');
   }  
