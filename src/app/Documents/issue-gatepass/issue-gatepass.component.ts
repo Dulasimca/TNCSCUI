@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { GolbalVariable } from 'src/app/common/globalvariable';
 
 @Component({
   selector: 'app-issue-gatepass',
@@ -23,6 +24,9 @@ export class IssueGatepassComponent implements OnInit {
   issueLorryNoList: SelectItem[];
   RCode: string;
   GCode: string;
+  godownName: string;
+  regionName: string;
+  userId: any;
 
   constructor(private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -31,12 +35,16 @@ export class IssueGatepassComponent implements OnInit {
 
   ngOnInit() {
     this.issueMemoLorryAbstractCols = this.tableConstants.IssueMemoLorryAbstractColumns;
+    this.regionName = this.authService.getUserAccessible().rName;
+    this.godownName = this.authService.getUserAccessible().gName;
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
+    this.userId = JSON.parse(this.authService.getCredentials());
     this.onLoadIssueLorryDetails();
   }
 
   onLoadIssueLorryDetails() {
+    this.issueMemoLorryAbstractData = [];
     let issueLorrySelection = [];
     let gropuingArr = [];
     const params = new HttpParams().set('value', this.GCode).append('Type', '3');
@@ -47,7 +55,9 @@ export class IssueGatepassComponent implements OnInit {
         for (var i = 0; i < res.Table.length; i++) {
           formObject[res.Table[i].LorryNo] = 'LorryNo';
           formObject[res.Table[i].DocNo] = res.Table[i].LorryNo;
+          formObject[res.Table[i].GatePassId] = res.Table[i].DocNo;
         }
+        console.log('obj', formObject);
         let array = Object.keys(formObject).reduce((acc, k) => {
           let values = formObject[k];
           acc[values] = acc[values] || [];
@@ -67,15 +77,18 @@ export class IssueGatepassComponent implements OnInit {
             })
            value = value.slice(0, value.length - 1);
           }
-          gropuingArr.push({ label: x.LorryNo, value: value })
+          gropuingArr.push({ label: x.LorryNo, value: value, gatepassNo: x.GatePassId })
         })
         //Get distinct values from an array
+        console.log('grp', gropuingArr);
         var LorryNo = Array.from(new Set(gropuingArr.map((item: any) => item.label)));
         var DocNo = Array.from(new Set(gropuingArr.map((item: any) => item.value)));
+        var gId = Array.from(new Set(gropuingArr.map((item: any) => item.gatepassNo)));
         for (var index in LorryNo && DocNo) {
-        issueLorrySelection.push({ label: LorryNo[index], value: DocNo[index] });
+        issueLorrySelection.push({ label: LorryNo[index], value: DocNo[index], gatePassID: gId[index] });
         }
         //End
+        console.log('final', issueLorrySelection);
         this.issueLorryNoList = issueLorrySelection;
         this.issueLorryNoList.unshift({ label: '-select-', value: null });
       } else {
@@ -96,8 +109,15 @@ export class IssueGatepassComponent implements OnInit {
   }
 
   onChangeLorryNo() {
-    const params = new HttpParams().set('value', this.SelectedLorryNo.value).append('Type', '4');
-    this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
+    const params = {
+      'DocNumber':this.SelectedLorryNo.value,
+      'GName': this.godownName,
+      'RName': this.regionName,
+      'GCode': this.GCode,
+      'GatePassNo': this.SelectedLorryNo.gatePassID,
+      'UserID': this.userId.user
+    };
+    this.restAPIService.post(PathConstants.STOCK_ISSUE_GATEPASS_POST, params).subscribe((res: any) => {
       if(res.Table.length !== 0 && res.Table !== null && res.Table !== undefined) {
         this.issueMemoLorryAbstractData = res.Table;
         let sno = 1;
@@ -125,6 +145,12 @@ export class IssueGatepassComponent implements OnInit {
 
   onView() { }
 
-  onPrintAbstract() { }
+  onPrintAbstract() {
+    const path = "../../assets/Reports/" + this.userId.user + "/";
+    const filename = this.GCode + GolbalVariable.IssueMemoGatePass;
+    let filepath = path + filename + ".txt";
+    var w = window.open(filepath);
+    w.print();
+  }
 
 }

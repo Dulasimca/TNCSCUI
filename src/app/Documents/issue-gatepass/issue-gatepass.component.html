@@ -12,9 +12,23 @@
         <div class="ui-g ui-fluid">
             <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
             <div class="ui-g-12 ui-md-12 ui-lg-12">
-                <div class="ui-g-6 ui-md-2 ui-fluid no-pad-top">
-                    <label for="LorryNo" class="ui-g-8 dashboard label-fontsize-large">Lorry Number</label>
-                    <p-dropdown #doc name="LorryNo" [options]="issueLorryNoList" [(ngModel)]="SelectedLorryNo"
+                <div class="ui-g-6 ui-md-2 ui-fluid no-pad-top" style="margin-top: 13px">
+                    <span class="ui-float-label">
+                      <input name="RName" [readOnly]="true" [(ngModel)]="regionName" pInputText
+                       required>
+                      <label for="RName" class="float-input">Region Name</label>
+                    </span>
+                  </div>
+                  <div class="ui-g-6 ui-md-2" style="margin-top: 5px;">
+                    <span class="ui-float-label">
+                      <input name="GName" [readOnly]="true" [(ngModel)]="godownName" pInputText
+                       required>
+                      <label for="GName" class="float-input">Godown Name</label>
+                    </span>
+                  </div>
+                   <div class="ui-g-6 ui-md-2 ui-fluid no-pad-top">
+                    <label for="LorryNo" class="ui-g-8 dashboard label-fontsize">Lorry Number</label>
+                    <p-dropdown #doc class="label-fontsize-large" name="LorryNo" [options]="issueLorryNoList" [(ngModel)]="SelectedLorryNo"
                         (onChange)="onChangeLorryNo()" filter="true" resetFilterOnHide="true" optionLabel="label"
                         filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
@@ -22,7 +36,7 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-4"></div>
                 <div class="ui-g-3 ui-md-1 ui-fluid no-pad-bottom no-pad-top">
                     <button style="margin-top:5px" pButton type="button" label=View
                         (click)="onView()"></button>

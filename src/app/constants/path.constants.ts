@@ -139,7 +139,7 @@ export class PathConstants {
   public static readonly DOCUMENT_CORRECTION_GET = '/api/DocumentCorrection/Get';
   public static readonly DOCUMENT_CORRECTION_POST = '/api/DocumentCorrection/Post';
   public static readonly DO_GST_UPDATE = '/api/DOGSTUpdate/Post';
-
+  public static readonly STOCK_ISSUE_GATEPASS_POST = '/api/StockIssuesAbstractPrint/Post';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
  
