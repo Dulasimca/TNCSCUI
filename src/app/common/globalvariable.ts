@@ -62,7 +62,7 @@ export class GolbalVariable {
     public static readonly DeliveryOrderDocument = 'DODOC';
     public static readonly DDChequeDocument = 'DDCHE';
     public static readonly GSTFileName = 'GST';
-    public static readonly IssueMemoGatePass = '';
+    public static readonly IssueMemoGatePass = 'GATEPASS';
 
     ///IMAGES
     public static readonly PopupImage = 'Image';

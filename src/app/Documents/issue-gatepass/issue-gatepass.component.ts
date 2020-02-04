@@ -109,6 +109,7 @@ export class IssueGatepassComponent implements OnInit {
   }
 
   onChangeLorryNo() {
+    if(this.SelectedLorryNo !== null && this.SelectedLorryNo !== undefined)  {
     const params = {
       'DocNumber':this.SelectedLorryNo.value,
       'GName': this.godownName,
@@ -141,6 +142,7 @@ export class IssueGatepassComponent implements OnInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
       }
     });
+  }
   }
 
   onView() { }
