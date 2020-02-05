@@ -36,7 +36,7 @@
                   (ngModelChange)="onSearch($event)">
                 <input class="ui-g-12 ui-md-12" *ngSwitchCase="'ACSCode'" pInputText type="text"
                   [(ngModel)]="searchAcs" pInputText placeholder="Search by ACSCode"
-                  (ngModelChange)="onIssuer($event)">
+                  (ngModelChange)="onIssuer($event)" >
               </th>
             </tr>
           </ng-template>
@@ -98,7 +98,8 @@
         </div>
         <div class="ui-g-6 ui-md-2">
           <span class="ui-float-label">
-            <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" autocomplete="off">
+            <input name="Acs_Code" pInputText [(ngModel)]="ACSCode"
+            style="text-transform: uppercase !important" autocomplete="off">
             <label for="Acs_Code" class="float-input">ACSCode</label>
           </span>
         </div>

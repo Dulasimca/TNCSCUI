@@ -27,7 +27,7 @@ export class IssuerMasterComponent implements OnInit {
   searchText: any;
   searchAcs: any;
   CategoryType: any;
-  ACSCode: any;
+  ACSCode: string;
   Activeflag: any;
   IssuerNo: any;
   IssuerCode: any;
@@ -227,7 +227,7 @@ export class IssuerMasterComponent implements OnInit {
       'IssuerNo': (this.IssuerNo !== undefined && this.IssuerNo !== null) ? this.IssuerNo : 0,
       'IssuerCode': (this.IssuerCode !== undefined && this.IssuerCode !== null) ? this.IssuerCode : 0,
       'Activeflag': this.Activeflag,
-      'ACSCode': (this.ACSCode !== undefined && this.ACSCode !== null) ? this.ACSCode : '',
+      'ACSCode': (this.ACSCode !== undefined && this.ACSCode !== null) ? this.ACSCode.trim().toUpperCase() : '',
       'GCode': this.GCode,
       'RCode': this.RCode,
       'IssuerName': this.IssuerName,
