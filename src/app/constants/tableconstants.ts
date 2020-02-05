@@ -1563,10 +1563,8 @@ export class TableConstants {
         { header: 'S.No', field: 'SlNo' },
         { header: 'Doc No.', field: 'SINo' },
         { header: 'Doc Date', field: 'SIDate' },
-        { header: 'Godown Name', field: 'TNCSName' },
         { header: 'Lorry No', field: 'LorryNo' },
         { header: 'Receivor Name', field: 'ReceivorName' },
-        { header: 'Receivor Type', field: 'ReceivorType' },
       ]
   }
 }

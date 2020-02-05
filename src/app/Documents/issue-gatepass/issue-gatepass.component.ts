@@ -57,7 +57,6 @@ export class IssueGatepassComponent implements OnInit {
           formObject[res.Table[i].DocNo] = res.Table[i].LorryNo;
           formObject[res.Table[i].GatePassId] = res.Table[i].DocNo;
         }
-        console.log('obj', formObject);
         let array = Object.keys(formObject).reduce((acc, k) => {
           let values = formObject[k];
           acc[values] = acc[values] || [];
@@ -80,7 +79,6 @@ export class IssueGatepassComponent implements OnInit {
           gropuingArr.push({ label: x.LorryNo, value: value, gatepassNo: x.GatePassId })
         })
         //Get distinct values from an array
-        console.log('grp', gropuingArr);
         var LorryNo = Array.from(new Set(gropuingArr.map((item: any) => item.label)));
         var DocNo = Array.from(new Set(gropuingArr.map((item: any) => item.value)));
         var gId = Array.from(new Set(gropuingArr.map((item: any) => item.gatepassNo)));
@@ -88,7 +86,6 @@ export class IssueGatepassComponent implements OnInit {
         issueLorrySelection.push({ label: LorryNo[index], value: DocNo[index], gatePassID: gId[index] });
         }
         //End
-        console.log('final', issueLorrySelection);
         this.issueLorryNoList = issueLorrySelection;
         this.issueLorryNoList.unshift({ label: '-select-', value: null });
       } else {
@@ -109,7 +106,8 @@ export class IssueGatepassComponent implements OnInit {
   }
 
   onChangeLorryNo() {
-    if(this.SelectedLorryNo !== null && this.SelectedLorryNo !== undefined)  {
+    if(this.SelectedLorryNo !== null && this.SelectedLorryNo !== undefined 
+      && this.SelectedLorryNo.value !== undefined && this.SelectedLorryNo.value !== null)  {
     const params = {
       'DocNumber':this.SelectedLorryNo.value,
       'GName': this.godownName,
@@ -119,8 +117,8 @@ export class IssueGatepassComponent implements OnInit {
       'UserID': this.userId.user
     };
     this.restAPIService.post(PathConstants.STOCK_ISSUE_GATEPASS_POST, params).subscribe((res: any) => {
-      if(res.Table.length !== 0 && res.Table !== null && res.Table !== undefined) {
-        this.issueMemoLorryAbstractData = res.Table;
+      if(res.Item3.length !== 0 && res.Item3 !== null && res.Item3 !== undefined) {
+        this.issueMemoLorryAbstractData = JSON.parse(res.Item3);
         let sno = 1;
         this.issueMemoLorryAbstractData.forEach(x => {
           x.SlNo = sno;
@@ -148,11 +146,18 @@ export class IssueGatepassComponent implements OnInit {
   onView() { }
 
   onPrintAbstract() {
+    const params = { 
+      'GatePassNo': this.SelectedLorryNo.gatePassID,
+      'GCode': this.GCode
+    }
     const path = "../../assets/Reports/" + this.userId.user + "/";
     const filename = this.GCode + GolbalVariable.IssueMemoGatePass;
     let filepath = path + filename + ".txt";
     var w = window.open(filepath);
     w.print();
+    this.restAPIService.put(PathConstants.STOCK_ISSUE_GATEPASS_PUT, params).subscribe(res => {
+      
+    })
   }
 
   onClose() {
