@@ -166,7 +166,7 @@
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('sc', 'click')" (keydown.enter)="onSelect('sc', 'enter')"
                         optionLabel="label" (onChange)="refreshSelect('sc')" resetFilterOnHide="true" [showClear]="true"
-                        filter="true">
+                        filterMatchMode="startsWith" filter="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -177,7 +177,7 @@
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
                         (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true"
-                        optionLabel="label">
+                        filterMatchMode="startsWith"  optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -211,7 +211,8 @@
                       <label for="PackingType" class="label-fontsize">Packing Type</label>
                       <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                         (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')"
-                        optionLabel="label" filter="true" resetFilterOnHide="true" [showClear]="true">
+                        optionLabel="label" filter="true" resetFilterOnHide="true" 
+                        filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -274,7 +275,7 @@
                       <p-dropdown #wmt name="WmtType" [options]="wmtOptions" [(ngModel)]="WTCode"
                         (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')"
                         [showClear]="true" [readonly]="isValidStackBalance" filter="true" resetFilterOnHide="true"
-                        optionLabel="label">
+                        filterMatchMode="startsWith" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -446,7 +447,7 @@
                       <p-dropdown #fs name="FromStation" [options]="fromStationOptions" [(ngModel)]="FStation"
                         (onClick)="onSelect('fs', 'click')" (keydown.enter)="onSelect('fs', 'enter')" filter="true"
                         [disabled]="disableRailHead" [showClear]="true" optionLabel="label" resetFilterOnHide="true"
-                        required>
+                        filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -457,7 +458,7 @@
                       <p-dropdown #ts name="ToStation" [options]="toStationOptions" [(ngModel)]="TStation"
                         (onClick)="onSelect('ts', 'click')" (keydown.enter)="onSelect('ts', 'enter')"
                         [disabled]="disableRailHead" [showClear]="true" filter="true" resetFilterOnHide="true"
-                        optionLabel="label" required>
+                        filterMatchMode="startsWith" optionLabel="label" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>

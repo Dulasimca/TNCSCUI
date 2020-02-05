@@ -243,7 +243,7 @@
                       <p-dropdown #st_no name="StockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
                         (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')"
                         (onChange)="onStackNoChange($event)" resetFilterOnHide="true" filter="true" optionLabel="label"
-                        filterMatchMode="startsWith" [showClear]="true">
+                        [showClear]="true">
                         <!-- [readonly]="exceedAllotBal" -->
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
