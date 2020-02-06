@@ -109,6 +109,7 @@ import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloadi
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
+import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-issue/quantity-detail-issue.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -154,9 +155,9 @@ const routes: Routes = [
   // { path: 'Opening Balance', component: OpeningBalanceComponent, canActivate: [AuthGuard] },
   { path: 'Truck Transit', component: TruckTransitComponent, canActivate: [AuthGuard] },
   { path: 'Do All Scheme', component: AllSchemeComponent, canActivate: [AuthGuard] },
-  {path : 'Do Oap Scheme', component: OapComponent },
-  {path : 'Do SPLPDS Scheme', component: SplpdsComponent },
-  {path : 'Do Annapoorna Scheme', component: AnnapoornaComponent },
+  { path: 'Do Oap Scheme', component: OapComponent },
+  { path: 'Do SPLPDS Scheme', component: SplpdsComponent },
+  { path: 'Do Annapoorna Scheme', component: AnnapoornaComponent },
   { path: 'Do Other Scheme', component: OtherSchemesComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Demand Draft', component: DemandDraftComponent, canActivate: [AuthGuard] },
@@ -167,6 +168,7 @@ const routes: Routes = [
   { path: 'Quantity AC All Scheme Issue Coop', component: IssueSchemeCoOpComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC All Scheme Truck', component: TruckMemoSchemeComponent, canActivate: [AuthGuard] },
   { path: 'QADetailsForCommodity', component: QuantityDetailCommodityComponent, canActivate: [AuthGuard] },
+  { path: 'QADetailsForGunny', component: QuantityDetailIssueComponent, canActivate: [AuthGuard] },
   { path: 'Society Master', component: SocietMasterComponent, canActivate: [AuthGuard] },
   { path: 'Opening Balance Master', component: OpeningBalanceDetailsComponent, canActivate: [AuthGuard] },
   { path: 'Current Year Shortage', component: OpeningBalanceCurrentYearComponent, canActivate: [AuthGuard] },
@@ -197,33 +199,33 @@ const routes: Routes = [
   { path: 'Quantity AC Issue Abstract', component: IssueTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Quantity AC Receipt Abstract', component: ReceiptTypeAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Stack Card Register', component: StackCardRegisterComponent, canActivate: [AuthGuard] },
-  { path: 'Document Correction', component: DocumentCorrectionComponent, canActivate: [AuthGuard]},
-  { path: 'Correction Slip', component: CorrectionSlipComponent, canActivate: [AuthGuard]},
+  { path: 'Document Correction', component: DocumentCorrectionComponent, canActivate: [AuthGuard] },
+  { path: 'Correction Slip', component: CorrectionSlipComponent, canActivate: [AuthGuard] },
   { path: 'OCR Report', component: OCRReportComponent, canActivate: [AuthGuard] },
   { path: 'OWS Report', component: OWSComponent, canActivate: [AuthGuard] },
   { path: 'Stack Closing Card 2', component: StackClosingCard2Component, canActivate: [AuthGuard] },
   { path: 'Opening Balance Stack Details', component: OpeningBalanceStackDetailsComponent },
-  { path: 'PartyLedgerMaster', component: PartyLedgerMasterComponent , canActivate: [AuthGuard]},
-  { path: 'PartyLedgerUpdate', component: PartyLedgerUpdateComponent , canActivate: [AuthGuard]},
-  { path: 'SalesTaxEntry', component: SalesTaxEntryComponent, canActivate: [AuthGuard]},
-  { path: 'PurchaseTaxEntry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard]},
-  { path: 'ServiceProviderEntry', component: ServiceProviderEntryComponent, canActivate: [AuthGuard]},
-  { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard]},
-  { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard]},
-  { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard]},
-  { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard]},
-  { path: 'Daily Statement', component: DailyStatementComponent, canActivate: [AuthGuard]},
-  { path: 'NotificationPopup', component: NotificationPopupComponent, canActivate: [AuthGuard]},
-  { path: 'WagesLoading', component: LoadMenWagesComponent, canActivate: [AuthGuard]},
-  { path: 'WagesUnLoading', component: LoadMenUnloadingWagesComponent, canActivate: [AuthGuard]},
-  { path: 'GodownDashboard', component: GodownDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'PartyLedgerMaster', component: PartyLedgerMasterComponent, canActivate: [AuthGuard] },
+  { path: 'PartyLedgerUpdate', component: PartyLedgerUpdateComponent, canActivate: [AuthGuard] },
+  { path: 'SalesTaxEntry', component: SalesTaxEntryComponent, canActivate: [AuthGuard] },
+  { path: 'PurchaseTaxEntry', component: PurchaseTaxEntryComponent, canActivate: [AuthGuard] },
+  { path: 'ServiceProviderEntry', component: ServiceProviderEntryComponent, canActivate: [AuthGuard] },
+  { path: 'Allotment Details', component: AllotmentDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'QuotaWatchRegister', component: AllotmentIssueQuantityComponent, canActivate: [AuthGuard] },
+  { path: 'Process To G2G', component: ProcessToG2GComponent, canActivate: [AuthGuard] },
+  { path: 'Notification', component: NotificationComponent, canActivate: [AuthGuard] },
+  { path: 'Daily Statement', component: DailyStatementComponent, canActivate: [AuthGuard] },
+  { path: 'NotificationPopup', component: NotificationPopupComponent, canActivate: [AuthGuard] },
+  { path: 'WagesLoading', component: LoadMenWagesComponent, canActivate: [AuthGuard] },
+  { path: 'WagesUnLoading', component: LoadMenUnloadingWagesComponent, canActivate: [AuthGuard] },
+  { path: 'GodownDashboard', component: GodownDashboardComponent, canActivate: [AuthGuard] },
   { path: 'ProcessToGPS', component: ProcessToGPSComponent, canActivate: [AuthGuard] },
-  { path: 'IssueGatePass', component: IssueGatepassComponent},
+  { path: 'IssueGatePass', component: IssueGatepassComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
-@NgModule({ 
+@NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
