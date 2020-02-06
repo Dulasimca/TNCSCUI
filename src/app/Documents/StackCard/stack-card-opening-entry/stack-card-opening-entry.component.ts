@@ -55,8 +55,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
   loading: boolean;
   activateLoader: boolean;
   CurrYear: any;
-  lastStacCardNo: string = '-';
   @ViewChild('f', { static: false }) ngForm: NgForm;
+  RCode: string;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -65,7 +65,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
     this.gdata = this.roleBasedService.getInstance();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
@@ -80,9 +79,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (data !== undefined) {
           data.forEach(y => {
             this.commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode, 'group': y.GRName });
-            this.commodityOptions = this.commoditySelection;
           });
-          this.commodityOptions.unshift({ 'label': '-select-', 'value': null });
+          this.commodityOptions = this.commoditySelection;
+          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
       })
     }
@@ -94,7 +93,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     })
     this.currYearOptions = currYrSelection;
     this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-
+    this.RCode = this.authService.getUserAccessible().rCode;
   }
 
   calculateStackNo() {
@@ -185,9 +184,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
-            this.godownOptions = godownSelection;
           });
-          this.godownOptions.unshift({ 'label': '-select-', 'value': null });
+          this.godownOptions = godownSelection;
+          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true  });
         }
         break;
       case 'cy':
@@ -227,9 +226,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Weights = this.selectedRow.StackBalanceWeight;
         this.CurrYear = data.CurYear;
         const params = {
-          'GCode': this.GCode.value,
+          'GCode': this.GCode,
           'StackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
-          'ICode': this.ICode.value,
+          'ICode': this.ICode,
           'StackYear': this.CurrYear,
           'TStockNo': this.StackNo,
           'Type': 4
@@ -285,18 +284,17 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
-    if(this.CurrYear !== undefined && this.CurrYear !== null && this.GCode.value !== null
-      && this.GCode.value !== undefined) {
+    if(this.CurrYear !== undefined && this.CurrYear !== null && this.GCode !== null
+      && this.GCode !== undefined) {
     this.loading = true;
-    this.openView = true;
     this.stackOpeningData.length = 0;
-    const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value).append('CurYear', this.CurrYear.value);
+    const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+        this.openView = true;
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
         this.loading = false;
         let sno = 0;
-        this.lastStacCardNo = res.Table[0].StackNo;
         res.Table.forEach(i => {
           sno += 1;
           this.stackOpeningData.push({
@@ -318,14 +316,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Opening_Balance = this.stackOpeningData.slice(0);
       } else {
         this.loading = false;
-        this.openView = false;
-        this.lastStacCardNo = '-';
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
       }
     }, (err: HttpErrorResponse) => {
       this.loading = false;
-      this.lastStacCardNo = '-';
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
@@ -338,7 +333,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.nonEditable = false;
+    this.nonEditable = false; this.openView = false;
     this.Location = null; this.Formation = null; this.StackNo = null;
     this.Bags = 0; this.Weights = 0; this.CurrYear = null;
     this.newEntry = false; this.cardExits = false;
@@ -349,7 +344,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.ngForm.form.controls.FormationNo.reset();
     this.showDialog = false; 
     this.activateLoader = false;
-    this.lastStacCardNo = '-';
   }
 
   onSave() {
@@ -377,8 +371,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
   postData() {
     if (!this.nonEditable) {
       const params = {
-        'GodownCode': this.GCode.value,
-        'CommodityCode': this.ICode.value,
+        'GodownCode': this.GCode,
+        'CommodityCode': this.ICode,
         'ObStackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
         'CurrYear': this.CurrYear,
         'Location': this.Location,
@@ -386,7 +380,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
         'StackNo': this.StackNo,
         'Bags': this.Bags,
         'Weights': this.Weights,
-        'RegionCode': this.GCode.rcode,
+        'RegionCode': this.RCode,
         'clstackdate': new Date()
       };
       this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {

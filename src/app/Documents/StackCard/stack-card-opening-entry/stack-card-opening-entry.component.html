@@ -39,7 +39,7 @@
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
             <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode"
             filterMatchMode="startsWith" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
-              filter="true" resetFilterOnHide="true" optionLabel="label" [readonly]="nonEditable">
+              filter="true" resetFilterOnHide="true" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -58,7 +58,7 @@
           <div class="form-group ui-g-6 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
             <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode"  filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
-              optionLabel="label" name="CommodityName" [readonly]="nonEditable">
+               name="CommodityName" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
