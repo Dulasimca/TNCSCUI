@@ -54,7 +54,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   showDialog: boolean;
   loading: boolean;
   activateLoader: boolean;
-  CurrYear: number;
+  CurrYear: any;
   lastStacCardNo: string = '-';
   @ViewChild('f', { static: false }) ngForm: NgForm;
 
@@ -86,6 +86,14 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
       })
     }
+    let currYrSelection = [];
+    this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
+      res.forEach(s => {
+      currYrSelection.push({ label: s.StackYear, value: s.StackYear});
+      })
+    })
+    this.currYearOptions = currYrSelection;
+    this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
 
   }
 
@@ -171,8 +179,6 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   onSelect(selectedItem) {
     let godownSelection = [];
-    let currYrSelection = [];
-    const range = 10;
     switch (selectedItem) {
       case 'gd':
         this.messageService.clear();
@@ -184,27 +190,14 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.godownOptions.unshift({ 'label': '-select-', 'value': null });
         }
         break;
-      case 'cd':
+      case 'cy':
         this.messageService.clear();
-        if (this.ICode.value !== undefined && this.ICode.value !== null) {
+        if (this.CurrYear.value !== undefined && this.CurrYear.value !== null) {
           this.onView();
         } else {
           this.openView = false;
         }
-        break;
-      case 'cy':
-        this.messageService.clear();
-        const year = new Date().getFullYear();
-        for (let i = 0; i <= range; i++) {
-          if (i === 0) {
-            currYrSelection.push({ 'label': year, 'value': year });
-          } else {
-            currYrSelection.push({ 'label': (year - i), 'value': year - i });
-          }
-        }
-        this.currYearOptions = currYrSelection;
-        this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        break;
+      break;
     }
   }
 
@@ -292,10 +285,12 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
+    if(this.CurrYear !== undefined && this.CurrYear !== null && this.GCode.value !== null
+      && this.GCode.value !== undefined) {
     this.loading = true;
     this.openView = true;
     this.stackOpeningData.length = 0;
-    const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value);
+    const params = new HttpParams().set('ICode', this.ICode.value).append('GCode', this.GCode.value).append('CurYear', this.CurrYear.value);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
         this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
@@ -340,6 +335,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       }
     });
   }
+  }
 
   onClear() {
     this.nonEditable = false;
@@ -348,7 +344,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.newEntry = false; this.cardExits = false;
     this.blockScreen = false; this.loading = false;
     this.flag = false; this.CDate = null;
-    this.Date = new Date(); this.ClosingDate = null;
+    this.Date = this.maxDate; this.ClosingDate = null;
     this.ngForm.form.controls.LocNo.reset();
     this.ngForm.form.controls.FormationNo.reset();
     this.showDialog = false; 

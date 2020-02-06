@@ -282,9 +282,9 @@ export class DocumentCorrectionComponent implements OnInit {
   }
 
   onClear() {
-    this.DocType = null; this.DocDate = new Date();
+    this.DocType = null; this.DocDate = this.maxDate;
     this.DocNo = null; this.Reason = null;
-    this.fromDate = new Date(); this.toDate = new Date();
+    this.fromDate = this.maxDate; this.toDate = this.maxDate;
     this.DocStatus = 'Pending'; this.status = '0';
     this.loading = false;
     this.CSForm.form.markAsUntouched();

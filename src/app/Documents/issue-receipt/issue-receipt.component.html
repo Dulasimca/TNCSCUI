@@ -131,7 +131,7 @@
                       <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" filter="true"
-                        (onChange)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
+                        (keyup)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
                         resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
                         filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">

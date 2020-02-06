@@ -39,7 +39,7 @@ export class PathConstants {
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
   public static readonly CATEGORY_TYPECODE_DISTINCT_GET = '/api/TypeCategoryMaster';
   public static readonly TNCSC_SETTINGS = '/api/Settings';
-
+  public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
