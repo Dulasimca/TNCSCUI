@@ -170,6 +170,7 @@ export class AllotmentDetailsComponent implements OnInit {
         let sno = 1;
         res.forEach(x => {
           x.SlNo = sno;
+          x.Quantity = (x.Quantity * 1).toFixed(3);
           sno += 1;
         })
         this.AllotmentData = res;
@@ -192,6 +193,14 @@ export class AllotmentDetailsComponent implements OnInit {
       }
     });
   }
+  }
+
+  onSort() {
+    let sno = 1;
+    this.AllotmentData.forEach(x => {
+      x.SlNo = sno;
+      sno += 1;
+    })
   }
 
   uploadData(event) {
