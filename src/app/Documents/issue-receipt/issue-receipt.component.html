@@ -131,7 +131,7 @@
                       <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" filter="true"
-                        (onChange)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
+                        (keyup)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
                         resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
                         filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
@@ -243,7 +243,7 @@
                       <p-dropdown #st_no name="StockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
                         (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')"
                         (onChange)="onStackNoChange($event)" resetFilterOnHide="true" filter="true" optionLabel="label"
-                        filterMatchMode="startsWith" [showClear]="true">
+                        [showClear]="true">
                         <!-- [readonly]="exceedAllotBal" -->
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -275,7 +275,8 @@
                       <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                         (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')" 
                          [readonly]="isValidStackBalance"
-                        filterBy="label" resetFilterOnHide="true" optionLabel="label" [showClear]="true">
+                         resetFilterOnHide="true" filter="true" optionLabel="label"
+                         filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>

@@ -934,7 +934,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PYear = new Date().getFullYear(); this.AdjustmentType = null;
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.selectedItem = null; this.PrevOrderNo = null;
-    this.PrevOrderDate = new Date(); this.ICode = null;
+    this.PrevOrderDate = this.maxDate; this.ICode = null;
     this.schemeCode = null; this.Scheme = null; this.iCode = null;
     this.NKgs = 0; this.MarginNKgs = 0; this.Rate = 0; this.MarginRate = 0;
     this.RateTerm = null; this.MarginRateInTerms = null; this.miCode = null;
@@ -944,9 +944,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.schemeOptions = []; this.marginSchemeOptions = [];
     this.marginRateInTermsOptions = undefined; this.rateInTermsOptions = undefined;
     this.itemDescOptions = []; this.marginItemDescOptions = [];
-    this.DeliveryDate = new Date(); this.PermitDate = new Date();
+    this.DeliveryDate = this.maxDate; this.PermitDate = this.maxDate;
     this.PrevBalType = null; this.AmntType = null;
-    this.GSTNumber = null;
+    this.GSTNumber = null; this.ChequeDate = this.maxDate;
     this.onResetFieldset();
     // this.isSaved = false;
     //this.isViewed = false;

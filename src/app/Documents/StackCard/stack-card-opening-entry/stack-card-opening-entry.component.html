@@ -39,17 +39,26 @@
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
             <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode"
             filterMatchMode="startsWith" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
-              filter="true" resetFilterOnHide="true" optionLabel="label" [readonly]="nonEditable">
+              filter="true" resetFilterOnHide="true" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
             </p-dropdown>
           </div>
+          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+            <label class="ui-g-7 label-fontsize dashboard" for="CurrYr">Current Year</label>
+            <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" (keydown.enter)="onSelect('cy')"
+            (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true" filterMatchMode="contains"
+               name="CurrYr" [readonly]="nonEditable">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div> 
           <div class="form-group ui-g-6 ui-md-3 no-pad-top">
             <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-            <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode" (keydown.enter)="onSelect('cd')"
-             (onChange)="onSelect('cd')" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
-              optionLabel="label" name="CommodityName" [readonly]="nonEditable">
+            <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode"  filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
+               name="CommodityName" [readonly]="nonEditable">
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
               </ng-template>
@@ -60,16 +69,6 @@
             <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
               [maxDate]="maxDate" name="fromDate" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
           </div>
-           <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-7 label-fontsize dashboard" for="CurrYr">Current Year</label>
-            <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" (keydown.enter)="onSelect('cy')"
-             (onClick)="onSelect('cy')" filter="true" resetFilterOnHide="true" filterMatchMode="contains"
-              optionLabel="label" name="CurrYr" [readonly]="nonEditable">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div> 
           <div class="ui-g-1"></div>
         </div>
         <div class="ui-g-12 no-pad-top">

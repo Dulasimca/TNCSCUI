@@ -39,7 +39,7 @@ export class PathConstants {
   public static readonly TYPE_CATEGORY_GET = '/api/TypeCategoryMaster/Get';
   public static readonly CATEGORY_TYPECODE_DISTINCT_GET = '/api/TypeCategoryMaster';
   public static readonly TNCSC_SETTINGS = '/api/Settings';
-
+  public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
@@ -141,6 +141,7 @@ export class PathConstants {
   public static readonly DOCUMENT_CORRECTION_POST = '/api/DocumentCorrection/Post';
   public static readonly DO_GST_UPDATE = '/api/DOGSTUpdate/Post';
   public static readonly STOCK_ISSUE_GATEPASS_POST = '/api/StockIssuesAbstractPrint/Post';
+  public static readonly STOCK_ISSUE_GATEPASS_PUT = '/api/StockIssuesAbstractPrint/Put';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
  

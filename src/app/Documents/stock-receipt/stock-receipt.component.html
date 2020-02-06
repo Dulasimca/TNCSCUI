@@ -220,7 +220,7 @@
                       <p-dropdown #st_no name="StockNo" [options]="stackOptions" [(ngModel)]="TStockNo"
                         (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')"
                         (onChange)="onStackNoChange($event)" filter="true" resetFilterOnHide="true" optionLabel="label"
-                        filterMatchMode="startsWith" [showClear]="true">
+                        [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; word-wrap: break-word">{{item.label}}</span>
                         </ng-template>

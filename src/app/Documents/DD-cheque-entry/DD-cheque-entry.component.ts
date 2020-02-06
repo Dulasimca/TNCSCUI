@@ -378,9 +378,9 @@ export class DDChequeEntryComponent implements OnInit {
 
   onClear() {
     this.DDChequeData = []; this.ChequeReceiptNoData = []; this.paymentTypeOptions = [];
-    this.receivorType = null; this.details = '-'; this.receiptDate = new Date();
+    this.receivorType = null; this.details = '-'; this.receiptDate = this.maxDate;
     this.receiptNo = null; this.bank = null; this.paymentType = null;
-    this.chequeDate = new Date(); this.chDate = null;
+    this.chequeDate = this.maxDate; this.chDate = null;
     this.chequeAmount = 0; this.totalAmount = 0;
     this.isSelectedReceivor = false; this.receivedFrom = null; this.chequeNo = null;
   }

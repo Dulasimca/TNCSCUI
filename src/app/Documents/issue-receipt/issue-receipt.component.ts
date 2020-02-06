@@ -1246,7 +1246,8 @@ export class IssueReceiptComponent implements OnInit {
     this.NoPacking = null; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
-    this.year = new Date().getFullYear(); this.SIDate = new Date();
+    this.year = new Date().getFullYear();
+    this.SIDate = this.maxDate;
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.iCode = null; this.ICode = null;
