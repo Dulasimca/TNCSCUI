@@ -224,7 +224,7 @@ export class QuantityDetailIssueComponent implements OnInit {
           IsTotalIssues: (el.IsTotalIssues * 1), IsBalanceQty: (el.IsBalanceQty * 1)
         });
       });
-      cols = this.tableConstants.FrozenQuantityACIssueDetailsCommodity + this.tableConstants.QuantityACIssueDetailsCommodity;
+      cols = this.tableConstants.FrozenQuantityACGunnyIssueDetails + this.tableConstants.QuantityACGunnyIssueDetails;
       this.excelService.exportAsExcelFile(data, 'QTY_AC_GUNNY_ISSUE_REPORT', cols);
     }
   }
