@@ -99,8 +99,8 @@ export class TableConstants {
   QuantityACReceiptDetailsCommodity: any;
   FrozenQuantityACReceiptDetailsCommodity: any;
   FrozenQuantityACIssueDetailsCommodity: any;
-  FrozenQuantityACIssueDetails: any;
-  FrozenQuantityACReceiptDetails: any;
+  FrozenQuantityACGunnyIssueDetails: any;
+  FrozenQuantityACGunnyReceiptDetails: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
@@ -122,8 +122,8 @@ export class TableConstants {
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
-  QuantityACIssueDetails: any[];
-  QuantityACReceiptDetails: any[];
+  QuantityACGunnyIssueDetails: any[];
+  QuantityACGunnyReceiptDetails: any[];
   PartyName: any;
   GSTCommodityName: any;
   StackCardDocDetailsCols: any[];
@@ -1571,13 +1571,13 @@ export class TableConstants {
       { header: 'Receivor Name', field: 'ReceivorName' },
     ];
 
-    this.FrozenQuantityACIssueDetails = [
+    this.FrozenQuantityACGunnyIssueDetails = [
       { header: 'Godown Name', field: 'GName' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
     ];
 
-    this.QuantityACIssueDetails = [
+    this.QuantityACGunnyIssueDetails = [
       //     { header: 'S.No', field: 'SlNo' },
       { header: 'SALES', field: 'IsSALES' },
       { header: 'Transfer Within Region', field: 'IsTRANSFERWITHINREGION' },
@@ -1589,13 +1589,13 @@ export class TableConstants {
       { header: 'CLOSING BALANCE', field: 'IsBalanceQty' },
     ];
 
-    this.FrozenQuantityACReceiptDetails = [
+    this.FrozenQuantityACGunnyReceiptDetails = [
       { header: 'GODOWN NAME', field: 'GName' },
       { header: 'COMMODITY', field: 'Commodity' },
       { header: 'OPENING BALANCE', field: 'OpeningBalance' },
     ];
 
-    this.QuantityACReceiptDetails = [
+    this.QuantityACGunnyReceiptDetails = [
       //     { header: 'S.No', field: 'SlNo' },
       { header: 'PURCHASE', field: 'RecPURCHASE' },
       { header: 'HOPURCHASE', field: 'RecHOPURCHASE' },
@@ -1607,5 +1607,6 @@ export class TableConstants {
       { header: 'Total Receipt', field: 'TotalReceipt' },
       { header: 'GrandTotalInc OB', field: 'GrandTotalReceipt' },
     ];
+
   }
 }

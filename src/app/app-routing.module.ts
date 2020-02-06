@@ -109,7 +109,7 @@ import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloadi
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
-import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-issue/quantity-detail-issue.component';
+import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-gunny/quantity-detail-gunny.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

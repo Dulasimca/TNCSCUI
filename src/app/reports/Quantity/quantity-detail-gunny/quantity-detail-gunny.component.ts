@@ -15,9 +15,9 @@ import { saveAs } from 'file-saver';
 
 
 @Component({
-  selector: 'app-quantity-detail-issue',
-  templateUrl: './quantity-detail-issue.component.html',
-  styleUrls: ['./quantity-detail-issue.component.css']
+  selector: 'app-quantity-detail-gunny',
+  templateUrl: './quantity-detail-gunny.component.html',
+  styleUrls: ['./quantity-detail-gunny.component.css']
 })
 export class QuantityDetailIssueComponent implements OnInit {
   QtyReceiptCols: any;
@@ -50,10 +50,10 @@ export class QuantityDetailIssueComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.QtyReceiptCols = this.tableConstants.QuantityACReceiptDetails;
-    this.frozenQtyReceiptCols = this.tableConstants.FrozenQuantityACReceiptDetails;
-    this.QtyIssueCols = this.tableConstants.QuantityACIssueDetails;
-    this.frozenQtyIssueCols = this.tableConstants.FrozenQuantityACIssueDetails;
+    this.QtyReceiptCols = this.tableConstants.QuantityACGunnyReceiptDetails;
+    this.frozenQtyReceiptCols = this.tableConstants.FrozenQuantityACGunnyReceiptDetails;
+    this.QtyIssueCols = this.tableConstants.QuantityACGunnyIssueDetails;
+    this.frozenQtyIssueCols = this.tableConstants.FrozenQuantityACGunnyIssueDetails;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.data = this.roleBasedService.getInstance();
@@ -208,7 +208,7 @@ export class QuantityDetailIssueComponent implements OnInit {
           RecGUNNYRELEASE: (el.RecGUNNYRELEASE * 1), TotalReceipt: (el.TotalReceipt * 1), GrandTotalReceipt: (el.GrandTotalReceipt * 1)
         });
       });
-      cols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity + this.tableConstants.QuantityACReceiptDetailsCommodity;
+      cols = this.tableConstants.FrozenQuantityACGunnyReceiptDetails + this.tableConstants.QuantityACGunnyReceiptDetails;
       //  cols.unshift({ field: 'Commodity', header: 'Commodity'});
       //  cols.unshift({ field: 'Opening Balance', header: 'OpeningBalance'});
       //  cols.unshift({ field: 'GName', header: 'Godown Name'});

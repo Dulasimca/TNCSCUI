@@ -49,7 +49,7 @@
             [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-          <button pButton type="button" label=Excel (click)="exportExcel('1')"></button>
+          <button pButton type="button" label=Excel (click)="exportExcel('1')" [disabled]="(QtyReceiptData.length==0)"></button>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
           <button pButton type="button" label=Print (click)="onPrint()" [disabled]="true"></button>

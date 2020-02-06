@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuantityDetailIssueComponent } from './quantity-detail-issue.component';
+import { QuantityDetailIssueComponent } from './quantity-detail-gunny.component';
 
 describe('QuantityDetailIssueComponent', () => {
   let component: QuantityDetailIssueComponent;
