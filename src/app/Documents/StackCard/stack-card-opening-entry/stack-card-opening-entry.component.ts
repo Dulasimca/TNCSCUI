@@ -191,7 +191,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
         break;
       case 'cy':
         this.messageService.clear();
-        if (this.CurrYear.value !== undefined && this.CurrYear.value !== null) {
+        if (this.CurrYear !== undefined && this.CurrYear !== null) {
           this.onView();
         } else {
           this.openView = false;
@@ -288,7 +288,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       && this.GCode !== undefined) {
     this.loading = true;
     this.stackOpeningData.length = 0;
-    const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear.value);
+    const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear);
     this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
         this.openView = true;
