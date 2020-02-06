@@ -133,7 +133,7 @@
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" filter="true"
                         (keyup)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
                         resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
-                        filterMatchMode="startsWith" required>
+                        filterMatchMode="contains" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
