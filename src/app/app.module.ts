@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ButtonModule, MenubarModule } from 'primeng/primeng';
-import {TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
@@ -26,9 +26,9 @@ import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
 import { BlockUIModule } from 'primeng/blockui';
 import { ListboxModule } from 'primeng/listbox';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {InputMaskModule} from 'primeng/inputmask';
-import {FileUploadModule} from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InputMaskModule } from 'primeng/inputmask';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -159,6 +159,7 @@ import { LoadMenUnloadingWagesComponent } from './reports/wages/load-men-unloadi
 import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.component';
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
+import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-issue/quantity-detail-issue.component';
 
 
 @NgModule({
@@ -278,6 +279,7 @@ import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepas
     GodownDashboardComponent,
     ProcessToGPSComponent,
     IssueGatepassComponent,
+    QuantityDetailIssueComponent,
   ],
   imports: [
     BrowserModule,

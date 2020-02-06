@@ -13,6 +13,7 @@ export class GolbalVariable {
     public static readonly QuantityACForIssueSchemeCRS = 'ISQACRS';
     public static readonly QuantityACForIssueSchemeCOOP = 'ISQASOCIETY';
     public static readonly QuantityACForReceiptDetailCommodity = '';
+    public static readonly QuantityACForGunnyReceiptIssue = '';
     public static readonly StackCardRegisterReport = 'SCARDREG';
     public static readonly OCRRegisterRpeort = 'OCRREG';
     public static readonly CommodityReceiptReport = 'COMREC';

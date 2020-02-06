@@ -99,6 +99,8 @@ export class TableConstants {
   QuantityACReceiptDetailsCommodity: any;
   FrozenQuantityACReceiptDetailsCommodity: any;
   FrozenQuantityACIssueDetailsCommodity: any;
+  FrozenQuantityACIssueDetails: any;
+  FrozenQuantityACReceiptDetails: any;
   StackCardRegisterReport: any;
   CashReceiptRegCols: any;
   CorrectionSlipReport: any;
@@ -120,6 +122,8 @@ export class TableConstants {
   ProcessToG2GIssueCols: any[];
   ProcessToG2GCols: any[];
   QuantityACIssueDetailsCommodity: any[];
+  QuantityACIssueDetails: any[];
+  QuantityACReceiptDetails: any[];
   PartyName: any;
   GSTCommodityName: any;
   StackCardDocDetailsCols: any[];
@@ -177,7 +181,7 @@ export class TableConstants {
     this.SupplierData = [
       { field: 'SlNo', header: 'S.No' },
       { field: 'DepositorCode', header: 'Depositor Code' },
-      { field: 'Tyname', header: 'Depositor Type'},
+      { field: 'Tyname', header: 'Depositor Type' },
       { field: 'DepositorName', header: 'Depositor Name' }
     ]
     this.RegionData = [
@@ -254,9 +258,9 @@ export class TableConstants {
       { field: 'palmoil', header: 'PALMOLIEN OIL' },
       { field: 'cement', header: 'CEMENT' },
       { field: 'GStatus', header: 'Godown Approval Status' },
-      { field: 'GRemarks', header: 'Godown Remarks'},
+      { field: 'GRemarks', header: 'Godown Remarks' },
       { field: 'RStatus', header: 'Regional Approval Status' },
-      { field: 'RRemarks', header: 'Region Remarks'}
+      { field: 'RRemarks', header: 'Region Remarks' }
     ]
 
     this.DeliveryDocumentcolumns = [
@@ -337,7 +341,7 @@ export class TableConstants {
       { field: 'NoPacking', header: 'No Packing' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'NetWt', header: 'Net Wt' },
-      { field: 'ACSCode', header: 'ACSCode'}
+      { field: 'ACSCode', header: 'ACSCode' }
     ];
 
     this.TruckMemoRegisterReport = [
@@ -377,7 +381,7 @@ export class TableConstants {
 
     this.CommodityReceiptReport = [
       { field: 'SlNo', header: 'S.No' },
-      { field: 'Region', header: 'Region Name'},
+      { field: 'Region', header: 'Region Name' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Ackno', header: 'Ack. No' },
@@ -793,7 +797,7 @@ export class TableConstants {
       { field: 'ITDescription', header: 'Item Name' },
       // { field: 'GRName', header: 'GROUP' },
       { field: 'ItemType', header: 'Item Type' },
-      { field: 'Activeflag', header: 'Status'}
+      { field: 'Activeflag', header: 'Status' }
 
     ];
 
@@ -1157,8 +1161,8 @@ export class TableConstants {
     ];
 
     this.FrozenQuantityACReceiptDetailsCommodity = [
-   //   { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'GName', header: 'Godown Name'},
+      //   { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'GName', header: 'Godown Name' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
     ];
@@ -1170,7 +1174,7 @@ export class TableConstants {
     ];
 
     this.QuantityACIssueDetailsCommodity = [
- //     { header: 'S.No', field: 'SlNo' },
+      //     { header: 'S.No', field: 'SlNo' },
       { header: 'PDS', field: 'IsPDS' },
       { header: 'Coop', field: 'IsCOOP' },
       { header: 'Police', field: 'IsPOLICE' },
@@ -1204,7 +1208,7 @@ export class TableConstants {
       // { header: 'S.No', field: 'SlNo', width: '40px' },
       // { field: 'GName', header: 'Godown Name'},
       // { field: 'Commodity', header: 'COMMODITY' },
-    //  { field: 'OpeningBalance', header: 'Opening Balance' },
+      //  { field: 'OpeningBalance', header: 'Opening Balance' },
       { field: 'RecPDS', header: 'PDS/Purchase' },
       { field: 'RecPRIORITY', header: 'Priority' },
       { field: 'RecTIDEOVER', header: 'Tide Over' },
@@ -1255,8 +1259,8 @@ export class TableConstants {
 
     this.CashReceiptRegCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'RegionName', header: 'Region Name'},
-      { field: 'GodownName', header: 'Godown Name'},
+      { field: 'RegionName', header: 'Region Name' },
+      { field: 'GodownName', header: 'Godown Name' },
       { field: 'ReceivedFrom', header: 'Received From' },
       { field: 'ReceiptNo', header: 'REC.No' },
       { field: 'Date', header: 'Date' },
@@ -1474,7 +1478,7 @@ export class TableConstants {
     this.ProcessToG2GIssueCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Stock Issue No', field: 'SINo' },
-      { header: 'Doc Date', field: 'DocDate'},
+      { header: 'Doc Date', field: 'DocDate' },
       { header: 'Issuer Name', field: 'IssuerName' },
       { header: 'Receivor Name', field: 'ReceivorName' },
     ];
@@ -1488,7 +1492,7 @@ export class TableConstants {
       { header: 'Status', field: 'Status' }
     ];
 
-    
+
     this.StackCardDocDetailsCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'Doc.No', field: 'DocNo' },
@@ -1519,54 +1523,91 @@ export class TableConstants {
     ]
 
     this.SectionDailyStatementReportColumns = [
-        { header: 'S.No', field: 'SlNo', width: '40px' },
-        { header: 'Locations', field: 'Locations' },
-        { header: 'Allotment', field: 'Allotment' },
-        { header: 'On The Day(QTY)', field: 'OnTheDayQty' },
-        { header: 'Up To Day(QTY)', field: 'UpToDayQty' },
-        { header: 'Balance', field: 'Balance' },
-      ];
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Locations', field: 'Locations' },
+      { header: 'Allotment', field: 'Allotment' },
+      { header: 'On The Day(QTY)', field: 'OnTheDayQty' },
+      { header: 'Up To Day(QTY)', field: 'UpToDayQty' },
+      { header: 'Balance', field: 'Balance' },
+    ];
 
-      this.LoadMenWagesLoadingReportColumns = [
-        { header: 'S.No', field: 'SlNo', width: '40px' },
-        { header: 'Date', field: 'Date' },
-        { header: 'Scheme', field: 'SchemeName' },
-        { header: 'Commodity', field: 'Commodity' },
-        { header: 'Bags', field: 'NoPacking' },
-        { header: 'Quantity', field: 'Qty' },
-        { header: 'Loading Charges', field: 'Loading' },
-        { header: 'Handling Charges', field: 'Handling' },
-        { header: 'Total', field: 'Total' },
+    this.LoadMenWagesLoadingReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Date', field: 'Date' },
+      { header: 'Scheme', field: 'SchemeName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Bags', field: 'NoPacking' },
+      { header: 'Quantity', field: 'Qty' },
+      { header: 'Loading Charges', field: 'Loading' },
+      { header: 'Handling Charges', field: 'Handling' },
+      { header: 'Total', field: 'Total' },
 
-      ];
+    ];
 
-      this.LoadMenWagesUnLoadingReportColumns = [
-        { header: 'S.No', field: 'SlNo', width: '40px' },
-        { header: 'Date', field: 'Date' },
-        { header: 'Scheme', field: 'SchemeName' },
-        { header: 'Commodity', field: 'Commodity' },
-        { header: 'Bags', field: 'NoPacking' },
-        { header: 'Quantity', field: 'Qty' },
-        { header: 'UnLoading Charges', field: 'UnLoading' },
-      ];
+    this.LoadMenWagesUnLoadingReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Date', field: 'Date' },
+      { header: 'Scheme', field: 'SchemeName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Bags', field: 'NoPacking' },
+      { header: 'Quantity', field: 'Qty' },
+      { header: 'UnLoading Charges', field: 'UnLoading' },
+    ];
 
-      this.ProcessToGPSCols = [
-        { header: 'S.No', field: 'SlNo' },
-        { header: 'DOC NO.', field: 'DocNumber' },
-        { header: 'Start Date', field: 'GPSStartDate' },
-        { header: 'End Date', field: 'GPSEndDate' },
-        { header: 'Error', field: 'GPSError' },
-        { header: 'Status', field: 'GPSStatus' }
-      ];
+    this.ProcessToGPSCols = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'DOC NO.', field: 'DocNumber' },
+      { header: 'Start Date', field: 'GPSStartDate' },
+      { header: 'End Date', field: 'GPSEndDate' },
+      { header: 'Error', field: 'GPSError' },
+      { header: 'Status', field: 'GPSStatus' }
+    ];
 
-      this.IssueMemoLorryAbstractColumns = [
-        { header: 'S.No', field: 'SlNo' },
-        { header: 'Doc No.', field: 'SINo' },
-        { header: 'Doc Date', field: 'SIDate' },
-        { header: 'Godown Name', field: 'TNCSName' },
-        { header: 'Lorry No', field: 'LorryNo' },
-        { header: 'Receivor Name', field: 'ReceivorName' },
-        { header: 'Receivor Type', field: 'ReceivorType' },
-      ]
+    this.IssueMemoLorryAbstractColumns = [
+      { header: 'S.No', field: 'SlNo' },
+      { header: 'Doc No.', field: 'SINo' },
+      { header: 'Doc Date', field: 'SIDate' },
+      { header: 'Godown Name', field: 'TNCSName' },
+      { header: 'Lorry No', field: 'LorryNo' },
+      { header: 'Receivor Name', field: 'ReceivorName' },
+      { header: 'Receivor Type', field: 'ReceivorType' },
+    ];
+
+    this.FrozenQuantityACIssueDetails = [
+      { header: 'Godown Name', field: 'GName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
+    ];
+
+    this.QuantityACIssueDetails = [
+      //     { header: 'S.No', field: 'SlNo' },
+      { header: 'SALES', field: 'IsSALES' },
+      { header: 'Transfer Within Region', field: 'IsTRANSFERWITHINREGION' },
+      { header: 'Transfer Other Region', field: 'IsTRANSFEROTHERREGION' },
+      { header: 'WRITEOFF', field: 'IsWRITEOFF' },
+      { header: 'GU', field: 'IsGUNNYRELEASE' },
+      { header: 'MENDING', field: 'IsMENDING' },
+      { header: 'TOTAL ISSUE', field: 'IsTotalIssues' },
+      { header: 'CLOSING BALANCE', field: 'IsBalanceQty' },
+    ];
+
+    this.FrozenQuantityACReceiptDetails = [
+      { header: 'GODOWN NAME', field: 'GName' },
+      { header: 'COMMODITY', field: 'Commodity' },
+      { header: 'OPENING BALANCE', field: 'OpeningBalance' },
+    ];
+
+    this.QuantityACReceiptDetails = [
+      //     { header: 'S.No', field: 'SlNo' },
+      { header: 'PURCHASE', field: 'RecPURCHASE' },
+      { header: 'HOPURCHASE', field: 'RecHOPURCHASE' },
+      { header: 'Transfer Within Region', field: 'RecTRANSFERWITHINREGION' },
+      { header: 'Transfer Other Region', field: 'RecTRANSFEROTHERREGION' },
+      { header: 'Excess/Sales Return', field: 'RecEXCESS' },
+      { header: 'Hulling', field: 'RecHULLING' },
+      { header: 'GUNNY RELEASE', field: 'RecGUNNYRELEASE' },
+      { header: 'Total Receipt', field: 'TotalReceipt' },
+      { header: 'GrandTotalInc OB', field: 'GrandTotalReceipt' },
+    ];
   }
 }
