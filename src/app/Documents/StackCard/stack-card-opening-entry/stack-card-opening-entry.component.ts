@@ -55,8 +55,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
   loading: boolean;
   activateLoader: boolean;
   CurrYear: any;
-  @ViewChild('f', { static: false }) ngForm: NgForm;
   RCode: string;
+  CommodityCode: any;
+  @ViewChild('f', { static: false }) ngForm: NgForm;
+  
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -225,10 +227,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.Bags = this.selectedRow.StackBalanceBags;
         this.Weights = this.selectedRow.StackBalanceWeight;
         this.CurrYear = data.CurYear;
+        this.CommodityCode = data.CommodityCode;
         const params = {
           'GCode': this.GCode,
           'StackDate': this.datepipe.transform(this.Date, 'MM/dd/yyyy'),
-          'ICode': this.ICode,
+          'ICode': this.CommodityCode,
           'StackYear': this.CurrYear,
           'TStockNo': this.StackNo,
           'Type': 4
@@ -305,6 +308,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
             clstackdate: this.datepipe.transform(i.clstackdate, 'dd-MM-yyyy'),
             closingStackDate: i.clstackdate,
             CommodityName: i.CommodityName,
+            CommodityCode: i.CommodityCode,
             StackNo: i.StackNo,
             StackBalanceBags: i.StackBalanceBags,
             StackBalanceWeight: i.StackBalanceWeight,
@@ -344,6 +348,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.ngForm.form.controls.FormationNo.reset();
     this.showDialog = false; 
     this.activateLoader = false;
+    this.CommodityCode = null;
   }
 
   onSave() {

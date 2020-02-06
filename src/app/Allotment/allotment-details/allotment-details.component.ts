@@ -198,6 +198,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.AllotmentCols.length = 0;
     this.allotmentDetails.length = 0;
     this.AllotmentData.length = 0;
+    this.blockScreen = true;
     let filesData = event.target.files;
     if(this.GCode !== undefined && this.GCode !== null) {
       const params = { 'Type': 2, 'GCode': this.GCode }
@@ -212,6 +213,7 @@ export class AllotmentDetailsComponent implements OnInit {
         if (checkfile(filesData[0])) {
           this.parseExcel(filesData[0]);
         } else {
+          this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
           life:5000, detail: this.errMsg });
