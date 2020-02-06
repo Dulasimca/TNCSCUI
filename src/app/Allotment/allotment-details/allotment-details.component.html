@@ -80,16 +80,17 @@
           <div class="ui-g-12">
             <p-table #dt [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
               [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [scrollable]="true"
-              [loading]="loading">
-              <ng-template pTemplate="colgroup" let-columns>
+              [loading]="loading" >
+              <!-- <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
                   <col *ngFor="let col of columns" style="width: 125px;">
                 </colgroup>
-              </ng-template>
+              </ng-template> -->
               <ng-template pTemplate="header" let-columns>
                 <tr>
-                  <th *ngFor="let col of columns">
+                  <th *ngFor="let col of columns" [pSortableColumn]="col.field" (click)="onSort()">
                     {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                   </th>
                 </tr>
               </ng-template>
