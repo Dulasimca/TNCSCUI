@@ -36,6 +36,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   commodityOptions: SelectItem[];
   currYearOptions: SelectItem[];
   commoditySelection: any[] = [];
+  CommodityLabel: any[] = [];
   Weights: any = 0;
   Bags: any = 0;
   canShowMenu: boolean;
@@ -58,7 +59,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   RCode: string;
   CommodityCode: any;
   @ViewChild('f', { static: false }) ngForm: NgForm;
-  
+
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -83,6 +84,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
             this.commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode, 'group': y.GRName });
           });
           this.commodityOptions = this.commoditySelection;
+          this.CommodityLabel = this.commoditySelection;
           this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
       })
@@ -90,9 +92,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
     let currYrSelection = [];
     this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
       res.forEach(s => {
-      currYrSelection.push({ label: s.StackYear, value: s.StackYear});
-      })
-    })
+        currYrSelection.push({ label: s.StackYear, value: s.StackYear });
+      });
+    });
     this.currYearOptions = currYrSelection;
     this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
     this.RCode = this.authService.getUserAccessible().rCode;
@@ -132,7 +134,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
             this.StackNo = this.StackNo;
             this.newEntry = false;
           }
-        })
+        });
       }
     }
   }
@@ -188,7 +190,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
           });
           this.godownOptions = godownSelection;
-          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true  });
+          this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'cy':
@@ -198,7 +200,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
         } else {
           this.openView = false;
         }
-      break;
+        break;
+      case 'cd':
+        this.commodityOptions = this.CommodityLabel;
     }
   }
 
@@ -213,6 +217,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
         this.flag = true;
         // this.disableCDate = false;
         this.RowId = this.selectedRow.RowId;
+        this.commodityOptions = [{ label: data.CommodityName, value: data.CommodityCode }];
+        this.ICode = data.CommodityName;
         this.Date = new Date(this.selectedRow.StackDate);
         this.StackNo = this.selectedRow.StackNo.trim().toUpperCase();
         let index;
@@ -235,7 +241,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
           'StackYear': this.CurrYear,
           'TStockNo': this.StackNo,
           'Type': 4
-        }
+        };
         this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
           if (res) {
             if (res.length === 1 && res[0].AckDate === 'Total') {
@@ -248,13 +254,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
                   this.ClosingDate = this.datepipe.transform(x.SDate, 'dd/MM/yyyy');
                   this.CDate = this.datepipe.transform(x.SDate, 'MM/dd/yyyy');
                   // setTimeout(function(){
-                     this.activateLoader = false;
+                  this.activateLoader = false;
                   // },500);
                 }
-              })
+              });
             }
           }
-        })
+        });
       } else if (this.selectedRow.Flag1 === 'C') {
         this.nonEditable = true;
         this.RowId = this.selectedRow.RowId;
@@ -280,60 +286,71 @@ export class StackCardOpeningEntryComponent implements OnInit {
       } else {
         this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-        life:5000, detail: StatusMessage.StackCardClosedMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          life: 5000, detail: StatusMessage.StackCardClosedMessage
+        });
       }
     }
   }
 
   onView() {
-    if(this.CurrYear !== undefined && this.CurrYear !== null && this.GCode !== null
+    if (this.CurrYear !== undefined && this.CurrYear !== null && this.GCode !== null
       && this.GCode !== undefined) {
-    this.loading = true;
-    this.stackOpeningData.length = 0;
-    const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear);
-    this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
-      if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-        this.openView = true;
-        this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+      this.loading = true;
+      this.stackOpeningData.length = 0;
+      const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear);
+      this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
+        if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+          this.openView = true;
+          this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
+          this.loading = false;
+          let sno = 0;
+          res.Table.forEach(i => {
+            sno += 1;
+            this.stackOpeningData.push({
+              SlNo: sno,
+              RowId: i.RowId,
+              ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
+              StackDate: i.ObStackDate,
+              clstackdate: this.datepipe.transform(i.clstackdate, 'dd-MM-yyyy'),
+              closingStackDate: i.clstackdate,
+              CommodityName: i.CommodityName,
+              CommodityCode: i.CommodityCode,
+              StackNo: i.StackNo,
+              StackBalanceBags: i.StackBalanceBags,
+              StackBalanceWeight: i.StackBalanceWeight,
+              CurYear: i.CurYear,
+              Flag1: i.Flag1
+            })
+          });
+          this.totalRecords = this.stackOpeningData.length;
+          this.Opening_Balance = this.stackOpeningData.slice(0);
+        } else {
+          this.loading = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+          });
+        }
+      }, (err: HttpErrorResponse) => {
         this.loading = false;
-        let sno = 0;
-        res.Table.forEach(i => {
-          sno += 1;
-          this.stackOpeningData.push({
-            SlNo: sno,
-            RowId: i.RowId,
-            ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
-            StackDate: i.ObStackDate,
-            clstackdate: this.datepipe.transform(i.clstackdate, 'dd-MM-yyyy'),
-            closingStackDate: i.clstackdate,
-            CommodityName: i.CommodityName,
-            CommodityCode: i.CommodityCode,
-            StackNo: i.StackNo,
-            StackBalanceBags: i.StackBalanceBags,
-            StackBalanceWeight: i.StackBalanceWeight,
-            CurYear: i.CurYear,
-            Flag1: i.Flag1
-          })
-        });
-        this.totalRecords = this.stackOpeningData.length;
-        this.Opening_Balance = this.stackOpeningData.slice(0);
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.loading = false;
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
-      }
-    });
-  }
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        } else {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+          });
+        }
+      });
+    }
   }
 
   onClear() {
@@ -346,9 +363,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.Date = this.maxDate; this.ClosingDate = null;
     this.ngForm.form.controls.LocNo.reset();
     this.ngForm.form.controls.FormationNo.reset();
-    this.showDialog = false; 
+    this.showDialog = false;
     this.activateLoader = false;
     this.CommodityCode = null;
+    this.commodityOptions = undefined;
+    this.ICode = null;
   }
 
   onSave() {
@@ -359,14 +378,18 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (x.StackNo.toString().trim() === this.StackNo) {
           this.onClear();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-          life:5000, detail: StatusMessage.RunningStackCardErrMessage });
-          }
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+            life: 5000, detail: StatusMessage.RunningStackCardErrMessage
+          });
+        }
       });
     } else if (this.cardExits) {
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-      life:5000, detail: StatusMessage.StackCardClosedMessage });
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+        life: 5000, detail: StatusMessage.StackCardClosedMessage
+      });
       this.onClear();
     } else {
       this.postData();
@@ -392,28 +415,42 @@ export class StackCardOpeningEntryComponent implements OnInit {
         if (res.Item1) {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-          life:5000, detail: StatusMessage.ExistingStackCardErrMessage });
-          } else if (res.Item2) {
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+            life: 5000, detail: StatusMessage.ExistingStackCardErrMessage
+          });
+        } else if (res.Item2) {
           this.onView();
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+          });
         } else {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         }
       }, (err: HttpErrorResponse) => {
         this.blockScreen = false;
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         } else {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+          });
         }
-      })
+      });
       this.onClear();
     } else {
       this.showDialog = true;
@@ -424,8 +461,10 @@ export class StackCardOpeningEntryComponent implements OnInit {
     if (this.ClosingDate < this.Date) {
       this.blockScreen = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-      life:5000, detail: StatusMessage.StackCardClosingDateErrMessage });
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+        life: 5000, detail: StatusMessage.StackCardClosingDateErrMessage
+      });
     } else {
       const closingParams = {
         'ClosedDate': (this.CDate !== null && this.CDate !== undefined) ?
@@ -438,23 +477,34 @@ export class StackCardOpeningEntryComponent implements OnInit {
           this.onClear();
           this.nonEditable = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, 
-          life:5000, detail: StatusMessage.StackCardClosedSucceesMessage });
-          } else {
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
+            life: 5000, detail: StatusMessage.StackCardClosedSucceesMessage
+          });
+        } else {
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         }
       }, (err: HttpErrorResponse) => {
         this.blockScreen = false;
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
         } else {
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+          });
         }
-      })
+      });
     }
   }
 

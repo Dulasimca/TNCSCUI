@@ -1,6 +1,6 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -13,157 +13,162 @@
     <div class="ui-g ui-fluid">
       <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
       <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
-          <p-footer>
-            <div class="ui-g-12 ui-md-12 dashboard">
-                <button type="button" pButton label="Close Card" (click)="cd.accept()"></button>
-                <button type="button" pButton label="New Entry" (click)="cd.reject()"></button>
-            </div>
-          </p-footer>
+        <p-footer>
+          <div class="ui-g-12 ui-md-12 dashboard">
+            <button type="button" pButton label="Close Card" (click)="cd.accept()"></button>
+            <button type="button" pButton label="New Entry" (click)="cd.reject()"></button>
+          </div>
+        </p-footer>
       </p-confirmDialog>
-      <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle"
-      [style]="{width: '400px', height: '145px'}" [modal]="true" [(visible)]="showDialog">
-      <span icon="pi pi-exclamation-triangle"> Do you want to proceed?</span>
-          <p-footer>
-            <div class="ui-g-12 ui-md-12 dashboard">
-              <div class="ui-g-8"></div>
-                <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="Yes" (click)="saveClosingDate()"></button>
-                <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="No" (click)="showDialog = false;blockScreen = false;"></button>
-            </div>
-          </p-footer>
-      </p-dialog >
+      <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '400px', height: '145px'}"
+        [modal]="true" [(visible)]="showDialog">
+        <span icon="pi pi-exclamation-triangle"> Do you want to proceed?</span>
+        <p-footer>
+          <div class="ui-g-12 ui-md-12 dashboard">
+            <div class="ui-g-8"></div>
+            <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="Yes"
+              (click)="saveClosingDate()"></button>
+            <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="No"
+              (click)="showDialog = false;blockScreen = false;"></button>
+          </div>
+        </p-footer>
+      </p-dialog>
       <form #f="ngForm" name="form">
         <div class="ui-g-12 no-pad-top border-teal">
-        <div class="ui-g-12">
-          <div class="ui-g-1"></div>
-          <div class="ui-g-6 ui-md-3 no-pad-top">
-            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
-            <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode"
-            filterMatchMode="startsWith" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')"
-              filter="true" resetFilterOnHide="true" [readonly]="nonEditable">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
+          <div class="ui-g-12">
+            <div class="ui-g-1"></div>
+            <div class="ui-g-6 ui-md-3 no-pad-top">
+              <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
+              <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode"
+                filterMatchMode="startsWith" (keydown.enter)="onSelect('gd')" (onClick)="onSelect('gd')" filter="true"
+                resetFilterOnHide="true" [readonly]="nonEditable">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-7 label-fontsize dashboard" for="CurrYr">Current Year</label>
+              <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" (keydown.enter)="onSelect('cy')"
+                (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true" filterMatchMode="contains"
+                name="CurrYr" [readonly]="nonEditable">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="form-group ui-g-6 ui-md-3 no-pad-top">
+              <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
+              <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode" (onClick)="onSelect('cd')"
+                (keydown.enter)="onSelect('cd')" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
+                name="CommodityName" [readonly]="nonEditable">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-7 label-fontsize dashboard" for="fromDate">Date</label>
+              <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
+                [maxDate]="maxDate" name="fromDate" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
+            </div>
+            <div class="ui-g-1"></div>
           </div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-7 label-fontsize dashboard" for="CurrYr">Current Year</label>
-            <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" (keydown.enter)="onSelect('cy')"
-            (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true" filterMatchMode="contains"
-               name="CurrYr" [readonly]="nonEditable">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div> 
-          <div class="form-group ui-g-6 ui-md-3 no-pad-top">
-            <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-            <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode"  filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
-               name="CommodityName" [readonly]="nonEditable">
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-7 label-fontsize dashboard" for="fromDate">Date</label>
-            <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" (input)="checkDate(Date)" (onSelect)="checkDate(Date)"
-              [maxDate]="maxDate" name="fromDate" [(ngModel)]="Date" readonlyInput="nonEditable"></p-calendar>
-          </div>
-          <div class="ui-g-1"></div>
-        </div>
-        <div class="ui-g-12 no-pad-top">
-          <div class="ui-g-12 ui-md-1"></div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label for="LocNo" class="ui-g-12 label-fontsize dashboard">Location</label>
-            <input type="text" minlength="1" maxlength="7"
-              name="LocNo" (input)="calculateStackNo()" [readonly]="nonEditable"
-             [(ngModel)]="Location" size="20" pInputText (keypress)="keyPress($event)"
-              style="text-transform: uppercase !important" autocomplete="off" required >
-            <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23</div>
-             <!-- <div class="ui-g-6 ui-md-12 no-left-pad">
+          <div class="ui-g-12 no-pad-top">
+            <div class="ui-g-12 ui-md-1"></div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label for="LocNo" class="ui-g-12 label-fontsize dashboard">Location</label>
+              <input type="text" minlength="1" maxlength="7" name="LocNo" (input)="calculateStackNo()"
+                [readonly]="nonEditable" [(ngModel)]="Location" size="20" pInputText (keypress)="keyPress($event)"
+                style="text-transform: uppercase !important" autocomplete="off" required>
+              <div class="label-fontsize" style="color: black; font-size: 11px">Sample Location No G1 OR G1/23 OR 23
+              </div>
+              <!-- <div class="ui-g-6 ui-md-12 no-left-pad">
               <label class="ui-g-12 no-left-pad"> <span class="ui-g-6 no-left-pad no-right-pad label-fontsize-large">Last StackNo: </span>  
                 <span class="ui-g-6 no-left-pad no-pad-bottom border-blue" style="margin-top: 3px;margin-left:-2px;text-align: center;"> {{lastStacCardNo}} </span></label>
               </div>  -->
-          </div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-12 label-fontsize dashboard" for="FormationNo">Formation No</label>
-            <input type="text" minlength="1" maxlength="5" name="FormationNo" [readonly]="nonEditable"
-              oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-              (input)="calculateStackNo()"
-              [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
-            <div class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 1 OR 28 OR 523</div>
-          </div>
-          <div class="form-group ui-g-12 ui-md-2 no-pad-top">
-            <label class="ui-g-12 label-fontsize dashboard" for="StackNumber">Stack No</label>
-            <input type="text" name="StackNumber" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="12"
-            [readonly]="true"  pInputText autocomplete="off">
-          </div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-12 label-fontsize dashboard" for="NoOfBags">Bags</label>
-            <input type="text" name="NoOfBags" [(ngModel)]="Bags" pInputText autocomplete="off"
-              oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-              onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" [readonly]="allowInput" required>
-          </div>
-          <div class="form-group ui-g-6 ui-md-2 no-pad-top">
-            <label class="ui-g-12 label-fontsize dashboard" for="Kgs">Weight(Kgs)</label>
-            <input type="text" name="Kgs" [(ngModel)]="Weights" pInputText autocomplete="off"
-              [readonly]="allowInput" required appDecimalDigit>
-          </div>
-          <!-- <div class="ui-g-12 ui-md-1"></div> -->
-         
-          <div *ngIf="nonEditable" class="ui-g-6 ui-md-2 no-pad-top blue-border-with-shadow">
-            <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
-            <div class="ui-g-10 dashboard">
-            <input type="text" name="CDate" [(ngModel)]="ClosingDate" pInputText [readonly]="true" required>
-          </div>
-            <div style="float: right;" *ngIf="activateLoader" class="ui-g-1 dashboard spinner-border spinner-border-sm float-right" role="status">
-              </div> 
             </div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-12 label-fontsize dashboard" for="FormationNo">Formation No</label>
+              <input type="text" minlength="1" maxlength="5" name="FormationNo" [readonly]="nonEditable"
+                oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                (input)="calculateStackNo()" [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
+              <div class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 1 OR 28 OR 523</div>
+            </div>
+            <div class="form-group ui-g-12 ui-md-2 no-pad-top">
+              <label class="ui-g-12 label-fontsize dashboard" for="StackNumber">Stack No</label>
+              <input type="text" name="StackNumber" (input)="calculateStackNo()" [(ngModel)]="StackNo" maxlength="12"
+                [readonly]="true" pInputText autocomplete="off">
+            </div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-12 label-fontsize dashboard" for="NoOfBags">Bags</label>
+              <input type="text" name="NoOfBags" [(ngModel)]="Bags" pInputText autocomplete="off"
+                oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                onKeyDown="if(this.value.length==6 && event.keyCode!=8) return false;" [readonly]="allowInput" required>
+            </div>
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-12 label-fontsize dashboard" for="Kgs">Weight(Kgs)</label>
+              <input type="text" name="Kgs" [(ngModel)]="Weights" pInputText autocomplete="off" [readonly]="allowInput"
+                required appDecimalDigit>
+            </div>
+            <!-- <div class="ui-g-12 ui-md-1"></div> -->
+
+            <div *ngIf="nonEditable" class="ui-g-6 ui-md-2 no-pad-top blue-border-with-shadow">
+              <label class="ui-g-12 label-fontsize dashboard">Closing Date</label>
+              <div class="ui-g-10 dashboard">
+                <input type="text" name="CDate" [(ngModel)]="ClosingDate" pInputText [readonly]="true" required>
+              </div>
+              <div style="float: right;" *ngIf="activateLoader"
+                class="ui-g-1 dashboard spinner-border spinner-border-sm float-right" role="status">
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 dashboard">
+            <div class="ui-g-12 ui-md-4"></div>
+            <div class="form-group ui-g-4 ui-md-1">
+              <button pButton type="button" [disabled]="(!ICode || !GCode)" label=View (click)="onView()"></button>
+            </div>
+            <div class="form-group ui-g-4 ui-md-1">
+              <button pButton type="submit"
+                [disabled]="((!flag && ClosingDate!=null) || (flag && !ClosingDate) || !Location || !Formation || !GCode || !ICode || !Date || !StackNo)"
+                label=Save (click)="onSave()"></button>
+            </div>
+            <div class="form-group ui-g-4 ui-md-1">
+              <button pButton type="submit" label=Clear (click)="onClear()"></button>
+            </div>
+          </div>
         </div>
-        <div class="ui-g-12 dashboard">
-          <div class="ui-g-12 ui-md-4"></div>
-          <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="button" [disabled]="(!ICode || !GCode)" label=View (click)="onView()"></button>
-          </div>
-          <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="submit" [disabled]="((!flag && ClosingDate!=null) || (flag && !ClosingDate) || !Location || !Formation || !GCode || !ICode || !Date || !StackNo)" label=Save (click)="onSave()"></button>
-          </div>
-          <div class="form-group ui-g-4 ui-md-1">
-            <button pButton type="submit" label=Clear (click)="onClear()"></button>
-          </div>
-        </div>
-      </div>
       </form>
 
-       <div *ngIf="openView" class="ui-g-12 ui-md-12 border-teal"> 
-      <div class="ui-g-12 ui-md-12 dashboard">
-        <p-table #dt [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10" [totalRecords]="totalRecords"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-          [paginator]="true" [loading]="loading">
-          <ng-template pTemplate="header" let-columns>
+      <div *ngIf="openView" class="ui-g-12 ui-md-12 border-teal">
+        <div class="ui-g-12 ui-md-12 dashboard">
+          <p-table #dt [columns]="stackOpeningCols" [value]="stackOpeningData" [rows]="10" [totalRecords]="totalRecords"
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+            [paginator]="true" [loading]="loading">
+            <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
                   {{col.header}}
                 </th>
               </tr>
             </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
-              <td *ngFor="let col of columns">
-                <div *ngIf="col.field=='StackBalanceBags' || col.field=='StackBalanceWeight' || col.field=='CurYear'">
-                  <div style="text-align: end !important">
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                <td *ngFor="let col of columns">
+                  <div *ngIf="col.field=='StackBalanceBags' || col.field=='StackBalanceWeight' || col.field=='CurYear'">
+                    <div style="text-align: end !important">
                       {{rowData[col.field]}}
                     </div>
-                </div>
-                <div *ngIf="col.field!='StackBalanceBags' && col.field!='StackBalanceWeight' && col.field!='CurYear'">
-                        {{rowData[col.field]}}
                   </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+                  <div *ngIf="col.field!='StackBalanceBags' && col.field!='StackBalanceWeight' && col.field!='CurYear'">
+                    {{rowData[col.field]}}
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
       </div>
     </div>
-</div>
-</p-panel>
+  </p-panel>
 </div>
