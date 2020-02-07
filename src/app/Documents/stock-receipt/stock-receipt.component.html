@@ -10,7 +10,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Stock Receipt Slip</div>
       </div>
     </p-header>
-    <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true" ></p-toast>
+    <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
     <form #f="ngForm" name="receiptForm">
       <div class="ibox-body">
         <div class="row">
@@ -36,7 +36,8 @@
                         <div class="ui-g-12 ui-md-6" style="margin-top: -20px">
                           <label for="StockDate" class="label-fontsize">Date</label>
                           <p-calendar name="StockDate" #receiptDate="ngModel" [showIcon]="true" dateFormat="dd/mm/yy"
-                            [maxDate]="maxDate" [(ngModel)]="SRDate" (ngModelChange)="onSRDateChange()" required></p-calendar>
+                            [maxDate]="maxDate" [(ngModel)]="SRDate" (ngModelChange)="onSRDateChange()" required>
+                          </p-calendar>
                         </div>
                       </div>
                     </p-card>
@@ -139,7 +140,8 @@
                       <label for="DepositorName" class="label-fontsize">Depositor Name</label>
                       <p-dropdown #dn name="DepositorName" [options]="depositorNameOptions" [(ngModel)]="DepositorCode"
                         (onClick)="onSelect('dn', 'click')" (keydown.enter)="onSelect('dn', 'enter')" filter="true"
-                        filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
+                        filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
+                        required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -162,10 +164,8 @@
                     <div class="ui-g-12 ui-md-2 ui-fluid">
                       <span class="ui-float-label">
                         <input name="VehicleNo" type="text" maxlength="12" size="10" [(ngModel)]="LNo" pInputText
-                          autocomplete="off" style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, '');
-                          this.value = this.value.replace(/(\..*)\./g, '$1');this.value = this.value.trim()"
-                          required>
+                          autocomplete="off" style="text-transform: uppercase !important" oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, '');
+                          this.value = this.value.replace(/(\..*)\./g, '$1');this.value = this.value.trim()" required>
                         <label for="VehicleNo" class="float-input">Vehicle No</label>
                       </span>
                     </div>
@@ -198,7 +198,8 @@
                       <p-dropdown #sc name="SchemeName" [options]="schemeOptions" [(ngModel)]="Scheme"
                         (onClick)="onSelect('sc', 'click')" (keydown.enter)="onSelect('sc', 'enter')"
                         (onChange)="refreshSelect('sc')" filter="true" optionLabel="label" [showClear]="true"
-                        filterMatchMode="startsWith" resetFilterOnHide="true" [autoWidth]="false" [style]="{'width':'100%'}">
+                        filterMatchMode="startsWith" resetFilterOnHide="true" [autoWidth]="false"
+                        [style]="{'width':'100%'}">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -273,8 +274,8 @@
                       <label for="GrossWt" class="label-fontsize">Kgs</label>
                       <label for="GrossWt" class="label-fontsize" style="float: right">Gms</label>
                       <span class="ui-float-label">
-                        <input name="GrossWt" type="text" [(ngModel)]="GKgs" size="20" (input)="onCalculateWt('gkgs', GKgs)"
-                          pInputText autocomplete="off"
+                        <input name="GrossWt" type="text" [(ngModel)]="GKgs" size="20"
+                          (input)="onCalculateWt('gkgs', GKgs)" pInputText autocomplete="off"
                           oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                           appDecimalDigit>
                       </span>
@@ -471,8 +472,8 @@
                       <label class="label-fontsize">Vehicle Code</label>
                       <p-dropdown #vc name="VCode" [options]="vehicleOptions" [disabled]="true" [(ngModel)]="VCode"
                         (onClick)="onSelect('vc', 'click')" (keydown.enter)="onSelect('vc', 'enter')" filter="true"
-                        resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-                        filterMatchMode="startsWith" placeholder="-select-">
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
+                        placeholder="-select-">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -550,12 +551,13 @@
                     </div>
                   </div>
                   <div class="ui-g-12 ui-md-12">
-                    <div class="ui-g-10 ui-md-6 ui-fluid">
+                    <div class="ui-g-6 ui-md-6">
                       <span class="ui-float-label">
-                        <textarea rows="4" name="remarks" cols="70" maxlength="250" pInputTextarea [(ngModel)]="Remarks"
-                          autoResize="autoResize" required></textarea>
+                        <textarea pInputText rows="4" name="remarks" cols="70" maxlength="250" pInputTextarea
+                          [(ngModel)]="Remarks" autocomplete="off" required></textarea>
                         <label for="remarks" class="float-input">Remarks</label>
-                      </span></div>
+                      </span>
+                    </div>
                     <div class="ui-g-10 ui-md-5"></div>
                     <div class="ui-g-2 ui-md-1" style="margin-top: 25px;">
                       <button name="prev" class="ui-g-6 ui-md-1 dashboard" style="float: right; margin-top: 5px"

@@ -36,7 +36,8 @@
                       <p-dropdown #tr name="TransactionType" [options]="transactionOptions" [(ngModel)]="Trcode"
                         (onClick)="onSelect('tr', 'click')" (keydown.tab)="onSelect('tr', 'change')"
                         (keydown.enter)="onSelect('tr', 'enter')" [showClear]="true" (onChange)="refreshSelect('tr')"
-                        optionLabel="label" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" required>
+                        optionLabel="label" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true"
+                        required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -110,7 +111,8 @@
                       <label for="ReceivorName" class="label-fontsize" style="padding-top: 10px;">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receivorNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" [showClear]="true"
-                        optionLabel="label" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" required>
+                        optionLabel="label" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true"
+                        required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -136,8 +138,7 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label" style="padding-top: 20px;">
                         <input name="LorryNumber" maxlength="12" [(ngModel)]="LorryNo" pInputText
-                          style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, '');
+                          style="text-transform: uppercase !important" oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, '');
                           this.value = this.value.replace(/(\..*)\./g, '$1');this.value = this.value.trim()"
                           autocomplete="off" required>
                         <label for="LorryNumber" class="float-input" style="padding-top: 10px;">Lorry No</label>
@@ -177,7 +178,7 @@
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keydown.enter)="onSelect('i_desc', 'enter')"
                         (onChange)="refreshSelect('i_desc')" [showClear]="true" filter="true" resetFilterOnHide="true"
-                        filterMatchMode="startsWith"  optionLabel="label">
+                        filterMatchMode="startsWith" optionLabel="label">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -211,8 +212,8 @@
                       <label for="PackingType" class="label-fontsize">Packing Type</label>
                       <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
                         (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')"
-                        optionLabel="label" filter="true" resetFilterOnHide="true" 
-                        filterMatchMode="startsWith" [showClear]="true">
+                        optionLabel="label" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
+                        [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -494,11 +495,14 @@
                     </div>
                   </div>
                   <div class="ui-g-12 no-pad-top">
-                    <div class="ui-g-10">
-                      <div><label class="label-fontsize" for="Remarks">Remarks</label></div>
-                      <textarea name="RemarksText" [rows]="3" [cols]="60" [(ngModel)]="Remarks" pInputTextarea
-                        required></textarea>
+                    <div class="ui-g-4">
+                      <span class="ui-float-label">
+                        <textarea pInputText name="RemarksText" [rows]="3" [cols]="60" [(ngModel)]="Remarks" pInputTextarea
+                          required></textarea>
+                        <label class="float-input" for="Remarks">Remarks</label>
+                      </span>
                     </div>
+                    <div class="ui-g-12 ui-md-2"></div>
                   </div>
                   <div class="ui-g-10 ui-md-11"></div>
                   <div class="ui-g-2 ui-md-1">

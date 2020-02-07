@@ -132,8 +132,7 @@
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keydown.enter)="onSelect('rn', 'enter')" filter="true"
                         (keyup)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keydown)="showIssuerCode()"
-                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
-                         required>
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -155,10 +154,8 @@
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
                         <input name="VechileNum" maxlength="12" [(ngModel)]="VehicleNo" pInputText autocomplete="off"
-                          style="text-transform: uppercase !important"
-                          oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); 
-                          this.value = this.value.replace(/(\..*)\./g, '$1'); this.value = this.value.trim()"
-                          required>
+                          style="text-transform: uppercase !important" oninput="this.value = this.value.replace(/[^0-9A-Za-z]/g, ''); 
+                          this.value = this.value.replace(/(\..*)\./g, '$1'); this.value = this.value.trim()" required>
                         <label for="VechileNum" class="float-input">Vehicle Number</label>
                       </span>
                     </div>
@@ -185,24 +182,22 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="SocietyCode" type="text" [(ngModel)]="SocietyName"
-                          pInputText [readonly]="true">
+                        <input name="SocietyCode" type="text" [(ngModel)]="SocietyName" pInputText [readonly]="true">
                         <label for="SocietyCode" class="float-input">Society Name</label>
                       </span>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid dashboard">
-                    <div class="ui-g-12 ui-md-4 ui-fluid">
+                    <div class="ui-g-6 ui-md-4">
                       <span class="ui-float-label">
                         <textarea name="RemarksText" rows="2" cols="70" minlength="1" maxlength="150"
-                          [(ngModel)]="Remarks" pInputTextarea autoResize="autoResize" required></textarea>
+                          [(ngModel)]="Remarks" pInputText autocomplete="off" pInputTextarea required></textarea>
                         <label for="RemarksText" class="float-input">Remarks</label>
                       </span>
                     </div>
-                    <div class="ui-g-6 ui-md-2" style="margin-top: 5px;">
+                    <div class="ui-g-6 ui-md-4" style="margin-top: 5px;">
                       <span class="ui-float-label">
-                        <input name="IssuerCode" type="text" [(ngModel)]="IssCode"
-                          pInputText [readonly]="true">
+                        <input name="IssuerCode" type="text" [(ngModel)]="IssCode" pInputText [readonly]="true">
                         <label for="IssuerCode" class="float-input">Issuer Code</label>
                       </span>
                     </div>
@@ -273,10 +268,9 @@
                     <div class="ui-g-6 ui-md-3 ui-fluid" style="margin-top:-12px">
                       <label for="PackingType" class="label-fontsize">Packing Type</label>
                       <p-dropdown #pt name="PackingType" [options]="packingTypeOptions" [(ngModel)]="IPCode"
-                        (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')" 
-                         [readonly]="isValidStackBalance"
-                         resetFilterOnHide="true" filter="true" optionLabel="label"
-                         filterMatchMode="startsWith" [showClear]="true">
+                        (onClick)="onSelect('pt', 'click')" (keydown.enter)="onSelect('pt', 'enter')"
+                        [readonly]="isValidStackBalance" resetFilterOnHide="true" filter="true" optionLabel="label"
+                        filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                         </ng-template>
@@ -448,7 +442,8 @@
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
                     <div class="ui-g-8 ui-md-8 ui-fluid no-pad-top">
-                      <input name="QtyLimit" pInputText autocomplete="off" [(ngModel)]="QuantityLimit" [readOnly]="true">
+                      <input name="QtyLimit" pInputText autocomplete="off" [(ngModel)]="QuantityLimit"
+                        [readOnly]="true">
                     </div>
                     <div class="ui-g-2 ui-md-3"></div>
                     <div class="ui-g-2 ui-md-1 no-pad-top">
@@ -534,5 +529,5 @@
   <div>
     <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value" [listStyle]="{'max-height':'250px'}">
     </p-listbox>
-  </div >
+  </div>
 </p-dialog>

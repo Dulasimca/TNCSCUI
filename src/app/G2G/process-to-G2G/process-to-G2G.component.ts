@@ -132,15 +132,18 @@ export class ProcessToG2GComponent implements OnInit {
                     let sno = 1;
                     let filteredArr = res.Table.filter(x => {
                         return (x.TyCode === 'TY002' || x.TyCode === 'TY003' || x.TyCode === 'TY004');
-                    })
+                    });
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
                         data.DocDate = this.datepipe.transform(data.SIDate, 'dd/MM/yyyy');
-                    })
+                    });
                     if (filteredArr !== null && filteredArr !== undefined && filteredArr.length !== 0) {
                         this.messageService.clear();
-                        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                        this.messageService.add({
+                            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                        });
                     }
                     this.issueMemoDocData = filteredArr;
                     this.primalData = filteredArr;
@@ -151,7 +154,10 @@ export class ProcessToG2GComponent implements OnInit {
                     this.primalData = [];
                     this.loading = false;
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+                        summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+                    });
                 }
             }, (err: HttpErrorResponse) => {
                 this.loading = false;
@@ -159,20 +165,28 @@ export class ProcessToG2GComponent implements OnInit {
                     this.primalData = [];
                     this.issueMemoDocData = [];
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                    });
                 }
             });
         }
     }
 
     filterByType(value) {
-        if (value !== null && value !== undefined) {
+        if (value !== null && value !== undefined && value.length !== 0) {
             this.issueMemoDocData = this.primalData.filter(x => {
                 return x.IssueType === value;
-            })
+            });
             if (this.issueMemoDocData.length !== 0) {
                 this.messageService.clear();
-                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+            } else {
+                this.messageService.clear();
+                this.messageService.add({
+                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+                    summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+                });
             }
         } else {
             this.issueMemoDocData = this.primalData;
@@ -187,7 +201,7 @@ export class ProcessToG2GComponent implements OnInit {
                 this.showPane = true;
                 let sno = 1;
                 this.processToG2GData = res.filter(x => {
-                    return (x.DocType === 2 && x.GToGStatus !== 4)
+                    return (x.DocType === 2 && x.GToGStatus !== 4);
                 });
                 if (this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
                     this.processToG2GData.forEach(data => {
@@ -201,18 +215,16 @@ export class ProcessToG2GComponent implements OnInit {
                         // } else {
                         data.Status = this.getG2GStatus(data.GToGStatus);
                         // }
-                    })
-                } else {
-                    this.processToG2GData = [];
-                    this.showPane = false;
-                    this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+                    });
                 }
             } else {
                 this.processToG2GData = [];
                 this.showPane = false;
                 this.messageService.clear();
-                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+                this.messageService.add({
+                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+                    summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+                });
             }
         }, (err: HttpErrorResponse) => {
             this.loading = false;
@@ -220,7 +232,10 @@ export class ProcessToG2GComponent implements OnInit {
             if (err.status === 0 || err.status === 400) {
                 this.processToG2GData = [];
                 this.messageService.clear();
-                this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                this.messageService.add({
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                    summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                });
             }
         });
     }
@@ -270,25 +285,37 @@ export class ProcessToG2GComponent implements OnInit {
                     GPSStatus: 4,
                     DocNumber: x.SINo
                 });
-            })
+            });
             this.restAPIService.post(PathConstants.PROCESS_TO_G2G_POST, this.issueList).subscribe(res => {
                 if (res) {
                     this.onClear();
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+                        summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+                    });
                 } else {
                     this.blockScreen = false;
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                    });
                 }
             }, (err: HttpErrorResponse) => {
                 this.blockScreen = false;
                 if (err.status === 0 || err.status === 400) {
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                    });
                 } else {
                     this.messageService.clear();
-                    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+                    this.messageService.add({
+                        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+                    });
                 }
             });
         }

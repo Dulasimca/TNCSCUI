@@ -1,7 +1,7 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
-  <app-header></app-header>
+</p-blockUI>
+<app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
   <p-panel>
@@ -11,174 +11,118 @@
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
-    <p-toast position="top-center" key="t-msg" [modal]="true"></p-toast>
-    <p-toast (onClose)="onClose()" position="top-center" [modal]="true" key="t-err"></p-toast>
-      <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [modal]="true" [(visible)]="viewPane" icon="pi pi-exclamation-triangle">
-          <div class="ui-g-12 ui-md-12">
-              <label for="approverReason" style="float: left;" class="label-fontsize-large">Reason:</label>
-              <textarea name="approverReason" rows="3" cols="110" maxlength="500" pInputTextarea autoResize="true"
-                [(ngModel)]="ApproverReason" required></textarea>
-          </div> 
-          <p-footer>
-            <div class="ui-g-12 ui-md-6 dashboard" style="float: right">
-                <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Approve" (click)="accept()"></button>
-                <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Reject" (click)="reject()"></button>
+      <p-toast position="top-center" key="t-msg" [modal]="true"></p-toast>
+      <p-toast (onClose)="onClose()" position="top-center" [modal]="true" key="t-err"></p-toast>
+      <p-dialog #cd [style]="{width: '350px'}" header="Would you like to approve?" [modal]="true" [(visible)]="viewPane"
+        icon="pi pi-exclamation-triangle">
+        <div class="ui-g-12 ui-md-12">
+          <label for="approverReason" style="float: left;" class="label-fontsize-large">Reason:</label>
+          <textarea name="approverReason" rows="3" cols="110" maxlength="500" pInputTextarea autoResize="true"
+            [(ngModel)]="ApproverReason" required></textarea>
+        </div>
+        <p-footer>
+          <div class="ui-g-12 ui-md-6 dashboard" style="float: right">
+            <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Approve"
+              (click)="accept()"></button>
+            <button class="ui-g-4 no-pad-top no-pad-bottom" type="button" pButton label="Reject"
+              (click)="reject()"></button>
+          </div>
+        </p-footer>
+      </p-dialog>
+      <!-- <div class="ui-g-12 dashboard"> -->
+      <div class="ui-g-12 ui-md-3"></div>
+      <div class="ui-g-12 ui-md-12 border-teal">
+        <form #f="ngForm" name="CorrectionSlipForm">
+          <div *ngIf="(roleId===3)" class="ui-g-12 ui-md-12">
+            <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
+              <span class="ui-float-label">
+                <input name="RegionName" [readOnly]="true" [(ngModel)]="RegionName" pInputText autocomplete="off"
+                  required>
+                <label for="RegionName" class="float-input">Region Name</label>
+              </span>
             </div>
-          </p-footer>
-    </p-dialog>
-        <!-- <div class="ui-g-12 dashboard"> -->
-        <div class="ui-g-12 ui-md-3"></div>
-        <div class="ui-g-12 ui-md-12 border-teal">
-          <form #f="ngForm" name="CorrectionSlipForm">
-            <div *ngIf="(roleId===3)" class="ui-g-12 ui-md-12">
-              <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
-                  <span class="ui-float-label">
-                    <input name="RegionName" [readOnly]="true" [(ngModel)]="RegionName" pInputText autocomplete="off" required>
-                    <label for="RegionName" class="float-input">Region Name</label>
-                  </span>
-                </div>
-                <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
-                    <span class="ui-float-label">
-                        <input name="GodownName" [readOnly]="true" [(ngModel)]="GodownName" pInputText
-                          autocomplete="off" required>
-                        <label for="GodownName" class="float-input">Godown Name</label>
-                      </span>
-                </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="type" class="ui-g-7 label-fontsize dashboard">Document Type</label>
-                <p-dropdown #docType name="type" class="ui-g-12 ui-fluid dashboard" [options]="docTypeOptions"
-                  [(ngModel)]="DocType" (onClick)="onSelect('dt', 'click')" (keydown.enter)="onSelect('dt', 'enter')"
-                  filter="true" resetFilterOnHide="true" (ngModelChange)="onResetFields('dt')" [showClear]="true"
-                  filterMatchMode="startsWith" placeholder="-select-" required>
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-              <div class="ui-g-6 ui-md-2">
-                <label for="dDate" class="ui-g-7 label-fontsize dashboard">Document Date</label>
-                <p-calendar [(ngModel)]="DocDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                  [showIcon]="true" name="dDate" (ngModelChange)="onResetFields('ddate')" dateFormat="dd/mm/yy"
-                  required></p-calendar>
-              </div>
-              <div class="ui-g-6 ui-md-2" style="margin-top: -4px">
-                <label for="docNum" class="label-fontsize-large">Document No.</label>
-                <p-dropdown #docNum name="docNum" class="ui-g-12 ui-fluid dashboard" [options]="docNumOptions"
-                  [(ngModel)]="DocNo" (onClick)="onSelect('dn', 'click')" (keydown.enter)="onSelect('dn', 'enter')"
-                  [disabled]="(!DocDate || !DocType)" filter="true" resetFilterOnHide="true" [showClear]="true"
-                  filterMatchMode="startsWith" placeholder="-select-" required>
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-              <div class="ui-g-12 ui-md-12 dashboard">
-                <div class="ui-g-12 ui-md-6">
-                  <label for="reasonText" class="label-fontsize-large">Reason:</label>
-                  <textarea name="reasonText" rows="3" cols="110" maxlength="250" pInputTextarea autoResize="true"
+            <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: 13px">
+              <span class="ui-float-label">
+                <input name="GodownName" [readOnly]="true" [(ngModel)]="GodownName" pInputText autocomplete="off"
+                  required>
+                <label for="GodownName" class="float-input">Godown Name</label>
+              </span>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="type" class="ui-g-7 label-fontsize dashboard">Document Type</label>
+              <p-dropdown #docType name="type" class="ui-g-12 ui-fluid dashboard" [options]="docTypeOptions"
+                [(ngModel)]="DocType" (onClick)="onSelect('dt', 'click')" (keydown.enter)="onSelect('dt', 'enter')"
+                filter="true" resetFilterOnHide="true" (ngModelChange)="onResetFields('dt')" [showClear]="true"
+                filterMatchMode="startsWith" placeholder="-select-" required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+              <label for="dDate" class="ui-g-7 label-fontsize dashboard">Document Date</label>
+              <p-calendar [(ngModel)]="DocDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [showIcon]="true"
+                name="dDate" (ngModelChange)="onResetFields('ddate')" dateFormat="dd/mm/yy" required></p-calendar>
+            </div>
+            <div class="ui-g-6 ui-md-2" style="margin-top: -4px">
+              <label for="docNum" class="label-fontsize-large">Document No.</label>
+              <p-dropdown #docNum name="docNum" class="ui-g-12 ui-fluid dashboard" [options]="docNumOptions"
+                [(ngModel)]="DocNo" (onClick)="onSelect('dn', 'click')" (keydown.enter)="onSelect('dn', 'enter')"
+                [disabled]="(!DocDate || !DocType)" filter="true" resetFilterOnHide="true" [showClear]="true"
+                filterMatchMode="startsWith" placeholder="-select-" required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-12">
+              <div class="ui-g-12 ui-md-6">
+                <span class="ui-float-label">
+                  <textarea pInputText name="reasonText" rows="3" cols="110" maxlength="250" pInputTextarea autoResize="true"
                     [(ngModel)]="Reason" required></textarea>
-                </div>
+                  <label for="reasonText" class="label-fontsize-large">Reason</label>
+                </span>
               </div>
-              <div class="ui-g-10"></div>
-              <!-- <div class="ui-g-4 ui-md-1 ui-fluid">
+            </div>
+            <div class="ui-g-10"></div>
+            <!-- <div class="ui-g-4 ui-md-1 ui-fluid">
                 <button pButton type="button" label=View
                   [disabled]="(!GCode || !RCode || !DocDate || !DocType || !DocNo)" (click)="onView()"></button>
               </div> -->
-              <div class="ui-g-4 ui-md-1 ui-fluid">
-                <button pButton type="button" label=Clear (click)="onClear()"></button>
-              </div>
-              <div class="ui-g-4 ui-md-1 ui-fluid">
-                <button pButton type="button" [disabled]="(!f.valid)" label=Save (click)="onSave()"></button>
-              </div>
-              <!-- <div class="ui-g-6 ui-md-2 no-pad-top">
+            <div class="ui-g-4 ui-md-1 ui-fluid">
+              <button pButton type="button" label=Clear (click)="onClear()"></button>
+            </div>
+            <div class="ui-g-4 ui-md-1 ui-fluid">
+              <button pButton type="button" [disabled]="(!f.valid)" label=Save (click)="onSave()"></button>
+            </div>
+            <!-- <div class="ui-g-6 ui-md-2 no-pad-top">
                   <label for="reqDate" class="ui-g-7 label-fontsize dashboard">Date</label>
                   <p-calendar [(ngModel)]="requestedDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
                     [showIcon]="true" name="reqDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
                 </div> -->
-                <div class="ui-g-6 ui-md-2 no-pad-top">
-                  <label for="fDate" class="ui-g-7 label-fontsize dashboard">From Date</label>
-                  <p-calendar [(ngModel)]="fromDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                    [showIcon]="true" name="fDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-                <div class="ui-g-6 ui-md-2 no-pad-top">
-                  <label for="tDate" class="ui-g-7 label-fontsize dashboard">Date</label>
-                  <p-calendar [(ngModel)]="toDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                    [showIcon]="true" name="tDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-                <div class="ui-g-5 ui-md-7"></div>
-                <div class="ui-g-1 ui-md-1">
-                  <button type="button" pButton icon="fa fa-file" iconPos="left" label="Pdf"
-                  [disabled]="(CorrectionSlipApproveStatusData.length=='0')" (click)="exportPdf()"></button>
-                </div>
-              <div class="ui-g-12 no-pad-top">
-                <p-table #dt tabindex="-1" [columns]="CorrectionSlipApproveStatusCols"
-                  [value]="CorrectionSlipApproveStatusData" [rows]="10" [responsive]="true" [loading]="loading"
-                  [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"  exportFilename="DOCUMENT_CORRECTION">
-                  <ng-template pTemplate="colgroup" let-columns>
-                    <colgroup>
-                      <col *ngFor="let col of columns" style="width:80px">
-                    </colgroup>
-                  </ng-template>
-                  <ng-template pTemplate="header" let-columns>
-                    <tr>
-                      <th *ngFor="let col of columns">
-                        {{col.header}}
-                      </th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr>
-                      <td *ngFor="let col of columns">
-                        {{rowData[col.field]}}
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div>
-            </div>
-          </form>
-          <div *ngIf="(roleId===1 || roleId===2)" class="ui-g-12">
-            <div class="ui-g-6 ui-md-2 no-pad-top">
-              <label for="status" class="ui-g-7 label-fontsize dashboard">Document Status</label>
-              <p-dropdown #docStatus name="status" class="ui-g-12 ui-fluid dashboard" [options]="docStatusOptions"
-                [(ngModel)]="DocStatus" (onClick)="onSelect('ds', 'click')" (keydown.enter)="onSelect('ds', 'enter')"
-                (onChange)="viewPendingApproveDocs()" [readonly]="loading">
-              </p-dropdown>
-            </div>
-           <div class="ui-g-1 dashboard label-fontsize-large" style="margin-top: 15px;width: auto">(or)</div> 
             <div class="ui-g-6 ui-md-2 no-pad-top">
               <label for="fDate" class="ui-g-7 label-fontsize dashboard">From Date</label>
               <p-calendar [(ngModel)]="fromDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                [showIcon]="true" name="fDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
+                [showIcon]="true" name="fDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
             </div>
             <div class="ui-g-6 ui-md-2 no-pad-top">
-              <label for="tDate" class="ui-g-7 label-fontsize dashboard">To Date</label>
-              <p-calendar [(ngModel)]="toDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate"
-                [showIcon]="true" name="tDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
+              <label for="tDate" class="ui-g-7 label-fontsize dashboard">Date</label>
+              <p-calendar [(ngModel)]="toDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [showIcon]="true"
+                name="tDate" (ngModelChange)="onView()" dateFormat="dd/mm/yy"></p-calendar>
             </div>
-            <div *ngIf="(roleId===1)" class="ui-g-6 ui-md-2 no-pad-top">
-                <label class="ui-g-7 label-fontsize dashboard">Region</label>
-                <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
-                 (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" (onChange)="viewPendingApproveDocs()"
-                 (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" 
-                 filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
-                  <ng-template let-item pTemplate="selectedItem">
-                    <span style="vertical-align:middle">{{item.label}}</span>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-              <div class="ui-g-5 ui-md-1"></div>
-              <div class="ui-g-4 ui-md-1" style="float: right">
-                <button type="button" pButton icon="fa fa-file" [disabled]="(CorrectionSlipApproveData.length=='0')" iconPos="left" label="Excel" (click)="table.exportCSV()"></button>
-              </div>
+            <div class="ui-g-5 ui-md-7"></div>
+            <div class="ui-g-1 ui-md-1">
+              <button type="button" pButton icon="fa fa-file" iconPos="left" label="Pdf"
+                [disabled]="(CorrectionSlipApproveStatusData.length=='0')" (click)="exportPdf()"></button>
+            </div>
             <div class="ui-g-12 no-pad-top">
-              <p-table #table tabindex="-1" [columns]="CorrectionSlipApproveCols" [(selection)]="selected"
-                [value]="CorrectionSlipApproveData" selectionMode="single" [rows]="10" [loading] = "loading"
-                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" 
-                autoLayout="true" exportFilename="DOCUMENT_CORRECTION">
-               <ng-template pTemplate="colgroup" let-columns>
+              <p-table #dt tabindex="-1" [columns]="CorrectionSlipApproveStatusCols"
+                [value]="CorrectionSlipApproveStatusData" [rows]="10" [responsive]="true" [loading]="loading"
+                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
+                exportFilename="DOCUMENT_CORRECTION">
+                <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
-                    <col *ngFor="let col of columns" style="width:auto">
+                    <col *ngFor="let col of columns" style="width:80px">
                   </colgroup>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
@@ -188,8 +132,8 @@
                     </th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                  <tr  [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
                     <td *ngFor="let col of columns">
                       {{rowData[col.field]}}
                     </td>
@@ -198,7 +142,70 @@
               </p-table>
             </div>
           </div>
+        </form>
+        <div *ngIf="(roleId===1 || roleId===2)" class="ui-g-12">
+          <div class="ui-g-6 ui-md-2 no-pad-top">
+            <label for="status" class="ui-g-7 label-fontsize dashboard">Document Status</label>
+            <p-dropdown #docStatus name="status" class="ui-g-12 ui-fluid dashboard" [options]="docStatusOptions"
+              [(ngModel)]="DocStatus" (onClick)="onSelect('ds', 'click')" (keydown.enter)="onSelect('ds', 'enter')"
+              (onChange)="viewPendingApproveDocs()" [readonly]="loading">
+            </p-dropdown>
+          </div>
+          <div class="ui-g-1 dashboard label-fontsize-large" style="margin-top: 15px;width: auto">(or)</div>
+          <div class="ui-g-6 ui-md-2 no-pad-top">
+            <label for="fDate" class="ui-g-7 label-fontsize dashboard">From Date</label>
+            <p-calendar [(ngModel)]="fromDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [showIcon]="true"
+              name="fDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+          <div class="ui-g-6 ui-md-2 no-pad-top">
+            <label for="tDate" class="ui-g-7 label-fontsize dashboard">To Date</label>
+            <p-calendar [(ngModel)]="toDate" class="ui-g-12 ui-fluid dashboard" [maxDate]="maxDate" [showIcon]="true"
+              name="tDate" (ngModelChange)="onLoadData()" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+          <div *ngIf="(roleId===1)" class="ui-g-6 ui-md-2 no-pad-top">
+            <label class="ui-g-7 label-fontsize dashboard">Region</label>
+            <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+              (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
+              (onChange)="viewPendingApproveDocs()" (ngModelChange)="onResetTable('reg')" filter="true"
+              resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="ui-g-5 ui-md-1"></div>
+          <div class="ui-g-4 ui-md-1" style="float: right">
+            <button type="button" pButton icon="fa fa-file" [disabled]="(CorrectionSlipApproveData.length=='0')"
+              iconPos="left" label="Excel" (click)="table.exportCSV()"></button>
+          </div>
+          <div class="ui-g-12 no-pad-top">
+            <p-table #table tabindex="-1" [columns]="CorrectionSlipApproveCols" [(selection)]="selected"
+              [value]="CorrectionSlipApproveData" selectionMode="single" [rows]="10" [loading]="loading"
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+              exportFilename="DOCUMENT_CORRECTION">
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" style="width:auto">
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                  <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
+      </div>
       <!-- </div> -->
     </div>
   </p-panel>
