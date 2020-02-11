@@ -10,7 +10,7 @@
         <div class="ui-g-12 ui-md-4 dashboard">Delivery Order Slip</div>
       </div>
     </p-header>
-    <p-toast (onClose)="onClose()" position="top-center" key="t-err"  [modal]="true"></p-toast>
+    <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ibox-body">
       <div class="row">
@@ -35,9 +35,10 @@
                       <label for="Transaction" class="label-fontsize" style="padding-top: 10px;">Transaction
                         Code</label>
                       <p-dropdown #tr name="Transaction" [options]="transactionOptions"
-                        (keydown.enter)="onSelect('tr', 'enter')" [(ngModel)]="Trcode"
-                        (onClick)="onSelect('tr', 'click')" filter="true" optionLabel="label" resetFilterOnHide="true"
-                        filterMatchMode="startsWith" [showClear]="true" (onChange)="refreshSelect('tr')" required>
+                        (keyup.enter)="onSelect('tr', 'enter')" (keyup.tab)="onSelect('tr', 'enter')"
+                        [(ngModel)]="Trcode" (onClick)="onSelect('tr', 'click')" filter="true" optionLabel="label"
+                        resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true"
+                        (onChange)="refreshSelect('tr')" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -65,8 +66,9 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Month" class="label-fontsize">Month</label>
                       <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="PMonth"
-                        (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')" filter="true"
-                        optionLabel="label" filterMatchMode="startsWith" required>
+                        (onClick)="onSelect('m', 'click')" (keyup.enter)="onSelect('m', 'enter')"
+                        (keyup.tab)="onSelect('m', 'enter')" filter="true" optionLabel="label"
+                        filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -75,7 +77,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="PYear"
-                        (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')" required>
+                        (onClick)="onSelect('y', 'click')" (keyup.enter)="onSelect('y', 'enter')"
+                        (keyup.tab)="onSelect('y', 'enter')" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -95,9 +98,10 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="ReceivorType" class="label-fontsize">Receivor Type</label>
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
-                        (onClick)="onSelect('rt', 'click')" (keydown.enter)="onSelect('rt', 'enter')"
-                        (onChange)="refreshSelect('rt')" filter="true" optionLabel="label" resetFilterOnHide="true"
-                        [showClear]="true" filterMatchMode="startsWith" required>
+                        (onClick)="onSelect('rt', 'click')" (keyup.enter)="onSelect('rt', 'enter')"
+                        (keyup.tab)="onSelect('rt', 'enter')" (onChange)="refreshSelect('rt')" filter="true"
+                        optionLabel="label" resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith"
+                        required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -106,9 +110,10 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="PartyName" class="label-fontsize">Party Name</label>
                       <p-dropdown #pn name="PartyName" [options]="partyNameOptions" [(ngModel)]="PName"
-                        (onClick)="onSelect('pn', 'click')" (keydown.enter)="onSelect('pn', 'enter')" filter="true"
-                       (ngModelChange)="getGSTNo()" resetFilterOnHide="true"
-                       filterMatchMode="startsWith" optionLabel="label" [showClear]="true" required>
+                        (onClick)="onSelect('pn', 'click')" (keyup.enter)="onSelect('pn', 'enter')"
+                        (keyup.tab)="onSelect('pn', 'enter')" filter="true" (ngModelChange)="getGSTNo()"
+                        resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true"
+                        required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -123,17 +128,19 @@
                     </div>
                     <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
                       <label class="label-fontsize" for="GST">GST No.</label>
-                      <input name="GST" pInputText (ngModelChange)="onGSTInput($event)"
-                      minlength="3" maxlength="15" style="text-transform: uppercase !important" 
-                       oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       [(ngModel)]="GSTNumber" autocomplete="off" required>
-                       <span *ngIf="showGSTErrMsg" style="font-size: 11px; color:crimson;">Please enter valid GST No. 3 or 15 digits should be entered!
+                      <input name="GST" pInputText (ngModelChange)="onGSTInput($event)" minlength="3" maxlength="15"
+                        style="text-transform: uppercase !important"
+                        oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                        [(ngModel)]="GSTNumber" autocomplete="off" required>
+                      <span *ngIf="showGSTErrMsg" style="font-size: 11px; color:crimson;">Please enter valid GST No. 3
+                        or 15 digits should be entered!
                       </span>
-                       <span *ngIf="!showGSTErrMsg" style="font-size: 11px;">No GST number? Type 'URD'(unregistered)</span>
+                      <span *ngIf="!showGSTErrMsg" style="font-size: 11px;">No GST number? Type
+                        'URD'(unregistered)</span>
                     </div>
                     <div class="ui-g-3 ui-md-1">
-                      <button pButton type="button" label="Update"
-                        [disabled]="isGSTModified" (click)="onUpdateGST()"></button>
+                      <button pButton type="button" label="Update" [disabled]="isGSTModified"
+                        (click)="onUpdateGST()"></button>
                     </div>
                   </div>
                   <div class="ui-g-12 ui-fluid no-pad-top">
@@ -180,9 +187,10 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="Schemes" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
-                        (onClick)="onSelect('scheme', 'click')" (keydown.enter)="onSelect('scheme', 'enter')"
-                        filter="true" resetFilterOnHide="true" optionLabel="label" (onChange)="refreshSelect('sc')"
-                        filterMatchMode="startsWith" [showClear]="true">
+                        (onClick)="onSelect('scheme', 'click')" (keyup.enter)="onSelect('scheme', 'enter')"
+                        (keyup.tab)="onSelect('scheme', 'enter')" filter="true" resetFilterOnHide="true"
+                        optionLabel="label" (onChange)="refreshSelect('sc')" filterMatchMode="startsWith"
+                        [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -191,9 +199,9 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;text-align: center">
                       <label class="label-fontsize" for="Commodity" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
-                        (onClick)="onSelect('commodity', 'click')" (keydown.enter)="onSelect('commodity', 'enter')"
-                        filter="true" optionLabel="label" resetFilterOnHide="true" 
-                        filterMatchMode="startsWith" [showClear]="true">
+                        (onClick)="onSelect('commodity', 'click')" (keyup.enter)="onSelect('commodity', 'enter')"
+                        (keyup.tab)="onSelect('commodity', 'enter')" filter="true" optionLabel="label"
+                        resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -213,8 +221,9 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="RateInTerms">Rate In Term Of</label>
                       <p-dropdown #rate name="RateInTerms" [options]="rateInTermsOptions" [(ngModel)]="RateTerm"
-                        (onClick)="onSelect('wmt', 'click')" (keydown.enter)="onSelect('wmt', 'enter')" filter="true"
-                        resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" [showClear]="true">
+                        (onClick)="onSelect('wmt', 'click')" (keyup.enter)="onSelect('wmt', 'enter')"
+                        (keyup.tab)="onSelect('wmt', 'enter')" filter="true" resetFilterOnHide="true"
+                        optionLabel="label" filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -274,7 +283,8 @@
                       <label class="label-fontsize" for="MarginSchemes" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
                         (onClick)="onSelect('margin_scheme', 'click')"
-                        (keydown.enter)="onSelect('margin_scheme', 'enter')" filter="true" name="MarginSchemes"
+                        (keyup.enter)="onSelect('margin_scheme', 'enter')"
+                        (keyup.tab)="onSelect('margin_scheme', 'enter')" filter="true" name="MarginSchemes"
                         (onChange)="refreshSelect('msc')" resetFilterOnHide="true" optionLabel="label"
                         filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
@@ -287,7 +297,8 @@
                         Description</label>
                       <p-dropdown #margin_id name="MarginCommodity" [options]="marginItemDescOptions"
                         [(ngModel)]="MICode" (onClick)="onSelect('margin_commodity', 'click')"
-                        (keydown.enter)="onSelect('margin_commodity', 'enter')" filter="true" resetFilterOnHide="true"
+                        (keyup.enter)="onSelect('margin_commodity', 'enter')"
+                        (keyup.tab)="onSelect('margin_commodity', 'enter')" filter="true" resetFilterOnHide="true"
                         filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -308,9 +319,9 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="MarginRateTerms">Rate In Term Of</label>
                       <p-dropdown #margin_rate name="MarginRateTerms" [options]="marginRateInTermsOptions"
-                        (keydown.enter)="onSelect('margin_wmt', 'enter')" [(ngModel)]="MarginRateInTerms"
-                        (onClick)="onSelect('margin_wmt', 'click')" filter="true" resetFilterOnHide="true"
-                        filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
+                        (keyup.enter)="onSelect('margin_wmt', 'enter')" (keyup.tab)="onSelect('margin_wmt', 'enter')"
+                        [(ngModel)]="MarginRateInTerms" (onClick)="onSelect('margin_wmt', 'click')" filter="true"
+                        resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -391,8 +402,8 @@
                       <label class="label-fontsize" for="PaymentMode">Payment Mode</label>
                       <p-dropdown #pay [options]="paymentOptions" [(ngModel)]="Payment"
                         (onClick)="onSelect('pay', 'click')" autoDisplayFirst="true"
-                        (keydown.enter)="onSelect('pay', 'enter')" filter="true" name="PaymentMode"
-                        filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true">
+                        (keyup.enter)="onSelect('pay', 'enter')" (keyup.tab)="onSelect('pay', 'enter')" filter="true"
+                        name="PaymentMode" filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
                         </ng-template>
@@ -493,75 +504,72 @@
                   <div class="ui-g-12 ui-md-12 no-left-pad">
                     <div class="ui-g-12 ui-md-7 dashboard">
                       <div class="ui-g-12 ui-md-12 dashboard" style="margin-top: -18px;">
-                    <div class="ui-g-4 ui-md-2">
-                      <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
-                        (click)="getPreviousBalance()" [disabled]="(!PName)"
-                        tooltipPosition="top"></button>
-                    </div>
-                    <div class="ui-g-6 ui-md-4">
-                      <span class="ui-float-label">
-                        <input name="PreviousOrderNo" [(ngModel)]="PrevOrderNo" type="text" pInputText
-                          autocomplete="off">
-                        <label for="PreviousOrderNo" class="float-input">Previous DoNo</label>
-                      </span>
-                    </div>
-                    <div class="ui-g-6 ui-md-3">
-                      <p-calendar name="PreviousOrderDate" dateFormat="dd/mm/yy" [(ngModel)]="PrevOrderDate"
-                        [maxDate]="maxDate" [showIcon]="true"></p-calendar>
-                    </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-12 no-left-pad">
-                    <div class="ui-g-6 ui-md-4">
-                    <span class="ui-float-label">
-                      <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText type="text"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                       (input)="resetPBType('PB')" autocomplete="off">
-                      <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
-                    </span>
-                  </div>
-                  <div class="ui-g-4 ui-md-2">
-                    <p-radioButton #rb name="PType" label="Credit" value="Credit"
-                     [(ngModel)]="PrevBalType" (onClick)="loadPrevBal(PrevBalType)">
-                      <!-- (onClick)="onCalculateBalance()" -->
-                    </p-radioButton>
-                  </div>
-                  <div class="ui-g-4 ui-md-2">
-                    <p-radioButton #rb name="PType" label="Debit" value="Debit"
-                     [(ngModel)]="PrevBalType" (onClick)="loadPrevBal(PrevBalType)">
-                      <!-- (onClick)="onCalculateBalance()" -->
-                    </p-radioButton>
-                  </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-12 no-left-pad" style="margin-top: -5px;">
-                      <div class="ui-g-6 ui-md-4">
-                        <span class="ui-float-label">
-                          <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
-                          oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                          (input)="resetPBType('OA')" appDecimalAmount>
-                          <label for="OtherAmnt" class="float-input">Other Amt</label>
-                        </span>
+                        <div class="ui-g-4 ui-md-2">
+                          <button style="padding: 0px" pButton label="Get" pTooltip="Get Previous Balance"
+                            (click)="getPreviousBalance()" [disabled]="(!PName)" tooltipPosition="top"></button>
+                        </div>
+                        <div class="ui-g-6 ui-md-4">
+                          <span class="ui-float-label">
+                            <input name="PreviousOrderNo" [(ngModel)]="PrevOrderNo" type="text" pInputText
+                              autocomplete="off">
+                            <label for="PreviousOrderNo" class="float-input">Previous DoNo</label>
+                          </span>
+                        </div>
+                        <div class="ui-g-6 ui-md-3">
+                          <p-calendar name="PreviousOrderDate" dateFormat="dd/mm/yy" [(ngModel)]="PrevOrderDate"
+                            [maxDate]="maxDate" [showIcon]="true"></p-calendar>
+                        </div>
                       </div>
-                      <div class="ui-g-4 ui-md-2">
-                        <p-radioButton name="OType" label="Credit" value="Credit"
-                         [(ngModel)]="AmntType" (onClick)="loadOtherAmnt(AmntType)">
-                          <!-- (onClick)="onCalculateBalance()" -->
-                        </p-radioButton>
+                      <div class="ui-g-12 ui-md-12 no-left-pad">
+                        <div class="ui-g-6 ui-md-4">
+                          <span class="ui-float-label">
+                            <input name="AdjAmnt" [(ngModel)]="AdjusmentAmount" pInputText type="text"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                              (input)="resetPBType('PB')" autocomplete="off">
+                            <label for="AdjAmnt" class="float-input">Pre Amt Bal</label>
+                          </span>
+                        </div>
+                        <div class="ui-g-4 ui-md-2">
+                          <p-radioButton #rb name="PType" label="Credit" value="Credit" [(ngModel)]="PrevBalType"
+                            (onClick)="loadPrevBal(PrevBalType)">
+                            <!-- (onClick)="onCalculateBalance()" -->
+                          </p-radioButton>
+                        </div>
+                        <div class="ui-g-4 ui-md-2">
+                          <p-radioButton #rb name="PType" label="Debit" value="Debit" [(ngModel)]="PrevBalType"
+                            (onClick)="loadPrevBal(PrevBalType)">
+                            <!-- (onClick)="onCalculateBalance()" -->
+                          </p-radioButton>
+                        </div>
                       </div>
-                      <div class="ui-g-4 ui-md-2">
-                        <p-radioButton name="OType" label="Debit" value="Debit"
-                         [(ngModel)]="AmntType" (onClick)="loadOtherAmnt(AmntType)">
-                          <!-- (onClick)="onCalculateBalance()" -->
-                        </p-radioButton>
-                      </div>
-                      <div class="ui-g-4 ui-md-2 no-pad-top">
-                        <button pButton label="Enter"
-                          [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType 
+                      <div class="ui-g-12 ui-md-12 no-left-pad" style="margin-top: -5px;">
+                        <div class="ui-g-6 ui-md-4">
+                          <span class="ui-float-label">
+                            <input name="OtherAmnt" type="text" [(ngModel)]="OtherAmount" pInputText autocomplete="off"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                              (input)="resetPBType('OA')" appDecimalAmount>
+                            <label for="OtherAmnt" class="float-input">Other Amt</label>
+                          </span>
+                        </div>
+                        <div class="ui-g-4 ui-md-2">
+                          <p-radioButton name="OType" label="Credit" value="Credit" [(ngModel)]="AmntType"
+                            (onClick)="loadOtherAmnt(AmntType)">
+                            <!-- (onClick)="onCalculateBalance()" -->
+                          </p-radioButton>
+                        </div>
+                        <div class="ui-g-4 ui-md-2">
+                          <p-radioButton name="OType" label="Debit" value="Debit" [(ngModel)]="AmntType"
+                            (onClick)="loadOtherAmnt(AmntType)">
+                            <!-- (onClick)="onCalculateBalance()" -->
+                          </p-radioButton>
+                        </div>
+                        <div class="ui-g-4 ui-md-2 no-pad-top">
+                          <button pButton label="Enter" [disabled]="(!PrevOrderNo || !PrevOrderDate || !AdjustmentType 
                           || AdjusmentAmount==null || (OtherAmount!=0 && AmntType==null)
                           || OtherAmount==null || (AdjusmentAmount!=0 && PrevBalType==null)
-                          || Balance==null)"  
-                          (click)="onEnter('Adjustment')"></button>
-                      </div>
-                      <!-- <div class="ui-g-12 ui-md-4">
+                          || Balance==null)" (click)="onEnter('Adjustment')"></button>
+                        </div>
+                        <!-- <div class="ui-g-12 ui-md-4">
                         <label for="Credit"
                           style="font-size: 12px; color: rgb(197, 10, 10);"><b>*(Pre.AmtBal+AmtPay)-(AmtDue+Others)=Balance>>>For
                             Credit</b></label>
@@ -571,10 +579,10 @@
                           style="font-size: 12px; color: rgb(197, 10, 10);;"><b>*(Pre.AmtBal+AmtDue+Others)-(AmtPaid)=Balance>>>For
                             Debit</b></label>
                       </div> -->
-                    <!-- </div> -->
-                    </div>
+                        <!-- </div> -->
+                      </div>
 
-                  </div>
+                    </div>
                     <div class="ui-g-12 ui-md-5 border-teal no-pad-top" style="margin-top: -18px;" tabindex="-1">
                       <div class="ui-g-12 ui-md-12 dashboard">
                         <div class="ui-g-12 ui-md-12 dashboard">
@@ -588,47 +596,47 @@
                         </div>
                         <div class="ui-g-4 ui-md-12 dashboard">
                           <div class="ui-g-4 no-pad-top">
-                          <label class="label-fontsize-large">Current DO</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(CurrDAmount, 'D')}">{{CurrDAmount}}</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(CurrCAmount, 'C')}">{{CurrCAmount}}</label>
-                        </div>
+                            <label class="label-fontsize-large">Current DO</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(CurrDAmount, 'D')}">{{CurrDAmount}}</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(CurrCAmount, 'C')}">{{CurrCAmount}}</label>
+                          </div>
                         </div>
                         <div class="ui-g-4 ui-md-12 dashboard">
                           <div class="ui-g-4 no-pad-top">
-                          <label class="label-fontsize-large">Prev DO</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(AdjusmentDAmount, 'D')}">{{AdjusmentDAmount}}</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(AdjusmentCAmount, 'C')}">{{AdjusmentCAmount}} </label>
-                        </div>
+                            <label class="label-fontsize-large">Prev DO</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(AdjusmentDAmount, 'D')}">{{AdjusmentDAmount}}</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(AdjusmentCAmount, 'C')}">{{AdjusmentCAmount}} </label>
+                          </div>
                         </div>
                         <div class="ui-g-4 ui-md-12 dashboard">
                           <div class="ui-g-4 no-pad-top">
-                          <label class="label-fontsize-large">Other Amnt</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(OtherDAmount, 'D')}">{{OtherDAmount}}</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{OtherCAmount}} </label>
-                        </div>
+                            <label class="label-fontsize-large">Other Amnt</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(OtherDAmount, 'D')}">{{OtherDAmount}}</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{OtherCAmount}} </label>
+                          </div>
                         </div>
                         <div class="ui-g-4 ui-md-12 dashboard">
                           <div class="ui-g-4 no-pad-top">
-                          <label class="label-fontsize-large">Balance</label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{BalanceDAmount}} </label>
-                        </div>
-                        <div class="ui-g-4 no-pad-top">
-                          <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{BalanceCAmount}} </label>
-                        </div>
+                            <label class="label-fontsize-large">Balance</label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{BalanceDAmount}} </label>
+                          </div>
+                          <div class="ui-g-4 no-pad-top">
+                            <label [ngStyle]="{'color': getStyle(OtherCAmount, 'C')}">{{BalanceCAmount}} </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -648,7 +656,7 @@
                       </span>
                     </div> -->
                   </div>
-              
+
                   <hr class="ui-g-12 dashboard border-teal">
                   <!-- </div> -->
                   <div class="ui-g-12 ui-fluid no-left-pad">

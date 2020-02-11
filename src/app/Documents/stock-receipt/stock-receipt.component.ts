@@ -236,7 +236,7 @@ export class StockReceiptComponent implements OnInit {
           } else {
             this.transactionOptions = transactoinSelection.slice(0);
           }
-        })
+        });
         // }
         break;
       case 'sc':
@@ -312,7 +312,7 @@ export class StockReceiptComponent implements OnInit {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(i => {
                   itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
-                })
+                });
                 this.itemDescOptions = itemDesc;
                 this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
@@ -336,7 +336,7 @@ export class StockReceiptComponent implements OnInit {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(s => {
                   stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
-                })
+                });
                 this.stackOptions = stackNo;
                 this.stackOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
@@ -481,8 +481,8 @@ export class StockReceiptComponent implements OnInit {
 
   onCalculateWt(value, id) {
     const kgs = (value * 1);
-    if(kgs !== null && kgs !== undefined) {
-      if(id === 'gkgs') { this.NKgs = kgs; }
+    if (kgs !== null && kgs !== undefined) {
+      if (id === 'gkgs') { this.NKgs = kgs; }
     }
     if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
       let grossWt = (this.GKgs * 1);
@@ -519,13 +519,13 @@ export class StockReceiptComponent implements OnInit {
         GCode: this.ReceivingCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
         Type: 1
-      }
+      };
       this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
           this.StackBalance = (this.StackBalance * 1);
         }
-      })
+      });
     } else {
       this.godownNo = null; this.stackYear = null;
       this.locationNo = null; this.stackCompartment = null;
@@ -538,7 +538,7 @@ export class StockReceiptComponent implements OnInit {
   }
 
   checkStackAndReceiptDate(stackCardDate) {
-    if(stackCardDate !== null && stackCardDate !== undefined && this.SRDate !== undefined && this.SRDate !== null) {
+    if (stackCardDate !== null && stackCardDate !== undefined && this.SRDate !== undefined && this.SRDate !== null) {
       const receiptDate = this.SRDate.getDate();
       const receiptYear = this.SRDate.getFullYear();
       const receiptMonth = this.SRDate.getMonth() + 1;
@@ -546,16 +546,18 @@ export class StockReceiptComponent implements OnInit {
       const stackYear = stackCardDate.getFullYear();
       const stackMonth = stackCardDate.getMonth() + 1;
       if ((stackDate > receiptDate && ((stackMonth >= receiptMonth && stackYear >= receiptYear) ||
-      (stackMonth === receiptMonth && stackYear === receiptYear))) ||
-      (stackMonth > receiptMonth && stackYear === receiptYear) || (stackYear > receiptYear)) {
-         this.disableSave = true;
-         this.messageService.clear();
-         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-         life:5000, detail: StatusMessage.NotValidReceiptDateForStackCard });
-        } else {
-          this.disableSave = false;
-          this.messageService.clear();
-        }
+        (stackMonth === receiptMonth && stackYear === receiptYear))) ||
+        (stackMonth > receiptMonth && stackYear === receiptYear) || (stackYear > receiptYear)) {
+        this.disableSave = true;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.NotValidReceiptDateForStackCard
+        });
+      } else {
+        this.disableSave = false;
+        this.messageService.clear();
+      }
     }
   }
 
@@ -660,7 +662,7 @@ export class StockReceiptComponent implements OnInit {
       'LWBNo': (this.LWBillNo !== undefined && this.LWBillNo !== null) ? this.LWBillNo : '-',
       'LDate': this.datepipe.transform(this.LDate, 'MM/dd/yyyy'),
       'LWBDate': this.datepipe.transform(this.LWBillDate, 'MM/dd/yyyy')
-    }
+    };
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
         if (res.Item1) {
@@ -676,13 +678,19 @@ export class StockReceiptComponent implements OnInit {
           }
           this.onClear();
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
+          });
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+          });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -691,10 +699,16 @@ export class StockReceiptComponent implements OnInit {
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
       }
     });
   }
@@ -712,18 +726,24 @@ export class StockReceiptComponent implements OnInit {
           data.OrderDate = this.datepipe.transform(data.OrderDate, 'dd-MM-yyyy');
           data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
           sno += 1;
-        })
+        });
         this.documentViewData = res;
       } else {
         this.documentViewData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.documentViewData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -796,17 +816,23 @@ export class StockReceiptComponent implements OnInit {
             PackingName: i.PName,
             WmtType: i.WEType,
             StackYear: i.StackYear,
-          })
+          });
           sno += 1;
         });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -890,7 +916,10 @@ export class StockReceiptComponent implements OnInit {
     } else {
       this.submitted = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+        summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
+      });
     }
   }
 

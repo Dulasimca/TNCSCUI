@@ -144,7 +144,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
   showGSTErrMsg: boolean = false;
- 
+
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe) { }
@@ -164,9 +164,9 @@ export class DeliveryReceiptComponent implements OnInit {
     this.monthOptions = [{ label: this.PMonth, value: this.curMonth }];
     this.PYear = new Date().getFullYear();
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
-   // this.AdjusmentAmount = 0;
+    // this.AdjusmentAmount = 0;
     this.PAmount = 0;
-   // this.OtherAmount = 0; this.Balance = 0; 
+    // this.OtherAmount = 0; this.Balance = 0;
     this.AdjusmentCAmount = 0; this.AdjusmentDAmount = 0;
     this.BalanceCAmount = 0; this.BalanceDAmount = 0;
     this.CurrCAmount = 0; this.CurrDAmount = 0;
@@ -182,7 +182,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.ChequeDate = this.maxDate;
     this.DeliveryDate = this.maxDate;
     this.viewDate = this.maxDate;
-   }
+  }
 
   onSelect(selectedItem, type) {
     let transactoinSelection = [];
@@ -314,7 +314,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
           if ((this.Scheme.value !== undefined && this.Scheme.value !== null)
-          || (this.schemeCode !== undefined && this.schemeCode !== null)) {
+            || (this.schemeCode !== undefined && this.schemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.Scheme.value !== undefined) ? this.Scheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -345,7 +345,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
           if ((this.MarginScheme.value !== undefined && this.MarginScheme.value !== null)
-          || (this.marginSchemeCode !== undefined && this.marginSchemeCode !== null)) {
+            || (this.marginSchemeCode !== undefined && this.marginSchemeCode !== null)) {
             const params = new HttpParams().set('SCode', (this.MarginScheme.value !== undefined) ? this.MarginScheme.value : this.schemeCode);
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
@@ -390,7 +390,7 @@ export class DeliveryReceiptComponent implements OnInit {
         if (type === 'enter') {
           this.marginWeighmentPanel.overlayVisible = true;
         }
-          this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
+        this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
             res.forEach(w => {
               if (w.Basicweight !== 'GRAMS') {
@@ -446,10 +446,10 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   onGSTInput(event) {
-    if(event !== null && event !== undefined && event !== '') {
-      if(event.length < 3) {
+    if (event !== null && event !== undefined && event !== '') {
+      if (event.length < 3) {
         this.showGSTErrMsg = true;
-      } else if(event.length > 3 && event.length < 15) {
+      } else if (event.length > 3 && event.length < 15) {
         this.showGSTErrMsg = true;
       } else {
         this.showGSTErrMsg = false;
@@ -462,19 +462,25 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onUpdateGST() {
     const params = {
-      'GSTNumber' : this.GSTNumber.toUpperCase(),
+      'GSTNumber': this.GSTNumber.toUpperCase(),
       'IssuerCode': (this.PName.value !== null && this.PName.value !== undefined) ? this.PName.value : this.pCode,
       'GCode': this.GCode
-    } 
+    }
     this.restAPIService.post(PathConstants.DO_GST_UPDATE, params).subscribe(res => {
       if (res.Item1) {
         this.isGSTModified = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 })
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
+        })
       } else {
         this.isGSTModified = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage })
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        })
       }
     });
   }
@@ -514,7 +520,10 @@ export class DeliveryReceiptComponent implements OnInit {
         })
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        })
       }
     });
   }
@@ -533,9 +542,9 @@ export class DeliveryReceiptComponent implements OnInit {
         this.RateTerm = data.Wtype;
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
         this.TotalAmount = (data.Total * 1);
-        if(this.itemData.length !== 0) {
-        this.GrandTotal = ((this.GrandTotal * 1) - (this.TotalAmount * 1)).toFixed(2);
-      //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
+        if (this.itemData.length !== 0) {
+          this.GrandTotal = ((this.GrandTotal * 1) - (this.TotalAmount * 1)).toFixed(2);
+          //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
           this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
           // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
@@ -557,12 +566,12 @@ export class DeliveryReceiptComponent implements OnInit {
         this.MarginNKgs = (data.MarginNkgs * 1).toFixed(3);
         this.MarginRate = (data.MarginRate * 1).toFixed(3);
         this.MarginAmount = (data.MarginAmount * 1).toFixed(3);
-        if(this.itemSchemeData.length !== 0) {
-        this.GrandTotal = ((this.GrandTotal * 1) + (this.MarginAmount * 1)).toFixed(2);
-      //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
+        if (this.itemSchemeData.length !== 0) {
+          this.GrandTotal = ((this.GrandTotal * 1) + (this.MarginAmount * 1)).toFixed(2);
+          //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         } else {
           this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
-         // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
+          // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
         this.DueAmount = (this.GrandTotal * 1);
         this.itemSchemeData.splice(index, 1);
@@ -596,7 +605,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.OtherAmount = (data.AmountNowAdjusted * 1);
         this.Balance = (data.Balance * 1);
         this.AdjusmentCAmount = ((this.AdjusmentAmount * 1) < 0) ? (this.AdjusmentAmount * 1) : 0;
-        this.AdjusmentDAmount = ((this.AdjusmentAmount * 1) >= 0) ? (this.AdjusmentAmount * 1): 0;
+        this.AdjusmentDAmount = ((this.AdjusmentAmount * 1) >= 0) ? (this.AdjusmentAmount * 1) : 0;
         this.AdjusmentCAmount = ((this.AdjusmentCAmount * 1) < 0) ? (this.AdjusmentCAmount * 1).toFixed(2).slice(1) : (this.AdjusmentCAmount * 1);
         this.AdjustmentType = data.AdjustmentType;
         this.paymentBalData.splice(index, 1);
@@ -627,10 +636,10 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
-        //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
-          this.DueAmount = (this.GrandTotal * 1); 
+          //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
+          this.DueAmount = (this.GrandTotal * 1);
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
+            ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
@@ -662,10 +671,10 @@ export class DeliveryReceiptComponent implements OnInit {
             sno += 1;
           });
           this.GrandTotal = ((this.totalAmount * 1) - (this.marginTotal * 1)).toFixed(2);
-         // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
+          // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
           this.DueAmount = (this.GrandTotal * 1);
           this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
-          ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0; 
+            ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
           this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
           this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
@@ -681,15 +690,19 @@ export class DeliveryReceiptComponent implements OnInit {
         if (!validateBank) {
           this.OnBank = null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
-          life:5000, detail: StatusMessage.BankNameInDO });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+            life: 5000, detail: StatusMessage.BankNameInDO
+          });
         }
         else if ((this.Payment === 'Cheque' || this.Payment === 'Draft' || this.Payment === 'PayOrder') && (this.ChequeNo === '-' || this.PayableAt === '-')) {
           this.ChequeNo = (this.ChequeNo !== '-') ? this.ChequeNo : null;
           this.PayableAt = (this.PayableAt !== '-') ? this.PayableAt : null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
-          life:5000, detail: StatusMessage.CHAndPayableAtInDO })
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_REQUIRED,
+            life: 5000, detail: StatusMessage.CHAndPayableAtInDO
+          })
         } else {
           this.paymentData.push({
             PaymentMode: this.Payment, ChequeNo: this.ChequeNo,
@@ -707,9 +720,9 @@ export class DeliveryReceiptComponent implements OnInit {
             this.DueAmount = (this.DueAmount !== undefined) ? this.DueAmount : this.GrandTotal;
             this.BalanceAmount = (this.DueAmount !== undefined && this.PaidAmount !== undefined) ?
               ((this.DueAmount * 1) - (this.PaidAmount * 1)).toFixed(2) : 0;
-              this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
-              this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
-              this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1).toFixed(2);
+            this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
+            this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1).toFixed(2) : 0;
+            this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1).toFixed(2);
             this.ChequeDate = new Date();
             this.Payment = null; this.PayableAt = null; this.ChequeNo = null;
             this.OnBank = null; this.PAmount = 0;
@@ -779,7 +792,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   loadOtherAmnt(value) {
-    if(value !== null && value !== undefined) {
+    if (value !== null && value !== undefined) {
       switch (value) {
         case 'Credit':
           this.OtherCAmount = (this.OtherAmount !== null && this.OtherAmount !== undefined) ? (this.OtherAmount * 1).toFixed(2) : 0;
@@ -796,7 +809,7 @@ export class DeliveryReceiptComponent implements OnInit {
   }
 
   loadPrevBal(value) {
-    if(value !== null && value !== undefined) {
+    if (value !== null && value !== undefined) {
       switch (value) {
         case 'Credit':
           this.AdjusmentCAmount = (this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined) ? (this.AdjusmentAmount * 1).toFixed(2) : 0;
@@ -811,38 +824,38 @@ export class DeliveryReceiptComponent implements OnInit {
       }
     }
   }
-  
+
 
   onCalculateBalance() {
-    if(this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined &&
+    if (this.AdjusmentAmount !== null && this.AdjusmentAmount !== undefined &&
       this.OtherAmount !== null && this.OtherAmount !== undefined && this.BalanceAmount !== null
       && this.BalanceAmount !== undefined) {
+      this.BalanceCAmount = 0;
+      this.BalanceDAmount = 0;
+      this.Balance = 0;
+      this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
+      this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
+      this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
+      let totalCAmount = (this.AdjusmentCAmount * 1) + (this.CurrCAmount * 1) + (this.OtherCAmount * 1);
+      let totalDAmount = (this.AdjusmentDAmount * 1) + (this.CurrDAmount * 1) + (this.OtherDAmount * 1);
+      if (totalCAmount > totalDAmount) {
+        this.Balance = ((totalCAmount * 1) - (totalDAmount * 1)).toFixed(2);
+        this.BalanceCAmount = this.Balance;
+        this.BalanceDAmount = 0;
+        this.AdjustmentType = 'Credit';
+      } else if (totalCAmount <= totalDAmount) {
+        this.Balance = ((totalDAmount * 1) - (totalCAmount * 1)).toFixed(2);
+        this.BalanceDAmount = this.Balance;
+        this.BalanceCAmount = 0;
+        this.AdjustmentType = 'Debit';
+      } else {
+        this.Balance = 0;
         this.BalanceCAmount = 0;
         this.BalanceDAmount = 0;
-        this.Balance = 0;
-        this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
-        this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-        this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
-        let totalCAmount = (this.AdjusmentCAmount * 1) + (this.CurrCAmount * 1) + (this.OtherCAmount * 1);
-        let totalDAmount = (this.AdjusmentDAmount * 1) + (this.CurrDAmount * 1) + (this.OtherDAmount * 1);
-        if(totalCAmount > totalDAmount) {
-          this.Balance = ((totalCAmount * 1) - (totalDAmount * 1)).toFixed(2);
-          this.BalanceCAmount = this.Balance;
-          this.BalanceDAmount = 0;
-          this.AdjustmentType = 'Credit';
-        } else if(totalCAmount <= totalDAmount) {
-          this.Balance = ((totalDAmount * 1) - (totalCAmount * 1)).toFixed(2);
-          this.BalanceDAmount = this.Balance;
-          this.BalanceCAmount = 0;
-          this.AdjustmentType = 'Debit';
-        } else {
-          this.Balance = 0;
-          this.BalanceCAmount = 0;
-          this.BalanceDAmount = 0;
-          this.AdjustmentType = null;
-        }
-        }
+        this.AdjustmentType = null;
       }
+    }
+  }
 
   getPreviousBalance() {
     this.messageService.clear();
@@ -859,7 +872,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PrevOrderNo = res[0].Dono;
         this.PrevOrderDate = new Date(res[0].DoDate);
         this.AdjusmentAmount = (res[0].Balance * 1);
-        if((this.AdjusmentAmount * 1) < 0) {
+        if ((this.AdjusmentAmount * 1) < 0) {
           this.PrevBalType = 'Credit';
           this.AdjusmentDAmount = 0;
           this.AdjusmentCAmount = (this.AdjusmentAmount * 1);
@@ -874,14 +887,17 @@ export class DeliveryReceiptComponent implements OnInit {
         }
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        })
       }
     })
   }
 
   resetPBType(type) {
-    if(type === 'PB') {
-    this.PrevBalType = null;
+    if (type === 'PB') {
+      this.PrevBalType = null;
     } else {
       this.AmntType = null;
     }
@@ -904,13 +920,19 @@ export class DeliveryReceiptComponent implements OnInit {
       } else {
         this.deliveryViewData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination })
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        })
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.deliveryData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -969,7 +991,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.STOCK_DELIVERY_ORDER_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
         this.onClear();
-        this.GSTNumber=res.Table[0].GSTNumber;
+        this.GSTNumber = res.Table[0].GSTNumber;
         this.rowId = res.Table[0].RowId;
         this.DeliveryOrderNo = res.Table[0].Dono;
         this.DeliveryDate = new Date(res.Table[0].DoDate);
@@ -993,7 +1015,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
         this.Remarks = res.Table[0].Remarks.trim();
-//        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
+        //        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
@@ -1018,10 +1040,13 @@ export class DeliveryReceiptComponent implements OnInit {
           });
           this.totalAmount += (i.Total * 1);
           i_sno += 1;
-        })
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
       if (res.Table1 !== undefined && res.Table1.length !== 0 && res.Table1 !== null) {
         let m_sno = 1;
@@ -1040,7 +1065,7 @@ export class DeliveryReceiptComponent implements OnInit {
           });
           this.marginTotal += (i.MarginAmount * 1);
           m_sno += 1;
-        })
+        });
       }
       if (res.Table3 !== undefined && res.Table3.length !== 0 && res.Table3 !== null) {
         let p_sno = 1;
@@ -1061,11 +1086,11 @@ export class DeliveryReceiptComponent implements OnInit {
         if (this.paymentData.length !== 0) {
           this.paymentData.forEach(x => {
             this.PaidAmount += (x.PaymentAmount * 1);
-      })
-           this.BalanceAmount = ((this.DueAmount * 1) - (this.PaidAmount * 1));
-           this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
-           this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
-           this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
+          })
+          this.BalanceAmount = ((this.DueAmount * 1) - (this.PaidAmount * 1));
+          this.CurrCAmount = ((this.BalanceAmount * 1) < 0) ? (this.BalanceAmount * 1) : 0;
+          this.CurrDAmount = ((this.BalanceAmount * 1) >= 0) ? (this.BalanceAmount * 1) : 0;
+          this.CurrCAmount = ((this.CurrCAmount * 1) < 0) ? (this.CurrCAmount * 1).toFixed(2).slice(1) : (this.CurrCAmount * 1);
         }
       }
       if (res.Table2 !== undefined && res.Table2.length !== 0 && res.Table2 !== null) {
@@ -1085,11 +1110,14 @@ export class DeliveryReceiptComponent implements OnInit {
           pb_sno += 1;
         });
       }
-          this.onCalculateBalance();
+      this.onCalculateBalance();
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -1149,14 +1177,20 @@ export class DeliveryReceiptComponent implements OnInit {
           }
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
+          });
           this.onClear();
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+          });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -1165,10 +1199,16 @@ export class DeliveryReceiptComponent implements OnInit {
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
       }
     });
   }
@@ -1196,33 +1236,36 @@ export class DeliveryReceiptComponent implements OnInit {
     this.submitted = true;
     let arr = [];
     let no = 0;
-    if(form.invalid) {
+    if (form.invalid) {
       for (var key in form.value) {
-       if((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null) && (key !== 'DoNo' && key !== 'RiceChecked' && key !== 'DueAmnt'
-       && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
-       key !== 'MarginSchemes' &&  key !== 'MarginCommodity' &&  key !== 'MarginWt' &&  key !== 'MarginRateTerms' 
-       &&  key !== 'MarginRateRS' &&  key !== 'PaymentMode' &&  key !== 'ChequeNumber' && key !== 'AdjType' &&
-       key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate' &&
-       key !== 'PType' && key !== 'OType')) {
-         no += 1;
-         arr.push({label: no, value: no + '.' + key});
+        if ((form.value[key] === undefined || form.value[key] === '' || form.value[key] === null) && (key !== 'DoNo' && key !== 'RiceChecked' && key !== 'DueAmnt'
+          && key !== 'TareWt' && key !== 'PaidAmnt' && key !== 'BalAmnt' && key !== 'groupname' &&
+          key !== 'MarginSchemes' && key !== 'MarginCommodity' && key !== 'MarginWt' && key !== 'MarginRateTerms'
+          && key !== 'MarginRateRS' && key !== 'PaymentMode' && key !== 'ChequeNumber' && key !== 'AdjType' &&
+          key !== 'PayAt' && key !== 'Bank' && key !== 'PreviousOrderNo' && key !== 'PreviousOrderDate' &&
+          key !== 'PType' && key !== 'OType')) {
+          no += 1;
+          arr.push({ label: no, value: no + '.' + key });
         }
-       }
-       this.missingFields = arr;
+      }
+      this.missingFields = arr;
     } else if (this.itemData.length === 0) {
-      arr.push({ label: '1', value: 'Please add item details! '});
+      arr.push({ label: '1', value: 'Please add item details! ' });
       this.missingFields = arr;
     } else {
       this.submitted = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
-     }
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+        summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
+      });
+    }
   }
 
-  public getStyle (value, type): string {
+  public getStyle(value, type): string {
     const amount = (value * 1);
-    if(amount !== 0) {
-    return type === 'C' ? '#990000' : '#1377b9';
+    if (amount !== 0) {
+      return type === 'C' ? '#990000' : '#1377b9';
     } else {
       return 'black';
     }

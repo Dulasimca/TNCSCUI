@@ -144,7 +144,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
-  
+
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -176,7 +176,7 @@ export class IssueReceiptComponent implements OnInit {
       if (res.length !== 0 && res !== null && res !== undefined) {
         this.categoryTypeCodeList = res;
       }
-    })
+    });
   }
 
   onSelect(selectedItem, type) {
@@ -226,7 +226,7 @@ export class IssueReceiptComponent implements OnInit {
           } else {
             this.transactionOptions = transactoinSelection;
           }
-        })
+        });
         // }
         break;
       case 'sc':
@@ -282,7 +282,7 @@ export class IssueReceiptComponent implements OnInit {
                     'label': rn.DepositorName, 'value': rn.DepositorCode,
                     'SocietyName': rn.Societyname, 'ACSCode': rn.ACSCode, 'SocietyCode': rn.Societycode
                   });
-                })
+                });
                 this.receiverNameOptions = receivorNameList;
                 this.receiverNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
@@ -316,7 +316,7 @@ export class IssueReceiptComponent implements OnInit {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(i => {
                   itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'GRName': i.GRName, 'group': i.Allotmentgroup });
-                })
+                });
                 this.itemDescOptions = itemDesc;
                 this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
               }
@@ -437,18 +437,24 @@ export class IssueReceiptComponent implements OnInit {
         && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-        life:5000, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.NoSocietyAndACSCodeForIssue + this.RNCode.label
+        });
       } else if (SocietyCode === null || SocietyCode === undefined || SocietyCode === '') {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-        life:5000, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.NoSocietyCodeForIssue + this.RNCode.label
+        });
       } else if (ACSCode === null || ACSCode === undefined || ACSCode === '') {
         this.disableSave = true;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-        life:5000, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.NoACSCodeForIssue + this.RNCode.label
+        });
       } else {
         this.disableSave = false;
         this.messageService.clear();
@@ -569,7 +575,7 @@ export class IssueReceiptComponent implements OnInit {
       GCode: this.IssuingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
       Type: 1
-    }
+    };
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
@@ -584,7 +590,7 @@ export class IssueReceiptComponent implements OnInit {
                 this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
                 this.NetStackBalance = (this.NetStackBalance * 1);
               }
-            })
+            });
           }
         } else {
           this.isValidStackBalance = true;
@@ -594,7 +600,7 @@ export class IssueReceiptComponent implements OnInit {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
       }
-    })
+    });
   }
 
   checkRegAdv(value) {
@@ -725,8 +731,10 @@ export class IssueReceiptComponent implements OnInit {
           this.NoPacking = null;
           this.GKgs = null; this.NKgs = null; this.TKgs = null;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-          life:5000, detail: StatusMessage.ExceedingStackBalance });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+            life: 5000, detail: StatusMessage.ExceedingStackBalance
+          });
 
           if (this.itemData.length !== 0) {
             sno = 1;
@@ -914,8 +922,10 @@ export class IssueReceiptComponent implements OnInit {
           this.DOCNumber = res.Item3;
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, 
-          life:5000, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
+            life: 5000, detail: res.Item2
+          });
 
           this.onClear();
         } else {
@@ -923,7 +933,10 @@ export class IssueReceiptComponent implements OnInit {
           this.isSaveSucceed = false;
           this.blockScreen = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+          });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -932,10 +945,16 @@ export class IssueReceiptComponent implements OnInit {
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
       }
     });
   }
@@ -953,18 +972,24 @@ export class IssueReceiptComponent implements OnInit {
           data.SIDate = this.datepipe.transform(data.SIDate, 'dd-MM-yyyy');
           data.DDate = this.datepipe.transform(data.DDate, 'dd-MM-yyyy');
           sno += 1;
-        })
+        });
         this.issueMemoDocData = res.Table;
       } else {
         this.issueMemoDocData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.issueMemoDocData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -972,7 +997,7 @@ export class IssueReceiptComponent implements OnInit {
   checkAllotmentStatus(value) {
     this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value }).subscribe(status => {
       this.AllotmentStatus = status[0].TNCSCValue;
-    })
+    });
   }
 
   getAllotmentDetails() {
@@ -988,7 +1013,7 @@ export class IssueReceiptComponent implements OnInit {
           'Month': (this.RegularAdvance.toUpperCase() === 'A') ? (((this.curMonth * 1) < 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
           'Year': this.year,
           'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
-        }
+        };
         this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
           res.forEach(x => {
             this.allotmentDetails.push({
@@ -997,9 +1022,9 @@ export class IssueReceiptComponent implements OnInit {
               AllotmentScheme: x.AllotmentSchemeCode,
               AllotmentGroup: x.AllotmentGroup,
               BalanceQty: x.BalanceQty
-            })
+            });
           });
-        })
+        });
       }
     } else {
       this.allotmentDetails.length = 0;
@@ -1032,9 +1057,11 @@ export class IssueReceiptComponent implements OnInit {
             if (this.BalanceQty <= 0 && this.itemData.length === 0) {
               this.exceedAllotBal = true;
               this.messageService.clear();
-              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-              life:5000, detail: StatusMessage.AllotmentIssueQuantityValidation });
-    
+              this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
+              });
+
             } else if ((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
               let netwt = 0;
               this.itemData.forEach(x => {
@@ -1047,7 +1074,7 @@ export class IssueReceiptComponent implements OnInit {
                       key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
                       life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
                     });
-          
+
                   } else {
                     this.exceedAllotBal = false;
                   }
@@ -1072,9 +1099,11 @@ export class IssueReceiptComponent implements OnInit {
         if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
           if (this.BalanceQty < (this.NKgs * 1)) {
             this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-            life:5000, detail: StatusMessage.AllotmentIssueQuantityValidation });
-  
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+              life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
+            });
+
           } else {
             this.messageService.clear();
           }
@@ -1205,15 +1234,24 @@ export class IssueReceiptComponent implements OnInit {
         this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: err.message });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: err.message
+        });
       }
     });
   }
@@ -1314,7 +1352,10 @@ export class IssueReceiptComponent implements OnInit {
     } else {
       this.submitted = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+        summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
+      });
     }
   }
 

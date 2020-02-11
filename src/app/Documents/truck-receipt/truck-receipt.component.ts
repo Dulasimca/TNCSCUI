@@ -174,7 +174,7 @@ export class TruckReceiptComponent implements OnInit {
     this.GCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
-    this.maxDate =  (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.viewDate = this.maxDate;
     this.STDate = this.maxDate;
     this.LWBillDate = this.maxDate;
@@ -205,8 +205,8 @@ export class TruckReceiptComponent implements OnInit {
           { 'label': 'Internal Transfer', 'value': 'TR021', 'transType': this.transType });
         this.transactionOptions = transactoinSelection;
         this.transactionOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-        if(this.Trcode.value !== null && this.Trcode.value !== undefined) {
-        this.enableReceivorRegn = (this.Trcode.value === 'TR021' || this.trCode === 'TR021') ? true : false;
+        if (this.Trcode.value !== null && this.Trcode.value !== undefined) {
+          this.enableReceivorRegn = (this.Trcode.value === 'TR021' || this.trCode === 'TR021') ? true : false;
         }
         break;
       case 'sc':
@@ -226,7 +226,8 @@ export class TruckReceiptComponent implements OnInit {
       case 'rt':
         if (type === 'enter') {
           this.receivorTypePanel.overlayVisible = true;
-        } if (this.Trcode !== null && this.Trcode !== undefined) {
+        }
+        if (this.Trcode !== null && this.Trcode !== undefined) {
           if ((this.Trcode.value !== undefined && this.Trcode.value !== null) || (this.trCode !== null && this.trCode !== undefined)) {
             const params = new HttpParams().set('TRCode', (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode).append('GCode', this.GCode);
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
@@ -269,7 +270,7 @@ export class TruckReceiptComponent implements OnInit {
                   } else {
                     receivorNameList.push({ 'label': rn.DepositorName, 'value': rn.DepositorCode, 'IssuerRegion': rn.IssuerRegion });
                   }
-                })
+                });
                 this.receivorNameOptions = receivorNameList;
               }
               this.receivorNameOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -288,7 +289,7 @@ export class TruckReceiptComponent implements OnInit {
             if (r.RCode !== this.RCode) {
               regionsData.push({ 'label': r.RName, 'value': r.RCode });
             }
-          })
+          });
           this.receivorRegionOptions = regionsData;
           this.receivorRegionOptions.unshift({ 'label': '-select-', 'value': null });
         } else {
@@ -306,7 +307,7 @@ export class TruckReceiptComponent implements OnInit {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.forEach(rh => {
               railHeads.push({ 'label': rh.DepositorName, 'value': rh.DepositorCode });
-            })
+            });
             this.toRailHeadOptions = railHeads;
           }
           this.toRailHeadOptions.unshift({ label: '-select-', value: null });
@@ -324,7 +325,7 @@ export class TruckReceiptComponent implements OnInit {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.forEach(fs => {
               fromStation.push({ 'label': fs.DepositorName, 'value': fs.DepositorCode });
-            })
+            });
             this.fromStationOptions = fromStation;
           }
           this.fromStationOptions.unshift({ label: '-select-', value: null });
@@ -342,7 +343,7 @@ export class TruckReceiptComponent implements OnInit {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.forEach(ts => {
               toStation.push({ 'label': ts.DepositorName, 'value': ts.DepositorCode });
-            })
+            });
             this.toStationOptions = toStation;
           }
           this.toStationOptions.unshift({ label: '-select-', value: null });
@@ -360,7 +361,7 @@ export class TruckReceiptComponent implements OnInit {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(i => {
                   itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'GRName': i.GRName });
-                })
+                });
                 this.itemDescOptions = itemDesc;
               }
               this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -381,7 +382,7 @@ export class TruckReceiptComponent implements OnInit {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(s => {
                   stackNo.push({ 'label': s.StackNo, 'value': s.StackNo, 'stack_date': s.ObStackDate, 'stack_yr': s.CurYear });
-                })
+                });
                 this.stackOptions = stackNo;
               }
               this.stackOptions.unshift({ label: '-select-', value: null, disabled: true });
@@ -400,12 +401,12 @@ export class TruckReceiptComponent implements OnInit {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.Table.forEach(p => {
               packingTypes.push({ 'label': p.PName, 'value': p.Pcode, 'weight': p.PWeight });
-            })
+            });
             this.packingTypeOptions = packingTypes;
           }
           this.packingTypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         });
-        //  } 
+        //  }
         break;
       case 'wmt':
         if (type === 'enter') {
@@ -450,7 +451,7 @@ export class TruckReceiptComponent implements OnInit {
         this.TStockNo = null; this.stackYear = null;
         this.StackBalance = 0; this.CurrentDocQtv = 0;
         this.NetStackBalance = 0;
-        this.iCode = null; this.ICode = null; 
+        this.iCode = null; this.ICode = null;
         this.itemGroup = null; this.TStockNo = null;
         break;
       case 'i_desc':
@@ -496,7 +497,7 @@ export class TruckReceiptComponent implements OnInit {
     this.WTCode = data.WmtType; this.wtCode = data.WTCode;
     this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
     this.NoPacking = (data.NoPacking * 1),
-    this.GKgs = (data.GKgs * 1).toFixed(3);
+      this.GKgs = (data.GKgs * 1).toFixed(3);
     this.NKgs = (data.Nkgs * 1).toFixed(3);
     this.stackYear = data.StackYear;
     this.Moisture = ((data.Moisture * 1) !== 0) ? (data.Moisture * 1).toFixed(2) : (data.Moisture * 1).toFixed(0);
@@ -507,7 +508,7 @@ export class TruckReceiptComponent implements OnInit {
       this.GodownNo = this.TStockNo.toString().slice(0, index);
       this.LocationNo = this.TStockNo.toString().slice(index + 1, totalLength);
     }
-    this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3)  : 0;
+    this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
     this.itemData.splice(index, 1);
     this.itemData.forEach(x => { x.sno = sno; sno += 1; })
     const list = { stack_no: this.TStockNo, stack_date: this.StackDate, curDocQty: this.NKgs }
@@ -559,8 +560,8 @@ export class TruckReceiptComponent implements OnInit {
 
   onCalculateWt(value, id) {
     const kgs = (value * 1);
-    if(kgs !== null && kgs !== undefined) {
-      if(id === 'gkgs') { this.NKgs = kgs; }
+    if (kgs !== null && kgs !== undefined) {
+      if (id === 'gkgs') { this.NKgs = kgs; }
     }
     if (this.GKgs !== undefined && this.GKgs !== null && this.NKgs !== undefined && this.NKgs !== null) {
       let grossWt = (this.GKgs * 1);
@@ -623,7 +624,7 @@ export class TruckReceiptComponent implements OnInit {
     this.messageService.clear();
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       const i_GRName: string = (this.ICode.GRName !== null && this.ICode.GRName !== undefined) ?
-      this.ICode.GRName : this.itemGroup;
+        this.ICode.GRName : this.itemGroup;
       this.stackYear = (this.TStockNo.stack_yr !== undefined && this.TStockNo.stack_yr !== null) ? this.TStockNo.stack_yr : this.stackYear;
       let stack_data = (event.value !== undefined) ? event.value : event;
       let ind;
@@ -639,7 +640,7 @@ export class TruckReceiptComponent implements OnInit {
         GCode: this.GCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
         Type: 1
-      }
+      };
       this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
@@ -653,15 +654,18 @@ export class TruckReceiptComponent implements OnInit {
                   this.CurrentDocQtv += (x.Nkgs * 1);
                   this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
                 }
-              })
+              });
             }
-          } else if(i_GRName !== 'M024') {
+          } else if (i_GRName !== 'M024') {
             this.isValidStackBalance = true;
             this.CurrentDocQtv = 0;
             this.NetStackBalance = 0;
             this.messageService.clear();
             this.messageService.clear();
-            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance
+            });
           } else {
             this.isValidStackBalance = false;
             this.messageService.clear();
@@ -693,7 +697,7 @@ export class TruckReceiptComponent implements OnInit {
         new Date(this.TStockNo.stack_date) : this.StackDate, Rcode: this.RCode,
       StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-',
       GRName: (this.ICode.GRName !== null && this.ICode.GRName !== undefined) ? this.ICode.GRName : this.itemGroup
-    })
+    });
     if (this.itemData.length !== 0) {
       this.StackBalance = (this.StackBalance * 1);
       this.CurrentDocQtv = 0;
@@ -723,8 +727,10 @@ export class TruckReceiptComponent implements OnInit {
         this.NoPacking = null;
         this.GKgs = null; this.NKgs = null; this.TKgs = null;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
-        life:5000, detail: StatusMessage.ExceedingStackBalance });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.ExceedingStackBalance
+        });
       } else {
         this.NetStackBalance = (this.StackBalance * 1) - (this.CurrentDocQtv * 1);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
@@ -754,7 +760,7 @@ export class TruckReceiptComponent implements OnInit {
           data.sno = sno;
           data.STDate = this.datepipe.transform(data.STDate, 'dd-MM-yyyy');
           sno += 1;
-        })
+        });
         this.truckMemoViewData = res;
       } else {
         this.truckMemoViewData = [];
@@ -765,7 +771,10 @@ export class TruckReceiptComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.truckMemoViewData = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -862,17 +871,23 @@ export class TruckReceiptComponent implements OnInit {
             StackDate: i.StackDate,
             StackYear: i.StackYear,
             RCode: i.RCode
-          })
+          });
           sno += 1;
         });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -909,7 +924,7 @@ export class TruckReceiptComponent implements OnInit {
       RailHead: (this.RHCode !== undefined && this.RHCode !== null) ? ((this.RHCode.value !== undefined && this.RHCode.value !== null) ? this.RHCode.value : this.rhCode) : '-',
       RFreightAmount: (this.RailFreightAmt !== undefined && this.RailFreightAmt !== null) ? this.RailFreightAmt : 0,
       Rcode: this.RCode
-    })
+    });
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.STNo = (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0;
     this.IssueSlip = (this.STNo === undefined || this.STNo === null) ? 'N' : this.IssueSlip;
@@ -947,7 +962,10 @@ export class TruckReceiptComponent implements OnInit {
         if (res.Item1) {
           this.DOCNumber = res.Item3;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
+          });
           this.onClear();
           if (type !== '2') {
             this.isSaveSucceed = true;
@@ -964,7 +982,10 @@ export class TruckReceiptComponent implements OnInit {
           this.isViewed = true;
           this.STTDetails = [];
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2 });
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+          });
         }
       }
     }, (err: HttpErrorResponse) => {
@@ -974,10 +995,16 @@ export class TruckReceiptComponent implements OnInit {
       if (err.status === 0 || err.status === 400) {
         this.STTDetails = [];
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
       }
     });
   }
@@ -1034,7 +1061,10 @@ export class TruckReceiptComponent implements OnInit {
     } else {
       this.submitted = false;
       this.messageService.clear();
-      this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg });
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+        summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
+      });
     }
   }
 }
