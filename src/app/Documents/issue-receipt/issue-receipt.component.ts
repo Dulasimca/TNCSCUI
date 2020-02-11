@@ -192,7 +192,7 @@ export class IssueReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -209,7 +209,7 @@ export class IssueReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         // if(this.transactionOptions === undefined) {
@@ -230,7 +230,7 @@ export class IssueReceiptComponent implements OnInit {
         // }
         break;
       case 'sc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -244,7 +244,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.Trcode !== undefined) {
@@ -266,7 +266,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorNamePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
@@ -306,7 +306,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
@@ -327,7 +327,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.stackNoPanel.overlayVisible = true;
         }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
@@ -351,7 +351,7 @@ export class IssueReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.packingPanel.overlayVisible = true;
         }
         // if (this.packingTypeOptions === undefined) {
@@ -369,7 +369,7 @@ export class IssueReceiptComponent implements OnInit {
         //  }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weightmentPanel.overlayVisible = true;
         }
         // if (this.wmtOptions === undefined) {
@@ -594,6 +594,7 @@ export class IssueReceiptComponent implements OnInit {
           }
         } else {
           this.isValidStackBalance = true;
+          this.clearItemDetails();
           this.CurrentDocQtv = 0;
           this.NetStackBalance = 0;
           this.messageService.clear();
@@ -601,6 +602,12 @@ export class IssueReceiptComponent implements OnInit {
         }
       }
     });
+  }
+
+  clearItemDetails() {
+    this.IPCode = null; this.WTCode = null;
+    this.NoPacking = 0; this.GKgs = 0; this.NKgs = 0;
+    this.TKgs = 0; this.Moisture = '';
   }
 
   checkRegAdv(value) {

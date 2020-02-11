@@ -35,7 +35,7 @@
                       <label for="Transaction" class="label-fontsize" style="padding-top: 10px;">Transaction
                         Code</label>
                       <p-dropdown #tr name="Transaction" [options]="transactionOptions"
-                        (keyup.enter)="onSelect('tr', 'enter')" (keyup.tab)="onSelect('tr', 'enter')"
+                        (keyup.shift.tab)="onSelect('tr', 'tab')" (keyup.tab)="onSelect('tr', 'tab')"
                         [(ngModel)]="Trcode" (onClick)="onSelect('tr', 'click')" filter="true" optionLabel="label"
                         resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true"
                         (onChange)="refreshSelect('tr')" required>
@@ -66,8 +66,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Month" class="label-fontsize">Month</label>
                       <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="PMonth"
-                        (onClick)="onSelect('m', 'click')" (keyup.enter)="onSelect('m', 'enter')"
-                        (keyup.tab)="onSelect('m', 'enter')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
+                        (keyup.tab)="onSelect('m', 'tab')" filter="true" optionLabel="label"
                         filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -77,8 +77,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="PYear"
-                        (onClick)="onSelect('y', 'click')" (keyup.enter)="onSelect('y', 'enter')"
-                        (keyup.tab)="onSelect('y', 'enter')" required>
+                        (onClick)="onSelect('y', 'click')" (keyup.shift.tab)="onSelect('y', 'tab')"
+                        (keyup.tab)="onSelect('y', 'tab')" required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
@@ -98,8 +98,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="ReceivorType" class="label-fontsize">Receivor Type</label>
                       <p-dropdown #rt name="ReceivorType" [options]="receivorTypeOptions" [(ngModel)]="RTCode"
-                        (onClick)="onSelect('rt', 'click')" (keyup.enter)="onSelect('rt', 'enter')"
-                        (keyup.tab)="onSelect('rt', 'enter')" (onChange)="refreshSelect('rt')" filter="true"
+                        (onClick)="onSelect('rt', 'click')" (keyup.shift.tab)="onSelect('rt', 'tab')"
+                        (keyup.tab)="onSelect('rt', 'tab')" (onChange)="refreshSelect('rt')" filter="true"
                         optionLabel="label" resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith"
                         required>
                         <ng-template let-item pTemplate="selectedItem">
@@ -110,8 +110,8 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="PartyName" class="label-fontsize">Party Name</label>
                       <p-dropdown #pn name="PartyName" [options]="partyNameOptions" [(ngModel)]="PName"
-                        (onClick)="onSelect('pn', 'click')" (keyup.enter)="onSelect('pn', 'enter')"
-                        (keyup.tab)="onSelect('pn', 'enter')" filter="true" (ngModelChange)="getGSTNo()"
+                        (onClick)="onSelect('pn', 'click')" (keyup.shift.tab)="onSelect('pn', 'tab')"
+                        (keyup.tab)="onSelect('pn', 'tab')" filter="true" (ngModelChange)="getGSTNo()"
                         resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true"
                         required>
                         <ng-template let-item pTemplate="selectedItem">
@@ -187,8 +187,8 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px">
                       <label class="label-fontsize" for="Schemes" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #sc name="Schemes" [options]="schemeOptions" [(ngModel)]="Scheme"
-                        (onClick)="onSelect('scheme', 'click')" (keyup.enter)="onSelect('scheme', 'enter')"
-                        (keyup.tab)="onSelect('scheme', 'enter')" filter="true" resetFilterOnHide="true"
+                        (onClick)="onSelect('scheme', 'click')" (keyup.shift.tab)="onSelect('scheme', 'tab')"
+                        (keyup.tab)="onSelect('scheme', 'tab')" filter="true" resetFilterOnHide="true"
                         optionLabel="label" (onChange)="refreshSelect('sc')" filterMatchMode="startsWith"
                         [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
@@ -199,8 +199,8 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px;text-align: center">
                       <label class="label-fontsize" for="Commodity" style="padding-top: 10px;">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
-                        (onClick)="onSelect('commodity', 'click')" (keyup.enter)="onSelect('commodity', 'enter')"
-                        (keyup.tab)="onSelect('commodity', 'enter')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('commodity', 'click')" (keyup.shift.tab)="onSelect('commodity', 'tab')"
+                        (keyup.tab)="onSelect('commodity', 'tab')" filter="true" optionLabel="label"
                         resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -221,8 +221,8 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="RateInTerms">Rate In Term Of</label>
                       <p-dropdown #rate name="RateInTerms" [options]="rateInTermsOptions" [(ngModel)]="RateTerm"
-                        (onClick)="onSelect('wmt', 'click')" (keyup.enter)="onSelect('wmt', 'enter')"
-                        (keyup.tab)="onSelect('wmt', 'enter')" filter="true" resetFilterOnHide="true"
+                        (onClick)="onSelect('wmt', 'click')" (keyup.shift.tab)="onSelect('wmt', 'tab')"
+                        (keyup.tab)="onSelect('wmt', 'tab')" filter="true" resetFilterOnHide="true"
                         optionLabel="label" filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -283,8 +283,8 @@
                       <label class="label-fontsize" for="MarginSchemes" style="padding-top: 10px;">Scheme</label>
                       <p-dropdown #ms [options]="marginSchemeOptions" [(ngModel)]="MarginScheme"
                         (onClick)="onSelect('margin_scheme', 'click')"
-                        (keyup.enter)="onSelect('margin_scheme', 'enter')"
-                        (keyup.tab)="onSelect('margin_scheme', 'enter')" filter="true" name="MarginSchemes"
+                        (keyup.shift.tab)="onSelect('margin_scheme', 'tab')"
+                        (keyup.tab)="onSelect('margin_scheme', 'tab')" filter="true" name="MarginSchemes"
                         (onChange)="refreshSelect('msc')" resetFilterOnHide="true" optionLabel="label"
                         filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
@@ -297,8 +297,8 @@
                         Description</label>
                       <p-dropdown #margin_id name="MarginCommodity" [options]="marginItemDescOptions"
                         [(ngModel)]="MICode" (onClick)="onSelect('margin_commodity', 'click')"
-                        (keyup.enter)="onSelect('margin_commodity', 'enter')"
-                        (keyup.tab)="onSelect('margin_commodity', 'enter')" filter="true" resetFilterOnHide="true"
+                        (keyup.shift.tab)="onSelect('margin_commodity', 'tab')"
+                        (keyup.tab)="onSelect('margin_commodity', 'tab')" filter="true" resetFilterOnHide="true"
                         filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -319,7 +319,7 @@
                     <div class="ui-g-6 ui-md-2" style="padding-left: 0px; margin-top: 5px">
                       <label class="label-fontsize" for="MarginRateTerms">Rate In Term Of</label>
                       <p-dropdown #margin_rate name="MarginRateTerms" [options]="marginRateInTermsOptions"
-                        (keyup.enter)="onSelect('margin_wmt', 'enter')" (keyup.tab)="onSelect('margin_wmt', 'enter')"
+                        (keyup.shift.tab)="onSelect('margin_wmt', 'tab')" (keyup.tab)="onSelect('margin_wmt', 'tab')"
                         [(ngModel)]="MarginRateInTerms" (onClick)="onSelect('margin_wmt', 'click')" filter="true"
                         resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
@@ -402,7 +402,7 @@
                       <label class="label-fontsize" for="PaymentMode">Payment Mode</label>
                       <p-dropdown #pay [options]="paymentOptions" [(ngModel)]="Payment"
                         (onClick)="onSelect('pay', 'click')" autoDisplayFirst="true"
-                        (keyup.enter)="onSelect('pay', 'enter')" (keyup.tab)="onSelect('pay', 'enter')" filter="true"
+                        (keyup.shift.tab)="onSelect('pay', 'tab')" (keyup.tab)="onSelect('pay', 'tab')" filter="true"
                         name="PaymentMode" filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>

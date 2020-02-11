@@ -149,7 +149,7 @@ export class SalesTaxEntryComponent implements OnInit {
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.RegionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -171,7 +171,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
         if (this.data !== undefined) {
@@ -187,7 +187,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.accountingYearPanel.overlayVisible = true;
         }
         if (this.YearOptions === undefined) {
@@ -202,7 +202,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'Yr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -220,7 +220,7 @@ export class SalesTaxEntryComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
@@ -231,7 +231,7 @@ export class SalesTaxEntryComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'commodity':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         this.loading = true;
@@ -256,7 +256,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'company':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.companyPanel.overlayVisible = true;
         }
         this.loading = true;
@@ -274,7 +274,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'tax':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.TaxPanel.overlayVisible = true;
         }
         if (this.TaxtypeOptions !== undefined) {
@@ -283,7 +283,7 @@ export class SalesTaxEntryComponent implements OnInit {
         }
         break;
       case 'measurement':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.MeasurementPanel.overlayVisible = true;
         }
         if (this.MeasurementOptions !== undefined) {

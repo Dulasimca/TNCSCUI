@@ -85,7 +85,7 @@ export class AllotmentDetailsComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -102,7 +102,7 @@ export class AllotmentDetailsComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
@@ -114,7 +114,7 @@ export class AllotmentDetailsComponent implements OnInit {
         break;
         case 'reg':
           this.regions = this.roleBasedService.regionsData;
-          if (type === 'enter') {
+          if (type === 'tab') {
             this.regionPanel.overlayVisible = true;
           }
           if (this.roleId === 1) {
@@ -136,7 +136,7 @@ export class AllotmentDetailsComponent implements OnInit {
           }
           break;
         case 'gd':
-          if (type === 'enter') {
+          if (type === 'tab') {
             this.godownPanel.overlayVisible = true;
           }
           if (this.data !== undefined) {

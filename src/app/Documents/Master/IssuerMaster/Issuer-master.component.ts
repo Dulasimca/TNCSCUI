@@ -52,6 +52,8 @@ export class IssuerMasterComponent implements OnInit {
   enableSociety: boolean = true;
   GSTNumber: string;
   @ViewChild('society', { static: false }) societyPanel: Dropdown;
+  @ViewChild('category', { static: false }) categoryPanel: Dropdown;
+  @ViewChild('issuer', { static: false }) issuerPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
 
 
@@ -85,7 +87,7 @@ export class IssuerMasterComponent implements OnInit {
     let categorySelection = [];
     switch (id) {
       case 'soc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.societyPanel.overlayVisible = true;
         }
         if (this.GCode !== undefined && this.GCode !== null) {
@@ -107,6 +109,9 @@ export class IssuerMasterComponent implements OnInit {
         }
         break;
       case 'iss':
+        if (type === 'tab') {
+          this.issuerPanel.overlayVisible = true;
+        }
         const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
         this.restApiService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((values: any) => {
           if (values !== null && values !== undefined && values.length !== 0) {
@@ -121,6 +126,9 @@ export class IssuerMasterComponent implements OnInit {
         });
         break;
       case 'cat':
+        if (type === 'tab') {
+          this.categoryPanel.overlayVisible = true;
+        }
         if (this.IssuerType !== undefined && this.IssuerType !== null) {
           if ((this.IssuerType.value !== null && this.IssuerType.value !== undefined) ||
             (this.Tycode !== null && this.Tycode !== undefined)) {

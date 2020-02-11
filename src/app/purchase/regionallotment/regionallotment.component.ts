@@ -106,7 +106,7 @@ export class RegionAllotmentComponent implements OnInit {
     let partyNameSelection = [];
     switch (id) {
       case 'order':
-        if (type == 'enter') {
+        if (type == 'tab') {
           this.oredrNoPanel.overlayVisible = true;
         }
         const params = new HttpParams().set('Type', '1');
@@ -122,7 +122,7 @@ export class RegionAllotmentComponent implements OnInit {
         })
         break;
       case 'spell':
-        if (type == 'enter') {
+        if (type == 'tab') {
           this.spellPanel.overlayVisible = true;
         }
         this.spellOptions = [{ label: '-select-', value: null }, { label: 'Spell1', value: 1 }, { label: 'Spell2', value: 2 },
@@ -130,7 +130,7 @@ export class RegionAllotmentComponent implements OnInit {
         break;
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -155,7 +155,7 @@ export class RegionAllotmentComponent implements OnInit {
         break;
       case 'preg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.partyRegionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -179,7 +179,7 @@ export class RegionAllotmentComponent implements OnInit {
         }
         break;
       case 'p_id':
-        if (type === 'enter') { this.partyNamePanel.overlayVisible = true; }
+        if (type === 'tab') { this.partyNamePanel.overlayVisible = true; }
         if (this.PartyRegion !== undefined && this.PartyRegion !== null) {
           const params = new HttpParams().set('RCode', this.PartyRegion).append('Type', '1');
           this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(data => {

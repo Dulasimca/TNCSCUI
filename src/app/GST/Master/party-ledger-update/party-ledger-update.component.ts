@@ -72,7 +72,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
     switch (item) {
       case 'reg':
         this.regionsData = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -94,7 +94,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;
@@ -108,7 +108,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
         }
         break;
       case 'party':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.partyPanel.overlayVisible = true;
         }
         if (this.regionOptions !== undefined) {
@@ -129,7 +129,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
         }
         break;
       case 'issuer':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.issuerPanel.overlayVisible = true;
         }
         if (this.godownOptions !== undefined) {

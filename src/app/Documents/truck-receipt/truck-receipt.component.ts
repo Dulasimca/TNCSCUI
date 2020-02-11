@@ -198,7 +198,7 @@ export class TruckReceiptComponent implements OnInit {
     let itemDesc = [];
     switch (selectedItem) {
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         transactoinSelection.push({ 'label': 'Transfer', 'value': 'TR004', 'transType': this.transType },
@@ -210,7 +210,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'sc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -224,7 +224,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.Trcode !== undefined) {
@@ -250,7 +250,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorNamePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined && this.RTCode !== undefined) {
@@ -281,7 +281,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'rr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorRegionPanel.overlayVisible = true;
         }
         if (this.regions !== undefined && this.regions !== null) {
@@ -298,7 +298,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'rh':
         // if (this.toRailHeadOptions === undefined) {
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.railHeadPanel.overlayVisible = true;
         }
         const rail_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
@@ -316,7 +316,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'fs':
         // if (this.fromStationOptions === undefined) {
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.fromStationPanel.overlayVisible = true;
         }
         const fromStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
@@ -334,7 +334,7 @@ export class TruckReceiptComponent implements OnInit {
         break;
       case 'ts':
         // if (this.toStationOptions === undefined) {
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.toStationPanel.overlayVisible = true;
         }
         const toStation_params = new HttpParams().set('TyCode', 'TY016').append('TRType', this.transType)
@@ -351,7 +351,7 @@ export class TruckReceiptComponent implements OnInit {
         // }
         break;
       case 'i_desc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== undefined && this.Scheme !== null) {
@@ -372,7 +372,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.stackPanel.overlayVisible = true;
         }
         if (this.RCode !== undefined && this.ICode !== undefined && this.ICode !== null) {
@@ -393,7 +393,7 @@ export class TruckReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.packingPanel.overlayVisible = true;
         }
         // if (this.packingTypeOptions === undefined) {
@@ -409,7 +409,7 @@ export class TruckReceiptComponent implements OnInit {
         //  }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weighmentPanel.overlayVisible = true;
         }
         // if (this.wmtOptions === undefined) {
@@ -425,13 +425,13 @@ export class TruckReceiptComponent implements OnInit {
         // }
         break;
       case 'fc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.freightPanel.overlayVisible = true;
         }
         this.freightOptions = [{ label: '-select-', value: null }, { label: 'PAID', value: 'PAID' }, { label: 'PAY', value: 'PAY' }];
         break;
       case 'vc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.vehiclePanel.overlayVisible = true;
         }
         this.vehicleOptions = [{ label: '-select-', value: null }, { label: 'CASUAL', value: 'CASUAL' },

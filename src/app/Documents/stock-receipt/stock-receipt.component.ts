@@ -192,7 +192,7 @@ export class StockReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -209,7 +209,7 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
@@ -220,7 +220,7 @@ export class StockReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         // if(this.transactionOptions === undefined || this.isViewed) {
@@ -240,7 +240,7 @@ export class StockReceiptComponent implements OnInit {
         // }
         break;
       case 'sc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -254,7 +254,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.depositorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== undefined && this.Trcode !== null) {
@@ -277,7 +277,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.depositorNamePanel.overlayVisible = true;
         }
         if (this.Trcode !== undefined && this.Trcode !== null && this.DepositorType !== null && this.DepositorType !== undefined) {
@@ -301,7 +301,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== undefined && this.Scheme !== null) {
@@ -324,7 +324,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.stackNoPanel.overlayVisible = true;
         }
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
@@ -347,7 +347,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.packingPanel.overlayVisible = true;
         }
         // if(this.packingTypeOptions === undefined || this.isViewed) {
@@ -365,7 +365,7 @@ export class StockReceiptComponent implements OnInit {
         // }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weightmentPanel.overlayVisible = true;
         }
         // if(this.wmtOptions === undefined || this.isViewed) {

@@ -198,7 +198,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -215,7 +215,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
@@ -226,7 +226,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         transactoinSelection.push({ label: 'SALES', value: 'TR014' },
@@ -237,7 +237,7 @@ export class DeliveryReceiptComponent implements OnInit {
           ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode) : false) ? true : false;
         break;
       case 'scheme':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -251,7 +251,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_scheme':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginSchemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -265,7 +265,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.Trcode !== undefined) {
@@ -287,7 +287,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'pn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.partyNamePanel.overlayVisible = true;
         }
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
@@ -309,7 +309,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'commodity':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
@@ -340,7 +340,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_commodity':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginCommodityPanel.overlayVisible = true;
         }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
@@ -371,7 +371,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weighmentPanel.overlayVisible = true;
         }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
@@ -387,7 +387,7 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'margin_wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginWeighmentPanel.overlayVisible = true;
         }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
@@ -403,7 +403,7 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'pay':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.paymentPanel.overlayVisible = true;
         }
         this.paymentOptions = [

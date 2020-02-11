@@ -27,7 +27,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   onSelect(type) {
-    if (type === 'enter') {
+    if (type === 'tab') {
       this.godownPanel.overlayVisible = true;
     }
   }

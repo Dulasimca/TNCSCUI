@@ -74,7 +74,7 @@ export class StockPurchaseComponent implements OnInit {
   }
 
   onSelect(type) {
-    if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
+    if (type === 'tab') { this.commodityPanel.overlayVisible = true; }
     this.commodityOptions = this.commoditySelection;
   }
 

@@ -35,17 +35,17 @@ export class UserMasterComponent implements OnInit {
   onSelect(type, id) {
     switch (id) {
       case 'gd':
-        if(type === 'enter') {
+        if(type === 'tab') {
         this.godownPanel.overlayVisible = true;
         }
         break;
       case 'reg':
-          if(type === 'enter') {
+          if(type === 'tab') {
             this.regionPanel.overlayVisible = true;
           }
         break;
       case 'role':
-          if(type === 'enter') {
+          if(type === 'tab') {
             this.rolePanel.overlayVisible = true;
           }
         break;

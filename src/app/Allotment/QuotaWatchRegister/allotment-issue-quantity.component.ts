@@ -100,7 +100,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.RegionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -122,7 +122,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
         if (this.data !== undefined) {
@@ -135,7 +135,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         }
         break;
       case 'Yr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -153,7 +153,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },

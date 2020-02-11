@@ -18,7 +18,7 @@
                 <label for="region_name" class="label-fontsize">Region Name</label>
                 <p-dropdown #region name="region_name" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions"
                   [(ngModel)]="RCode" (onClick)="onSelect('reg', 'change')" 
-                  (keydown.enter)="onSelect('reg', 'enter')" [readonly]="isViewed"
+                  (keyup.shift.tab)="onSelect('reg', 'tab')" (keyup.tab)="onSelect('reg', 'tab')" [readonly]="isViewed"
                   [showClear]="true" filter="true" filterMatchMode="startsWith" optionLabel="label" resetFilterOnHide="true">
                 </p-dropdown>
                 <!--(onChange)="onChangeList('reg')"-->
@@ -26,8 +26,8 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="order_Num" class="label-fontsize">Order Number</label>
                 <p-dropdown #orderNum name="order_Num" [options]="orderNoOptions" [(ngModel)]="OrderNo"
-                  (onClick)="onSelect('order', 'click')" (keydown.enter)="onSelect('order', 'enter')"
-                   filter="true" resetFilterOnHide="true" (onChange)="onChangeList()"
+                  (onClick)="onSelect('order', 'click')" (keyup.shift.tab)="onSelect('order', 'tab')"
+                   filter="true" resetFilterOnHide="true" (onChange)="onChangeList()" (keyup.tab)="onSelect('order', 'tab')"
                   [readonly]="isViewed" [showClear]="true" filterMatchMode="startsWith" required>
                 </p-dropdown>
                 <!--(onChange)="onChangeList('order')"-->
@@ -35,8 +35,8 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="spell_cycle" class="label-fontsize">Spell</label>
                 <p-dropdown #spell name="spell_cycle" [options]="spellOptions" [(ngModel)]="Spell"
-                  (onClick)="onSelect('spell', 'click')" (keydown.enter)="onSelect('spell', 'enter')" 
-                  filter="true" (onChange)="onChangeList()" filterMatchMode="startsWith"
+                  (onClick)="onSelect('spell', 'click')" (keyup.shift.tab)="onSelect('spell', 'tab')" 
+                  (keyup.tab)="onSelect('spell', 'tab')"  filter="true" (onChange)="onChangeList()" filterMatchMode="startsWith"
                   resetFilterOnHide="true" optionLabel="label" [showClear]="true" required>
                 </p-dropdown>
               </div>
@@ -58,8 +58,9 @@
               <div class="ui-g-6 ui-md-2">
                 <label for="godown_name" class="label-fontsize">Godown Name</label>
                 <p-dropdown #godown name="godown_name" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
-                  [(ngModel)]="GCode" (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
-                  [showClear]="true" filter="true" resetFilterOnHide="true" [readonly]="isDataAvailable" required>
+                  [(ngModel)]="GCode" (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
+                  [showClear]="true" filter="true" resetFilterOnHide="true" 
+                  (keyup.tab)="onSelect('gd', 'tab')" [readonly]="isDataAvailable" required>
                 </p-dropdown>
               </div>
               <div class="ui-g-6 ui-md-2">
