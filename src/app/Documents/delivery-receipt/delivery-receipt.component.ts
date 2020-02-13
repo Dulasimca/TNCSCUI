@@ -131,18 +131,6 @@ export class DeliveryReceiptComponent implements OnInit {
   PrevBalType: any;
   GSTNumber: string;
   isGSTModified: boolean = true;
-  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
-  @ViewChild('m', { static: false }) monthPanel: Dropdown;
-  @ViewChild('y', { static: false }) yearPanel: Dropdown;
-  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
-  @ViewChild('pn', { static: false }) partyNamePanel: Dropdown;
-  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
-  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
-  @ViewChild('rate', { static: false }) weighmentPanel: Dropdown;
-  @ViewChild('ms', { static: false }) marginSchemePanel: Dropdown;
-  @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
-  @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
-  @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
   showGSTErrMsg: boolean = false;
   showPreview: boolean;
   PreDODate: string;
@@ -155,7 +143,19 @@ export class DeliveryReceiptComponent implements OnInit {
   PreYear: any;
   PreGSTNo: any;
   PreRemarks: any;
-
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('pn', { static: false }) partyNamePanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('rate', { static: false }) weighmentPanel: Dropdown;
+  @ViewChild('ms', { static: false }) marginSchemePanel: Dropdown;
+  @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
+  @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
+  @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
+  
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe) { }

@@ -130,20 +130,6 @@ export class TruckReceiptComponent implements OnInit {
   selected: any;
   itemGroup: any;
   // isSaved: boolean = false;
-  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
-  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
-  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
-  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
-  @ViewChild('rr', { static: false }) receivorRegionPanel: Dropdown;
-  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
-  @ViewChild('wmt', { static: false }) weighmentPanel: Dropdown;
-  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
-  @ViewChild('st_no', { static: false }) stackPanel: Dropdown;
-  @ViewChild('fs', { static: false }) fromStationPanel: Dropdown;
-  @ViewChild('ts', { static: false }) toStationPanel: Dropdown;
-  @ViewChild('fc', { static: false }) freightPanel: Dropdown;
-  @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
-  @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
   showPreview: boolean;
   PreTDate: string;
   PreMODate: string;
@@ -177,7 +163,21 @@ export class TruckReceiptComponent implements OnInit {
   PreRailFreightAmt: any;
   PreRemarks: any;
   PreTransportMode: any;
-
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
+  @ViewChild('rr', { static: false }) receivorRegionPanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('wmt', { static: false }) weighmentPanel: Dropdown;
+  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
+  @ViewChild('st_no', { static: false }) stackPanel: Dropdown;
+  @ViewChild('fs', { static: false }) fromStationPanel: Dropdown;
+  @ViewChild('ts', { static: false }) toStationPanel: Dropdown;
+  @ViewChild('fc', { static: false }) freightPanel: Dropdown;
+  @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
+  @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
+ 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
     private datepipe: DatePipe, private messageService: MessageService) {
