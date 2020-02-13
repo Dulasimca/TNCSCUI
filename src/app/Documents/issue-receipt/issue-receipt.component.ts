@@ -144,6 +144,20 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
+  PreSIDate: any;
+  showPreview: boolean;
+  PreWNo: any;
+  PreRegAdv: any;
+  PreTransaction: any;
+  PreRecType: any;
+  PreRecName: any;
+  PreMonth: any;
+  PreYear: any;
+  PreVehicleNo: any;
+  PreTransporterCharges: any;
+  PreManualDocNo: any;
+  PreRemarks: any;
+  PreTransporterName: any;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -420,6 +434,9 @@ export class IssueReceiptComponent implements OnInit {
         this.SocietyCode = null;
         this.getAllotmentDetails();
         break;
+      case 'pt':
+        this.onCalculateKgs();
+        break;
     }
   }
 
@@ -498,9 +515,9 @@ export class IssueReceiptComponent implements OnInit {
 
   onCalculateKgs() {
     this.messageService.clear();
-    this.NoPacking = (this.NoPacking * 1);
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
+      this.NoPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
       this.GKgs = ((this.NoPacking * 1) * (wt * 1));
       this.NKgs = ((this.NoPacking * 1) * (wt * 1));
@@ -1058,10 +1075,10 @@ export class IssueReceiptComponent implements OnInit {
             this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
             this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
             this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
-            this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' +
-              ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
+            this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
+              ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
             /// ---------------- Allotment balance check ------------------ ///
-            if (this.BalanceQty <= 0 && this.itemData.length === 0) {
+            if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0) {
               this.exceedAllotBal = true;
               this.messageService.clear();
               this.messageService.add({
@@ -1088,8 +1105,8 @@ export class IssueReceiptComponent implements OnInit {
                   this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
                   this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
                   this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
-                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty + '  ' + ' ISS_QTY ' +
-                    ': ' + this.IssueQty + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty;
+                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
+                    ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
                 }
               })
             }
@@ -1364,6 +1381,23 @@ export class IssueReceiptComponent implements OnInit {
         summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
       });
     }
+  }
+
+  viewPreview(f) {
+    this.showPreview = true;
+    // this.PreSIDate = this.datepipe.transform(f.value['StockIssueDate'], 'dd/MM/yyyy');
+    this.PreWNo = f.value['WCNo'];
+    this.PreRegAdv = f.value['IssueRegAdv'].toString().toUpperCase();
+    this.PreTransaction = f.value['TansactionType'].value;
+    this.PreRecType = f.value['ReceivorType'].value;
+    this.PreRecName = f.value['ReceivorName'].value;
+    this.PreMonth = f.value['Month'];
+    this.PreYear = f.value['Year'];
+    this.PreVehicleNo = f.value['VechileNum'];
+    this.PreTransporterCharges = f.value['TCharges'];
+    this.PreTransporterName = f.value['TransportersName'];
+    this.PreManualDocNo = f.value['ManualDocNum'];
+    this.PreRemarks = f.value['RemarksText'];
   }
 
   onClose() {

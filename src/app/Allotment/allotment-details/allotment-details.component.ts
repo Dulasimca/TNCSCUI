@@ -99,7 +99,7 @@ export class AllotmentDetailsComponent implements OnInit {
           }
         }
         this.yearOptions = yearArr;
-        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.yearOptions.unshift({ 'label': '-select-', 'value': null });
         break;
       case 'm':
         if (type === 'tab') {
@@ -110,7 +110,7 @@ export class AllotmentDetailsComponent implements OnInit {
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
         { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
-        this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.monthOptions.unshift({ 'label': '-select-', 'value': null });
         break;
         case 'reg':
           this.regions = this.roleBasedService.regionsData;
@@ -161,6 +161,7 @@ export class AllotmentDetailsComponent implements OnInit {
     .append('AMonth', (this.month.value !== undefined && this.month.value !== null) ? this.month.value : this.curMonth)
     .append('AYear', this.year);
     this.loading = true;
+    this.table.reset();
     this.AllotmentData = [];
     this.AllotmentCols = [];
     this.totalRecords = 0;
