@@ -579,7 +579,11 @@
               <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate
                 (click)="onSubmit(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-7"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
+              <button pButton style="margin-top:5px; margin-left: 10px" name="preview" type="button" label=Preview
+                (click)="viewPreview(f)"></button>
+            </div>
+            <div class="ui-g-3 ui-md-6"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
               <button name="view" style="margin-top:5px" pButton type="button" label=View
                 (click)="onView();resetForm(f)"></button>
@@ -651,4 +655,102 @@
   <div>
     <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
   </div>
+</p-dialog>
+<p-dialog header="Stock Receipt Slip - Preview" [modal]="true" [(visible)]="showPreview" [contentStyle]="{'overflow':'scroll'}"
+ [maximizable]="true" [style]="{width: '70vw', height: '70vw'}">
+ <div class="ui-g-12 ui-md-12 border-blue card">
+<div class="ui-g-12 ui-md-12">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Receipt Details</div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> SR Date:</label>
+    <!-- <input type="text" pInputText [(ngModel)]="PreSIDate"/> -->
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreSRDate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Month:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreMonth}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Year:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreYear}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label > Allotment/Release Order No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreAllotNo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Allotment/Release Order Date:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreAllotDate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Transport Name:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTransMode}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Transaction:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTransaction}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Depositor Type:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreDepType}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Depositor Name:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreDepName}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Truck Memo No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTruckMemoNo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Truck Memo Date:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTruckMemoDate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Vehicle No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreVehicleNo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> From:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreVechileFrom}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Manual Doc No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreManualDocNo}}</span>
+  </div>
+  
+ </div>
+ <div *ngIf="(itemData.length!='0')" class="ui-g-12 ui-fluid no-pad-top">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details</div>
+  <p-table tabindex="-1" [columns]="itemCol" [value]="itemData" [responsive]="true" autoLayout="true" [scrollable]="true"
+    scrollHeight="200px">
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col *ngFor="let col of columns" style="width:115px">
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div class="ui-g-12 ui-md-12">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Freight Details</div>
+  <div class="ui-g-6 ui-md-10 label-fontsize-large">
+  <label> Remarks:</label>
+  <span style="color: #44a3ec;padding-left: 5px;">{{PreRemarks}}</span>
+</div>
+</div>
+</div>
 </p-dialog>

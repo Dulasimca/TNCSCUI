@@ -144,6 +144,17 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
   showGSTErrMsg: boolean = false;
+  showPreview: boolean;
+  PreDODate: string;
+  PrePermitDate: string;
+  PreIndentNo: any;
+  PreTransaction: any;
+  PreRecType: any;
+  PrePartyName: any;
+  PreMonth: any;
+  PreYear: any;
+  PreGSTNo: any;
+  PreRemarks: any;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -1260,6 +1271,20 @@ export class DeliveryReceiptComponent implements OnInit {
         summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
       });
     }
+  }
+
+  viewPreview(f) {
+    this.showPreview = true;
+    this.PreDODate = this.datepipe.transform(f.value['DoDate'], 'dd/MM/yyyy');
+    this.PrePermitDate = this.datepipe.transform(f.value['Permitdate'], 'dd/MM/yyyy');
+    this.PreTransaction = f.value['Transaction'].label;
+    this.PreRecType = f.value['ReceivorType'].label;
+    this.PrePartyName = f.value['PartyName'].label;
+    this.PreIndentNo = f.value['IndentNum'].toString().toUpperCase();
+    this.PreMonth = f.value['Month'].toString().toUpperCase();
+    this.PreYear = f.value['Year'];
+    this.PreGSTNo = f.value['GST'].toString().toUpperCase();
+    this.PreRemarks = f.value['Instructions'];
   }
 
   public getStyle(value, type): string {

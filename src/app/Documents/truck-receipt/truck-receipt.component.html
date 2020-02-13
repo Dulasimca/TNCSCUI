@@ -522,7 +522,11 @@
               <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Validate
                 (click)="onSubmit(f)"></button>
             </div>
-            <div class="ui-g-3 ui-md-7"></div>
+            <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
+              <button pButton style="margin-top:5px; margin-left: 10px" name="preview" type="button" label=Preview
+                (click)="viewPreview(f)"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6"></div>
             <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
               <button style="margin-top:5px" pButton type="button" label=View (click)="onView();resetForm(f)"></button>
             </div>
@@ -593,4 +597,172 @@
   <div>
     <p-listbox [options]="missingFields" [(ngModel)]="field" optionLabel="value"></p-listbox>
   </div>
+</p-dialog>
+<p-dialog header="Truck Memo Slip - Preview" [modal]="true" [(visible)]="showPreview" [contentStyle]="{'overflow':'scroll'}"
+ [maximizable]="true" [style]="{width: '70vw', height: '70vw'}">
+ <div class="ui-g-12 ui-md-12 border-blue card">
+<div class="ui-g-12 ui-md-12">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Truck Details</div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Truck Date:</label>
+    <!-- <input type="text" pInputText [(ngModel)]="PreSIDate"/> -->
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTDate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label > Movement Order No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreMONo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label > Movement Order Date:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreMODate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label > Transport Mode:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTransportMode}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Release Order No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRONo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Release Order Date:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRODate}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Transaction:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTransaction}}</span>
+  </div>
+  <div *ngIf="!disableRailHead" class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> To Rail Head:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRailHead}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Receiver Region:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRecRegion}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Receiver Type:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRecType}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Receiver Name:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRecName}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Lorry No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreLorryNo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Manual Doc No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreManualDocNo}}</span>
+  </div>
+ </div>
+ <div *ngIf="(itemData.length!='0')" class="ui-g-12 ui-fluid no-pad-top">
+  <div class="ui-g-12 ui-md-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details:</div>
+    <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true"
+      [scrollable]="true" scrollHeight="180px">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:115px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+</div>
+<div class="ui-g-12 ui-md-12">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Freight Details</div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Transporter Name:</label>
+    <!-- <input type="text" pInputText [(ngModel)]="PreSIDate"/> -->
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreTransporterName}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label > Lorry Way Bill No:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreLWBNo}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label >  Lorry Way Bill Date:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreLWBDate}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Freight Amount:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreFreightAmnt}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Kms:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreKms}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Warehouse Deposit Receipt:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreWDR}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Wmt Charges:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreWCharges}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Handling Charges:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreHCharges}}</span>
+  </div>
+   <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Gunny Released:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreRGunny}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Gunny Utilised:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreUGunny}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Freight Code:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreFCode}}</span>
+  </div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
+    <label> Vehicle Code:</label>
+    <span style="color: #44a3ec;padding-left: 5px;">{{PreVCode}}</span>
+  </div>
+  <div *ngIf="!disableRailHead" class="ui-g-12 ui-md-12">
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> From Station:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreFStation}}</span>
+    </div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> To Station:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreTStation}}</span>
+    </div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> RR No:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreRRNo}}</span>
+    </div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> Wagon No:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreWNo}}</span>
+    </div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> Rail Freight Amnt:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreRailFreightAmt}}</span>
+    </div>
+    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+      <label> Loading Date:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreLoadingDate}}</span>
+    </div>
+    <div class="ui-g-10 ui-md-10 label-fontsize-large">
+      <label> Remarks:</label>
+      <span style="color: #44a3ec;padding-left: 5px;">{{PreRemarks}}</span>
+    </div>
+  </div>
+ </div>
+</div>
 </p-dialog>

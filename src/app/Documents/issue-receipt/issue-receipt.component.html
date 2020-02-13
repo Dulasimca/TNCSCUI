@@ -539,7 +539,7 @@
     </p-listbox>
   </div>
 </p-dialog>
-<p-dialog header="Stock Issue Memo - Preview" [modal]="true" [(visible)]="showPreview" [contentStyle]="{'overflow':'scroll'}"
+<p-dialog header="Stock Issue Memo Slip - Preview" [modal]="true" [(visible)]="showPreview" [contentStyle]="{'overflow':'scroll'}"
  [maximizable]="true" [style]="{width: '70vw', height: '70vw'}">
  <div class="ui-g-12 ui-md-12 border-blue card">
  <div *ngIf="(issueData.length!='0')" class="ui-g-12 ui-md-6" style="max-height: 80px;">
@@ -567,7 +567,8 @@
   </p-table>
 </div>
 <div class="ui-g-12 ui-md-12">
-    <div class="ui-g-6 ui-md-4 label-fontsize-large">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Issue Details</div>
+  <div class="ui-g-6 ui-md-4 label-fontsize-large">
     <label> Weighment Certificate No:</label>
     <!-- <input type="text" pInputText [(ngModel)]="PreSIDate"/> -->
     <span style="color: #44a3ec;padding-left: 5px;">{{PreWNo}}</span>
@@ -618,6 +619,7 @@
   </div>
  </div>
  <div *ngIf="(itemData.length!='0')" class="ui-g-12 ui-fluid no-pad-top">
+  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Issue Details</div>
   <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true"
     [scrollable]="true" autoLayout="true">
     <ng-template pTemplate="colgroup" let-columns>

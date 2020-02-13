@@ -135,17 +135,8 @@ export class IssueReceiptComponent implements OnInit {
   SocietyCode: any;
   SocietyName: any;
   disableSave: boolean;
-  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
-  @ViewChild('y', { static: false }) yearPanel: Dropdown;
-  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
-  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
-  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
-  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
-  @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
-  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
-  @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
-  PreSIDate: any;
   showPreview: boolean;
+  PreSIDate: any;
   PreWNo: any;
   PreRegAdv: any;
   PreTransaction: any;
@@ -158,6 +149,15 @@ export class IssueReceiptComponent implements OnInit {
   PreManualDocNo: any;
   PreRemarks: any;
   PreTransporterName: any;
+  @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
+  @ViewChild('rn', { static: false }) receivorNamePanel: Dropdown;
+  @ViewChild('sc', { static: false }) schemePanel: Dropdown;
+  @ViewChild('i_desc', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
+  @ViewChild('pt', { static: false }) packingPanel: Dropdown;
+  @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -1389,17 +1389,17 @@ export class IssueReceiptComponent implements OnInit {
   viewPreview(f) {
     this.showPreview = true;
     // this.PreSIDate = this.datepipe.transform(f.value['StockIssueDate'], 'dd/MM/yyyy');
-    this.PreWNo = f.value['WCNo'];
+    this.PreWNo = f.value['WCNo'].toString().toUpperCase();
     this.PreRegAdv = f.value['IssueRegAdv'].toString().toUpperCase();
-    this.PreTransaction = f.value['TansactionType'].value;
-    this.PreRecType = f.value['ReceivorType'].value;
-    this.PreRecName = f.value['ReceivorName'].value;
-    this.PreMonth = f.value['Month'];
+    this.PreTransaction = f.value['TansactionType'].label;
+    this.PreRecType = f.value['ReceivorType'].label;
+    this.PreRecName = f.value['ReceivorName'].label;
+    this.PreMonth = f.value['Month'].toString().toUpperCase();
     this.PreYear = f.value['Year'];
-    this.PreVehicleNo = f.value['VechileNum'];
+    this.PreVehicleNo = f.value['VechileNum'].toString().toUpperCase();
     this.PreTransporterCharges = f.value['TCharges'];
-    this.PreTransporterName = f.value['TransportersName'];
-    this.PreManualDocNo = f.value['ManualDocNum'];
+    this.PreTransporterName = f.value['TransportersName'].toString().toUpperCase();
+    this.PreManualDocNo = f.value['ManualDocNum'].toString().toUpperCase();
     this.PreRemarks = f.value['RemarksText'];
   }
 

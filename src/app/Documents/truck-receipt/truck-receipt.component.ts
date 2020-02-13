@@ -144,6 +144,39 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
+  showPreview: boolean;
+  PreTDate: string;
+  PreMODate: string;
+  PreRODate: string;
+  PreLWBDate: string;
+  PreLoadingDate: string;
+  PreRecName: any;
+  PreRecType: any;
+  PreRecRegion: any;
+  PreRailHead: any;
+  PreTransaction: any;
+  PreRONo: any;
+  PreMONo: any;
+  PreManualDocNo: any;
+  PreLorryNo: any;
+  PreTransporterName: any;
+  PreLWBNo: any;
+  PreFreightAmnt: any;
+  PreHCharges: any;
+  PreWCharges: any;
+  PreWDR: any;
+  PreKms: any;
+  PreUGunny: any;
+  PreRGunny: any;
+  PreVCode: any;
+  PreFCode: any;
+  PreFStation: any;
+  PreTStation: any;
+  PreRRNo: any;
+  PreWNo: any;
+  PreRailFreightAmt: any;
+  PreRemarks: any;
+  PreTransportMode: any;
 
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
@@ -1066,5 +1099,41 @@ export class TruckReceiptComponent implements OnInit {
         summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
       });
     }
+  }
+
+  viewPreview(f) {
+    this.showPreview = true;
+    this.PreTDate = this.datepipe.transform(f.value['TruckMemoDate'], 'dd/MM/yyyy');
+    this.PreMODate = this.datepipe.transform(f.value['MovementOrderDate'], 'dd/MM/yyyy');
+    this.PreRODate = this.datepipe.transform(f.value['ReleaseOrderDate'], 'dd/MM/yyyy');
+    this.PreLWBDate = this.datepipe.transform(f.value['WBillDate'], 'dd/MM/yyyy');
+    this.PreLoadingDate = this.datepipe.transform(f.value['LDate'], 'dd/MM/yyyy');
+    this.PreMONo = f.value['MovementOrderNo'].toString().toUpperCase();
+    this.PreRONo = f.value['ReleaseOrderNo'].toString().toUpperCase();
+    this.PreTransportMode = f.value['TransportMode'].toString().toUpperCase();
+    this.PreTransaction = f.value['TransactionType'].label;
+    this.PreRailHead = f.value['RailHead'].label;
+    this.PreRecRegion = f.value['ReceivorRegion'].label;
+    this.PreRecType = f.value['ReceivorType'].label;
+    this.PreRecName = f.value['ReceivorName'].label;
+    this.PreLorryNo = f.value['LorryNumber'].toString().toUpperCase();
+    this.PreManualDocNo = f.value['ManualDocumentNo'].toString().toUpperCase();
+    this.PreTransporterName = f.value['TName'].toString().toUpperCase();
+    this.PreLWBNo = f.value['LWBNo'].toString().toUpperCase();
+    this.PreFreightAmnt = f.value['FAmt'];
+    this.PreKms = f.value['Kms'];
+    this.PreWDR = f.value['WHDeposit'];
+    this.PreWCharges = f.value['WmtCharges'];
+    this.PreHCharges = f.value['Handlingcharges'];
+    this.PreRGunny = f.value['GReleased'];
+    this.PreUGunny = f.value['GUtilised'];
+    this.PreFCode = f.value['Freight'].label;
+    this.PreVCode = f.value['Vehicle'].label;
+    this.PreFStation = f.value['FromStation'].label;
+    this.PreTStation = f.value['ToStation'].label;
+    this.PreRRNo = f.value['RR_No'];
+    this.PreWNo = f.value['WagonNo'];
+    this.PreRailFreightAmt = f.value['RailFAmnt'];
+    this.PreRemarks = f.value['RemarksText'];
   }
 }
