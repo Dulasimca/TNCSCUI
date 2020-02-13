@@ -311,7 +311,7 @@ export class IssueReceiptComponent implements OnInit {
               //   })
               // }
               if (this.allotmentDetails.length === 0) {
-                this.getAllotmentDetails();
+                this.getAllotmentDetails('key');
               }
             }
           }
@@ -432,7 +432,7 @@ export class IssueReceiptComponent implements OnInit {
         this.rnCode = null; this.RNCode = null;
         this.IssCode = null; this.SocietyName = null;
         this.SocietyCode = null;
-        this.getAllotmentDetails();
+        this.getAllotmentDetails('change');
         break;
       case 'pt':
         this.onCalculateKgs();
@@ -647,7 +647,7 @@ export class IssueReceiptComponent implements OnInit {
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
     }
-    this.getAllotmentDetails();
+    this.getAllotmentDetails('change');
   }
 
   onStackInput(event) {
@@ -1024,7 +1024,9 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
-  getAllotmentDetails() {
+  getAllotmentDetails(type) {
+    this.allotmentDetails.length = 0;
+    if((type === 'key' && this.allotmentDetails.length === 0) || (type === 'change')) {
     if (this.AllotmentStatus === 'YES') {
       if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
         this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
@@ -1053,6 +1055,7 @@ export class IssueReceiptComponent implements OnInit {
     } else {
       this.allotmentDetails.length = 0;
     }
+  }
   }
 
   checkAllotmentBalance(type) {
@@ -1209,7 +1212,7 @@ export class IssueReceiptComponent implements OnInit {
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
-        this.getAllotmentDetails();
+        this.getAllotmentDetails('key');
         let totalBags = 0;
         let totalGkgs = 0;
         let totalNkgs = 0;

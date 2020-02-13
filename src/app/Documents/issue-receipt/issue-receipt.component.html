@@ -132,7 +132,7 @@
                       <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keyup.tab)="onSelect('rn', 'tab')" filter="true"
-                        (keyup)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()" (keyup)="showIssuerCode()"
+                        (keyup)="getAllotmentDetails('key')" (onChange)="getAllotmentDetails('change')" (ngModelChange)="onChangeIssuer()" (keyup)="showIssuerCode()"
                         resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
                         (keyup.shift.tab)="onSelect('rn', 'tab')" required>
                         <ng-template let-item pTemplate="selectedItem">
@@ -462,7 +462,7 @@
                 (click)="onSubmit(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
-              <button pButton style="margin-top:5px; margin-left: 10px" name="validate" type="button" label=Preview
+              <button pButton style="margin-top:5px; margin-left: 10px" name="preview" type="button" label=Preview
                 (click)="viewPreview(f)"></button>
             </div>
             <div class="ui-g-12 ui-md-6"></div>
