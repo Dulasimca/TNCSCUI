@@ -816,9 +816,8 @@
     <span style="color: #44a3ec;padding-left: 5px;">{{PreRemarks}}</span>
   </div>
  </div>
- <div *ngIf="(itemData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;">Item Details:</div>
+ <div *ngIf="(itemData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;text-decoration: underline;">Item Details:</div>
  <div *ngIf="(itemData.length!='0')" class="ui-g-12 ui-md-12 no-pad-top no-left-pad">
-  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details</div>
   <p-table [columns]="itemCols" [value]="itemData" [responsive]="true" [scrollable]="true"
   scrollHeight="150px">
   <ng-template pTemplate="colgroup" let-columns>
@@ -842,9 +841,8 @@
   </ng-template>
 </p-table>
 </div>
-<div *ngIf="(itemSchemeData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;">Margin Item Details:</div>
+<div *ngIf="(itemSchemeData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;text-decoration: underline;">Margin Item Details:</div>
 <div *ngIf="(itemSchemeData.length!='0')" class="ui-g-12 ui-md-12 no-pad-top no-left-pad">
-  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Payment Details</div>
   <p-table [columns]="itemSchemeCols" [value]="itemSchemeData" [responsive]="true" [scrollable]="true"
   scrollHeight="150px">
   <ng-template pTemplate="colgroup" let-columns>
@@ -868,7 +866,7 @@
   </ng-template>
 </p-table>
 </div>
-<div *ngIf="(paymentData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;">Payment Details:</div>
+<div *ngIf="(paymentData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;text-decoration: underline;">Payment Details:</div>
 <div *ngIf="(paymentData.length!='0')" class="ui-g-12 ui-md-12 no-pad-top no-left-pad">
   <p-table [columns]="paymentCols" [value]="paymentData" [responsive]="true" [scrollable]="true"
   scrollHeight="150px">
@@ -893,7 +891,7 @@
   </ng-template>
 </p-table>
 </div>
-<div *ngIf="(paymentBalData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;">
+<div *ngIf="(paymentBalData.length!='0')" class="ui-g-12 no-pad-top no-left-pad label-fontsize-large" style="color: #18c5a9;text-decoration: underline;">
   Payment Balance Details:</div>
 <div *ngIf="(paymentBalData.length!='0')" class="ui-g-12 ui-md-12 no-pad-top no-left-pad">
   <p-table [columns]="paymentBalCols" [value]="paymentBalData" [responsive]="true" [scrollable]="true"

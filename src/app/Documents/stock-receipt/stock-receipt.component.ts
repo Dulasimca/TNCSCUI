@@ -902,6 +902,13 @@ export class StockReceiptComponent implements OnInit {
     this.StackBalance = 0; this.GKgs = 0; this.tareWt = 0; this.NKgs = 0; this.SRNo = null;
     this.TruckMemoDate = new Date(); this.SRDate = new Date(); this.OrderDate = new Date();
     // this.isSaved = false;
+    ///Preview Data Clear
+    this.PreRemarks = null; this.PreSRDate = null; this.PreYear = null;
+    this.PreAllotDate = null; this.PreAllotNo = null; this.PreDepName = null;
+    this.PreDepType = null; this.PreManualDocNo = null; this.PreMonth = null;
+    this.PreTransMode = null; this.PreTransaction = null; this.PreVehicleNo = null;
+    this.PreTruckMemoDate = null; this.PreTruckMemoNo = null;
+    this.PreVechileFrom = null; this.showPreview = false;
   }
 
   openNext() {

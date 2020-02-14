@@ -651,6 +651,21 @@ export class TruckReceiptComponent implements OnInit {
     this.toStationOptions = [{ label: '-', value: '-' }];
     // this.isSaved = false;
     //this.isViewed = false;
+    ///Preview Data Clear
+    this.PreFCode = null; this.PreFreightAmnt = null;
+    this.PreFStation = null; this.PreHCharges = null;
+    this.PreKms = null; this.PreLWBDate = null; this.PreLWBNo = null;
+    this.PreLoadingDate = null; this.PreLorryNo = null;
+    this.PreMODate = null; this.PreMONo = null; this.PreManualDocNo = null;
+    this.PreRGunny = null; this.PreRODate = null; this.PreRONo = null;
+    this.PreRRNo = null; this.PreRailFreightAmt = null;
+    this.PreRailHead = null; this.PreRecName = null;
+    this.PreRecRegion = null; this.PreRecType = null;
+    this.PreRemarks = null; this.PreTDate = null; this.PreUGunny = null;
+    this.PreVCode = null; this.PreWCharges = null; this.PreWDR = null;
+    this.PreWNo = null; this.PreTransaction = null; this.PreTStation = null;
+    this.PreTransportMode = null; this.PreTransporterName = null;
+    this.showPreview = false;
   }
 
   onStackNoChange(event) {

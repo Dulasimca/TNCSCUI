@@ -1326,6 +1326,14 @@ export class IssueReceiptComponent implements OnInit {
     this.allotmentDetails = []; this.exceedAllotBal = false;
     this.QuantityLimit = null; this.disableSave = false;
     this.AllotmentQty = 0; this.IssueQty = 0; this.BalanceQty = 0;
+    ///Preview Data Clear
+    this.PreTransaction = null; this.PreTransporterCharges = null;
+    this.PreTransporterName = null; this.PreVehicleNo = null;
+    this.PreWNo = null; this.PreYear = null; this.PreMonth = null;
+    this.PreManualDocNo = null; this.PreRecName = null;
+    this.PreRecType = null; this.PreRegAdv = null;
+    this.PreRemarks = null; this.PreSIDate = null;
+    this.showPreview = false;
   }
 
   openNext() {

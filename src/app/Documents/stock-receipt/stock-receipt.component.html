@@ -720,8 +720,8 @@
   </div>
   
  </div>
+ <div *ngIf="(itemData.length!='0')" class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details</div>
  <div *ngIf="(itemData.length!='0')" class="ui-g-12 ui-fluid no-pad-top">
-  <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details</div>
   <p-table tabindex="-1" [columns]="itemCol" [value]="itemData" [responsive]="true" autoLayout="true" [scrollable]="true"
     scrollHeight="200px">
     <ng-template pTemplate="colgroup" let-columns>

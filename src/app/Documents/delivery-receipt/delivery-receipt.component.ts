@@ -983,6 +983,12 @@ export class DeliveryReceiptComponent implements OnInit {
     this.onResetFieldset();
     // this.isSaved = false;
     //this.isViewed = false;
+    /// Preview Data Clear
+    this.PreRemarks = null; this.PreTransaction = null;
+    this.PreYear = null; this.PreDODate = null; this.PreGSTNo = null;
+    this.PreIndentNo = null; this.PreMonth = null;
+    this.PrePartyName = null; this.PrePermitDate = null;
+    this.PreRecType = null; this.showPreview = false;
   }
 
   onResetFieldset() {
