@@ -29,6 +29,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -314,7 +315,8 @@ import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail
     ListboxModule,
     ProgressSpinnerModule,
     InputMaskModule,
-    FileUploadModule
+    FileUploadModule,
+    SlimLoadingBarModule
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],
