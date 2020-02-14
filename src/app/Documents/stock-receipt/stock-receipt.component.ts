@@ -146,6 +146,7 @@ export class StockReceiptComponent implements OnInit {
   PreDepType: any;
   PreDepName: any;
   PreTruckMemoNo: any;
+  PreTruckMemoDate: string;
   PreVehicleNo: any;
   PreVechileFrom: any;
   PreManualDocNo: any;
@@ -949,7 +950,7 @@ export class StockReceiptComponent implements OnInit {
     this.PreDepType = f.value['Depositortype'].label;
     this.PreDepName = f.value['DepositorName'].label;
     this.PreTruckMemoNo = f.value['TruckNo'].toString().toUpperCase();
-    this.PreTruckMemoNo = this.datepipe.transform(f.value['TruckDate'], 'dd/MM/yyyy');
+    this.PreTruckMemoDate = this.datepipe.transform(f.value['TruckDate'], 'dd/MM/yyyy');
     this.PreVehicleNo = f.value['VehicleNo'].toString().toUpperCase();
     this.PreVechileFrom = f.value['LorryFrom'].toString().toUpperCase();
     this.PreManualDocNo = f.value['ManualDocNumber'].toString().toUpperCase();
