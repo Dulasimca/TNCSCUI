@@ -143,6 +143,7 @@ export class IssueGatepassComponent implements OnInit {
               ReceivorName: data.find(y => y.SINo === SINo).ReceivorName,
             }
           })
+          ///End
           this.issueMemoLorryAbstractData = obtainDistinctData;
           let sno = 1;
           this.issueMemoLorryAbstractData.forEach(x => {
