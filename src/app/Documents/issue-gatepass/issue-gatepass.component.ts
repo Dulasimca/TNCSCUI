@@ -9,6 +9,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { GolbalVariable } from 'src/app/common/globalvariable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-issue-gatepass',
@@ -128,7 +129,15 @@ export class IssueGatepassComponent implements OnInit {
       this.restAPIService.post(PathConstants.STOCK_ISSUE_GATEPASS_POST, params).subscribe((res: any) => {
         if (res.Item3.length !== 0 && res.Item3 !== null && res.Item3 !== undefined) {
           var data = JSON.parse(res.Item3);
-          var obtainDistinctData = Array.from(new Set(data.map((item: any) => item)));
+          ///Distinct data from an array
+          const obtainDistinctData = Array.from(new Set(data.map(x => x.SINo))).map(SINo => {
+            return{
+              SINo: SINo,
+              SIDate: data.find(y => y.SINo === SINo).SIDate,
+              LorryNo: data.find(y => y.SINo === SINo).LorryNo,
+              ReceivorName: data.find(y => y.SINo === SINo).ReceivorName,
+            }
+          })
           this.issueMemoLorryAbstractData = obtainDistinctData;
           let sno = 1;
           this.issueMemoLorryAbstractData.forEach(x => {
@@ -240,8 +249,16 @@ export class IssueGatepassComponent implements OnInit {
       };
       this.restAPIService.post(PathConstants.STOCK_ISSUE_GATEPASS_POST, params).subscribe((res: any) => {
         if (res.Item3.length !== 0 && res.Item3 !== null && res.Item3 !== undefined) {
-          var data = JSON.parse(res.Item3);
-          var distinctArr = Array.from(new Set(data.map((item: any) => item)));
+          var data: any = JSON.parse(res.Item3);
+          ///Distinct data from an array
+          const distinctArr = Array.from(new Set(data.map(x => x.SINo))).map(SINo => {
+            return{
+              SINo: SINo,
+              SIDate: data.find(y => y.SINo === SINo).SIDate,
+              LorryNo: data.find(y => y.SINo === SINo).LorryNo,
+              ReceivorName: data.find(y => y.SINo === SINo).ReceivorName,
+            }
+          })
           this.issueGatePassData = distinctArr;
           let sno = 1;
           this.issueGatePassData.forEach(x => {
