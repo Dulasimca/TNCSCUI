@@ -48,7 +48,7 @@
                 <div class="ui-g-12 ui-fluid">
                     <p-table tabindex="-1" [columns]="issueMemoLorryAbstractCols" [value]="issueMemoLorryAbstractData"
                         [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-                        autoLayout="true">
+                        autoLayout="true" [loading]="loading">
                         <ng-template pTemplate="colgroup" let-columns>
                             <colgroup>
                                 <col *ngFor="let col of columns" style="width:80px">
@@ -101,7 +101,7 @@
         </div>
         <div class="ui-g-12 ui-md-12 ui-fluid no-pad-top">
             <p-table tabindex="-1" [columns]="issueGatePassCols" [value]="issueGatePassData" [responsive]="true"
-                [scrollable]="true" autoLayout="true">
+            [loading]="loading" [scrollable]="true" autoLayout="true">
                 <ng-template pTemplate="colgroup" let-columns>
                     <colgroup>
                         <col *ngFor="let col of columns" style="width:115px">
