@@ -1607,6 +1607,5 @@ export class TableConstants {
       { header: 'Total Receipt', field: 'TotalReceipt' },
       { header: 'GrandTotalInc OB', field: 'GrandTotalReceipt' },
     ];
-
   }
 }
