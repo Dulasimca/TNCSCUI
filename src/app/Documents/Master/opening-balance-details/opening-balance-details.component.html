@@ -18,14 +18,16 @@
         <div class="ui-g-2"></div>
         <div class="form-group ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
-          <p-dropdown #y id="float-input" [options]="yearOptions" name="year" (keydown.enter)="onSelect('y')"
-           [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label" [showClear]="true" required>
+          <p-dropdown #year id="float-input" [options]="yearOptions" name="year" 
+          (keyup.tab)="onSelect('y', 'tab')" (keyup.shift.tab)="onSelect('y', 'tab')"
+           [(ngModel)]="Year" (onClick)="onSelect('y', 'click')" optionLabel="label" [showClear]="true" required>
           </p-dropdown>
         </div>
          <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
-              <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              (keydown.enter)="onSelect('gd')" filter="true" resetFilterOnHide="true" 
+              <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd"
+              (onClick)="onSelect('gd', 'click')" (keyup.shift.enter)="onSelect('gd', 'tab')" 
+              (keyup.tab)="onSelect('gd', 'tab')" filter="true" resetFilterOnHide="true" 
               filterMatchMode="startsWith" optionLabel="label" [showClear]="true" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -34,9 +36,9 @@
           </div>
         <div class="form-group ui-g-12 ui-md-3">
           <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-          <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
-          (keydown.enter)="onCommodityClicked()" filter="true" resetFilterOnHide="true"
-          filterMatchMode="startsWith" optionLabel="label" [showClear]="true" 
+          <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
+          (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')" resetFilterOnHide="true"
+          filter="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true" 
           name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
@@ -120,8 +122,8 @@
       <label class="ui-g-4 label-fontsize-large">Commodity Name</label>
       <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
        (onChange)="onChange($event)" filter="true" resetFilterOnHide="true" 
-        (keydown.enter)="onCommodityClicked()" optionLabel="label" [showClear]="true"
-        filterMatchMode="startsWith" name="CommodityName" required>
+       (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')"
+        optionLabel="label" [showClear]="true" filterMatchMode="startsWith" name="CommodityName" required>
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>

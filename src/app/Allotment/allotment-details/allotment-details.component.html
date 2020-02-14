@@ -25,9 +25,9 @@
             <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -20px;">
               <label class="label-fontsize dashboard">Region</label>
               <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
-                (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
+                (onClick)="onSelect('reg', 'click')" (keyup.shift.tab)="onSelect('reg', 'tab')" [showClear]="true"
                 (ngModelChange)="onResetTable('reg')" filter="true" filterMatchMode="startsWith"
-                 resetFilterOnHide="true" placeholder="-select-">
+                (keyup.tab)="onSelect('reg', 'tab')" resetFilterOnHide="true" placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -36,9 +36,9 @@
             <div class="ui-g-6 ui-md-2 ui-fluid" style="margin-top: -20px;">
               <label class="label-fontsize dashboard">Godown</label>
               <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
-                (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+                (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
                 (ngModelChange)="onResetTable('gd');" filter="true" filterMatchMode="startsWith"
-                resetFilterOnHide="true" [showClear]="true"
+                resetFilterOnHide="true" [showClear]="true" (keyup.tab)="onSelect('gd', 'tab')"
                 placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
@@ -48,16 +48,16 @@
             <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentMonth" class="label-fontsize">Allotment Month</label>
               <p-dropdown #m="ngModel" class="label-fontsize-large" name="AllotmentMonth" [options]="monthOptions"
-                [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keydown.enter)="onSelect('m', 'enter')"
+                [(ngModel)]="month" (onClick)="onSelect('m', 'click')" (keyup.tab)="onSelect('m', 'tab')"
                 (ngModelChange)="onResetTable('mon');" filter="true" resetFilterOnHide="true"
-                 optionLabel="label" filterMatchMode="startsWith" required>
+                (keyup.shift.tab)="onSelect('m', 'tab')" optionLabel="label" filterMatchMode="startsWith" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-1 ui-fluid" style="margin-top: -20px;">
               <label for="AllotmentYear" class="label-fontsize">Allotment Year</label>
               <p-dropdown #y="ngModel" class="label-fontsize-large" name="AllotmentYear" [options]="yearOptions"
-                [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keydown.enter)="onSelect('y', 'enter')"
-                (ngModelChange)="onResetTable('yr');" required>
+                [(ngModel)]="year" (onClick)="onSelect('y', 'click')" (keyup.tab)="onSelect('y', 'tab')"
+                (keyup.shift.tab)="onSelect('y', 'tab')" (ngModelChange)="onResetTable('yr');" required>
               </p-dropdown>
             </div>
             <div class="ui-g-4 ui-md-3 ui-fluid">

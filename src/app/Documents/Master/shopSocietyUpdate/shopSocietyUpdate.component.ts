@@ -82,7 +82,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -104,7 +104,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
         }
         break;
       case 'gd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.godownPanel.overlayVisible = true;
         }
         if (this.data !== undefined) {
@@ -117,7 +117,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
         }
         break;
       case 'sh':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.shopPanel.overlayVisible = true;
         }
         this.SocietyMasterEntryData.forEach(vv => {
@@ -126,7 +126,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
         this.shopNameOptions = shopSelection;
         break;
       case 'r':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receiverPanel.overlayVisible = true;
         }
         if (this.receiverOptions === undefined) {
@@ -142,7 +142,7 @@ export class ShopSocietUpdateMasterComponent implements OnInit {
         }
         break;
       case 's':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.societyPanel.overlayVisible = true;
         }
         this.IssuerData.forEach(S => {

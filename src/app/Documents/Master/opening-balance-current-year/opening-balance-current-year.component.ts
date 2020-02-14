@@ -7,6 +7,7 @@ import { SelectItem, MessageService } from 'primeng/api';
 import { HttpParams } from '@angular/common/http';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-opening-balance-current-year',
@@ -43,6 +44,9 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isActionDisabled: boolean;
   canShowMenu: boolean;
   @ViewChild('f', { static: false }) OBCurYrFrom: NgForm;
+  @ViewChild('year', { static: false }) yearPanel: Dropdown;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
   constructor(private authService: AuthService, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
 
@@ -61,10 +65,13 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
       })
     }
   }
-  onSelect(selectedItem) {
+  onSelect(selectedItem, type) {
     let godownSelection = [];
     switch (selectedItem) {
       case 'gd':
+        if (type === 'tab') {
+          this.godownPanel.overlayVisible = true;
+        }
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode });
@@ -73,7 +80,15 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
           this.godownOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
+      case 'cd':
+        if (type === 'tab') {
+          this.commodityPanel.overlayVisible = true;
+        }
+        break;
       case 'y':
+        if (type === 'tab') {
+          this.yearPanel.overlayVisible = true;
+        }
         let yearArr = [];
         const range = 2;
         const year = new Date().getFullYear();

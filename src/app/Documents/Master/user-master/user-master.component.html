@@ -12,9 +12,9 @@
     <div class="ui-g-12 ui-md-2">
       <label class="ui-g label-fontsize dashboard" for="rCode">Region</label>
       <p-dropdown #region class="ui-g ui-fluid" name="rCode" [options]="regionOptions" [(ngModel)]="regionCode" 
-      (onClick)="onSelect('click', 'reg')" (keydown.enter)="onSelect('enter', 'reg')" filter="true"
+      (onClick)="onSelect('click', 'reg')" (keyup.tab)="onSelect('tab', 'reg')" filter="true"
       filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label"
-        [showClear]="true" placeholder="-select-">
+      (keyup.shift.tab)="onSelect('tab', 'reg')" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>
@@ -23,9 +23,9 @@
     <div class="ui-g-12 ui-md-2">
       <label class="ui-g label-fontsize dashboard" for="gCode">Godown Name</label>
       <p-dropdown #godown class="ui-g ui-fluid" [options]="godownOptions" [(ngModel)]="godownCode"
-      (onClick)="onSelect('click', 'gd')" (keydown.enter)="onSelect('enter', 'gd')" filter="true"
+      (onClick)="onSelect('click', 'gd')" (keyup.shift.tab)="onSelect('tab', 'gd')" filter="true"
       resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith"
-        name="gCode" [showClear]="true" placeholder="-select-">
+      (keyup.tab)="onSelect('tab', 'gd')" name="gCode" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>
@@ -34,9 +34,9 @@
     <div class="ui-g-12 ui-md-2">
       <label class="ui-g label-fontsize dashboard" for="roleId">Role</label>
       <p-dropdown #role class="ui-g ui-fluid" [options]="roleIdOptions" [(ngModel)]="roleId"
-      (onClick)="onSelect('click', 'role')" (keydown.enter)="onSelect('enter', 'role')"
+      (onClick)="onSelect('click', 'role')" (keyup.shift.tab)="onSelect('tab', 'role')"
       filterMatchMode="startsWith" filter="true"resetFilterOnHide="true"  optionLabel="label"
-        [showClear]="true" placeholder="-select-">
+      (keyup.tab)="onSelect('tab', 'role')" [showClear]="true" placeholder="-select-">
         <ng-template let-item pTemplate="selectedItem">
           <span style="vertical-align:middle">{{item.label}}</span>
         </ng-template>

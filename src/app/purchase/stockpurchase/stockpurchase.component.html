@@ -55,8 +55,8 @@
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <label for="Commodity" class="label-fontsize">Commodity</label>
               <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ICode"
-                (onClick)="onSelect('click')" (keydown.enter)="onSelect('enter')" filter="true" resetFilterOnHide="true"
-                filterMatchMode="startsWith" optionLabel="label" [showClear]="true" required>
+                (onClick)="onSelect('click')" (keyup.tab)="onSelect('tab')" filter="true" resetFilterOnHide="true"
+                (keyup.shift.tab)="onSelect('tab')" filterMatchMode="startsWith" optionLabel="label" [showClear]="true" required>
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>

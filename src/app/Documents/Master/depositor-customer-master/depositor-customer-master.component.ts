@@ -68,7 +68,7 @@ export class DepositorCustomerMasterComponent implements OnInit {
   }
 
   onSelect(type) {
-    if (type === 'enter') {
+    if (type === 'tab') {
       this.depositorTypePanel.overlayVisible = true;
     }
     let distinctValues = [];

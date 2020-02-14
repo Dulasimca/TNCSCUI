@@ -92,7 +92,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.regionPanel.overlayVisible = true;
         }
         if (this.roleId === 1) {
@@ -115,7 +115,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         }
         break;
       case 'd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.designationPanel.overlayVisible = true;
         }
         this.restApiService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {

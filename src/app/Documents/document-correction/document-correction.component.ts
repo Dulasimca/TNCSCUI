@@ -88,7 +88,7 @@ export class DocumentCorrectionComponent implements OnInit {
      switch (item) {
       case 'reg':
           this.regionData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
+          if (type === 'tab') {
             this.regionPanel.overlayVisible = true;
           }
             if (this.regionData !== undefined) {
@@ -99,7 +99,7 @@ export class DocumentCorrectionComponent implements OnInit {
             }
         break;
         case 'dt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.docTypePanel.overlayVisible = true;
         }
         if (this.docTypeOptions === undefined) {
@@ -109,7 +109,7 @@ export class DocumentCorrectionComponent implements OnInit {
         }
         break;
       case 'dn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.docNoPanel.overlayVisible = true;
         }
         if (this.DocType !== null && this.DocType !== undefined) {
@@ -161,7 +161,7 @@ export class DocumentCorrectionComponent implements OnInit {
         }
         break;
       case 'ds':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.docStatusPanel.overlayVisible = true;
         }
         break;

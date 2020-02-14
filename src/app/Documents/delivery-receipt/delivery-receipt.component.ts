@@ -131,6 +131,18 @@ export class DeliveryReceiptComponent implements OnInit {
   PrevBalType: any;
   GSTNumber: string;
   isGSTModified: boolean = true;
+  showGSTErrMsg: boolean = false;
+  showPreview: boolean;
+  PreDODate: string;
+  PrePermitDate: string;
+  PreIndentNo: any;
+  PreTransaction: any;
+  PreRecType: any;
+  PrePartyName: any;
+  PreMonth: any;
+  PreYear: any;
+  PreGSTNo: any;
+  PreRemarks: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
@@ -143,8 +155,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
-  showGSTErrMsg: boolean = false;
-
+  
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe) { }
@@ -198,7 +209,7 @@ export class DeliveryReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -215,7 +226,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': 1 },
@@ -226,7 +237,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         transactoinSelection.push({ label: 'SALES', value: 'TR014' },
@@ -237,7 +248,7 @@ export class DeliveryReceiptComponent implements OnInit {
           ((this.Trcode.value !== undefined) ? (this.Trcode.value === 'TR019') : this.trCode) : false) ? true : false;
         break;
       case 'scheme':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -251,7 +262,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_scheme':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginSchemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -265,7 +276,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'rt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== null && this.Trcode !== undefined) {
@@ -287,7 +298,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'pn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.partyNamePanel.overlayVisible = true;
         }
         if (this.RTCode !== undefined && this.Trcode !== null && this.RTCode !== null && this.Trcode !== undefined) {
@@ -309,7 +320,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'commodity':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== null && this.Scheme !== undefined) {
@@ -340,7 +351,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'margin_commodity':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginCommodityPanel.overlayVisible = true;
         }
         if (this.MarginScheme !== null && this.MarginScheme !== undefined) {
@@ -371,7 +382,7 @@ export class DeliveryReceiptComponent implements OnInit {
         }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weighmentPanel.overlayVisible = true;
         }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
@@ -387,7 +398,7 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'margin_wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.marginWeighmentPanel.overlayVisible = true;
         }
         this.restAPIService.get(PathConstants.BASIC_WEIGHT_MASTER).subscribe((res: any) => {
@@ -403,7 +414,7 @@ export class DeliveryReceiptComponent implements OnInit {
         });
         break;
       case 'pay':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.paymentPanel.overlayVisible = true;
         }
         this.paymentOptions = [
@@ -1260,6 +1271,20 @@ export class DeliveryReceiptComponent implements OnInit {
         summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
       });
     }
+  }
+
+  viewPreview(f) {
+    this.showPreview = true;
+    this.PreDODate = this.datepipe.transform(f.value['DoDate'], 'dd/MM/yyyy');
+    this.PrePermitDate = this.datepipe.transform(f.value['Permitdate'], 'dd/MM/yyyy');
+    this.PreTransaction = f.value['Transaction'].label;
+    this.PreRecType = f.value['ReceivorType'].label;
+    this.PrePartyName = f.value['PartyName'].label;
+    this.PreIndentNo = f.value['IndentNum'].toString().toUpperCase();
+    this.PreMonth = f.value['Month'].toString().toUpperCase();
+    this.PreYear = f.value['Year'];
+    this.PreGSTNo = f.value['GST'].toString().toUpperCase();
+    this.PreRemarks = f.value['Instructions'];
   }
 
   public getStyle(value, type): string {

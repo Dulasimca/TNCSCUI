@@ -97,12 +97,12 @@ export class DDChequeEntryComponent implements OnInit {
   onSelect(type, id) {
     switch (id) {
       case 'rt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.receivorTypePanel.overlayVisible = true;
         }
         break;
       case 'pay':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.paymentTypePanel.overlayVisible = true;
         }
         let paymentTypeList = [];

@@ -45,8 +45,8 @@
               <div class="ui-g-4 ui-md-2">
                 <label for="recvrType" class="label-fontsize-large">Recevior Type</label>
                 <p-dropdown #receivor name="recvrType" [options]="receivorTypeOptions"
-                 [(ngModel)]="receivorType" (onClick)="onSelect('click','rt')" (keydown.enter)="onSelect('enter','rt')"
-                  filter="true" optionLabel="label"  resetFilterOnHide="true" 
+                 [(ngModel)]="receivorType" (onClick)="onSelect('click','rt')" (keyup.tab)="onSelect('tab','rt')"
+                  filter="true" optionLabel="label"  resetFilterOnHide="true"  (keyup.shift.tab)="onSelect('tab','rt')"
                   filterMatchMode="startsWith" (onChange)="onLoadReceivor()" [showClear]="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -74,8 +74,9 @@
               <div class="ui-g-4 ui-md-2">
                 <label for="payType" class="label-fontsize-large">CA/DD/CH</label>
                 <p-dropdown #pay name="payType" [options]="paymentTypeOptions" [(ngModel)]="paymentType" filter="true"
-                  optionLabel="label" [showClear]="true" (keydown.enter)="onSelect('enter', 'pay')"
-                  filterMatchMode="startsWith" (onClick)="onSelect('click', 'pay')" required>
+                  optionLabel="label" [showClear]="true" (keyup.tab)="onSelect('tab', 'pay')"
+                  filterMatchMode="startsWith" (onClick)="onSelect('click', 'pay')"
+                  (keyup.shift.tab)="onSelect('tab', 'pay')" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>

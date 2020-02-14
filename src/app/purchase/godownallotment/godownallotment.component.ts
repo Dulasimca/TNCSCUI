@@ -74,7 +74,7 @@ spellCode: any;
     let regionSelection = [];
     switch (id) {
       case 'order':
-        if (type == 'enter') {
+        if (type == 'tab') {
           this.oredrNoPanel.overlayVisible = true;
         }
         if((this.RCode.value !== undefined && this.RCode.value !== null) || (this.rCode !== undefined && this.rCode !== null)) {
@@ -93,7 +93,7 @@ spellCode: any;
         } 
         break;
         case 'reg':
-            if (type === 'enter') {
+            if (type === 'tab') {
               this.regionPanel.overlayVisible = true;
             }
             this.regions = this.roleBasedService.regionsData;
@@ -118,14 +118,14 @@ spellCode: any;
             }
           break;
           case 'spell':
-              if (type == 'enter') {
+              if (type == 'tab') {
                 this.spellPanel.overlayVisible = true;
               }
                 this.spellOptions = [{ label: '-select-', value: null }, { label: 'Spell1', value: 1 }, { label: 'Spell2', value: 2 },
                 { label: 'Spell3', value: 3 }, { label: 'Spell4', value: 4 }, { label: 'Spell5', value: 5 }];
               break;
         case 'gd':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.godownPanel.overlayVisible = true;
         }
         this.data = this.roleBasedService.instance;

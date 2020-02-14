@@ -135,7 +135,22 @@ export class StockReceiptComponent implements OnInit {
   field: any;
   selected: any;
   disableSave: boolean = false;
-  // isSaved: boolean = false;
+  showPreview: boolean;
+  PreSRDate: string;
+  PreMonth: any;
+  PreYear: any;
+  PreAllotNo: any;
+  PreAllotDate: any;
+  PreTransMode: any;
+  PreTransaction: any;
+  PreDepType: any;
+  PreDepName: any;
+  PreTruckMemoNo: any;
+  PreTruckMemoDate: string;
+  PreVehicleNo: any;
+  PreVechileFrom: any;
+  PreManualDocNo: any;
+  PreRemarks: any;// isSaved: boolean = false;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
@@ -148,7 +163,7 @@ export class StockReceiptComponent implements OnInit {
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
-
+  
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe, private messageService: MessageService) {
@@ -192,7 +207,7 @@ export class StockReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
         const year = new Date().getFullYear();
@@ -209,7 +224,7 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
@@ -220,7 +235,7 @@ export class StockReceiptComponent implements OnInit {
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'tr':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.transactionPanel.overlayVisible = true;
         }
         // if(this.transactionOptions === undefined || this.isViewed) {
@@ -240,7 +255,7 @@ export class StockReceiptComponent implements OnInit {
         // }
         break;
       case 'sc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.schemePanel.overlayVisible = true;
         }
         if (this.scheme_data !== undefined && this.scheme_data !== null) {
@@ -254,7 +269,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.depositorTypePanel.overlayVisible = true;
         }
         if (this.Trcode !== undefined && this.Trcode !== null) {
@@ -277,7 +292,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'dn':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.depositorNamePanel.overlayVisible = true;
         }
         if (this.Trcode !== undefined && this.Trcode !== null && this.DepositorType !== null && this.DepositorType !== undefined) {
@@ -301,7 +316,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'i_desc':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         if (this.Scheme !== undefined && this.Scheme !== null) {
@@ -324,7 +339,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'st_no':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.stackNoPanel.overlayVisible = true;
         }
         if (this.ReceivingCode !== undefined && this.ICode !== null && this.ICode !== undefined) {
@@ -347,7 +362,7 @@ export class StockReceiptComponent implements OnInit {
         }
         break;
       case 'pt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.packingPanel.overlayVisible = true;
         }
         // if(this.packingTypeOptions === undefined || this.isViewed) {
@@ -365,7 +380,7 @@ export class StockReceiptComponent implements OnInit {
         // }
         break;
       case 'wmt':
-        if (type === 'enter') {
+        if (type === 'tab') {
           this.weightmentPanel.overlayVisible = true;
         }
         // if(this.wmtOptions === undefined || this.isViewed) {
@@ -921,6 +936,25 @@ export class StockReceiptComponent implements OnInit {
         summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.SuccessValidationMsg
       });
     }
+  }
+
+  viewPreview(f) {
+    this.showPreview = true;
+    this.PreSRDate = this.datepipe.transform(f.value['StockDate'], 'dd/MM/yyyy');
+    this.PreMonth = f.value['PeriodOfMonth'].toString().toUpperCase();
+    this.PreYear = f.value['PeriodOfYear'];
+    this.PreAllotNo = f.value['AllotmentOrderNo'].toString().toUpperCase();
+    this.PreAllotDate = this.datepipe.transform(f.value['AllotmentOrderDate'], 'dd/MM/yyyy');
+    this.PreTransMode = f.value['TransportMode'].toString().toUpperCase();
+    this.PreTransaction = f.value['Transaction'].label;
+    this.PreDepType = f.value['Depositortype'].label;
+    this.PreDepName = f.value['DepositorName'].label;
+    this.PreTruckMemoNo = f.value['TruckNo'].toString().toUpperCase();
+    this.PreTruckMemoDate = this.datepipe.transform(f.value['TruckDate'], 'dd/MM/yyyy');
+    this.PreVehicleNo = f.value['VehicleNo'].toString().toUpperCase();
+    this.PreVechileFrom = f.value['LorryFrom'].toString().toUpperCase();
+    this.PreManualDocNo = f.value['ManualDocNumber'].toString().toUpperCase();
+    this.PreRemarks = f.value['remarks'];
   }
 
   onClose() {

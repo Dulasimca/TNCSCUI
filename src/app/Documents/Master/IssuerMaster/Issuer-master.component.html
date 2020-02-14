@@ -72,10 +72,10 @@
         </div>
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Issuer_Type" class="label-fontsize">Issuer Type</label>
-          <p-dropdown #Issuer name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
+          <p-dropdown #k name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
             optionLabel="label" (onClick)="onSelect('click', 'iss')" (onChange)="onChange()"
-            (keydown.enter)="onSelect('enter', 'iss')" filter="true"
-            filterMatchMode="startsWith" resetFilterOnHide="true">
+            (keyup.shift.tab)="onSelect('tab', 'iss')" (keyup.tab)="onSelect('tab', 'iss')"
+            filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
           </p-dropdown>
         </div>
         <!-- <div class="ui-g-2"></div> -->
@@ -85,15 +85,16 @@
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Society_Type" class="label-fontsize">Society Type</label>
           <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society" optionLabel="label"
-            (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety" (keydown.enter)="onSelect('enter', 'soc')"
+            (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety"
+            (keyup.shift.tab)="onSelect('tab', 'soc')" (keyup.tab)="onSelect('tab', 'soc')"
             filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
           </p-dropdown>
         </div>
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Category_Type" class="label-fontsize">OWS Category</label>
-          <p-dropdown #Category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
+          <p-dropdown #category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
             optionLabel="label" (onClick)="onSelect('click', 'cat')" filter="true" resetFilterOnHide="true"
-            filterMatchMode="startsWith" (keydown.enter)="onSelect('enter', 'cat')">
+            filterMatchMode="startsWith" (keyup.shift.tab)="onSelect('tab', 'cat')" (keyup.tab)="onSelect('tab', 'cat')">
           </p-dropdown>
         </div>
         <div class="ui-g-6 ui-md-2">

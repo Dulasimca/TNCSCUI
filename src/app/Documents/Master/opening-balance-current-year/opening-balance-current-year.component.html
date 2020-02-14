@@ -15,8 +15,8 @@
           <div class="ui-g-2"></div>
           <div class="ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
-            <p-dropdown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd')"
-              (keydown.enter)="onSelect('gd')" (onChange)="onChange()" filter="true" optionLabel="label"
+            <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd" (onClick)="onSelect('gd', 'click')"
+              (keyup.tab)="onSelect('gd', 'tab')" (keyup.shift.tab)="onSelect('gd', 'tab')" (onChange)="onChange()" filter="true" optionLabel="label"
               filterMatchMode="startsWith" resetFilterOnHide="true" [showClear]="true" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -25,8 +25,9 @@
           </div>
           <div class="form-group ui-g-12 ui-md-3">
             <label class="ui-g-7 label-fontsize dashboard" for="Commodity">Commodity</label>
-            <p-dropdown [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
+            <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
               (onChange)="onChange()" filter="true" optionLabel="label" filterMatchMode="startsWith"
+              (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')"
               resetFilterOnHide="true" [showClear]="true" name="Commodity" required>
               <ng-template let-item pTemplate="selectedItem">
                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -35,9 +36,9 @@
           </div>
           <div class="form-group ui-g-12 ui-md-2">
             <label class="ui-g-7 label-fontsize dashboard" for="Year">Year</label>
-            <p-dropdown #y id="float-input" [options]="yearOptions" name="Year" (keydown.enter)="onSelect('y')"
-              (onChange)="onChange()" [(ngModel)]="Year" (onClick)="onSelect('y')" optionLabel="label"
-              [showClear]="true" required>
+            <p-dropdown #year id="float-input" [options]="yearOptions" name="Year" (keyup.tab)="onSelect('y', 'tab')"
+              (onChange)="onChange()" [(ngModel)]="Year" (onClick)="onSelect('y', 'click')" optionLabel="label"
+              [showClear]="true" (keyup.shift.tab)="onSelect('y', 'tab')" required>
             </p-dropdown>
           </div>
           <div class="ui-g-2"></div>
