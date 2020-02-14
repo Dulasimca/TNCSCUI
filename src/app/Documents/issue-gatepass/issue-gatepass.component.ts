@@ -30,11 +30,13 @@ export class IssueGatepassComponent implements OnInit {
   userId: any;
   issueGatePassCols: any;
   issueGatePassData: any = [];
-  viewDate: Date = new Date();
+  viewDate: Date;
   viewPane: boolean;
   SelectedGatePassNo: any;
   gatePassNoList: SelectItem[];
   loading: boolean;
+  maxDate: Date;
+
 
   constructor(private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -49,6 +51,9 @@ export class IssueGatepassComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     this.userId = JSON.parse(this.authService.getCredentials());
     this.onLoadIssueLorryDetails();
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.viewDate = this.maxDate;
   }
 
   onLoadIssueLorryDetails() {
