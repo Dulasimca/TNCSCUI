@@ -312,7 +312,11 @@ export class IssueGatepassComponent implements OnInit {
       let filepath = path + filename + ".txt";
       var w = window.open(filepath);
       w.print();
-      this.restAPIService.put(PathConstants.STOCK_ISSUE_GATEPASS_PUT, params).subscribe();
+      this.restAPIService.put(PathConstants.STOCK_ISSUE_GATEPASS_PUT, params).subscribe(res => {
+        if(res) {
+          this.onLoadIssueLorryDetails();
+        }
+      });
     } else {
       const path = "../../assets/Reports/" + this.userId.user + "/";
       const filename = this.GCode + GolbalVariable.IssueMemoGatePass;
