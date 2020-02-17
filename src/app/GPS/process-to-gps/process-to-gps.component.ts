@@ -18,7 +18,8 @@ import { StatusMessage } from 'src/app/constants/Messages';
 })
 export class ProcessToGPSComponent implements OnInit {
   canShowMenu: boolean;
-  Date: Date;
+  FromDate: Date;
+  ToDate: Date;
   maxDate: Date = new Date();
   minDate: Date;
   GCode: any;
@@ -103,6 +104,7 @@ export class ProcessToGPSComponent implements OnInit {
 
   onResetTable(item) {
       if (item === 'reg') { this.GCode = null; }
+      this.processToGPSData = [];
   }
 
     public getColor(data: any): string {
@@ -112,7 +114,9 @@ export class ProcessToGPSComponent implements OnInit {
 
 
   onView() {
-      const params = new HttpParams().set('RCode', this.RCode).append('GCode', this.GCode).append('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'));
+      const params = new HttpParams().set('RCode', this.RCode).append('GCode', this.GCode)
+      .append('FromDate', this.datepipe.transform(this.FromDate, 'MM/dd/yyyy'))
+      .append('ToDate', this.datepipe.transform(this.ToDate, 'MM/dd/yyyy'));
       this.restAPIService.getByParameters(PathConstants.PROCESS_TO_GPS_GET, params).subscribe((res: any) => {
           if (res !== null && res !== undefined && res.length !== 0) {
               let sno = 1;
@@ -177,10 +181,39 @@ export class ProcessToGPSComponent implements OnInit {
       }
   }
 
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+
+  checkValidDateSelection() {
+    if (this.FromDate !== undefined && this.ToDate !== undefined && this.FromDate !== null
+        && this.ToDate !== null && this.FromDate.toDateString() !== '' &&
+        this.ToDate.toDateString() !== '') {
+      let selectedFromDate = this.FromDate.getDate();
+      let selectedToDate = this.ToDate.getDate();
+      let selectedFromMonth = this.FromDate.getMonth();
+      let selectedToMonth = this.ToDate.getMonth();
+      let selectedFromYear = this.FromDate.getFullYear();
+      let selectedToYear = this.ToDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
+        summary: StatusMessage.SUMMARY_INVALID, 
+        life:5000, detail: StatusMessage.ValidDateErrorMessage });
+        this.FromDate = null; this.ToDate = null;
+      }
+      return this.FromDate, this.ToDate;
+    }
+  }
+
   onClear() {
       this.RCode = null;
       this.GCode = null;
-      this.Date = new Date();
+      this.FromDate = new Date();
+      this.ToDate = new Date();
       this.processToGPSData = [];
   }
 }

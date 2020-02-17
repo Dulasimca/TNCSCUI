@@ -207,9 +207,6 @@ export class StockReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'tab') {
-          this.yearPanel.overlayVisible = true;
-        }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
@@ -224,9 +221,6 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'tab') {
-          this.monthPanel.overlayVisible = true;
-        }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },

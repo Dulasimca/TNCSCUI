@@ -206,9 +206,6 @@ export class IssueReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'tab') {
-          this.yearPanel.overlayVisible = true;
-        }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {

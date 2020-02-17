@@ -51,8 +51,7 @@
                       <label for="PeriodOfMonth" class="label-fontsize">Month</label>
                       <!-- <input name="Month" [(ngModel)]="month" pInputText autocomplete="off" [readonly]="true" required> -->
                       <p-dropdown #m name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="month"
-                        (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
-                        (keyup.tab)="onSelect('m', 'tab')" filter="true" resetFilterOnHide="true" optionLabel="label"
+                        (onClick)="onSelect('m', 'click')" filter="true" resetFilterOnHide="true" optionLabel="label"
                         filterMatchMode="startsWith" required>
                         <!-- <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>

@@ -66,8 +66,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Month" class="label-fontsize">Month</label>
                       <p-dropdown #m name="Month" [options]="monthOptions" [(ngModel)]="PMonth"
-                        (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
-                        (keyup.tab)="onSelect('m', 'tab')" filter="true" optionLabel="label"
+                        (onClick)="onSelect('m', 'click')" filter="true" optionLabel="label"
                         filterMatchMode="startsWith" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>
@@ -77,8 +76,7 @@
                     <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                       <label for="Year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="PYear"
-                        (onClick)="onSelect('y', 'click')" (keyup.shift.tab)="onSelect('y', 'tab')"
-                        (keyup.tab)="onSelect('y', 'tab')" required>
+                        (onClick)="onSelect('y', 'click')"  required>
                       </p-dropdown>
                     </div>
                     <div class="ui-g-6 ui-md-2">
