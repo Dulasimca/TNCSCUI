@@ -59,6 +59,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
   isViewed: boolean = false;
   isEdited: boolean;
   loading: boolean = false;
+  Abstract: boolean = false;
   curMonth: any;
   RName: any;
   CompanyTitle: any = [];
@@ -184,6 +185,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         this.AllotmentQuantityData = res;
         this.AllotmentQuantityAbstractData = res;
         this.CompanyTitle = res;
+        this.Abstract = true;
         let sno = 0;
         let Balance;
         this.AllotmentQuantityData.forEach(s => {
@@ -232,6 +234,12 @@ export class AllotmentIssueQuantityComponent implements OnInit {
         });
       }
     });
+  }
+
+  onAbstract() {
+    this.AllotmentQuantityCols = this.AllotmentQuantityAbtractCols;
+    this.AllotmentQuantityData = this.AllotmentAbstractData;
+    this.Abstract = false;
   }
 
   onSearch(value) {

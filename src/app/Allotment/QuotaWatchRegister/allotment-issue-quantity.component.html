@@ -4,7 +4,10 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Quota Watch Register</div>
+        <div class="ui-g-11 dashboard">Quota Watch Register</div>
+        <div class="ui-g-12 ui-md-1 ui-fluid dashboard" style="float: end !important;">
+          <button pButton type="button" label=Abstract (click)="onAbstract()" [disabled]="(!Abstract)"></button>
+        </div>
       </div>
     </p-header>
     <div class="ui-g">
@@ -108,7 +111,7 @@
     </div>
   </p-panel>
 
-  <hr class="ui-g-12 dashboard border-teal">
+  <!-- <hr class="ui-g-12 dashboard border-teal">
   <div class="ui-g-12 ui-md-12 ui-lg-12">
     <p-panel>
       <p-header>
@@ -155,5 +158,5 @@
         </div>
       </div>
     </p-panel>
-  </div>
+  </div> -->
 </div>
