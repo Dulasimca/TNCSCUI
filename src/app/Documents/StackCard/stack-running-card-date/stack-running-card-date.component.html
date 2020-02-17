@@ -26,8 +26,8 @@
                             <label class="ui-g-7 label-fontsize dashboard" for="Commodity">Commodity</label>
                             <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ITCode"
                                 filterMatchMode="startsWith" (keyup.tab)="onSelect('tab')"
-                                (onChange)="onSelect('change')" filter="true"
-                                (keyup.shift.tab)="onSelect('tab')" resetFilterOnHide="true">
+                                (onChange)="onSelect('change')" filter="true" (keyup.shift.tab)="onSelect('tab')"
+                                resetFilterOnHide="true">
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -45,26 +45,28 @@
                             </p-dropdown>
                         </div> -->
                     </div>
-                        <p-table #dt [columns]="stackRunningCardCols" [value]="stackRunningCardData" [rows]="10" [totalRecords]="totalRecords"
-                          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-                          [paginator]="true" [loading]="loading">
-                          <ng-template pTemplate="header" let-columns>
-                            <tr style="text-align: center;">
-                              <th *ngFor="let col of columns">
-                                {{col.header}}
-                              </th>
-                            </tr>
-                          </ng-template>
-                          <ng-template pTemplate="body" let-rowData let-columns="columns">
-                            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
-                              <td *ngFor="let col of columns">
-                                    {{rowData[col.field]}}
-                                  {{rowData[col.field]}}
-                              </td>
-                            </tr>
-                          </ng-template>
+                    <div class="ui-g-12 ui-md-12 dashboard">
+                        <p-table #dt [columns]="stackRunningCardCols" [value]="stackRunningCardData" [rows]="10"
+                            [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                            selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true"
+                            [loading]="loading">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr style="text-align: center;">
+                                    <th *ngFor="let col of columns">
+                                        {{col.header}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                                    <td *ngFor="let col of columns">
+                                        {{rowData[col.field]}}
+                                        {{rowData[col.field]}}
+                                    </td>
+                                </tr>
+                            </ng-template>
                         </p-table>
-                      </div>
+                    </div>
                 </div>
             </form>
         </div>
