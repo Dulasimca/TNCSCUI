@@ -300,7 +300,12 @@ export class IssueGatepassComponent implements OnInit {
     if (type === '1') {
       const params = {
         'GatePassNo': this.SelectedLorryNo.gatePassID,
-        'GCode': this.GCode
+        'GCode': this.GCode,
+        'DocNumber': this.SelectedLorryNo.value,
+        'GName': this.godownName,
+        'RName': this.regionName,
+        'UserID': this.userId.user,
+        'Type': 1
       }
       const path = "../../assets/Reports/" + this.userId.user + "/";
       const filename = this.GCode + GolbalVariable.IssueMemoGatePass;
