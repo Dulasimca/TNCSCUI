@@ -307,9 +307,6 @@ export class IssueReceiptComponent implements OnInit {
               //      if(i === this.RNCode)
               //   })
               // }
-              if (this.allotmentDetails.length === 0) {
-                this.getAllotmentDetails('key');
-              }
             }
           }
         } else {
@@ -429,7 +426,6 @@ export class IssueReceiptComponent implements OnInit {
         this.rnCode = null; this.RNCode = null;
         this.IssCode = null; this.SocietyName = null;
         this.SocietyCode = null;
-        this.getAllotmentDetails('change');
         break;
       case 'pt':
         this.onCalculateKgs();
@@ -645,7 +641,11 @@ export class IssueReceiptComponent implements OnInit {
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
     }
-    this.getAllotmentDetails('change');
+    if(this.allotmentDetails.length !== 0 && this.ICode !== null && this.ICode !== undefined) {
+      this.checkAllotmentBalance('1');
+    } else {
+      this.getAllotmentDetails();
+    }
   }
 
   onStackInput(event) {
@@ -1022,9 +1022,9 @@ export class IssueReceiptComponent implements OnInit {
     });
   }
 
-  getAllotmentDetails(type) {
-    this.allotmentDetails.length = 0;
-    if((type === 'key' && this.allotmentDetails.length === 0) || (type === 'change')) {
+  getAllotmentDetails() {
+    // if((type === 'key' && this.AFlag) || (type === 'change')) {
+      this.showIssuerCode();
     if (this.AllotmentStatus === 'YES') {
       if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
         this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
@@ -1038,6 +1038,7 @@ export class IssueReceiptComponent implements OnInit {
           'Year': this.year,
           'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
         };
+        this.allotmentDetails.length = 0;
         this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
           res.forEach(x => {
             this.allotmentDetails.push({
@@ -1053,7 +1054,7 @@ export class IssueReceiptComponent implements OnInit {
     } else {
       this.allotmentDetails.length = 0;
     }
-  }
+  // }
   }
 
   checkAllotmentBalance(type) {
@@ -1073,7 +1074,7 @@ export class IssueReceiptComponent implements OnInit {
         for (let a = 0; a < this.allotmentDetails.length; a++) {
           if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
             this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
-            this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+            this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60)/100) : (this.allotmentDetails[a].AllotmentQty * 1);
             this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
             this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
             this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
@@ -1103,7 +1104,7 @@ export class IssueReceiptComponent implements OnInit {
                   } else {
                     this.exceedAllotBal = false;
                   }
-                  this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+                  this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60)/100) : (this.allotmentDetails[a].AllotmentQty * 1);
                   this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
                   this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
                   this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
@@ -1126,7 +1127,8 @@ export class IssueReceiptComponent implements OnInit {
             this.messageService.clear();
             this.messageService.add({
               key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-              life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
+              life: 5000, detail: (this.RegularAdvance.toUpperCase() === 'A') ?  StatusMessage.ExceedingAllotmentQtyOfPercent 
+              :  StatusMessage.ExceedingAllotmentQty
             });
 
           } else {
@@ -1210,7 +1212,7 @@ export class IssueReceiptComponent implements OnInit {
         this.Loadingslip = res.Table[0].Loadingslip;
         this.Remarks = res.Table[0].Remarks.trim();
         let sno = 1;
-        this.getAllotmentDetails('key');
+        this.getAllotmentDetails();
         let totalBags = 0;
         let totalGkgs = 0;
         let totalNkgs = 0;
@@ -1331,7 +1333,7 @@ export class IssueReceiptComponent implements OnInit {
     this.PreManualDocNo = null; this.PreRecName = null;
     this.PreRecType = null; this.PreRegAdv = null;
     this.PreRemarks = null; this.PreSIDate = null;
-    this.showPreview = false;
+    this.showPreview = false; 
   }
 
   openNext() {

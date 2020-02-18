@@ -81,11 +81,11 @@
             <p-table #dt [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
               [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [scrollable]="true"
               [loading]="loading" >
-              <!-- <ng-template pTemplate="colgroup" let-columns>
+               <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
-                  <col *ngFor="let col of columns" style="width: 125px;">
+                  <col *ngFor="let col of columns" style="width: auto;">
                 </colgroup>
-              </ng-template> -->
+              </ng-template>
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns" [pSortableColumn]="col.field" (click)="onSort()">

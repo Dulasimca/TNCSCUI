@@ -37,6 +37,8 @@ export class StatusMessage {
     public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
     public static readonly PurchaseTargetDateValidation = 'You have entered target date beyond completed date!';
     public static readonly AllotmentIssueQuantityValidation = 'No available balance in allotted quantity!';
+    public static readonly ExceedingAllotmentQty = 'Exceeding the allotted quantity!';
+    public static readonly ExceedingAllotmentQtyOfPercent = 'Exceeding the 60% of allotted quantity!';
     public static readonly NoAllotmentBalance = 'No Allotment Balance';
     public static readonly NoSocietyCodeForIssue = 'Society Code is missing for issuer: ';
     public static readonly NoACSCodeForIssue = 'ACSCode is missing for issuer: ';
