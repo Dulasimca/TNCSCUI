@@ -516,8 +516,8 @@ export class IssueReceiptComponent implements OnInit {
       && this.IPCode !== undefined && this.IPCode !== null) {
       this.NoPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = ((this.NoPacking * 1) * (wt * 1));
-      this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.GKgs = ((this.NoPacking * 1) * (wt * 1)).toFixed(3);
+      this.NKgs = ((this.NoPacking * 1) * (wt * 1)).toFixed(3);
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
       // this.checkAllotmentBalance('2');
     } else {
@@ -843,7 +843,7 @@ export class IssueReceiptComponent implements OnInit {
           this.WTCode = data.WmtType; this.wtCode = data.WTCode;
           this.wmtOptions = [{ label: data.WmtType, value: data.WTCode }];
           this.NoPacking = (data.NoPacking * 1),
-            this.GKgs = (data.GKgs * 1).toFixed(3);
+          this.GKgs = (data.GKgs * 1).toFixed(3);
           this.NKgs = (data.Nkgs * 1).toFixed(3);
           this.stackYear = data.StackYear;
           const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?

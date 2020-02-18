@@ -584,7 +584,7 @@ export class TruckReceiptComponent implements OnInit {
     if (this.NoPacking !== undefined && this.NoPacking !== null
       && this.IPCode !== undefined && this.IPCode !== null) {
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1));
+      this.GKgs = this.NKgs = ((this.NoPacking * 1) * (wt * 1)).toFixed(3);
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = this.NKgs = this.TKgs = null;

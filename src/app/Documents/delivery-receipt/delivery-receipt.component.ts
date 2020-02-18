@@ -546,7 +546,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.Rate = (data.Rate * 1).toFixed(3);
         this.RateTerm = data.Wtype;
         this.rateInTermsOptions = [{ label: data.Wtype, value: data.Wtype }];
-        this.TotalAmount = (data.Total * 1);
+        this.TotalAmount = (data.Total * 1).toFixed(2);
         if (this.itemData.length !== 0) {
           this.GrandTotal = ((this.GrandTotal * 1) - (this.TotalAmount * 1)).toFixed(2);
           //  this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
@@ -554,7 +554,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
           // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
-        this.DueAmount = (this.GrandTotal * 1);
+        this.DueAmount = (this.GrandTotal * 1).toFixed(2);
         this.itemData.splice(index, 1);
         let sno = 1;
         this.itemData.forEach(x => { x.sno = sno; sno += 1; });
@@ -578,7 +578,7 @@ export class DeliveryReceiptComponent implements OnInit {
           this.GrandTotal = (this.GrandTotal * 1).toFixed(2);
           // this.GrandTotal = ((this.GrandTotal * 1) < 0) ? 0 : (this.GrandTotal * 1);
         }
-        this.DueAmount = (this.GrandTotal * 1);
+        this.DueAmount = (this.GrandTotal * 1).toFixed(2);
         this.itemSchemeData.splice(index, 1);
         let slno = 1;
         this.itemSchemeData.forEach(x => { x.sno = slno; slno += 1; });
@@ -589,7 +589,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.ChequeNo = data.ChequeNo;
         this.ChequeDate = data.ChequeDate; //String Format
         this.ChDate = data.ChDate; //Date Format
-        this.PAmount = (data.PaymentAmount * 1)
+        this.PAmount = (data.PaymentAmount * 1).toFixed(2);
         this.PayableAt = data.payableat;
         this.OnBank = data.bank;
         this.PaidAmount = this.PaidAmount - (this.paymentData[index].PaymentAmount * 1);

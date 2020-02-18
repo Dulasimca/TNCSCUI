@@ -481,7 +481,7 @@ export class StockReceiptComponent implements OnInit {
       && this.IPCode !== undefined && this.IPCode !== null) {
       let NoOfPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
+      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1)).toFixed(3);
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = null; this.NKgs = null; this.tareWt = null;
