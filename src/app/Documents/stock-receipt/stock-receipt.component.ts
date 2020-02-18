@@ -524,6 +524,7 @@ export class StockReceiptComponent implements OnInit {
       const params = {
         DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
         TStockNo: stockNo,
+        StackYear: this.TStockNo.stack_yr,
         StackDate: this.datepipe.transform(this.TStockNo.stack_date, 'MM/dd/yyyy'),
         GCode: this.ReceivingCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -532,7 +533,7 @@ export class StockReceiptComponent implements OnInit {
       this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-          this.StackBalance = (this.StackBalance * 1);
+          // this.StackBalance = (this.StackBalance * 1);
         }
       });
     } else {
@@ -616,6 +617,7 @@ export class StockReceiptComponent implements OnInit {
         }
         sno += 1;
       });
+      this.StackBalance = (this.StackBalance * 1);
       this.StackBalance += stackBalance;
       this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
       this.WTCode = null; this.Moisture = null; this.NoPacking = null;

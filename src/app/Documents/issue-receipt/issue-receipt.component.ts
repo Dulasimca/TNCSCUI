@@ -557,7 +557,7 @@ export class IssueReceiptComponent implements OnInit {
         this.Scheme.value : this.schemeCode;
       this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
       this.stackYear = (this.stackYear !== undefined && this.stackYear !== null &&
-        hasValue.stack_year !== null && hasValue.stack_year !== undefined) ? this.stackYear : this.TStockNo.stack_yr;
+        hasValue.stack_yr !== null && hasValue.stack_yr !== undefined) ? this.stackYear : this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value : this.TStockNo;
@@ -585,6 +585,7 @@ export class IssueReceiptComponent implements OnInit {
     const params = {
       DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
       TStockNo: stockNo,
+      StackYear: stack_data.stack_yr,
       StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
       GCode: this.IssuingCode,
       ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -593,8 +594,8 @@ export class IssueReceiptComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        this.StackBalance = (this.StackBalance * 1);
-        if (this.StackBalance > 0 || !this.checkTrType) {
+        // this.StackBalance = (this.StackBalance * 1);
+        if ((this.StackBalance * 1) > 0 || !this.checkTrType) {
           this.isValidStackBalance = false;
           this.CurrentDocQtv = 0; this.NetStackBalance = 0;
           if (this.itemData.length !== 0) {
@@ -719,7 +720,7 @@ export class IssueReceiptComponent implements OnInit {
       StackYear: (this.stackYear !== undefined && this.stackYear !== null) ? this.stackYear : '-'
     });
     if (this.itemData.length !== 0) {
-      this.StackBalance = (this.StackBalance * 1);
+      this.StackBalance = (this.StackBalance * 1).toFixed(3);
       this.CurrentDocQtv = 0;
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
@@ -876,7 +877,7 @@ export class IssueReceiptComponent implements OnInit {
             });
             this.itemData.push({ TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) });
           }
-          const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_year: this.stackYear }
+          const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_yr: this.stackYear }
           this.onStackNoChange(list);
           this.checkAllotmentBalance('1');
           break;

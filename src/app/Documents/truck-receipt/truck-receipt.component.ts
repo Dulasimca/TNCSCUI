@@ -544,7 +544,7 @@ export class TruckReceiptComponent implements OnInit {
     this.TKgs = (this.GKgs !== undefined && this.NKgs !== undefined) ? ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3) : 0;
     this.itemData.splice(index, 1);
     this.itemData.forEach(x => { x.sno = sno; sno += 1; })
-    const list = { stack_no: this.TStockNo, stack_date: this.StackDate, curDocQty: this.NKgs }
+    const list = { stack_no: this.TStockNo, stack_date: this.StackDate, stack_yr: this.stackYear, curDocQty: this.NKgs }
     this.onStackNoChange(list);
   }
 
@@ -685,6 +685,7 @@ export class TruckReceiptComponent implements OnInit {
         DocNo: (this.STNo !== undefined && this.STNo !== null) ? this.STNo : 0,
         TStockNo: stockNo,
         StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        StackYear: stack_data.stack_yr,
         GCode: this.GCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
         Type: 1
@@ -692,8 +693,8 @@ export class TruckReceiptComponent implements OnInit {
       this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-          this.StackBalance = (this.StackBalance * 1);
-          if (this.StackBalance > 0) {
+          // this.StackBalance = (this.StackBalance * 1);
+          if ((this.StackBalance * 1) > 0) {
             this.isValidStackBalance = false;
             this.CurrentDocQtv = 0; this.NetStackBalance = 0;
             if (this.itemData.length !== 0) {
@@ -747,7 +748,7 @@ export class TruckReceiptComponent implements OnInit {
       GRName: (this.ICode.GRName !== null && this.ICode.GRName !== undefined) ? this.ICode.GRName : this.itemGroup
     });
     if (this.itemData.length !== 0) {
-      this.StackBalance = (this.StackBalance * 1);
+      this.StackBalance = (this.StackBalance * 1).toFixed(3);
       this.CurrentDocQtv = 0;
       let sno = 1;
       let stock_no = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ? this.TStockNo.value : this.TStockNo;
@@ -761,7 +762,7 @@ export class TruckReceiptComponent implements OnInit {
       let lastIndex = this.itemData.length - 1;
       const i_GRName: string = (this.ICode.GRName !== null && this.ICode.GRName !== undefined) ?
         this.ICode.GRName : this.itemGroup;
-      if (this.CurrentDocQtv > this.StackBalance && i_GRName !== 'M024') {
+      if (this.CurrentDocQtv > (this.StackBalance * 1) && i_GRName !== 'M024') {
         this.itemData.splice(lastIndex, 1);
         ///calculating current document quantity based on stock number after splicing data from table
         this.CurrentDocQtv = 0;
