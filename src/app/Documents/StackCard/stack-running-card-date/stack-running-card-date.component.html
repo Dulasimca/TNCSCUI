@@ -48,9 +48,14 @@
                     <div class="ui-g-12 ui-md-12 dashboard">
                         <p-table #dt [columns]="stackRunningCardCols" [value]="stackRunningCardData" [rows]="10"
                             [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-                            selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true"
+                            selectionMode="single" [responsive]="true" [paginator]="true"
                             [loading]="loading">
-                            <ng-template pTemplate="header" let-columns>
+                            <ng-template pTemplate="colgroup" let-columns>
+                                <colgroup>
+                                  <col *ngFor="let col of columns" [style.width]="col.width">
+                                </colgroup>
+                              </ng-template>
+                               <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">
                                     <th *ngFor="let col of columns">
                                         {{col.header}}
@@ -60,9 +65,15 @@
                             <ng-template pTemplate="body" let-rowData let-columns="columns">
                                 <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
                                     <td *ngFor="let col of columns">
-                                        {{rowData[col.field]}}
-                                        {{rowData[col.field]}}
-                                    </td>
+                                        <div *ngIf="col.field === 'StackBalanceBags' || col.field === 'StackBalanceWeight' || col.field === 'CurYear'">
+                                            <div style="text-align: end !important">
+                                              {{rowData[col.field]}}
+                                            </div>
+                                          </div>
+                                          <div *ngIf="col.field !== 'StackBalanceBags' && col.field !== 'StackBalanceWeight' && col.field !== 'CurYear'">
+                                            {{rowData[col.field]}}
+                                          </div>                                   
+                                         </td>
                                 </tr>
                             </ng-template>
                         </p-table>

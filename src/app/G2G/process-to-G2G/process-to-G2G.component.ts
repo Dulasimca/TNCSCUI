@@ -207,14 +207,8 @@ export class ProcessToG2GComponent implements OnInit {
                     this.processToG2GData.forEach(data => {
                         data.SlNo = sno;
                         sno += 1;
-                        data.GToGStartDate = this.datepipe.transform(data.StartDate, 'dd/MM/yyyy');
-                        data.GToGEndDate = this.datepipe.transform(data.EndDate, 'dd/MM/yyyy');
-
-                        // if (data.Status === 4) {
-                        //     this.processToG2GData.splice(index, 1);
-                        // } else {
-                        data.Status = this.getG2GStatus(data.GToGStatus);
-                        // }
+                        data.Status = this.getG2GStatus(data.GToGStatus, data.Error.toString().trim().toLowerCase());
+                        data.ACKStatus = (data.GToGACKDate !== null) ? 'Success' : 'Pending';
                     });
                 }
             } else {
@@ -240,7 +234,7 @@ export class ProcessToG2GComponent implements OnInit {
         });
     }
 
-    getG2GStatus(value): string {
+    getG2GStatus(value, msg): string {
         let result;
         if (value !== null && value !== undefined) {
             switch (value) {
@@ -251,7 +245,12 @@ export class ProcessToG2GComponent implements OnInit {
                     result = 'Processing';
                     break;
                 case 2:
-                    result = 'Transfered';
+                    const tempMsg: string = 'outward has been added';
+                    if(msg === tempMsg) {
+                    result = 'Transferred';
+                    } else {
+                        result = 'Not Transferred';
+                    }
                     break;
                 case 3:
                     result = 'Error';

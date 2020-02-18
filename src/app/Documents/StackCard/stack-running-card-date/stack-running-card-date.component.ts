@@ -59,6 +59,7 @@ export class StackRunningCardDateComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     this.RName = this.authService.getUserAccessible().rName;
     this.GName = this.authService.getUserAccessible().gName;
+    this.stackRunningCardCols = this.tableConstants.RunningStackCardDetailsCols;
   }
 
   onSelect(type) {
@@ -66,10 +67,21 @@ export class StackRunningCardDateComponent implements OnInit {
       this.commodityPanel.overlayVisible = true;
     }
     this.loading = true;
-    const params = new HttpParams().set('GCode', this.GCode).append('ITCode', this.ITCode);
-    this.restAPIService.getByParameters(PathConstants.STACK_RUNNING_CARD_UPTO_DATE, params).subscribe((res: any) => {
+    const params = {
+      'GCode': this.GCode,
+      'ItemCode': this.ITCode,
+      'Type': 2
+    };
+    this.restAPIService.post(PathConstants.STACK_CARD_DETAILS, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
+        let sno = 1;
         this.stackRunningCardData = res;
+        this.stackRunningCardData.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+          x.StackBalanceWeight = (x.StackBalanceWeight * 1).toFixed(3);
+          x.StackDate = this.datepipe.transform(x.StackDate, 'dd/MM/yyyy');
+        })
         this.totalRecords = this.stackRunningCardData.length;
         this.loading = false;
       } else {

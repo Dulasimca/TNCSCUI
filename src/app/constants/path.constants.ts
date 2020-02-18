@@ -40,6 +40,7 @@ export class PathConstants {
   public static readonly CATEGORY_TYPECODE_DISTINCT_GET = '/api/TypeCategoryMaster';
   public static readonly TNCSC_SETTINGS = '/api/Settings';
   public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
+  public static readonly STACK_CARD_DETAILS = '/api/StackDetails/Post';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';

@@ -74,10 +74,15 @@
       </div>
       <div class="ui-g-12 dashboard">
         <p-table #dt [columns]="StackCardCols" [value]="StackCardData" [loading]="loading" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-          [paginator]="true" [responsive]="true" autoLayout="true" exportFilename="STACK_CARD_REPORT">
-                <ng-template pTemplate="header" let-columns>
+          [paginator]="true" [responsive]="true" exportFilename="STACK_CARD_REPORT">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
-              <th colspan="1" rowspan="2">S.No:</th>
+              <th colspan="1" rowspan="2" style="width: 15px;">S.No:</th>
               <th rowspan="2">Date</th>
 
               <th colspan="2">Receipt</th>
