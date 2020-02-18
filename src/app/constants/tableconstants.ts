@@ -1513,13 +1513,13 @@ export class TableConstants {
 
     this.AllotmentDetailsCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Taluk Name', field: 'Taluk' },
-      { header: 'Godown Code', field: 'GCode' },
-      { header: 'Godown Name', field: 'Godownname' },
-      { header: 'Society Name', field: 'SocietyName' },
-      { header: 'FPS Code', field: 'FPSCode' },
-      { header: 'Commodity', field: 'Commodity' },
-      { header: 'Quantity', field: 'Quantity' }
+      { header: 'Taluk Name', field: 'Taluk' ,width: '100px' },
+      { header: 'Godown Code', field: 'GCode',width: '60px' },
+      { header: 'Godown Name', field: 'Godownname',width: '100px' },
+      { header: 'Society Name', field: 'SocietyName',width: '300px' },
+      { header: 'FPS Code', field: 'FPSCode',width: '80px' },
+      { header: 'Commodity', field: 'Commodity',width: '100px' },
+      { header: 'Quantity', field: 'Quantity',width: '100px' }
     ];
 
     this.SectionDailyStatementReportColumns = [
