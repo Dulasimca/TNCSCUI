@@ -177,7 +177,7 @@ export class TruckReceiptComponent implements OnInit {
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('rh', { static: false }) railHeadPanel: Dropdown;
- 
+
   constructor(private roleBasedService: RoleBasedService, private authService: AuthService,
     private restAPIService: RestAPIService, private tableConstants: TableConstants,
     private datepipe: DatePipe, private messageService: MessageService) {
@@ -1119,23 +1119,54 @@ export class TruckReceiptComponent implements OnInit {
 
   viewPreview(f) {
     this.showPreview = true;
-    this.PreTDate = this.datepipe.transform(f.value['TruckMemoDate'], 'dd/MM/yyyy');
-    this.PreMODate = this.datepipe.transform(f.value['MovementOrderDate'], 'dd/MM/yyyy');
-    this.PreRODate = this.datepipe.transform(f.value['ReleaseOrderDate'], 'dd/MM/yyyy');
-    this.PreLWBDate = this.datepipe.transform(f.value['WBillDate'], 'dd/MM/yyyy');
-    this.PreLoadingDate = this.datepipe.transform(f.value['LDate'], 'dd/MM/yyyy');
-    this.PreMONo = f.value['MovementOrderNo'].toString().toUpperCase();
-    this.PreRONo = f.value['ReleaseOrderNo'].toString().toUpperCase();
-    this.PreTransportMode = f.value['TransportMode'].toString().toUpperCase();
-    this.PreTransaction = f.value['TransactionType'].label;
-    this.PreRailHead = f.value['RailHead'].label;
-    this.PreRecRegion = f.value['ReceivorRegion'].label;
-    this.PreRecType = f.value['ReceivorType'].label;
-    this.PreRecName = f.value['ReceivorName'].label;
-    this.PreLorryNo = f.value['LorryNumber'].toString().toUpperCase();
-    this.PreManualDocNo = f.value['ManualDocumentNo'].toString().toUpperCase();
-    this.PreTransporterName = f.value['TName'].toString().toUpperCase();
-    this.PreLWBNo = f.value['LWBNo'].toString().toUpperCase();
+    this.PreTDate = (f.value['TruckMemoDate'] !== null) ?
+      this.datepipe.transform(f.value['TruckMemoDate'], 'dd/MM/yyyy') : f.value['TruckMemoDate'];
+    this.PreMODate = (f.value['MovementOrderDate'] !== null) ?
+      this.datepipe.transform(f.value['MovementOrderDate'], 'dd/MM/yyyy') : f.value['MovementOrderDate'];
+    this.PreRODate = (f.value['ReleaseOrderDate'] !== null) ?
+      this.datepipe.transform(f.value['ReleaseOrderDate'], 'dd/MM/yyyy') : f.value['ReleaseOrderDate'];
+    this.PreLWBDate = (f.value['WBillDate'] !== null) ?
+      this.datepipe.transform(f.value['WBillDate'], 'dd/MM/yyyy') : f.value['WBillDate'];
+    this.PreLoadingDate = (f.value['LDate'] !== null) ?
+      this.datepipe.transform(f.value['LDate'], 'dd/MM/yyyy') : f.value['LDate'];
+    this.PreMONo = (f.value['MovementOrderNo'] !== null) ?
+      f.value['MovementOrderNo'].toString().toUpperCase() : f.value['MovementOrderNo'];
+    this.PreRONo = (f.value['ReleaseOrderNo'] !== null) ?
+      f.value['ReleaseOrderNo'].toString().toUpperCase() : f.value['ReleaseOrderNo'];
+    this.PreTransportMode = (f.value['TransportMode'] !== null) ?
+      f.value['TransportMode'].toString().toUpperCase() : f.value['TransportMode'];
+    this.PreTransaction = (f.value['TransactionType'] !== null) ?
+      ((f.value['TransactionType'].label !== undefined)
+        ? f.value['TransactionType'].label : f.value['TransactionType']) : '';
+    if (!this.disableRailHead) {
+      this.PreRailHead = (f.value['RailHead'] !== null) ?
+        ((f.value['RailHead'].label !== undefined) ? f.value['RailHead'].label : f.value['RailHead']) : '';
+      this.PreFStation = (f.value['FromStation'] !== null) ?
+        ((f.value['FromStation'].label !== undefined) ?
+          f.value['FromStation'].label : f.value['FromStation']) : '';
+      this.PreTStation = (f.value['ToStation'] !== null) ?
+        ((f.value['ToStation'].label !== undefined) ?
+          f.value['ToStation'].label : f.value['ToStation']) : '';
+    }
+    if (!this.enableReceivorRegn) {
+      this.PreRecRegion = (f.value['ReceivorRegion'] !== null) ?
+        ((f.value['ReceivorRegion'].label !== undefined) ? f.value['ReceivorRegion'].label
+          : f.value['ReceivorRegion']) : '';
+    }
+    this.PreRecType = (f.value['ReceivorType'] !== null) ?
+      ((f.value['ReceivorType'].label !== undefined) ?
+        f.value['ReceivorType'].label : f.value['ReceivorType']) : '';
+    this.PreRecName = (f.value['ReceivorName'] !== null) ?
+      ((f.value['ReceivorName'].label !== undefined) ?
+        f.value['ReceivorName'].label : f.value['ReceivorName']) : '';
+    this.PreLorryNo = (f.value['LorryNumber'] !== null) ?
+      f.value['LorryNumber'].toString().toUpperCase() : f.value['LorryNumber'];
+    this.PreManualDocNo = (f.value['ManualDocumentNo'] !== null) ?
+      f.value['ManualDocumentNo'].toString().toUpperCase() : f.value['ManualDocumentNo'];
+    this.PreTransporterName = (f.value['TName'] !== null) ? f.value['TName'].toString().toUpperCase()
+      : f.value['TName'];
+    this.PreLWBNo = (f.value['LWBNo'] !== null) ? f.value['LWBNo'].toString().toUpperCase()
+      : f.value['LWBNo'];
     this.PreFreightAmnt = f.value['FAmt'];
     this.PreKms = f.value['Kms'];
     this.PreWDR = f.value['WHDeposit'];
@@ -1143,10 +1174,12 @@ export class TruckReceiptComponent implements OnInit {
     this.PreHCharges = f.value['Handlingcharges'];
     this.PreRGunny = f.value['GReleased'];
     this.PreUGunny = f.value['GUtilised'];
-    this.PreFCode = f.value['Freight'].label;
-    this.PreVCode = f.value['Vehicle'].label;
-    this.PreFStation = f.value['FromStation'].label;
-    this.PreTStation = f.value['ToStation'].label;
+    this.PreFCode = (f.value['Freight'] !== null) ?
+      ((f.value['Freight'].label !== undefined) ?
+        f.value['Freight'].label : f.value['Freight']) : '';
+    this.PreVCode = (f.value['Vehicle'] !== null) ?
+      ((f.value['Vehicle'].label !== undefined) ?
+        f.value['Vehicle'].label : f.value['Vehicle']) : '';
     this.PreRRNo = f.value['RR_No'];
     this.PreWNo = f.value['WagonNo'];
     this.PreRailFreightAmt = f.value['RailFAmnt'];
