@@ -110,6 +110,7 @@ import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.co
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
 import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-gunny/quantity-detail-gunny.component';
+import { StackCardCorrectionComponent } from './Documents/stack-card-correction/stack-card-correction.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -221,6 +222,7 @@ const routes: Routes = [
   { path: 'GodownDashboard', component: GodownDashboardComponent, canActivate: [AuthGuard] },
   { path: 'ProcessToGPS', component: ProcessToGPSComponent, canActivate: [AuthGuard] },
   { path: 'IssueGatePass', component: IssueGatepassComponent },
+  { path: 'StackCardCorrection', component: StackCardCorrectionComponent },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

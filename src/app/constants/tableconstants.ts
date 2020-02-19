@@ -134,6 +134,7 @@ export class TableConstants {
   LoadMenWagesUnLoadingReportColumns: any;
   ProcessToGPSCols: any;
   IssueMemoLorryAbstractColumns: any;
+  StackCardMaster: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1606,6 +1607,21 @@ export class TableConstants {
       { header: 'GUNNY RELEASE', field: 'RecGUNNYRELEASE' },
       { header: 'Total Receipt', field: 'TotalReceipt' },
       { header: 'GrandTotalInc OB', field: 'GrandTotalReceipt' },
+    ];
+
+    this.StackCardMaster = [
+      { header: 'S.No', field: 'SlNo' },
+      // { field: 'RowId', header: 'Row Id' },
+      { field: 'GodownCode', header: 'Godown Code' },
+      { field: 'RegionCode', header: 'Region Code' },
+      { field: 'CommodityCode', header: 'Commodity Code' },
+      { field: 'ITDescription', header: 'Commodity Name' },
+      { field: 'StackNo', header: 'Stack No' },
+      { field: 'StackBalanceBags', header: 'StackBalanceBags' },
+      { field: 'ObStackDate', header: 'ObStackDate' },
+      { field: 'CurYear', header: 'CurYear' },
+      { field: 'Flag1', header: 'Flag1' },
+      { field: 'clstackdate', header: 'clstackdate' },
     ];
   }
 }
