@@ -299,15 +299,17 @@ export class IssueReceiptComponent implements OnInit {
               }
             });
             if (this.RNCode !== undefined && this.RNCode !== null) {
-              const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
+              if(this.RNCode.value !== undefined && this.RNCode.value !== null) {
+              const acs_code = (this.RNCode.ACSCode !== null && this.RNCode.ACSCode !== undefined) ? this.RNCode.ACSCode.trim() : '';
               this.IssCode = this.RNCode.value.trim() + '-' + acs_code;
-              this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
+              this.SocietyName = (this.RNCode.SocietyCode !== null && this.RNCode.SocietyCode !== undefined) ? this.RNCode.SocietyName.trim() : '';
               // if(this.categoryTypeCodeList.length !== 0) {
               //   this.categoryTypeCodeList.forEach(i => {
               //      if(i === this.RNCode)
               //   })
               // }
             }
+          }
           }
         } else {
           this.receiverNameOptions = receivorNameList;
@@ -396,7 +398,16 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   onChangeIssuer() {
-    this.checkFieldsOfIssuer(this.RNCode.SocietyCode, this.RTCode.value, this.RNCode.ACSCode);
+    if(this.RNCode !== null && this.RNCode !== undefined && this.RNCode.value !== null 
+      && this.RNCode.value !== undefined) {
+        const Tycode = (this.RTCode.value !== null && this.RTCode.value !== undefined) ?
+        this.RTCode.value : this.rtCode;
+        const SocietyCode = (this.RNCode.SocietyCode !== null && this.RNCode.SocietyCode !== undefined) ?
+        this.RNCode.SocietyCode : this.SocietyCode;
+        const ACSCode = (this.RNCode.ACSCode !== null && this.RNCode.ACSCode !== undefined) ?
+        this.RNCode.ACSCode : this.ACSCode;
+       this.checkFieldsOfIssuer(SocietyCode, Tycode, ACSCode);
+      }
   }
 
   refreshSelect(id) {
@@ -434,7 +445,8 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   showIssuerCode() {
-    if (this.RNCode !== undefined && this.RNCode !== null) {
+    if (this.RNCode !== undefined && this.RNCode !== null && 
+      this.RNCode.value !== undefined && this.RNCode.value !== null) {
       const acs_code = (this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode.trim() : '';
       this.IssCode = this.RNCode.value.trim() + '-' + acs_code;
       this.SocietyName = (this.RNCode.SocietyCode !== null) ? this.RNCode.SocietyName.trim() : '';
@@ -444,7 +456,7 @@ export class IssueReceiptComponent implements OnInit {
   checkFieldsOfIssuer(SocietyCode, Tycode, ACSCode) {
     if (Tycode === 'TY002' || Tycode === 'TY003' || Tycode === 'TY004') {
       if ((SocietyCode === null || SocietyCode === undefined || SocietyCode === '')
-        && (ACSCode === null || ACSCode === undefined && ACSCode === '')) {
+        && (ACSCode === null || ACSCode === undefined || ACSCode === '')) {
         this.disableSave = true;
         this.messageService.clear();
         this.messageService.add({
@@ -515,7 +527,6 @@ export class IssueReceiptComponent implements OnInit {
       this.GKgs = ((this.NoPacking * 1) * (wt * 1)).toFixed(3);
       this.NKgs = ((this.NoPacking * 1) * (wt * 1)).toFixed(3);
       this.TKgs = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
-      // this.checkAllotmentBalance('2');
     } else {
       this.GKgs = null; this.NKgs = null; this.TKgs = null;
     }
@@ -533,7 +544,6 @@ export class IssueReceiptComponent implements OnInit {
         this.NKgs = null; this.GKgs = null; this.TKgs = null;
       } else if (grossWt >= netWt) {
         this.TKgs = (grossWt - netWt).toFixed(3);
-        // this.checkAllotmentBalance('2');
       } else {
         this.TKgs = (grossWt - netWt).toFixed(3);
       }
@@ -1023,8 +1033,11 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   getAllotmentDetails() {
-    // if((type === 'key' && this.AFlag) || (type === 'change')) {
+    this.rnCode = null;
+    this.ACSCode = null;
+    if (!this.isViewed) {
       this.showIssuerCode();
+    }
     if (this.AllotmentStatus === 'YES') {
       if (this.RegularAdvance !== null && this.RegularAdvance !== undefined && ((this.rnCode !== undefined &&
         this.rnCode !== null) || (this.RNCode !== null && this.RNCode !== undefined))
@@ -1032,11 +1045,11 @@ export class IssueReceiptComponent implements OnInit {
         const params = {
           'GCode': this.IssuingCode,
           'RCode': this.RCode,
-          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
+          'RNCode': (this.rnCode === undefined || this.rnCode === null) ? this.rnCode : this.RNCode.value,
           'IssRegAdv': this.RegularAdvance.toUpperCase(),
           'Month': (this.RegularAdvance.toUpperCase() === 'A') ? (((this.curMonth * 1) < 9) ? ('0' + ((this.curMonth * 1) - 1)) : ((this.curMonth * 1) - 1)) : this.curMonth,
           'Year': this.year,
-          'ACSCode': (this.RNCode.ACSCode !== undefined && this.RNCode.ACSCode !== null) ? this.RNCode.ACSCode : this.ACSCode
+          'ACSCode': (this.ACSCode !== undefined && this.ACSCode !== null) ? this.ACSCode : this.RNCode.ACSCode
         };
         this.allotmentDetails.length = 0;
         this.restAPIService.post(PathConstants.ALLOTMENT_BALANCE_POST, params).subscribe(res => {
@@ -1058,95 +1071,100 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkAllotmentBalance(type) {
-    // let AllotmentQty = 0;
-    // let IssueQty = 0;
-    // let BalanceQty = 0;
-    const allotmentGroup = (this.allotmentGroup !== null && this.allotmentGroup !== undefined) ?
-      this.allotmentGroup : this.ICode.group;
-    const allotmentScheme = (this.allotmentScheme !== null && this.allotmentScheme !== undefined) ?
-      this.allotmentScheme : this.Scheme.ascheme;
-    if (this.allotmentDetails !== undefined && this.allotmentDetails !== null
-      && this.allotmentDetails.length !== 0 && (allotmentGroup !== undefined && allotmentGroup !== null) &&
-      (allotmentScheme !== undefined && allotmentScheme !== null)) {
-      const allot_Group = (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup;
-      const allot_schemeCode = (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme;
-      if (type === '1') {
-        for (let a = 0; a < this.allotmentDetails.length; a++) {
-          if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
-            this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
-            this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60)/100) : (this.allotmentDetails[a].AllotmentQty * 1);
-            this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
-            this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
-            this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
-              ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
-            /// ---------------- Allotment balance check ------------------ ///
-            if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0) {
-              this.exceedAllotBal = true;
-              this.messageService.clear();
-              this.messageService.add({
-                key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-                life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
-              });
+    if (this.ICode !== null && this.ICode !== undefined && this.RegularAdvance !== null
+       && this.RegularAdvance !== undefined && this.RegularAdvance !== '') {
+      if (this.ICode.value !== null && this.ICode.value !== undefined) {
+        const allotmentGroup = (this.allotmentGroup !== null && this.allotmentGroup !== undefined) ?
+          this.allotmentGroup : this.ICode.group;
+        const allotmentScheme = (this.allotmentScheme !== null && this.allotmentScheme !== undefined) ?
+          this.allotmentScheme : this.Scheme.ascheme;
+        if (this.allotmentDetails !== undefined && this.allotmentDetails !== null
+          && this.allotmentDetails.length !== 0 && (allotmentGroup !== undefined && allotmentGroup !== null) &&
+          (allotmentScheme !== undefined && allotmentScheme !== null)) {
+          const allot_Group = (this.ICode.group !== undefined && this.ICode.group !== null) ? this.ICode.group : this.allotmentGroup;
+          const allot_schemeCode = (this.Scheme.ascheme !== undefined && this.Scheme.ascheme !== null) ? this.Scheme.ascheme : this.allotmentScheme;
+          if (type === '1') {
+            for (let a = 0; a < this.allotmentDetails.length; a++) {
+              if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
+                this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
+                this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60) / 100) : (this.allotmentDetails[a].AllotmentQty * 1);
+                this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
+                this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
+                this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
+                  ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                /// ---------------- Allotment balance check ------------------ ///
+                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0) {
+                  this.exceedAllotBal = true;
+                  this.messageService.clear();
+                  this.messageService.add({
+                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                    life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
+                  });
 
-            } else if ((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
-              let netwt = 0;
-              this.itemData.forEach(x => {
-                if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
-                  netwt += (x.Nkgs * 1);
-                  if ((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
-                    this.exceedAllotBal = true;
-                    this.messageService.clear();
-                    this.messageService.add({
-                      key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-                      life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
-                    });
+                } else if ((this.allotmentDetails[a].BalanceQty * 1) > 0 && this.itemData.length !== 0) {
+                  let netwt = 0;
+                  this.itemData.forEach(x => {
+                    if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
+                      netwt += (x.Nkgs * 1);
+                      if ((netwt === this.allotmentDetails[a].BalanceQty * 1)) {
+                        this.exceedAllotBal = true;
+                        this.messageService.clear();
+                        this.messageService.add({
+                          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                          life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
+                        });
 
-                  } else {
-                    this.exceedAllotBal = false;
-                  }
-                  this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60)/100) : (this.allotmentDetails[a].AllotmentQty * 1);
-                  this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
-                  this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
-                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
-                    ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                      } else {
+                        this.exceedAllotBal = false;
+                      }
+                      this.AllotmentQty = (this.RegularAdvance.toUpperCase() === 'A') ? (((this.allotmentDetails[a].AllotmentQty * 1) * 60) / 100) : (this.allotmentDetails[a].AllotmentQty * 1);
+                      this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) + netwt;
+                      this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) - netwt;
+                      this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) + '  ' + ' ISS_QTY ' +
+                        ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                    }
+                  })
                 }
-              })
+                break;
+              } else {
+                this.exceedAllotBal = false;
+                this.QuantityLimit = null;
+                continue;
+                /// ------------------ END ----------------------- ///
+              }
             }
-            break;
+          } else if (type === '2') {
+            /// ---------------- Allotment balance check ------------------ ///
+            if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
+              if (this.BalanceQty < (this.NKgs * 1)) {
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                  life: 5000, detail: (this.RegularAdvance.toUpperCase() === 'A') ? StatusMessage.ExceedingAllotmentQtyOfPercent
+                    : StatusMessage.ExceedingAllotmentQty
+                });
+
+              } else {
+                this.messageService.clear();
+              }
+            }
+            /// ------------------ END ----------------------- ///
+
           } else {
-            this.exceedAllotBal = false;
+            /// ---------------- Allotment balance check ------------------ ///
             this.QuantityLimit = null;
-            continue;
+            this.exceedAllotBal = false;
             /// ------------------ END ----------------------- ///
           }
+        } else if (this.AllotmentStatus !== 'NO') {
+          this.QuantityLimit = null;
+        } else {
+          this.QuantityLimit = StatusMessage.NoAllotmentBalance;
         }
-      } else if (type === '2') {
-        /// ---------------- Allotment balance check ------------------ ///
-        if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
-          if (this.BalanceQty < (this.NKgs * 1)) {
-            this.messageService.clear();
-            this.messageService.add({
-              key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
-              life: 5000, detail: (this.RegularAdvance.toUpperCase() === 'A') ?  StatusMessage.ExceedingAllotmentQtyOfPercent 
-              :  StatusMessage.ExceedingAllotmentQty
-            });
-
-          } else {
-            this.messageService.clear();
-          }
-        }
-        /// ------------------ END ----------------------- ///
-
-      } else {
-        /// ---------------- Allotment balance check ------------------ ///
-        this.QuantityLimit = null;
-        this.exceedAllotBal = false;
-        /// ------------------ END ----------------------- ///
       }
-    } else if (this.AllotmentStatus !== 'NO') {
-      this.QuantityLimit = null;
     } else {
-      this.QuantityLimit = StatusMessage.NoAllotmentBalance;
+      this.QuantityLimit = null;
+      this.exceedAllotBal = false;
     }
   }
 

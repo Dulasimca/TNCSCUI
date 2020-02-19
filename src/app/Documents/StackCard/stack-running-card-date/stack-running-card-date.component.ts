@@ -26,11 +26,17 @@ export class StackRunningCardDateComponent implements OnInit {
   GCode: string;
   GName: string;
   RName: string;
-  ITCode: string;
+  ITCode: any;
   loading: boolean;
   stackRunningCardCols: any;
   stackRunningCardData: any = [];
   totalRecords: number;
+  Remarks: string;
+  SCDate: string;
+  showPane: boolean;
+  IsRequired: boolean;
+  setFlag: boolean;
+  // showDialog: boolean;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
 
 
@@ -69,7 +75,7 @@ export class StackRunningCardDateComponent implements OnInit {
     this.loading = true;
     const params = {
       'GCode': this.GCode,
-      'ItemCode': this.ITCode,
+      'ItemCode': this.ITCode.value,
       'Type': 2
     };
     this.restAPIService.post(PathConstants.STACK_CARD_DETAILS, params).subscribe((res: any) => {
@@ -83,6 +89,16 @@ export class StackRunningCardDateComponent implements OnInit {
           x.StackDate = this.datepipe.transform(x.StackDate, 'dd/MM/yyyy');
         })
         this.totalRecords = this.stackRunningCardData.length;
+        for(let i = 0; i < this.stackRunningCardData.length; i ++) {
+          if(this.stackRunningCardData[i].Remarks !== null && 
+            this.stackRunningCardData[i].Remarks.toString().trim() !== '') {
+              this.setFlag = true;
+              break;
+            } else {
+              this.setFlag = false;
+              continue;
+            }
+        }
         this.loading = false;
       } else {
         this.refreshScreen();
@@ -99,6 +115,23 @@ export class StackRunningCardDateComponent implements OnInit {
   }
 
   onRowSelect(event, data) {
+    if(event !== null && event !== undefined && data !== undefined && data !== null) {
+      if(data.FromDate !== null && data.FromDate !== undefined && !this.setFlag) {
+        this.showPane = false;
+        this.IsRequired = true;
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
+        summary: StatusMessage.SUMMARY_ERROR, life:5000,
+        detail: 'You already have active running card for ' + this.ITCode.label +'. Please add reason for activating another card!' });
+      } else {
+        this.showPane = true;
+        this.IsRequired = false;
+        this.SCDate = this.datepipe.transform(this.maxDate, 'dd/MM/yyyy');
+      }
+    }
+  }
+
+  onSave() {
 
   }
 
@@ -106,6 +139,8 @@ export class StackRunningCardDateComponent implements OnInit {
     this.loading = false;
     this.stackRunningCardData = [];
     this.totalRecords = 0;
+    this.showPane = false;
+    this.IsRequired = false;
   }
 
   onClose() {
