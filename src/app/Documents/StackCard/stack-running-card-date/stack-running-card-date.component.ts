@@ -37,12 +37,14 @@ export class StackRunningCardDateComponent implements OnInit {
   IsRequired: boolean;
   setFlag: boolean;
   // showDialog: boolean;
-  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   StackNo: any;
   CurYear: any;
   RowId: any;
   runningCard: any;
-
+  FromDate: string;
+  Status: any;
+  statusOptions: SelectItem[];
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -70,6 +72,8 @@ export class StackRunningCardDateComponent implements OnInit {
     this.RName = this.authService.getUserAccessible().rName;
     this.GName = this.authService.getUserAccessible().gName;
     this.stackRunningCardCols = this.tableConstants.RunningStackCardDetailsCols;
+    this.statusOptions = [{ label: '-select-', value: null, disabled: true },
+    { label: 'InActive', value: 0 }, { label: 'Active', value: 1 }]
   }
 
   onSelect(type) {
@@ -132,12 +136,14 @@ export class StackRunningCardDateComponent implements OnInit {
         this.showPane = true;
         this.IsRequired = true;
         this.RowId = data.RowId;
-        this.SCDate = this.datepipe.transform(this.maxDate, 'dd/MM/yyyy');
+        this.SCDate = this.datepipe.transform(data.FromDate, 'dd/MM/yyyy');
+        this.FromDate = this.datepipe.transform(data.FromDate, 'MM/dd/yyyy');
         this.StackNo = data.StackNo;
         this.CurYear = data.CurYear;
         this.Remarks = data.Remarks;
       } else{
         this.showPane = true;
+        this.FromDate = null;
         this.IsRequired = false;
         this.RowId = data.RowId;
         this.SCDate = this.datepipe.transform(this.maxDate, 'dd/MM/yyyy');
@@ -154,11 +160,12 @@ export class StackRunningCardDateComponent implements OnInit {
       'RowId': this.RowId,
       'CurYear': this.CurYear,
       'StackNo': this.StackNo,
-      'FromDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
+      'FromDate': (this.FromDate !== null && this.FromDate !== undefined) ?
+       this.FromDate : this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
       'Remarks': (this.Remarks !== null && this.Remarks !== undefined) ? this.Remarks.trim() : '',
       'RCode': this.RCode,
       'GCode': this.GCode,
-      'Status': 1
+      'Status': this.Status
     }
     this.restAPIService.post(PathConstants.STACK_DAY_TO_DAY_POST, params).subscribe(res => {
       if(res.Item1) {
@@ -198,6 +205,7 @@ export class StackRunningCardDateComponent implements OnInit {
     this.totalRecords = 0;
     this.showPane = false;
     this.IsRequired = false;
+    this.FromDate = null;
     this.RowId = null; this.StackNo = null;
     this.CurYear = null; this.Remarks = null;
   }
