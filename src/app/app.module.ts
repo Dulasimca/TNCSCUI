@@ -161,6 +161,7 @@ import { GodownDashboardComponent } from './godown-dashboard/godown-dashboard.co
 import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.component';
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
 import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-gunny/quantity-detail-gunny.component';
+import { StackCardCorrectionComponent } from './Documents/stack-card-correction/stack-card-correction.component';
 import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
 
 
@@ -282,6 +283,7 @@ import { StackRunningCardDateComponent } from './Documents/StackCard/stack-runni
     ProcessToGPSComponent,
     IssueGatepassComponent,
     QuantityDetailIssueComponent,
+    StackCardCorrectionComponent,
     StackRunningCardDateComponent,
   ],
   imports: [

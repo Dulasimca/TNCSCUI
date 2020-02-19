@@ -149,6 +149,10 @@ export class PathConstants {
   public static readonly STACK_RUNNING_CARD_UPTO_DATE = '/api//Get';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
+
+  //StackCard
+  public static readonly STACK_CARD_GET = '/api/ManageStackCardMaster/Get';
+  public static readonly STACK_CARD_UPDATE_POST = '/api/ManageStackCardMaster/Post';
  
   //Account Module
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';

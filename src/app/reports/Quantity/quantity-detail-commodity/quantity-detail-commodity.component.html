@@ -8,7 +8,8 @@
           <div class="ui-g-4 dashboard">Quantity Account Receipt Details - Commodity</div>
         </div>
       </p-header>
-      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" (onClose)="onClose()" [modal]="true" key="t-err"></p-toast>
+      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" (onClose)="onClose()" [modal]="true" key="t-err">
+      </p-toast>
       <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">Region</label>
@@ -56,15 +57,14 @@
         </div>
         <div class="ui-g-12 dashboard">
           <p-table #dt_rec [columns]="QtyReceiptCols" [value]="QtyReceiptData" [rows]="10"
-          [frozenColumns]="frozenQtyReceiptCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]"
-            [paginator]="true" [loading]="loading">
+            [frozenColumns]="frozenQtyReceiptCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [loading]="loading">
             <ng-template pTemplate="colgroup" let-columns>
-                 <colgroup>
-                    <col *ngFor="let col of columns" style="width:185px">
-                </colgroup> 
+              <colgroup>
+                <col *ngFor="let col of columns" style="width:185px">
+              </colgroup>
             </ng-template>
-             <ng-template pTemplate="header" let-columns>
+            <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
                 <th *ngFor="let col of columns">
                   {{col.header}}
@@ -106,15 +106,15 @@
           </div>
           <div class="ui-g-12 no-right-pad no-left-pad">
             <p-table #dt_iss [columns]="QtyIssueCols" [value]="QtyIssueData" [rows]="10"
-            [frozenColumns]="frozenQtyIssueCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]"
-              [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading">
+              [frozenColumns]="frozenQtyIssueCols" frozenWidth="600px" [scrollable]="true" scrollHeight="350px"
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+              [loading]="loading">
               <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
-                   <col *ngFor="let col of columns" style="width:185px">
-               </colgroup> 
-           </ng-template>
-           <ng-template pTemplate="header" let-columns>
+                  <col *ngFor="let col of columns" style="width:185px">
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
                 <tr style="text-align: center;">
                   <th *ngFor="let col of columns">
                     {{col.header}}
