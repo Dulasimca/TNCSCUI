@@ -162,6 +162,7 @@ import { ProcessToGPSComponent } from './GPS/process-to-gps/process-to-gps.compo
 import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepass.component';
 import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-gunny/quantity-detail-gunny.component';
 import { StackCardCorrectionComponent } from './Documents/stack-card-correction/stack-card-correction.component';
+import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
 
 
 @NgModule({
@@ -283,6 +284,7 @@ import { StackCardCorrectionComponent } from './Documents/stack-card-correction/
     IssueGatepassComponent,
     QuantityDetailIssueComponent,
     StackCardCorrectionComponent,
+    StackRunningCardDateComponent,
   ],
   imports: [
     BrowserModule,

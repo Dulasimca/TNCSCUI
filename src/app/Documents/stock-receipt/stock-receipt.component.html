@@ -50,9 +50,8 @@
                     <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                       <label for="PeriodOfMonth" class="label-fontsize">Month</label>
                       <!-- <input name="Month" [(ngModel)]="month" pInputText autocomplete="off" [readonly]="true" required> -->
-                      <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="month"
-                        (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
-                        (keyup.tab)="onSelect('m', 'tab')" filter="true" resetFilterOnHide="true" optionLabel="label"
+                      <p-dropdown #m name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="month"
+                        (onClick)="onSelect('m', 'click')" filter="true" resetFilterOnHide="true" optionLabel="label"
                         filterMatchMode="startsWith" required>
                         <!-- <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle">{{item.label}}</span>
@@ -61,7 +60,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-fluid" style="margin-top: -20px">
                       <label for="PeriodOfYear" class="label-fontsize">Year</label>
-                      <p-dropdown #y="ngModel" name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="year"
+                      <p-dropdown #y name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="year"
                         (onClick)="onSelect('y', 'click')" (keyup.shift.tab)="onSelect('y', 'tab')"
                         (keyup.tab)="onSelect('y', 'tab')" required>
                       </p-dropdown>

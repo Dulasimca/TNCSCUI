@@ -40,6 +40,8 @@ export class PathConstants {
   public static readonly CATEGORY_TYPECODE_DISTINCT_GET = '/api/TypeCategoryMaster';
   public static readonly TNCSC_SETTINGS = '/api/Settings';
   public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
+  public static readonly STACK_CARD_DETAILS = '/api/StackDetails/Post';
+  public static readonly STACK_DAY_TO_DAY_POST = '/api/StackDayToDay/Post';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
@@ -144,6 +146,7 @@ export class PathConstants {
   public static readonly STOCK_ISSUE_GATEPASS_POST = '/api/StockIssuesAbstractPrint/Post';
   public static readonly STOCK_ISSUE_GATEPASS_PUT = '/api/StockIssuesAbstractPrint/Put';
   public static readonly ISSUE_MEMO_GATE_PASS_GET = '/api/StockIssuesAbstractPrint/Get';
+  public static readonly STACK_RUNNING_CARD_UPTO_DATE = '/api//Get';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
 

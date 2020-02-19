@@ -207,9 +207,6 @@ export class StockReceiptComponent implements OnInit {
     const range = 3;
     switch (selectedItem) {
       case 'y':
-        if (type === 'tab') {
-          this.yearPanel.overlayVisible = true;
-        }
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
@@ -224,9 +221,6 @@ export class StockReceiptComponent implements OnInit {
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
-        if (type === 'tab') {
-          this.monthPanel.overlayVisible = true;
-        }
         this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
         { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
         { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
@@ -487,7 +481,7 @@ export class StockReceiptComponent implements OnInit {
       && this.IPCode !== undefined && this.IPCode !== null) {
       let NoOfPacking = (this.NoPacking * 1);
       let wt = (this.IPCode.weight !== undefined && this.IPCode.weight !== null) ? this.IPCode.weight : this.PWeight;
-      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1));
+      this.GKgs = this.NKgs = (NoOfPacking * (wt * 1)).toFixed(3);
       this.tareWt = ((this.GKgs * 1) - (this.NKgs * 1)).toFixed(3);
     } else {
       this.GKgs = null; this.NKgs = null; this.tareWt = null;
@@ -530,6 +524,7 @@ export class StockReceiptComponent implements OnInit {
       const params = {
         DocNo: (this.SRNo !== undefined && this.SRNo !== null) ? this.SRNo : 0,
         TStockNo: stockNo,
+        StackYear: this.TStockNo.stack_yr,
         StackDate: this.datepipe.transform(this.TStockNo.stack_date, 'MM/dd/yyyy'),
         GCode: this.ReceivingCode,
         ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
@@ -538,7 +533,7 @@ export class StockReceiptComponent implements OnInit {
       this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
           this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-          this.StackBalance = (this.StackBalance * 1);
+          // this.StackBalance = (this.StackBalance * 1);
         }
       });
     } else {
@@ -622,6 +617,7 @@ export class StockReceiptComponent implements OnInit {
         }
         sno += 1;
       });
+      this.StackBalance = (this.StackBalance * 1);
       this.StackBalance += stackBalance;
       this.ICode = null; this.TStockNo = null; this.Scheme = null; this.IPCode = null;
       this.WTCode = null; this.Moisture = null; this.NoPacking = null;

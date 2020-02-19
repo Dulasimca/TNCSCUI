@@ -135,6 +135,7 @@ export class TableConstants {
   ProcessToGPSCols: any;
   IssueMemoLorryAbstractColumns: any;
   StackCardMaster: any;
+  RunningStackCardDetailsCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -445,24 +446,24 @@ export class TableConstants {
     ];
 
     this.WriteoffReport = [
-      { field: 'SlNo', header: 'S.No' },
-      { field: 'Godownname', header: 'GODOWN' },
-      { field: 'Issue_Date', header: 'DATE' },
-      { field: 'Issueno', header: 'ISSUE NO' },
-      { field: 'Commodity', header: 'COMMODITY' },
-      { field: 'NetWt', header: 'QUANTITY' },
-      { field: 'Stackno', header: 'STACK NO' },
-      { field: 'remarks', header: 'REMARKS' }
+      { field: 'SlNo', header: 'S.No', width: '15px' },
+      { field: 'Godownname', header: 'GODOWN', width: '60px' },
+      { field: 'Issue_Date', header: 'DATE', width: '35px' },
+      { field: 'Issueno', header: 'ISSUE NO', width: '35px' },
+      { field: 'Commodity', header: 'COMMODITY', width: '50px' },
+      { field: 'NetWt', header: 'QUANTITY', width: '35px' },
+      { field: 'Stackno', header: 'STACK NO', width: '40px' },
+      { field: 'remarks', header: 'REMARKS', width: '100px' }
     ];
 
     this.HullingDetailsReport = [
-      { field: 'SlNo', header: 'S.No' },
-      { field: 'SRNo', header: 'Ack. No' },
-      { field: 'SRDate', header: 'Date' },
-      { field: 'ITDescription', header: 'Commodity' },
-      { field: 'DepositorName', header: 'Depositor' },
-      { field: 'NoPacking', header: 'Bags' },
-      { field: 'Nkgs', header: 'Quantity' }
+      { field: 'SlNo', header: 'S.No', width: '15px' },
+      { field: 'SRNo', header: 'Ack. No', width: '25px' },
+      { field: 'SRDate', header: 'Date', width: '35px' },
+      { field: 'ITDescription', header: 'Commodity', width: '50px' },
+      { field: 'DepositorName', header: 'Depositor', width: '80px' },
+      { field: 'NoPacking', header: 'Bags', width: '25px' },
+      { field: 'Nkgs', header: 'Quantity', width: '35px' }
     ];
 
     this.TruckToRegionReport = [
@@ -988,23 +989,23 @@ export class TableConstants {
 
 
     this.StackCardOpening = [
-      { field: 'SlNo', header: 'SlNo' },
-      { field: 'Stackno', header: 'Stack No' },
-      { field: 'StackBalanceBags', header: 'Bags' },
-      { field: 'Stackbalanceweight', header: 'Quantity' },
-      { field: 'obstackdate', header: 'From Date' },
-      { field: 'Formationyear', header: 'Formation Year' },
-      { field: 'Status', header: 'Status' },
+      { field: 'SlNo', header: 'S.No.', width: '8px' },
+      { field: 'Stackno', header: 'Stack No', width: '30px' },
+      { field: 'StackBalanceBags', header: 'Bags', width: '20px' },
+      { field: 'Stackbalanceweight', header: 'Quantity', width: '30px' },
+      { field: 'obstackdate', header: 'From Date', width: '25px' },
+      { field: 'Formationyear', header: 'Formation Year', width: '18px' },
+      { field: 'Status', header: 'Status', width: '15px' },
     ];
 
     this.StackCard = [
-      { field: 'SlNo', header: 'SlNo' },
-      { field: 'AckDate', header: 'Date' },
-      { field: 'ReceiptBags', header: 'Bags' },
-      { field: 'ReceiptQuantity', header: 'Quantity' },
-      { field: 'IssuesBags', header: 'Bags' },
-      { field: 'IssuesQuantity', header: 'Quantity' },
-      { field: 'ClosingBalance', header: 'Closing Balance' },
+      { field: 'SlNo', header: 'S.No.', width: '8px' },
+      { field: 'AckDate', header: 'Date', width: '25px' },
+      { field: 'ReceiptBags', header: 'Bags', width: '20px' },
+      { field: 'ReceiptQuantity', header: 'Quantity', width: '30px' },
+      { field: 'IssuesBags', header: 'Bags', width: '20px' },
+      { field: 'IssuesQuantity', header: 'Quantity', width: '30px' },
+      { field: 'ClosingBalance', header: 'Closing Balance', width: '30px' },
     ];
 
     this.PackingMaster = [
@@ -1239,23 +1240,23 @@ export class TableConstants {
     ];
 
     this.StackCardRegisterReport = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'FromDate', header: 'From Date' },
-      { field: 'ToDate', header: 'To Date' },
-      { field: 'Commodity', header: 'Commodity' },
-      { field: 'StackCard', header: 'Stack Card' },
-      { field: 'OpeningBag', header: 'OPE_BAL.' },
-      { field: 'OpeningQty', header: 'Quantity' },
-      { field: 'ReceiptBag', header: 'REC_BAGS' },
-      { field: 'GU', header: 'GU' },
-      { field: 'ReceiptQty', header: 'Quantity' },
-      { field: 'IssuesBag', header: 'ISS_BAGS' },
-      { field: 'GR', header: 'GR' },
-      { field: 'IssuesQty', header: 'Quantity' },
-      { field: 'BalanceBag', header: 'BAL_BAGS.' },
-      { field: 'BalanceQty', header: 'BAL_QUANTITY' },
-      { field: 'StackStatus', header: 'Stack Status' },
-      { field: 'WriteOff', header: 'W/OFF QTY.' }
+      { header: 'S.No', field: 'SlNo', width: '25px' },
+      { field: 'FromDate', header: 'From Date', width: '50px' },
+      { field: 'ToDate', header: 'To Date', width: '50px' },
+      { field: 'Commodity', header: 'Commodity', width: '80px' },
+      { field: 'StackCard', header: 'Stack Card', width: '40px' },
+      { field: 'OpeningBag', header: 'OPE_BAL.', width: '50px' },
+      { field: 'OpeningQty', header: 'Quantity', width: '60px' },
+      { field: 'ReceiptBag', header: 'REC_BAGS', width: '45px' },
+      { field: 'GU', header: 'GU', width: '55px' },
+      { field: 'ReceiptQty', header: 'Quantity', width: '60px' },
+      { field: 'IssuesBag', header: 'ISS_BAGS', width: '55px' },
+      { field: 'GR', header: 'GR', width: '55px' },
+      { field: 'IssuesQty', header: 'Quantity', width: '60px' },
+      { field: 'BalanceBag', header: 'BAL_BAGS.', width: '55px' },
+      { field: 'BalanceQty', header: 'BAL_QTY', width: '60px' },
+      { field: 'StackStatus', header: 'Stack Status', width: '35px' },
+      { field: 'WriteOff', header: 'W/OFF QTY.', width: '60px' }
     ];
 
     this.CashReceiptRegCols = [
@@ -1490,7 +1491,9 @@ export class TableConstants {
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Error', field: 'Error' },
-      { header: 'Status', field: 'Status' }
+      { header: 'Status', field: 'Status' },
+      { header: 'ACKDate', field: 'GToGACKDate' },
+      { header: 'ACK Status', field: 'ACKStatus' }
     ];
 
 
@@ -1514,13 +1517,13 @@ export class TableConstants {
 
     this.AllotmentDetailsCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Taluk Name', field: 'Taluk' },
-      { header: 'Godown Code', field: 'GCode' },
-      { header: 'Godown Name', field: 'Godownname' },
-      { header: 'Society Name', field: 'SocietyName' },
-      { header: 'FPS Code', field: 'FPSCode' },
-      { header: 'Commodity', field: 'Commodity' },
-      { header: 'Quantity', field: 'Quantity' }
+      { header: 'Taluk Name', field: 'Taluk', width: '100px' },
+      { header: 'Godown Code', field: 'GCode', width: '60px' },
+      { header: 'Godown Name', field: 'Godownname', width: '100px' },
+      { header: 'Society Name', field: 'SocietyName', width: '300px' },
+      { header: 'FPS Code', field: 'FPSCode', width: '80px' },
+      { header: 'Commodity', field: 'Commodity', width: '100px' },
+      { header: 'Quantity', field: 'Quantity', width: '100px' }
     ];
 
     this.SectionDailyStatementReportColumns = [
@@ -1622,6 +1625,16 @@ export class TableConstants {
       { field: 'CurYear', header: 'CurYear' },
       { field: 'Flag1', header: 'Flag1' },
       { field: 'clstackdate', header: 'clstackdate' },
+    ];
+
+    this.RunningStackCardDetailsCols = [
+      { header: 'S.No.', field: 'SlNo', width: '15px' },
+      { header: 'Stack No.', field: 'StackNo', width: '40px' },
+      { header: 'Bags', field: 'StackBalanceBags', width: '30px' },
+      { header: 'Weight', field: 'StackBalanceWeight', width: '60px' },
+      { header: 'Stack Date', field: 'StackDate', width: '25px' },
+      { header: 'Current Year', field: 'CurYear', width: '20px' },
+
     ];
   }
 }

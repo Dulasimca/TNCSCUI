@@ -1,0 +1,126 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+    <app-menu *ngIf="canShowMenu"></app-menu>
+    <p-panel>
+        <p-header>
+            <div class="ui-g panel-header">
+                <div class="ui-g-4 dashboard">Day-To-Day Running Stack Card</div>
+            </div>
+        </p-header>
+        <div class="ui-g ui-fluid">
+            <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
+            <form class="ui-g-12 dashboard" #f="ngForm" name="form">
+                <div class="ui-g-12 ui-md-12 ui-lg-12 no-pad-top no-left-pad">
+                    <div class="ui-g-12 no-left-pad">
+                        <div class="ui-g-6 ui-md-2 no-pad-top">
+                            <label class="ui-g-7 label-fontsize dashboard" for="RegionName">Region Name</label>
+                            <input type="text" name="RegionName" [readonly]="true" [(ngModel)]="RName" size="20"
+                                pInputText style="text-transform: uppercase !important" required>
+                        </div>
+                        <div class="ui-g-6 ui-md-2 no-pad-top">
+                            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
+                            <input type="text" name="GodownName" [readonly]="true" [(ngModel)]="GName" size="20"
+                                pInputText style="text-transform: uppercase !important" required>
+                        </div>
+                        <div class="ui-g-6 ui-md-2 no-pad-top">
+                            <label class="ui-g-7 label-fontsize dashboard" for="Commodity">Commodity</label>
+                            <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ITCode"
+                                filterMatchMode="startsWith" (keyup.tab)="onSelect('tab')"
+                                (onChange)="onSelect('change')" filter="true" (keyup.shift.tab)="onSelect('tab')"
+                                optionLabel="label" resetFilterOnHide="true">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <!-- <div class="ui-g-6 ui-md-2 no-pad-top">
+                            <label class="ui-g-7 label-fontsize dashboard" for="StackCard">Stack Card</label>
+                            <p-dropdown #stackcard name="StackCard" [options]="godownOptions" [(ngModel)]="TStockNo"
+                                filterMatchMode="startsWith" (keyup.tab)="onSelect('st', 'tab')"
+                                (onClick)="onSelect('st', 'click')" filter="true"
+                                (keyup.shift.tab)="onSelect('st', 'tab')" resetFilterOnHide="true">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div> -->
+                    </div>
+                    <div class="ui-g-12 ui-md-12 dashboard">
+                        <p-table #dt [columns]="stackRunningCardCols" [value]="stackRunningCardData" [rows]="10"
+                            [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                            selectionMode="single" [responsive]="true" [paginator]="true" [loading]="loading">
+                            <ng-template pTemplate="colgroup" let-columns>
+                                <colgroup>
+                                    <col *ngFor="let col of columns" [style.width]="col.width">
+                                </colgroup>
+                            </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+                                <tr style="text-align: center;">
+                                    <th *ngFor="let col of columns">
+                                        {{col.header}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                                    <td *ngFor="let col of columns">
+                                        <div
+                                            *ngIf="col.field === 'StackBalanceBags' || col.field === 'StackBalanceWeight' || col.field === 'CurYear'">
+                                            <div style="text-align: end !important">
+                                                {{rowData[col.field]}}
+                                            </div>
+                                        </div>
+                                        <div
+                                            *ngIf="col.field !== 'StackBalanceBags' && col.field !== 'StackBalanceWeight' && col.field !== 'CurYear'">
+                                            {{rowData[col.field]}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </p-panel>
+</div>
+<p-dialog header="Running Stack Card" [modal]="true" [(visible)]="showPane"
+    [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '50vw', height: '70vw'}">
+    <div class="ui-g-12 ui-md-12 border-blue card">
+        <div class="ui-g-12 ui-md-12">
+            <div class="ui-g-12 ui-md-3 no-pad-top">
+                <label for="StackCardDate" class="ui-g-7 label-fontsize-large no-pad-bottom">Date:</label>
+                <input name="StackCardDate" type="text" size="20" pInputText [readOnly]="true" [(ngModel)]="SCDate">
+              </div>
+              <div *ngIf="IsRequired" class="ui-g-12 ui-md-10">
+                <label for="Reason" class="ui-g-7 label-fontsize-large no-pad-bottom">Reason:</label>
+                <textarea class="ui-g-12 no-pad-top no-left-pad" name="Reason" rows="2" cols="70" minlength="1" maxlength="150"
+                    [(ngModel)]="Remarks" pInputText autocomplete="off" pInputTextarea required></textarea>
+              </div>
+              <div *ngIf="!IsRequired" class="ui-g-12 ui-md-10">
+                <label for="Reason" class="ui-g-7 label-fontsize-large no-pad-bottom">Reason:</label>
+                  <textarea class="ui-g-12 no-pad-top no-left-pad" name="Reason" rows="4" cols="70" minlength="1" maxlength="150"
+                    [(ngModel)]="Remarks" pInputText autocomplete="off" pInputTextarea></textarea>
+              </div>
+              <div class="ui-g-6 ui-md-10"></div>
+              <div class="ui-g-12 ui-md-2">
+                <button type="button" pButton [disabled]="(!SCDate || (IsRequired && !Remarks))"
+                  label=Save (click)="onSave()"></button>
+                </div>
+        </div>
+    </div>
+</p-dialog>
+<!-- <p-dialog header="Running Stack Card" [modal]="true" [(visible)]="showDialog"
+    [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '40vw', height: '80vw'}">
+    <div class="ui-g-12 ui-md-12 border-blue card">
+        <div class="ui-g-12 ui-md-12">
+            <div><span>You already have running card for this commodity.</span></div>
+            <div> <span>Please select the running card and add reason for activating another card!</span></div>
+            <div class="ui-g-6"></div>
+            <div class="ui-g-12 ui-md-6">
+                <button class="ui-g-6 ui-md-1 dashboard" style="float: right;" type="button" pButton
+                  label=Ok (click)="showDialog = false"></button>
+                </div>
+            </div>
+        </div>
+</p-dialog> -->

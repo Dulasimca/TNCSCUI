@@ -132,8 +132,8 @@
                       <label for="ReceivorName" class="label-fontsize">Receivor Name</label>
                       <p-dropdown #rn name="ReceivorName" [options]="receiverNameOptions" [(ngModel)]="RNCode"
                         (onClick)="onSelect('rn', 'click')" (keyup.tab)="onSelect('rn', 'tab')" filter="true"
-                        (keyup)="getAllotmentDetails('key')" (onChange)="getAllotmentDetails('change')" (ngModelChange)="onChangeIssuer()" (keyup)="showIssuerCode()"
-                        resetFilterOnHide="true" optionLabel="label" [showClear]="true" 
+                        (onChange)="getAllotmentDetails()" (ngModelChange)="onChangeIssuer()"
+                        resetFilterOnHide="true" optionLabel="label" [showClear]="true"
                         (keyup.shift.tab)="onSelect('rn', 'tab')" required>
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
@@ -147,8 +147,8 @@
                     <div class="ui-g-12 ui-md-1 ui-fluid no-right-pad" style="margin-top: -18px">
                       <label for="Year" class="label-fontsize">Year</label>
                       <p-dropdown #y name="Year" [options]="yearOptions" [(ngModel)]="year"
-                        (onClick)="onSelect('y', 'click')" (keyup.tab)="onSelect('y', 'tab')" [readonly]="disableYear"
-                        (keyup.shift.tab)="onSelect('y', 'tab')" required>
+                        (onClick)="onSelect('y', 'click')" [readonly]="disableYear"
+                         [showClear]="true" required>
                       </p-dropdown>
                     </div>
                   </div>

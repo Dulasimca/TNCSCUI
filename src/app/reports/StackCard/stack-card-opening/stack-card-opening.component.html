@@ -74,10 +74,15 @@
       </p-dropdown>
     </div>
     <div class="ui-g-12 dashboard">
-      <p-table #dt [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading" [rows]="20"
+      <p-table #dt [columns]="StackCardOpeningCols" [value]="StackCardOpeningData" [loading]="loading"
         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-         autoLayout="true" exportFilename="STACK_CARD_OPENING_REPORT">
-            <ng-template pTemplate="header" let-columns>
+        [rows]="20" exportFilename="STACK_CARD_OPENING_REPORT">
+         <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col *ngFor="let col of columns" [style.width]="col.width">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
           <tr style="text-align: center;">
             <th *ngFor="let col of columns">
               {{col.header}}
@@ -89,11 +94,6 @@
             <td *ngFor="let col of columns">
               <div *ngIf="col.field === 'StackBalanceBags' || col.field === 'Stackbalanceweight' || col.field === 'Formationyear'">
                 <div style="text-align: end !important">
-                  {{rowData[col.field]}}
-                </div>
-              </div>
-              <div *ngIf="col.field === 'Date'">
-                <div style="width: 90px !important">
                   {{rowData[col.field]}}
                 </div>
               </div>

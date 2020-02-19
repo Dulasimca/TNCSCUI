@@ -247,7 +247,7 @@ export class AllotmentDetailsComponent implements OnInit {
         let isValid = this.checkValidHeaders(headers);
         if(isValid.result) {
         headers.forEach(c => {
-          this.AllotmentCols.push({ header: c, field: c, width: '100px !important' });
+          this.AllotmentCols.push({ header: c, field: c, width: '180px' });
         })
         let json_object = JSON.stringify(XL_row_object);
         // bind the parse excel file data to Grid  
