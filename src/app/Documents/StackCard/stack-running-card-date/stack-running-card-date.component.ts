@@ -38,6 +38,10 @@ export class StackRunningCardDateComponent implements OnInit {
   setFlag: boolean;
   // showDialog: boolean;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
+  StackNo: any;
+  CurYear: any;
+  RowId: any;
+  runningCard: any;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -90,8 +94,10 @@ export class StackRunningCardDateComponent implements OnInit {
         })
         this.totalRecords = this.stackRunningCardData.length;
         for(let i = 0; i < this.stackRunningCardData.length; i ++) {
-          if(this.stackRunningCardData[i].Remarks !== null && 
-            this.stackRunningCardData[i].Remarks.toString().trim() !== '') {
+          if ((this.stackRunningCardData[i].Remarks === null || 
+              this.stackRunningCardData[i].Remarks.toString().trim() === '') &&
+              this.stackRunningCardData[i].FromDate !== null) {
+              this.runningCard = this.stackRunningCardData[i].StackNo;
               this.setFlag = true;
               break;
             } else {
@@ -116,22 +122,71 @@ export class StackRunningCardDateComponent implements OnInit {
 
   onRowSelect(event, data) {
     if(event !== null && event !== undefined && data !== undefined && data !== null) {
-      if(data.FromDate !== null && data.FromDate !== undefined && !this.setFlag) {
+      if(data.FromDate === null && this.setFlag) {
         this.showPane = false;
-        this.IsRequired = true;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
         summary: StatusMessage.SUMMARY_ERROR, life:5000,
-        detail: 'You already have active running card for ' + this.ITCode.label +'. Please add reason for activating another card!' });
-      } else {
+        detail: 'You already have ' + this.runningCard + ' for ' + this.ITCode.label +'. Please add reason for activating another card!' });
+      } else if(data.FromDate !== null && (data.Remarks === null && data.Remarks.trim() === '') && this.setFlag){
+        this.showPane = true;
+        this.IsRequired = true;
+        this.RowId = data.RowId;
+        this.SCDate = this.datepipe.transform(this.maxDate, 'dd/MM/yyyy');
+        this.StackNo = data.StackNo;
+        this.CurYear = data.CurYear;
+        this.Remarks = data.Remarks;
+      } else{
         this.showPane = true;
         this.IsRequired = false;
+        this.RowId = data.RowId;
         this.SCDate = this.datepipe.transform(this.maxDate, 'dd/MM/yyyy');
+        this.StackNo = data.StackNo;
+        this.CurYear = data.CurYear;
+        this.Remarks = data.Remarks;
       }
     }
   }
 
   onSave() {
+    this.showPane = false;
+    const params = {
+      'RowId': this.RowId,
+      'CurYear': this.CurYear,
+      'StackNo': this.StackNo,
+      'FromDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
+      'Remarks': (this.Remarks !== null && this.Remarks !== undefined) ? this.Remarks.trim() : '',
+      'RCode': this.RCode,
+      'GCode': this.GCode,
+      'Status': 1
+    }
+    this.restAPIService.post(PathConstants.STACK_DAY_TO_DAY_POST, params).subscribe(res => {
+      if(res.Item1) {
+        this.refreshScreen();
+        this.onSelect('');
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
+      }
+    });
 
   }
 
@@ -141,6 +196,8 @@ export class StackRunningCardDateComponent implements OnInit {
     this.totalRecords = 0;
     this.showPane = false;
     this.IsRequired = false;
+    this.RowId = null; this.StackNo = null;
+    this.CurYear = null; this.Remarks = null;
   }
 
   onClose() {

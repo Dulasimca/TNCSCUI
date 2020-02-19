@@ -88,23 +88,23 @@
     [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '50vw', height: '70vw'}">
     <div class="ui-g-12 ui-md-12 border-blue card">
         <div class="ui-g-12 ui-md-12">
-            <div class="ui-g-12 ui-md-6 no-pad-top">
-                <label for="StackCardDate" class="ui-g-7 label-fontsize-large">Date</label>
+            <div class="ui-g-12 ui-md-3 no-pad-top">
+                <label for="StackCardDate" class="ui-g-7 label-fontsize-large no-pad-bottom">Date:</label>
                 <input name="StackCardDate" type="text" size="20" pInputText [readOnly]="true" [(ngModel)]="SCDate">
               </div>
               <div *ngIf="IsRequired" class="ui-g-12 ui-md-10">
-                <label for="Reason" class="ui-g-7 label-fontsize-large">Reason</label>
+                <label for="Reason" class="ui-g-7 label-fontsize-large no-pad-bottom">Reason:</label>
                 <textarea class="ui-g-12 no-pad-top no-left-pad" name="Reason" rows="2" cols="70" minlength="1" maxlength="150"
                     [(ngModel)]="Remarks" pInputText autocomplete="off" pInputTextarea required></textarea>
               </div>
               <div *ngIf="!IsRequired" class="ui-g-12 ui-md-10">
-                <label for="Reason" class="ui-g-7 label-fontsize-large">Reason</label>
+                <label for="Reason" class="ui-g-7 label-fontsize-large no-pad-bottom">Reason:</label>
                   <textarea class="ui-g-12 no-pad-top no-left-pad" name="Reason" rows="4" cols="70" minlength="1" maxlength="150"
                     [(ngModel)]="Remarks" pInputText autocomplete="off" pInputTextarea></textarea>
               </div>
               <div class="ui-g-6 ui-md-10"></div>
               <div class="ui-g-12 ui-md-2">
-                <button type="button" pButton
+                <button type="button" pButton [disabled]="(!SCDate || (IsRequired && !Remarks))"
                   label=Save (click)="onSave()"></button>
                 </div>
         </div>

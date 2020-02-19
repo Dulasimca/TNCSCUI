@@ -41,6 +41,7 @@ export class PathConstants {
   public static readonly TNCSC_SETTINGS = '/api/Settings';
   public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
   public static readonly STACK_CARD_DETAILS = '/api/StackDetails/Post';
+  public static readonly STACK_DAY_TO_DAY_POST = '/api/StackDayToDay/Post';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
