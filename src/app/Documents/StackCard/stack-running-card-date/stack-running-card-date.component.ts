@@ -127,7 +127,7 @@ export class StackRunningCardDateComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
         summary: StatusMessage.SUMMARY_ERROR, life:5000,
-        detail: 'You already have ' + this.runningCard + ' for ' + this.ITCode.label +'. Please add reason for activating another card!' });
+        detail: this.runningCard + 'card is active for ' + this.ITCode.label +'. Please add reason for activating another card!' });
       } else if(data.FromDate !== null && (data.Remarks === null && data.Remarks.trim() === '') && this.setFlag){
         this.showPane = true;
         this.IsRequired = true;
@@ -163,6 +163,8 @@ export class StackRunningCardDateComponent implements OnInit {
     this.restAPIService.post(PathConstants.STACK_DAY_TO_DAY_POST, params).subscribe(res => {
       if(res.Item1) {
         this.refreshScreen();
+        this.loading = true;
+        setTimeout(() => this.loading = false, 1000); 
         this.onSelect('');
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
