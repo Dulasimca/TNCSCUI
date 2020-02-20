@@ -113,10 +113,10 @@ export class StackCardRegisterComponent implements OnInit {
           this.StackYearPanel.overlayVisible = true;
         }
         if (this.YearOptions === undefined) {
-          this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
+          this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                YearSelection.push({ label: y.ShortYear, value: y.ShortYear });
+                YearSelection.push({ label: y.StackYear, value: y.StackYear });
               });
               this.YearOptions = YearSelection;
             }
