@@ -163,6 +163,7 @@ import { IssueGatepassComponent } from './Documents/issue-gatepass/issue-gatepas
 import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail-gunny/quantity-detail-gunny.component';
 import { StackCardCorrectionComponent } from './Documents/stack-card-correction/stack-card-correction.component';
 import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
+import { StockLedgerStatementComponent } from './reports/stock-ledger-statement/stock-ledger-statement.component';
 
 
 @NgModule({
@@ -285,6 +286,7 @@ import { StackRunningCardDateComponent } from './Documents/StackCard/stack-runni
     QuantityDetailIssueComponent,
     StackCardCorrectionComponent,
     StackRunningCardDateComponent,
+    StockLedgerStatementComponent,
   ],
   imports: [
     BrowserModule,
