@@ -1560,12 +1560,12 @@ export class TableConstants {
     ];
 
     this.ProcessToGPSCols = [
-      { header: 'S.No', field: 'SlNo' },
-      { header: 'DOC NO.', field: 'DocNumber' },
-      { header: 'Start Date', field: 'GPSStartDate' },
-      { header: 'End Date', field: 'GPSEndDate' },
-      { header: 'Error', field: 'GPSError' },
-      { header: 'Status', field: 'GPSStatus' }
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'DOC NO.', field: 'DocNumber', width: '25px' },
+      { header: 'Start Date', field: 'GPSStartDate', width: '35px' },
+      { header: 'End Date', field: 'GPSEndDate', width: '35px' },
+      { header: 'Error', field: 'GPSError', width: '100px' },
+      { header: 'Status', field: 'GPSStatus', width: '30px' }
     ];
 
     this.IssueMemoLorryAbstractColumns = [

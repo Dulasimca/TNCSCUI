@@ -88,9 +88,15 @@
     [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '50vw', height: '70vw'}">
     <div class="ui-g-12 ui-md-12 border-blue card">
         <div class="ui-g-12 ui-md-12">
-            <div class="ui-g-12 ui-md-3 no-pad-top">
+            <div class="ui-g-6 ui-md-3 no-pad-top no-right-pad">
                 <label for="StackCardDate" class="ui-g-7 label-fontsize-large no-pad-bottom">Date:</label>
                 <input name="StackCardDate" type="text" size="20" pInputText [readOnly]="true" [(ngModel)]="SCDate">
+              </div>
+              <div class="ui-g-6 ui-md-2 no-pad-top no-left-pad">
+                <label for="status" class="ui-g-9 label-fontsize-large no-pad-bottom">Status</label>
+                <p-dropdown #status name="status" [options]="statusOptions" [(ngModel)]="Status"
+                  [showClear]="true">
+                </p-dropdown>
               </div>
               <div *ngIf="IsRequired" class="ui-g-12 ui-md-10">
                 <label for="Reason" class="ui-g-7 label-fontsize-large no-pad-bottom">Reason:</label>

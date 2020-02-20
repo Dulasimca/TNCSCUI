@@ -155,7 +155,7 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
-  
+
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private datepipe: DatePipe) { }
@@ -1275,15 +1275,20 @@ export class DeliveryReceiptComponent implements OnInit {
 
   viewPreview(f) {
     this.showPreview = true;
-    this.PreDODate = this.datepipe.transform(f.value['DoDate'], 'dd/MM/yyyy');
-    this.PrePermitDate = this.datepipe.transform(f.value['Permitdate'], 'dd/MM/yyyy');
-    this.PreTransaction = f.value['Transaction'].label;
-    this.PreRecType = f.value['ReceivorType'].label;
-    this.PrePartyName = f.value['PartyName'].label;
-    this.PreIndentNo = f.value['IndentNum'].toString().toUpperCase();
-    this.PreMonth = f.value['Month'].toString().toUpperCase();
+    this.PreDODate = (f.value['DoDate'] !== null) ? this.datepipe.transform(f.value['DoDate'], 'dd/MM/yyyy') : f.value['DoDate'];
+    this.PrePermitDate = (f.value['Permitdate'] !== null) ?
+      this.datepipe.transform(f.value['Permitdate'], 'dd/MM/yyyy') : f.value['Permitdate'];
+    this.PreTransaction = (f.value['Transaction'] !== null) ? ((f.value['Transaction'].label !== undefined)
+      ? f.value['Transaction'].label : f.value['Transaction']) : '';
+    this.PreRecType = (f.value['ReceivorType'] !== null) ? ((f.value['ReceivorType'].label !== undefined)
+      ? f.value['ReceivorType'].label : f.value['ReceivorType']) : '';
+    this.PrePartyName = (f.value['PartyName'] !== null) ? ((f.value['PartyName'].label !== undefined)
+      ? f.value['PartyName'].label : f.value['PartyName']) : '';
+    this.PreIndentNo = (f.value['IndentNum'] !== null) ? f.value['IndentNum'].toString().toUpperCase()
+      : f.value['IndentNum'];
+    this.PreMonth = (f.value['Month'] !== null) ? f.value['Month'].toString().toUpperCase() : f.value['Month'];
     this.PreYear = f.value['Year'];
-    this.PreGSTNo = f.value['GST'].toString().toUpperCase();
+    this.PreGSTNo = (f.value['GST'] !== null) ? f.value['GST'].toString().toUpperCase() : f.value['GST'];
     this.PreRemarks = f.value['Instructions'];
   }
 

@@ -163,7 +163,7 @@ export class StockReceiptComponent implements OnInit {
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
-  
+
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private datepipe: DatePipe, private messageService: MessageService) {
@@ -943,20 +943,33 @@ export class StockReceiptComponent implements OnInit {
 
   viewPreview(f) {
     this.showPreview = true;
-    this.PreSRDate = this.datepipe.transform(f.value['StockDate'], 'dd/MM/yyyy');
-    this.PreMonth = f.value['PeriodOfMonth'].toString().toUpperCase();
+    this.PreSRDate = (f.value['StockDate'] !== null) ?
+      this.datepipe.transform(f.value['StockDate'], 'dd/MM/yyyy') : f.value['StockDate'];
+    this.PreMonth = (f.value['PeriodOfMonth'] !== null) ?
+      f.value['PeriodOfMonth'].toString().toUpperCase() : f.value['PeriodOfMonth'];
     this.PreYear = f.value['PeriodOfYear'];
-    this.PreAllotNo = f.value['AllotmentOrderNo'].toString().toUpperCase();
-    this.PreAllotDate = this.datepipe.transform(f.value['AllotmentOrderDate'], 'dd/MM/yyyy');
-    this.PreTransMode = f.value['TransportMode'].toString().toUpperCase();
-    this.PreTransaction = f.value['Transaction'].label;
-    this.PreDepType = f.value['Depositortype'].label;
-    this.PreDepName = f.value['DepositorName'].label;
-    this.PreTruckMemoNo = f.value['TruckNo'].toString().toUpperCase();
-    this.PreTruckMemoDate = this.datepipe.transform(f.value['TruckDate'], 'dd/MM/yyyy');
+    this.PreAllotNo = (f.value['AllotmentOrderNo'] !== null) ?
+      f.value['AllotmentOrderNo'].toString().toUpperCase() : f.value['AllotmentOrderNo'];
+    this.PreAllotDate = (f.value['AllotmentOrderDate'] !== null) ?
+      this.datepipe.transform(f.value['AllotmentOrderDate'], 'dd/MM/yyyy') : f.value['AllotmentOrderDate'];
+    this.PreTransMode = (f.value['TransportMode'] !== null) ?
+      f.value['TransportMode'].toString().toUpperCase() : f.value['TransportMode'];
+    this.PreTransaction = (f.value['Transaction'] !== null) ?
+      ((f.value['Transaction'].label !== undefined) ? f.value['Transaction'].label : f.value['Transaction']) : '';
+    this.PreDepType = (f.value['Depositortype'] !== null) ?
+      ((f.value['Depositortype'].label !== undefined) ?
+        f.value['Depositortype'].label : f.value['Depositortype']) : '';
+    this.PreDepName = (f.value['DepositorName'] !== null) ? ((f.value['DepositorName'].label !== undefined)
+      ? f.value['DepositorName'].label : f.value['DepositorName']) : '';
+    this.PreTruckMemoNo = (f.value['TruckNo'] !== null) ?
+      f.value['TruckNo'].toString().toUpperCase() : f.value['TruckNo'];
+    this.PreTruckMemoDate = (f.value['TruckDate'] !== null) ?
+      this.datepipe.transform(f.value['TruckDate'], 'dd/MM/yyyy') : f.value['TruckDate'];
     this.PreVehicleNo = f.value['VehicleNo'].toString().toUpperCase();
-    this.PreVechileFrom = f.value['LorryFrom'].toString().toUpperCase();
-    this.PreManualDocNo = f.value['ManualDocNumber'].toString().toUpperCase();
+    this.PreVechileFrom = (f.value['LorryFrom'] !== null) ?
+      f.value['LorryFrom'].toString().toUpperCase() : f.value['LorryFrom'];
+    this.PreManualDocNo = (f.value['ManualDocNumber'] !== null) ?
+      f.value['ManualDocNumber'].toString().toUpperCase() : f.value['ManualDocNumber'];
     this.PreRemarks = f.value['remarks'];
   }
 
