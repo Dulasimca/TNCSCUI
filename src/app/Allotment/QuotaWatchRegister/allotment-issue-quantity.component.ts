@@ -200,7 +200,7 @@ export class AllotmentIssueQuantityComponent implements OnInit {
           abstract = [];
         sno = 0;
         this.AllotmentQuantityAbstractData.forEach(function (o) {
-          var key = ['SocietyName', 'Commodity'].map(function (k) { return o[k]; }).join('|');
+          var key = ['SocietyName', 'Commodity', 'Scheme'].map(function (k) { return o[k]; }).join('|');
           if (!hash[key]) {
             sno += 1;
             hash[key] = {
