@@ -31,6 +31,9 @@ export class AuditInceptionComponent implements OnInit {
   RCode: string;
   commoditySelection: any = [];
   commodityOptions: SelectItem[];
+  TStockNo: any;
+  stackNoOptions: SelectItem[];
+  ITCode: any;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
