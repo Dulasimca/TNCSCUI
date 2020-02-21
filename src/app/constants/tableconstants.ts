@@ -1493,6 +1493,7 @@ export class TableConstants {
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Error', field: 'Error' },
       { header: 'Status', field: 'Status' },
+      { header: 'Process Count', field: 'GToGPickedCount'},
       { header: 'ACKDate', field: 'GToGACKDate' },
       { header: 'ACK Status', field: 'ACKStatus' }
     ];

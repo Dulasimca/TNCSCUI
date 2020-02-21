@@ -113,6 +113,7 @@ import { QuantityDetailIssueComponent } from './reports/Quantity/quantity-detail
 import { StackCardCorrectionComponent } from './Documents/stack-card-correction/stack-card-correction.component';
 import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
 import { StockLedgerStatementComponent } from './reports/stock-ledger-statement/stock-ledger-statement.component';
+import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -228,6 +229,7 @@ const routes: Routes = [
   { path: 'IssueGatePass', component: IssueGatepassComponent, canActivate: [AuthGuard] },
   { path: 'RunningStackCard', component: StackRunningCardDateComponent, canActivate: [AuthGuard] },
   { path: 'StockLedgerStatement', component: StockLedgerStatementComponent, canActivate: [AuthGuard] },
+  { path: 'AuditInception', component: AuditInceptionComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
