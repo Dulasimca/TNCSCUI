@@ -179,6 +179,11 @@ export class ProcessToG2GComponent implements OnInit {
             this.issueMemoDocData = this.primalData.filter(x => {
                 return x.IssueType === value;
             });
+            let sno = 1;
+            this.issueMemoDocData.forEach(data => {
+                data.SlNo = sno;
+                sno += 1;
+            });
             if (this.issueMemoDocData.length !== 0) {
                 this.messageService.clear();
             } else {
