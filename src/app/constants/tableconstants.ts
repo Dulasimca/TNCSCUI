@@ -64,6 +64,7 @@ export class TableConstants {
   GodownCustomerList: any;
   OpeningBalanceMasterEntry: any;
   StockStatementReport: any;
+  StockLedgerReport: any;
   TransactionStatus: any;
   OpeningBalanceCurYearEntry: any;
   DailyDocumentTotalReport: any;
@@ -1635,6 +1636,23 @@ export class TableConstants {
       { header: 'Stack Date', field: 'StackDate', width: '25px' },
       { header: 'Current Year', field: 'CurYear', width: '20px' },
 
+    ];
+
+    this.StockLedgerReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Commodity', field: 'ITDescription' },
+      { header: 'Date', field: 'Date' },
+      { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      { header: 'Receipt', field: 'Receipt' },
+      { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
+      // --Future purpose--
+      // { header: 'Sales', field: 'IssueSales', },
+      // { header: 'Other Issue', field: 'IssueOthers' },
+      { header: 'Total Issue', field: 'TotalIssue' },
+      { header: 'Closing Balance', field: 'ClosingBalance' },
+      { header: 'Cumulative Shortage', field: 'CSBalance' },
+      { header: 'Current CS', field: 'Shortage' },
+      { header: 'Physical Balance', field: 'PhycialBalance' },
     ];
   }
 }
