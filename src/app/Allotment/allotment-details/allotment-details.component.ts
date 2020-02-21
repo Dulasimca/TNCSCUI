@@ -48,6 +48,7 @@ export class AllotmentDetailsComponent implements OnInit {
   loggedInRCode: any;
   godownOptions: SelectItem[];
   blockScreen: boolean;
+  count: number;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
@@ -76,6 +77,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.restAPIService.get(PathConstants.ALLOTMENT_COMMODITY_MASTER).subscribe(data => {
       this.allotmentCommodity = data;
     })
+    this.count = 0;
   }
 
   onSelect(selectedItem, type) {
@@ -350,6 +352,7 @@ export class AllotmentDetailsComponent implements OnInit {
       this.GCode = null;
     }
     this.AllotmentData = [];
+    this.table.reset();
     this.totalRecords = 0;
   }
 
@@ -359,10 +362,23 @@ export class AllotmentDetailsComponent implements OnInit {
     const params = JSON.stringify(this.allotmentDetails);
     this.restAPIService.post(PathConstants.ALLOTMENT_QUANTITY_POST, this.allotmentDetails).subscribe((res: any) => {
       if (res.Item1) {
+        this.count += 1;
+        if(this.count <= 1) {
+          this.allotmentDetails.forEach(x => {
+            if((x.AllotmentMonth * 1) === 12) {
+              x.AllotmentMonth = '01';
+              x.AllotmentYear = (x.AllotmentYear * 1) + 1;
+            } else {
+              const AllotmentMonth = (x.AllotmentMonth * 1) + 1;
+              x.AllotmentMonth = ((AllotmentMonth * 1) <= 9) ? '0' + AllotmentMonth : AllotmentMonth;
+            }
+          })
+        this.onSave();
         this.blockScreen = false;
         this.onClear();
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
+        }
       } else {
         this.blockScreen = false;
         this.disableSave = false;
@@ -412,9 +428,6 @@ export class AllotmentDetailsComponent implements OnInit {
     this.messageService.clear('t-err');
   }
 }
-
-
-
 
 function checkfile(sender) {
   var validExts = new Array(".xlsx", ".xls");
