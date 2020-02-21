@@ -1491,7 +1491,7 @@ export class TableConstants {
       { header: 'DOC NO.', field: 'DocNumber' },
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
-      { header: 'Error', field: 'Error' },
+      { header: 'Response', field: 'Error' },
       { header: 'Status', field: 'Status' },
       { header: 'Process Count', field: 'GToGPickedCount'},
       { header: 'ACKDate', field: 'GToGACKDate' },
