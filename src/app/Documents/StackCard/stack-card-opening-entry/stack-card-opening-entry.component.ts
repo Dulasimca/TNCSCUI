@@ -250,13 +250,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
               this.CDate = null;
             } else {
               res.forEach(x => {
-                if (x.StackNo.trim() === this.StackNo) {
                   this.ClosingDate = this.datepipe.transform(x.SDate, 'dd/MM/yyyy');
                   this.CDate = this.datepipe.transform(x.SDate, 'MM/dd/yyyy');
                   // setTimeout(function(){
                   this.activateLoader = false;
                   // },500);
-                }
               });
             }
           }
@@ -350,6 +348,22 @@ export class StackCardOpeningEntryComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  onSearch(value) {
+    let sno = 1;
+    if (value !== undefined && value !== '' && value !== null) {
+      value = value.toString().toUpperCase();
+      this.stackOpeningData = this.Opening_Balance.filter(item => {
+        return item.StackNo.toString().toUpperCase().includes(value);
+      });
+      this.stackOpeningData.forEach(x => {
+        x.SlNo = sno;
+        sno += 1;
+      })
+    } else {
+      this.stackOpeningData = this.Opening_Balance;
     }
   }
 

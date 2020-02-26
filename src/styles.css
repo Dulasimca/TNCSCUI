@@ -508,7 +508,7 @@ h3 a {
   box-shadow: 0px 0px 5px #1f89ce;
 }
 .spacing-content {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .no-pad-top {

@@ -152,6 +152,13 @@
                   {{col.header}}
                 </th>
               </tr>
+              <tr>
+                <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                  <input class="ui-g-12 ui-md-12" *ngSwitchCase="'StackNo'" pInputText type="text"
+                    [(ngModel)]="searchText" pInputText placeholder="Search by StackNo"
+                    (ngModelChange)="onSearch($event)">
+                </th>
+              </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
               <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
