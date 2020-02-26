@@ -10,61 +10,90 @@
         <div class="ui-g ui-fluid">
             <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
             <form #f="ngForm" name="inceptionForm">
-                <div class="ui-g-12 ui-md-12 border-blue card">
+                <div class="ui-g-12 ui-md-12 border-teal">
                     <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Inception Details
                     </div>
-                    <div class="ui-g-1"></div>
-                    <div class="ui-g-12 ui-md-8">
-                        <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
-                            <label for="InceptionTeam" class="label-fontsize">Inception Team</label>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: -20px">
+                            <label for="InceptionTeam" class="label-fontsize-large">Inception Team</label>
                             <p-dropdown #inception name="InceptionTeam" [options]="inceptionTeamOptions"
-                                [(ngModel)]="ITeam" (onClick)="onSelect('it', 'click')"
-                                (keyup.shift.tab)="onSelect('it', 'tab')" (keyup.tab)="onSelect('it', 'tab')" required>
+                                [(ngModel)]="ITeam" (onClick)="onSelect('it', 'click')" appendTo="body"
+                                (keyup.shift.tab)="onSelect('it', 'tab')" (keyup.tab)="onSelect('it', 'tab')"
+                                optionLabel="label" required>
                             </p-dropdown>
                         </div>
-                        <div class="ui-g-12 ui-md-4">
-                            <span class="ui-float-label">
+                        <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
+                                <label for="PName" class="label-fontsize-large">Name</label>
                                 <input name="PName" type="text" size="50" pInputText autocomplete="off" minlength="1"
                                     maxlength="50" [(ngModel)]="Name">
-                                <label for="PName" class="float-input">Name</label>
-                            </span>
                         </div>
-                        <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
-                            <label for="InceptionDate" class="label-fontsize">Inception Date</label>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                            <label for="DesignationType" class="label-fontsize-large">Designation</label>
+                            <p-dropdown #designation name="DesignationType" [options]="designationOptions"
+                                [(ngModel)]="Designation" (onClick)="onSelect('des', 'click')" appendTo="body"
+                                (keyup.shift.tab)="onSelect('des', 'tab')" optionLabel="label"
+                                (keyup.tab)="onSelect('des', 'tab')" filterMatchMode="startsWith"
+                                filter="true" resetFilterOnHide="true" [showClear]="true" required>
+                            </p-dropdown>
+                        </div>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                            <label for="InceptionDate" class="label-fontsize-large">Inception Date</label>
                             <p-calendar name="InceptionDate" dateFormat="dd/mm/yy" [(ngModel)]="IDate"
                                 [maxDate]="maxDate" maxlength="20" [showIcon]="true">
                             </p-calendar>
                         </div>
                     </div>
                 </div>
-                <div class="ui-g-12 ui-md-12 spacing-content">
-                    <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -20px">
-                        <label for="Commodity" class="label-fontsize">Commodity</label>
-                        <p-dropdown #commodity name="Commodity" [options]="commodityOptions" [(ngModel)]="ITCode"
+                <div class="ui-g-12 ui-md-12 border-teal spacing-content">
+                    <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-12 ui-md-2 ui-fluid no-left-pad" style="margin-top: -20px">
+                        <label for="CurYear" class="label-fontsize-large">CurrYear</label>
+                        <p-dropdown #curYear name="CurYear" [options]="curYearOptions" 
+                            [(ngModel)]="CurrYear" (onClick)="onSelect('cy', 'click')"
+                             (keyup.shift.tab)="onSelect('cy', 'tab')" (onChange)="onChange('cy')"
+                            (keyup.tab)="onSelect('cy', 'tab')" filterMatchMode="startsWith"
+                            filter="true" resetFilterOnHide="true" [showClear]="true" 
+                            >
+                        </p-dropdown>
+                    </div>
+                    <div class="ui-g-12 ui-md-3 ui-fluid" style="margin-top: -20px">
+                        <label for="Commodity" class="label-fontsize-large">Commodity</label>
+                        <p-dropdown #commodity name="Commodity" [options]="commodityOptions" 
+                            [(ngModel)]="ITCode" optionLabel="label"
                             (onClick)="onSelect('cd', 'click')" (keyup.shift.tab)="onSelect('cd', 'tab')"
-                            (keyup.tab)="onSelect('cd', 'tab')" required>
+                            (keyup.tab)="onSelect('cd', 'tab')" filterMatchMode="startsWith"
+                            filter="true" resetFilterOnHide="true" [showClear]="true" 
+                            (onChange)="onChange('cd')" >
                         </p-dropdown>
                     </div>
                     <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -20px">
-                        <label for="StackNo" class="label-fontsize">Stack No</label>
+                        <label for="StackNo" class="label-fontsize-large">Stack No</label>
                         <p-dropdown #stackNo name="StackNo" [options]="stackNoOptions" [(ngModel)]="TStockNo"
                             (onClick)="onSelect('st', 'click')" (keyup.shift.tab)="onSelect('st', 'tab')"
-                            (keyup.tab)="onSelect('st', 'tab')" required>
-                        </p-dropdown>
-                    </div>
-                    <div class="ui-g-12 ui-md-3 ui-fluid">
-                        <span class="ui-float-label">
-                            <input name="Quantity" type="text" size="20" pInputText autocomplete="off" minlength="1"
-                                maxlength="15" [(ngModel)]="IQuantity">
-                            <label for="Quantity" class="float-input">Quantity</label>
-                        </span>
+                            (keyup.tab)="onSelect('st', 'tab')" filterMatchMode="startsWith"
+                            filter="true" resetFilterOnHide="true" [showClear]="true"
+                            optionLabel="label" >
+                        </p-dropdown>   
                     </div>
                     <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -20px">
-                        <label for="Type" class="label-fontsize">Type</label>
+                            <label for="Quantity" class="label-fontsize-large">Quantity</label>
+                            <input name="Quantity" type="text" size="20" pInputText autocomplete="off" minlength="1"
+                                maxlength="15" [(ngModel)]="IQuantity"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                appDecimalDigit>
+                    </div>
+                    <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: -20px">
+                        <label for="Type" class="label-fontsize-large">CB Difference</label>
                         <p-dropdown #Type name="Type" [options]="typeOptions" [(ngModel)]="Report"
                             (onClick)="onSelect('ty', 'click')" (keyup.shift.tab)="onSelect('ty', 'tab')"
-                            (keyup.tab)="onSelect('ty', 'tab')" required>
+                            (keyup.tab)="onSelect('ty', 'tab')" optionLabel="label" >
                         </p-dropdown>
+                    </div>
+                    <div class="form-group ui-g-4 ui-md-1">
+                        <button pButton type="button" label=Enter (click)="onEnter()"
+                        [disabled]="(!CurrYear || !ITCode || !Report || !IQuantity || !TStockNo)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-12 dashboard">
                         <p-table #dt [columns]="inceptionCols" [value]="inceptionData" [rows]="10"
@@ -76,34 +105,42 @@
                                     <th *ngFor="let col of columns">
                                         {{col.header}}
                                     </th>
+                                    <th style="width:2em"></th>
+                                    <th style="width:2em"></th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                <tr>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                <tr >
                                     <td *ngFor="let col of columns">
                                         {{rowData[col.field]}}
                                     </td>
+                                    <td style="width:2em" >
+                                        <button pButton icon="pi pi-pencil" (click)="onSelectedRow(rowData, rowIndex, '1')"></button>
+                                      </td >
+                                      <td style="width:2em">
+                                        <button pButton icon="pi pi-trash" (click)="onSelectedRow(rowData, rowIndex, '2')"></button>
+                                      </td>
                                 </tr>
                             </ng-template>
                         </p-table>
                     </div>
                 </div>
+                </div>
                 <div class="ui-g-12 ui-md-12">
-                    <div class="ui-g-6 ui-md-6">
-                        <span class="ui-float-label">
-                            <textarea pInputText rows="5" name="remarks" cols="70" maxlength="2000" pInputTextarea
+                    <div class="ui-g-6 ui-md-6 no-left-pad">
+                        <label for="RemarksText" class="label-fontsize-large">Remarks</label>
+                        <textarea pInputText rows="5" name="RemarksText" cols="70" maxlength="2000" pInputTextarea
                                 [(ngModel)]="Remarks" autocomplete="off" required></textarea>
-                            <label for="remarks" class="float-input">Remarks</label>
-                        </span>
                     </div>
                 </div>
                 <div class="ui-g-12 ui-md-12 no-pad-top" style="margin-top: -10px;">
                     <div class="ui-g-10"></div>
                     <div class="form-group ui-g-4 ui-md-1">
-                        <button pButton type="button" label=Save (click)="onSave()"></button>
+                        <button pButton type="button" label=Save (click)="onSave()"
+                        [disabled]="(!f.valid) || (inceptionData.length=='0')"></button>
                     </div>
                     <div class="form-group ui-g-4 ui-md-1">
-                        <button pButton type="button" label=Clear (click)="onClear()"></button>
+                        <button pButton type="button" label=Clear (click)="onClear('1')"></button>
                     </div>
                 </div>
             </form>

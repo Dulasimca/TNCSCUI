@@ -25,7 +25,7 @@ export class TableConstants {
   StockIssueRegisterReport: any;
   TruckMemoRegisterReport: any;
   DeliveryMemoRegisterReport: any;
-  CommodityReceiptReport: any;
+  RemarksReceiptReport: any;
   SchemeReceiptReport: any;
   TransactionReceiptReport: any;
   CommodityIssueMemoReport: any;
@@ -138,6 +138,8 @@ export class TableConstants {
   StackCardMaster: any;
   RunningStackCardDetailsCols: any;
   GodownEmployeeCols: any;
+  InceptionCols: any;
+  CommodityReceiptReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1673,6 +1675,14 @@ export class TableConstants {
       { header: 'Cumulative Shortage', field: 'CSBalance' },
       { header: 'Current CS', field: 'Shortage' },
       { header: 'Physical Balance', field: 'PhycialBalance' },
+    ];
+
+    this.InceptionCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Stack No.', field: 'StackNo' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Type', field: 'Type' },
     ];
   }
 }
