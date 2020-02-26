@@ -137,6 +137,7 @@ export class TableConstants {
   IssueMemoLorryAbstractColumns: any;
   StackCardMaster: any;
   RunningStackCardDetailsCols: any;
+  GodownEmployeeCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1041,6 +1042,7 @@ export class TableConstants {
     ];
 
     this.godownProfile = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GNAME', header: 'Incharge Name' },
       { field: 'GodownCode', header: 'Godown Code' },
       { field: 'DESIG', header: 'Designation' },
@@ -1083,6 +1085,23 @@ export class TableConstants {
       { field: 'DOB', header: 'DOB' },
       { field: 'FatherName', header: 'Father Name' },
       { field: 'UANNO', header: 'UAN NO' },
+      // { field: 'RefNo', header: 'RefNo' },
+      // { field: 'RefDate', header: 'RefDate' },
+      // { field: 'JRTYPE', header: 'JRTYPE' },
+      // { field: 'JRDate', header: 'JRDate' },
+    ];
+
+    this.GodownEmployeeCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'GodownName', header: 'Godown Name' },
+      { field: 'Empno', header: 'Employee No' },
+      { field: 'EmpName', header: 'Employee Name' },
+      { field: 'DesignationName', header: 'Designation' },
+      { field: 'RefNo', header: 'Reference No' },
+      { field: 'RefDate', header: 'Reference Date' },
+      { field: 'JRTYPE', header: 'J/R TYPE' },
+      { field: 'JRDate', header: 'Join Date' },
+      { field: 'RDate', header: 'Releive Date' }
     ];
 
     this.IssuerMaster = [
@@ -1493,7 +1512,7 @@ export class TableConstants {
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Response', field: 'Error' },
       { header: 'Status', field: 'Status' },
-      { header: 'Process Count', field: 'GToGPickedCount'},
+      { header: 'Process Count', field: 'GToGPickedCount' },
       { header: 'ACKDate', field: 'GToGACKDate' },
       { header: 'ACK Status', field: 'ACKStatus' }
     ];

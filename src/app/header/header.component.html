@@ -19,9 +19,9 @@
     </div>
     <div class="head" style="padding-top: 35px;float: right">
       <a href="http://omnisurv-cloud.com/index" target="_blank" aria-hidden="false" tabindex="0">
-        <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details"  alt='CCTV'></i>
+        <i class="fa fa-camera-retro fa-2x header-camera" title="CCTV Details" alt='CCTV'></i>
       </a>
-      <a href="https://tncsc.aquilatrack.com/" target="_blank"  tabindex="0">
+      <a href="https://tncsc.aquilatrack.com/" target="_blank" tabindex="0">
         <i class="fa fa-map-marker fa-2x header-tracking" title="Lorry Tracking" tabindex="0"></i>
       </a>
       <a href="https://ds.tncsc-scm.in/default2.Aspx" target="_blank">
@@ -31,23 +31,25 @@
         <i class="fa fa-comments-o fa-2x header-bugs" title="Bugs" tabindex="0"></i>
       </a>
       <a href=" http://tncsc-edpc.in" target="-blank">
-        <img style="width: 30px; height: 29px;padding-top: 3px" tabindex="0" src="../../assets/layout/images/dashboard/PDS.png"
-          title="DPC" />
+        <img style="width: 30px; height: 29px;padding-top: 3px" tabindex="0"
+          src="../../assets/layout/images/dashboard/PDS.png" title="DPC" />
       </a>
       <a href="http://fci.gov.in/" target="_blank">
-        <img style="width: 30px; height: 29px;padding-top: 3px" tabindex="0" src="../../assets/layout/images/dashboard/FCI.png"
-          title="FCI" />
+        <img style="width: 30px; height: 29px;padding-top: 3px" tabindex="0"
+          src="../../assets/layout/images/dashboard/FCI.png" title="FCI" />
       </a>
       <a href="https://www.tnpds.gov.in" target="_blank">
-        <img style="width: 32px; height: 25px;" tabindex="0" src="../../assets/layout/images/dashboard/G2G.png" title="G2G" /></a>
+        <img style="width: 32px; height: 25px;" tabindex="0" src="../../assets/layout/images/dashboard/G2G.png"
+          title="G2G" /></a>
     </div>
     <p-overlayPanel #op [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'">
       <div class="overlay-content" style="text-align: center;margin: 0px; border: 1px solid #006400" tabindex="-1">
         <div class="crd hovercard">
           <div class="crdheader">
-              <!-- <p-fileUpload> -->
-            <img alt="" src="../../assets/layout/images/dashboard/profileBackground-bg.jpg" url="./upload.php" accept="image/*" maxFileSize="1000000">
-          <!-- </p-fileUpload> -->
+            <!-- <p-fileUpload> -->
+            <img alt="" src="../../assets/layout/images/dashboard/profileBackground-bg.jpg" url="./upload.php"
+              accept="image/*" maxFileSize="1000000">
+            <!-- </p-fileUpload> -->
           </div>
           <div class="avatar">
             <img alt="" src="../../assets/layout/images/dashboard/govt_emblem.png">
@@ -57,8 +59,10 @@
             <div class="desc">{{regionName}}</div>
             <div class="desc">{{godownName}}</div>
             <div *ngIf="roleId=='3'" class="title">
-
               <a href="Godown Profile" style="font-size: 14px">Godown Profile</a>
+            </div>
+            <div *ngIf="roleId=='3'" class="title">
+              <a href="GodownEmployeeDetails" style="font-size: 14px">Employee Details</a>
             </div>
             <br>
 
@@ -84,7 +88,7 @@
           <i style="float: right; color: aliceblue" class="fas fa-times-circle"></i>
         </div>
         <div class="modal-content">
-            <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
+          <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
           <div class="modal-body">
             <div class="col-md-12">
               <div class="panel panel-default">
@@ -98,7 +102,8 @@
                             <div for="Username" class="icon2">
                               <!-- <input class="form-control input-lg" type="name" placeholder="Username" name="Username" [ngModel]="onForgetPswd()" autocomplete="off"> -->
                               <input type="text" class="form-control input-lg" formControlName="user" id="userName"
-                                [(ngModel)]="userName" readonly="true" placeholder="Username" filter="true" filterMatchMode="startsWith" tabindex="0" required>
+                                [(ngModel)]="userName" readonly="true" placeholder="Username" filter="true"
+                                filterMatchMode="startsWith" tabindex="0" required>
                             </div>
                             <div for="OldPassword" class="icon2">
                               <!-- <input class="form-control input-lg" type="password" placeholder="Old Password" name="Oldpassword" minlength="6" pInputText autocomplete="off"> -->

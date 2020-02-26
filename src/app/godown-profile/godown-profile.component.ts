@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -9,6 +9,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from '../constants/Messages';
+import { Dropdown } from 'primeng/primeng';
 
 @Component({
   selector: 'app-godown-profile',
@@ -26,6 +27,8 @@ export class GodownProfileComponent implements OnInit {
   gCode: any;
   Gname: any;
   designation: any = [];
+  designationOptions: SelectItem[];
+  employeeOptions: SelectItem[];
   address1: any = {};
   address2: {};
   address3: any[];
@@ -36,8 +39,13 @@ export class GodownProfileComponent implements OnInit {
   canShowMenu: boolean;
   formUser: any = [];
   loading: boolean = false;
+  @ViewChild('designation', { static: false }) designationPanel: Dropdown;
+  @ViewChild('employee', { static: false }) employeePanel: Dropdown;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService, private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService, private restAPIService: RestAPIService) { }
+
+  constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService,
+    private tableConstants: TableConstants, private messageService: MessageService, private roleBasedService: RoleBasedService,
+    private restAPIService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -62,56 +70,55 @@ export class GodownProfileComponent implements OnInit {
       if (value !== undefined) {
         this.godownProfileCols = this.tableConstants.godownProfile;
         this.godownProfileData = value;
+        let sno = 0;
+        this.godownProfileData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
       }
     });
-
   }
 
-  onClear() {
-    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
+  onSelect(item, type) {
+    let designationSelection = [];
+    let employeeSelection = [];
+    switch (item) {
+      case 'emp':
+        if (type === 'tab') {
+          this.employeePanel.overlayVisible = true;
+        }
+        const params = {
+          'GCode': this.gCode,
+          'Type': 1
+        };
+        this.restAPIService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(s => {
+              employeeSelection.push({ 'label': s.EmpName, 'value': s.Empno });
+            });
+          }
+          this.employeeOptions = employeeSelection;
+          this.employeeOptions.unshift({ label: '-select-', value: null });
+        });
+        break;
+      case 'd':
+        if (type === 'tab') {
+          this.designationPanel.overlayVisible = true;
+        }
+        this.restAPIService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {
+          if (res !== undefined && res !== null && res.length !== 0) {
+            res.forEach(s => {
+              designationSelection.push({ 'label': s.DESGN, 'value': s.DESGNCOD });
+            });
+          }
+          this.designationOptions = designationSelection;
+          this.designationOptions.unshift({ label: '-select-', value: null });
+        });
+        break;
+    }
   }
 
-  //   onSubmit(formUser) {
-  //     // console.log('form values ', form);
-  //     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
-  //     const params = {
-  //       'RowId': this.roleId,
-  //       'GodownCode': this.gCode,
-  //       'Gname': formUser.Gname,
-  //       'desig': formUser.designation,
-  //       'add1': formUser.address1,
-  //       'add2': formUser.address2,
-  //       'add3': formUser.address3,
-  //       'telno': formUser.telno,
-  //       'mobno': formUser.phone,
-  //       'faxno': formUser.fax,
-  //     };
-  //     this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
-  //       if (res) {
 
-  //         this.messageService.add({ key: 't-success', severity: 'success', summary: 'Success Message', detail: 'Saved Successfully!' });
-  //         const params = new HttpParams().append('GCode', this.gCode);
-  //         this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
-  //           if (value !== undefined) {
-  //             this.godownProfileCols = this.tableConstants.godownProfile;
-  //             this.godownProfileData = value;
-  //           }
-  //         });
-  //       } else {
-  //         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
-  //       }
-  //     }, (err: HttpErrorResponse) => {
-  //       if (err.status === 0) {
-  //         this.messageService.add({ key: 't-err', severity: 'error', summary: 'Error Message', detail: 'Please try again!' });
-  //       }
-  //     })
-  //     this.onClear();
-  //   }
-  // }
-
-  onView() {
-
-  }
 
   onSubmit(formUser) {
     // console.log('form values ', form);
@@ -131,7 +138,10 @@ export class GodownProfileComponent implements OnInit {
     this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
       if (res) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
         const params = new HttpParams().append('GCode', this.gCode);
         this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
           if (value !== undefined) {
@@ -141,14 +151,24 @@ export class GodownProfileComponent implements OnInit {
         });
       } else {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
     this.onClear();
+  }
+
+  onClear() {
+    this.Gname = this.designation = this.address1 = this.address2 = this.address3 = this.telno = this.phone = this.fax = [];
   }
 }
