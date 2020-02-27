@@ -51,12 +51,15 @@ export class AuditInceptionComponent implements OnInit {
   designationSelection: any = [];
   inceptionTeamSelection: any = [];
   typeSelection: any = [];
+  InceptionItemID: any;
+  InceptionID: any;
   @ViewChild('inception', { static: false }) inceptionPanel: Dropdown;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
   @ViewChild('curYear', { static: false }) curYearPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('stackNo', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
+  
 
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
@@ -202,6 +205,8 @@ export class AuditInceptionComponent implements OnInit {
 
   onEnter() {
     this.inceptionData.push({
+      InceptionItemID: (this.InceptionItemID !== null && this.InceptionItemID !== undefined) ?
+      this.InceptionItemID : 0,
       Commodity: (this.ITCode.label !== undefined && this.ITCode.label !== null) ?
         this.ITCode.label : this.ITCode,
       ITCode: (this.ITCode.value !== undefined && this.ITCode.value !== null) ?
@@ -261,6 +266,8 @@ export class AuditInceptionComponent implements OnInit {
     this.blockScreen = true;
     const params = {
       'InceptionData': this.inceptionData,
+      'InceptionID': (this.InceptionID !== null && this.InceptionID !== undefined) ?
+      this.InceptionID : 0,
       'Remarks': this.Remarks.trim(),
       'GCode': this.GCode,
       'RCode': this.RCode,
@@ -306,7 +313,6 @@ export class AuditInceptionComponent implements OnInit {
 
   onClear(type) {
     if (type === '1') {
-      this.messageService.clear();
       this.totalRecords = 0;
       this.IDate = this.maxDate;
       this.Name = null;
@@ -330,7 +336,6 @@ export class AuditInceptionComponent implements OnInit {
       this.form.form.markAsUntouched();
       this.form.form.markAsPristine();
     } else {
-      this.messageService.clear();
       this.IQuantity = null; this.ITCode = null;
       this.CurrYear = null;
       this.TStockNo = null; this.stackNoOptions = [];
