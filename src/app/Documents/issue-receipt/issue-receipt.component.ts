@@ -552,7 +552,8 @@ export class IssueReceiptComponent implements OnInit {
 
   onStackNoChange(event) {
     this.messageService.clear();
-    this.stackCompartment = null;
+    if (this.TStockNo !== undefined && this.TStockNo !== null) {
+      this.stackCompartment = null;
     const hasValue = (event.value !== undefined && event.value !== null) ? event.value : event;
     if (hasValue !== undefined && hasValue !== null) {
       const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
@@ -562,8 +563,7 @@ export class IssueReceiptComponent implements OnInit {
       const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
         this.Scheme.value : this.schemeCode;
       this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
-      this.stackYear = (this.stackYear !== undefined && this.stackYear !== null &&
-        hasValue.stack_yr !== null && hasValue.stack_yr !== undefined) ? this.stackYear : this.TStockNo.stack_yr;
+      this.stackYear = (hasValue.stack_yr !== null && hasValue.stack_yr !== undefined) ? hasValue.stack_yr : this.TStockNo.stack_yr;
       let index;
       let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value : this.TStockNo;
@@ -623,6 +623,10 @@ export class IssueReceiptComponent implements OnInit {
         }
       }
     });
+  } else {
+    this.godownNo = null; this.stackYear = null; this.locationNo = null;
+    this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+  }
   }
 
   clearItemDetails() {
