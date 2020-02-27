@@ -14,7 +14,7 @@
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keyup.shift.tab)="onSelect('reg', 'tab')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" 
+          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
           (keyup.tab)="onSelect('reg', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -61,9 +61,9 @@
         <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
         <p-dropdown #accountingYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions"
           [(ngModel)]="AccountingYear" [showClear]="true" (onClick)="onSelect('y','click')"
-          (keyup.shift.tab)="onSelect('y','tab')" (ngModelChange)="onResetTable('y')" 
-          (keyup.tab)="onSelect('y','tab')" placeholder="-select-"
-          filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label">
+          (keyup.shift.tab)="onSelect('y','tab')" (ngModelChange)="onResetTable('y')" (keyup.tab)="onSelect('y','tab')"
+          placeholder="-select-" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true"
+          optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -98,14 +98,15 @@
               <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
                 <button pButton type="button" icon="fa fa-bars" label="Party Name" [disabled]="disableOkButton"
                   (click)="onCompany()"></button>
+                <!-- <a class="butt fancy-butt" (click)="onCompany()"><i class="material-icons"></i>Party Name</a> -->
               </div>
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="Party">Company Name</label>
                 <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
                   [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true" [itemSize]="31"
                   (keyup.shift.tab)="onSelect('company', 'tab')" (ngModelChange)="onResetTable('company')"
-                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" 
-                  (keyup.tab)="onSelect('company', 'tab')"filterMatchMode="startsWith" resetFilterOnHide="true">
+                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop"
+                  (keyup.tab)="onSelect('company', 'tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -151,7 +152,7 @@
                 <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
                   [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
                   (keyup.shift.tab)="onSelect('commodity','tab')" [virtualScroll]="true" [itemSize]="31"
-                  [showClear]="true" optionLabel="label" filter="true" [disabled]="onPut" 
+                  [showClear]="true" optionLabel="label" filter="true" [disabled]="onPut"
                   (keyup.tab)="onSelect('commodity','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -161,9 +162,9 @@
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
                 <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
-                  [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" 
-                  (keyup.shift.tab)="onSelect('tax','tab')" (keyup.tab)="onSelect('tax','tab')"
-                  [showClear]="true" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
+                  [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keyup.shift.tab)="onSelect('tax','tab')"
+                  (keyup.tab)="onSelect('tax','tab')" [showClear]="true" filter="true" filterMatchMode="startsWith"
+                  resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -317,9 +318,9 @@
     <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
   </div>
   <div *ngIf="SalesTaxData" class="ui-g-12 ui-fluid">
-    <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-      selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true" [loading]="loading"
-      exportFilename="SALES_TAX_REPORT">
+    <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+      [paginator]="true" [loading]="loading" exportFilename="SALES_TAX_REPORT">
       <ng-template pTemplate="header" let-columns>
         <tr style="text-align: center;">
           <th *ngFor="let col of columns">

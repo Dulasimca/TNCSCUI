@@ -10,7 +10,7 @@
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
    <div class="ui-g">
       <div class="ui-g-12 dashboard" style="text-align: center">
-          <p-fieldset legend="GODOWN PROFILE DATA">
+          <p-fieldset legend="GODOWN PROFILE DATA"><button>ADD</button>
             <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
               [loading]="loading">
               <ng-template pTemplate="header" let-columns>
@@ -33,11 +33,29 @@
     <div class="install-main">
       <div>
         <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
-          <div class="ui-float-label" style="margin-bottom: 20px">
+
+          <!-- <div class="ui-float-label" style="margin-bottom: 20px">
             <input class="icon2" type="Gname" size="30" pInputText [(ngModel)]="formUser.Gname" name="Gname"
               #name="ngModel" pTooltip="Enter your Name" autocomplete="off" tabindex="1" required>
             <label for="Gname">InchargeName</label>
+          </div> -->
+
+          <div class="ui-g-12 ui-md-12">
+            <!-- <div class="ui-g dashboard"> -->
+              <label class="ui-g label-fontsize-large" for="Gname">InchargeName</label>
+              <p-dropdown #name class="ui-g-12 ui-fluid dashboard" [options]="employeeOptions"
+                [(ngModel)]="formUser.Gname" (onClick)="onSelect('emp', 'click')"
+                (keyup.shift.tab)="onSelect('emp', 'tab')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="startsWith" optionLabel="label" (keyup.tab)="onSelect('emp', 'tab')"
+                [showClear]="true" name="Gname" required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            <!-- </div> -->
           </div>
+          <br>
+
           <div class="ui-float-label" style="margin-bottom: 20px">
             <input class="icon2" type="designation" size="30" pInputText [(ngModel)]="formUser.designation" name="designation"
               #designation="ngModel" pTooltip="Enter your Designation" autocomplete="off" tabindex="2" required>

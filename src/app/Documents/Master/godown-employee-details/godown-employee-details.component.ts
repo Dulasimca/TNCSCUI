@@ -22,6 +22,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   employeeUser: any;
   EmployeeData: any;
   EmployeeCols: any;
+  GodownEmployeeData: any;
+  GodownEmployeeCols: any;
   canShowMenu: boolean;
   disableOkButton: boolean = true;
   selectedRow: any;
@@ -45,10 +47,15 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   DesignationCode: any;
   Jrtype: Boolean;
   Jrdate: Date;
+  Rdate: Date;
   Refno: any;
   Refdate: Date;
-  Join: any;
-  Relieve: any;
+  releiv: any;
+  Ref: any;
+  join: any;
+  Join: boolean = true;
+  Relieve: boolean = false;
+  Regular: any;
   userdata: any;
   maxDate: Date;
   loggedInRCode: any;
@@ -58,10 +65,13 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   OnEdit: boolean = false;
   GName: any;
   RName: any;
+  RowID: any;
+  ECode: any;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
+    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -83,6 +93,24 @@ export class GodownEmployeeDetailsComponent implements OnInit {
       'JRDate': new FormControl(''),
       'Refno': new FormControl(''),
       'RefDate': new FormControl('')
+    });
+    const params = {
+      'GCode': this.GCode,
+      'Type': 1
+    };
+    this.restApiService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
+      if (res !== undefined && res !== null) {
+        this.GodownEmployeeData = res;
+        this.GodownEmployeeCols = this.tableConstant.GodownEmployeeCols;
+        let sno = 0;
+        this.GodownEmployeeData.forEach(s => {
+          s.RefDate = this.datepipe.transform(s.RefDate, 'MM/dd/yyyy');
+          s.JRDate = this.datepipe.transform(s.JRDate, 'MM/dd/yyyy');
+          s.RDate = this.datepipe.transform(s.RDate, 'MM/dd/yyyy');
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
     });
   }
 
@@ -131,55 +159,32 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     }
   }
 
-  onView() {
-    this.loading = true;
+  onLoad() {
     const params = {
-      'Empno': this.Empno,
-      'RCode': this.RCode,
-      'roleId': this.roleId
+      'GCode': this.GCode,
+      'Type': 1
     };
     this.restApiService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.EmployeeData = res;
-        this.OnEdit = true;
-        this.designationOptions = [{ label: res[0].DesignationName, value: res[0].DesignationCode }];
-        this.Empno = res[0].Empno;
-        this.Empname = res[0].Empname;
-        this.Designation = res[0].DesignationName;
-        this.DesignationCode = res[0].DesignationCode;
-        this.Refno = res[0].RefNo;
-        res[0].RefDate = this.datepipe.transform(res[0].RefDate, 'MM/dd/yyyy');
-        res[0].JRDate = this.datepipe.transform(res[0].JRDate, 'MM/dd/yyyy');
-        this.Refdate = res[0].RefDate;
-        this.Jrdate = res[0].JRDate;
-        this.Jrtype = res[0].JRTYPE;
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+      if (res !== undefined && res !== null) {
+        this.GodownEmployeeData = res;
+        this.GodownEmployeeCols = this.tableConstant.GodownEmployeeCols;
+        let sno = 0;
+        this.GodownEmployeeData.forEach(s => {
+          s.RefDate = this.datepipe.transform(s.RefDate, 'MM/dd/yyyy');
+          s.JRDate = this.datepipe.transform(s.JRDate, 'MM/dd/yyyy');
+          s.RDate = this.datepipe.transform(s.RDate, 'MM/dd/yyyy');
+          sno += 1;
+          s.SlNo = sno;
         });
       }
     });
   }
 
-
-  onAdd() {
-    // this.OnEdit = true;
+  onView() {
     const params = {
       'Empno': this.Empno,
-      'RCode': 'All',
-      'roleId': '1'
+      'Regular': this.Regular,
+      'roleId': 3
     };
     this.restApiService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -189,7 +194,9 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         let sno = 0;
         this.EmployeeData.forEach(s => {
           s.Empno = this.Empno;
-          s.DOB = this.datepipe.transform(s.DOB, 'dd/MM/yyyy');
+          s.DOB = this.datepipe.transform(s.DOB, 'MM/dd/yyyy');
+          s.RefDate = this.datepipe.transform(s.RefDate, 'MM/dd/yyyy');
+          s.JRDate = this.datepipe.transform(s.JRDate, 'MM/dd/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -215,6 +222,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
 
   onClear() {
     this.Empname = this.Empno = this.Jrdate = this.Refdate = this.Refno = this.Jrtype = undefined;
+    this.Regular = this.Rdate = this.releiv = this.ECode = this.join = this.Ref = this.Designation = undefined;
     this.designationOptions = undefined;
   }
 
@@ -227,15 +235,38 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.OnEdit = true;
     this.viewPane = false;
     this.isViewed = true;
-    this.designationOptions = [{ label: this.selectedRow.DesignationName, value: this.selectedRow.DesignationCode }];
     this.Empno = this.selectedRow.Empno;
     this.Empname = this.selectedRow.Empname;
+    this.designationOptions = [{ label: this.selectedRow.DesignationName, value: this.selectedRow.DesignationCode }];
     this.Designation = this.selectedRow.DesignationName;
     this.DesignationCode = this.selectedRow.DesignationCode;
-    // this.Refno = this.selectedRow.Refno;
-    // this.Refdate = this.selectedRow.Refdate;
-    // this.Jrdate = this.selectedRow.Jrdate;
-    // this.Jrtype = this.selectedRow.Jrtype;
+  }
+
+  onRow(event, selectedRow) {
+    // var Ref: any = [];
+    // var join: any = [];
+    // var releiv: any = [];
+    this.OnEdit = true;
+    this.viewPane = false;
+    this.isViewed = true;
+    this.Empno = selectedRow.Empno;
+    this.Empname = selectedRow.EmpName;
+    this.Refno = selectedRow.RefNo;
+    this.Refdate = selectedRow.RefDate;
+    this.Jrdate = selectedRow.JRDate;
+    this.Rdate = selectedRow.RDate;
+    // this.Ref = this.datepipe.transform(selectedRow.RefDate, 'MM/dd/yyyy');
+    // this.Refdate = this.Ref;
+    // this.join = this.datepipe.transform(selectedRow.RefDate, 'MM/dd/yyyy');
+    // this.Jrdate = this.join;
+    // this.releiv = this.datepipe.transform(selectedRow.RefDate, 'MM/dd/yyyy');
+    // this.Rdate = this.releiv;
+    this.Jrtype = selectedRow.JRTYPE;
+    this.designationOptions = [{ label: selectedRow.DesignationName, value: selectedRow.Designation }];
+    this.Designation = selectedRow.DesignationName;
+    this.DesignationCode = selectedRow.Designation;
+    this.RowID = selectedRow.RowID;
+    this.ECode = selectedRow.Empno;
   }
 
   onDateSelect() {
@@ -254,30 +285,43 @@ export class GodownEmployeeDetailsComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID,
-        life:5000, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_INVALID,
+          life: 5000, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
     }
   }
 
+  onRelieve() {
+    if (this.Jrtype === true) {
+      this.Relieve = false;
+    } else {
+      this.Join = false;
+    }
+  }
+
   onSubmit(formUser) {
     const params = {
+      'RowID': this.RowID || '',
       'GCode': this.GCode,
       'RCode': this.RCode,
       'Roleid': this.roleId,
-      'Empno': this.Empno,
+      'Empno': (this.ECode === undefined && this.Regular === 'L') ? 'L' + this.Empno : this.Empno,
       'Empname': this.Empname,
-      'Designation': this.DesignationCode,
+      'Designation': this.Designation.value || this.DesignationCode,
       'Jrtype': this.Jrtype,
-      'Refdate': this.Refdate,
-      'Jrdate': this.Jrdate,
+      'Rdate': this.datepipe.transform(this.Rdate, 'MM/dd/yyyy'),
+      'Refdate': this.datepipe.transform(this.Refdate, 'MM/dd/yyyy'),
+      'Jrdate': this.datepipe.transform(this.Jrdate, 'MM/dd/yyyy'),
       'Refno': this.Refno,
       'ExportFlag': '1'
     };
     this.restApiService.post(PathConstants.EMPLOYEE_MASTER_POST, params).subscribe(value => {
       if (value) {
+        this.onLoad();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
