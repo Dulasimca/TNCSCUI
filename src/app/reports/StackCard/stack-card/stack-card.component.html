@@ -65,7 +65,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Select Stack</label>
         <p-dropdown #stockNo class="ui-g-12 ui-fluid dashboard" [options]="stackOptions" [(ngModel)]="TStockNo"
          [showClear]="true" (onClick)="onSelect('st_no', 'click')" (keydown.enter)="onSelect('st_no', 'enter')"
-         (ngModelChange)="onResetTable('st_no')" placeholder="-select-" filterMatchMode="startsWith" 
+         (ngModelChange)="onResetTable('st_no')" placeholder="-select-" 
           filter="true" optionLabel="label" resetFilterOnHide="true">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
