@@ -39,6 +39,7 @@ export class GodownProfileComponent implements OnInit {
   canShowMenu: boolean;
   formUser: any = [];
   loading: boolean = false;
+  OnEdit: boolean = false;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
   @ViewChild('employee', { static: false }) employeePanel: Dropdown;
 
@@ -166,6 +167,10 @@ export class GodownProfileComponent implements OnInit {
       }
     });
     this.onClear();
+  }
+
+  onAdd() {
+    this.OnEdit = true;
   }
 
   onClear() {

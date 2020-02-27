@@ -8,40 +8,153 @@
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
-   <div class="ui-g">
+    <div class="ui-g">
       <div class="ui-g-12 dashboard" style="text-align: center">
-          <p-fieldset legend="GODOWN PROFILE DATA"><button>ADD</button>
-            <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
-              [loading]="loading">
-              <ng-template pTemplate="header" let-columns>
-                <tr style="text-align: center;">
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
-                  <td *ngFor="let col of columns">
-                      {{rowData[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </p-fieldset>
+        <p-fieldset legend="GODOWN PROFILE DATA">
+          <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 21px"> -->
+          <button pButton type="button" icon="pi pi-plus" label=Add (click)="onAdd()"></button>
+          <!-- </div> -->
+          <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
+            [loading]="loading">
+            <ng-template pTemplate="header" let-columns>
+              <tr style="text-align: center;">
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-fieldset>
+      </div>
+
+      <div *ngIf="OnEdit" class="ui-g-12" style="border: 1px solid #18c5a9; margin: 20px 300px 20px 300px;">
+        <div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-5"></div>
+            <div class="ui-g-12 ui-md-3">Godown Profile Entry</div>
+            <div class="ui-g-12 ui-md-5"></div>
+          </div>
+          <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
+            <div class="ui-g-12">
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-g dashboard">
+                  <label class="ui-g label-fontsize-large" for="Gname">InchargeName</label>
+                  <p-dropdown #name class="ui-g-12 ui-fluid dashboard" [options]="employeeOptions"
+                    [(ngModel)]="formUser.Gname" (onClick)="onSelect('emp', 'click')"
+                    (keyup.shift.tab)="onSelect('emp', 'tab')" filter="true" resetFilterOnHide="true"
+                    filterMatchMode="startsWith" optionLabel="label" (keyup.tab)="onSelect('emp', 'tab')"
+                    [showClear]="true" name="Gname" required>
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-g dashboard">
+                  <label class="ui-g label-fontsize-large" for="designation">Designation</label>
+                  <p-dropdown #designation class="ui-g-12 ui-fluid dashboard" [options]="designationOptions"
+                    [(ngModel)]="formUser.designation" (onClick)="onSelect('d', 'click')"
+                    (keyup.shift.tab)="onSelect('d', 'tab')" filter="true" resetFilterOnHide="true"
+                    filterMatchMode="startsWith" optionLabel="label" (keyup.tab)="onSelect('d', 'tab')"
+                    [showClear]="true" name="designation" pTooltip="Enter your Designation" required>
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+            </div>
+            <div class="ui-g-12">
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="address1" size="30" pInputText [(ngModel)]="formUser.address1"
+                    name="address1" #address1="ngModel" pTooltip="Enter your Address1" autocomplete="off" tabindex="3"
+                    required>
+                  <label for="address1">Address</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="address2" size="30" pInputText [(ngModel)]="formUser.address2"
+                    name="address2" #address2="ngModel" pTooltip="Enter District" autocomplete="off" tabindex="4"
+                    required>
+                  <label for="address2">District Address</label>
+                </div>
+              </div>
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+            </div>
+            <div class="ui-g-12">
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="address3" size="30" pInputText [(ngModel)]="formUser.address3"
+                    name="address3" #address3="ngModel" pTooltip="Enter City" autocomplete="off" tabindex="5" required>
+                  <label for="address3">Office Mail ID</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.telno" name="telno"
+                    #telno="ngModel" pTooltip="Enter Telephone Number" autocomplete="off" maxlength="11" tabindex="6"
+                    required>
+                  <label for="telno">Godown Telephone number</label>
+                </div>
+              </div>
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+            </div>
+            <div class="ui-g-12">
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="phone" size="30" pInputText [(ngModel)]="formUser.phone" name="phone"
+                    #phone="ngModel" pTooltip="Enter Mobile Number" autocomplete="off" maxlength="21" tabindex="7"
+                    required>
+                  <label for="phone">Incharge Mobile number</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-float-label">
+                  <input class="icon2" type="fax" size="30" pInputText [(ngModel)]="formUser.fax" name="fax"
+                    #fax="ngModel" pTooltip="Enter Fax Number" autocomplete="off" tabindex="8" required>
+                  <label for="fax">Fax No</label>
+                </div>
+              </div>
+              <!-- <div class="ui-g-12 ui-md-3"></div> -->
+            </div>
+            <div class="ui-g-12 ui-md-5"></div>
+            <div class="ui-g-12 ui-md-2" style="padding-left: 40px;">
+              <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
+                label=Submit tabindex="9" [disabled]="!templateForm.form.valid"></button>
+            </div>
+            <div class="ui-g-12 ui-md-5"></div>
+          </form>
         </div>
-    <div class="install-main">
+      </div>
+    </div>
+
+    <!-- <div class="install-main">
       <div>
         <form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm.value)">
 
-          <!-- <div class="ui-float-label" style="margin-bottom: 20px">
+          <div class="ui-float-label" style="margin-bottom: 20px">
             <input class="icon2" type="Gname" size="30" pInputText [(ngModel)]="formUser.Gname" name="Gname"
               #name="ngModel" pTooltip="Enter your Name" autocomplete="off" tabindex="1" required>
             <label for="Gname">InchargeName</label>
-          </div> -->
+          </div>
 
           <div class="ui-g-12 ui-md-12">
-            <!-- <div class="ui-g dashboard"> -->
+            <div class="ui-g dashboard">
               <label class="ui-g label-fontsize-large" for="Gname">InchargeName</label>
               <p-dropdown #name class="ui-g-12 ui-fluid dashboard" [options]="employeeOptions"
                 [(ngModel)]="formUser.Gname" (onClick)="onSelect('emp', 'click')"
@@ -52,7 +165,7 @@
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
               </p-dropdown>
-            <!-- </div> -->
+            </div>
           </div>
           <br>
 
@@ -97,7 +210,8 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
+
     <!-- <div class="ui-g-12 dashboard" style="text-align: center">
       <p-fieldset legend="GODOWN PROFILE DATA">
         <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
@@ -119,6 +233,5 @@
         </p-table>
       </p-fieldset>
     </div> -->
-  </div>
   </p-panel>
 </div>
