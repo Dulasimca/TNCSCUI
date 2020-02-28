@@ -795,7 +795,8 @@ export class IssueReceiptComponent implements OnInit {
           index = this.itemData.length;
           this.itemData.splice(index, 0, item);
           this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-          this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+          this.GKgs = null; this.NKgs = null; this.godownNo = null; 
+          this.locationNo = null; this.stackYear = null;
           this.TKgs = null; this.WTCode = null; this.Moisture = null;
           this.Scheme = null; this.selectedIndex = null; this.QuantityLimit = null;
           this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];
@@ -818,7 +819,8 @@ export class IssueReceiptComponent implements OnInit {
         index = this.itemData.length;
         this.itemData.splice(index, 0, item);
         this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-        this.GKgs = null; this.NKgs = null; this.godownNo = null; this.locationNo = null;
+        this.GKgs = null; this.NKgs = null; this.godownNo = null;
+        this.locationNo = null; this.stackYear;
         this.TKgs = null; this.WTCode = null; this.Moisture = null;
         this.Scheme = null; this.selectedIndex = null; this.QuantityLimit = null;
         this.schemeOptions = []; this.itemDescOptions = []; this.stackOptions = [];

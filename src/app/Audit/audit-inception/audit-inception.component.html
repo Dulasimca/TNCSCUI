@@ -18,6 +18,22 @@
                     </div>
                     <div class="ui-g-12 ui-md-12">
                         <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: -20px">
+                            <label for="Region" class="label-fontsize-large">Region</label>
+                            <p-dropdown #region name="Region" [options]="regionOptions" [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')"
+                            (keyup.shift.tab)="onSelect('gd', 'tab')" (keyup.tab)="onSelect('gd', 'tab')"
+                             filter="true" resetFilterOnHide="true" [showClear]="true" (ngModelChange)="onReset('reg')"
+                             filterMatchMode="startsWith">
+                            </p-dropdown>
+                          </div>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                          <label for="Godown" class="label-fontsize-large">Godown</label>
+                          <p-dropdown #godown name="Godown" [options]="godownOptions" [(ngModel)]="GCode"
+                          (onClick)="onSelect('gd', 'click')" filter="true"
+                          (keyup.shift.tab)="onSelect('gd', 'tab')" (keyup.tab)="onSelect('gd', 'tab')"
+                            resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith">
+                          </p-dropdown>
+                        </div>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                             <label for="InceptionTeam" class="label-fontsize-large">Inception Team</label>
                             <p-dropdown #inception name="InceptionTeam" [options]="inceptionTeamOptions"
                                 [(ngModel)]="ITeam" (onClick)="onSelect('it', 'click')" appendTo="body"
@@ -25,7 +41,7 @@
                                 optionLabel="label" required>
                             </p-dropdown>
                         </div>
-                        <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                                 <label for="PName" class="label-fontsize-large">Name</label>
                                 <input name="PName" type="text" size="50" pInputText autocomplete="off" minlength="1"
                                     maxlength="50" [(ngModel)]="Name">

@@ -30,6 +30,8 @@ export class AuditInceptionComponent implements OnInit {
   loading: boolean;
   IQuantity: any;
   typeOptions: SelectItem[];
+  regionOptions: SelectItem[];
+  godownOptions: SelectItem[];
   Report: any;
   GCode: string;
   RCode: string;
@@ -53,15 +55,19 @@ export class AuditInceptionComponent implements OnInit {
   typeSelection: any = [];
   InceptionItemID: any;
   InceptionID: any;
+  roleId: any;
+  data: any;
+  regions: any;
+  loggedInRCode: string;
   @ViewChild('inception', { static: false }) inceptionPanel: Dropdown;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
   @ViewChild('curYear', { static: false }) curYearPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('stackNo', { static: false }) stackNoPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-  
-
-
+ 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
     private datepipe: DatePipe, private messageService: MessageService) { }
@@ -71,9 +77,11 @@ export class AuditInceptionComponent implements OnInit {
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.IDate = this.maxDate;
-    this.GCode = this.authService.getUserAccessible().gCode;
-    this.RCode = this.authService.getUserAccessible().rCode;
     this.inceptionCols = this.tableConstants.InceptionCols;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.loadMasters();
   }
 
@@ -123,7 +131,49 @@ export class AuditInceptionComponent implements OnInit {
   }
 
   onSelect(id, type) {
+    let regionSelection = [];
+    let godownSelection = [];
     switch (id) {
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'tab') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: '-select-', value: null, disabled: true });
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: '-select-', value: null, disabled: true });
+          }
+        }
+        break;
+      case 'gd':
+        if (type === 'tab') { this.godownPanel.overlayVisible = true; }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          this.godownOptions.unshift({ label: '-select-', value: null, disabled: true });
+        } else {
+          this.godownOptions = godownSelection;
+        }
+        break;
       case 'it':
         if (type === 'tab') {
           this.inceptionPanel.overlayVisible = true;
@@ -333,6 +383,8 @@ export class AuditInceptionComponent implements OnInit {
       this.form.controls.Quantity.reset();
       this.form.controls.Type.reset();
       this.form.controls.RemarksText.reset();
+      this.form.controls.Godown.reset();
+      this.form.controls.Region.reset();
       this.form.form.markAsUntouched();
       this.form.form.markAsPristine();
     } else {
@@ -350,6 +402,8 @@ export class AuditInceptionComponent implements OnInit {
       this.form.controls.Type.reset();
     }
   }
+
+  onReset(type) { if(type === 'reg') { this.GCode = null; }}
 
   onClose() {
     this.messageService.clear('t-err');
