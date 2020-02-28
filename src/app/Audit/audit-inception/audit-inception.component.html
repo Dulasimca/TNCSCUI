@@ -18,6 +18,22 @@
                     </div>
                     <div class="ui-g-12 ui-md-12">
                         <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: -20px">
+                            <label for="Region" class="label-fontsize-large">Region</label>
+                            <p-dropdown #region name="Region" [options]="regionOptions" [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')"
+                            (keyup.shift.tab)="onSelect('gd', 'tab')" (keyup.tab)="onSelect('gd', 'tab')"
+                             filter="true" resetFilterOnHide="true" [showClear]="true" (ngModelChange)="onReset('reg')"
+                             filterMatchMode="startsWith" required>
+                            </p-dropdown>
+                          </div>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+                          <label for="Godown" class="label-fontsize-large">Godown</label>
+                          <p-dropdown #godown name="Godown" [options]="godownOptions" [(ngModel)]="GCode"
+                          (onClick)="onSelect('gd', 'click')" filter="true"
+                          (keyup.shift.tab)="onSelect('gd', 'tab')" (keyup.tab)="onSelect('gd', 'tab')"
+                            resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith" required>
+                          </p-dropdown>
+                        </div>
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                             <label for="InceptionTeam" class="label-fontsize-large">Inception Team</label>
                             <p-dropdown #inception name="InceptionTeam" [options]="inceptionTeamOptions"
                                 [(ngModel)]="ITeam" (onClick)="onSelect('it', 'click')" appendTo="body"
@@ -25,7 +41,7 @@
                                 optionLabel="label" required>
                             </p-dropdown>
                         </div>
-                        <div class="ui-g-6 ui-md-3" style="margin-top: -20px">
+                        <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
                                 <label for="PName" class="label-fontsize-large">Name</label>
                                 <input name="PName" type="text" size="50" pInputText autocomplete="off" minlength="1"
                                     maxlength="50" [(ngModel)]="Name">
@@ -137,7 +153,11 @@
                     </div>
                 </div>
                 <div class="ui-g-12 ui-md-12 no-pad-top" style="margin-top: -10px;">
-                    <div class="ui-g-10"></div>
+                    <div class="ui-g-9"></div>
+                    <div class="form-group ui-g-4 ui-md-1">
+                        <button pButton type="button" label=View (click)="onView()"
+                        [disabled]="(!RCode || !GCode)"></button>
+                    </div>
                     <div class="form-group ui-g-4 ui-md-1">
                         <button pButton type="button" label=Save (click)="onSave()"
                         [disabled]="(!f.valid)"></button>
@@ -150,3 +170,45 @@
         </div>
     </p-panel>
 </div>
+<p-dialog header="Inception Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="viewPane" [responsive]="true">
+  <div>
+    <div class="ui-g-6 ui-md-8 no-pad-top">
+      <label class="label-fontsize-large">Date</label>
+      <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate" [(ngModel)]="viewDate"
+        (ngModelChange)="onView()"></p-calendar>
+    </div>
+    <div class="ui-g-4 ui-md-1 dashboard">
+      <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)"
+        (click)="getInceptionDetails()"></button>
+    </div>
+    <div class="ui-g-4 ui-md-1 dashboard">
+      <button class="ui-md-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-fluid">
+    <p-table tabindex="-1" [columns]="inceptionDetailsCols" [value]="inceptionDetailsData" [rows]="10"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [(selection)]="selected" selectionMode="single"
+      [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>

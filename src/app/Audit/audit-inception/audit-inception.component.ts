@@ -30,6 +30,8 @@ export class AuditInceptionComponent implements OnInit {
   loading: boolean;
   IQuantity: any;
   typeOptions: SelectItem[];
+  regionOptions: SelectItem[];
+  godownOptions: SelectItem[];
   Report: any;
   GCode: string;
   RCode: string;
@@ -53,14 +55,25 @@ export class AuditInceptionComponent implements OnInit {
   typeSelection: any = [];
   InceptionItemID: any;
   InceptionID: any;
+  roleId: any;
+  data: any;
+  regions: any;
+  loggedInRCode: string;
+  inceptionDetailsData: any = [];
+  inceptionDetailsCols: any;
+  selected: any;
+  viewPane: boolean;
+  viewDate: Date = new Date();
   @ViewChild('inception', { static: false }) inceptionPanel: Dropdown;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
   @ViewChild('curYear', { static: false }) curYearPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('stackNo', { static: false }) stackNoPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-  
-
+  ITeamCode: any;
+  DesignationCode: any;
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
@@ -71,9 +84,11 @@ export class AuditInceptionComponent implements OnInit {
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.IDate = this.maxDate;
-    this.GCode = this.authService.getUserAccessible().gCode;
-    this.RCode = this.authService.getUserAccessible().rCode;
     this.inceptionCols = this.tableConstants.InceptionCols;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    this.data = this.roleBasedService.getInstance();
+    this.regions = this.roleBasedService.getRegions();
+    this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.loadMasters();
   }
 
@@ -123,7 +138,49 @@ export class AuditInceptionComponent implements OnInit {
   }
 
   onSelect(id, type) {
+    let regionSelection = [];
+    let godownSelection = [];
     switch (id) {
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
+        if (type === 'tab') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: '-select-', value: null, disabled: true });
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: '-select-', value: null, disabled: true });
+          }
+        }
+        break;
+      case 'gd':
+        if (type === 'tab') { this.godownPanel.overlayVisible = true; }
+        this.data = this.roleBasedService.instance;
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          this.godownOptions.unshift({ label: '-select-', value: null, disabled: true });
+        } else {
+          this.godownOptions = godownSelection;
+        }
+        break;
       case 'it':
         if (type === 'tab') {
           this.inceptionPanel.overlayVisible = true;
@@ -206,7 +263,7 @@ export class AuditInceptionComponent implements OnInit {
   onEnter() {
     this.inceptionData.push({
       InceptionItemID: (this.InceptionItemID !== null && this.InceptionItemID !== undefined) ?
-      this.InceptionItemID : 0,
+        this.InceptionItemID : 0,
       Commodity: (this.ITCode.label !== undefined && this.ITCode.label !== null) ?
         this.ITCode.label : this.ITCode,
       ITCode: (this.ITCode.value !== undefined && this.ITCode.value !== null) ?
@@ -215,12 +272,12 @@ export class AuditInceptionComponent implements OnInit {
         ? this.TStockNo.label : this.TStockNo,
       StackRowId: (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
         this.TStockNo.value : this.StackNoRowID,
-      Type: (this.Report.label !== null && this.Report.label !== undefined) ?
+      TypeName: (this.Report.label !== null && this.Report.label !== undefined) ?
         this.Report.label : this.Report,
       TypeCode: (this.Report.value !== null && this.Report.value !== undefined) ?
         this.Report.value : this.tyCode,
       Quantity: (this.IQuantity * 1).toFixed(3),
-      CurrYear: this.CurrYear
+      CurYear: this.CurrYear
     })
     if (this.inceptionData.length !== 0) {
       this.onClear('2')
@@ -235,16 +292,18 @@ export class AuditInceptionComponent implements OnInit {
   onSelectedRow(data, index, type) {
     if (type === '1') {
       if (data !== null && data !== undefined) {
+        this.InceptionItemID = (data.InceptionItemID !== null && data.InceptionItemID !== undefined)
+          ? data.InceptionItemID : 0;
         this.ITCode = data.Commodity;
         this.iTCode = data.ITCode;
         this.commodityOptions = [{ label: this.ITCode, value: this.iTCode }];
         this.TStockNo = data.StackNo;
         this.StackNoRowID = data.StackRowId;
         this.stackNoOptions = [{ label: this.TStockNo, value: this.StackNoRowID }];
-        this.Report = data.Type;
+        this.Report = data.TypeName;
         this.tyCode = data.TypeCode;
         this.typeOptions = [{ label: this.Report, value: this.tyCode }];
-        this.CurrYear = data.CurrYear;
+        this.CurrYear = data.CurYear;
         this.curYearOptions = [{ label: this.CurrYear, value: this.CurrYear }];
         this.IQuantity = data.Quantity;
         this.inceptionData.splice(index, 1);
@@ -267,13 +326,15 @@ export class AuditInceptionComponent implements OnInit {
     const params = {
       'InceptionData': this.inceptionData,
       'InceptionID': (this.InceptionID !== null && this.InceptionID !== undefined) ?
-      this.InceptionID : 0,
+        this.InceptionID : 0,
       'Remarks': this.Remarks.trim(),
       'GCode': this.GCode,
       'RCode': this.RCode,
-      'InceptionTeam': this.ITeam.value,
+      'InceptionTeam': (this.ITeam.value !== undefined && this.ITeam.value !== null) ?
+        this.ITeam.value : this.ITeamCode,
       'Name': this.Name.trim(),
-      'Designation': this.Designation.value,
+      'Designation': (this.Designation.value !== null && this.Designation.value !== undefined) ?
+        this.Designation.value : this.DesignationCode,
       'InceptionDate': this.datepipe.transform(this.IDate, 'MM/dd/yyyy'),
     }
     this.restApiService.post(PathConstants.INCEPTION_DETAILS_POST, params).subscribe(res => {
@@ -311,13 +372,83 @@ export class AuditInceptionComponent implements OnInit {
     });
   }
 
+  onView() {
+    this.viewPane = true;
+    this.selected = null;
+    this.messageService.clear();
+    this.inceptionDetailsCols = this.tableConstants.InceptionDetailsColumns;
+    const params = new HttpParams().set('IDate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode);
+    this.restApiService.getByParameters(PathConstants.INCEPTION_DETAILS_GET, params).subscribe((res: any) => {
+      if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
+        let sno = 1;
+        res.Table.forEach(data => {
+          data.SlNo = sno;
+          data.IDate = data.InceptionDate,
+          data.InceptionDate = this.datepipe.transform(data.InceptionDate, 'dd/MM/yyyy');
+          sno += 1;
+        });
+        this.inceptionDetailsData = res.Table;
+        this.inceptionData = res.Table1;
+        sno = 1;
+        this.inceptionData.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+        })
+      } else {
+        this.inceptionDetailsData = [];
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.inceptionDetailsData = [];
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
+  getInceptionDetails() {
+    this.blockScreen = true;
+    this.viewPane = false;
+    this.Remarks = this.selected.Remarks;
+    this.IQuantity = this.selected.Quantity;
+    this.ITeam = this.selected.InceptionName;
+    this.ITeamCode = this.selected.InceptionTeam;
+    this.inceptionTeamOptions = [{ label: this.ITeam, value: this.ITeamCode }];
+    this.Designation = this.selected.DesignationName;
+    this.DesignationCode = this.selected.Designation;
+    this.designationOptions = [{ label: this.Designation, value: this.DesignationCode }];
+    this.Name = this.selected.Name;
+    this.IDate = new Date(this.selected.IDate);
+   // setTimeout(() => {
+    // },500, this.blockScreen = false);
+  }
+
+
+  onRowSelect(event) {
+    this.selected = event.data;
+    this.InceptionID = event.data.InceptionID;
+    // this.onChange('cy');
+  }
+
   onClear(type) {
     if (type === '1') {
       this.totalRecords = 0;
       this.IDate = this.maxDate;
+      this.InceptionID = null;
+      this, this.InceptionItemID = null;
       this.Name = null;
-      this.ITeam = null; this.inceptionTeamOptions = [];
-      this.Designation = null; this.ITCode = null;
+      this.ITeam = null; this.ITeamCode = null;
+      this.inceptionTeamOptions = [];
+      this.Designation = null; this.DesignationCode = null;
+      this.ITCode = null; this.iTCode = null;
       this.IQuantity = null; this.Remarks = null;
       this.CurrYear = null; this.stackNoSelection = [];
       this.TStockNo = null; this.stackNoOptions = [];
@@ -333,10 +464,13 @@ export class AuditInceptionComponent implements OnInit {
       this.form.controls.Quantity.reset();
       this.form.controls.Type.reset();
       this.form.controls.RemarksText.reset();
+      this.form.controls.Godown.reset();
+      this.form.controls.Region.reset();
       this.form.form.markAsUntouched();
       this.form.form.markAsPristine();
     } else {
-      this.IQuantity = null; this.ITCode = null;
+      this.IQuantity = null;
+      this.ITCode = null; this.iTCode = null;
       this.CurrYear = null;
       this.TStockNo = null; this.stackNoOptions = [];
       this.Report = null; this.typeOptions = [];
@@ -350,6 +484,8 @@ export class AuditInceptionComponent implements OnInit {
       this.form.controls.Type.reset();
     }
   }
+
+  onReset(type) { if (type === 'reg') { this.GCode = null; } }
 
   onClose() {
     this.messageService.clear('t-err');

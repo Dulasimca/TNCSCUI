@@ -153,6 +153,7 @@ export class PathConstants {
 
   //Inception
   public static readonly INCEPTION_DETAILS_POST = '/api/AuditInception/Post';
+  public static readonly INCEPTION_DETAILS_GET = '/api/AuditInception/Get';
 
   //StackCard
   public static readonly STACK_CARD_GET = '/api/ManageStackCardMaster/Get';

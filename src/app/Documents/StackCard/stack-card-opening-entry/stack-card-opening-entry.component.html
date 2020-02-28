@@ -20,18 +20,18 @@
           </div>
         </p-footer>
       </p-confirmDialog>
-      <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '400px', height: '145px'}"
+      <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '30vw', height: '12vw'}"
         [modal]="true" [(visible)]="showDialog">
-        <span icon="pi pi-exclamation-triangle"> Do you want to proceed?</span>
-        <p-footer>
+        <span style="font-size: 16px;color: #898989;"> <i class="pi pi-exclamation-triangle"></i> {{msgOfClosing}}</span>
+         <p-footer> 
           <div class="ui-g-12 ui-md-12 dashboard">
             <div class="ui-g-8"></div>
             <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="Yes"
-              (click)="saveClosingDate()"></button>
+             (click)="saveClosingDate()"></button>
             <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="No"
               (click)="showDialog = false;blockScreen = false;"></button>
           </div>
-        </p-footer>
+         </p-footer>
       </p-dialog>
       <form #f="ngForm" name="form">
         <div class="ui-g-12 no-pad-top border-teal">
@@ -122,6 +122,10 @@
               <div style="float: right;" *ngIf="activateLoader"
                 class="ui-g-1 dashboard spinner-border spinner-border-sm float-right" role="status">
               </div>
+            </div>
+            <div *ngIf="(nonEditable && ClosingBalance!=null)" class="ui-g-2" style="vertical-align: bottom;">
+              <label for="CBalance" class="ui-g-12 label-fontsize dashboard">Closing Balance</label>
+              <input type="text" name="CBalance" [(ngModel)]="ClosingBalance" pInputText [readonly]="true" >
             </div>
           </div>
           <div class="ui-g-12 dashboard">

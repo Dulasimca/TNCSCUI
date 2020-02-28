@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
 import { Toast } from 'primeng/toast';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -58,8 +59,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
   CurrYear: any;
   RCode: string;
   CommodityCode: any;
+  ClosingBalance: any;
+  msgOfClosing: string;
   @ViewChild('f', { static: false }) ngForm: NgForm;
-
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -209,7 +211,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   onRowSelect(event, data) {
     this.selectedRow = data;
     this.ClosingDate = null;
-    this.CDate = null;
+    this.CDate = null; this.ClosingBalance = null;
     if (this.selectedRow !== undefined) {
       this.activateLoader = true;
       if (this.selectedRow.Flag1 === 'R') {
@@ -250,11 +252,13 @@ export class StackCardOpeningEntryComponent implements OnInit {
               this.CDate = null;
             } else {
               res.forEach(x => {
+                if(x.AckDate !== 'Total') {
                   this.ClosingDate = this.datepipe.transform(x.SDate, 'dd/MM/yyyy');
                   this.CDate = this.datepipe.transform(x.SDate, 'MM/dd/yyyy');
-                  // setTimeout(function(){
+                  this.ClosingBalance = ((x.ClosingBalance * 1) > 0) ?
+                   (x.ClosingBalance * 1).toFixed(3) : (x.ClosingBalance * 1);
                   this.activateLoader = false;
-                  // },500);
+                }
               });
             }
           }
@@ -381,7 +385,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.activateLoader = false;
     this.CommodityCode = null;
     this.commodityOptions = undefined;
-    this.ICode = null;
+    this.ICode = null; this.ClosingBalance = null;
   }
 
   onSave() {
@@ -467,7 +471,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
       });
       this.onClear();
     } else {
+      this.msgOfClosing = ((this.ClosingBalance * 1) > 0) ? 
+      (this.StackNo + '  has closing balance of ' + this.ClosingBalance + '. Do you still want to close this card ?')
+      : (this.StackNo + ' Do you want to close this card ?');
       this.showDialog = true;
+      this.blockScreen = false;
     }
   }
 

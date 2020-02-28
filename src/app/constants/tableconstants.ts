@@ -140,6 +140,7 @@ export class TableConstants {
   GodownEmployeeCols: any;
   InceptionCols: any;
   CommodityReceiptReport: any;
+  InceptionDetailsColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1680,9 +1681,19 @@ export class TableConstants {
     this.InceptionCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Commodity', field: 'Commodity' },
+      { header: 'CurrYear', field: 'CurYear' },
       { header: 'Stack No.', field: 'StackNo' },
       { header: 'Quantity', field: 'Quantity' },
-      { header: 'Type', field: 'Type' },
+      { header: 'Type', field: 'TypeName' },
+    ];
+
+    this.InceptionDetailsColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Inception Team', field: 'InceptionName' },
+      { header: 'Name', field: 'Name' },
+      { header: 'Designation', field: 'DesignationName' },
+      { header: 'InceptionDate', field: 'InceptionDate' },
+      { header: 'CreatedDate', field: 'CreatedDate' },
     ];
   }
 }
