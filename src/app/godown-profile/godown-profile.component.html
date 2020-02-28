@@ -4,7 +4,11 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Godown Profile</div>
+        <div class="ui-g-12 ui-md-4 dashboard">Godown Profile</div>
+        <div class="ui-g-12 ui-md-7"></div>
+        <div class="ui-g-12 ui-md-1 ui-fluid dashboard">
+          <button pButton type="button" icon="pi pi-plus" label=" Add Profile" (click)="onAdd()"></button>
+        </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
@@ -12,7 +16,7 @@
       <div class="ui-g-12 dashboard" style="text-align: center">
         <p-fieldset legend="GODOWN PROFILE DATA">
           <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 21px"> -->
-          <button pButton type="button" icon="pi pi-plus" label=Add (click)="onAdd()"></button>
+          <!-- <button pButton type="button" icon="pi pi-plus" label=Add (click)="onAdd()"></button> -->
           <!-- </div> -->
           <p-table [columns]="godownProfileCols" [value]="godownProfileData" [responsive]="true" autoLayout="true"
             [loading]="loading">
@@ -34,7 +38,7 @@
         </p-fieldset>
       </div>
 
-      <div *ngIf="OnEdit" class="ui-g-12" style="border: 1px solid #18c5a9; margin: 20px 300px 20px 300px;">
+      <div *ngIf="OnEdit" class="ui-g-12" style="border: 8px solid lightgray;">
         <div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-5"></div>
@@ -133,9 +137,13 @@
               <!-- <div class="ui-g-12 ui-md-3"></div> -->
             </div>
             <div class="ui-g-12 ui-md-5"></div>
-            <div class="ui-g-12 ui-md-2" style="padding-left: 40px;">
+            <div class="ui-g-6 ui-md-1 ui-fluid">
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
                 label=Submit tabindex="9" [disabled]="!templateForm.form.valid"></button>
+            </div>
+            <div class="ui-g-6 ui-md-1 ui-fluid">
+              <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onClear()"
+                label=Clear tabindex="9"></button>
             </div>
             <div class="ui-g-12 ui-md-5"></div>
           </form>
