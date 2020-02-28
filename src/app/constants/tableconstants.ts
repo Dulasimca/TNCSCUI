@@ -1050,7 +1050,7 @@ export class TableConstants {
       { field: 'DESIG', header: 'Designation' },
       { field: 'ADD1', header: 'Address1' },
       { field: 'ADD2', header: 'Address2' },
-      { field: 'ADD3', header: 'Address3' },
+      { field: 'MailID', header: 'Address3' },
       { field: 'TELNO', header: 'Telephone No' },
       { field: 'MOBNO', header: 'Mobile No' },
       { field: 'FAXNO', header: 'Fax No' },
