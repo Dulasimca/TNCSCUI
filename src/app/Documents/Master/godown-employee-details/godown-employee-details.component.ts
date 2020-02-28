@@ -267,6 +267,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.DesignationCode = selectedRow.Designation;
     this.RowID = selectedRow.RowID;
     this.ECode = selectedRow.Empno;
+    (this.Jrtype === true)
   }
 
   onDateSelect() {
