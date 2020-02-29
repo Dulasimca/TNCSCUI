@@ -199,8 +199,10 @@ export class SalesTaxEntryComponent implements OnInit {
               }
             });
           });
-          // godownSelection.unshift({ label: '-select', value: null, disabled: true });
           this.godownOptions = godownSelection;
+          if (this.roleId === '1' && this.roleId === '2') {
+            godownSelection.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
       case 'y':
@@ -454,7 +456,7 @@ export class SalesTaxEntryComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.SalesTaxCols = this.tableConstant.SalesTaxEntry;
+        this.SalesTaxCols = (this.AADS === '2') ? this.tableConstant.AADSSalesTaxEntry : this.tableConstant.GodownSalesTaxEntry;
         this.SalesTaxData = res;
         this.CompanyTitle = res;
         this.viewPane = true;
@@ -613,7 +615,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'RCode': this.RCode,
       'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
       'GSTType': this.AADS,
-      'Scheme': (this.AADS === '1') ?  this.Scheme.value || this.SchemeCode : '',
+      'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : ''
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {

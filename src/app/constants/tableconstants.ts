@@ -112,7 +112,8 @@ export class TableConstants {
   StackCardClosing: any;
   PartyLedgerMaster: any;
   PurchaseTaxEntry: any;
-  SalesTaxEntry: any;
+  AADSSalesTaxEntry: any;
+  GodownSalesTaxEntry: any;
   TenderAllotmentDetailsCols: any[];
   TenderAllotmentToRegionCols: any[];
   TenderQuantityCols: any[];
@@ -1411,7 +1412,7 @@ export class TableConstants {
       // { header: 'Modify' },
     ];
 
-    this.SalesTaxEntry = [
+    this.AADSSalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
@@ -1430,6 +1431,26 @@ export class TableConstants {
       // { header: 'Modify' },
       // { header: 'Delete' }
     ];
+
+    this.GodownSalesTaxEntry = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'SchemeName', header: 'Scheme Name' },
+      // { field: 'SchemeCode', header: 'Scheme Code' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'Hsncode', header: 'Hsncode' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'bd', header: 'Bill Date' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Value' },
+      { field: 'TaxPercentage', header: 'Tax %' },
+      { field: 'CGST', header: 'CGST Amt' },
+      { field: 'SGST', header: 'SGST Amt' },
+      { field: 'TaxAmount', header: 'Tax Amt' },
+      { field: 'Total', header: 'Total Amt' },
+    ]
 
     this.ServiceProviderEntry = [
       { header: 'S.No', field: 'SlNo' },

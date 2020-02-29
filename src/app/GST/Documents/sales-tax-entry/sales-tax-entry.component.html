@@ -361,7 +361,48 @@
 </div>
 
 
-<p-dialog header="Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog *ngIf="(AADS == '1')" header="Godown Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="viewPane" [responsive]="true">
+  <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
+    <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
+      (ngModelChange)="onSearch($event)">
+    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
+  </div>
+  <div class="ui-g-6 ui-md-1 ui-fluid" style="padding: 1px;">
+    <!-- <button pButton type="button" label=Excel (click)="table.exportCSV()"></button> -->
+  </div>
+  <div *ngIf="SalesTaxData" class="ui-g-12 ui-fluid">
+    <p-table #table [columns]="SalesTaxCols" [value]="SalesTaxData" [rows]="20"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+      [paginator]="true" [loading]="loading" exportFilename="SALES_TAX_REPORT">
+      <ng-template pTemplate="header" let-columns>
+        <tr style="text-align: center;">
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+          <td *ngFor="let col of columns">
+            <div
+              *ngIf="col.field === 'Quantity' || col.field === 'Rate' || col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
+              <div style="text-align: end !important">
+                {{rowData[col.field]}}
+              </div>
+            </div>
+            <div
+              *ngIf="col.field !== 'Quantity' && col.field !== 'Rate' && col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'">
+              {{rowData[col.field]}}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<p-dialog *ngIf="(AADS == '2')" header="AADS Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
