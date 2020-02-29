@@ -52,6 +52,7 @@ export class SalesTaxEntryComponent implements OnInit {
   yearOptions: SelectItem[];
   TaxtypeOptions: SelectItem[];
   MeasurementOptions: SelectItem[];
+  SchemeOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
@@ -108,6 +109,9 @@ export class SalesTaxEntryComponent implements OnInit {
   RName: any;
   Godown: Boolean = false;
   AADS: string
+  Scheme: any;
+  SchemeCode: any;
+  GodownCode: any;
   CompanyTitle: any = [];
   @ViewChild('region', { static: false }) RegionPanel: Dropdown;
   @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
@@ -118,6 +122,7 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('company', { static: false }) companyPanel: Dropdown;
   @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
+  @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
@@ -127,6 +132,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.data = this.roleBasedService.getInstance();
     this.RName = this.authService.getUserAccessible().rName;
+    this.GodownCode = this.authService.getUserAccessible().gCode;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
@@ -148,6 +154,7 @@ export class SalesTaxEntryComponent implements OnInit {
     let commoditySelection = [];
     let TaxSelection = [];
     let MeasurementSelection = [];
+    let SchemeSelection = [];
     const range = 2;
     switch (item) {
       case 'reg':
@@ -188,7 +195,7 @@ export class SalesTaxEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.AADS).subscribe(res => {
             res.forEach(s => {
               if (s.RGCODE === this.RCode) {
-                godownSelection.push({ label: s.Name, value: s.AADSType });
+                godownSelection.push({ 'label': s.Name, 'value': s.AADSType });
               }
             });
           });
@@ -245,7 +252,7 @@ export class SalesTaxEntryComponent implements OnInit {
           this.commodityPanel.overlayVisible = true;
         }
         this.loading = true;
-        if (this.commodityOptions !== undefined && this.PresistData !== undefined && this.AADS === "1") {
+        if (this.commodityOptions !== undefined && this.PresistData !== undefined && this.AADS === "2") {
           this.PresistData = this.CommodityGlobal;
           this.PresistData.forEach(y => {
             commoditySelection.push({ label: y.CommodityName, value: y.CommodityName, 'TaxPer': y.TaxPercentage, 'Hsncode': y.Hsncode });
@@ -264,7 +271,7 @@ export class SalesTaxEntryComponent implements OnInit {
           //   this.SGST = GA / 2;
           //   this.Vat = this.percentage * 100;
           // }
-        } else if (this.AADS === "2") {
+        } else if (this.AADS === "1") {
           this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
@@ -318,6 +325,20 @@ export class SalesTaxEntryComponent implements OnInit {
             { label: 'KGS', value: 'KGS' }, { label: 'KILOLITRE', value: 'KILOLITRE' }, { label: 'LTRS', value: 'LTRS' },
             { label: 'M.TONS', value: 'M.TONS' }, { label: 'NO.s', value: 'NO.s' }, { label: 'QUINTAL', value: 'QUINTAL' });
           this.MeasurementOptions = MeasurementSelection;
+        }
+        break;
+      case 'scheme':
+        if (type === 'tab') {
+          this.SchemePanel.overlayVisible = true;
+        }
+        if (this.AADS === "1" && this.SchemeOptions !== undefined) {
+          this.restApiService.get(PathConstants.SCHEMES).subscribe(res => {
+            res.forEach(s => {
+              SchemeSelection.push({ 'label': s.Name, 'value': s.SCCode });
+            });
+            this.SchemeOptions = SchemeSelection;
+            this.SchemeOptions.unshift({ label: '-select-', value: null, disabled: true });
+          });
         }
         break;
     }
@@ -428,7 +449,8 @@ export class SalesTaxEntryComponent implements OnInit {
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear.label
+      'AccountingYear': this.AccountingYear.label,
+      'GSTType': this.AADS
     };
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -436,6 +458,7 @@ export class SalesTaxEntryComponent implements OnInit {
         this.SalesTaxData = res;
         this.CompanyTitle = res;
         this.viewPane = true;
+        // this.AADS = res[0].GSTType;
         let sno = 0;
         let bd = new Date();
         this.SalesTaxData.forEach(s => {
@@ -475,8 +498,8 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onClear() {
     this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = null;
-    this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = this.Total = null;
+    this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Scheme = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = this.Total = this.SchemeOptions = null;
     this.Credit = false;
   }
 
@@ -518,6 +541,7 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onRowSelect(event, selectedRow) {
     this.viewPane = false;
+    this.AADS = selectedRow.GSTType;
     this.OnEdit = true;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
@@ -545,6 +569,11 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
     this.SalesID = selectedRow.SalesID;
+    // this.AADS = selectedRow.AADS;
+    this.SchemeOptions = [{ label: selectedRow.SchemeName, value: selectedRow.SchemeCode }];
+    this.Scheme = selectedRow.SchemeName;
+    this.SchemeCode = selectedRow.SchemeCode;
+
   }
 
 
@@ -562,10 +591,6 @@ export class SalesTaxEntryComponent implements OnInit {
       'SalesID': (this.SalesID !== undefined && this.SalesID !== null) ? this.SalesID : 0,
       'Month': this.curMonth,
       'Year': this.Year,
-      'TIN': this.State + this.Pan + this.Gst,
-      'GST': this.Gst,
-      'State': this.State,
-      'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
@@ -583,11 +608,13 @@ export class SalesTaxEntryComponent implements OnInit {
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
       'Total': this.Total,
-      'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
       'CreatedDate': this.Billdate,
       'RCode': this.RCode,
-      'GCode': this.GCode
+      'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
+      'GSTType': this.AADS,
+      'Scheme': (this.AADS === '1') ?  this.Scheme.value || this.SchemeCode : '',
+      'AADS': (this.AADS === '2') ? this.GCode : ''
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
@@ -621,7 +648,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.SalesTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
-    // if (item === 'gd') { this.GCode = null; }
+    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; }
   }
 
   onClose() {

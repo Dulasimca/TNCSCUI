@@ -11,17 +11,18 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-g-12 ui-md-4"></div>
-        <div class="ui-g-12 ui-md-4" style="border: 4px solid lightgrey">
-          <div class="ui-g-6 ui-md-6">
-            <p-radioButton name="Godown" value="1" [(ngModel)]="AADS" label="Godown Entry">
-            </p-radioButton>
+        <div class="ui-g-12 ui-md-3" style="border: 4px solid lightgrey">
+          <div class="ui-g-6 ui-md-6 dashboard">
+            <p-radioButton name="Godown" value="1" [(ngModel)]="AADS" (ngModelChange)="onResetTable('AADS')"
+              label="Godown Entry"></p-radioButton>
           </div>
-          <div class="ui-g-6 ui-md-6">
-            <p-radioButton name="AADS" value="2" [(ngModel)]="AADS" label="AADS Entry">
+          <div class="ui-g-6 ui-md-6 dashboard">
+            <p-radioButton name="AADS" value="2" [(ngModel)]="AADS" (ngModelChange)="onResetTable('AADS')"
+              label="AADS Entry">
             </p-radioButton>
           </div>
         </div>
-        <div class="ui-g-12 ui-md-4"></div>
+        <div class="ui-g-12 ui-md-5"></div>
       </div>
       <div *ngIf="(AADS)" class="ui-g-12">
         <div class="ui-g-12 ui-md-1"></div>
@@ -150,7 +151,7 @@
               <div class="ui-g-12 ui-md-1"></div>
             </div>
 
-            <div class="ui-g" *ngIf="(AADS == '1')">
+            <div class="ui-g" *ngIf="(AADS == '2')">
               <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
                 <button pButton type="button" icon="fa fa-bars" label="Commodity" [disabled]="disableButton"
                   (click)="onCommodity()"></button>
@@ -188,7 +189,7 @@
               </div>
             </div>
 
-            <div class="ui-g" *ngIf="(AADS == '2')">
+            <div class="ui-g" *ngIf="(AADS == '1')">
               <div class="ui-g-12 ui-md-1"></div>
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
@@ -203,10 +204,10 @@
               </div>
               <div class="ui-g-12 ui-md-3">
                 <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Scheme</label>
-                <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
-                  [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
-                  (keyup.shift.tab)="onSelect('commodity','tab')" [showClear]="true" optionLabel="label" filter="true"
-                  (keyup.tab)="onSelect('commodity','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
+                <p-dropdown #scheme name="scheme" class="ui-g-12 ui-fluid dashboard" [options]="SchemeOptions"
+                  [(ngModel)]="Scheme" (onClick)="onSelect('scheme','click')"
+                  (keyup.shift.tab)="onSelect('scheme','tab')" [showClear]="true" optionLabel="label" filter="true"
+                  (keyup.tab)="onSelect('scheme','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -245,7 +246,7 @@
               <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Hsncode" name="Hsncode"
-                    autocomplete="off" readonly='true' [disabled]="onPut" required>
+                    autocomplete="off" required>
                   <label for="Hsncode">Hsncode</label>
                 </div>
               </div>
@@ -303,7 +304,7 @@
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage"
                     oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                    (input)="onGST()" name="percentage" autocomplete="off" [disabled]="onPut" required>
+                    (input)="onGST()" name="percentage" autocomplete="off" required>
                   <label for="percentage">Tax Percentage</label>
                 </div>
               </div>
