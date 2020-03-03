@@ -128,7 +128,7 @@
                 <div class="ui-g">
                   <label class="ui-g-10 label-fontsize dashboard" for="Jrdate">Join Date</label>
                   <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy"
-                    [maxDate]="maxDate" name="Jrdate" [(ngModel)]="Jrdate" (ngModelChange)="onDateSelect()">
+                    [maxDate]="maxDate" name="Jrdate" [(ngModel)]="Jrdate" (ngModelChange)="onDateSelect()" [disabled]="(!Releive)">
                   </p-calendar>
                 </div>
               </div>
