@@ -130,7 +130,7 @@ export class DeliveryReceiptComponent implements OnInit {
   AmntType: any;
   PrevBalType: any;
   GSTNumber: string;
-  isGSTModified: boolean = true;
+  invalidGST: boolean;
   showGSTErrMsg: boolean = false;
   showPreview: boolean;
   PreDODate: string;
@@ -155,6 +155,8 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
+  isGSTUpdated: boolean;
+  isGSTModified: boolean;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -430,7 +432,6 @@ export class DeliveryReceiptComponent implements OnInit {
         this.partyNameOptions = [];
         this.pCode = null; this.PName = null;
         this.GSTNumber = null;
-        this.isGSTModified = true;
         break;
       case 'sc':
         this.itemDescOptions = [];
@@ -454,14 +455,19 @@ export class DeliveryReceiptComponent implements OnInit {
     if (event !== null && event !== undefined && event !== '') {
       if (event.length < 3) {
         this.showGSTErrMsg = true;
+        this.invalidGST = true;
       } else if (event.length > 3 && event.length < 15) {
         this.showGSTErrMsg = true;
+        this.invalidGST = true;
       } else {
         this.showGSTErrMsg = false;
+        this.invalidGST = false;
       }
-      this.isGSTModified = false;
-    } else {
       this.isGSTModified = true;
+    } else {
+      this.showGSTErrMsg = false;
+      this.invalidGST = true;
+      this.isGSTModified = false;
     }
   }
 
@@ -473,14 +479,15 @@ export class DeliveryReceiptComponent implements OnInit {
     }
     this.restAPIService.post(PathConstants.DO_GST_UPDATE, params).subscribe(res => {
       if (res.Item1) {
-        this.isGSTModified = true;
+        this.isGSTModified = false;
+        this.isGSTUpdated = true;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
         })
       } else {
-        this.isGSTModified = false;
+        this.isGSTUpdated = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
@@ -983,6 +990,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.PreIndentNo = null; this.PreMonth = null;
     this.PrePartyName = null; this.PrePermitDate = null;
     this.PreRecType = null; this.showPreview = false;
+    this.isGSTUpdated = false; this.invalidGST = false;
+    this.isGSTModified = false;
   }
 
   onResetFieldset() {
