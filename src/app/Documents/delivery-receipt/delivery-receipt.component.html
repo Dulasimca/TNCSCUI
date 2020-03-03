@@ -137,7 +137,7 @@
                         'URD'(unregistered)</span>
                     </div>
                     <div class="ui-g-3 ui-md-1">
-                      <button pButton type="button" label="Update" [disabled]="isGSTModified"
+                      <button pButton type="button" label="Update" [disabled]="(!PName || (GSTNumber && !isGSTModified) || !GSTNumber || invalidGST || !GCode)"
                         (click)="onUpdateGST()"></button>
                     </div>
                   </div>
@@ -702,7 +702,8 @@
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
               <button style="margin-top:5px" pButton type="button"
-                [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty))" label=Save
+                [disabled]="(!f.valid || itemData.length=='0' || (isViewed && !f.dirty) || 
+                (isGSTModified && !isGSTUpdated))" label=Save
                 (click)="onSave('1');resetForm(f)"></button>
             </div>
             <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">

@@ -245,6 +245,9 @@ export class AuditInceptionComponent implements OnInit {
   }
 
   findMatchingStackNo() {
+    if(this.stackNoSelection === null || this.stackNoSelection === undefined) {
+      this.onChange('cy');
+    }
     if (this.ITCode !== undefined && this.ITCode !== null &&
       ((this.ITCode.value !== null && this.ITCode.value !== undefined) ||
         (this.iTCode !== null && this.iTCode !== undefined)) && this.stackNoSelection.length !== 0) {
@@ -415,7 +418,7 @@ export class AuditInceptionComponent implements OnInit {
   }
 
   getInceptionDetails() {
-    this.blockScreen = true;
+  //  this.blockScreen = true;
     this.viewPane = false;
     this.Remarks = this.selected.Remarks;
     this.IQuantity = this.selected.Quantity;
@@ -435,7 +438,6 @@ export class AuditInceptionComponent implements OnInit {
   onRowSelect(event) {
     this.selected = event.data;
     this.InceptionID = event.data.InceptionID;
-    // this.onChange('cy');
   }
 
   onClear(type) {
