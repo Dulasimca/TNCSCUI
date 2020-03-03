@@ -41,12 +41,14 @@ export class PartyLedgerUpdateComponent implements OnInit {
   maxDate: Date;
   loggedInRCode: any;
   GCode: any;
-  viewPane: boolean;
-  isViewed: boolean = false;
+  viewPane: boolean = false;
   disableOkButton: boolean = true;
   selectedRow: any;
   searchText: any;
   RName: any;
+  GSTNumber: any;
+  PartyTin: any;
+  IssuerNumber: any;
   loading: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('party', { static: false }) partyPanel: Dropdown;
@@ -54,7 +56,8 @@ export class PartyLedgerUpdateComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
+    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -78,7 +81,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regionsData !== undefined) {
             this.regionsData.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
           }
@@ -86,7 +89,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
           if (this.regionsData !== undefined) {
             this.regionsData.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -101,7 +104,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -120,10 +123,10 @@ export class PartyLedgerUpdateComponent implements OnInit {
               // this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
               // this.PartyLedgerData = res;
               res.forEach(s => {
-                partySelection.push({ 'label': s.PartyName, 'value': s.PCode });
+                partySelection.push({ label: s.PartyName, value: s.PCode });
               });
               this.partyOptions = partySelection;
-              this.partyOptions.unshift({ 'label': '-select-', value: null, disabled: true });
+              this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
             }
           });
         }
@@ -134,10 +137,10 @@ export class PartyLedgerUpdateComponent implements OnInit {
         }
         if (this.godownOptions !== undefined) {
           this.PartyLedgerData.forEach(data => {
-            issuerSelection.push({ 'label': data.Issuername, 'value': data.IssuerCode });
+            issuerSelection.push({ label: data.Issuername, value: data.IssuerCode });
           });
           this.issuerOptions = issuerSelection;
-          this.issuerOptions.unshift({ 'label': '-select-', value: null, disabled: true });
+          this.issuerOptions.unshift({ label: '-select-', value: null, disabled: true });
         }
         break;
     }
@@ -164,13 +167,19 @@ export class PartyLedgerUpdateComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -180,10 +189,13 @@ export class PartyLedgerUpdateComponent implements OnInit {
       'Type': 1,
       'RCode': this.RCode.value,
       'IssuerCode': this.IssuerName.value || this.IssCode,
-      'PartyID': this.PartyName.value || this.PartyCode
+      'IssuerNo': this.IssuerNumber,
+      'PartyID': this.PartyName.value || this.PartyCode,
+      'GSTNumber': this.GSTNumber
     };
     this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(value => {
       if (value) {
+        this.onView();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
@@ -205,19 +217,28 @@ export class PartyLedgerUpdateComponent implements OnInit {
         });
       }
     });
+    this.onClear();
   }
 
   onRowSelect(event) {
+    this.viewPane = true;
     this.disableOkButton = false;
     this.selectedRow = event.data;
-    this.viewPane = false;
-    this.isViewed = true;
     this.partyOptions = [{ label: this.selectedRow.PartyName, value: this.selectedRow.PartyID }];
-    this.issuerOptions = [{ label: this.selectedRow.Issuername, value: this.selectedRow.IssuerCode }];
+    // this.issuerOptions = [{ label: this.selectedRow.IssuerName, value: this.selectedRow.IssuerCode }];
     this.PartyName = this.selectedRow.PartyName;
     this.PartyCode = this.selectedRow.PartyID;
-    this.IssuerName = this.selectedRow.Issuername;
+    this.GSTNumber = this.selectedRow.GSTNumber;
+    this.IssuerName = this.selectedRow.IssuerName;
     this.IssCode = this.selectedRow.IssuerCode;
+    this.PartyTin = this.selectedRow.TIN;
+    this.IssuerNumber = this.selectedRow.IssuerNo;
+  }
+
+  onClear() {
+    this.IssuerNumber = this.PartyName = this.PartyTin = this.PartyCode = this.GSTNumber = this.PartyName = this.IssuerName = null;
+    this.partyOptions = undefined;
+    this.viewPane = false;
   }
 
   onSearch(value) {

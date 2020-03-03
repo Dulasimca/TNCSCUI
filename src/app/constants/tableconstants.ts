@@ -1555,9 +1555,11 @@ export class TableConstants {
     this.IssuerPartyCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'IssuerCode', header: 'Issuer Code' },
-      { field: 'Issuername', header: 'Issuer Name' },
-      // { field: 'PartyID', header: 'Party Code' },
+      { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'PartyID', header: 'Party Code' },
       { field: 'PartyName', header: 'Party Name' },
+      { field: 'TIN', header: 'Party GST Number' },
+      { field: 'GSTNumber', header: 'DO GST Number' }
     ];
 
     this.AllotmentDetailsCols = [
