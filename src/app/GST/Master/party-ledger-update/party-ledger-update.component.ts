@@ -49,6 +49,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
   GSTNumber: any;
   PartyTin: any;
   IssuerNumber: any;
+  TypeName: any;
   loading: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('party', { static: false }) partyPanel: Dropdown;
@@ -123,10 +124,14 @@ export class PartyLedgerUpdateComponent implements OnInit {
               // this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
               // this.PartyLedgerData = res;
               res.forEach(s => {
-                partySelection.push({ label: s.PartyName, value: s.PCode });
+                partySelection.push({ label: s.PartyName, value: s.PCode, TIN: s.TIN });
+                // this.PartyTin = s.TIN;
               });
               this.partyOptions = partySelection;
               this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
+              if (this.PartyName !== undefined) {
+                this.PartyTin = this.PartyName.TIN;
+              }
             }
           });
         }
@@ -191,7 +196,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
       'IssuerCode': this.IssuerName.value || this.IssCode,
       'IssuerNo': this.IssuerNumber,
       'PartyID': this.PartyName.value || this.PartyCode,
-      'GSTNumber': this.GSTNumber
+      'GSTNumber': this.GSTNumber.toUpperCase()
     };
     this.restApiService.put(PathConstants.ISSUER_MASTER_PUT, params).subscribe(value => {
       if (value) {
@@ -233,6 +238,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
     this.IssCode = this.selectedRow.IssuerCode;
     this.PartyTin = this.selectedRow.TIN;
     this.IssuerNumber = this.selectedRow.IssuerNo;
+    this.TypeName = this.selectedRow.Tyname;
   }
 
   onClear() {
@@ -246,7 +252,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerData = this.CompanyTitle.filter(item => {
-        return item.Issuername.toString().startsWith(value);
+        return item.IssuerName.toString().startsWith(value);
       });
     } else {
       this.CompanyTitle = this.PartyLedgerData;
@@ -254,8 +260,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if (item === 'reg') { this.GCode = null; }
-    this.IssuerData = [];
+    if (item === 'reg') { this.GCode = null, this.IssuerData = []; }
   }
 
   onClose() {
