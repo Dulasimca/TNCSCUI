@@ -121,22 +121,22 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div class="ui-g-4 dashboard" style="padding-top: 11px">
-                <div class="ui-g-4 ui-md-3">
+              <div class="ui-g-12 ui-md-4 dashboard" style="padding-top: 11px">
+                <div class="ui-g-2 ui-md-3">
                   <div class="ui-float-label">
                     <input class="icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State"
                       autocomplete="off" maxlength="2" readonly="true" [disabled]="onDrop" required>
                     <label for="State">State Code</label>
                   </div>
                 </div>
-                <div class="ui-g-4 ui-md-6">
+                <div class="ui-g-8 ui-md-6">
                   <div class="ui-float-label">
                     <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan"
                       autocomplete="off" maxlength="10" readonly="true" [disabled]="onDrop" required>
                     <label for="Pan">PAN</label>
                   </div>
                 </div>
-                <div class="ui-g-4 ui-md-3">
+                <div class="ui-g-2 ui-md-3">
                   <div class="ui-float-label">
                     <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
                       tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" [disabled]="onDrop"
@@ -337,7 +337,7 @@
               </div>
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Total" name="Total"
+                  <input class="icon2" size="30" pInputText [(ngModel)]="Total" name="Total"
                     (input)="onGST()" autocomplete="off" readonly="true" required>
                   <label for="Total">Total Amount</label>
                 </div>
@@ -361,8 +361,8 @@
 </div>
 
 
-<p-dialog *ngIf="(AADS == '1')" header="Godown Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [responsive]="true">
+<p-dialog *ngIf="(AADS == '1')" header="Godown Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
+  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
@@ -402,8 +402,8 @@
   </div>
 </p-dialog>
 
-<p-dialog *ngIf="(AADS == '2')" header="AADS Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [responsive]="true">
+<p-dialog *ngIf="(AADS == '2')" header="AADS Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
+  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
