@@ -255,6 +255,9 @@ export class AllotmentDetailsComponent implements OnInit {
         // bind the parse excel file data to Grid  
         let JSONdata = JSON.parse(json_object);
         // trim the space in json key and value
+        JSONdata = JSONdata.filter(x => {
+          return x['#'] !== 'Total';
+        })
         const excelData = trimObj(JSONdata);
         if (excelData[1]['Godown Code'] === this.GCode) {
           this.disableSave = false;
@@ -263,7 +266,6 @@ export class AllotmentDetailsComponent implements OnInit {
           const objLen = this.AllotmentCols.length - 6;
           for (let obj of this.AllotmentData) {
             for (let key in obj) {
-              if(obj['#'] !== 'Total') {
               obj['FPSName'] = obj['FPS Name'];
               if (key !== 'FPS Code' && key !== '#' && key !== 'Taluk' && key !== 'FPS Name'
                 && key !== 'Godown Name' && key !== 'Godown Code') {
@@ -284,7 +286,6 @@ export class AllotmentDetailsComponent implements OnInit {
                   }
                 })
               }
-            }
             }
             this.itemList = [];
           }
