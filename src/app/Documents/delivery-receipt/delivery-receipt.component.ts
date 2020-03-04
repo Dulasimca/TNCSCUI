@@ -148,6 +148,7 @@ export class DeliveryReceiptComponent implements OnInit {
   DOTaxStatus: any;
   PartyId: string;
   TaxPercent: any;
+  HSNCode: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
@@ -331,7 +332,7 @@ export class DeliveryReceiptComponent implements OnInit {
               if (res !== null && res !== undefined && res.length !== 0) {
                 if (!this.selectedItem) {
                   res.forEach(i => {
-                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode, 'TaxPercent': i.TaxPercentage });
+                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode, 'TaxPercent': i.TaxPercentage, 'HSNCode': i.Hsncode });
                   });
                 } else {
                   let filteredArr = res.filter(x => {
@@ -553,6 +554,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.iCode = data.Itemcode;
         this.ICode = data.ITDescription;
         this.TaxPercent = data.TaxPercent;
+        this.HSNCode = data.HsnCode;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(3);
@@ -642,6 +644,7 @@ export class DeliveryReceiptComponent implements OnInit {
           Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
           TaxPercent: (this.ICode.TaxPercent !== undefined && this.ICode.TaxPercent !== null) ? this.ICode.TaxPercent : this.TaxPercent,
           NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, Rcode: this.RCode,
+          HsnCode: (this.ICode.HSNCode !== undefined && this.ICode.HSNCode !== null) ? this.ICode.HSNCode : this.HSNCode,
           Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm,
           Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
         });
@@ -1048,7 +1051,7 @@ export class DeliveryReceiptComponent implements OnInit {
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
         this.Remarks = res.Table[0].Remarks.trim();
-        //        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
+        //this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
@@ -1063,6 +1066,7 @@ export class DeliveryReceiptComponent implements OnInit {
             sno: i_sno,
             ITDescription: i.ITDescription,
             TaxPercent: i.TaxPercentage,
+            HsnCode: i.Hsncode,
             NetWeight: (i.NetWeight * 1),
             Wtype: i.Wtype,
             SchemeName: i.SCName,
@@ -1206,7 +1210,8 @@ export class DeliveryReceiptComponent implements OnInit {
           'DOTaxStatus': (this.DOTaxStatus !== undefined && this.DOTaxStatus !== null) ? this.DOTaxStatus : '',
           'Month': (this.PMonth.value !== undefined && this.PMonth.value !== null)
           ? this.PMonth.value : this.curMonth,
-          'Year': this.PYear
+          'Year': this.PYear,
+          'PartyID': partyID
         };
         // this.isSaved = true;
         this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
