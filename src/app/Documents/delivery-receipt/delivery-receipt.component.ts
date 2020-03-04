@@ -143,6 +143,12 @@ export class DeliveryReceiptComponent implements OnInit {
   PreYear: any;
   PreGSTNo: any;
   PreRemarks: any;
+  isGSTUpdated: boolean;
+  isGSTModified: boolean;
+  DOTaxStatus: any;
+  PartyId: string;
+  TaxPercent: any;
+  HSNCode: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
@@ -155,8 +161,6 @@ export class DeliveryReceiptComponent implements OnInit {
   @ViewChild('margin_id', { static: false }) marginCommodityPanel: Dropdown;
   @ViewChild('margin_rate', { static: false }) marginWeighmentPanel: Dropdown;
   @ViewChild('pay', { static: false }) paymentPanel: Dropdown;
-  isGSTUpdated: boolean;
-  isGSTModified: boolean;
 
   constructor(private tableConstants: TableConstants, private roleBasedService: RoleBasedService,
     private restAPIService: RestAPIService, private authService: AuthService,
@@ -195,6 +199,7 @@ export class DeliveryReceiptComponent implements OnInit {
     this.ChequeDate = this.maxDate;
     this.DeliveryDate = this.maxDate;
     this.viewDate = this.maxDate;
+    this.checkDOTaxStatus('DOTax');
   }
 
   onSelect(selectedItem, type) {
@@ -304,7 +309,7 @@ export class DeliveryReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.DEPOSITOR_NAME_MASTER, params).subscribe((res: any) => {
               if (res !== null && res !== undefined && res.length !== 0) {
                 res.forEach(dn => {
-                  partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode, 'GST': dn.GSTNumber });
+                  partyNameList.push({ 'label': dn.DepositorName, 'value': dn.DepositorCode, 'PartyId': dn.PartyID, 'GST': dn.GSTNumber });
                 })
                 this.partyNameOptions = partyNameList;
               }
@@ -327,7 +332,7 @@ export class DeliveryReceiptComponent implements OnInit {
               if (res !== null && res !== undefined && res.length !== 0) {
                 if (!this.selectedItem) {
                   res.forEach(i => {
-                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode, 'TaxPercent': i.TaxPercentage, 'HSNCode': i.Hsncode });
                   });
                 } else {
                   let filteredArr = res.filter(x => {
@@ -548,6 +553,8 @@ export class DeliveryReceiptComponent implements OnInit {
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.iCode = data.Itemcode;
         this.ICode = data.ITDescription;
+        this.TaxPercent = data.TaxPercent;
+        this.HSNCode = data.HsnCode;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
         this.Rate = (data.Rate * 1).toFixed(3);
@@ -635,7 +642,9 @@ export class DeliveryReceiptComponent implements OnInit {
           ITDescription: (this.ICode.label !== undefined && this.ICode.label !== null) ? this.ICode.label : this.ICode,
           SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
           Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+          TaxPercent: (this.ICode.TaxPercent !== undefined && this.ICode.TaxPercent !== null) ? this.ICode.TaxPercent : this.TaxPercent,
           NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, Rcode: this.RCode,
+          HsnCode: (this.ICode.HSNCode !== undefined && this.ICode.HSNCode !== null) ? this.ICode.HSNCode : this.HSNCode,
           Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm,
           Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
         });
@@ -949,6 +958,12 @@ export class DeliveryReceiptComponent implements OnInit {
     });
   }
 
+  checkDOTaxStatus(value) {
+    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value }).subscribe(status => {
+      this.DOTaxStatus = status[0].TNCSCValue;
+    });
+  }
+
   onClear() {
     this.itemData = []; this.deliveryData = []; this.itemSchemeData = [];
     this.paymentBalData = []; this.paymentData = [];
@@ -1030,12 +1045,13 @@ export class DeliveryReceiptComponent implements OnInit {
         this.PYear = res.Table[0].OrderPeriod.slice(0, 4);
         this.PName = res.Table[0].ReceivorName;
         this.pCode = res.Table[0].ReceivorCode;
+        this.PartyId = res.Table[0].PartyID;
         this.partyNameOptions = [{ label: res.Table[0].ReceivorName, value: res.Table[0].ReceivorCode }];
         this.RTCode = res.Table[0].Tyname;
         this.rtCode = res.Table[0].IssuerType;
         this.receivorTypeOptions = [{ label: res.Table[0].Tyname, value: res.Table[0].IssuerType }];
         this.Remarks = res.Table[0].Remarks.trim();
-        //        this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
+        //this.GrandTotal = ((res.Table[0].GrandTotal * 1) < 0) ? 0 : (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (res.Table[0].GrandTotal * 1).toFixed(2);
         this.GrandTotal = (this.GrandTotal * 1);
         this.DueAmount = (res.Table[0].GrandTotal * 1);
@@ -1049,6 +1065,8 @@ export class DeliveryReceiptComponent implements OnInit {
           this.itemData.push({
             sno: i_sno,
             ITDescription: i.ITDescription,
+            TaxPercent: i.TaxPercentage,
+            HsnCode: i.Hsncode,
             NetWeight: (i.NetWeight * 1),
             Wtype: i.Wtype,
             SchemeName: i.SCName,
@@ -1149,88 +1167,107 @@ export class DeliveryReceiptComponent implements OnInit {
 
   onSave(type) {
     this.messageService.clear();
-    this.blockScreen = true;
-    this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
-      ? this.PMonth.value : this.curMonth);
-    this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
-      ? this.DeliveryOrderNo : 0;
-    this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
-    this.UnLoadingSlip = (this.DeliveryOrderNo === undefined || this.DeliveryOrderNo === null) ? 'N' : this.UnLoadingSlip;
-    const params = {
-      'Type': type,
-      'Dono': this.DeliveryOrderNo,
-      'RowId': this.rowId,
-      'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
-      'TransactionCode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
-      'IndentNo': this.IndentNo,
-      'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
-      'OrderPeriod': this.OrderPeriod,
-      'ReceivorCode': (this.PName.value !== undefined) ? this.PName.value : this.pCode,
-      'ReceivorName': (this.PName.label !== undefined) ? this.PName.label : this.PName,
-      'IssuerCode': this.GCode,
-      'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
-      'GrandTotal': this.GrandTotal,
-      'Regioncode': this.RCode,
-      'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
-      'deliverytype': '',
-      'GodownName': this.GodownName,
-      'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
-      'RegionName': this.RegionName,
-      'UnLoadingSlip': this.UnLoadingSlip,
-      'UserID': this.username.user,
-      'documentDeliveryItems': this.itemData,
-      'deliveryMarginDetails': this.itemSchemeData,
-      'deliveryPaymentDetails': this.paymentData,
-      'deliveryAdjustmentDetails': this.paymentBalData
-    };
-    // this.isSaved = true;
-    this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
-      if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
-        if (res.Item1) {
-          if (type !== '2') {
-            this.isSaveSucceed = true;
-            this.isViewed = false;
-          } else {
-            this.isSaveSucceed = false;
-            this.loadDocument();
-            this.isViewed = false;
+    const party = (this.PName.label !== undefined && this.PName.label !== null) ?
+      this.PName.label : this.PName;
+    const partyID = (this.PName.PartyId !== undefined && this.PName.PartyId !== null) ?
+       this.PName.PartyId.trim() : ((this.PartyId !== undefined && this.PartyId !== null) ? 
+       this.PartyId : '');
+      if (partyID !== '') {
+        this.blockScreen = true;
+        this.OrderPeriod = this.PYear + '/' + ((this.PMonth.value !== undefined && this.PMonth.value !== null)
+          ? this.PMonth.value : this.curMonth);
+        this.DeliveryOrderNo = (this.DeliveryOrderNo !== undefined && this.DeliveryOrderNo !== null)
+          ? this.DeliveryOrderNo : 0;
+        this.rowId = (this.rowId !== undefined && this.rowId !== null) ? this.rowId : 0;
+        this.UnLoadingSlip = (this.DeliveryOrderNo === undefined || this.DeliveryOrderNo === null) ? 'N' : this.UnLoadingSlip;
+        const params = {
+          'Type': type,
+          'Dono': this.DeliveryOrderNo,
+          'RowId': this.rowId,
+          'DoDate': this.datepipe.transform(this.DeliveryDate, 'MM/dd/yyyy'),
+          'TransactionCode': (this.Trcode.value !== undefined) ? this.Trcode.value : this.trCode,
+          'IndentNo': this.IndentNo,
+          'PermitDate': this.datepipe.transform(this.PermitDate, 'MM/dd/yyyy'),
+          'OrderPeriod': this.OrderPeriod,
+          'ReceivorCode': (this.PName.value !== undefined) ? this.PName.value : this.pCode,
+          'ReceivorName': (this.PName.label !== undefined) ? this.PName.label : this.PName,
+          'IssuerCode': this.GCode,
+          'IssuerType': (this.RTCode.value !== undefined) ? this.RTCode.value : this.rtCode,
+          'GrandTotal': this.GrandTotal,
+          'Regioncode': this.RCode,
+          'Remarks': (this.Remarks !== null && this.Remarks.trim() !== '') ? this.Remarks.trim() : '-',
+          'deliverytype': '',
+          'GodownName': this.GodownName,
+          'TransactionName': (this.Trcode.label !== undefined && this.Trcode.label !== null) ? this.Trcode.label : this.Trcode,
+          'RegionName': this.RegionName,
+          'UnLoadingSlip': this.UnLoadingSlip,
+          'UserID': this.username.user,
+          'documentDeliveryItems': this.itemData,
+          'deliveryMarginDetails': this.itemSchemeData,
+          'deliveryPaymentDetails': this.paymentData,
+          'deliveryAdjustmentDetails': this.paymentBalData,
+          ///DO tax details
+          'DOTaxStatus': (this.DOTaxStatus !== undefined && this.DOTaxStatus !== null) ? this.DOTaxStatus : '',
+          'Month': (this.PMonth.value !== undefined && this.PMonth.value !== null)
+          ? this.PMonth.value : this.curMonth,
+          'Year': this.PYear,
+          'PartyID': partyID
+        };
+        // this.isSaved = true;
+        this.restAPIService.post(PathConstants.STOCK_DELIVERY_ORDER_DOCUMENT, params).subscribe(res => {
+          if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
+            if (res.Item1) {
+              if (type !== '2') {
+                this.isSaveSucceed = true;
+                this.isViewed = false;
+              } else {
+                this.isSaveSucceed = false;
+                this.loadDocument();
+                this.isViewed = false;
+              }
+              this.blockScreen = false;
+              this.messageService.clear();
+              this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+                summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
+              });
+              this.onClear();
+            } else {
+              this.isViewed = false;
+              this.isSaveSucceed = false;
+              this.blockScreen = false;
+              this.messageService.clear();
+              this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+              });
+            }
           }
-          this.blockScreen = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2
-          });
-          this.onClear();
-        } else {
+        }, (err: HttpErrorResponse) => {
           this.isViewed = false;
           this.isSaveSucceed = false;
           this.blockScreen = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
-          });
-        }
-      }
-    }, (err: HttpErrorResponse) => {
-      this.isViewed = false;
-      this.isSaveSucceed = false;
-      this.blockScreen = false;
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          if (err.status === 0 || err.status === 400) {
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+            });
+          } else {
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+            });
+          }
         });
       } else {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+          summary: StatusMessage.SUMMARY_ERROR, detail: 'Party ID is missing for selected ' + party
         });
       }
-    });
   }
 
   onPrint() {
