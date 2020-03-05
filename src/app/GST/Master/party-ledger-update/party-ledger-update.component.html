@@ -104,19 +104,27 @@
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
-      </div>
-      <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
+      </div> 
+      <div class="ui-g-12 ui-md-4" style="padding-top: 20px">
         <div class="ui-float-label">
           <input class="icon2" type="text" size="30" pInputText [(ngModel)]="GSTNumber" name="GSTNo" autocomplete="off"
-            required>
-          <label for="GSTNo">GST Number</label>
+            maxlength="16" minlength="15" required>
+          <label for="GSTNo">DO GST Number</label>
         </div>
       </div>
-      <div class="ui-g-12 ui-md-1 ui-fluid" style="padding-top: 23px">
-        <button pButton type="button" (click)="onSubmit()"
-          [disabled]="(!RCode || !GCode || !PartyName || !IssuerName || !GSTNumber)" label=Update></button>
+      <div class="ui-g-12 ui-md-4" style="padding-top: 20px">
+        <div class="ui-float-label">
+          <input class="icon2" type="text" size="30" pInputText [(ngModel)]="TypeName" name="TypeName"
+            autocomplete="off" [readonly]="true" required>
+          <label class="ui-g-10 label-fontsize dashboard" for="TypeName">Type Name</label>
+        </div>
       </div>
-      <div class="ui-g-12 ui-md-8"></div>
+      <div class="ui-g-12 ui-md-3"></div>
+      <div class="ui-g-12 ui-md-5" style="font-size: 15px; padding-top: 25px">
+        Party GST Number {{' - ' + PartyTin}}
+      </div>
+
+      <!-- <div class="ui-g-12 ui-md-8"></div>
       <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
         <div class="ui-float-label">
           <input class="icon2" type="text" size="30" pInputText [(ngModel)]="PartyTin" name="PartyTin"
@@ -124,7 +132,14 @@
           <label for="GSTNo">Party GST Number</label>
         </div>
       </div>
+      <div class="ui-g-12 ui-md-1"></div> -->
+
       <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 23px">
+        <button pButton type="button" (click)="onSubmit()"
+          [disabled]="(!RCode || !GCode || !PartyName || !IssuerName || !GSTNumber)" label=Update></button>
+      </div>
+      <div class="ui-g-12 ui-md-5"></div>
     </form>
   </div>
 </p-dialog>

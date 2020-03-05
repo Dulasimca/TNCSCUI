@@ -109,6 +109,8 @@ export class SalesTaxEntryComponent implements OnInit {
   Scheme: any;
   SchemeCode: any;
   GodownCode: any;
+  Sum: any;
+  AllTotal: any;
   CompanyTitle: any = [];
   @ViewChild('region', { static: false }) RegionPanel: Dropdown;
   @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
@@ -322,7 +324,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (this.MeasurementOptions !== undefined) {
           MeasurementSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'GRAMS', value: 'GRAMS' },
             { label: 'KGS', value: 'KGS' }, { label: 'KILOLITRE', value: 'KILOLITRE' }, { label: 'LTRS', value: 'LTRS' },
-            { label: 'M.TONS', value: 'M.TONS' }, { label: 'NO.s', value: 'NO.s' }, { label: 'QUINTAL', value: 'QUINTAL' });
+            { label: 'M.TONS', value: 'TONS' }, { label: 'NO.s', value: 'NOS' }, { label: 'QUINTAL', value: 'QUINTAL' });
           this.MeasurementOptions = MeasurementSelection;
         }
         break;
@@ -486,13 +488,70 @@ export class SalesTaxEntryComponent implements OnInit {
     });
   }
 
+  // onGST() {
+  //   this.Amount = this.Quantity * this.Rate;
+  //   let GA = (this.Amount / 100) * this.percentage;
+  //   this.CGST = GA / 2;
+  //   this.SGST = GA / 2;
+  //   this.Vat = GA;
+  //   this.Total = this.Amount + this.Vat;
+  // }
+
+  QtyAndRateCalculation(selectedWt, amnt, qty) {
+    let sum: any = 0;
+    // this.Amount = this.Quantity * this.Rate;
+    switch (selectedWt) {
+      case 'KGS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'QUINTAL':
+        sum = ((qty / 100) * amnt).toFixed(2);
+        break;
+      case 'TONS':
+        sum = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'LTRS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'NOS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'KILOLITRE':
+        sum = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'GRAMS':
+        sum = ((qty * amnt).toFixed(2));
+        break;
+    }
+    return sum;
+  }
+
+  PercentageAndAmountTotal(percentage, amt) {
+    let total: any = 0;
+    total = (percentage * 1) + (amt * 1);
+    return total;
+  }
+
   onGST() {
-    this.Amount = this.Quantity * this.Rate;
-    let GA = (this.Amount / 100) * this.percentage;
-    this.CGST = GA / 2;
-    this.SGST = GA / 2;
-    this.Vat = GA;
-    this.Total = this.Amount + this.Vat;
+    if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
+      let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
+      this.Amount = this.QtyAndRateCalculation(unit, this.Rate, this.Quantity);
+      let GA;
+      GA = (this.Amount / 100) * this.percentage;
+      this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
+      this.CGST = (GA / 2).toFixed(2);
+      this.SGST = (GA / 2).toFixed(2);
+      this.Vat = GA.toFixed(2);
+      // this.Total = (this.Amount * 1) + (this.Vat * 1);
+      this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
+    }
+  }
+
+  onTotal() {
+    if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null &&
+      this.Amount !== undefined && this.Amount !== null) {
+      this.Total = this.PercentageAndAmountTotal(this.percentage, this.Amount);
+    }
   }
 
   onClear() {

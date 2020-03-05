@@ -145,22 +145,26 @@ export class PartyLedgerMasterComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
 
 
   onClear() {
-    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = null;
+    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = undefined;
     this.RCode = this.isActive = undefined;
   }
 
@@ -193,17 +197,17 @@ export class PartyLedgerMasterComponent implements OnInit {
       'LedgerID': (this.LedgerID !== undefined && this.LedgerID !== null) ? this.LedgerID : '',
       'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
       'Roleid': this.roleId,
-      'Pan': this.Pan,
+      'Pan': this.Pan.toUpperCase(),
       'StateCode': this.State,
-      'PartyName': this.Partyname,
+      'PartyName': this.Partyname.toUpperCase(),
       'RCode': this.RCode.value,
-      'GST': this.Gst,
-      'Tin': this.State + this.Pan + this.Gst,
+      'GST': this.Gst.toUpperCase(),
+      'Tin': (this.State + this.Pan + this.Gst).toUpperCase(),
       'Favour': this.Favour,
-      'Account': this.Account,
-      'Bank': this.Bank,
-      'Branch': this.Branch,
-      'IFSC': this.IFSC,
+      'Account': this.Account.toUpperCase(),
+      'Bank': this.Bank.toUpperCase(),
+      'Branch': this.Branch.toUpperCase(),
+      'IFSC': this.IFSC.toUpperCase(),
       'Flag': (this.isActive.value === 'Active') ? 1 : 0
     };
     this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {

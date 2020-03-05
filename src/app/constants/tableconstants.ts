@@ -1558,6 +1558,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'IssuerCode', header: 'Issuer Code' },
       { field: 'IssuerName', header: 'Issuer Name' },
+      { field: 'Tyname', header: 'Type Name' },
       { field: 'PartyID', header: 'Party Code' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'TIN', header: 'Party GST Number' },
