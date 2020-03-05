@@ -9,7 +9,7 @@ import { delay, timeout, retry, catchError } from 'rxjs/operators';
 })
 
 export class RestAPIService {
-  BASEURL = 'http://180.179.49.72:8084';
+ BASEURL = 'http://180.179.49.72:8084';
 // BASEURL = 'http://localhost:8084';
   public HttpOptions = {
     headers: new HttpHeaders({
@@ -29,7 +29,7 @@ export class RestAPIService {
   post(url, obj): Observable<any> {
     return this.httpClient.post(this.BASEURL + url, obj).pipe(
      // delay(90000),
-      retry(1),
+    //  retry(1),
       catchError(this.handleError)
     );
   }
@@ -40,7 +40,7 @@ export class RestAPIService {
 
   put(url, obj): Observable<any> {
    return this.httpClient.put(this.BASEURL + url, obj).pipe(
-    retry(1),
+    //retry(1),
     catchError(this.handleError)
   );
   }
