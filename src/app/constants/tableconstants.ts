@@ -142,6 +142,8 @@ export class TableConstants {
   InceptionCols: any;
   CommodityReceiptReport: any;
   InceptionDetailsColumns: any;
+  GSTSalexTaxReportColumns: any;
+  GSTPurchasexTaxReportColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1717,6 +1719,50 @@ export class TableConstants {
       { header: 'Designation', field: 'DesignationName' },
       { header: 'InceptionDate', field: 'InceptionDate' },
       { header: 'CreatedDate', field: 'CreatedDate' },
+    ];
+
+    this.GSTSalexTaxReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Buyer_Name', field: 'CompanyName' },
+      { header: 'GSTIN', field: 'TIN' },
+      { header: 'Commodity', field: 'CommodityName' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'Bill No', field: 'BillNo' },
+      { header: 'Bill Date', field: 'BillDate' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Sales_Value', field: 'Amount' },
+      { header: 'Rate Of Tax', field: 'Percentage' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'TOTAL GST', field: 'VatAmount' },
+      { header: 'Total Amount', field: 'Total' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'DO Rate', field: 'DORate' },
+      { header: 'DO Total', field: 'DOTotal' },
+    ];
+
+    this.GSTPurchasexTaxReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Name_of_seller', field: 'PartyName' },
+      { header: 'GSTIN', field: 'TIN' },
+      { header: 'Commodity_Name', field: 'CommodityName' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'Invoice_No', field: 'BillNo' },
+      { header: 'Invoice_Date', field: 'BillDate' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Scale', field: 'Measurement' },
+      { header: 'Purchase_Value', field: 'Amount' },
+      { header: 'Tax_Rate', field: 'TaxPercentage' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'TOTAL GST', field: 'TaxAmount' },
+      { header: 'Total Amount', field: 'Total' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'DO Rate', field: 'DORate' },
+      { header: 'DO Total', field: 'DOTotal' },
     ];
   }
 }

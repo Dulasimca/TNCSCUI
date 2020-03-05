@@ -114,6 +114,8 @@ import { StackCardCorrectionComponent } from './Documents/stack-card-correction/
 import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
 import { StockLedgerStatementComponent } from './reports/stock-ledger-statement/stock-ledger-statement.component';
 import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception.component';
+import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
+import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -230,6 +232,8 @@ const routes: Routes = [
   { path: 'RunningStackCard', component: StackRunningCardDateComponent, canActivate: [AuthGuard] },
   { path: 'StockLedgerStatement', component: StockLedgerStatementComponent, canActivate: [AuthGuard] },
   { path: 'AuditInception', component: AuditInceptionComponent, canActivate: [AuthGuard] },
+  { path: 'SalesTax', component: SalesTaxComponent, canActivate: [AuthGuard] },
+  { path: 'PurchaseTax', component: PurchaseTaxComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

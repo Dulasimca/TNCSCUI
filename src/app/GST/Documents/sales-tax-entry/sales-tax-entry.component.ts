@@ -10,9 +10,6 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TooltipModule } from 'primeng/tooltip';
-import { isUndefined } from 'util';
-import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-sales-tax-entry',
