@@ -314,7 +314,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.TaxPanel.overlayVisible = true;
         }
-        if (this.TaxtypeOptions !== undefined) {
+        if (this.TaxtypeOptions === undefined) {
           TaxSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'CGST/SGST', value: 'CGST' },
             { label: 'IGST/UTGST', value: 'IGST' });
           this.TaxtypeOptions = TaxSelection;
@@ -324,7 +324,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.MeasurementPanel.overlayVisible = true;
         }
-        if (this.MeasurementOptions !== undefined) {
+        if (this.MeasurementOptions === undefined) {
           MeasurementSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'GRAMS', value: 'GRAMS' },
             { label: 'KGS', value: 'KGS' }, { label: 'KILOLITRE', value: 'KILOLITRE' }, { label: 'LTRS', value: 'LTRS' },
             { label: 'M.TONS', value: 'TONS' }, { label: 'NO.s', value: 'NOS' }, { label: 'QUINTAL', value: 'QUINTAL' });
@@ -462,7 +462,6 @@ export class SalesTaxEntryComponent implements OnInit {
         this.SalesTaxData = res;
         this.CompanyTitle = res;
         this.viewPane = true;
-        // this.AADS = res[0].GSTType;
         let sno = 0;
         let bd = new Date();
         this.SalesTaxData.forEach(s => {
@@ -550,17 +549,10 @@ export class SalesTaxEntryComponent implements OnInit {
     }
   }
 
-  onTotal() {
-    if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null &&
-      this.Amount !== undefined && this.Amount !== null) {
-      this.Total = this.PercentageAndAmountTotal(this.percentage, this.Amount);
-    }
-  }
-
   onClear() {
     this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = null;
-    this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = this.Scheme = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = this.Total = this.SchemeOptions = null;
+    this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = this.Total = this.SchemeOptions = this.Scheme = null;
     this.Credit = false;
   }
 
@@ -648,7 +640,6 @@ export class SalesTaxEntryComponent implements OnInit {
 
   onSubmit(formUser) {
     const params = {
-      // 'Roleid': this.roleId,
       'SalesID': (this.SalesID !== undefined && this.SalesID !== null) ? this.SalesID : 0,
       'Month': this.curMonth,
       'Year': this.Year,
