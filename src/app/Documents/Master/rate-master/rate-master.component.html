@@ -11,9 +11,9 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect()"
-         filter="true" resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-         filterMatchMode="startsWith" placeholder="-select-">
+        <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect()" filter="true"
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -22,8 +22,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Receiver Type</label>
         <p-dropdown [options]="receiverOptions" [(ngModel)]="r_cd" (onClick)="onSelect()" filter="true"
-        resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-        filterMatchMode="startsWith" placeholder="-select-">
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -32,8 +32,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
         <p-dropdown [options]="schemeOptions" [(ngModel)]="s_cd" (onClick)="onSelect()" filter="true"
-        resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-        filterMatchMode="startsWith" placeholder="-select-">
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -42,8 +42,8 @@
       <div class="ui-g-12 ui-md-3">
         <label class="ui-g-7 label-fontsize dashboard">Weightment Type</label>
         <p-dropdown [options]="WeightmentOptions" [(ngModel)]="w_cd" (onClick)="onSelect()" filter="true"
-        resetFilterOnHide="true" optionLabel="label" [showClear]="true"
-        filterMatchMode="startsWith" placeholder="-select-">
+          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
+          placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -58,7 +58,7 @@
         <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
           (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
-      <div class="ui-g-5"></div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
         <button pButton type="button" label=Add (click)="onAdd()"></button>
       </div>
