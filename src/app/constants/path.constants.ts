@@ -71,6 +71,7 @@ export class PathConstants {
   public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
   public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';
   public static readonly STOCK_STATEMENT_REPORT = '/api/StockStatement/Post';
+  public static readonly STOCK_LEDGER_REPORT = '/api/CommodityLedger/Post';
   public static readonly DAILY_DOCUMENT_RECEIPT_POST = '/api/DailyReceipt/Post';
   public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
   public static readonly DAILY_DOCUMENT_TRUCK_POST = '/api/DailyTruckMemo/Post';
@@ -158,6 +159,8 @@ export class PathConstants {
   //StackCard
   public static readonly STACK_CARD_GET = '/api/ManageStackCardMaster/Get';
   public static readonly STACK_CARD_UPDATE_POST = '/api/ManageStackCardMaster/Post';
+  public static readonly RATE_MASTER_GET = '/api/RateMaster/Get';
+  public static readonly RATE_MASTER_POST = '/api/RateMaster/Post';
  
   //Account Module
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';

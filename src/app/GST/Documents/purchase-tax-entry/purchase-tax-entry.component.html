@@ -9,87 +9,96 @@
     </p-header>
     <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g">
-      <div class="ui-g-12 ui-md-1"></div>
-      <div class="ui-g-6 ui-md-2">
-        <label class="ui-g-12 label-fontsize dashboard">Region</label>
-        <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
-          (onClick)="onSelect('reg', 'click')" (keyup.shift.tab)="onSelect('reg', 'tab')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true" 
-          (keyup.tab)="onSelect('reg', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-4"></div>
+        <div class="ui-g-12 ui-md-3" style="border: 4px solid lightgrey">
+          <div class="ui-g-6 ui-md-6 dashboard">
+            <p-radioButton name="Godown" value="1" [(ngModel)]="AADS" (ngModelChange)="onResetTable('AADS')"
+              label="Godown Entry"></p-radioButton>
+          </div>
+          <div class="ui-g-6 ui-md-6 dashboard">
+            <p-radioButton name="AADS" value="2" [(ngModel)]="AADS" (ngModelChange)="onResetTable('AADS')"
+              label="AADS Entry">
+            </p-radioButton>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-5"></div>
       </div>
-      <div class="ui-g-6 ui-md-2">
-        <label class="ui-g-12 label-fontsize dashboard">Godown</label>
-        <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
-          (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
-          (keyup.tab)="onSelect('gd', 'tab')" (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          filterMatchMode="startsWith" placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <!-- <div class="ui-g-6 ui-md-1">
-        <label class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
-        <p-inputMask mask="99" [(ngModel)]="Month" slotChar="__"></p-inputMask>
-      </div>
-      <div class="ui-g-6 ui-md-1">
-        <label class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
-        <p-inputMask mask="9999" [(ngModel)]="Year" slotChar="____"></p-inputMask>
-      </div> -->
+      <div *ngIf="(AADS)" class="ui-g-12">
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-12 label-fontsize dashboard">Region</label>
+          <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+            (onClick)="onSelect('reg', 'click')" (keyup.shift.tab)="onSelect('reg', 'tab')" [showClear]="true"
+            (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+            (keyup.tab)="onSelect('reg', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-12 label-fontsize dashboard">Godown</label>
+          <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+            (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
+            (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+            (keyup.tab)="onSelect('gd', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-1 ui-fluid">
+          <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
+          <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
+            (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
+            (ngModelChange)="onResetTable('m')" filter="true" resetFilterOnHide="true" optionLabel="label"
+            (keyup.tab)="onSelect('m', 'tab')" filterMatchMode="startsWith" required>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-1 ui-fluid">
+          <label for="PeriodOfYear" class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
+          <p-dropdown #y="ngModel" name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="Year"
+            (onClick)="onSelect('Yr', 'click')" (keyup.shift.tab)="onSelect('Yr', 'tab')"
+            (keyup.tab)="onSelect('Yr', 'tab')" (ngModelChange)="onResetTable('Yr')" required>
+          </p-dropdown>
+        </div>
 
-      <div class="ui-g-6 ui-md-1 ui-fluid">
-        <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
-        <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
-          (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
-          (ngModelChange)="onResetTable('m')" filter="true" resetFilterOnHide="true" optionLabel="label"
-          (keyup.tab)="onSelect('m', 'tab')"filterMatchMode="startsWith" filterMatchMode="startsWith" required>
-        </p-dropdown>
-      </div>
-      <div class="ui-g-6 ui-md-1 ui-fluid">
-        <label for="PeriodOfYear" class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
-        <p-dropdown #y="ngModel" name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="Year"
-          (onClick)="onSelect('Yr', 'click')" (keyup.shift.tab)="onSelect('Yr', 'tab')"
-          (keyup.tab)="onSelect('Yr', 'tab')" (ngModelChange)="onResetTable('Yr')" required>
-        </p-dropdown>
-      </div>
-
-      <div class="ui-g-6 ui-md-2">
-        <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
-        <p-dropdown #accountingYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions"
-          [(ngModel)]="AccountingYear" [showClear]="true" (onClick)="onSelect('y','click')"
-          (keyup.shift.tab)="onSelect('y','tab')" (ngModelChange)="onResetTable('y')" 
-          (keyup.tab)="onSelect('y','tab')" placeholder="-select-"
-          filter="true" resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <!-- <div class="ui-g-6 ui-md-1"></div> -->
-      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" (click)="onView()" style="padding: 1px;"
-          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
-      </div>
-      <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" icon="pi pi-plus" label=Add (click)="OnEdit = true;onClear()"
-          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
-      </div>
-      <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
+          <p-dropdown #accountingYear class="ui-g-12 ui-fluid dashboard" [options]="YearOptions"
+            [(ngModel)]="AccountingYear" [showClear]="true" (onClick)="onSelect('y','click')"
+            (keyup.shift.tab)="onSelect('y','tab')" (ngModelChange)="onResetTable('y')"
+            (keyup.tab)="onSelect('y','tab')" placeholder="-select-" filter="true" filterMatchMode="startsWith"
+            resetFilterOnHide="true" optionLabel="label">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <!-- <div class="ui-g-6 ui-md-1"></div> -->
+        <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+          <button pButton type="button" (click)="onView()" style="padding: 1px;"
+            [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
+        </div>
+        <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
+          <button pButton type="button" icon="pi pi-plus" label=Add (click)="OnEdit = true;onClear()"
+            [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
+        </div>
+        <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"
           [disabled]="(PurchaseTaxData.length=='0')"></button>
       </div> -->
-      <div class="ui-g-6 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-1"></div>
+      </div>
       <div class="ui-g-12"></div>
 
       <div *ngIf="OnEdit" class="ui-g-12" style="border: 1px solid #18c5a9">
         <div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-5"></div>
-            <div class="ui-g-12 ui-md-3">Purchase Tax Entry</div>
+            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '1')">Godown Purchase Tax Entry</div>
+            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '2')">AADS Purchase Tax Entry</div>
             <div class="ui-g-12 ui-md-5"></div>
           </div>
           <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
@@ -103,7 +112,7 @@
                 <p-dropdown #party name="Party" class="ui-g-12 ui-fluid dashboard" [options]="companyOptions"
                   [(ngModel)]="Party" (onClick)="onSelect('company','click')" [virtualScroll]="true" [itemSize]="31"
                   (keyup.shift.tab)="onSelect('company', 'tab')" (ngModelChange)="onResetTable('company')"
-                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop" 
+                  [showClear]="true" filter="true" optionLabel="label" [disabled]="onDrop"
                   (keyup.tab)="onSelect('company', 'tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -140,7 +149,7 @@
               <div class="ui-g-12 ui-md-1"></div>
             </div>
 
-            <div class="ui-g">
+            <div class="ui-g" *ngIf="(AADS == '2')">
               <div class="ui-g-12 ui-md-1 label-fontsize" style="text-align: end; padding-top: 25px;">
                 <button pButton type="button" icon="fa fa-bars" label="Commodity" [disabled]="disableButton"
                   (click)="onCommodity()"></button>
@@ -150,7 +159,7 @@
                 <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
                   [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
                   (keyup.shift.tab)="onSelect('commodity','tab')" [virtualScroll]="true" [itemSize]="31"
-                  [showClear]="true" optionLabel="label" filter="true" [disabled]="onPut" 
+                  [showClear]="true" optionLabel="label" filter="true" [disabled]="onPut"
                   (keyup.tab)="onSelect('commodity','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
@@ -175,15 +184,57 @@
               <div class="ui-g-12 ui-md-1"></div>
             </div>
 
+            <div class="ui-g" *ngIf="(AADS == '1')">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-3">
+                <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Commodity Name</label>
+                <p-dropdown #commodity name="Commodity" class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+                  [(ngModel)]="Commodity" (onClick)="onSelect('commodity','click')"
+                  (keyup.shift.tab)="onSelect('commodity','tab')" [showClear]="true" optionLabel="label" filter="true"
+                  (keyup.tab)="onSelect('commodity','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span style="vertical-align:middle">{{item.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <label class="ui-g-10 label-fontsize dashboard" for="Commodity">Scheme</label>
+                <p-dropdown #scheme name="scheme" class="ui-g-12 ui-fluid dashboard" [options]="SchemeOptions"
+                  [(ngModel)]="Scheme" (onClick)="onSelect('scheme','click')"
+                  (keyup.shift.tab)="onSelect('scheme','tab')" [showClear]="true" optionLabel="label" filter="true"
+                  (keyup.tab)="onSelect('scheme','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
+                  <ng-template let-item pTemplate="selectedItem">
+                    <span style="vertical-align:middle">{{item.label}}</span>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-2" style="padding-top: 18px">
+                <div class="ui-float-label">
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Bill" name="Bill"
+                    autocomplete="off" required>
+                  <label for="Bill">Bill No</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-g">
+                  <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date</label>
+                  <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy"
+                    [maxDate]="maxDate" name="Billdate" [(ngModel)]="Billdate" required>
+                  </p-calendar>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-1"></div>
+            </div>
+
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
               <div class="ui-g-12 ui-md-3 dashboard">
                 <div class="ui-g-12 ui-md-6">
                   <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
                   <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
-                    [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" 
-                    (keyup.shift.tab)="onSelect('tax','tab')" (keyup.tab)="onSelect('tax','tab')"
-                    [showClear]="true" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
+                    [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keyup.shift.tab)="onSelect('tax','tab')"
+                    (keyup.tab)="onSelect('tax','tab')" [showClear]="true" filter="true" filterMatchMode="startsWith"
+                    resetFilterOnHide="true">
                     <ng-template let-item pTemplate="selectedItem">
                       <span style="vertical-align:middle">{{item.label}}</span>
                     </ng-template>

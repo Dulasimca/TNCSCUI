@@ -1688,18 +1688,13 @@ export class TableConstants {
     this.StockLedgerReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Commodity', field: 'ITDescription' },
-      { header: 'Date', field: 'Date' },
-      { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      { header: 'Date', field: 'DocDate' },
+      { header: 'Opening Balance', field: 'OpeningBalance', align: 'right' },
       { header: 'Receipt', field: 'Receipt' },
       { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
-      // --Future purpose--
-      // { header: 'Sales', field: 'IssueSales', },
-      // { header: 'Other Issue', field: 'IssueOthers' },
+      { header: 'Issue Others', field: 'IssueOthers' },
       { header: 'Total Issue', field: 'TotalIssue' },
-      { header: 'Closing Balance', field: 'ClosingBalance' },
-      { header: 'Cumulative Shortage', field: 'CSBalance' },
-      { header: 'Current CS', field: 'Shortage' },
-      { header: 'Physical Balance', field: 'PhycialBalance' },
+      { header: 'Closing Balance', field: 'ClosingBalance' }
     ];
 
     this.InceptionCols = [
