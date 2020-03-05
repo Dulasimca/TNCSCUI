@@ -165,6 +165,8 @@ import { StackCardCorrectionComponent } from './Documents/stack-card-correction/
 import { StackRunningCardDateComponent } from './Documents/StackCard/stack-running-card-date/stack-running-card-date.component';
 import { StockLedgerStatementComponent } from './reports/stock-ledger-statement/stock-ledger-statement.component';
 import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception.component';
+import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
+import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
 
 
 @NgModule({
@@ -289,6 +291,8 @@ import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception
     StackRunningCardDateComponent,
     StockLedgerStatementComponent,
     AuditInceptionComponent,
+    SalesTaxComponent,
+    PurchaseTaxComponent,
   ],
   imports: [
     BrowserModule,
