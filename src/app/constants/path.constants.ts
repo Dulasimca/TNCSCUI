@@ -159,8 +159,9 @@ export class PathConstants {
   //StackCard
   public static readonly STACK_CARD_GET = '/api/ManageStackCardMaster/Get';
   public static readonly STACK_CARD_UPDATE_POST = '/api/ManageStackCardMaster/Post';
-  public static readonly RATE_MASTER_GET = '/api/RateMaster/Get';
+  public static readonly RATE_MASTER_GET = '/api/RateMaster';
   public static readonly RATE_MASTER_POST = '/api/RateMaster/Post';
+  public static readonly ALLOTMENT_GROUP_ITEM = '/api/AllotmentGroupMaster';
  
   //Account Module
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';

@@ -113,6 +113,7 @@ export class TableConstants {
   PartyLedgerMaster: any;
   PurchaseTaxEntry: any;
   AADSSalesTaxEntry: any;
+  AADSPurchaseTaxEntry: any;
   GodownSalesTaxEntry: any;
   TenderAllotmentDetailsCols: any[];
   TenderAllotmentToRegionCols: any[];
@@ -144,6 +145,7 @@ export class TableConstants {
   InceptionDetailsColumns: any;
   GSTSalexTaxReportColumns: any;
   GSTPurchasexTaxReportColumns: any;
+  RateMaster: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1402,16 +1404,40 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
+      { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'TaxType', header: 'Tax Type' },
+      { field: 'Measurement', header: 'Unit' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Amount' },
       { field: 'Percentage', header: 'Tax %' },
+      { field: 'CGST', header: 'CGST' },
+      { field: 'SGST', header: 'SGST' },
       { field: 'VatAmount', header: 'Tax Amount' },
       { field: 'Total', header: 'Total' },
       // { header: 'Modify' },
+    ];
+
+    this.AADSPurchaseTaxEntry = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'Hsncode', header: 'Hsncode' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'bd', header: 'Bill Date' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Value' },
+      { field: 'Percentage', header: 'Tax %' },
+      { field: 'CGST', header: 'CGST Amt' },
+      { field: 'SGST', header: 'SGST Amt' },
+      { field: 'VatAmount', header: 'Tax Amt' },
+      { field: 'Total', header: 'Total Amt' },
     ];
 
     this.AADSSalesTaxEntry = [
@@ -1759,6 +1785,17 @@ export class TableConstants {
       { header: 'Region', field: 'RGNAME' },
       { header: 'DO Rate', field: 'DORate' },
       { header: 'DO Total', field: 'DOTotal' },
+    ];
+
+    this.RateMaster = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Scheme Name', field: 'SchemeName' },
+      { header: 'Allotment Name', field: 'AllotmentName' },
+      { header: 'Hsncode', field: 'Hsncode' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Effective Date', field: 'EffectDate' },
+      { header: 'Close Date', field: 'EndDate' },
+      { header: 'Remarks', field: 'Remarks' }
     ];
   }
 }

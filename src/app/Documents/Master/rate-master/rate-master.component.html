@@ -1,3 +1,6 @@
+<p-blockUI [blocked]="blockScreen">
+  <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -9,41 +12,29 @@
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-fluid">
-      <div class="ui-g-12 ui-md-3">
+      <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
-        <p-dropdown [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onSelect()" filter="true"
-          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
-          placeholder="-select-">
+        <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="Commodity"
+          (onClick)="onSelect('commodity','click')" (keyup.shift.tab)="onSelect('commodity','tab')"
+          (keyup.tab)="onSelect('commodity','tab')" filter="true" resetFilterOnHide="true" [showClear]="true"
+          filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-3">
-        <label class="ui-g-7 label-fontsize dashboard">Receiver Type</label>
-        <p-dropdown [options]="receiverOptions" [(ngModel)]="r_cd" (onClick)="onSelect()" filter="true"
-          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
-          placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
+      <div class="ui-g-12 ui-md-2" style="padding-top: 20px">
+        <div class="ui-float-label">
+          <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Hsncode" name="Hsncode"
+            autocomplete="off" required>
+          <label for="Hsncode">Hsncode</label>
+        </div>
       </div>
-      <div class="ui-g-12 ui-md-3">
+      <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
-        <p-dropdown [options]="schemeOptions" [(ngModel)]="s_cd" (onClick)="onSelect()" filter="true"
-          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
-          placeholder="-select-">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="ui-g-12 ui-md-3">
-        <label class="ui-g-7 label-fontsize dashboard">Weightment Type</label>
-        <p-dropdown [options]="WeightmentOptions" [(ngModel)]="w_cd" (onClick)="onSelect()" filter="true"
-          resetFilterOnHide="true" optionLabel="label" [showClear]="true" filterMatchMode="startsWith"
-          placeholder="-select-">
+        <p-dropdown #scheme [options]="SchemeOptions" [(ngModel)]="Scheme" (onClick)="onSelect('scheme','click')"
+          (keyup.shift.tab)="onSelect('scheme','tab')" (keyup.tab)="onSelect('scheme','tab')" filter="true"
+          resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -51,22 +42,31 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Rate/Kg</label>
-        <input type="text" size="20" [(ngModel)]="orderNo" maxlength="20" pInputText autocomplete="off">
+        <input type="text" size="20" [(ngModel)]="Rate" name="Rate" maxlength="20" pInputText autocomplete="off">
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Effective Date</label>
-        <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-          (ngModelChange)="onDateSelect()"></p-calendar>
+        <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy">
+        </p-calendar>
       </div>
-      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">End Date</label>
+        <p-calendar [(ngModel)]="endDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <span class="ui-float-label">
+          <textarea pInputText name="Remark" rows="3" cols="110" maxlength="250" pInputTextarea autoResize="true"
+            [(ngModel)]="Remark" required></textarea>
+          <label for="Remark" class="label-fontsize-large">Remarks</label>
+        </span>
+      </div>
+      <div class="ui-g-12 ui-md-2"></div>
       <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Add (click)="onAdd()"></button>
+        <button pButton type="button" label=Save (click)="onSave()"
+          [disabled]="(!Commodity || !Hsncode || !Scheme || !Rate || !effectiveDate || !Remark)"></button>
       </div>
       <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=View (click)="onView()"></button>
-      </div>
-      <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Cancel (click)="onCancel()"></button>
+        <button pButton type="button" label=Clear (click)="onClear()"></button>
       </div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
@@ -79,10 +79,17 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+                <div *ngIf="col.field === 'Rate'|| col.field === 'Hsncode'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field !== 'Rate' && col.field !== 'Hsncode'">
+                  {{rowData[col.field]}}
+                </div>
               </td>
             </tr>
           </ng-template>
