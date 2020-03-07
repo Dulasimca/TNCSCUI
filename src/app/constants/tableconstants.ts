@@ -1789,8 +1789,8 @@ export class TableConstants {
 
     this.RateMaster = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Scheme Name', field: 'SchemeName' },
       { header: 'Allotment Name', field: 'AllotmentName' },
+      { header: 'Scheme Name', field: 'SchemeName' },
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Rate', field: 'Rate' },
       { header: 'Effective Date', field: 'EffectDate' },

@@ -45,7 +45,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   Empno: any;
   Designation: any;
   DesignationCode: any;
-  Jrtype: Boolean;
+  Jrtype: any;
   Jrdate: Date;
   Rdate: Date;
   Refno: any;
@@ -53,8 +53,8 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   releiv: any;
   Ref: any;
   join: any;
-  Join: boolean = true;
-  Relieve: boolean = false;
+  Join: boolean;
+  Relieve: boolean;
   Regular: any;
   userdata: any;
   maxDate: Date;
@@ -224,6 +224,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.Empname = this.Empno = this.Jrdate = this.Refdate = this.Refno = this.Jrtype = undefined;
     this.Regular = this.Rdate = this.releiv = this.ECode = this.join = this.Ref = this.Designation = undefined;
     this.designationOptions = undefined;
+    this.Join = this.Relieve = false;
   }
 
   onRowSelect(event) {
@@ -267,7 +268,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
     this.DesignationCode = selectedRow.Designation;
     this.RowID = selectedRow.RowID;
     this.ECode = selectedRow.Empno;
-    (this.Jrtype === true)
+    (this.Jrtype === "J") ? (this.Relieve = false, this.Join = true) : (this.Relieve = true, this.Join = false)
   }
 
   onDateSelect() {
@@ -297,10 +298,12 @@ export class GodownEmployeeDetailsComponent implements OnInit {
   }
 
   onRelieve() {
-    if (this.Jrtype === true) {
-      this.Relieve = false;
-    } else {
+    if (this.Jrtype === "R") {
+      this.Relieve = true;
       this.Join = false;
+    } else {
+      this.Relieve = false;
+      this.Join = true;
     }
   }
 
