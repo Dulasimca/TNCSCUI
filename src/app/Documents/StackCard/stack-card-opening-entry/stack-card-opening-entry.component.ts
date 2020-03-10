@@ -61,6 +61,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   CommodityCode: any;
   ClosingBalance: any;
   msgOfClosing: string;
+  showErrMsg: boolean = false;
   @ViewChild('f', { static: false }) ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -104,6 +105,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
 
   calculateStackNo() {
     if (this.Location !== undefined && this.Location !== null && this.Formation !== undefined && this.Formation !== null) {
+      let formationNo: any = this.Formation.trim();
+      this.showErrMsg = (formationNo.length < 3) ? true : false;
       this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation;
       this.StackNo = this.StackNo.replace("//", "/");
       if (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
@@ -386,6 +389,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.CommodityCode = null;
     this.commodityOptions = undefined;
     this.ICode = null; this.ClosingBalance = null;
+    this.showErrMsg = false;
   }
 
   onSave() {
