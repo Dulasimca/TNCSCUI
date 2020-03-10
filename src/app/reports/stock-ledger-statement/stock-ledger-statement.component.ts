@@ -50,8 +50,8 @@ export class StockLedgerStatementComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.stockDataColumns = this.tableConstants.StockStatementReport;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
+    this.stockDataColumns = this.tableConstants.StockLedgerReport;
     this.data = this.roleBasedService.getInstance();
     this.regions = this.roleBasedService.getRegions();
     this.username = JSON.parse(this.authService.getCredentials());
@@ -141,9 +141,10 @@ export class StockLedgerStatementComponent implements OnInit {
       'RCode': this.RCode.value,
       'GName': this.GCode.label,
       'RName': this.RCode.label,
-      'UserName': this.username.user
+      'UserName': this.username.user,
+      'ItemCode': this.Commodity.value
     };
-    this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
+    this.restApiService.post(PathConstants.STOCK_LEDGER_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.stockData = res;
         let sno = 0;
@@ -228,12 +229,12 @@ export class StockLedgerStatementComponent implements OnInit {
       rows.push(temp);
     });
     doc.autoTable(col, rows);
-    doc.save('STOCK_STATEMENT_REPORT.pdf');
+    doc.save('STOCK_LEDGER_REPORT.pdf');
   }
 
   onPrint() {
     const path = "../../assets/Reports/" + this.username.user + "/";
-    const filename = this.GCode.value + GolbalVariable.StockStatementFileName + ".txt";
+    const filename = this.GCode.value + GolbalVariable.StockLedgerFileName + ".txt";
     saveAs(path + filename, filename);
   }
 

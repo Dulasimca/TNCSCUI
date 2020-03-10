@@ -113,6 +113,7 @@ export class TableConstants {
   PartyLedgerMaster: any;
   PurchaseTaxEntry: any;
   AADSSalesTaxEntry: any;
+  AADSPurchaseTaxEntry: any;
   GodownSalesTaxEntry: any;
   TenderAllotmentDetailsCols: any[];
   TenderAllotmentToRegionCols: any[];
@@ -144,6 +145,7 @@ export class TableConstants {
   InceptionDetailsColumns: any;
   GSTSalexTaxReportColumns: any;
   GSTPurchasexTaxReportColumns: any;
+  RateMaster: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1402,16 +1404,40 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
+      { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'TaxType', header: 'Tax Type' },
+      { field: 'Measurement', header: 'Unit' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Amount' },
       { field: 'Percentage', header: 'Tax %' },
+      { field: 'CGST', header: 'CGST' },
+      { field: 'SGST', header: 'SGST' },
       { field: 'VatAmount', header: 'Tax Amount' },
       { field: 'Total', header: 'Total' },
       // { header: 'Modify' },
+    ];
+
+    this.AADSPurchaseTaxEntry = [
+      { header: 'S.No', field: 'SlNo' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'Hsncode', header: 'Hsncode' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'bd', header: 'Bill Date' },
+      { field: 'Quantity', header: 'Quantity' },
+      { field: 'Rate', header: 'Rate' },
+      { field: 'Amount', header: 'Value' },
+      { field: 'Percentage', header: 'Tax %' },
+      { field: 'CGST', header: 'CGST Amt' },
+      { field: 'SGST', header: 'SGST Amt' },
+      { field: 'VatAmount', header: 'Tax Amt' },
+      { field: 'Total', header: 'Total Amt' },
     ];
 
     this.AADSSalesTaxEntry = [
@@ -1452,16 +1478,16 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-    ]
+    ];
 
     this.ServiceProviderEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'Month', header: 'Month' },
       { field: 'Year', header: 'Year' },
-      { field: 'CompanyName', header: 'Company Name' },
-      { field: 'TIN', header: 'GST No' },
-      { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Service Name' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
@@ -1690,18 +1716,13 @@ export class TableConstants {
     this.StockLedgerReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Commodity', field: 'ITDescription' },
-      { header: 'Date', field: 'Date' },
-      { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      { header: 'Date', field: 'DocDate' },
+      { header: 'Opening Balance', field: 'OpeningBalance', align: 'right' },
       { header: 'Receipt', field: 'Receipt' },
       { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
-      // --Future purpose--
-      // { header: 'Sales', field: 'IssueSales', },
-      // { header: 'Other Issue', field: 'IssueOthers' },
+      { header: 'Issue Others', field: 'IssueOthers' },
       { header: 'Total Issue', field: 'TotalIssue' },
-      { header: 'Closing Balance', field: 'ClosingBalance' },
-      { header: 'Cumulative Shortage', field: 'CSBalance' },
-      { header: 'Current CS', field: 'Shortage' },
-      { header: 'Physical Balance', field: 'PhycialBalance' },
+      { header: 'Closing Balance', field: 'ClosingBalance' }
     ];
 
     this.InceptionCols = [
@@ -1764,6 +1785,17 @@ export class TableConstants {
       { header: 'Region', field: 'RGNAME' },
       { header: 'DO Rate', field: 'DORate' },
       { header: 'DO Total', field: 'DOTotal' },
+    ];
+
+    this.RateMaster = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Allotment Name', field: 'AllotmentName' },
+      { header: 'Scheme Name', field: 'SchemeName' },
+      { header: 'Hsncode', field: 'Hsncode' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Effective Date', field: 'EffectDate' },
+      { header: 'Close Date', field: 'EndDate' },
+      { header: 'Remarks', field: 'Remarks' }
     ];
   }
 }

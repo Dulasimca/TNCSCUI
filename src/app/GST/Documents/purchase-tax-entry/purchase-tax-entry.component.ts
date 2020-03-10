@@ -52,6 +52,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   yearOptions: SelectItem[];
   MeasurementOptions: SelectItem[];
   TaxtypeOptions: SelectItem[];
+  SchemeOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
@@ -97,11 +98,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
   loading: boolean = false;
   isCom: boolean = false;
   isCommodity: boolean = false;
+  blockScreen: boolean;
   curMonth: any;
   State: any;
   RName: any;
   CGST: any;
   SGST: any;
+  Hsncode: any;
+  AADS: string;
+  SchemeCode: any;
+  Scheme: any;
+  GodownCode: any;
   CompanyTitle: any = [];
   @ViewChild('region', { static: false }) RegionPanel: Dropdown;
   @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
@@ -112,6 +119,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   @ViewChild('company', { static: false }) companyPanel: Dropdown;
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
   @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
+  @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -121,6 +129,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     // this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
     this.RName = this.authService.getUserAccessible().rName;
+    this.GodownCode = this.authService.getUserAccessible().gCode;
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
@@ -142,6 +151,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     let commoditySelection = [];
     let MeasurementSelection = [];
     let TaxSelection = [];
+    let SchemeSelection = [];
     const range = 2;
     switch (item) {
       case 'reg':
@@ -171,15 +181,24 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
-        if (this.data !== undefined) {
+        if (this.data !== undefined && this.AADS === "1") {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
+        } else if (this.AADS === "2") {
+          this.restApiService.get(PathConstants.AADS).subscribe(res => {
+            res.forEach(s => {
+              if (s.RGCODE === this.RCode) {
+                godownSelection.push({ 'label': s.Name, 'value': s.AADSType });
+              }
+            });
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId === '1' && this.roleId === '2') {
+            godownSelection.unshift({ label: 'All', value: 'All' });
           }
         }
         break;
@@ -221,10 +240,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.TaxPanel.overlayVisible = true;
         }
         if (this.TaxtypeOptions !== undefined) {
-          TaxSelection.push({ 'label': 'CGST/SGST', 'value': 'CGST' }, { 'label': 'IGST/UTGST', 'value': 'IGST' });
+          TaxSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'CGST/SGST', value: 'CGST' },
+            { label: 'IGST/UTGST', value: 'IGST' });
+          this.TaxtypeOptions = TaxSelection;
         }
-        this.TaxtypeOptions = TaxSelection;
-        this.TaxtypeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'm':
         if (type === 'tab') {
@@ -242,27 +261,44 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.MeasurementPanel.overlayVisible = true;
         }
         if (this.MeasurementOptions !== undefined) {
-          MeasurementSelection.push({ 'label': 'GRAMS', 'value': 'GRAMS' }, { 'label': 'KGS', 'value': 'KGS' }, { 'label': 'KILOLITRE', 'value': 'KILOLITRE' }, { 'label': 'LTRS', 'value': 'LTRS' }, { 'label': 'M.TONS', 'value': 'M.TONS' }, { 'label': 'NO.s', 'value': 'NO.s' }, { 'label': 'QUINTAL', 'value': 'QUINTAL' });
+          MeasurementSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'GRAMS', value: 'GRAMS' },
+            { label: 'KGS', value: 'KGS' }, { label: 'KILOLITRE', value: 'KILOLITRE' }, { label: 'LTRS', value: 'LTRS' },
+            { label: 'M.TONS', value: 'TONS' }, { label: 'NO.s', value: 'NOS' }, { label: 'QUINTAL', value: 'QUINTAL' });
+          this.MeasurementOptions = MeasurementSelection;
         }
-        this.MeasurementOptions = MeasurementSelection;
-        this.MeasurementOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
       case 'commodity':
         if (type === 'tab') {
           this.commodityPanel.overlayVisible = true;
         }
         this.loading = true;
-        this.PresistData = this.CommodityGlobal;
-        if (this.commodityOptions !== undefined && this.PresistData !== undefined) {
+        if (this.commodityOptions !== undefined && this.PresistData !== undefined && this.AADS === "2") {
+          this.PresistData = this.CommodityGlobal;
           this.PresistData.forEach(y => {
-            commoditySelection.push({ 'label': y.CommodityName, 'value': y.CommodityID, 'TaxPer': y.TaxPercentage });
+            commoditySelection.push({ label: y.CommodityName, value: y.CommodityName, 'TaxPer': y.TaxPercentage, 'Hsncode': y.Hsncode });
           });
           this.loading = false;
           this.commodityOptions = commoditySelection;
-          this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.commodityOptions.unshift({ label: '-select-', value: null, disabled: true });
           this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
-          this.Vat = (this.Amount / 100) * this.percentage;
-          this.Total = this.Amount + this.Vat;
+          this.Hsncode = (this.Commodity.Hsncode !== undefined) ? this.Commodity.Hsncode : '';
+          this.Vat = ((this.Amount / 100) * this.percentage).toFixed(2);
+          this.Total = (this.Amount * 1) + (this.Vat * 1);
+        } else if (this.AADS === "1") {
+          this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+            if (data !== undefined) {
+              data.forEach(y => {
+                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode, TaxPer: y.TaxPercentage, Hsncode: y.Hsncode });
+              });
+              this.loading = false;
+              this.commodityOptions = commoditySelection;
+              this.commodityOptions.unshift({ label: '-select-', value: null, disabled: true });
+              this.percentage = (this.Commodity.TaxPer !== undefined) ? this.Commodity.TaxPer : '';
+              this.Hsncode = (this.Commodity.Hsncode !== undefined) ? this.Commodity.Hsncode : '';
+              this.Vat = ((this.Amount / 100) * this.percentage).toFixed(2);
+              this.Total = (this.Amount * 1) + (this.Vat * 1);
+            }
+          });
         }
         break;
       case 'company':
@@ -273,14 +309,28 @@ export class PurchaseTaxEntryComponent implements OnInit {
         this.PristineData = this.CompanyGlobal;
         if (this.companyOptions !== undefined && this.PristineData !== undefined) {
           this.PristineData.forEach(s => {
-            CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
+            CompanySelection.push({ label: s.PartyName, value: s.PartyID, tin: s.TIN, gstno: s.GSTNo, sc: s.StateCode, pan: s.Pan });
           });
           this.loading = false;
           this.companyOptions = CompanySelection;
-          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.companyOptions.unshift({ label: '-select-', value: null, disabled: true });
           this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
           this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
           this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+        }
+        break;
+      case 'scheme':
+        if (type === 'tab') {
+          this.SchemePanel.overlayVisible = true;
+        }
+        if (this.AADS === "1" && this.SchemeOptions !== undefined) {
+          this.restApiService.get(PathConstants.SCHEMES).subscribe(res => {
+            res.forEach(s => {
+              SchemeSelection.push({ 'label': s.Name, 'value': s.SCCode });
+            });
+            this.SchemeOptions = SchemeSelection;
+            this.SchemeOptions.unshift({ label: '-select-', value: null, disabled: true });
+          });
         }
         break;
     }
@@ -296,11 +346,11 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.CompanyTitleData = res;
-        this.loading = false;
         this.CompanyGlobal = res;
         this.isViewed = true;
         this.disableOkButton = true;
         this.onDrop = false;
+        this.loading = false;
         let sno = 0;
         this.CompanyTitleData.forEach(s => {
           sno += 1;
@@ -309,13 +359,19 @@ export class PurchaseTaxEntryComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -338,6 +394,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Commodity = selectedRow.CommodityName;
     this.CommodityID = selectedRow.CommodityID;
     this.percentage = selectedRow.TaxPercentage;
+    this.Hsncode = selectedRow.Hsncode;
   }
 
   onCommodity() {
@@ -360,32 +417,39 @@ export class PurchaseTaxEntryComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
 
   onView() {
     const params = {
-      // 'RoleId': this.roleId,
       'GCode': this.GCode,
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear.label
+      'AccountingYear': this.AccountingYear.label,
+      'GSTType': this.AADS
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.PurchaseTaxCols = this.tableConstant.PurchaseTaxEntry;
+        this.PurchaseTaxCols = (this.AADS === '2') ? this.tableConstant.AADSPurchaseTaxEntry : this.tableConstant.PurchaseTaxEntry;
         this.PurchaseTaxData = res;
         this.CompanyTitle = res;
         this.viewPane = true;
+        this.loading = false;
         let sno = 0;
         let bd = new Date();
         this.PurchaseTaxData.forEach(s => {
@@ -396,30 +460,78 @@ export class PurchaseTaxEntryComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
 
+  QtyAndRateCalculation(selectedWt, amnt, qty) {
+    let sum: any = 0;
+    // this.Amount = this.Quantity * this.Rate;
+    switch (selectedWt) {
+      case 'KGS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'QUINTAL':
+        sum = ((qty / 100) * amnt).toFixed(2);
+        break;
+      case 'TONS':
+        sum = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'LTRS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'NOS':
+        sum = (qty * amnt).toFixed(2);
+        break;
+      case 'KILOLITRE':
+        sum = ((qty / 1000) * amnt).toFixed(2);
+        break;
+      case 'GRAMS':
+        sum = ((qty * amnt).toFixed(2));
+        break;
+    }
+    return sum;
+  }
+
+  PercentageAndAmountTotal(percentage, amt) {
+    let total: any = 0;
+    total = (percentage * 1) + (amt * 1);
+    return total;
+  }
+
   onGST() {
-    this.Amount = this.Quantity * this.Rate;
-    // this.Vat = (this.Amount / 100) * this.percentage;
-    let GA = (this.Amount / 100) * this.percentage;
-    this.CGST = GA / 2;
-    this.SGST = GA / 2;
-    this.Vat = GA;
-    this.Total = this.Amount + this.Vat;
+    if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
+      let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
+      this.Amount = this.QtyAndRateCalculation(unit, this.Rate, this.Quantity);
+      let GA;
+      GA = (this.Amount / 100) * this.percentage;
+      this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
+      this.CGST = (GA / 2).toFixed(2);
+      this.SGST = (GA / 2).toFixed(2);
+      this.Vat = GA.toFixed(2);
+      // this.Total = (this.Amount * 1) + (this.Vat * 1);
+      this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
+    }
   }
 
   onClear() {
-    this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.Total = this.CGST = this.SGST = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.MeasurementOptions = null;
+    this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = null;
+    this.percentage = this.Vat = this.Total = this.CGST = this.SGST = this.Scheme = this.Hsncode = this.Commodity = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.SchemeOptions = this.Measurement = this.TaxType = null;
+    this.TaxtypeOptions = this.MeasurementOptions = null;
   }
 
   onSearch(value) {
@@ -472,6 +584,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
     this.CommodityID = selectedRow.CommodityID;
+    this.Hsncode = selectedRow.Hsncode;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.TaxType = selectedRow.TaxType;
@@ -485,9 +598,14 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.Total = selectedRow.Total;
     this.Vat = selectedRow.VatAmount;
     this.PurchaseID = selectedRow.PurchaseID;
+    this.SchemeOptions = [{ label: selectedRow.SchemeName, value: selectedRow.SchemeCode }];
+    this.Scheme = selectedRow.SchemeName;
+    this.SchemeCode = selectedRow.SchemeCode;
   }
 
   onSubmit(formUser) {
+    this.blockScreen = true;
+    this.messageService.clear();
     const params = {
       'Roleid': this.roleId,
       'PurchaseID': (this.PurchaseID !== undefined && this.PurchaseID !== null) ? this.PurchaseID : 0,
@@ -508,34 +626,39 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Rate': this.Rate,
       'Amount': this.Amount,
       'Percentage': this.percentage,
+      'Hsncode': this.Hsncode || this.Commodity.Hsncode,
       'VatAmount': this.Vat,
       'CGST': this.CGST,
       'SGST': this.SGST,
       'Total': this.Total,
-      'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
       'CreatedDate': this.Billdate,
       'RCode': this.RCode,
-      'GCode': this.GCode
+      'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
+      'GSTType': this.AADS,
+      'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
+      'AADS': (this.AADS === '2') ? this.GCode : ''
     };
     this.restApiService.post(PathConstants.PURCHASE_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
+        this.blockScreen = false;
+        this.onClear();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
         });
       } else {
-        this.loading = false;
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,life: 5000,
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
-        this.loading = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
@@ -543,13 +666,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
         });
       }
     });
-    this.onClear();
   }
 
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.PurchaseTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
+    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; }
   }
 
   onClose() {

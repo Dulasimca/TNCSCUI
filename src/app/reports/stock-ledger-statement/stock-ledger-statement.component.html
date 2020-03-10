@@ -4,7 +4,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g panel-header">
-        <div class="ui-g-4 dashboard">Stock Ledger</div>
+        <div class="ui-g-4 dashboard">Stock Ledger Statement</div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             [disabled]="(stockData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
@@ -70,7 +70,7 @@
           exportFilename="STOCK_STATEMENT_REPORT">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
-              <th *ngFor="let col of columns">
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field" [ngSwitch]="col.field">
                 {{col.header}}
               </th>
             </tr>
