@@ -124,6 +124,7 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
+  aadsGodownSelection: any = [];
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -143,6 +144,11 @@ export class SalesTaxEntryComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
+    this.restApiService.get(PathConstants.AADS).subscribe(res => {
+      res.forEach(s => {
+          this.aadsGodownSelection.push({ 'label': s.Name, 'value': s.AADSType, 'RCode': s.RGCODE });
+      });
+    });
   }
 
   onSelect(item, type) {
@@ -191,15 +197,10 @@ export class SalesTaxEntryComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        } else if (this.AADS === "2") {
-          this.restApiService.get(PathConstants.AADS).subscribe(res => {
-            res.forEach(s => {
-              if (s.RGCODE === this.RCode) {
-                godownSelection.push({ 'label': s.Name, 'value': s.AADSType });
-              }
-            });
-          });
-          this.godownOptions = godownSelection;
+        } else if (this.AADS === "2" && this.aadsGodownSelection.length !== 0) {
+           this.godownOptions = this.aadsGodownSelection.filter(x => {
+             return x.RCode === this.RCode;
+           });
           if (this.roleId === '1' && this.roleId === '2') {
             godownSelection.unshift({ label: 'All', value: 'All' });
           }
