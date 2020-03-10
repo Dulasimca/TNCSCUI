@@ -351,8 +351,8 @@
 </div>
 
 
-<p-dialog header="Purchase Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-  [(visible)]="viewPane" [responsive]="true">
+<p-dialog header="Purchase Tax Entry" [contentStyle]="{'overflow':'scroll', 'width':'1350px'}" [modal]="true"
+  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
