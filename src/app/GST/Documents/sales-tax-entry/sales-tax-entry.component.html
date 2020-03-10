@@ -340,8 +340,8 @@
               </div>
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-float-label">
-                  <input class="icon2" size="30" pInputText [(ngModel)]="Total" name="Total"
-                    (input)="onGST()" autocomplete="off" readonly="true" required>
+                  <input class="icon2" size="30" pInputText [(ngModel)]="Total" name="Total" (input)="onGST()"
+                    autocomplete="off" readonly="true" required>
                   <label for="Total">Total Amount</label>
                 </div>
               </div>
@@ -364,8 +364,8 @@
 </div>
 
 
-<p-dialog *ngIf="(AADS == '1')" header="Godown Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
-  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
+<p-dialog *ngIf="(AADS == '1')" header="Godown Sales Tax Entry" [contentStyle]="{'overflow':'scroll', 'width':'1350px'}"
+  [modal]="true" [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
@@ -405,8 +405,8 @@
   </div>
 </p-dialog>
 
-<p-dialog *ngIf="(AADS == '2')" header="AADS Sales Tax Entry" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
-  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
+<p-dialog *ngIf="(AADS == '2')" header="AADS Sales Tax Entry" [contentStyle]="{'overflow':'scroll', 'width':'1350px'}"
+  [modal]="true" [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-11 dashboard" style="text-align: end !important;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by GST"
       (ngModelChange)="onSearch($event)">
