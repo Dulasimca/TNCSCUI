@@ -84,6 +84,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   isViewed: boolean = false;
   isEdited: boolean;
   loading: boolean = false;
+  blockScreen: boolean;
   curMonth: any;
   State: any;
   RName: any;
@@ -98,7 +99,8 @@ export class ServiceProviderEntryComponent implements OnInit {
   @ViewChild('tax', { static: false }) TaxPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
+    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -134,7 +136,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
           }
@@ -142,7 +144,7 @@ export class ServiceProviderEntryComponent implements OnInit {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -156,7 +158,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, rcode: x.RCode, rname: x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -173,7 +175,7 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                YearSelection.push({ 'label': y.ShortYear });
+                YearSelection.push({ label: y.ShortYear });
               });
               this.YearOptions = YearSelection;
             }
@@ -187,27 +189,27 @@ export class ServiceProviderEntryComponent implements OnInit {
         const year = new Date().getFullYear();
         for (let i = 0; i < range; i++) {
           if (i === 0) {
-            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
+            yearArr.push({ label: (year - 1).toString(), value: year - 1 });
           } else if (i === 1) {
-            yearArr.push({ 'label': (year).toString(), 'value': year });
+            yearArr.push({ label: (year).toString(), value: year });
           }
           // else {
-          // yearArr.push({ 'label': (year + 1).toString(), 'value': year + 1 });
+          // yearArr.push({ label: (year + 1).toString(), value: year + 1 });
           // }
         }
         this.yearOptions = yearArr;
-        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.yearOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
       case 'm':
         if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
-        this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
-        { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
-        { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
-        { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
-        { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
-        this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        this.monthOptions = [{ label: 'Jan', value: '01' },
+        { label: 'Feb', value: '02' }, { label: 'Mar', value: '03' }, { label: 'Apr', value: '04' },
+        { label: 'May', value: '05' }, { label: 'Jun', value: '06' }, { label: 'Jul', value: '07' },
+        { label: 'Aug', value: '08' }, { label: 'Sep', value: '09' }, { label: 'Oct', value: '10' },
+        { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
+        this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
       case 'commodity':
         if (type === 'tab') {
@@ -217,10 +219,10 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.restApiService.get(PathConstants.GST_SERVICE_PROVIDER_MASTER).subscribe(data => {
             if (data !== undefined) {
               data.forEach(y => {
-                commoditySelection.push({ 'label': y.SERVICENAME, 'value': y.SACCODE, 'percentage': y.TAXPERCENTAGE });
+                commoditySelection.push({ label: y.SERVICENAME, value: y.ID, percentage: y.TAXPERCENTAGE, saccode: y.SACCODE });
                 this.commodityOptions = commoditySelection;
               });
-              this.commodityOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+              this.commodityOptions.unshift({ label: '-select-', value: null, disabled: true });
               this.percentage = this.Commodity.percentage;
             }
           });
@@ -234,11 +236,14 @@ export class ServiceProviderEntryComponent implements OnInit {
         this.PristineData = this.CompanyGlobal;
         if (this.companyOptions !== undefined && this.PristineData !== undefined) {
           this.PristineData.forEach(s => {
-            CompanySelection.push({ 'label': s.PartyName, 'value': s.PartyID, 'tin': s.TIN, 'gstno': s.GSTNo, 'sc': s.StateCode, 'pan': s.Pan });
+            CompanySelection.push({
+              label: s.PartyName, value: s.PartyID, tin: s.TIN, gstno: s.GSTNo, sc: s.StateCode,
+              pan: s.Pan
+            });
           });
           this.loading = false;
           this.companyOptions = CompanySelection;
-          this.companyOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+          this.companyOptions.unshift({ label: '-select-', value: null, disabled: true });
           this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
           this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
           this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
@@ -249,7 +254,8 @@ export class ServiceProviderEntryComponent implements OnInit {
           this.TaxPanel.overlayVisible = true;
         }
         if (this.TaxtypeOptions !== undefined) {
-          TaxSelection.push({ 'label': '-select-', 'value': null, disabled: true }, { 'label': 'CGST/SGST', 'value': 'CGST' }, { 'label': 'IGST/UTGST', 'value': 'IGST' });
+          TaxSelection.push({ label: '-select-', value: null, disabled: true }, { label: 'CGST/SGST', value: 'CGST' },
+            { label: 'IGST/UTGST', value: 'IGST' });
           this.TaxtypeOptions = TaxSelection;
         }
         break;
@@ -353,10 +359,10 @@ export class ServiceProviderEntryComponent implements OnInit {
 
   onGST() {
     let GA = (this.Amount / 100) * this.percentage;
-    this.CGST = GA / 2;
-    this.SGST = GA / 2;
-    this.Vat = GA;
-    this.Total = this.Amount + this.Vat;
+    this.CGST = (GA / 2).toFixed(2);
+    this.SGST = (GA / 2).toFixed(2);
+    this.Vat = GA.toFixed(2);
+    this.Total = (this.Amount * 1) + (this.Vat * 1);
   }
 
   onClear() {
@@ -392,7 +398,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.viewPane = false;
     this.OnEdit = true;
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
-    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.SACCODE }];
+    this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.Pan = selectedRow.Pan;
     this.Gst = selectedRow.GSTNo;
@@ -402,7 +408,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
     this.Party = selectedRow.CompanyName;
     this.PartyID = selectedRow.CompanyID;
-    this.Commodity = selectedRow.CommodityName;
+    this.Commodity = selectedRow.CommodityID;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
@@ -416,20 +422,19 @@ export class ServiceProviderEntryComponent implements OnInit {
 
 
   onSubmit(formUser) {
+    this.blockScreen = true;
+    this.messageService.clear();
     const params = {
       // 'Roleid': this.roleId,
       'ServiceID': (this.ServiceID !== undefined && this.ServiceID !== null) ? this.ServiceID : 0,
       'Month': this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
-      'GST': this.Gst,
-      'State': this.State,
-      'Pan': this.Pan,
       'AccYear': this.AccountingYear.label,
       'BillNo': this.Bill,
       'BillDate': this.datepipe.transform(this.Billdate, 'MM/dd/yyyy'),
       'CompanyName': (this.Party.value !== undefined && this.Party.value !== null) ? this.Party.value : this.PartyID,
-      'CommodityName': this.Commodity.label || this.Commodity,
+      'CommodityName': this.Commodity.value || this.Commodity,
       'TaxType': this.TaxType,
       'CGST': this.CGST,
       'SGST': this.SGST,
@@ -437,7 +442,6 @@ export class ServiceProviderEntryComponent implements OnInit {
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
       'Total': this.Total,
-      'AccRegion': this.RCode,
       'CreatedBy': this.GCode,
       'CreatedDate': this.Billdate,
       'RCode': this.RCode,
@@ -445,10 +449,15 @@ export class ServiceProviderEntryComponent implements OnInit {
     };
     this.restApiService.post(PathConstants.SERVICE_PROVIDER_POST, params).subscribe(value => {
       if (value) {
+        this.blockScreen = false;
+        this.onClear();
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS,
+          detail: StatusMessage.SuccessMessage
+        });
       } else {
-        this.loading = false;
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
@@ -456,6 +465,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();

@@ -1478,16 +1478,16 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-    ]
+    ];
 
     this.ServiceProviderEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'Month', header: 'Month' },
       { field: 'Year', header: 'Year' },
-      { field: 'CompanyName', header: 'Company Name' },
-      { field: 'TIN', header: 'GST No' },
-      { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Service Name' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
