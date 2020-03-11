@@ -1048,7 +1048,7 @@ export class IssueReceiptComponent implements OnInit {
         const params = {
           'GCode': this.IssuingCode,
           'RCode': this.RCode,
-          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value === null) ? this.RNCode.value : this.rnCode,
+          'RNCode': (this.RNCode.value !== undefined && this.RNCode.value !== null) ? this.RNCode.value : this.rnCode,
           'IssRegAdv': this.RegularAdvance.toUpperCase(),
           'Month': ((this.curMonth * 1) < 9) ? ('0' + (this.curMonth * 1)) : this.curMonth,
           'Year': this.year,
@@ -1128,7 +1128,7 @@ export class IssueReceiptComponent implements OnInit {
             }
           } else if (type === '2') {
             /// ---------------- Allotment balance check ------------------ ///
-            if (this.BalanceQty !== null && this.BalanceQty !== undefined && this.exceedAllotBal) {
+            if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
               percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
               if (this.RegularAdvance.toUpperCase().trim() === 'R') {
                 let netWt = 0;

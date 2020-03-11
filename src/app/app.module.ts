@@ -167,6 +167,7 @@ import { StockLedgerStatementComponent } from './reports/stock-ledger-statement/
 import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception.component';
 import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
 import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
+import { ServiceProviderComponent } from './GST/Reports/service-provider/service-provider.component';
 
 
 @NgModule({
@@ -293,6 +294,7 @@ import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.co
     AuditInceptionComponent,
     SalesTaxComponent,
     PurchaseTaxComponent,
+    ServiceProviderComponent,
   ],
   imports: [
     BrowserModule,

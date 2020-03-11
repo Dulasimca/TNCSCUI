@@ -94,7 +94,10 @@
               <input type="text" minlength="3" maxlength="3" name="FormationNo" [readonly]="nonEditable"
                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                 (input)="calculateStackNo()" [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
-              <div class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 1 OR 28 OR 523</div>
+                <div *ngIf="showErrMsg">
+                  <span style="font-size: 12px; color:crimson;">Formarion No should be 3 digits!</span>
+                </div>
+                <div *ngIf="!showErrMsg" class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 001 OR 028 OR 523</div>
             </div>
             <div class="form-group ui-g-12 ui-md-2 no-pad-top">
               <label class="ui-g-12 label-fontsize dashboard" for="StackNumber">Stack No</label>
