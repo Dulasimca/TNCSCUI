@@ -37,7 +37,11 @@ export class GodownProfileComponent implements OnInit {
   fax: any[];
   godownOptions: SelectItem[];
   canShowMenu: boolean;
+  blockScreen: boolean;
   formUser: any = [];
+  RowId: any;
+  InchargeID: any;
+  Designation: any;
   loading: boolean = false;
   OnEdit: boolean = false;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
@@ -95,7 +99,7 @@ export class GodownProfileComponent implements OnInit {
         this.restAPIService.getByParameters(PathConstants.EMPLOYEE_MASTER_GET, params).subscribe(res => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.forEach(s => {
-              employeeSelection.push({ 'label': s.EmpName, 'value': s.Empno });
+              employeeSelection.push({ label: s.EmpName, value: s.Empno });
             });
           }
           this.employeeOptions = employeeSelection;
@@ -109,7 +113,7 @@ export class GodownProfileComponent implements OnInit {
         this.restAPIService.get(PathConstants.DESIGNATION_MASTER).subscribe(res => {
           if (res !== undefined && res !== null && res.length !== 0) {
             res.forEach(s => {
-              designationSelection.push({ 'label': s.DESGN, 'value': s.DESGNCOD });
+              designationSelection.push({ label: s.DESGN, value: s.DESGNCOD });
             });
           }
           this.designationOptions = designationSelection;
@@ -119,16 +123,31 @@ export class GodownProfileComponent implements OnInit {
     }
   }
 
-
+  onRowSelect(event, selectedRow) {
+    this.OnEdit = true;
+    this.RowId = selectedRow.RowId;
+    this.designationOptions = [{ label: selectedRow.DesignationName, value: selectedRow.DesignationCode }];
+    this.employeeOptions = [{ label: selectedRow.EmpName, value: selectedRow.InchargeCode }];
+    this.formUser.Gname = selectedRow.EmpName;
+    this.InchargeID = selectedRow.InchargeCode;
+    this.formUser.designation = selectedRow.DesignationName;
+    this.Designation = selectedRow.DesignationCode;
+    this.formUser.address1 = selectedRow.Address1;
+    this.formUser.address2 = selectedRow.DistrictAddress;
+    this.formUser.address3 = selectedRow.MailID;
+    this.formUser.telno = selectedRow.TELNO;
+    this.formUser.phone = selectedRow.MOBNO;
+    this.formUser.fax = selectedRow.FAXNO;
+  }
 
   onSubmit(formUser) {
-    // console.log('form values ', form);
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(form));
+    this.blockScreen = true;
+    this.messageService.clear();
     const params = {
-      'RowId': this.roleId,
+      'RowId': this.RowId || '0',
       'GodownCode': this.gCode,
-      'Gname': formUser.Gname,
-      'desig': formUser.designation,
+      'Gname': this.InchargeID || formUser.Gname,
+      'desig': this.Designation || formUser.designation,
       'add1': formUser.address1,
       'add2': formUser.address2,
       'add3': formUser.address3,
@@ -138,19 +157,15 @@ export class GodownProfileComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
       if (res) {
+        this.onView();
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
         });
-        const params = new HttpParams().append('GCode', this.gCode);
-        this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
-          if (value !== undefined) {
-            this.godownProfileCols = this.tableConstants.godownProfile;
-            this.godownProfileData = value;
-          }
-        });
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
@@ -158,6 +173,7 @@ export class GodownProfileComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -169,13 +185,27 @@ export class GodownProfileComponent implements OnInit {
     this.onClear();
   }
 
+  onView() {
+    const params = new HttpParams().append('GCode', this.gCode);
+    this.restAPIService.getByParameters(PathConstants.GODOWN_PROFILE_GET, params).subscribe(value => {
+      if (value !== undefined) {
+        // this.godownProfileCols = this.tableConstants.godownProfile;
+        this.godownProfileData = value;
+        let sno = 0;
+        this.godownProfileData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      }
+    });
+  }
+
   onAdd() {
     this.OnEdit = true;
   }
 
   onClear() {
-    this.formUser.Gname = this.formUser.designation = this.formUser.address1 = this.formUser.address2 = this.formUser.address3 = [];
-    this.formUser.telno = this.formUser.phone = this.formUser.fax = [];
+    this.formUser = this.InchargeID = this.Designation = this.RowId = [];
     this.designationOptions = this.employeeOptions = undefined;
   }
 }
