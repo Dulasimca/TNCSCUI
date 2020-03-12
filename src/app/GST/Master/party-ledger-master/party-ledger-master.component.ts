@@ -142,6 +142,32 @@ export class PartyLedgerMasterComponent implements OnInit {
     }
   }
 
+  onURDView(formUser) {
+    const params = {
+      'Type': 'URD',
+      'PartyName': this.Partyname
+    };
+    this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
+      if (res.length === 0) {
+        this.onURDSubmit();
+      } else
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.PartyNameExists
+          });
+        }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
 
   onView() {
     this.loading = true;
@@ -151,7 +177,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
+        // this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
         this.loading = false;
         this.CompanyTitle = res;
         this.PartyLedgerData = res;
@@ -291,7 +317,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     });
   }
 
-  onURDSubmit(formUser) {
+  onURDSubmit() {
     this.blockScreen = true;
     this.messageService.clear();
     const params = {
