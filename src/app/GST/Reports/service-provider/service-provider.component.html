@@ -80,14 +80,13 @@
         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
           <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
             <td *ngFor="let col of columns">
-              <div
-                *ngIf="col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
+              <div *ngIf="col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
                 <div style="text-align: end !important">
                   {{rowData[col.field]}}
                 </div>
               </div>
-              <div
-                *ngIf="col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'">
+              <div *ngIf="col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'"
+              [ngStyle]="{'text-decoration': getStyle(rowData.CommodityName, 'line'),'color': getStyle(rowData.CommodityName, 'color')}">
                 {{rowData[col.field]}}
               </div>
             </td>
