@@ -165,10 +165,33 @@ export class ServiceProviderComponent implements OnInit {
         this.serviceTaxData = res;
         let sno = 0;
         this.serviceTaxData.forEach(s => {
-          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
+                ///Abstract
+                var hash = Object.create(null),
+                abstract = [];
+              this.serviceTaxData.forEach(function (o) {
+                var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
+                if (!hash[key]) {
+                  hash[key] = { BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
+                    TIN: o.TIN, Pan: o.Pan, Amount: 0, TaxPercentage: o.TaxPercentage,
+                    TaxAmount: 0, CGST: 0, SGST: 0, Total: 0 };
+                  abstract.push(hash[key]);
+                }
+                ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+                ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+                ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+                ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+                ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+              });
+              this.serviceTaxData.push({ CommodityName: 'ABSTRACT' });
+              abstract.forEach(x => {
+                this.serviceTaxData.push({ Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
+                  CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2) });;
+              })
+              ///End
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -196,6 +219,14 @@ export class ServiceProviderComponent implements OnInit {
 
   onClose() {
     this.messageService.clear('t-err');
+  }
+
+  public getStyle(value: string, id: string): string {
+    if (id === 'line') {
+      return (value === 'ABSTRACT') ? "underline" : "none";
+    } else {
+      return (value === 'ABSTRACT') ? "#18c5a9" : "black";
+    }
   }
 
 }

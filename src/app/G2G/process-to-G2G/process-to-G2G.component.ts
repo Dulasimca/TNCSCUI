@@ -148,6 +148,7 @@ export class ProcessToG2GComponent implements OnInit {
                     this.issueMemoDocData = filteredArr;
                     this.primalData = filteredArr;
                     this.filterByType(this.CheckRegAdv);
+                    this.loadViewData();
 
                 } else {
                     this.issueMemoDocData = [];
@@ -172,6 +173,51 @@ export class ProcessToG2GComponent implements OnInit {
                 }
             });
         }
+    }
+
+    loadViewData() {
+        this.loading = true;
+        const g2gparams = new HttpParams().set('RCode', this.RCode).append('GCode', this.GCode).append('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'));
+        this.restAPIService.getByParameters(PathConstants.PROCESS_TO_G2G_GET, g2gparams).subscribe((res: any) => {
+            if (res !== null && res !== undefined && res.length !== 0) {
+                let sno = 1;
+                this.processToG2GData = res.filter(x => {
+                    return (x.DocType === 2 && x.GToGStatus !== 4);
+                });
+                if (this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
+                    this.processToG2GData.forEach(data => {
+                        data.SlNo = sno;
+                        sno += 1;
+                        data.Status = this.getG2GStatus(data.GToGStatus, data.Error.toString().trim().toLowerCase());
+                        data.ACKStatus = (data.GToGACKDate !== null) ? 'Success' : 'Pending';
+                    });
+                    this.loading = false;
+                }
+                if(this.processToG2GData.length !== 0) {
+                    this.processToG2GData.forEach(y => {
+                     this.issueMemoDocData.filter((x, index) => {
+                      if(x.SINo === y.DocNumber) {
+                        this.issueMemoDocData.splice(index, 1);
+                      }
+                    })
+                })
+            }
+            } else {
+                this.processToG2GData = [];
+                this.loading = false;
+              
+            }
+        }, (err: HttpErrorResponse) => {
+            this.loading = false;
+            if (err.status === 0 || err.status === 400) {
+                this.processToG2GData = [];
+                this.messageService.clear();
+                this.messageService.add({
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                    summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                });
+            }
+        });
     }
 
     filterByType(value) {
@@ -200,43 +246,16 @@ export class ProcessToG2GComponent implements OnInit {
 
     onView() {
         this.processToG2GCols = this.tableConstants.ProcessToG2GCols;
-        const params = new HttpParams().set('RCode', this.RCode).append('GCode', this.GCode).append('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'));
-        this.restAPIService.getByParameters(PathConstants.PROCESS_TO_G2G_GET, params).subscribe((res: any) => {
-            if (res !== null && res !== undefined && res.length !== 0) {
-                this.showPane = true;
-                let sno = 1;
-                this.processToG2GData = res.filter(x => {
-                    return (x.DocType === 2 && x.GToGStatus !== 4);
-                });
-                if (this.processToG2GData.length !== 0 && this.processToG2GData !== null) {
-                    this.processToG2GData.forEach(data => {
-                        data.SlNo = sno;
-                        sno += 1;
-                        data.Status = this.getG2GStatus(data.GToGStatus, data.Error.toString().trim().toLowerCase());
-                        data.ACKStatus = (data.GToGACKDate !== null) ? 'Success' : 'Pending';
-                    });
-                }
-            } else {
-                this.processToG2GData = [];
-                this.showPane = false;
-                this.messageService.clear();
-                this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-                    summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
-                });
-            }
-        }, (err: HttpErrorResponse) => {
-            this.loading = false;
+        if(this.processToG2GData.length !== 0) {
+        this.showPane = true;
+        } else {
             this.showPane = false;
-            if (err.status === 0 || err.status === 400) {
-                this.processToG2GData = [];
-                this.messageService.clear();
-                this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-                    summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-                });
-            }
-        });
+            this.messageService.clear();
+            this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+                summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+            });
+        }
     }
 
     getG2GStatus(value, msg): string {
