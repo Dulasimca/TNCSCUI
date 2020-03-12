@@ -124,7 +124,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
               // this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
               // this.PartyLedgerData = res;
               res.forEach(s => {
-                partySelection.push({ label: s.PartyName, value: s.PCode, TIN: s.TIN });
+                partySelection.push({ label: s.PartyName, value: s.LedgerID, TIN: s.TIN });
                 // this.PartyTin = s.TIN;
               });
               this.partyOptions = partySelection;

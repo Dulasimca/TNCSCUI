@@ -1,3 +1,6 @@
+<p-blockUI [blocked]="blockScreen">
+  <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -8,72 +11,92 @@
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
-    <div class="employee-main" style="max-width: 700px; margin: 50px auto !important;">
-      <div class="ui-g">
-        <a class="ui-g-12 ui-md-5">Party Ledger Details</a>
-        <div class="ui-g-12 ui-md-2"></div>
-        <div class="ui-g-12 ui-md-3">
-          <label class="ui-g-10 label-fontsize dashboard" for="isActive">Active</label>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-5"></div>
+        <div class="ui-g-12 ui-md-2" style="text-align: center">
+          <label class="ui-g-10 label-fontsize dashboard" for="isActive">Registered/Un-Registered</label>
           <p-dropdown #active name="Active" class="ui-g-12 ui-fluid dashboard" [options]="ActiveOptions"
-            [(ngModel)]="isActive" (onClick)="onSelect('active','click')" (keydown.enter)="onSelect('active','enter')"
-            optionLabel="label" [showClear]="true" filter="true" resetFilterOnHide="true" 
-            filterMatchMode="startsWith" placeholder="Active">
+            [(ngModel)]="isActive" (onClick)="onSelect('active','click')" (keyup.shift.tab)="onSelect('active', 'tab')"
+            (keyup.tab)="onSelect('active','tab')" [showClear]="true" filter="true"
+            (ngModelChange)="onResetTable('URD')" resetFilterOnHide="true" filterMatchMode="startsWith"
+            placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="ui-g-6 ui-md-2 ui-fluid" style="padding-top: 23px;">
-          <button pButton type="button" (click)="onView()" [disabled]="(!RCode)" label=View></button>
+        <div class="ui-g-12 ui-md-5"></div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-2"></div>
+        <div *ngIf="(isActive == 'Registered')" class="ui-g-12 ui-md-8"
+          style="border: 2px solid lightgray; text-transform: uppercase;">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-2" style="text-align: center">
+            <div class="ui-float-label">
+              <input class="ui-g icon2" type="text" size="30" pInputText pTooltip="Enter 2 Digit Code"
+                tooltipEvent="focus" tooltipPosition="bottom" [(ngModel)]="State" (input)="onLoad()" name="State"
+                autocomplete="off" maxlength="2" required>
+              <label for="State">State Code</label>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <div class="ui-float-label">
+              <input class="ui-g icon2" type="text" size="30" pInputText pTooltip="Enter 10 Digit Pan"
+                tooltipEvent="focus" tooltipPosition="bottom" [(ngModel)]="Pan" (input)="onLoad()" name="Pan"
+                autocomplete="off" maxlength="10" required>
+              <label for="Pan">Pan No.</label>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <div class="ui-float-label">
+              <input class="ui-g icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
+                tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" (input)="onLoad()" autocomplete="off"
+                maxlength="3" required>
+              <label for="Gst">Gst No</label>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-3" style="padding-top: 14px;">
+            <a (input)="onLoad()" [(ngModel)]="TIN"></a>
+            <!-- GST - {{State + Pan + Gst}} -->GST - {{TIN}}
+          </div>
+          <!-- <div class="ui-g-12 ui-md-2 ui-fluid">
+            <button pButton type="button" (click)="onView()" [disabled]="(!Pan || !State || !Gst)" label=View></button>
+          </div> -->
         </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+    </div>
+
+
+    <div *ngIf="(onReg)" class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
+      <div class="ui-g">
+        <a class="ui-g-12 ui-md-5">Party Ledger Entry</a>
+        <div class="ui-g-12 ui-md-7"></div>
       </div>
       <div>
         <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
           <div class="ui-g">
-            <div class="ui-g-12 ui-md-6">
-              <label class="ui-g label-fontsize-large" for="Region">Region</label>
-              <p-dropdown #region name="region" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions"
-                [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')"
-                optionLabel="label" (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
-                filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
-                <ng-template let-item pTemplate="selectedItem">
-                  <span style="vertical-align:middle">{{item.label}}</span>
-                </ng-template>
-              </p-dropdown>
-            </div>
-            <div class="ui-g-12 ui-md-6" style="padding-top: 22px">
+            <div class="ui-g-12 ui-md-8" style="padding-top: 22px">
               <div class="ui-float-label">
                 <input class="icon2" size="30" pInputText [(ngModel)]="Partyname" name="Partyname" autocomplete="off"
                   required>
                 <label for="Partyname">Party Name</label>
               </div>
             </div>
-
-          </div>
-          <div class="ui-g">
-            <div class="ui-g-12 ui-md-2">
-              <div class="ui-float-label">
-                <input class="ui-g icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State"
-                  autocomplete="off" maxlength="2" required>
-                <label for="State">State Code</label>
-              </div>
-            </div>
-            <div class="ui-g-12 ui-md-3">
-              <div class="ui-float-label">
-                <input class="ui-g icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan"
-                  autocomplete="off" maxlength="10" required>
-                <label for="Pan">Pan No.</label>
-              </div>
-            </div>
-            <div class="ui-g-12 ui-md-2">
-              <div class="ui-float-label">
-                <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
-                  tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" maxlength="3" required>
-                <label for="Gst">Gst No</label>
-              </div>
-            </div>
-            <div class="ui-g-12 ui-md-4" style="padding-top: 14px;">
-              <a>GST - {{State + Pan + Gst}}</a>
+            <div class="ui-g-12 ui-md-4">
+              <label class="ui-g label-fontsize-large" for="Godown">Purpose of Use</label>
+              <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
+                [(ngModel)]="Godown" (onClick)="onSelect('godown', 'click')"
+                (keyup.shift.tab)="onSelect('godown', 'tab')" (keyup.tab)="onSelect('godown', 'tab')"
+                (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
             </div>
           </div>
           <div class="ui-g">
@@ -118,36 +141,74 @@
                 <label for="IFSC">IFSC Code</label>
               </div>
             </div>
-            <!-- <div class="bottom" style="padding-left: 95px"> -->
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
-                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !RCode || !isActive)"
+                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !isActive)"
                 label=Submit></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onClear()" style="padding: 3px" label=Clear></button>
             </div>
-            <!-- </div> -->
           </div>
         </form>
       </div>
     </div>
-    <!-- </div> -->
+
+    <div *ngIf="(isActive == 'URD')" class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
+      <div class="ui-g">
+        <a class="ui-g-12 ui-md-5">Party Ledger Entry</a>
+        <div class="ui-g-12 ui-md-7"></div>
+      </div>
+      <div>
+        <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-8" style="padding-top: 22px">
+              <div class="ui-float-label">
+                <input class="icon2" size="30" pInputText [(ngModel)]="Partyname" name="Partyname" autocomplete="off"
+                  required>
+                <label for="Partyname">Party Name</label>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label class="ui-g label-fontsize-large" for="Godown">Purpose of Use</label>
+              <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
+                [(ngModel)]="Godown" (onClick)="onSelect('godown', 'click')"
+                (keyup.shift.tab)="onSelect('godown', 'tab')" (keyup.tab)="onSelect('godown', 'tab')"
+                (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4"></div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <button pButton type="button" (click)="onURDSubmit(formUser)" style="padding: 3px"
+                [disabled]="(!Partyname || !Godown)" label=Submit></button>
+            </div>
+            <div class="ui-g-6 ui-md-2 ui-fluid">
+              <button pButton type="button" (click)="onClear()" style="padding: 3px" label=Clear></button>
+            </div>
+            <div class="ui-g-12 ui-md-4"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </p-panel>
 </div>
 
 
-<p-dialog header="Party Ledger Master Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
+<!-- <p-dialog header="Party Ledger Master Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
   [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
   <div class="ui-g-12 ui-md-10" style="text-align: end !important; padding-top: 7px;">
     <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Party, GSTNO"
       (ngModelChange)="onSearch($event)">
     <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
   </div>
-  <!-- <div class="ui-g-4 ui-md-1 no-right-pad">
-      <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
-        (click)="showSelectedData()"></button>
-    </div> -->
   <div class="ui-g-4 ui-md-1 ui-fluid">
     <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!PartyLedgerData" label=Excel
       (click)="dt.exportCSV()"></button>
@@ -181,4 +242,4 @@
       </ng-template>
     </p-table>
   </div>
-</p-dialog>
+</p-dialog> -->

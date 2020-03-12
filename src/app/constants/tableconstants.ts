@@ -1051,12 +1051,14 @@ export class TableConstants {
 
     this.godownProfile = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'GNAME', header: 'Incharge Name' },
-      { field: 'GodownCode', header: 'Godown Code' },
-      { field: 'DESIG', header: 'Designation' },
-      { field: 'ADD1', header: 'Address1' },
-      { field: 'ADD2', header: 'Address2' },
-      { field: 'MailID', header: 'Address3' },
+      { field: 'GodownName', header: 'Godown Name' },
+      { field: 'InchargeCode', header: 'Employee No' },
+      { field: 'EmpName', header: 'Incharge Name' },
+      { field: 'DesignationName', header: 'Designation Name' },
+      // { field: 'DesignationCode', header: 'Designation Code' },
+      { field: 'Address1', header: 'Address1' },
+      { field: 'DistrictAddress', header: 'Address2' },
+      { field: 'MailID', header: 'E-Mail' },
       { field: 'TELNO', header: 'Telephone No' },
       { field: 'MOBNO', header: 'Mobile No' },
       { field: 'FAXNO', header: 'Fax No' },
@@ -1370,7 +1372,7 @@ export class TableConstants {
 
     this.PartyLedgerMaster = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'RName', header: 'Region Name' },
+      { field: 'StateCode', header: 'State Code' },
       { field: 'PartyName', header: 'Party Name' },
       { field: 'Favour', header: 'Alias / Favour of' },
       { field: 'Pan', header: 'Pan No' },

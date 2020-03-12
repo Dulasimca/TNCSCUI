@@ -27,6 +27,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   roleId: any;
   regionOptions: SelectItem[];
   ActiveOptions: SelectItem[];
+  godownOptions: SelectItem[];
   regions: any;
   RCode: any;
   Region: any;
@@ -34,14 +35,14 @@ export class PartyLedgerMasterComponent implements OnInit {
   searchText: any;
   Pan: any;
   State: any;
-  Tin: any;
+  TIN: any;
   Partyname: any;
   PartyCode: any;
   Favour: any;
   LedgerID: any;
   Gst: any;
   Account: any;
-  Bank: any;;
+  Bank: any;
   Branch: any;
   IFSC: any;
   userdata: any;
@@ -52,13 +53,20 @@ export class PartyLedgerMasterComponent implements OnInit {
   loading: boolean = false;
   viewPane: boolean;
   isViewed: boolean = false;
+  onReg: boolean = false;
+  onURD: boolean = false;
+  blockScreen: boolean;
   RName: any;
   isActive: any;
   Flag: any;
+  Godown: any;
+  AADS: any;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService, private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
+    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -81,6 +89,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let ActiveSelection = [];
+    let GodownSelection = [];
     switch (item) {
       case 'reg':
         this.regions = this.roleBasedService.regionsData;
@@ -90,7 +99,7 @@ export class PartyLedgerMasterComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
             if (this.roleId !== 3) {
@@ -101,7 +110,7 @@ export class PartyLedgerMasterComponent implements OnInit {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -116,8 +125,18 @@ export class PartyLedgerMasterComponent implements OnInit {
           this.activePanel.overlayVisible = true;
         }
         if (this.ActiveOptions === undefined) {
-          ActiveSelection.push({ 'label': 'Active', 'value': 'Active' }, { 'label': 'InActive', 'value': 'InActive' });
+          ActiveSelection.push({ label: 'Registered', value: 'Registered' }, { label: 'Un-Registered', value: 'URD' });
           this.ActiveOptions = ActiveSelection;
+        }
+        break;
+      case 'godown':
+        if (type === 'enter') {
+          this.activePanel.overlayVisible = true;
+        }
+        if (this.godownOptions !== undefined) {
+          GodownSelection.push({ label: 'Godown', value: 'Godown' }, { label: 'AADS', value: 'AADS' },
+            { label: 'Both Use', value: 'Both' });
+          this.godownOptions = GodownSelection;
         }
         break;
     }
@@ -127,23 +146,34 @@ export class PartyLedgerMasterComponent implements OnInit {
   onView() {
     this.loading = true;
     const params = {
-      'Type': (this.isActive !== undefined && this.isActive !== null) ? this.isActive.value : 'Active',
-      'RCode': this.RCode.value,
+      'Type': (this.isActive === 'URD') ? 'URD' : 'Registered',
+      'TIN': (this.State + this.Pan + this.Gst).toUpperCase(),
     };
     this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.viewPane = true;
         this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
         this.loading = false;
         this.CompanyTitle = res;
         this.PartyLedgerData = res;
-        let sno = 0;
-        this.PartyLedgerData.forEach(s => {
-          sno += 1;
-          s.SlNo = sno;
-        });
+        this.viewPane = false;
+        this.onReg = true;
+        this.Pan = this.PartyLedgerData[0].Pan;
+        this.Partyname = this.PartyLedgerData[0].PartyName;
+        this.Gst = this.PartyLedgerData[0].GST;
+        this.State = this.PartyLedgerData[0].StateCode;
+        this.Account = this.PartyLedgerData[0].Account;
+        this.Favour = this.PartyLedgerData[0].Favour;
+        this.Bank = this.PartyLedgerData[0].Bank;
+        this.Branch = this.PartyLedgerData[0].Branch;
+        this.IFSC = this.PartyLedgerData[0].IFSC;
+        this.LedgerID = this.PartyLedgerData[0].LedgerID;
+        this.PartyCode = this.PartyLedgerData[0].PCode;
+        this.Flag = this.PartyLedgerData[0].isActive;
+        this.godownOptions = [{ label: this.PartyLedgerData[0].AADSType, value: this.PartyLedgerData[0].AADSType }];
+        this.Godown = this.PartyLedgerData[0].AADSType;
       } else {
         this.loading = false;
+        this.onReg = true;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -153,6 +183,7 @@ export class PartyLedgerMasterComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
+        this.onReg = true;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
@@ -162,10 +193,29 @@ export class PartyLedgerMasterComponent implements OnInit {
     });
   }
 
+  onLoad() {
+    let value = [];
+    if (this.Gst !== undefined && this.State !== undefined && this.Pan !== undefined) {
+      value = this.State + this.Pan + this.Gst;
+      if (value.length === 15) {
+        this.TIN = value;
+        this.onView();
+      } else if (value.length !== 15) {
+        this.onReg = false;
+        this.onFormClear();
+      }
+    }
+  }
+
+  onFormClear() {
+    this.Partyname = this.PartyCode = this.Favour = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = undefined;
+    this.Godown = undefined;
+  }
 
   onClear() {
-    this.Pan = this.Partyname = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = this.PartyCode = undefined;
-    this.RCode = this.isActive = undefined;
+    this.Pan = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.PartyCode = undefined;
+    this.isActive = this.LedgerID = this.Partyname = this.Godown = this.TIN = undefined;
+    this.onReg = false;
   }
 
   onRowSelect(event) {
@@ -176,13 +226,12 @@ export class PartyLedgerMasterComponent implements OnInit {
   showSelectedData(event, selectedRow) {
     this.viewPane = false;
     this.isViewed = true;
-    this.regionOptions = [{ label: this.selectedRow.RName, value: this.selectedRow.RCode }];
+    this.onReg = true;
     this.Pan = this.selectedRow.Pan;
     this.Partyname = this.selectedRow.PartyName;
     this.Gst = this.selectedRow.GST;
     this.State = this.selectedRow.StateCode;
     this.Account = this.selectedRow.Account;
-    this.RName = this.selectedRow.RName;
     this.Favour = this.selectedRow.Favour;
     this.Bank = this.selectedRow.Bank;
     this.Branch = this.selectedRow.Branch;
@@ -193,14 +242,15 @@ export class PartyLedgerMasterComponent implements OnInit {
   }
 
   onSubmit(formUser) {
+    this.blockScreen = true;
+    this.messageService.clear();
     const params = {
       'LedgerID': (this.LedgerID !== undefined && this.LedgerID !== null) ? this.LedgerID : '',
       'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
-      'Roleid': this.roleId,
+      // 'Roleid': this.roleId,
       'Pan': this.Pan.toUpperCase(),
       'StateCode': this.State,
       'PartyName': this.Partyname.toUpperCase(),
-      'RCode': this.RCode.value,
       'GST': this.Gst.toUpperCase(),
       'Tin': (this.State + this.Pan + this.Gst).toUpperCase(),
       'Favour': this.Favour,
@@ -208,16 +258,21 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Bank': this.Bank.toUpperCase(),
       'Branch': this.Branch.toUpperCase(),
       'IFSC': this.IFSC.toUpperCase(),
-      'Flag': (this.isActive.value === 'Active') ? 1 : 0
+      'RCode': this.loggedInRCode,
+      'AADSType': this.Godown,
+      'Flag': (this.isActive === 'Registered') ? 1 : 0
     };
     this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
       if (value) {
+        this.blockScreen = false;
+        this.onClear();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
         });
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
@@ -225,6 +280,7 @@ export class PartyLedgerMasterComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -233,7 +289,48 @@ export class PartyLedgerMasterComponent implements OnInit {
         });
       }
     });
-    this.onClear();
+  }
+
+  onURDSubmit(formUser) {
+    this.blockScreen = true;
+    this.messageService.clear();
+    const params = {
+      'Type': 1,
+      'LedgerID': (this.LedgerID !== undefined && this.LedgerID !== null) ? this.LedgerID : '',
+      'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
+      'PartyName': this.Partyname.toUpperCase(),
+      'Tin': this.isActive,
+      'RCode': this.loggedInRCode,
+      'AADSType': this.Godown,
+      'Flag': (this.isActive === 'URD') ? 1 : 0
+    };
+    this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
+      if (value) {
+        this.blockScreen = false;
+        this.onClear();
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
   }
 
   onSearch(value) {
@@ -248,7 +345,14 @@ export class PartyLedgerMasterComponent implements OnInit {
     }
   }
 
-  onResetTable(item) { }
+  onResetTable(item) {
+    if (item === 'URD') {
+      this.onFormClear();
+      this.Pan = this.State = this.Gst = this.TIN = undefined;
+      this.onReg = false;
+      this.godownOptions = null;
+    } else if (item === 'godown') { }
+  }
 
   onClose() {
     this.messageService.clear('t-err');
