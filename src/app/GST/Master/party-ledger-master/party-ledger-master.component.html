@@ -17,8 +17,9 @@
         <div class="ui-g-12 ui-md-2" style="text-align: center">
           <label class="ui-g-10 label-fontsize dashboard" for="isActive">Registered/Un-Registered</label>
           <p-dropdown #active name="Active" class="ui-g-12 ui-fluid dashboard" [options]="ActiveOptions"
-            [(ngModel)]="isActive" (onClick)="onSelect('active','click')" (keydown.enter)="onSelect('active','enter')"
-            [showClear]="true" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
+            [(ngModel)]="isActive" (onClick)="onSelect('active','click')" (keyup.shift.tab)="onSelect('active', 'tab')"
+            (keyup.tab)="onSelect('active','tab')" [showClear]="true" filter="true"
+            (ngModelChange)="onResetTable('URD')" resetFilterOnHide="true" filterMatchMode="startsWith"
             placeholder="-select-">
             <ng-template let-item pTemplate="selectedItem">
               <span style="vertical-align:middle">{{item.label}}</span>
@@ -50,7 +51,7 @@
           </div>
           <div class="ui-g-12 ui-md-2">
             <div class="ui-float-label">
-              <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
+              <input class="ui-g icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
                 tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" (input)="onLoad()" autocomplete="off"
                 maxlength="3" required>
               <label for="Gst">Gst No</label>
@@ -89,9 +90,9 @@
               <label class="ui-g label-fontsize-large" for="Godown">Purpose of Use</label>
               <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
                 [(ngModel)]="Godown" (onClick)="onSelect('godown', 'click')"
-                (keydown.enter)="onSelect('godown', 'enter')" (ngModelChange)="onResetTable('godown')" filter="true"
-                resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" [showClear]="true"
-                placeholder="-select-">
+                (keyup.shift.tab)="onSelect('godown', 'tab')" (keyup.tab)="onSelect('godown', 'tab')"
+                (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -153,7 +154,7 @@
       </div>
     </div>
 
-    <div *ngIf="(onURD)" class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
+    <div *ngIf="(isActive == 'URD')" class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
       <div class="ui-g">
         <a class="ui-g-12 ui-md-5">Party Ledger Entry</a>
         <div class="ui-g-12 ui-md-7"></div>
@@ -172,8 +173,9 @@
               <label class="ui-g label-fontsize-large" for="Godown">Purpose of Use</label>
               <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
                 [(ngModel)]="Godown" (onClick)="onSelect('godown', 'click')"
-                (keydown.enter)="onSelect('godown', 'enter')" (ngModelChange)="onResetTable('godown')" filter="true"
-                resetFilterOnHide="true" filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
+                (keyup.shift.tab)="onSelect('godown', 'tab')" (keyup.tab)="onSelect('godown', 'tab')"
+                (ngModelChange)="onResetTable('godown')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -184,9 +186,8 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-4"></div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
-              <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
-                [disabled]="(!Gst || !Account || !Pan || !IFSC || !Bank || !Branch || !Partyname || !Favour || !isActive)"
-                label=Submit></button>
+              <button pButton type="button" (click)="onURDSubmit(formUser)" style="padding: 3px"
+                [disabled]="(!Partyname || !Godown)" label=Submit></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onClear()" style="padding: 3px" label=Clear></button>
