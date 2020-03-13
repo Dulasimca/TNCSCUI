@@ -22,6 +22,7 @@ export class ServiceProviderComponent implements OnInit {
   Month: any;
   regions: any;
   canShowMenu: boolean;
+  blockScreen: boolean;
   data: any;
   loggedInRCode: string;
   roleId: any;

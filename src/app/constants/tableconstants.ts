@@ -1722,6 +1722,7 @@ export class TableConstants {
       { header: 'Opening Balance', field: 'OpeningBalance', align: 'right' },
       { header: 'Receipt', field: 'Receipt' },
       { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
+      { header: 'Issues', field: 'IssueSales' },
       { header: 'Issue Others', field: 'IssueOthers' },
       { header: 'Total Issue', field: 'TotalIssue' },
       { header: 'Closing Balance', field: 'ClosingBalance' }
@@ -1794,6 +1795,7 @@ export class TableConstants {
       { header: 'Allotment Name', field: 'AllotmentName' },
       { header: 'Scheme Name', field: 'SchemeName' },
       { header: 'Hsncode', field: 'Hsncode' },
+      { header: 'Tax Percentage', field: 'TaxPercentage' },
       { header: 'Rate', field: 'Rate' },
       { header: 'Effective Date', field: 'EffectDate' },
       { header: 'Close Date', field: 'EndDate' },

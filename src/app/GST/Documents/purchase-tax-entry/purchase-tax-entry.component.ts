@@ -197,9 +197,6 @@ export class PurchaseTaxEntryComponent implements OnInit {
             });
           });
           this.godownOptions = godownSelection;
-          if (this.roleId === '1' && this.roleId === '2') {
-            godownSelection.unshift({ label: 'All', value: 'All' });
-          }
         }
         break;
       case 'y':
@@ -314,9 +311,15 @@ export class PurchaseTaxEntryComponent implements OnInit {
           this.loading = false;
           this.companyOptions = CompanySelection;
           this.companyOptions.unshift({ label: '-select-', value: null, disabled: true });
-          this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
-          this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
-          this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          if (this.Party.tin === 'URD') {
+            this.Gst = 'URD';
+            this.State = '';
+            this.Pan = '';
+          } else {
+            this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+            this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+            this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          }
         }
         break;
       case 'scheme':
@@ -379,12 +382,21 @@ export class PurchaseTaxEntryComponent implements OnInit {
   onRow(event, selectedRow) {
     this.isEdited = true;
     this.isViewed = false;
-    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.Party = selectedRow.PartyName;
-    this.PartyID = selectedRow.PartyID;
-    this.State = selectedRow.StateCode;
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
+    if (selectedRow.TIN === 'URD') {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.Gst = 'URD';
+      this.State = '';
+      this.Pan = '';
+    } else {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.State = selectedRow.StateCode;
+      this.Pan = selectedRow.Pan;
+      this.Gst = selectedRow.GSTNo;
+    }
   }
 
   onCommoditySelect(event, selectedRow) {
@@ -531,7 +543,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = null;
     this.percentage = this.Vat = this.Total = this.CGST = this.SGST = this.Scheme = this.Hsncode = this.Commodity = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.SchemeOptions = this.Measurement = this.TaxType = null;
-    this.TaxtypeOptions = this.MeasurementOptions = null;
+    this.TaxtypeOptions = this.MeasurementOptions = this.Party = null;
   }
 
   onSearch(value) {
@@ -577,9 +589,9 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.measurement }];
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
-    this.State = selectedRow.StateCode;
+    this.Pan = (selectedRow.TIN === 'URD') ? '' : selectedRow.Pan;
+    this.Gst = (selectedRow.TIN === 'URD') ? 'URD' : selectedRow.GSTNo;
+    this.State = (selectedRow.TIN === 'URD') ? '' : selectedRow.StateCode;
     this.Party = selectedRow.CompanyName;
     this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;

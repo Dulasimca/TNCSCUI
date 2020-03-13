@@ -146,7 +146,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.yearOptions = [{ label: this.Year, value: this.Year }];
     this.restApiService.get(PathConstants.AADS).subscribe(res => {
       res.forEach(s => {
-          this.aadsGodownSelection.push({ 'label': s.Name, 'value': s.AADSType, 'RCode': s.RGCODE });
+        this.aadsGodownSelection.push({ 'label': s.Name, 'value': s.AADSType, 'RCode': s.RGCODE });
       });
     });
   }
@@ -197,13 +197,15 @@ export class SalesTaxEntryComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-        } else if (this.AADS === "2" && this.aadsGodownSelection.length !== 0) {
-           this.godownOptions = this.aadsGodownSelection.filter(x => {
-             return x.RCode === this.RCode;
-           });
-          if (this.roleId === '1' && this.roleId === '2') {
-            godownSelection.unshift({ label: 'All', value: 'All' });
-          }
+        } else if (this.AADS === "2") {
+          this.restApiService.get(PathConstants.AADS).subscribe(res => {
+            res.forEach(s => {
+              if (s.RGCODE === this.RCode) {
+                godownSelection.push({ 'label': s.Name, 'value': s.AADSType });
+              }
+            });
+          });
+          this.godownOptions = godownSelection;
         }
         break;
       case 'y':
@@ -297,9 +299,15 @@ export class SalesTaxEntryComponent implements OnInit {
           this.loading = false;
           this.companyOptions = CompanySelection;
           this.companyOptions.unshift({ label: '-select-', value: null, disabled: true });
-          this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
-          this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
-          this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          if (this.Party.tin === 'URD') {
+            this.Gst = 'URD';
+            this.State = '';
+            this.Pan = '';
+          } else {
+            this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+            this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+            this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          }
         }
         break;
       case 'tax':
@@ -383,12 +391,21 @@ export class SalesTaxEntryComponent implements OnInit {
   onRow(event, selectedRow) {
     this.isEdited = true;
     this.isViewed = false;
-    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.Party = selectedRow.PartyName;
-    this.PartyID = selectedRow.PartyID;
-    this.State = selectedRow.StateCode;
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
+    if (selectedRow.TIN === 'URD') {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.Gst = 'URD';
+      this.State = '';
+      this.Pan = '';
+    } else {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.State = selectedRow.StateCode;
+      this.Pan = selectedRow.Pan;
+      this.Gst = selectedRow.GSTNo;
+    }
   }
 
   onCommoditySelect(event, selectedRow) {
@@ -545,7 +562,7 @@ export class SalesTaxEntryComponent implements OnInit {
   onClear() {
     this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = null;
     this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.Total = this.SchemeOptions = this.Scheme = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.Total = this.SchemeOptions = this.Scheme = this.Party = null;
     this.TaxtypeOptions = this.MeasurementOptions = null;
     this.Credit = false;
   }
@@ -594,9 +611,9 @@ export class SalesTaxEntryComponent implements OnInit {
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.measurement }];
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
-    this.State = selectedRow.StateCode;
+    this.Pan = (selectedRow.TIN === 'URD') ? '' : selectedRow.Pan;
+    this.Gst = (selectedRow.TIN === 'URD') ? 'URD' : selectedRow.GSTNo;
+    this.State = (selectedRow.TIN === 'URD') ? '' : selectedRow.StateCode;
     this.Hsncode = selectedRow.Hsncode;
     this.TaxType = selectedRow.TaxType;
     this.Measurement = selectedRow.Measurement;
@@ -620,7 +637,6 @@ export class SalesTaxEntryComponent implements OnInit {
     this.SchemeOptions = [{ label: selectedRow.SchemeName, value: selectedRow.SchemeCode }];
     this.Scheme = selectedRow.SchemeName;
     this.SchemeCode = selectedRow.SchemeCode;
-
   }
 
 
