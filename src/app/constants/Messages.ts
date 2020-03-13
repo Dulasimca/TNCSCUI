@@ -46,4 +46,5 @@ export class StatusMessage {
     public static readonly NoSocietyAndACSCodeForIssue = 'Society and ACSCode are missing for issuer: ';
     public static readonly NotValidReceiptDateForStackCard = 'Receipt date must be before or on the selected stack card date';
     public static readonly NoGatePassFound = 'No GatePass found for selected date!';
+    public static readonly PartyNameExists = 'Entered Party Name already exists!';
 }
