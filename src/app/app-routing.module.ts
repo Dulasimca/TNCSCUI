@@ -232,7 +232,7 @@ const routes: Routes = [
   { path: 'IssueGatePass', component: IssueGatepassComponent, canActivate: [AuthGuard] },
   { path: 'RunningStackCard', component: StackRunningCardDateComponent, canActivate: [AuthGuard] },
   { path: 'StockLedgerStatement', component: StockLedgerStatementComponent, canActivate: [AuthGuard] },
-  { path: 'AuditInception', component: AuditInceptionComponent, canActivate: [AuthGuard] },
+  { path: 'AuditInspection', component: AuditInceptionComponent, canActivate: [AuthGuard] },
   { path: 'SalesTax', component: SalesTaxComponent, canActivate: [AuthGuard] },
   { path: 'PurchaseTax', component: PurchaseTaxComponent, canActivate: [AuthGuard] },
   { path: 'ServiceProviderTax', component: ServiceProviderComponent, canActivate: [AuthGuard] },
