@@ -12,6 +12,7 @@
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
         <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="Commodity"
@@ -41,9 +42,15 @@
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Tax Percentage</label>
+        <input type="text" size="20" [(ngModel)]="Tax" name="Tax" maxlength="20" pInputText autocomplete="off">
+      </div>
+      <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Rate/Kg</label>
         <input type="text" size="20" [(ngModel)]="Rate" name="Rate" maxlength="20" pInputText autocomplete="off">
       </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Effective Date</label>
         <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy">
@@ -60,14 +67,16 @@
           <label for="Remark" class="label-fontsize-large">Remarks</label>
         </span>
       </div>
-      <div class="ui-g-12 ui-md-2"></div>
-      <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
-        <button pButton type="button" label=Save (click)="onSave()"
-          [disabled]="(!Commodity || !Hsncode || !Scheme || !Rate || !effectiveDate || !Remark)"></button>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-5"></div>
+      <div class="ui-g-4 ui-md-1 ui-fluid">
+        <button pButton type="button" label=Save (click)="onCheck()"
+          [disabled]="(!Commodity || !Hsncode || !Scheme || !Rate || !Tax || !effectiveDate || !Remark)"></button>
       </div>
-      <div class="ui-g-4 ui-md-1" style="padding-top: 24px">
+      <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Clear (click)="onClear()"></button>
       </div>
+      <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 dashboard">
         <p-table [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
