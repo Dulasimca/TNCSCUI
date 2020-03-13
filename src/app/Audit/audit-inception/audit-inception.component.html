@@ -7,14 +7,14 @@
     <p-panel>
         <p-header>
             <div class="ui-g panel-header">
-                <div class="ui-g-12 ui-md-4 dashboard">Audit - Inception</div>
+                <div class="ui-g-12 ui-md-4 dashboard">Audit - Inspection</div>
             </div>
         </p-header>
         <div class="ui-g ui-fluid">
             <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
-            <form #f="ngForm" name="inceptionForm">
+            <form #f="ngForm" name="inspectionForm">
                 <div class="ui-g-12 ui-md-12 border-teal">
-                    <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Inception Details
+                    <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Inspection Details
                     </div>
                     <div class="ui-g-12 ui-md-12">
                         <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: -20px">
@@ -34,8 +34,8 @@
                           </p-dropdown>
                         </div>
                         <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
-                            <label for="InceptionTeam" class="label-fontsize-large">Inception Team</label>
-                            <p-dropdown #inception name="InceptionTeam" [options]="inceptionTeamOptions"
+                            <label for="InspectionTeam" class="label-fontsize-large">Inspection Team</label>
+                            <p-dropdown #inspection name="InspectionTeam" [options]="inspectionTeamOptions"
                                 [(ngModel)]="ITeam" (onClick)="onSelect('it', 'click')" appendTo="body"
                                 (keyup.shift.tab)="onSelect('it', 'tab')" (keyup.tab)="onSelect('it', 'tab')"
                                 optionLabel="label" required>
@@ -56,8 +56,8 @@
                             </p-dropdown>
                         </div>
                         <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
-                            <label for="InceptionDate" class="label-fontsize-large">Inception Date</label>
-                            <p-calendar name="InceptionDate" dateFormat="dd/mm/yy" [(ngModel)]="IDate"
+                            <label for="InspectionDate" class="label-fontsize-large">Inspection Date</label>
+                            <p-calendar name="InspectionDate" dateFormat="dd/mm/yy" [(ngModel)]="IDate"
                                 [maxDate]="maxDate" maxlength="20" [showIcon]="true">
                             </p-calendar>
                         </div>
@@ -115,7 +115,7 @@
                         [disabled]="(!CurrYear || !ITCode || !Report || !IQuantity || !TStockNo)"></button>
                     </div>
                     <div class="ui-g-12 ui-md-12 dashboard">
-                        <p-table #dt [columns]="inceptionCols" [value]="inceptionData" [rows]="10"
+                        <p-table #dt [columns]="inspectionCols" [value]="inspectionData" [rows]="10"
                             [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             selectionMode="single" [responsive]="true" autoLayout="true" [paginator]="true"
                             [loading]="loading">
@@ -170,7 +170,7 @@
         </div>
     </p-panel>
 </div>
-<p-dialog header="Inception Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+<p-dialog header="Inspection Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
   [(visible)]="viewPane" [responsive]="true">
   <div>
     <div class="ui-g-6 ui-md-8 no-pad-top">
@@ -180,14 +180,14 @@
     </div>
     <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-10 dashboard" pButton label=OK [disabled]="(!selected || selected==null)"
-        (click)="getInceptionDetails()"></button>
+        (click)="getInspectionDetails()"></button>
     </div>
     <div class="ui-g-4 ui-md-1 dashboard">
       <button class="ui-md-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-    <p-table tabindex="-1" [columns]="inceptionDetailsCols" [value]="inceptionDetailsData" [rows]="10"
+    <p-table tabindex="-1" [columns]="inspectionDetailsCols" [value]="inspectionDetailsData" [rows]="10"
       [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [(selection)]="selected" selectionMode="single"
       [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)">
       <ng-template pTemplate="colgroup" let-columns>

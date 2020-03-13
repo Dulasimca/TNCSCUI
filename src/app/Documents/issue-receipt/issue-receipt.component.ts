@@ -158,6 +158,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('st_no', { static: false }) stackNoPanel: Dropdown;
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -185,7 +186,7 @@ export class IssueReceiptComponent implements OnInit {
     this.issuingGodownName = this.authService.getUserAccessible().gName;
     this.IssuingCode = this.authService.getUserAccessible().gCode;
     this.RCode = this.authService.getUserAccessible().rCode;
-    this.checkAllotmentStatus('Allotment');
+    this.checkAllotmentStatus(this.IssuingCode);
     this.restAPIService.get(PathConstants.CATEGORY_TYPECODE_DISTINCT_GET).subscribe(res => {
       if (res.length !== 0 && res !== null && res !== undefined) {
         this.categoryTypeCodeList = res;
@@ -791,9 +792,19 @@ export class IssueReceiptComponent implements OnInit {
           this.checkAllotmentBalance('2');
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
           this.NetStackBalance = (this.NetStackBalance * 1);
+          if(this.itemData.length >= 1) {
+          totalNkgs = 0;
+          totalBags = 0;
+          totalGkgs = 0;
+          this.itemData.forEach(x => {
+            totalBags += x.NoPacking;
+            totalGkgs += (x.GKgs * 1);
+            totalNkgs += (x.Nkgs * 1);
+          });
           var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
           index = this.itemData.length;
           this.itemData.splice(index, 0, item);
+        }
           this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
           this.GKgs = null; this.NKgs = null; this.godownNo = null; 
           this.locationNo = null; this.stackYear = null;
@@ -1032,7 +1043,7 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkAllotmentStatus(value) {
-    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value }).subscribe(status => {
+    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value,  Type: '2'}).subscribe(status => {
       this.AllotmentStatus = status[0].TNCSCValue;
     });
   }
@@ -1103,7 +1114,7 @@ export class IssueReceiptComponent implements OnInit {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                     life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
                   });
                 }
@@ -1112,7 +1123,7 @@ export class IssueReceiptComponent implements OnInit {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                     life: 5000, detail: StatusMessage.AllotmentPercentQtyValidation
                   });
                 } else {
@@ -1131,49 +1142,60 @@ export class IssueReceiptComponent implements OnInit {
             if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
               percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
               if (this.RegularAdvance.toUpperCase().trim() === 'R') {
-                let netWt = 0;
+                let netWt = 0; let lastIndex;
                 if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0) {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                     life: 5000, detail: StatusMessage.AllotmentIssueQuantityValidation
                   });
                 } else if (this.itemData.length !== 0) {
-                  this.itemData.forEach(x => {
+                  this.itemData.forEach((x, index) => {
                     if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
                       netWt += (x.Nkgs * 1);
+                      lastIndex = index;
                     }
                   });
                   if ((this.BalanceQty * 1) < netWt) {
                     this.exceedAllotBal = true;
+                    this.itemData.splice(lastIndex, 1);
+                    if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+                      this.itemData.length = 0;
+                    } 
                     this.messageService.clear();
                     this.messageService.add({
-                      key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                      key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                       life: 5000, detail: StatusMessage.ExceedingAllotmentQty
                     });
                   }
                 }
               } else if (this.RegularAdvance.toUpperCase().trim() === 'A') {
                 let netWt = 0;
+                let lastIndex;
                 if ((percentAQty * 1) <= 0 && this.itemData.length === 0) {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
-                    key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                    key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                     life: 5000, detail: StatusMessage.AllotmentPercentQtyValidation
                   });
                 } else if (this.itemData.length !== 0) {
-                  this.itemData.forEach(x => {
+                  this.itemData.forEach((x, index) => {
                     if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
                       netWt += (x.Nkgs * 1);
-                    }
+                      lastIndex = index;
+                     }
                   });
                   if ((percentAQty * 1) < netWt) {
                     this.exceedAllotBal = true;
+                    this.itemData.splice(lastIndex, 1);
+                    if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+                      this.itemData.length = 0;
+                    } 
                     this.messageService.clear();
                     this.messageService.add({
-                      key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+                      key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
                       life: 5000, detail: StatusMessage.ExceedingAllotmentQtyOfPercent
                     });
                   }
@@ -1386,6 +1408,14 @@ export class IssueReceiptComponent implements OnInit {
     this.PreRecType = null; this.PreRegAdv = null;
     this.PreRemarks = null; this.PreSIDate = null;
     this.showPreview = false;
+    this.form.controls.IssueRegAdv.reset();
+    this.form.controls.TansactionType.reset();
+    this.form.controls.ReceivorType.reset();
+    this.form.controls.ReceivorName.reset();
+    this.form.controls.VechileNum.reset();
+    this.form.controls.RemarksText.reset();
+    this.form.controls.SocName.reset();
+    this.form.controls.IssuerCode.reset();
   }
 
   openNext() {

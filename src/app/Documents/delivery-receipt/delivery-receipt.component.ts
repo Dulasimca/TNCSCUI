@@ -147,7 +147,6 @@ export class DeliveryReceiptComponent implements OnInit {
   isGSTModified: boolean;
   DOTaxStatus: any;
   PartyId: string;
-  TaxPercent: any;
   HSNCode: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
@@ -332,7 +331,7 @@ export class DeliveryReceiptComponent implements OnInit {
               if (res !== null && res !== undefined && res.length !== 0) {
                 if (!this.selectedItem) {
                   res.forEach(i => {
-                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode, 'TaxPercent': i.TaxPercentage, 'HSNCode': i.Hsncode });
+                    commoditySelection.push({ 'label': i.ITDescription, 'value': i.ITCode, 'HSNCode': i.Hsncode });
                   });
                 } else {
                   let filteredArr = res.filter(x => {
@@ -553,7 +552,6 @@ export class DeliveryReceiptComponent implements OnInit {
         this.schemeOptions = [{ label: data.SchemeName, value: data.Scheme }];
         this.iCode = data.Itemcode;
         this.ICode = data.ITDescription;
-        this.TaxPercent = data.TaxPercent;
         this.HSNCode = data.HsnCode;
         this.itemDescOptions = [{ label: data.ITDescription, value: data.ItemCode }];
         this.NKgs = (data.NetWeight * 1).toFixed(3);
@@ -642,8 +640,10 @@ export class DeliveryReceiptComponent implements OnInit {
           ITDescription: (this.ICode.label !== undefined && this.ICode.label !== null) ? this.ICode.label : this.ICode,
           SchemeName: (this.Scheme.label !== undefined && this.Scheme.label !== null) ? this.Scheme.label : this.Scheme,
           Itemcode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-          TaxPercent: (this.ICode.TaxPercent !== undefined && this.ICode.TaxPercent !== null) ? this.ICode.TaxPercent : this.TaxPercent,
-          NetWeight: this.NKgs, Rate: this.Rate, Total: this.TotalAmount, Rcode: this.RCode,
+          NetWeight: this.NKgs,
+          Rate: this.Rate,
+          Total: this.TotalAmount,
+          Rcode: this.RCode,
           HsnCode: (this.ICode.HSNCode !== undefined && this.ICode.HSNCode !== null) ? this.ICode.HSNCode : this.HSNCode,
           Wtype: (this.RateTerm.value !== undefined && this.RateTerm.value !== null) ? this.RateTerm.value : this.RateTerm,
           Scheme: (this.Scheme.value !== undefined && this.Scheme.value !== null) ? this.Scheme.value : this.schemeCode,
@@ -984,7 +984,8 @@ export class DeliveryReceiptComponent implements OnInit {
     this.yearOptions = [{ label: this.PYear, value: this.PYear }];
     this.selectedItem = null; this.PrevOrderNo = null;
     this.PrevOrderDate = this.maxDate; this.ICode = null;
-    this.schemeCode = null; this.Scheme = null; this.iCode = null;
+    this.schemeCode = null; this.Scheme = null;
+    this.iCode = null; this.HSNCode = null;
     this.NKgs = 0; this.MarginNKgs = 0; this.Rate = 0; this.MarginRate = 0;
     this.RateTerm = null; this.MarginRateInTerms = null; this.miCode = null;
     this.TotalAmount = 0; this.GrandTotal = 0; this.MarginAmount = 0;

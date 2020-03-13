@@ -42,7 +42,7 @@ export class PathConstants {
   public static readonly STACKCARD_YEAR_GET = '/api/StackCardYear';
   public static readonly STACK_CARD_DETAILS = '/api/StackDetails/Post';
   public static readonly STACK_DAY_TO_DAY_POST = '/api/StackDayToDay/Post';
-  public static readonly INCEPTION_MASTER = '/api/InceptionMaster';
+  public static readonly INSPECTION_MASTER = '/api/InceptionMaster';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
@@ -152,9 +152,9 @@ export class PathConstants {
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
 
-  //Inception
-  public static readonly INCEPTION_DETAILS_POST = '/api/AuditInception/Post';
-  public static readonly INCEPTION_DETAILS_GET = '/api/AuditInception/Get';
+  //Inspection
+  public static readonly INSPECTION_DETAILS_POST = '/api/AuditInception/Post';
+  public static readonly INSPECTION_DETAILS_GET = '/api/AuditInception/Get';
 
   //StackCard
   public static readonly STACK_CARD_GET = '/api/ManageStackCardMaster/Get';

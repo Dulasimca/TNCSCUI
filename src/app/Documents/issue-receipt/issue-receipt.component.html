@@ -184,7 +184,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-2">
                       <span class="ui-float-label">
-                        <input name="SocName" type="text" [(ngModel)]="SocietyName" pInputText [readonly]="true">
+                        <input name="SocName" type="text" [(ngModel)]="SocietyName" pInputText 
+                        [readonly]="true" required>
                         <label for="SocName" class="float-input">Society Name</label>
                       </span>
                     </div>
@@ -199,7 +200,8 @@
                     </div>
                     <div class="ui-g-6 ui-md-4" style="margin-top: 5px;">
                       <span class="ui-float-label">
-                        <input name="IssuerCode" type="text" [(ngModel)]="IssCode" pInputText [readonly]="true">
+                        <input name="IssuerCode" type="text" [(ngModel)]="IssCode" pInputText 
+                        [readonly]="true" required>
                         <label for="IssuerCode" class="float-input">Issuer Code</label>
                       </span>
                     </div>
