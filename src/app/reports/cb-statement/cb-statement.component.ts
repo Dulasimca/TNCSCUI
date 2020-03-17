@@ -15,6 +15,7 @@ import { Dropdown, SelectItem } from 'primeng/primeng';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
 import { Table } from 'primeng/table';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-cb-statement',
@@ -45,8 +46,10 @@ export class CBStatementComponent implements OnInit {
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
 
-  constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
-    private tableConstants: TableConstants, private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService,
+    private messageService: MessageService, private excelService: ExcelService,
+    private tableConstants: TableConstants, private datepipe: DatePipe,
+    private roleBasedService: RoleBasedService) { }
 
   ngOnInit() {
     this.rowGroupMetadata = {};
@@ -306,6 +309,27 @@ export class CBStatementComponent implements OnInit {
           sno += 1;
         })
   }
+
+  export() {
+    let data = [];
+    this.abstractData.forEach(item => {
+      data.push({
+        RNAME: item.RNAME,
+        TNCSCapacity: (item.TNCSCapacity * 1),
+        boiledRice: (item.boiledRice * 1),
+        rawRice: (item.rawRice * 1),
+        toorDhall: (item.toorDhall * 1),
+        uridDhall: (item.uridDhall * 1),
+        totalRice: (item.totalRice * 1),
+        totalDhall: (item.totalDhall * 1),
+        SUGAR: (item.SUGAR * 1),
+        WHEAT: (item.WHEAT * 1),
+        cement: (item.cement * 1),
+        kanadaToorDhall: (item.kanadaToorDhall * 1)
+      })
+    })
+    this.excelService.exportAsExcelFile(data, 'CB_STATEMENT_REGIONWISE_ABSTRACT', this.abstractCols);
+}
 
   public getColor(name: string): string {
     return name === 'TOTAL' ? "#53aae5" : (name === 'GRAND TOTAL' ? "#18c5a9" : "white");

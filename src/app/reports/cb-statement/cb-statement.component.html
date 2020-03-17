@@ -45,8 +45,8 @@
         <button name="execl" style="margin-top:5px" pButton label="Excel" (click)="dt.exportCSV()"
         [disabled]="(cbData.length=='0')"></button>
       </div>
-      <div *ngIf="(RCode=='All' && abstractData.length!='0')" class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
-        <button name="abstract" style="margin-top:5px" pButton label="Abstract" (click)="dtabs.exportCSV()"
+      <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
+        <button name="abstract" style="margin-top:5px" pButton label="Abstract" (click)="export()"
         [disabled]="(abstractData.length=='0')"></button>
       </div>
     <div class="ui-g-12 ui-md-12 ui-lg-12">
@@ -80,11 +80,11 @@
         </ng-template>
       </p-table>
     </div>
-    <div *ngIf="(RCode=='All' && abstractData.length!='0')" class="ui-g-12 ui-md-12 border-blue card">
-      <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Statement Abstract</div>
+    <div *ngIf="(RCode=='All' && abstractData.length!='0')" class="ui-g-12 ui-md-12 border-blue">
+       <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Statement Abstract</div>
     <div class="ui-g-12 ui-md-12 ui-lg-12">
       <p-table #dtabs [value]="abstractData" [columns]="abstractCols" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-        [paginator]="true" [autoLayout]="true" [responsive]="true" [loading]="loading" exportFilename="CB_STATEMENT_REGIONWISE_ABSTRACT">
+        [paginator]="true" [autoLayout]="true" [responsive]="true" [loading]="loading">
         <ng-template pTemplate="header" let-columns>
           <tr style="text-align: center;">
             <th *ngFor="let col of columns">
@@ -108,7 +108,7 @@
         </ng-template>
       </p-table>
     </div>
-    </div>
+  </div>
   </div>
   </p-panel>
 </div>
