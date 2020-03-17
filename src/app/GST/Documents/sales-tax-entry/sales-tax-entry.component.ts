@@ -125,6 +125,7 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
   aadsGodownSelection: any = [];
+  godownSelection: any = [];
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -193,17 +194,15 @@ export class SalesTaxEntryComponent implements OnInit {
         if (this.data !== undefined && this.AADS === "1") {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
-              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              this.godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
-          this.godownOptions = godownSelection;
+          this.godownOptions = this.godownSelection;
         } else if (this.AADS === "2") {
-          this.restApiService.get(PathConstants.AADS).subscribe(res => {
-            res.forEach(s => {
-              if (s.RGCODE === this.RCode) {
-                godownSelection.push({ 'label': s.Name, 'value': s.AADSType });
-              }
-            });
+          this.aadsGodownSelection.forEach(s => {
+            if (s.RCode === this.RCode) {
+              godownSelection.push({ 'label': s.label, 'value': s.value });
+            }
           });
           this.godownOptions = godownSelection;
         }
