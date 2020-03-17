@@ -149,6 +149,9 @@ export class StockLedgerStatementComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.stockData = res;
         let sno = 0;
+        let TotalQty = 0;
+        let TotalIssueSales = 0;
+        let TotalOtherIssue = 0;
         this.dataLength = this.stockData.length;
         this.stockData.forEach(data => {
           sno += 1;
@@ -164,9 +167,16 @@ export class StockLedgerStatementComponent implements OnInit {
           data.CSBalance = (data.CSBalance * 1).toFixed(3);
           data.Shortage = (data.Shortage * 1).toFixed(3);
           data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
+          TotalQty += data.Receipt !== undefined && data.Receipt !== null ? (data.Receipt * 1) : 0;
+          TotalIssueSales += data.IssueSales !== undefined && data.IssueSales !== null ? (data.IssueSales * 1) : 0;
+          TotalOtherIssue += data.IssueOthers !== undefined && data.IssueOthers !== null ? (data.IssueOthers * 1) : 0;
           this.loading = false;
         });
-        this.stockData.push(this.stockData.SlNo = 'Total', this.stockData.Receipt = this.stockData.Receipt);
+        this.stockData.push({
+          ITDescription: 'Grand Total', Receipt: (TotalQty * 1).toFixed(3), IssueSales: (TotalIssueSales * 1).toFixed(3),
+          IssueOthers: (TotalOtherIssue * 1).toFixed(3)
+        });
+        // this.stockData.push(this.stockData.SlNo = 'Total', this.stockData.Receipt = this.stockData.Receipt);
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -190,6 +200,10 @@ export class StockLedgerStatementComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
+  }
+
+  public getColor(name: string): string {
+    return (name === 'Grand Total') ? "#53aae5" : "white";
   }
 
   checkValidDateSelection() {

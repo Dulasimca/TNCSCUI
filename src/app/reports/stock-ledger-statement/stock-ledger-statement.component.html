@@ -75,9 +75,23 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <!-- <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
+                <div *ngIf="col.field !== 'ITDescription'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field === 'ITDescription'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template> -->
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [ngStyle]="{'background-color': getColor(rowData.ITDescription)}">
+              <td *ngFor="let col of columns" class="ui-resizable-column">
                 <div *ngIf="col.field !== 'ITDescription'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
