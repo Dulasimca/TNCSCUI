@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/shared-services/auth.service';
-import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormControl, FormGroup, FormBuilder, EmailValidator } from '@angular/forms';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
@@ -29,9 +29,9 @@ export class GodownProfileComponent implements OnInit {
   designation: any = [];
   designationOptions: SelectItem[];
   employeeOptions: SelectItem[];
-  address1: any = {};
-  address2: {};
-  address3: any[];
+  address1: any;
+  address2: any;
+  email: EmailValidator;
   telno: any[];
   phone: any;
   fax: any[];
@@ -45,7 +45,7 @@ export class GodownProfileComponent implements OnInit {
   loading: boolean = false;
   OnEdit: boolean = false;
   @ViewChild('designation', { static: false }) designationPanel: Dropdown;
-  @ViewChild('employee', { static: false }) employeePanel: Dropdown;
+  @ViewChild('gname', { static: false }) employeePanel: Dropdown;
 
 
   constructor(private authService: AuthService, private fb: FormBuilder, private excelService: ExcelService,
@@ -58,11 +58,11 @@ export class GodownProfileComponent implements OnInit {
     this.gCode = this.authService.getUserAccessible().gCode;
     this.data = this.roleBasedService.getInstance();
     this.userdata = this.fb.group({
-      'Gname': new FormControl('', Validators.required),
-      'designation': new FormControl('', Validators.required),
+      'Gname': new FormControl(''),
+      'Designation': new FormControl(''),
       'address1': new FormControl(''),
       'address2': new FormControl(''),
-      'address3': new FormControl(''),
+      'email': new FormControl(''),
       'telno': new FormControl(''),
       'mobno': new FormControl(''),
       'faxno': new FormControl('')
@@ -128,32 +128,32 @@ export class GodownProfileComponent implements OnInit {
     this.RowId = selectedRow.RowId;
     this.designationOptions = [{ label: selectedRow.DesignationName, value: selectedRow.DesignationCode }];
     this.employeeOptions = [{ label: selectedRow.EmpName, value: selectedRow.InchargeCode }];
-    this.formUser.Gname = selectedRow.EmpName;
-    this.InchargeID = selectedRow.InchargeCode;
-    this.formUser.designation = selectedRow.DesignationName;
+    this.InchargeID = selectedRow.EmpName;
+    this.Gname = selectedRow.InchargeCode;
+    this.designation = selectedRow.DesignationName;
     this.Designation = selectedRow.DesignationCode;
-    this.formUser.address1 = selectedRow.Address1;
-    this.formUser.address2 = selectedRow.DistrictAddress;
-    this.formUser.address3 = selectedRow.MailID;
-    this.formUser.telno = selectedRow.TELNO;
-    this.formUser.phone = selectedRow.MOBNO;
-    this.formUser.fax = selectedRow.FAXNO;
+    this.address1 = selectedRow.Address1;
+    this.address2 = selectedRow.DistrictAddress;
+    this.email = selectedRow.MailID;
+    this.telno = selectedRow.TELNO;
+    this.phone = selectedRow.MOBNO;
+    this.fax = selectedRow.FAXNO;
   }
 
   onSubmit(formUser) {
     this.blockScreen = true;
     this.messageService.clear();
     const params = {
-      'RowId': this.RowId || '0',
+      'RowId': this.RowId || '',
       'GodownCode': this.gCode,
-      'Gname': this.InchargeID || formUser.Gname,
-      'desig': this.Designation || formUser.designation,
-      'add1': formUser.address1,
-      'add2': formUser.address2,
-      'add3': formUser.address3,
-      'telno': formUser.telno,
-      'mobno': formUser.phone,
-      'faxno': formUser.fax,
+      'Gname': this.Gname,
+      'desig': this.Designation,
+      'add1': this.address1,
+      'add2': this.address2,
+      'add3': this.email,
+      'telno': this.telno,
+      'mobno': this.phone,
+      'faxno': this.fax,
     };
     this.restAPIService.post(PathConstants.GODOWN_PROFILE_POST, params).subscribe(res => {
       if (res) {
@@ -205,7 +205,7 @@ export class GodownProfileComponent implements OnInit {
   }
 
   onClear() {
-    this.formUser = this.InchargeID = this.Designation = this.RowId = [];
-    this.designationOptions = this.employeeOptions = undefined;
+    this.formUser = this.Gname = this.Designation = this.RowId = this.address1 = this.address2 = this.email = undefined;
+    this.designationOptions = this.employeeOptions = this.telno = this.phone = this.fax = this.InchargeID = this.designation = undefined;
   }
 }

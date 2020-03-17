@@ -114,26 +114,29 @@ export class RateMasterComponent implements OnInit {
   }
 
   onCheck() {
-    if (this.RowID === undefined) {
-      const params = {
-        'Type': 1,
-        'Scheme': this.Scheme,
-        'Allotment': this.Commodity,
-      };
-      this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
-        if (res.length === 0) {
-          this.onSave();
-        } else {
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
-            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.RateExists
-          });
-        }
+    const params = {
+      'Type': 1,
+      'Scheme': this.Scheme,
+      'Allotment': this.Commodity,
+    };
+    this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
+      res.forEach(s => {
+        s.EffectDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
+        s.EndDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
       });
-    } else {
-      this.onSave();
-    }
+      if (res.length === 0) {
+        this.onSave();
+      } else if (this.RowID !== undefined) {
+        this.onSave();
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.RateExists
+        });
+      }
+    });
   }
 
   onSave() {
@@ -146,7 +149,10 @@ export class RateMasterComponent implements OnInit {
       'Rate': this.Rate,
       'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
       'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
-      'CreatedDate': this.maxDate,
+      'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
+      // 'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
+      // 'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
+      // 'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
       'Remark': this.Remark,
       'Activeflag': this.ActiveFlag,
       'Hsncode': this.Hsncode,
