@@ -14,6 +14,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown, SelectItem } from 'primeng/primeng';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { DatePipe } from '@angular/common';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-cb-statement',
@@ -38,8 +39,11 @@ export class CBStatementComponent implements OnInit {
   maxDate: Date = new Date();  
   loggedInRCode: string;
   regions: any;
+  abstractData: any = [];
+  abstractCols: any;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private authService: AuthService, private messageService: MessageService,
     private tableConstants: TableConstants, private datepipe: DatePipe, private roleBasedService: RoleBasedService) { }
@@ -194,6 +198,7 @@ export class CBStatementComponent implements OnInit {
           .subscribe(d => groupedData = d);
         let index = 0;
         let item;
+        console.log('grd', groupedData);
         for (let i = 0; i < this.cbData.length; i++) {
           if (this.cbData[i].RNAME !== groupedData[index].RNAME) {
             item = {
@@ -229,6 +234,42 @@ export class CBStatementComponent implements OnInit {
               this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
           }
         }
+
+        if(this.GCode === 'All' && this.RCode === 'All') {
+          this.loadAbstract(groupedData);
+          }
+        ///grand total
+        if(this.GCode === 'All' && this.RCode === 'All') {
+          let capacity = 0; let bRice = 0; let rRice = 0;
+          let tRice = 0; let tDhall = 0; let trDhall = 0;
+          let kDhall = 0; let kDhallTotal = 0;
+          let cement = 0; let sugar = 0; let pOil = 0;
+          let wheat = 0; let uDhall = 0;
+          this.cbData.forEach(x => {
+            if(x.TNCSName === 'TOTAL') {
+              capacity += (x.TNCSCapacity * 1);
+              bRice += (x.boiledRice * 1);
+              rRice += (x.rawRice * 1);
+              tRice += (x.totalRice * 1);
+              tDhall += (x.totalDhall * 1);
+              trDhall += (x.toorDhall * 1);
+              kDhall += (x.kanadaToorDhall * 1);
+              kDhallTotal += (x.kanadaToorDhallTotal * 1);
+              cement += (x.cement * 1);
+              sugar += (x.sugar * 1);
+              wheat += (x.wheat * 1);
+              uDhall += (x.uridDhall * 1);
+              pOil += (x.palmoil * 1);
+            }
+          })
+          this.cbData.push({ TNCSName: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
+          boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+          toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+          totalDhall: tDhall.toFixed(3), sugar: sugar.toFixed(3),
+          wheat: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+          uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+          kanadaToorDhallTotal: kDhallTotal.toFixed(3)});
+        }
         this.loading = false;
       } else {
         this.messageService.clear();
@@ -244,14 +285,38 @@ export class CBStatementComponent implements OnInit {
     })
   }
 
+  loadAbstract(data) {
+    this.abstractCols = this.tableConstants.CBStatementAbstractCols;
+    data.splice(data.length - 1, 1);
+    this.abstractData = data;
+        let sno = 1;
+        this.abstractData.forEach(x => {
+          x.SlNo = sno;
+          x.TNCSCapacity = (x.TNCSCapacity * 1).toFixed(3);
+          x.boiledRice = (x.boiledRice * 1).toFixed(3);
+          x.rawRice = (x.rawRice * 1).toFixed(3);
+          x.toorDhall = (x.toorDhall * 1).toFixed(3);
+          x.uridDhall = (x.uridDhall * 1).toFixed(3);
+          x.totalRice = (x.totalRice * 1).toFixed(3);
+          x.totalDhall = (x.totalDhall * 1).toFixed(3);
+          x.sugar = (x.sugar * 1).toFixed(3);
+          x.wheat = (x.wheat * 1).toFixed(3);
+          x.cement = (x.cement * 1).toFixed(3);
+          x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
+          sno += 1;
+        })
+  }
+
   public getColor(name: string): string {
-    return name === 'TOTAL' ? "#53aae5" : "white";
+    return name === 'TOTAL' ? "#53aae5" : (name === 'GRAND TOTAL' ? "#18c5a9" : "white");
   }
 
   onResetTable(item) {
     if(item === 'reg') { this.GCode = null; }
     this.cbData = [];
+    this.abstractData = [];
     this.record = [];
+    this.table.reset();
   }
   
 }

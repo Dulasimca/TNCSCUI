@@ -15,6 +15,7 @@ export class TableConstants {
   SchemeData: any;
   TenderDetailsCols: any;
   CBStatementColumns: any;
+  CBStatementAbstractCols: any;
   DeliveryDocumentcolumns: any;
   DeliveryDocumentViewCols: any;
   DeliveryItemColumns: any;
@@ -273,7 +274,24 @@ export class TableConstants {
       { field: 'GRemarks', header: 'Godown Remarks' },
       { field: 'RStatus', header: 'Regional Approval Status' },
       { field: 'RRemarks', header: 'Region Remarks' }
-    ]
+    ];
+
+    this.CBStatementAbstractCols = [
+      { field: 'SlNo', header: 'S.No:' },
+      { field: 'RNAME', header: 'Region Name' },
+      { field: 'TNCSCapacity', header: 'Capacity' },
+      { field: 'boiledRice', header: 'Boiled Rice' },
+      { field: 'rawRice', header: 'Raw Rice' },
+      { field: 'totalRice', header: 'Rice Total' },
+      { field: 'SUGAR', header: 'SUGAR' },
+      { field: 'WHEAT', header: 'WHEAT' },
+      { field: 'toorDhall', header: 'TOOR DHALL' },
+      { field: 'kanadaToorDhall', header: 'CYL TOOR Dhall' },
+      { field: 'totalDhall', header: 'Dhall Total' },
+      { field: 'uridDhall', header: 'URID Dhall' },
+      { field: 'palmoil', header: 'PALMOLIEN OIL' },
+      { field: 'cement', header: 'CEMENT' }
+    ];
 
     this.DeliveryDocumentcolumns = [
       { field: 'Dono', header: 'Delivery Order' },
