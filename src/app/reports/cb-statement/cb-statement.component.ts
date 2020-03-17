@@ -256,8 +256,8 @@ export class CBStatementComponent implements OnInit {
               kDhall += (x.kanadaToorDhall * 1);
               kDhallTotal += (x.kanadaToorDhallTotal * 1);
               cement += (x.cement * 1);
-              sugar += (x.sugar * 1);
-              wheat += (x.wheat * 1);
+              sugar += (x.SUGAR * 1);
+              wheat += (x.WHEAT * 1);
               uDhall += (x.uridDhall * 1);
               pOil += (x.palmoil * 1);
             }
@@ -265,8 +265,8 @@ export class CBStatementComponent implements OnInit {
           this.cbData.push({ TNCSName: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
           boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
           toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
-          totalDhall: tDhall.toFixed(3), sugar: sugar.toFixed(3),
-          wheat: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+          totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+          WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
           uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
           kanadaToorDhallTotal: kDhallTotal.toFixed(3)});
         }
@@ -299,8 +299,8 @@ export class CBStatementComponent implements OnInit {
           x.uridDhall = (x.uridDhall * 1).toFixed(3);
           x.totalRice = (x.totalRice * 1).toFixed(3);
           x.totalDhall = (x.totalDhall * 1).toFixed(3);
-          x.sugar = (x.sugar * 1).toFixed(3);
-          x.wheat = (x.wheat * 1).toFixed(3);
+          x.SUGAR = (x.SUGAR * 1).toFixed(3);
+          x.WHEAT = (x.WHEAT * 1).toFixed(3);
           x.cement = (x.cement * 1).toFixed(3);
           x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
           sno += 1;

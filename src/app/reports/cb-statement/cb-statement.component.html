@@ -45,7 +45,7 @@
         <button name="execl" style="margin-top:5px" pButton label="Excel" (click)="dt.exportCSV()"
         [disabled]="(cbData.length=='0')"></button>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
+      <div *ngIf="(RCode=='All' && abstractData.length!='0')" class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
         <button name="abstract" style="margin-top:5px" pButton label="Abstract" (click)="dtabs.exportCSV()"
         [disabled]="(abstractData.length=='0')"></button>
       </div>
