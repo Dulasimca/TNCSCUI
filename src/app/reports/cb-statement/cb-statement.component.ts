@@ -305,6 +305,34 @@ export class CBStatementComponent implements OnInit {
           x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
           sno += 1;
         })
+
+        let capacity = 0; let bRice = 0; let rRice = 0;
+          let tRice = 0; let tDhall = 0; let trDhall = 0;
+          let kDhall = 0; let kDhallTotal = 0;
+          let cement = 0; let sugar = 0; let pOil = 0;
+          let wheat = 0; let uDhall = 0;
+          this.abstractData.forEach(x => {
+              capacity += (x.TNCSCapacity * 1);
+              bRice += (x.boiledRice * 1);
+              rRice += (x.rawRice * 1);
+              tRice += (x.totalRice * 1);
+              tDhall += (x.totalDhall * 1);
+              trDhall += (x.toorDhall * 1);
+              kDhall += (x.kanadaToorDhall * 1);
+              kDhallTotal += (x.kanadaToorDhallTotal * 1);
+              cement += (x.cement * 1);
+              sugar += (x.SUGAR * 1);
+              wheat += (x.WHEAT * 1);
+              uDhall += (x.uridDhall * 1);
+              pOil += (x.palmoil * 1);
+          })
+          this.abstractData.push({ RNAME: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
+          boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+          toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+          totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+          WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+          uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+          kanadaToorDhallTotal: kDhallTotal.toFixed(3)});
   }
 
   public getColor(name: string): string {

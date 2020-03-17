@@ -95,12 +95,12 @@
         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
           <tr>
             <td *ngFor="let col of columns">
-              <div *ngIf="col.field !== 'TNCSName'">
+              <div *ngIf="col.field !== 'RNAME'">
                 <span style="float: right">
                   {{data[col.field]}}
                 </span>
               </div>
-              <div *ngIf="col.field === 'TNCSName'">
+              <div *ngIf="col.field === 'RNAME'">
                 {{data[col.field]}}
               </div>
             </td>
