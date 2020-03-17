@@ -243,10 +243,15 @@ export class ServiceProviderEntryComponent implements OnInit {
           });
           this.loading = false;
           this.companyOptions = CompanySelection;
-          this.companyOptions.unshift({ label: '-select-', value: null, disabled: true });
-          this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
-          this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
-          this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          if (this.Party.tin === 'URD') {
+            this.Gst = 'URD';
+            this.State = '';
+            this.Pan = '';
+          } else {
+            this.Gst = (this.Party.gstno !== undefined) ? this.Party.gstno : '';
+            this.Pan = (this.Party.pan !== undefined) ? this.Party.pan : '';
+            this.State = (this.Party.sc !== undefined) ? this.Party.sc : '';
+          }
         }
         break;
       case 'tax':
@@ -307,12 +312,21 @@ export class ServiceProviderEntryComponent implements OnInit {
   onRow(event, selectedRow) {
     this.isEdited = true;
     this.isViewed = false;
-    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
-    this.Party = selectedRow.PartyName;
-    this.PartyID = selectedRow.PartyID;
-    this.State = selectedRow.StateCode;
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
+    if (selectedRow.TIN === 'URD') {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.Gst = 'URD';
+      this.State = '';
+      this.Pan = '';
+    } else {
+      this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.PartyID }];
+      this.Party = selectedRow.PartyName;
+      this.PartyID = selectedRow.PartyID;
+      this.State = selectedRow.StateCode;
+      this.Pan = selectedRow.Pan;
+      this.Gst = selectedRow.GSTNo;
+    }
   }
 
   onView() {
@@ -366,8 +380,9 @@ export class ServiceProviderEntryComponent implements OnInit {
   }
 
   onClear() {
-    this.ServiceID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.CompanyName = this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Total = null;
-    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = null;
+    this.ServiceID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.CompanyName = this.Commodity = null;
+    this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Total = null;
+    this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.Party = null;
   }
 
   onSearch(value) {
@@ -400,9 +415,9 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
-    this.Pan = selectedRow.Pan;
-    this.Gst = selectedRow.GSTNo;
-    this.State = selectedRow.StateCode;
+    this.Pan = (selectedRow.TIN === 'URD') ? '' : selectedRow.Pan;
+    this.Gst = (selectedRow.TIN === 'URD') ? 'URD' : selectedRow.GSTNo;
+    this.State = (selectedRow.TIN === 'URD') ? '' : selectedRow.StateCode;
     this.TaxType = selectedRow.TaxType;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');

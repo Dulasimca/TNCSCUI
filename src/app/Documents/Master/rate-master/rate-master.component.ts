@@ -31,6 +31,7 @@ export class RateMasterComponent implements OnInit {
   Hsncode: any;
   ActiveFlag: any;
   RowID: any;
+  Tax: any;
   Remark: any;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
@@ -112,6 +113,32 @@ export class RateMasterComponent implements OnInit {
     }
   }
 
+  onCheck() {
+    const params = {
+      'Type': 1,
+      'Scheme': this.Scheme,
+      'Allotment': this.Commodity,
+    };
+    this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
+      res.forEach(s => {
+        s.EffectDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
+        s.EndDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+      });
+      if (res.length === 0) {
+        this.onSave();
+      } else if (this.RowID !== undefined) {
+        this.onSave();
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.RateExists
+        });
+      }
+    });
+  }
+
   onSave() {
     this.blockScreen = true;
     this.messageService.clear();
@@ -122,10 +149,14 @@ export class RateMasterComponent implements OnInit {
       'Rate': this.Rate,
       'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
       'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
-      'CreatedDate': this.maxDate,
+      'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
+      // 'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
+      // 'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
+      // 'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
       'Remark': this.Remark,
       'Activeflag': this.ActiveFlag,
-      'Hsncode': this.Hsncode
+      'Hsncode': this.Hsncode,
+      'TaxPercentage': this.Tax
     };
     this.restApiService.post(PathConstants.RATE_MASTER_POST, params).subscribe(res => {
       if (res) {
@@ -170,6 +201,8 @@ export class RateMasterComponent implements OnInit {
     this.Hsncode = selectedRow.Hsncode;
     this.effectiveDate = selectedRow.EffectDate;
     this.endDate = selectedRow.EndDate;
+    this.Tax = selectedRow.TaxPercentage;
+    this.ActiveFlag = selectedRow.Flag;
     // this.effectiveDate = this.datepipe.transform(selectedRow.EffectDate, 'MM/dd/yyyy');
     // this.endDate = this.datepipe.transform(selectedRow.EndDate, 'MM/dd/yyyy');
   }
@@ -205,6 +238,6 @@ export class RateMasterComponent implements OnInit {
 
   onClear() {
     this.Commodity = this.Scheme = this.Rate = this.effectiveDate = this.endDate = this.Remark = this.RowID = this.Hsncode = undefined;
-    this.commodityOptions = this.SchemeOptions = undefined;
+    this.commodityOptions = this.SchemeOptions = this.Tax = undefined;
   }
 }

@@ -40,6 +40,7 @@ export class StockLedgerStatementComponent implements OnInit {
   roleId: any;
   loggedInRCode: any;
   regions: any;
+  dataLength: any;
   @ViewChild('gd', { static: false }) godownPanel: Dropdown;
   @ViewChild('reg', { static: false }) regionPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
@@ -63,7 +64,7 @@ export class StockLedgerStatementComponent implements OnInit {
         }
       },
       {
-        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+        label: 'PDF', icon: 'fa fa-file-pdf-o', command: () => {
           this.exportAsPDF();
         }
       }];
@@ -82,7 +83,7 @@ export class StockLedgerStatementComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
           }
@@ -90,7 +91,7 @@ export class StockLedgerStatementComponent implements OnInit {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -106,7 +107,7 @@ export class StockLedgerStatementComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              godownSelection.push({ label: x.GName, value: x.GCode });
             }
           });
           this.godownOptions = godownSelection;
@@ -120,7 +121,7 @@ export class StockLedgerStatementComponent implements OnInit {
           this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(res => {
             if (res !== undefined) {
               res.forEach(s => {
-                commoditySelection.push({ 'label': s.ITDescription, 'value': s.ITCode });
+                commoditySelection.push({ label: s.ITDescription, value: s.ITCode });
               });
               this.commodityOptions = commoditySelection;
             }
@@ -148,6 +149,10 @@ export class StockLedgerStatementComponent implements OnInit {
       if (res !== undefined && res.length !== 0) {
         this.stockData = res;
         let sno = 0;
+        let TotalQty = 0;
+        let TotalIssueSales = 0;
+        let TotalOtherIssue = 0;
+        this.dataLength = this.stockData.length;
         this.stockData.forEach(data => {
           sno += 1;
           data.SlNo = sno;
@@ -155,13 +160,23 @@ export class StockLedgerStatementComponent implements OnInit {
           data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
           data.Receipt = (data.TotalReceipt * 1).toFixed(3);
           data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
+          data.IssueSales = (data.IssueSales * 1).toFixed(3);
+          data.IssueOthers = (data.IssueOthers * 1).toFixed(3);
           data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
           data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
           data.CSBalance = (data.CSBalance * 1).toFixed(3);
           data.Shortage = (data.Shortage * 1).toFixed(3);
           data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
+          TotalQty += data.Receipt !== undefined && data.Receipt !== null ? (data.Receipt * 1) : 0;
+          TotalIssueSales += data.IssueSales !== undefined && data.IssueSales !== null ? (data.IssueSales * 1) : 0;
+          TotalOtherIssue += data.IssueOthers !== undefined && data.IssueOthers !== null ? (data.IssueOthers * 1) : 0;
           this.loading = false;
         });
+        this.stockData.push({
+          ITDescription: 'Grand Total', Receipt: (TotalQty * 1).toFixed(3), IssueSales: (TotalIssueSales * 1).toFixed(3),
+          IssueOthers: (TotalOtherIssue * 1).toFixed(3)
+        });
+        // this.stockData.push(this.stockData.SlNo = 'Total', this.stockData.Receipt = this.stockData.Receipt);
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -185,6 +200,10 @@ export class StockLedgerStatementComponent implements OnInit {
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
+  }
+
+  public getColor(name: string): string {
+    return (name === 'Grand Total') ? "#53aae5" : "white";
   }
 
   checkValidDateSelection() {
