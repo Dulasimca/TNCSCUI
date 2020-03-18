@@ -50,6 +50,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
   PartyTin: any;
   IssuerNumber: any;
   TypeName: any;
+  CompanyOpt: SelectItem[];
   loading: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('party', { static: false }) partyPanel: Dropdown;
@@ -66,6 +67,19 @@ export class PartyLedgerUpdateComponent implements OnInit {
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.regions = this.roleBasedService.getRegions();
+    // let CompanySel = [];
+    // const params = {
+    //   'RCode': this.RCode.value,
+    //   'Type': 5
+    // };
+    // this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+    //   if (res !== undefined) {
+    //     res.forEach(s => {
+    //       CompanySel.push({ label: s.PartyName, value: s.PartyID, TIN: s.TIN });
+    //     });
+    //     this.CompanyOpt = CompanySel;
+    //   }
+    // });
   }
 
   onSelect(item, type) {
@@ -111,21 +125,33 @@ export class PartyLedgerUpdateComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
+      // case 'party':
+      //   if (type === 'tab') {
+      //     this.partyPanel.overlayVisible = true;
+      //   }
+      //   partySelection = this.CompanyOpt;
+      //   if (this.CompanyOpt !== undefined) {
+      //     this.partyOptions = partySelection;
+      //     this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
+      //     if (this.PartyName !== undefined) {
+      //       this.PartyTin = this.PartyName.TIN;
+      //     }
+      //   }
+      //   break;
       case 'party':
         if (type === 'tab') {
           this.partyPanel.overlayVisible = true;
         }
-        if (this.regionOptions !== undefined) {
+        if (this.partyOptions !== undefined) {
+          this.loading = true;
           const params = {
             'RCode': this.RCode.value,
+            'Type': 2
           };
-          this.restApiService.getByParameters(PathConstants.PARTY_LEDGER_ENTRY_GET, params).subscribe(res => {
+          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
             if (res !== undefined) {
-              // this.PartyLedgerCols = this.tableConstant.PartyLedgerMaster;
-              // this.PartyLedgerData = res;
               res.forEach(s => {
-                partySelection.push({ label: s.PartyName, value: s.LedgerID, TIN: s.TIN });
-                // this.PartyTin = s.TIN;
+                partySelection.push({ label: s.PartyName, value: s.PartyID, TIN: s.TIN });
               });
               this.partyOptions = partySelection;
               this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
@@ -134,6 +160,7 @@ export class PartyLedgerUpdateComponent implements OnInit {
               }
             }
           });
+          this.loading = false;
         }
         break;
       case 'issuer':

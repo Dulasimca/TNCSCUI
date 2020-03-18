@@ -152,6 +152,7 @@ export class StockLedgerStatementComponent implements OnInit {
         let TotalQty = 0;
         let TotalIssueSales = 0;
         let TotalOtherIssue = 0;
+        let TotalIssue = 0;
         this.dataLength = this.stockData.length;
         this.stockData.forEach(data => {
           sno += 1;
@@ -170,11 +171,12 @@ export class StockLedgerStatementComponent implements OnInit {
           TotalQty += data.Receipt !== undefined && data.Receipt !== null ? (data.Receipt * 1) : 0;
           TotalIssueSales += data.IssueSales !== undefined && data.IssueSales !== null ? (data.IssueSales * 1) : 0;
           TotalOtherIssue += data.IssueOthers !== undefined && data.IssueOthers !== null ? (data.IssueOthers * 1) : 0;
+          TotalIssue += data.TotalOtherIssue !== undefined && data.TotalOtherIssue !== null ? (data.TotalOtherIssue * 1) : 0;
           this.loading = false;
         });
         this.stockData.push({
           ITDescription: 'Grand Total', Receipt: (TotalQty * 1).toFixed(3), IssueSales: (TotalIssueSales * 1).toFixed(3),
-          IssueOthers: (TotalOtherIssue * 1).toFixed(3)
+          IssueOthers: (TotalOtherIssue * 1).toFixed(3), TotalIssue: (TotalOtherIssue * 1).toFixed(3)
         });
         // this.stockData.push(this.stockData.SlNo = 'Total', this.stockData.Receipt = this.stockData.Receipt);
       } else {
