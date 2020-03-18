@@ -45,6 +45,7 @@ export class CBStatementComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
+  items: any[];
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private excelService: ExcelService,
@@ -59,6 +60,17 @@ export class CBStatementComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.column = this.tableConstants.CBStatementColumns;
+    this.items = [
+      {
+        label: 'CB Details', icon: 'fa fa-table',  command: () => {
+          this.table.exportCSV();
+        }
+      },
+      {
+        label: 'CB Abstract', icon: 'fa fa-table',  command: () => {
+          this.exportAsXLSX();
+        }
+      }]
   }
 
   onSelect(item, type) {
@@ -220,13 +232,6 @@ export class CBStatementComponent implements OnInit {
             index += 1;
           }
         }
-        if(this.GCode === 'All' && this.RCode === 'All') {
-        const result = this.calculateGrandTotal(this.cbData, 'CBActual');
-        if(result) {
-         this.cbData.splice(this.cbData.length - 1, 1);
-         this.cbData.push(result);
-        }
-      }
         for (let i = 0; i < this.cbData.length; i++) {
           let rowData = this.cbData[i];
           let RNAME = rowData.RNAME;
@@ -244,6 +249,13 @@ export class CBStatementComponent implements OnInit {
         }
         if(this.GCode === 'All' && this.RCode === 'All') {
           this.loadAbstract(groupedData);
+          }
+          if(this.GCode === 'All' && this.RCode === 'All') {
+            const result = this.calculateGrandTotal(this.cbData, 'CBActual');
+            if(result) {
+            //  this.cbData.splice(this.cbData.length - 1, 1);
+             this.cbData.push(result);
+            }
           }
         this.loading = false;
       } else {
@@ -282,7 +294,7 @@ export class CBStatementComponent implements OnInit {
         })
         const result = this.calculateGrandTotal(this.abstractData, 'CBAbstract');
         if(result) {
-        this.abstractData.splice(this.abstractData.length, 0, result);
+        this.abstractData.push(result);
         }
   }
 
@@ -309,6 +321,14 @@ export class CBStatementComponent implements OnInit {
         wheat += (x.WHEAT * 1);
         uDhall += (x.uridDhall * 1);
         pOil += (x.palmoil * 1);
+        item = { TNCSName: 'GRAND TOTAL',
+        TNCSCapacity: capacity.toFixed(3),
+        boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+        toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+        totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+        WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+        uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+        kanadaToorDhallTotal: kDhallTotal.toFixed(3)};
       } else if(id === 'CBAbstract') {
         capacity += (x.TNCSCapacity * 1);
         bRice += (x.boiledRice * 1);
@@ -323,19 +343,20 @@ export class CBStatementComponent implements OnInit {
         wheat += (x.WHEAT * 1);
         uDhall += (x.uridDhall * 1);
         pOil += (x.palmoil * 1);
+        item = { RNAME: 'GRAND TOTAL',
+        TNCSCapacity: capacity.toFixed(3),
+        boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+        toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+        totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+        WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+        uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+        kanadaToorDhallTotal: kDhallTotal.toFixed(3)};
       }
     })
-    item = { RNAME: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
-    boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
-    toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
-    totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
-    WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
-    uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
-    kanadaToorDhallTotal: kDhallTotal.toFixed(3)};
     return item;
   }
 
-  export() {
+  exportAsXLSX() {
     let data = [];
     this.abstractData.forEach(item => {
       data.push({

@@ -37,19 +37,17 @@
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-md-3"></div>
-      <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad" style="margin-left: -20px;">
-        <button name="view" style="margin-top:5px"pButton type="button" label=View (click)="onView()"
+      <div class="ui-g-3 ui-md-1 no-left-pad" style="margin-top: 5px;">
+        <button name="view" class="ui-g-12 dashboard" style="margin-top:5px"pButton type="button" label=View (click)="onView()"
         [disabled]="(!Date || !GCode || !RCode)"></button>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
-        <button name="execl" style="margin-top:5px" pButton label="Excel" (click)="dt.exportCSV()"
-        [disabled]="(cbData.length=='0')"></button>
+      <div class="ui-g-3 ui-md-2 no-left-pad" style="margin-top: 10px;">
+        <p-splitButton label="Excel" [disabled]="cbData.length=='0'" icon="pi pi-download" [model]="items"
+        styleClass="ui-button-danger"></p-splitButton>
       </div>
-      <div class="ui-g-3 ui-md-1 ui-fluid no-left-pad">
-        <button name="abstract" style="margin-top:5px" pButton label="Abstract" (click)="export()"
-        [disabled]="(abstractData.length=='0')"></button>
-      </div>
-    <div class="ui-g-12 ui-md-12 ui-lg-12">
+    <div class="ui-g-12 ui-md-12 border-blue">
+      <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Statement Details</div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
       <p-table #dt [value]="cbData" [columns]="column" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
         [paginator]="true" [autoLayout]="true" [responsive]="true" [loading]="loading" exportFilename="CLOSING_BALANCE_STATEMENT_REPORT">
         <ng-template pTemplate="header" let-columns>
@@ -80,6 +78,7 @@
         </ng-template>
       </p-table>
     </div>
+  </div>
     <div *ngIf="(RCode=='All' && abstractData.length!='0')" class="ui-g-12 ui-md-12 border-blue">
        <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Statement Abstract</div>
     <div class="ui-g-12 ui-md-12 ui-lg-12">
