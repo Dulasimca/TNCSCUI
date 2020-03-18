@@ -376,7 +376,7 @@ export class CBStatementComponent implements OnInit {
         uDhall += (x.uridDhall * 1);
         pOil += (x.palmoil * 1);
     })
-    this.abstractData.push({ RNAME: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
+    this.data.push({ RNAME: 'GRAND TOTAL', TNCSCapacity: capacity.toFixed(3),
     boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
     toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
     totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
