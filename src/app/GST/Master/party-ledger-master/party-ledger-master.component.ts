@@ -286,7 +286,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       'IFSC': this.IFSC.toUpperCase(),
       'RCode': this.loggedInRCode,
       'AADSType': this.Godown,
-      'Flag': (this.isActive === 'Registered') ? 1 : 0
+      'Flag': (this.isActive === 'Registered') ? 1  : 0
     };
     this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
       if (value) {
