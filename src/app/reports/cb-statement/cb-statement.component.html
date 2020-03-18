@@ -93,7 +93,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
-          <tr>
+          <tr [ngStyle]="{'background-color': getColor(data.RNAME)}">
             <td *ngFor="let col of columns">
               <div *ngIf="col.field !== 'RNAME'">
                 <span style="float: right">
