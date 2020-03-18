@@ -125,44 +125,43 @@ export class PartyLedgerUpdateComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-      // case 'party':
-      //   if (type === 'tab') {
-      //     this.partyPanel.overlayVisible = true;
-      //   }
-      //   partySelection = this.CompanyOpt;
-      //   if (this.CompanyOpt !== undefined) {
-      //     this.partyOptions = partySelection;
-      //     this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
-      //     if (this.PartyName !== undefined) {
-      //       this.PartyTin = this.PartyName.TIN;
-      //     }
-      //   }
-      //   break;
       case 'party':
         if (type === 'tab') {
           this.partyPanel.overlayVisible = true;
         }
-        if (this.partyOptions !== undefined) {
-          this.loading = true;
-          const params = {
-            'RCode': this.RCode.value,
-            'Type': 2
-          };
-          this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
-            if (res !== undefined) {
-              res.forEach(s => {
-                partySelection.push({ label: s.PartyName, value: s.PartyID, TIN: s.TIN });
-              });
-              this.partyOptions = partySelection;
-              this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
-              if (this.PartyName !== undefined) {
-                this.PartyTin = this.PartyName.TIN;
-              }
-            }
-          });
-          this.loading = false;
+        partySelection = this.CompanyOpt;
+        if (this.CompanyOpt !== undefined) {
+          this.partyOptions = partySelection;
+          if (this.PartyName !== undefined) {
+            this.PartyTin = this.PartyName.TIN;
+          }
         }
         break;
+      // case 'party':
+      //   if (type === 'tab') {
+      //     this.partyPanel.overlayVisible = true;
+      //   }
+      //   if (this.partyOptions !== undefined) {
+      //     this.loading = true;
+      //     const params = {
+      //       'RCode': this.RCode.value,
+      //       'Type': 2
+      //     };
+      //     this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+      //       if (res !== undefined) {
+      //         res.forEach(s => {
+      //           partySelection.push({ label: s.PartyName, value: s.PartyID, TIN: s.TIN });
+      //         });
+      //         this.partyOptions = partySelection;
+      //         this.partyOptions.unshift({ label: '-select-', value: null, disabled: true });
+      //         if (this.PartyName !== undefined) {
+      //           this.PartyTin = this.PartyName.TIN;
+      //         }
+      //       }
+      //     });
+      //     this.loading = false;
+      //   }
+      //   break;
       case 'issuer':
         if (type === 'tab') {
           this.issuerPanel.overlayVisible = true;
@@ -178,8 +177,27 @@ export class PartyLedgerUpdateComponent implements OnInit {
     }
   }
 
+  onCompany() {
+    let CompanySel = [];
+    const params = {
+      'RCode': this.RCode.value,
+      'Type': 5
+    };
+    this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+      if (res !== undefined) {
+        res.forEach(s => {
+          CompanySel.push({ label: s.PartyName, value: s.PartyID, TIN: s.TIN });
+        });
+        this.CompanyOpt = CompanySel;
+      }
+    });
+  }
+
   onView() {
     this.loading = true;
+    if (this.CompanyOpt === undefined) {
+      this.onCompany();
+    }
     this.IssuerCols = this.tableConstant.IssuerPartyCols;
     const params = {
       'Type': 1,
