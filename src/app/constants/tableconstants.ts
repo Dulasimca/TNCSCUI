@@ -1815,8 +1815,8 @@ export class TableConstants {
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Tax Percentage', field: 'TaxPercentage' },
       { header: 'Rate', field: 'Rate' },
-      { header: 'Effective Date', field: 'EffectDate' },
-      { header: 'Close Date', field: 'EndDate' },
+      { header: 'Effective Date', field: 'EffectiveDate' },
+      { header: 'Close Date', field: 'EndedDate' },
       { header: 'Remarks', field: 'Remarks' }
     ];
   }
