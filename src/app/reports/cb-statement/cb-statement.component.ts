@@ -249,13 +249,10 @@ export class CBStatementComponent implements OnInit {
         }
         if(this.GCode === 'All' && this.RCode === 'All') {
           this.loadAbstract(groupedData);
+          const result = this.calculateGrandTotal(this.cbData, 'CBActual');
+          if(result) {
+           this.cbData.push(result);
           }
-          if(this.GCode === 'All' && this.RCode === 'All') {
-            const result = this.calculateGrandTotal(this.cbData, 'CBActual');
-            if(result) {
-            //  this.cbData.splice(this.cbData.length - 1, 1);
-             this.cbData.push(result);
-            }
           }
         this.loading = false;
       } else {

@@ -41,9 +41,13 @@
         <button name="view" class="ui-g-12 dashboard" style="margin-top:5px"pButton type="button" label=View (click)="onView()"
         [disabled]="(!Date || !GCode || !RCode)"></button>
       </div>
-      <div class="ui-g-3 ui-md-2 no-left-pad" style="margin-top: 10px;">
+      <div *ngIf="RCode=='All'" class="ui-g-3 ui-md-2 no-left-pad" style="margin-top: 10px;">
         <p-splitButton label="Excel" [disabled]="cbData.length=='0'" icon="pi pi-download" [model]="items"
         styleClass="ui-button-danger"></p-splitButton>
+      </div>
+      <div *ngIf="RCode!='All'" class="ui-g-3 ui-md-1 no-left-pad" style="margin-top: 5px;">
+        <button name="view" class="ui-g-12 dashboard" style="margin-top:5px"pButton type="button" label=Excel (click)="dt.exportCSV()"
+        [disabled]="(cbData.length=='0')"></button>
       </div>
     <div class="ui-g-12 ui-md-12 border-blue">
       <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Statement Details</div>
