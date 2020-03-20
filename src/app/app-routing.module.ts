@@ -117,6 +117,7 @@ import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception
 import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
 import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
 import { ServiceProviderComponent } from './GST/Reports/service-provider/service-provider.component';
+import { AuditReportComponent } from './audit-report/audit-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -236,6 +237,7 @@ const routes: Routes = [
   { path: 'SalesTax', component: SalesTaxComponent, canActivate: [AuthGuard] },
   { path: 'PurchaseTax', component: PurchaseTaxComponent, canActivate: [AuthGuard] },
   { path: 'ServiceProviderTax', component: ServiceProviderComponent, canActivate: [AuthGuard] },
+  { path: 'InspectionReport', component: AuditReportComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -168,6 +168,7 @@ import { AuditInceptionComponent } from './Audit/audit-inception/audit-inception
 import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
 import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
 import { ServiceProviderComponent } from './GST/Reports/service-provider/service-provider.component';
+import { AuditReportComponent } from './audit-report/audit-report.component';
 
 
 @NgModule({
@@ -295,6 +296,7 @@ import { ServiceProviderComponent } from './GST/Reports/service-provider/service
     SalesTaxComponent,
     PurchaseTaxComponent,
     ServiceProviderComponent,
+    AuditReportComponent,
   ],
   imports: [
     BrowserModule,

@@ -147,6 +147,7 @@ export class TableConstants {
   GSTSalexTaxReportColumns: any;
   GSTPurchasexTaxReportColumns: any;
   RateMaster: any;
+  InceptionReportCols: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1753,6 +1754,22 @@ export class TableConstants {
       { header: 'Stack No.', field: 'StackNo' },
       { header: 'Quantity', field: 'Quantity' },
       { header: 'Type', field: 'TypeName' },
+    ];
+
+    this.InceptionReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'Godown', field: 'TNCSName' },
+      { header: 'Inspection Date', field: 'InspectionDate' },
+      { header: 'Inspection Team', field: 'InceptionName' },
+      { header: 'Name', field: 'Name' },
+      { header: 'Designation', field: 'DesignationName' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Stack No', field: 'StackNo' },
+      { header: 'Year', field: 'Year' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Ex/Sht', field: 'Type' },
+      { header: 'Remarks', field: 'Remarks' },
     ];
 
     this.InceptionDetailsColumns = [
