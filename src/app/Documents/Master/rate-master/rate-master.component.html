@@ -53,12 +53,14 @@
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Effective Date</label>
-        <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy">
+        <p-calendar [(ngModel)]="effectiveDate" [showIcon]="true" [maxDate]="maxDate" name="effectiveDate"
+          dateFormat="dd/mm/yy">
         </p-calendar>
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">End Date</label>
-        <p-calendar [(ngModel)]="endDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"></p-calendar>
+        <p-calendar [(ngModel)]="endDate" [showIcon]="true" [maxDate]="maxDate" name="endDate" dateFormat="dd/mm/yy">
+        </p-calendar>
       </div>
       <div class="ui-g-12 ui-md-6">
         <span class="ui-float-label">

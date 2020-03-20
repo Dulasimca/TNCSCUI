@@ -32,7 +32,9 @@ export class RateMasterComponent implements OnInit {
   ActiveFlag: any;
   RowID: any;
   Tax: any;
+  FinalDate: any;
   Remark: any;
+  endedDate: any;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
 
@@ -49,8 +51,8 @@ export class RateMasterComponent implements OnInit {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
         this.RateMasterData.forEach(s => {
-          s.EffectDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
-          s.EndDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
+          s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
         });
         this.loading = false;
       } else {
@@ -120,10 +122,6 @@ export class RateMasterComponent implements OnInit {
       'Allotment': this.Commodity,
     };
     this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
-      res.forEach(s => {
-        s.EffectDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
-        s.EndDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
-      });
       if (res.length === 0) {
         this.onSave();
       } else if (this.RowID !== undefined) {
@@ -147,14 +145,11 @@ export class RateMasterComponent implements OnInit {
       'ScCode': this.Scheme,
       'Allotment': this.Commodity,
       'Rate': this.Rate,
-      'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
-      'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
+      'EffectDate': this.FinalDate || this.effectiveDate,
+      'EndDate': this.endDate,
       'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
-      // 'EffectDate': this.datepipe.transform(this.effectiveDate, 'MM/dd/yyyy'),
-      // 'EndDate': this.datepipe.transform(this.endDate, 'MM/dd/yyyy'),
-      // 'CreatedDate': this.datepipe.transform(this.maxDate, 'MM/dd/yyyy'),
       'Remark': this.Remark,
-      'Activeflag': this.ActiveFlag,
+      'Activeflag': (this.endDate !== undefined) ? 0 : 1,
       'Hsncode': this.Hsncode,
       'TaxPercentage': this.Tax
     };
@@ -195,16 +190,14 @@ export class RateMasterComponent implements OnInit {
     this.Commodity = selectedRow.AllotmentCode;
     this.Scheme = selectedRow.Scheme;
     this.Rate = selectedRow.Rate;
-    this.effectiveDate = selectedRow.EffectDate;
-    this.endDate = selectedRow.endDate;
+    this.effectiveDate = selectedRow.EffectiveDate;
+    this.FinalDate = selectedRow.EffectDate;
+    this.endDate = selectedRow.EndedDate;
+    this.endedDate = selectedRow.endDate;
     this.Remark = selectedRow.Remarks;
     this.Hsncode = selectedRow.Hsncode;
-    this.effectiveDate = selectedRow.EffectDate;
-    this.endDate = selectedRow.EndDate;
     this.Tax = selectedRow.TaxPercentage;
     this.ActiveFlag = selectedRow.Flag;
-    // this.effectiveDate = this.datepipe.transform(selectedRow.EffectDate, 'MM/dd/yyyy');
-    // this.endDate = this.datepipe.transform(selectedRow.EndDate, 'MM/dd/yyyy');
   }
 
   onView() {
@@ -213,8 +206,8 @@ export class RateMasterComponent implements OnInit {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
         this.RateMasterData.forEach(s => {
-          s.EffectDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
-          s.EndDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
+          s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
         });
       } else {
         this.loading = false;
@@ -238,6 +231,6 @@ export class RateMasterComponent implements OnInit {
 
   onClear() {
     this.Commodity = this.Scheme = this.Rate = this.effectiveDate = this.endDate = this.Remark = this.RowID = this.Hsncode = undefined;
-    this.commodityOptions = this.SchemeOptions = this.Tax = undefined;
+    this.commodityOptions = this.SchemeOptions = this.Tax = this.FinalDate = undefined;
   }
 }
