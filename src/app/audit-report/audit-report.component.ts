@@ -33,8 +33,21 @@ export class AuditReportComponent implements OnInit {
   roleId: any;
   loggedInRCode: string;
   data: any;
+  Designation: string;
+  IDate: any;
+  IName: string;
+  ITeam: string;
+  RName: string;
+  GName: string;
+  viewPane: boolean;
+  inspectionItemDetailsData: any = [];
+  inspectionItemDetailsCols: any;
+  Remarks: any;
+  itemDetailsData: any[];
+  selectedRow: any;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+ 
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restApiService: RestAPIService,
@@ -44,7 +57,7 @@ export class AuditReportComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
-    this.inspectionCols = this.tableConstants.InceptionReportCols;
+    this.inspectionCols = this.tableConstants.InspectionReportCols;
     this.regionsData = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId); this.maxDate = new Date();
     this.data = this.roleBasedService.getInstance();
@@ -107,32 +120,43 @@ export class AuditReportComponent implements OnInit {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0 &&
         res.Table1 !== null && res.Table1 !== undefined && res.Table1.length !== 0) {
         let sno = 1;
-        var data = [];
+        var data = []
         res.Table.forEach(x => {
           res.Table1.forEach(y => {
             if (x.InceptionID === y.InceptionID) {
               data.push({
-                SlNo: sno,
-                InceptionItemID: y.InceptionItemID,
-                InceptionID: x.InceptionID,
-                RGNAME: x.RGNAME,
-                TNCSName: x.TNCSName,
-                InceptionName: x.InceptionName,
-                Name: x.Name,
-                DesignationName: x.DesignationName,
-                Remarks: x.Remarks,
-                InspectionDate: this.datepipe.transform(x.InceptionDate, 'dd/MM/yyyy'),
-                Commodity: y.Commodity,
-                StackNo: y.StackNo,
-                Quantity: (y.Quantity * 1).toFixed(3),
-                Year: y.CurYear,
-                Type: y.TypeName
-              });
-              sno += 1;
+               SlNo: sno,
+               InceptionItemID: y.InceptionItemID,
+               InceptionID: x.InceptionID,
+               RGNAME: x.RGNAME,
+               TNCSName: x.TNCSName,
+               InspectionName: x.InceptionName,
+               Name: x.Name,
+               DesignationName: x.DesignationName,
+               Remarks: x.Remarks,
+               IDate: x.InceptionDate,
+               InspectionDate: this.datepipe.transform(x.InceptionDate, 'dd/MM/yyyy'),
+               Commodity: y.Commodity,
+               StackNo: y.StackNo,
+               Quantity: (y.Quantity * 1).toFixed(3),
+               Year: y.CurYear,
+               Type: y.TypeName
+               });
+               sno += 1;
             }
           });
         });
         this.inspectionData = data;
+        var result = [];
+        var index = 0;
+        for(var x = 0; x < this.inspectionData.length; x++){
+         index = result.findIndex(i => i.InceptionID === this.inspectionData[x].InceptionID);
+          if(index < 0) {
+            result.push(this.inspectionData[x]);
+          }
+         }
+         this.inspectionData = result;
+        this.itemDetailsData = data;
         this.loading = false;
       } else {
         this.loading = false;
@@ -156,54 +180,50 @@ export class AuditReportComponent implements OnInit {
     });
   }
 
+  onRowSelect(selectedRow, index) {
+    if(selectedRow && this.itemDetailsData.length !== 0) {
+      this.viewPane = true;
+      this.selectedRow = selectedRow;
+      this.RName = selectedRow.RGNAME;
+      this.GName = selectedRow.TNCSName;
+      this.IDate = this.datepipe.transform(selectedRow.IDate, 'MM/dd/yyyy');
+      this.ITeam = selectedRow.InspectionName;
+      this.IName = selectedRow.Name;
+      this.Designation = selectedRow.DesignationName;
+      this.Remarks = selectedRow.Remarks;
+      this.inspectionItemDetailsCols = this.tableConstants.InspectionItemDetailsReportCols;
+      var data = this.itemDetailsData.filter(i => {
+        return i.InceptionID === selectedRow.InceptionID;
+      })
+      let sno = 1;
+      data.forEach(x => {
+        x.SlNo = sno;
+        sno += 1;
+      })
+      this.inspectionItemDetailsData = data;
+    } else {
+      this.viewPane = false;
+    }
+  }
+
   onDownloadPDF() {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
-        var col = ['S.No', 'Region', 'Godown', 'Inspection Date'];
-        var col1 = ['S.No', 'Inception Team', 'Name', 'Designation'];
+        var col = ['Region', 'Godown', 'Inspection Date'];
+        var col1 = ['Inception Team', 'Name', 'Designation'];
         var col2 = ['S.No', 'Commodity', 'Stack No.', 'Year', 'Quantity', 'Ex/Sht'];
-        var col3 = ['S.No', 'Remarks'];
+        var col3 = ['Remarks'];
         var rows = [], rows1 = [], rows2 = [], rows3 = [];
-        let sno = 0, sno1 = 0, sno2 = 0;
-        const obtainDistinctData = Array.from(new Set(this.inspectionData.map(x => x.InspectionDate))).map(InspectionDate => {
-          return{
-              InspectionDate: InspectionDate,
-              RGNAME: this.inspectionData.find(y => y.InspectionDate === InspectionDate).RGNAME,
-              TNCSName: this.inspectionData.find(y => y.InspectionDate === InspectionDate).TNCSName,
-            }
-         })
-         obtainDistinctData.forEach(el => {
-          sno += 1;
-          var temp = [sno, el.RGNAME, el.TNCSName, el.InspectionDate];
-          rows.push(temp);
-        });
-        const obtainDistinctData1 = Array.from(new Set(this.inspectionData.map(x => x.Name))).map(Name => {
-          return{
-            Name: Name,
-            InceptionName: this.inspectionData.find(y => y.Name === Name).InceptionName,
-            DesignationName: this.inspectionData.find(y => y.Name === Name).DesignationName,
-            Remarks: this.inspectionData.find(y => y.Name === Name).Remarks
-          }
-         })
-        obtainDistinctData1.forEach(el => {
-          sno1 += 1;
-          var temp1 = [sno1, el.InceptionName, el.Name, el.DesignationName];
-          var temp3 = [sno1, el.Remarks];
-          rows1.push(temp1);
-          rows3.push(temp3);
-        });
-        const obtainDistinctData2 = Array.from(new Set(this.inspectionData.map(x => x.InceptionItemID))).map(InceptionItemID => {
-            return{
-              StackNo: this.inspectionData.find(y => y.InceptionItemID === InceptionItemID).StackNo,
-              Commodity: this.inspectionData.find(y => y.InceptionItemID === InceptionItemID).Commodity,
-              Year: this.inspectionData.find(y => y.InceptionItemID === InceptionItemID).Year,
-              Quantity: this.inspectionData.find(y => y.InceptionItemID === InceptionItemID).Quantity,
-              Type: this.inspectionData.find(y => y.InceptionItemID === InceptionItemID).Type,
-              }
-           })
-          obtainDistinctData2.forEach(el => {
-            sno2 += 1;
-            var temp2 = [sno2, el.Commodity, el.StackNo, el.Year, el.Quantity, el.Type];
+        let sno = 0;
+        var temp = [this.RName, this.GName, this.IDate];
+        rows.push(temp);
+        var temp1 = [this.ITeam, this.IName, this.Designation];
+        var temp3 = [this.Remarks];
+        rows1.push(temp1);
+        rows3.push(temp3);
+        this.inspectionItemDetailsData.forEach(el => {
+            sno += 1;
+            var temp2 = [sno, el.Commodity, el.StackNo, el.Year, el.Quantity, el.Type];
             rows2.push(temp2);
           });
         doc.autoTable(col, rows);
@@ -243,7 +263,12 @@ export class AuditReportComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.inspectionData = [];
-    this.loading = false;
+    this.loading = false; this.viewPane = false;
+    this.RName = null; this.GName = null;
+    this.ITeam = null; this.IDate = null;
+    this.IName = null; this.Designation = null;
+    this.Remarks = null; this.itemDetailsData = [];
+    this.inspectionItemDetailsData = [];
   }
 
 }

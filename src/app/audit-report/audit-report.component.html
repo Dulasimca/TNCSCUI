@@ -41,24 +41,20 @@
                 <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="ToDate" [maxDate]="maxDate" [showIcon]="true"
                   dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
               </div>
-              <div class="ui-g-1"></div>
               <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
                 <button pButton type="button" label=View (click)="onView()"
                   [disabled]="(!FromDate || !ToDate || !GCode)"></button>
               </div>
-              <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
-                <button pButton type="button" label=PDF (click)="onDownloadPDF()" [disabled]="(inspectionData.length=='0')"></button>
-              </div>
             <div class="ui-g-12 ui-fluid">
                 <p-table tabindex="-1" [columns]="inspectionCols" [value]="inspectionData" [rows]="10"
-                    [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [(selection)]="selected"
+                    [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
                     selectionMode="single" [responsive]="true" autoLayout="true"
                     [loading]="loading">
                     <ng-template pTemplate="colgroup" let-columns>
-                        <colgroup>
-                            <col *ngFor="let col of columns" style="width:80px">
-                        </colgroup>
-                    </ng-template>
+                      <colgroup>
+                          <col *ngFor="let col of columns" [style.width]="col.width">
+                      </colgroup>
+                  </ng-template>
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns">
@@ -67,7 +63,7 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData">
+                        <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect(rowData, rowIndex)">
                             <td *ngFor="let col of columns">
                                 {{rowData[col.field]}}
                             </td>
@@ -78,3 +74,69 @@
         </div>
     </p-panel>
 </div>
+<p-dialog header="Inspection Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
+  [(visible)]="viewPane" [responsive]="true">
+  <div>
+    <div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+      <label for="RegName" class="label-fontsize-large">Region Name</label>
+      <input name="RegName" type="text" size="50" pInputText autocomplete="off" minlength="1"
+          maxlength="50" [(ngModel)]="RName">
+</div>
+<div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+  <label for="GdnName" class="label-fontsize-large">Godown Name</label>
+  <input name="GdnName" type="text" size="50" pInputText autocomplete="off" minlength="1"
+      maxlength="50" [(ngModel)]="GName">
+</div>
+<div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+  <label for="InsTeam" class="label-fontsize-large">Inspection Team</label>
+  <input name="InsTeam" type="text" size="50" pInputText autocomplete="off" minlength="1"
+      maxlength="50" [(ngModel)]="ITeam">
+</div>
+<div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+  <label for="InsDate" class="label-fontsize-large">Inspection Date</label>
+  <input name="InsDate" type="text" size="50" pInputText autocomplete="off" minlength="1"
+      maxlength="50" [(ngModel)]="IDate">
+</div>
+<div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+  <label for="Name" class="label-fontsize-large">Name</label>
+  <input name="Name" type="text" size="50" pInputText autocomplete="off" minlength="1"
+      maxlength="50" [(ngModel)]="IName">
+</div>
+<div class="ui-g-6 ui-md-2" style="margin-top: -20px">
+  <label for="DName" class="label-fontsize-large">Designation</label>
+  <input name="DName" type="text" size="50" pInputText autocomplete="off" minlength="1"
+      maxlength="50" [(ngModel)]="Designation">
+</div>
+<!-- <div class="ui-g-10"></div> -->
+  </div>
+  <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details:-</div>
+  <div class="ui-g-4 ui-md-1 ui-fluid no-pad-top">
+    <button pButton type="button" icon="pi pi-download" label=PDF (click)="onDownloadPDF()" 
+    [disabled]="(inspectionItemDetailsData.length=='0')"></button>
+  </div>
+    <div class="ui-g-12 ui-fluid no-pad-top ">
+    <p-table tabindex="-1" [columns]="inspectionItemDetailsCols" [value]="inspectionItemDetailsData" [rows]="10"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+      [responsive]="true" autoLayout="true">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr >
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
