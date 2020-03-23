@@ -150,6 +150,7 @@ export class IssueReceiptComponent implements OnInit {
   PreRemarks: any;
   PreTransporterName: any;
   viewedNetQty: number;
+  GodownAllotmentStatus: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -1045,7 +1046,8 @@ export class IssueReceiptComponent implements OnInit {
 
   checkAllotmentStatus(value) {
     this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value,  Type: '2'}).subscribe(status => {
-      this.AllotmentStatus = status[0].TNCSCValue;
+      this.GodownAllotmentStatus = status.Table[0].TNCSCValue;
+      this.AllotmentStatus = status.Table1[0].TNCSCValue;
     });
   }
 
@@ -1128,7 +1130,8 @@ export class IssueReceiptComponent implements OnInit {
                     }
                 }
                 /// ---------------- Allotment balance check ------------------ ///
-                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 && (this.RegularAdvance.toUpperCase().trim() === 'R')) {
+                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 && 
+                (this.RegularAdvance.toUpperCase().trim() === 'R') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1137,7 +1140,8 @@ export class IssueReceiptComponent implements OnInit {
                   });
                 }
                 ///Else Part
-                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 && (this.RegularAdvance.toUpperCase().trim() === 'A')) {
+                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 && 
+                (this.RegularAdvance.toUpperCase().trim() === 'A') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1155,7 +1159,7 @@ export class IssueReceiptComponent implements OnInit {
                 /// ------------------ END ----------------------- ///
               }
             }
-          } else if (type === '2') {
+          } else if (type === '2' && this.GodownAllotmentStatus === 'YES') {
             /// ---------------- Allotment balance check ------------------ ///
             if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
               percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
