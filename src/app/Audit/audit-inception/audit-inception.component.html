@@ -20,7 +20,7 @@
                         <div class="ui-g-6 ui-md-2 no-left-pad" style="margin-top: -20px">
                             <label for="Region" class="label-fontsize-large">Region</label>
                             <p-dropdown #region name="Region" [options]="regionOptions" [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')"
-                            (keyup.shift.tab)="onSelect('gd', 'tab')" (keyup.tab)="onSelect('gd', 'tab')"
+                            (keyup.shift.tab)="onSelect('reg', 'tab')" (keyup.tab)="onSelect('reg', 'tab')"
                              filter="true" resetFilterOnHide="true" [showClear]="true" (ngModelChange)="onReset('reg')"
                              filterMatchMode="startsWith" required>
                             </p-dropdown>

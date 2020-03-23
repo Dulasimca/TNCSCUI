@@ -143,11 +143,13 @@ export class TableConstants {
   GodownEmployeeCols: any;
   InceptionCols: any;
   CommodityReceiptReport: any;
-  InceptionDetailsColumns: any;
+  InspectionDetailsColumns: any;
   GSTSalexTaxReportColumns: any;
   GSTPurchasexTaxReportColumns: any;
   RateMaster: any;
-
+  InspectionReportCols: any;
+  InspectionItemDetailsReportCols: any;
+  
   constructor() {
     this.DailyStockStatement = [
       { field: 'serialNo', header: 'S.No', width: '40px' },
@@ -1755,7 +1757,27 @@ export class TableConstants {
       { header: 'Type', field: 'TypeName' },
     ];
 
-    this.InceptionDetailsColumns = [
+    this.InspectionReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '5px' },
+      { header: 'Region', field: 'RGNAME', width: '45px' },
+      { header: 'Godown', field: 'TNCSName', width: '45px' },
+      { header: 'Inspection Date', field: 'InspectionDate', width: '25px' },
+      { header: 'Inspection Team', field: 'InspectionName', width: '55px' },
+      { header: 'Name', field: 'Name', width: '65px' },
+      { header: 'Designation', field: 'DesignationName', width: '65px' },
+      { header: 'Remarks', field: 'Remarks', width: '75px' },
+    ];
+
+    this.InspectionItemDetailsReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Stack No', field: 'StackNo' },
+      { header: 'Year', field: 'Year' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Ex/Sht', field: 'Type' }
+    ];
+
+    this.InspectionDetailsColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Inception Team', field: 'InceptionName' },
       { header: 'Name', field: 'Name' },

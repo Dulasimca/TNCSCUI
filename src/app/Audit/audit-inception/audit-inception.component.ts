@@ -379,7 +379,7 @@ export class AuditInceptionComponent implements OnInit {
     this.viewPane = true;
     this.selected = null;
     this.messageService.clear();
-    this.inspectionDetailsCols = this.tableConstants.InceptionDetailsColumns;
+    this.inspectionDetailsCols = this.tableConstants.InspectionDetailsColumns;
     const params = new HttpParams().set('IDate', this.datepipe.transform(this.viewDate, 'MM/dd/yyyy')).append('GCode', this.GCode);
     this.restApiService.getByParameters(PathConstants.INSPECTION_DETAILS_GET, params).subscribe((res: any) => {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {

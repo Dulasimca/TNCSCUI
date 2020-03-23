@@ -149,6 +149,8 @@ export class IssueReceiptComponent implements OnInit {
   PreManualDocNo: any;
   PreRemarks: any;
   PreTransporterName: any;
+  viewedNetQty: number;
+  GodownAllotmentStatus: any;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -1044,7 +1046,8 @@ export class IssueReceiptComponent implements OnInit {
 
   checkAllotmentStatus(value) {
     this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value,  Type: '2'}).subscribe(status => {
-      this.AllotmentStatus = status[0].TNCSCValue;
+      this.GodownAllotmentStatus = status.Table[0].TNCSCValue;
+      this.AllotmentStatus = status.Table1[0].TNCSCValue;
     });
   }
 
@@ -1102,15 +1105,33 @@ export class IssueReceiptComponent implements OnInit {
             for (let a = 0; a < this.allotmentDetails.length; a++) {
               if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
                 this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
-                this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
-                percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
+                  this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+                  percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
+                  if(!this.isViewed) {
                 this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
                 this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
                 this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
                   ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
                   + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                  } else {
+                    let netWt = 0;
+                    this.itemData.forEach(i => {
+                      if(i.TStockNo !== 'Total') {
+                      netWt += (i.Nkgs * 1);
+                      }
+                    })
+                    if (this.viewedNetQty !== null && this.viewedNetQty !== undefined) {
+                      const remainingQty = this.viewedNetQty - netWt;
+                      this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) - remainingQty;
+                      this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) + remainingQty;
+                      this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
+                        ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
+                        + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                    }
+                }
                 /// ---------------- Allotment balance check ------------------ ///
-                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 && (this.RegularAdvance.toUpperCase().trim() === 'R')) {
+                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 && 
+                (this.RegularAdvance.toUpperCase().trim() === 'R') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1119,7 +1140,8 @@ export class IssueReceiptComponent implements OnInit {
                   });
                 }
                 ///Else Part
-                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 && (this.RegularAdvance.toUpperCase().trim() === 'A')) {
+                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 && 
+                (this.RegularAdvance.toUpperCase().trim() === 'A') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1137,7 +1159,7 @@ export class IssueReceiptComponent implements OnInit {
                 /// ------------------ END ----------------------- ///
               }
             }
-          } else if (type === '2') {
+          } else if (type === '2' && this.GodownAllotmentStatus === 'YES') {
             /// ---------------- Allotment balance check ------------------ ///
             if (this.BalanceQty !== null && this.BalanceQty !== undefined) {
               percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
@@ -1318,6 +1340,7 @@ export class IssueReceiptComponent implements OnInit {
           totalGkgs += (i.GKgs * 1);
           totalNkgs += (i.Nkgs * 1);
         })
+        this.viewedNetQty = (totalNkgs * 1);
         res.Table1.forEach(j => {
           this.issueData.push({
             SINo: j.SINo,
@@ -1407,7 +1430,7 @@ export class IssueReceiptComponent implements OnInit {
     this.PreManualDocNo = null; this.PreRecName = null;
     this.PreRecType = null; this.PreRegAdv = null;
     this.PreRemarks = null; this.PreSIDate = null;
-    this.showPreview = false;
+    this.showPreview = false; this.viewedNetQty = 0;
     this.form.controls.IssueRegAdv.reset();
     this.form.controls.TansactionType.reset();
     this.form.controls.ReceivorType.reset();
