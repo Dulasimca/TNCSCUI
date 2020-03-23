@@ -73,8 +73,34 @@
 
     <div *ngIf="(onReg)" class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
       <div class="ui-g">
-        <a class="ui-g-12 ui-md-5">Party Ledger Entry</a>
-        <div class="ui-g-12 ui-md-7"></div>
+        <a class="ui-g-12 ui-md-3">Party Ledger Entry</a>
+        <div class="ui-g-6 ui-md-2 ui-fluid">
+          <button pButton type="button" (click)="enableGST()" style="padding: 3px" label="Edit GST"></button>
+        </div>
+        <div class="ui-g-12 ui-md-7 dashboard">
+          <div class="ui-g-4 ui-md-3">
+            <div class="ui-float-label">
+              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State" autocomplete="off"
+                maxlength="2" [disabled]="(!onDrop)" required>
+              <label for="State">State Code</label>
+            </div>
+          </div>
+          <div class="ui-g-4 ui-md-6">
+            <div class="ui-float-label">
+              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan" autocomplete="off"
+                maxlength="10" [disabled]="(!onDrop)" required>
+              <label for="Pan">PAN</label>
+            </div>
+          </div>
+          <div class="ui-g-4 ui-md-3">
+            <div class="ui-float-label">
+              <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
+                tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" [disabled]="(!onDrop)"
+                maxlength="3" required>
+              <label for="Gst">GST</label>
+            </div>
+          </div>
+        </div>
       </div>
       <div>
         <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
