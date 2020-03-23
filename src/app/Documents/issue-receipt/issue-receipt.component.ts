@@ -149,6 +149,7 @@ export class IssueReceiptComponent implements OnInit {
   PreManualDocNo: any;
   PreRemarks: any;
   PreTransporterName: any;
+  viewedNetQty: number;
   @ViewChild('tr', { static: false }) transactionPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('rt', { static: false }) receivorTypePanel: Dropdown;
@@ -159,7 +160,6 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-  viewedNetQty: number;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -1426,7 +1426,7 @@ export class IssueReceiptComponent implements OnInit {
     this.PreManualDocNo = null; this.PreRecName = null;
     this.PreRecType = null; this.PreRegAdv = null;
     this.PreRemarks = null; this.PreSIDate = null;
-    this.showPreview = false;
+    this.showPreview = false; this.viewedNetQty = 0;
     this.form.controls.IssueRegAdv.reset();
     this.form.controls.TansactionType.reset();
     this.form.controls.ReceivorType.reset();
