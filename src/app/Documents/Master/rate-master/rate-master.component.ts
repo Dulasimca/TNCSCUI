@@ -7,7 +7,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-rate-master',
@@ -21,7 +21,7 @@ export class RateMasterComponent implements OnInit {
   maxDate: Date;
   effectiveDate: any;
   endDate: any;
-  Rate: any;
+  Rate: number;
   Commodity: any;
   Scheme: any;
   SchemeOptions: SelectItem[];
@@ -31,10 +31,13 @@ export class RateMasterComponent implements OnInit {
   Hsncode: any;
   ActiveFlag: any;
   RowID: any;
-  Tax: any;
+  Tax: number;
   FinalDate: any;
   Remark: any;
   endedDate: any;
+  CommodityValue: any;
+  TaxValue: any;
+  RateValue: any;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
 
@@ -53,6 +56,8 @@ export class RateMasterComponent implements OnInit {
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.Rate = s.Rate.toFixed(4);
+          s.TaxPercentage = s.TaxPercentage.toFixed(2);
         });
         this.loading = false;
       } else {
@@ -90,12 +95,15 @@ export class RateMasterComponent implements OnInit {
           this.restApiService.get(PathConstants.ALLOTMENT_GROUP_ITEM).subscribe(res => {
             if (res !== undefined) {
               res.forEach(s => {
-                CommoditySelection.push({ label: s.AllotmentName, value: s.AllotmentCode });
+                CommoditySelection.push({ 'label': s.AllotmentName, 'value': s.AllotmentCode, 'Hsncode': s.Hsncode });
               });
               CommoditySelection.unshift({ label: '-select-', value: null, disabled: true });
               this.commodityOptions = CommoditySelection;
             }
           });
+        }
+        if (this.Commodity !== undefined) {
+          this.Hsncode = (this.Commodity.Hsncode !== undefined) ? this.Commodity.Hsncode : '';
         }
         break;
       case 'scheme':
@@ -119,7 +127,7 @@ export class RateMasterComponent implements OnInit {
     const params = {
       'Type': 1,
       'Scheme': this.Scheme,
-      'Allotment': this.Commodity,
+      'Allotment': this.CommodityValue || this.Commodity.value,
     };
     this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
       if (res.length === 0) {
@@ -143,7 +151,7 @@ export class RateMasterComponent implements OnInit {
     const params = {
       'RowID': this.RowID || '',
       'ScCode': this.Scheme,
-      'Allotment': this.Commodity,
+      'Allotment': this.CommodityValue || this.Commodity.value,
       'Rate': this.Rate,
       'EffectDate': this.FinalDate || this.effectiveDate,
       'EndDate': this.endDate,
@@ -187,9 +195,11 @@ export class RateMasterComponent implements OnInit {
     this.RowID = selectedRow.RowID;
     this.commodityOptions = [{ label: selectedRow.AllotmentName, value: selectedRow.AllotmentCode }];
     this.SchemeOptions = [{ label: selectedRow.SchemeName, value: selectedRow.Scheme }];
-    this.Commodity = selectedRow.AllotmentCode;
+    this.Commodity = selectedRow.AllotmentName;
+    this.CommodityValue = selectedRow.AllotmentCode;
     this.Scheme = selectedRow.Scheme;
     this.Rate = selectedRow.Rate;
+    this.RateValue = selectedRow.Rate;
     this.effectiveDate = selectedRow.EffectiveDate;
     this.FinalDate = selectedRow.EffectDate;
     this.endDate = selectedRow.EndedDate;
@@ -197,6 +207,7 @@ export class RateMasterComponent implements OnInit {
     this.Remark = selectedRow.Remarks;
     this.Hsncode = selectedRow.Hsncode;
     this.Tax = selectedRow.TaxPercentage;
+    this.TaxValue = selectedRow.TaxPercentage;
     this.ActiveFlag = selectedRow.Flag;
   }
 
@@ -208,6 +219,8 @@ export class RateMasterComponent implements OnInit {
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.Rate = s.Rate.toFixed(4);
+          s.TaxPercentage = s.TaxPercentage.toFixed(2);
         });
       } else {
         this.loading = false;
@@ -231,6 +244,10 @@ export class RateMasterComponent implements OnInit {
 
   onClear() {
     this.Commodity = this.Scheme = this.Rate = this.effectiveDate = this.endDate = this.Remark = this.RowID = this.Hsncode = undefined;
-    this.commodityOptions = this.SchemeOptions = this.Tax = this.FinalDate = undefined;
+    this.commodityOptions = this.SchemeOptions = this.Tax = this.FinalDate = this.CommodityValue = undefined;
+  }
+
+  onReset(item) {
+    if (item === 'commodity') { this.Hsncode = undefined; }
   }
 }
