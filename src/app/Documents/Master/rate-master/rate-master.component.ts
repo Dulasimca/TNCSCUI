@@ -8,6 +8,9 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-rate-master',
@@ -38,8 +41,12 @@ export class RateMasterComponent implements OnInit {
   CommodityValue: any;
   TaxValue: any;
   RateValue: any;
+  filterArray: any;
+  data: any;
+  items: any;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private TableConstant: TableConstants,
     private restApiService: RestAPIService, private messageService: MessageService) { }
@@ -48,11 +55,23 @@ export class RateMasterComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.table.exportCSV();
+        }
+      },
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
+        }
+      }];
     this.loading = true;
     this.restApiService.get(PathConstants.RATE_MASTER_GET).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
+        this.filterArray = res;
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
@@ -216,6 +235,7 @@ export class RateMasterComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
+        this.filterArray = res;
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
@@ -249,5 +269,31 @@ export class RateMasterComponent implements OnInit {
 
   onReset(item) {
     if (item === 'commodity') { this.Hsncode = undefined; }
+  }
+
+  onSearch(value) {
+    this.data = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+        return item.AllotmentName.toString().startsWith(value);
+      });
+    }
+  }
+
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    var col = this.RateMasterCols;
+    var rows = [];
+    this.data.forEach(element => {
+      var temp = [element.SlNo, element.AllotmentName, element.SchemeName, element.Hsncode, element.TaxPercentage, element.Rate,
+      element.EffectiveDate, element.EndedDate, element.Remarks];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
+    doc.save('RATE_MASTER.pdf');
   }
 }

@@ -8,6 +8,14 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Rate Master</div>
+        <div class="ui-g-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Commodity"
+            (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"
+            (ngModelChange)="onSearch($event)"></button>
+          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+            styleClass="ui-button-danger"></p-splitButton>
+        </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
@@ -81,9 +89,9 @@
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
+        <p-table #dt [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+          exportFilename="RATE_MASTER" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
