@@ -246,7 +246,7 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onClear() {
     this.Pan = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.PartyCode = undefined;
-    this.isActive = this.LedgerID = this.Partyname = this.Godown = this.TIN = undefined;
+    this.isActive = this.LedgerID = this.Partyname = this.Godown = this.TIN = this.NewState = this.NewPan = this.NewGst = undefined;
     this.onReg = this.onDrop = false;
   }
 
@@ -281,7 +281,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
       // 'Roleid': this.roleId,
       'Pan': (this.onDrop === true) ? this.NewPan.toUpperCase() : this.Pan.toUpperCase(),
-      'StateCode': (this.onDrop === true) ? this.NewState.toUpperCase() : this.State,
+      'StateCode': (this.onDrop === true) ? this.NewState : this.State,
       'PartyName': this.Partyname.toUpperCase(),
       'GST': (this.onDrop === true) ? this.NewGst.toUpperCase() : this.Gst.toUpperCase(),
       'Tin': (this.onDrop === true) ? (this.NewState + this.NewPan + this.NewGst).toUpperCase() : (this.State + this.Pan + this.Gst).toUpperCase(),
