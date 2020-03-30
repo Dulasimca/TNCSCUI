@@ -7,8 +7,8 @@ export class PathConstants {
   public static readonly GODOWN_MASTER = '/api/GodownMaster';
   public static readonly NOTIFICATIONS = '/api/notifications';
   public static readonly NOTIFICATIONS_POST = '/api/notifications/Post';
-  public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB';
-
+  public static readonly DASHBOARD_COMMODITY_PB = '/api/CommodityPB/Get';
+  public static readonly DASHBOARD_ALLOTMENT_GET = '/api/DashboardAllotment/Get';
   ///Server Date 
   public static readonly SERVER_DATE = '/api/ServerDate';
 

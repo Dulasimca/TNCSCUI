@@ -8,6 +8,7 @@ import { PathConstants } from '../constants/path.constants';
 import * as Highcharts from 'highcharts';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from '../constants/Messages';
+import { TableConstants } from '../constants/tableconstants';
 
 @Component({
   selector: 'app-home',
@@ -70,17 +71,28 @@ export class HomeComponent implements OnInit, AfterContentInit {
   NotificationNotes: any;
   @ViewChild('AADS', { static: false }) divAADS: ElementRef;
   @ViewChild('element', { static: false }) toastObj;
+  RCode: string;
+  GCode: string;
+  roleId: any;
+  maxDate: Date;
+  allotmentData: any;
+  allotmentCols: any;
 
 
-  constructor(private authService: AuthService, private restApiService: RestAPIService, private datePipe: DatePipe,
-    private router: Router, private locationStrategy: LocationStrategy, private messageService: MessageService) { }
+  constructor(private authService: AuthService, private restApiService: RestAPIService,
+    private datePipe: DatePipe, private router: Router, private locationStrategy: LocationStrategy,
+    private messageService: MessageService, private tableConstants: TableConstants) { }
 
   ngOnInit() {
     this.showDialog();
     this.preventBackButton();
+    this.RCode = this.authService.getUserAccessible().rCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
+    this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.date = this.datePipe.transform(new Date(), 'MM/dd/yyyy');
-    let params = new HttpParams().set('Date', this.date);
     this.restApiService.get(PathConstants.DASHBOARD).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.godownCount = (res[0] !== undefined && res[0] !== '') ? res[0] : 0;
@@ -104,6 +116,31 @@ export class HomeComponent implements OnInit, AfterContentInit {
       }
     });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
+    ///LOAD CHART DATA
+    if(this.roleId !== 3) {
+    this.loadChartData();
+    }
+    ///LOAD ALLOTMENT DETAILS FOR GODOWN
+    if(this.roleId === 3) {
+      this.loadAllotmentDetails();
+    }
+    ///LOAD QUANTITY OF EACH COMMODITY PER REGION/GODOWN
+    let type;
+    let code;
+    if(this.roleId === 1) {
+      type = '1';
+    } else if(this.roleId === 2) {
+       type = '2';
+       code = this.RCode;
+    } else {
+       type = '3';
+       code = this.GCode;
+    }
+    this.loadItemQuantity(code, type);
+  }
+
+  loadChartData() {
+    let params = new HttpParams().set('Date', this.date);
     this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
       if (response !== undefined && response !== null && response.length !== 0) {
         this.chartLabels = response[1];
@@ -617,30 +654,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
       }
     });
-    this.restApiService.get(PathConstants.DASHBOARD_COMMODITY_PB).subscribe(data => {
-      if (data !== undefined && data !== null) {
-        this.rawRiceCB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
-        this.rawRicePB = this.rawRiceCB;
-        this.boiledRiceCB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
-        this.boiledRicePB = this.boiledRiceCB;
-        this.dhallCB = (data.Dhall !== undefined && data.Dhall !== '') ? data.Dhall : 0;
-        this.dhallPB = this.dhallCB;
-        this.pOilCB = (data.POil !== undefined && data.POil !== '') ? data.POil : 0;
-        this.pOilPB = this.pOilCB;
-        this.wheatCB = (data.Wheat !== undefined && data.Wheat !== '') ? data.Wheat : 0;
-        this.wheatPB = this.wheatCB;
-        this.sugarCB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
-        this.sugarPB = this.sugarCB;
-      } else {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-      }
-    });
   }
 
   onGridClicked(param) {
@@ -682,6 +695,60 @@ export class HomeComponent implements OnInit, AfterContentInit {
         }
     }
 
+  }
+
+  loadItemQuantity(code, type) {
+    const params = new HttpParams().set('Code', code).append('Type', type);
+    this.restApiService.getByParameters(PathConstants.DASHBOARD_COMMODITY_PB, params).subscribe(data => {
+      if (data !== undefined && data !== null) {
+        this.rawRiceCB = (data.RawRice !== undefined && data.RawRice !== '') ? data.RawRice : 0;
+        this.rawRicePB = this.rawRiceCB;
+        this.boiledRiceCB = (data.BoiledRice !== undefined && data.BoiledRice !== '') ? data.BoiledRice : 0;
+        this.boiledRicePB = this.boiledRiceCB;
+        this.dhallCB = (data.Dhall !== undefined && data.Dhall !== '') ? data.Dhall : 0;
+        this.dhallPB = this.dhallCB;
+        this.pOilCB = (data.POil !== undefined && data.POil !== '') ? data.POil : 0;
+        this.pOilPB = this.pOilCB;
+        this.wheatCB = (data.Wheat !== undefined && data.Wheat !== '') ? data.Wheat : 0;
+        this.wheatPB = this.wheatCB;
+        this.sugarCB = (data.Sugar !== undefined && data.Sugar !== '') ? data.Sugar : 0;
+        this.sugarPB = this.sugarCB;
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
+
+  loadAllotmentDetails() {
+    let curMonth: any = this.maxDate.getMonth() + 1;
+    curMonth = (curMonth <= 9) ? '0' + curMonth : curMonth;
+    const curYear: any = this.maxDate.getFullYear();
+    this.allotmentCols = this.tableConstants.GodownDBAllotmentColumns;
+    const params = new HttpParams().set('GCode', this.GCode).append('Month', curMonth).append('Year', curYear);
+    this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.allotmentData = res.Table;
+        let sno = 1;
+        this.allotmentData.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+        })
+  } else {
+    this.messageService.clear();
+    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+  }
+}, (err: HttpErrorResponse) => {
+  if (err.status === 0 || err.status === 400) {
+    this.messageService.clear();
+    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+  }
+});
   }
 
   calculateQuantity(id) {

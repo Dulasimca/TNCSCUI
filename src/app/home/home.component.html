@@ -210,7 +210,7 @@
         </div>
       </div>
     </div>
-    <div class="ui-g-12 card ui-fluid content" style="padding-top: 2px">
+    <div *ngIf="(roleId==1 || roleId==2)" class="ui-g-12 card ui-fluid content" style="padding-top: 2px">
       <div class="ibox-body">
         <div class="row">
           <div class="col-md-12">
@@ -292,7 +292,46 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <div *ngIf="(roleId==3)" class="ui-g-12 card">
+      <div class="ui-g">
+        <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment Details</div>
+        <div class="ui-g-12 dashboard">
+          <p-table tabindex="-1" [columns]="allotmentCols" [value]="allotmentData" [responsive]="true"
+          [scrollable]="true" scrollHeight="180px" autoLayout="true"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [rows]="10" [paginator]="true">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let col of columns">
+                <div *ngIf="col.field !== 'Commodity' && col.field !== 'SlNo' && col.field !== 'SocietyName'">
+                <div style="text-align: end !important">
+                  {{rowData[col.field]}}
+                </div>
+              </div>
+              <div
+                *ngIf="col.field === 'Commodity' || col.field === 'SlNo' || col.field === 'SocietyName'">
+                {{rowData[col.field]}}
+              </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+          </div>
+          </div>
+          </div> 
+         </div>
 </div>
 
 <p-dialog *ngIf="noti" [(visible)]="display" [modal]="true" [responsive]="true"
