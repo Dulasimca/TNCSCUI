@@ -295,11 +295,16 @@
 
     <div *ngIf="(roleId==3)" class="ui-g-12 card">
       <div class="ui-g">
-        <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment Details</div>
+        <div class="ui-g-10 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment Details:-</div>
+        <div class="ui-g-2 no-pad-top">
+          <button pButton class="ui-g-4 dashboard" label="Excel" (click)="dt.exportCSV()"
+          [disabled]="(allotmentData.length=='0')" style="float: right;" icon="pi pi-download"></button>
+        </div>
         <div class="ui-g-12 dashboard">
-          <p-table tabindex="-1" [columns]="allotmentCols" [value]="allotmentData" [responsive]="true"
+          <p-table #dt tabindex="-1" [columns]="allotmentCols" [value]="allotmentData" [responsive]="true"
           [scrollable]="true" scrollHeight="180px" autoLayout="true"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [rows]="10" [paginator]="true">
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [rows]="10" [paginator]="true"
+          exportFilename="GODOWN_ALLOTMENT">
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" [style.width]="col.width">
