@@ -7,7 +7,10 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-rate-master',
@@ -21,7 +24,7 @@ export class RateMasterComponent implements OnInit {
   maxDate: Date;
   effectiveDate: any;
   endDate: any;
-  Rate: any;
+  Rate: number;
   Commodity: any;
   Scheme: any;
   SchemeOptions: SelectItem[];
@@ -31,12 +34,19 @@ export class RateMasterComponent implements OnInit {
   Hsncode: any;
   ActiveFlag: any;
   RowID: any;
-  Tax: any;
+  Tax: number;
   FinalDate: any;
   Remark: any;
   endedDate: any;
+  CommodityValue: any;
+  TaxValue: any;
+  RateValue: any;
+  filterArray: any;
+  data: any;
+  items: any;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private TableConstant: TableConstants,
     private restApiService: RestAPIService, private messageService: MessageService) { }
@@ -45,14 +55,28 @@ export class RateMasterComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.items = [
+      {
+        label: 'Excel', icon: 'fa fa-table', command: () => {
+          this.table.exportCSV();
+        }
+      },
+      {
+        label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
+          this.exportAsPDF();
+        }
+      }];
     this.loading = true;
     this.restApiService.get(PathConstants.RATE_MASTER_GET).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
+        this.filterArray = res;
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.Rate = s.Rate.toFixed(4);
+          s.TaxPercentage = s.TaxPercentage.toFixed(2);
         });
         this.loading = false;
       } else {
@@ -90,12 +114,15 @@ export class RateMasterComponent implements OnInit {
           this.restApiService.get(PathConstants.ALLOTMENT_GROUP_ITEM).subscribe(res => {
             if (res !== undefined) {
               res.forEach(s => {
-                CommoditySelection.push({ label: s.AllotmentName, value: s.AllotmentCode });
+                CommoditySelection.push({ 'label': s.AllotmentName, 'value': s.AllotmentCode, 'Hsncode': s.Hsncode });
               });
               CommoditySelection.unshift({ label: '-select-', value: null, disabled: true });
               this.commodityOptions = CommoditySelection;
             }
           });
+        }
+        if (this.Commodity !== undefined) {
+          this.Hsncode = (this.Commodity.Hsncode !== undefined) ? this.Commodity.Hsncode : '';
         }
         break;
       case 'scheme':
@@ -119,7 +146,7 @@ export class RateMasterComponent implements OnInit {
     const params = {
       'Type': 1,
       'Scheme': this.Scheme,
-      'Allotment': this.Commodity,
+      'Allotment': this.CommodityValue || this.Commodity.value,
     };
     this.restApiService.getByParameters(PathConstants.RATE_MASTER_GET, params).subscribe(res => {
       if (res.length === 0) {
@@ -143,7 +170,7 @@ export class RateMasterComponent implements OnInit {
     const params = {
       'RowID': this.RowID || '',
       'ScCode': this.Scheme,
-      'Allotment': this.Commodity,
+      'Allotment': this.CommodityValue || this.Commodity.value,
       'Rate': this.Rate,
       'EffectDate': this.FinalDate || this.effectiveDate,
       'EndDate': this.endDate,
@@ -187,9 +214,11 @@ export class RateMasterComponent implements OnInit {
     this.RowID = selectedRow.RowID;
     this.commodityOptions = [{ label: selectedRow.AllotmentName, value: selectedRow.AllotmentCode }];
     this.SchemeOptions = [{ label: selectedRow.SchemeName, value: selectedRow.Scheme }];
-    this.Commodity = selectedRow.AllotmentCode;
+    this.Commodity = selectedRow.AllotmentName;
+    this.CommodityValue = selectedRow.AllotmentCode;
     this.Scheme = selectedRow.Scheme;
     this.Rate = selectedRow.Rate;
+    this.RateValue = selectedRow.Rate;
     this.effectiveDate = selectedRow.EffectiveDate;
     this.FinalDate = selectedRow.EffectDate;
     this.endDate = selectedRow.EndedDate;
@@ -197,6 +226,7 @@ export class RateMasterComponent implements OnInit {
     this.Remark = selectedRow.Remarks;
     this.Hsncode = selectedRow.Hsncode;
     this.Tax = selectedRow.TaxPercentage;
+    this.TaxValue = selectedRow.TaxPercentage;
     this.ActiveFlag = selectedRow.Flag;
   }
 
@@ -205,9 +235,12 @@ export class RateMasterComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.RateMasterCols = this.TableConstant.RateMaster;
         this.RateMasterData = res;
+        this.filterArray = res;
         this.RateMasterData.forEach(s => {
           s.EffectiveDate = this.datepipe.transform(s.EffectDate, 'dd/MM/yyyy');
           s.EndedDate = this.datepipe.transform(s.EndDate, 'dd/MM/yyyy');
+          s.Rate = s.Rate.toFixed(4);
+          s.TaxPercentage = s.TaxPercentage.toFixed(2);
         });
       } else {
         this.loading = false;
@@ -231,6 +264,36 @@ export class RateMasterComponent implements OnInit {
 
   onClear() {
     this.Commodity = this.Scheme = this.Rate = this.effectiveDate = this.endDate = this.Remark = this.RowID = this.Hsncode = undefined;
-    this.commodityOptions = this.SchemeOptions = this.Tax = this.FinalDate = undefined;
+    this.commodityOptions = this.SchemeOptions = this.Tax = this.FinalDate = this.CommodityValue = undefined;
+  }
+
+  onReset(item) {
+    if (item === 'commodity') { this.Hsncode = undefined; }
+  }
+
+  onSearch(value) {
+    this.data = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.data = this.data.filter(item => {
+        return item.AllotmentName.toString().startsWith(value);
+      });
+    }
+  }
+
+  exportAsPDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
+    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
+    var col = this.RateMasterCols;
+    var rows = [];
+    this.data.forEach(element => {
+      var temp = [element.SlNo, element.AllotmentName, element.SchemeName, element.Hsncode, element.TaxPercentage, element.Rate,
+      element.EffectiveDate, element.EndedDate, element.Remarks];
+      rows.push(temp);
+    });
+    doc.autoTable(col, rows);
+    doc.save('RATE_MASTER.pdf');
   }
 }

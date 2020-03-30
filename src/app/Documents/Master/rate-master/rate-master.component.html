@@ -8,17 +8,25 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Rate Master</div>
+        <div class="ui-g-8 dashboard" style="text-align: end !important;">
+          <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Commodity"
+            (ngModelChange)="onSearch($event)">
+          <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"
+            (ngModelChange)="onSearch($event)"></button>
+          <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
+            styleClass="ui-button-danger"></p-splitButton>
+        </div>
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2">
-        <label class="ui-g-7 label-fontsize dashboard">Commodity</label>
+        <label class="ui-g-7 label-fontsize dashboard" for="commodity">Commodity</label>
         <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="Commodity"
           (onClick)="onSelect('commodity','click')" (keyup.shift.tab)="onSelect('commodity','tab')"
           (keyup.tab)="onSelect('commodity','tab')" filter="true" resetFilterOnHide="true" [showClear]="true"
-          filterMatchMode="startsWith" placeholder="-select-">
+          filterMatchMode="startsWith" optionLabel="label" name="commodity" (ngModelChange)="onReset('commodity')">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
@@ -27,7 +35,7 @@
       <div class="ui-g-12 ui-md-2" style="padding-top: 20px">
         <div class="ui-float-label">
           <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Hsncode" name="Hsncode"
-            autocomplete="off" required>
+            autocomplete="off" readonly="true" required>
           <label for="Hsncode">Hsncode</label>
         </div>
       </div>
@@ -43,11 +51,12 @@
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Tax Percentage</label>
-        <input type="text" size="20" [(ngModel)]="Tax" name="Tax" maxlength="20" pInputText autocomplete="off">
+        <input type="number" size="20" [(ngModel)]="Tax" name="Tax" maxlength="20" pInputText autocomplete="off">
       </div>
       <div class="ui-g-12 ui-md-2">
         <label class="ui-g-7 label-fontsize dashboard">Rate/Kg</label>
-        <input type="text" size="20" [(ngModel)]="Rate" name="Rate" maxlength="20" pInputText autocomplete="off">
+        <input type="number" size="20" [(ngModel)]="Rate" name="Rate" maxlength="20" pInputText autocomplete="off"
+          required>
       </div>
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-1"></div>
@@ -73,16 +82,16 @@
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Save (click)="onCheck()"
-          [disabled]="(!Commodity || !Hsncode || !Scheme || !Rate || !Tax || !effectiveDate || !Remark)"></button>
+          [disabled]="(!Commodity || !Hsncode || !Scheme || !effectiveDate || !Remark)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid">
         <button pButton type="button" label=Clear (click)="onClear()"></button>
       </div>
       <div class="ui-g-12 ui-md-5"></div>
       <div class="ui-g-12 dashboard">
-        <p-table [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
+        <p-table #dt [columns]="RateMasterCols" [value]="RateMasterData" [rows]="20"
           [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
-          [loading]="loading">
+          exportFilename="RATE_MASTER" [loading]="loading">
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
@@ -93,12 +102,12 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
             <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'Rate'|| col.field === 'Hsncode'">
+                <div *ngIf="col.field === 'Rate' || col.field === 'Hsncode' || col.field === 'TaxPercentage'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field !== 'Rate' && col.field !== 'Hsncode'">
+                <div *ngIf="col.field !== 'Rate' && col.field !== 'Hsncode' && col.field !== 'TaxPercentage'">
                   {{rowData[col.field]}}
                 </div>
               </td>

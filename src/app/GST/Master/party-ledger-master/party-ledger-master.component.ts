@@ -61,6 +61,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   Flag: any;
   Godown: any;
   AADS: any;
+  onDrop: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
@@ -228,6 +229,7 @@ export class PartyLedgerMasterComponent implements OnInit {
         this.onView();
       } else if (value.length !== 15) {
         this.onReg = false;
+        this.onDrop = false;
         this.onFormClear();
       }
     }
@@ -241,7 +243,7 @@ export class PartyLedgerMasterComponent implements OnInit {
   onClear() {
     this.Pan = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.PartyCode = undefined;
     this.isActive = this.LedgerID = this.Partyname = this.Godown = this.TIN = undefined;
-    this.onReg = false;
+    this.onReg = this.onDrop = false;
   }
 
   onRowSelect(event) {
@@ -286,7 +288,7 @@ export class PartyLedgerMasterComponent implements OnInit {
       'IFSC': this.IFSC.toUpperCase(),
       'RCode': this.loggedInRCode,
       'AADSType': this.Godown,
-      'Flag': (this.isActive === 'Registered') ? 1  : 0
+      'Flag': (this.isActive === 'Registered') ? 1 : 0
     };
     this.restApiService.post(PathConstants.PARTY_LEDGER_ENTRY_POST, params).subscribe(value => {
       if (value) {
@@ -315,6 +317,10 @@ export class PartyLedgerMasterComponent implements OnInit {
         });
       }
     });
+  }
+
+  enableGST() {
+    this.onDrop = true;
   }
 
   onURDSubmit() {
@@ -383,5 +389,4 @@ export class PartyLedgerMasterComponent implements OnInit {
   onClose() {
     this.messageService.clear('t-err');
   }
-
 }
