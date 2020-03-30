@@ -44,6 +44,7 @@ export class RateMasterComponent implements OnInit {
   filterArray: any;
   data: any;
   items: any;
+  searchText: string;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('commodity', { static: false }) CommodityPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
