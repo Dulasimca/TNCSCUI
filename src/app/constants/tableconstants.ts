@@ -149,7 +149,8 @@ export class TableConstants {
   RateMaster: any;
   InspectionReportCols: any;
   InspectionItemDetailsReportCols: any;
-  
+  GodownDBAllotmentColumns: any;
+
   constructor() {
     this.DailyStockStatement = [
       { field: 'serialNo', header: 'S.No', width: '40px' },
@@ -1788,8 +1789,8 @@ export class TableConstants {
 
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Buyer_Name', field: 'CompanyName' },
-      { header: 'GSTIN', field: 'TIN' },
+      { header: 'Buyer_Name', field: 'CompanyName', width: '40px' },
+      { header: 'GSTIN', field: 'TIN', width: '40px' },
       { header: 'Commodity', field: 'CommodityName' },
       { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Bill No', field: 'BillNo' },
@@ -1840,6 +1841,17 @@ export class TableConstants {
       { header: 'Effective Date', field: 'EffectiveDate' },
       { header: 'Close Date', field: 'EndedDate' },
       { header: 'Remarks', field: 'Remarks' }
+    ];
+
+    this.GodownDBAllotmentColumns = [
+      { header: 'S.No', field: 'SlNo', width: '20px' },
+      { header: 'Society Name', field: 'SocietyName', width: '70px' },
+      { header: 'Commodity', field: 'Commodity', width: '55px' },
+      { header: 'Allotment Qty', field: 'AllotmentQty', width: '45px' },
+      { header: 'Advance Qty', field: 'Advanced', width: '45px' },
+      { header: 'Regular Qty', field: 'Regulared', width: '45px' },
+      { header: 'Issue Qty', field: 'IssueQty', width: '45px' },
+      { header: 'Balance Qty', field: 'BalanceQty', width: '45px' }
     ];
   }
 }
