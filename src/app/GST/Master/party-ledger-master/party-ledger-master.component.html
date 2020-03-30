@@ -62,9 +62,6 @@
             <a (input)="onLoad()" [(ngModel)]="TIN"></a>
             <!-- GST - {{State + Pan + Gst}} -->GST - {{TIN}}
           </div>
-          <!-- <div class="ui-g-12 ui-md-2 ui-fluid">
-            <button pButton type="button" (click)="onView()" [disabled]="(!Pan || !State || !Gst)" label=View></button>
-          </div> -->
         </div>
         <div class="ui-g-12 ui-md-2"></div>
       </div>
@@ -80,14 +77,14 @@
         <div class="ui-g-12 ui-md-7 dashboard">
           <div class="ui-g-4 ui-md-3">
             <div class="ui-float-label">
-              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="State" name="State" autocomplete="off"
-                maxlength="2" [disabled]="(!onDrop)" required>
+              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="NewState" name="State"
+                autocomplete="off" maxlength="2" [disabled]="(!onDrop)" required>
               <label for="State">State Code</label>
             </div>
           </div>
           <div class="ui-g-4 ui-md-6">
             <div class="ui-float-label">
-              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Pan" name="Pan" autocomplete="off"
+              <input class="icon2" type="text" size="30" pInputText [(ngModel)]="NewPan" name="Pan" autocomplete="off"
                 maxlength="10" [disabled]="(!onDrop)" required>
               <label for="Pan">PAN</label>
             </div>
@@ -95,7 +92,7 @@
           <div class="ui-g-4 ui-md-3">
             <div class="ui-float-label">
               <input class="icon2" type="text" size="30" pInputText pTooltip="Last 3 Digits" tooltipEvent="focus"
-                tooltipPosition="bottom" [(ngModel)]="Gst" name="Gst" autocomplete="off" [disabled]="(!onDrop)"
+                tooltipPosition="bottom" [(ngModel)]="NewGst" name="Gst" autocomplete="off" [disabled]="(!onDrop)"
                 maxlength="3" required>
               <label for="Gst">GST</label>
             </div>
@@ -226,46 +223,3 @@
 
   </p-panel>
 </div>
-
-
-<!-- <p-dialog header="Party Ledger Master Details" [contentStyle]="{'overflow':'scroll'}" [modal]="true"
-  [maximizable]="true" [(visible)]="viewPane" [responsive]="true">
-  <div class="ui-g-12 ui-md-10" style="text-align: end !important; padding-top: 7px;">
-    <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText placeholder="Search by Party, GSTNO"
-      (ngModelChange)="onSearch($event)">
-    <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1 ui-fluid">
-    <button class="ui-g-10 dashboard" pButton type="button" [disabled]="!PartyLedgerData" label=Excel
-      (click)="dt.exportCSV()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1 ui-fluid">
-    <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
-  </div>
-  <div class="ui-g-12 ui-fluid">
-    <p-table #dt [columns]="PartyLedgerCols" [value]="PartyLedgerData" [rows]="20"
-      exportFilename="PARTY_LEDGER_MASTER_DETAILS" [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single"
-      [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)" [loading]="loading"
-      exportFilename="PARTY_LEDGER_MASTER_DETAILS">
-      <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-          <col *ngFor="let col of columns" style="width:80px">
-        </colgroup>
-      </ng-template>
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" (dblclick)="showSelectedData($event, rowData)">
-          <td *ngFor="let col of columns">
-            {{rowData[col.field]}}
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</p-dialog> -->
