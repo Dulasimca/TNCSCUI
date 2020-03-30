@@ -61,6 +61,10 @@ export class PartyLedgerMasterComponent implements OnInit {
   Flag: any;
   Godown: any;
   AADS: any;
+  NewGst: any;
+  NewState: any;
+  NewPan: any;
+  NewTin: any;
   onDrop: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
@@ -276,11 +280,11 @@ export class PartyLedgerMasterComponent implements OnInit {
       'LedgerID': (this.LedgerID !== undefined && this.LedgerID !== null) ? this.LedgerID : '',
       'PCode': (this.PartyCode !== undefined && this.PartyCode !== null) ? this.PartyCode : 0,
       // 'Roleid': this.roleId,
-      'Pan': this.Pan.toUpperCase(),
-      'StateCode': this.State,
+      'Pan': (this.onDrop === true) ? this.NewPan.toUpperCase() : this.Pan.toUpperCase(),
+      'StateCode': (this.onDrop === true) ? this.NewState.toUpperCase() : this.State,
       'PartyName': this.Partyname.toUpperCase(),
-      'GST': this.Gst.toUpperCase(),
-      'Tin': (this.State + this.Pan + this.Gst).toUpperCase(),
+      'GST': (this.onDrop === true) ? this.NewGst.toUpperCase() : this.Gst.toUpperCase(),
+      'Tin': (this.onDrop === true) ? (this.NewState + this.NewPan + this.NewGst).toUpperCase() : (this.State + this.Pan + this.Gst).toUpperCase(),
       'Favour': this.Favour,
       'Account': this.Account.toUpperCase(),
       'Bank': this.Bank.toUpperCase(),
@@ -321,6 +325,9 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   enableGST() {
     this.onDrop = true;
+    this.NewState = this.State;
+    this.NewPan = this.Pan;
+    this.NewGst = this.Gst;
   }
 
   onURDSubmit() {
