@@ -150,6 +150,7 @@ export class TableConstants {
   InspectionReportCols: any;
   InspectionItemDetailsReportCols: any;
   GodownDBAllotmentColumns: any;
+  GodownDBAllotmentShopColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1852,6 +1853,14 @@ export class TableConstants {
       { header: 'Regular Qty', field: 'Regulared', width: '45px' },
       { header: 'Issue Qty', field: 'IssueQty', width: '45px' },
       { header: 'Balance Qty', field: 'BalanceQty', width: '45px' }
+    ];
+
+    this.GodownDBAllotmentShopColumns = [
+      { header: 'S.No', field: 'SlNo', width: '20px' },
+      { header: 'Society Name', field: 'SocietyName', width: '70px' },
+      { header: 'No of Shops', field: 'NoOfShops', width: '55px' },
+      { header: 'No of Shops Advanced Moved', field: 'NoOfShopsAdvanced', width: '55px' },
+      { header: 'No of Shops to be Moved', field: 'NoOfShopsToMoved', width: '55px' },
     ];
   }
 }

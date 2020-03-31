@@ -69,15 +69,17 @@ export class HomeComponent implements OnInit, AfterContentInit {
   imgUrl = "../../assets/NotificationPopup/";
   imgPost = "";
   NotificationNotes: any;
-  @ViewChild('AADS', { static: false }) divAADS: ElementRef;
-  @ViewChild('element', { static: false }) toastObj;
   RCode: string;
   GCode: string;
   roleId: any;
   maxDate: Date;
   allotmentData: any;
   allotmentCols: any;
-
+  allotmentShopMovedData: any;
+  allotmentShopMovedCols: any;
+  @ViewChild('AADS', { static: false }) divAADS: ElementRef;
+  @ViewChild('element', { static: false }) toastObj;
+  
 
   constructor(private authService: AuthService, private restApiService: RestAPIService,
     private datePipe: DatePipe, private router: Router, private locationStrategy: LocationStrategy,
@@ -140,7 +142,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
 
   loadChartData() {
-    let params = new HttpParams().set('Date', this.date);
+    const rCode = (this.roleId === 1) ? 'All' : this.RCode;
+    let params = new HttpParams().set('Date', this.date).append('Rcode', rCode);
     this.restApiService.getByParameters(PathConstants.CHART_CB, params).subscribe((response: any[]) => {
       if (response !== undefined && response !== null && response.length !== 0) {
         this.chartLabels = response[1];
@@ -729,10 +732,16 @@ export class HomeComponent implements OnInit, AfterContentInit {
     let curMonth: any = this.maxDate.getMonth() + 1;
     curMonth = (curMonth <= 9) ? '0' + curMonth : curMonth;
     const curYear: any = this.maxDate.getFullYear();
-    this.allotmentCols = this.tableConstants.GodownDBAllotmentColumns;
-    const params = new HttpParams().set('GCode', this.GCode).append('Month', curMonth).append('Year', curYear);
-    this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, params).subscribe(res => {
+    let advMonth: any = ((curMonth * 1) <= 11) ? ((curMonth * 1) + 1) : '01';
+    advMonth = ((advMonth * 1) <= 9) ?  ('0' + advMonth) : advMonth;
+    const advYear = (advMonth === '01') ? curYear + 1 : curYear;
+    const periodOfMonth = advMonth + '/' + advYear;
+    const allot_params = new HttpParams().set('GCode', this.GCode).append('Type', '1').append('Month', curMonth)
+     .append('Year', curYear);
+     const allotshop_params = new HttpParams().set('GCode', this.GCode).append('Type', '2').append('Month', periodOfMonth);
+    this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allot_params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        this.allotmentCols = this.tableConstants.GodownDBAllotmentColumns;
         this.allotmentData = res.Table;
         let sno = 1;
         this.allotmentData.forEach(x => {
@@ -748,6 +757,40 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.messageService.clear();
     this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
   }
+});
+this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allotshop_params).subscribe(res => {
+  if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+    this.allotmentShopMovedCols = this.tableConstants.GodownDBAllotmentShopColumns;
+    var data = [];
+    let sno = 1;
+    res.Table.filter(x => {
+      res.Table1.filter(y => {
+        if(x.SocietyCode === y.SocietyCode) {
+          data.push({
+            SlNo: sno,
+            NoOfShops: x.NoOfShops,
+            NoOfShopsAdvanced: y.NoOfShopsAdvanced,
+            NoOfShopsToMoved: (x.NoOfShops * 1) - (y.NoOfShopsAdvanced * 1)
+          })
+          sno += 1;
+        }
+      })
+    });
+    this.allotmentShopMovedData = data;
+    // let sno = 1;
+    // this.allotmentShopMovedData.forEach(x => {
+    //   x.SlNo = sno;
+    //   sno += 1;
+    // })
+} else {
+this.messageService.clear();
+this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+}
+}, (err: HttpErrorResponse) => {
+if (err.status === 0 || err.status === 400) {
+this.messageService.clear();
+this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+}
 });
   }
 
