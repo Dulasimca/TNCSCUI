@@ -73,9 +73,9 @@ export class HomeComponent implements OnInit, AfterContentInit {
   GCode: string;
   roleId: any;
   maxDate: Date;
-  allotmentData: any;
+  allotmentData: any = [];
   allotmentCols: any;
-  allotmentShopMovedData: any;
+  allotmentShopMovedData: any = [];
   allotmentShopMovedCols: any;
   @ViewChild('AADS', { static: false }) divAADS: ElementRef;
   @ViewChild('element', { static: false }) toastObj;
