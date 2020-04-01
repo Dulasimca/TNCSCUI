@@ -57,7 +57,7 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="text" maxlength="11" name="BookBalanceBags" (input)="calculateBagS()"
+            <input type="text" maxlength="7" name="BookBalanceBags" (input)="calculateBagS()"
              [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
             oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" required>
           </div>
@@ -74,8 +74,8 @@
           </p-header>
           <div class="form-group ui-g-6 ui-md-4">
             <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="text" maxlength="6" name="PhysicalBalanceBags" (input)="calculateBagS()"
-            oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==5 && event.keyCode!=8) return false;"
+            <input type="text" maxlength="7" name="PhysicalBalanceBags" (input)="calculateBagS()"
+            oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==7 && event.keyCode!=8) return false;"
             [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
             <div *ngIf="validationErr">
                 <div class="error-Msg">Please enter bags less than BookBalance Bags!</div>
