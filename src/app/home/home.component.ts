@@ -763,25 +763,35 @@ this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allot
     this.allotmentShopMovedCols = this.tableConstants.GodownDBAllotmentShopColumns;
     var data = [];
     let sno = 1;
-    res.Table.filter(x => {
-      res.Table1.filter(y => {
-        if(x.SocietyCode === y.SocietyCode) {
-          data.push({
-            SlNo: sno,
-            NoOfShops: x.NoOfShops,
-            NoOfShopsAdvanced: y.NoOfShopsAdvanced,
-            NoOfShopsToMoved: (x.NoOfShops * 1) - (y.NoOfShopsAdvanced * 1)
-          })
-          sno += 1;
-        }
-      })
-    });
+    var table1 = [];
+    if(res.Table1.length !== 0 && res.Table1 !== undefined && res.Table1 !== null) {
+      res.Table.filter(x => {
+        res.Table1.filter(y => {
+          if(x.SocietyCode === y.SocietyCode) {
+            data.push({
+              SlNo: sno,
+              NoOfShops: x.NoOfShops,
+              NoOfShopsAdvanced: y.NoOfShopsAdvanced,
+              NoOfShopsToMoved: (x.NoOfShops * 1) - (y.NoOfShopsAdvanced * 1),
+              SocietyName: x.SocietyName
+            })
+            sno += 1;
+          }
+        })
+      });
+    } else {
+      res.Table.filter(x => {
+            data.push({
+              SlNo: sno,
+              NoOfShops: x.NoOfShops,
+              NoOfShopsAdvanced: 0,
+              NoOfShopsToMoved: (x.NoOfShops * 1),
+              SocietyName: x.SocietyName
+            })
+            sno += 1;
+      });
+    }
     this.allotmentShopMovedData = data;
-    // let sno = 1;
-    // this.allotmentShopMovedData.forEach(x => {
-    //   x.SlNo = sno;
-    //   sno += 1;
-    // })
 } else {
 this.messageService.clear();
 this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
