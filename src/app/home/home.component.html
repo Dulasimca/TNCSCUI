@@ -338,7 +338,7 @@
           <div class="ui-g-10 no-pad-top" style="color: #18c5a9;text-decoration: underline;">No of Shop Allotment Moved Details:</div>
         <div class="ui-g-2 no-pad-top">
           <button pButton class="ui-g-6 dashboard" label="Excel" (click)="table.exportCSV()"
-          [disabled]="(allotmentMovedData.length=='0')" style="float: right;" icon="pi pi-download"></button>
+          [disabled]="(allotmentShopMovedData.length=='0')" style="float: right;" icon="pi pi-download"></button>
         </div>
         <div class="ui-g-12 dashboard">
           <p-table #table tabindex="-1" [columns]="allotmentShopMovedCols" [value]="allotmentShopMovedData" [responsive]="true"
