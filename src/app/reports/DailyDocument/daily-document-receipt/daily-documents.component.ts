@@ -81,44 +81,45 @@ export class DailyDocumentsComponent implements OnInit {
     let regionSelection = [];
     switch (selectedItem) {
       case 'reg':
-          this.regionData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1 || this.roleId === 2) {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
-          if (this.roleId === 1) {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
+        } else {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-            }
-          } else {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
-          }
-        break;
-      case 'gd':
-          if (type === 'enter') {
-            this.godownPanel.overlayVisible = true;
-          }
-          this.gdata = this.roleBasedService.instance;
-          if (this.gdata !== undefined) {
-            this.gdata.forEach(x => {
-              if (x.RCode === this.RCode.value) {
-                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
               }
             });
-            this.godownOptions = godownSelection;
-            if (this.roleId !== 3) {
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            }
+            this.regionOptions = regionSelection;
           }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        this.gdata = this.roleBasedService.instance;
+        if (this.gdata !== undefined) {
+          this.gdata.forEach(x => {
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        }
         break;
     }
   }
@@ -134,64 +135,70 @@ export class DailyDocumentsComponent implements OnInit {
     this.loading = true;
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-         this.AllReceiptDocuments = res;
-         this.loading = false;
-      ///Distinct value groupby of an array
-      let groupedData;
-      Rx.Observable.from(this.AllReceiptDocuments)
-      .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
-      .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
-      .map(g => {// mapping 
-        return {
-          DocNo: g[0].DocNo,//take the first name because we grouped them by name
-          CommodityName: g[0].CommodityName,
-          DocDate: g[0].DocDate, // using lodash to sum quantity
-          GROSSWT: g[0].GROSSWT,
-          GodownName: g[0].GodownName,
-          Moisture: g[0].Moisture,
-          NETWT: g[0].NETWT,
-          NOOfPACKING: g[0].NOOfPACKING,
-          ORDERDate: g[0].ORDERDate,
-          OrderNo: g[0].OrderNo,
-          PERIODALLOT: g[0].PERIODALLOT,
-          PackingType: g[0].PackingType,
-          ReceivedFrom: g[0].ReceivedFrom,
-          SCHEME: g[0].SCHEME,
-          StackNo: g[0].StackNo,
-          TNCSCode: g[0].TNCSCode,
-          Transactiontype: g[0].Transactiontype,
-          TRUCKDate: g[0].TRUCKDate,
-          TruckMemoNo: g[0].TruckMemoNo,
-          SRTime: g[0].SRTime
-        }
-      })
-      .toArray() //.toArray because I guess you want to loop on it with ngFor      
-      .subscribe(d =>  groupedData = d);
-      this.DailyDocumentReceiptData = groupedData;
-      this.noOfDocs = groupedData.length;
-      let sno = 1;
-      this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
-      ///End
+        this.AllReceiptDocuments = res;
+        this.loading = false;
+        ///Distinct value groupby of an array
+        let groupedData;
+        Rx.Observable.from(this.AllReceiptDocuments)
+          .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
+          .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
+          .map(g => {// mapping 
+            return {
+              DocNo: g[0].DocNo,//take the first name because we grouped them by name
+              CommodityName: g[0].CommodityName,
+              DocDate: g[0].DocDate, // using lodash to sum quantity
+              GROSSWT: g[0].GROSSWT,
+              GodownName: g[0].GodownName,
+              Moisture: g[0].Moisture,
+              NETWT: g[0].NETWT,
+              NOOfPACKING: g[0].NOOfPACKING,
+              ORDERDate: g[0].ORDERDate,
+              OrderNo: g[0].OrderNo,
+              PERIODALLOT: g[0].PERIODALLOT,
+              PackingType: g[0].PackingType,
+              ReceivedFrom: g[0].ReceivedFrom,
+              SCHEME: g[0].SCHEME,
+              StackNo: g[0].StackNo,
+              TNCSCode: g[0].TNCSCode,
+              Transactiontype: g[0].Transactiontype,
+              TRUCKDate: g[0].TRUCKDate,
+              TruckMemoNo: g[0].TruckMemoNo,
+              SRTime: g[0].SRTime
+            };
+          })
+          .toArray() //.toArray because I guess you want to loop on it with ngFor      
+          .subscribe(d => groupedData = d);
+        this.DailyDocumentReceiptData = groupedData;
+        this.noOfDocs = groupedData.length;
+        let sno = 1;
+        this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
+        ///End
 
-      ///No.Of Document 
-      this.DailyDocumentTotalData.push({
-        NoDocument: this.noOfDocs,
-        GCode: this.GCode.value,
-        GName: this.GCode.label,
-        RName: this.RCode.value,
-        RCode: this.RCode.label
-      })
-      ///End
+        ///No.Of Document 
+        this.DailyDocumentTotalData.push({
+          NoDocument: this.noOfDocs,
+          GCode: this.GCode.value,
+          GName: this.GCode.label,
+          RName: this.RCode.value,
+          RCode: this.RCode.label
+        });
+        ///End
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -200,20 +207,20 @@ export class DailyDocumentsComponent implements OnInit {
     this.ReceiptDocumentDetailData = [];
     this.viewPane = true;
     this.AllReceiptDocuments.forEach(data => {
-      if(data.DocNo === selectedRow.DocNo) {
+      if (data.DocNo === selectedRow.DocNo) {
         this.ReceiptDocumentDetailData.push(data);
       }
-    })
+    });
     let slno = 1;
     this.ReceiptDocumentDetailData.forEach(s => {
       s.SlNo = slno;
       slno += 1;
-    })
+    });
   }
 
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
     this.ReceiptDocumentDetailData = [];
@@ -240,7 +247,9 @@ export class DailyDocumentsComponent implements OnInit {
     var col = this.DailyDocumentReceiptCols;
     var rows = [];
     this.DailyDocumentReceiptData.forEach(element => {
-      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName, element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT, element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName,
+      element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT,
+      element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
       rows.push(temp);
     });
     doc.autoTable(col, rows);
