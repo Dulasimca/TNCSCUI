@@ -169,6 +169,7 @@ import { SalesTaxComponent } from './GST/Reports/sales-tax/sales-tax.component';
 import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.component';
 import { ServiceProviderComponent } from './GST/Reports/service-provider/service-provider.component';
 import { AuditReportComponent } from './audit-report/audit-report.component';
+import { StockCommodityComponent } from './reports/stock-commodity/stock-commodity.component';
 
 
 @NgModule({
@@ -297,6 +298,7 @@ import { AuditReportComponent } from './audit-report/audit-report.component';
     PurchaseTaxComponent,
     ServiceProviderComponent,
     AuditReportComponent,
+    StockCommodityComponent,
   ],
   imports: [
     BrowserModule,

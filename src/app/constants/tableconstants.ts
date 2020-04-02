@@ -151,6 +151,7 @@ export class TableConstants {
   InspectionItemDetailsReportCols: any;
   GodownDBAllotmentColumns: any;
   GodownDBAllotmentShopColumns: any;
+  StockCommodityReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -914,6 +915,20 @@ export class TableConstants {
       { header: 'Current CS', field: 'Shortage' },
       { header: 'Physical Balance', field: 'PhycialBalance' },
     ];
+
+    this.StockCommodityReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region Name', field: 'RNAME' },
+      { header: 'OB', field: 'OpeningBalance', align: 'right' },
+      { header: 'Receipt', field: 'Receipt' },
+      { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
+      { header: 'Total Issue', field: 'TotalIssue' },
+      { header: 'Closing Balance', field: 'ClosingBalance' },
+      { header: 'Cumulative Shortage', field: 'CSBalance' },
+      { header: 'Current CS', field: 'Shortage' },
+      { header: 'Physical Balance', field: 'PhycialBalance' },
+    ];
+
 
     this.TransactionStatus = [
       // { header: 'S.No', field: 'SlNo', width: '40px' },
