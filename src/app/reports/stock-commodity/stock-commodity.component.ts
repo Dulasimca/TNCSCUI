@@ -73,6 +73,14 @@ export class StockCommodityComponent implements OnInit {
         let sno = 1;
         this.stockCommodityData.forEach(data => {
           data.SlNo = sno;
+          data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
+          data.Receipt = (data.TotalReceipt * 1).toFixed(3);
+          data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
+          data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
+          data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+          data.CSBalance = (data.CSBalance * 1).toFixed(3);
+          data.Shortage = (data.Shortage * 1).toFixed(3);
+          data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
           sno += 1;
         });
         this.loading = false;
