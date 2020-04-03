@@ -56,6 +56,7 @@ export class PathConstants {
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
   public static readonly STOCK_DELIVERY_ORDER_REPORT = '/api/StockDeliveryOrders/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_REPORT = '/api/StockDeliveryOrders/Get';
+  public static readonly STOCK_COMMODITY_REPORT = '/api/StockStatementForCommodity/Post';
   public static readonly WRITE_OFF_REPORT = '/api/WriteOFF/Get';
   public static readonly COMMODITY_RECEIPT_REPORT = '/api/CommodityReceipt/Post';
   public static readonly SCHEME_ISSUE_MEMO_REPORT = '/api/SchemeIssueMemo/Post';

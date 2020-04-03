@@ -33,7 +33,7 @@
       <div class="ui-g-1"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=View (click)="onView()"
-          [disabled]="(!FromDate || !ToDate || !GCode || !RCode || !ITCode)"></button>
+          [disabled]="(!FromDate || !ToDate || !ITCode)"></button>
       </div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(stockCommodityData.length=='0')"></button>

@@ -39,20 +39,20 @@ export class StockCommodityComponent implements OnInit {
     this.stockCommodityCols = this.tableConstants.StockCommodityReport;
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    let commoditySelection = [];
+    this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+      if (data !== undefined) {
+        data.forEach(y => {
+          commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+          this.commodityOptions = commoditySelection;
+        });
+      }
+    })
   }
 
   onSelect(item, type) {
-    let commoditySelection = [];
-          if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
-          if (this.commodityOptions === undefined) {
-            this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-              if (data !== undefined) {
-                data.forEach(y => {
-                  commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                  this.commodityOptions = commoditySelection;
-                });
-              }
-            })
+          if (type === 'enter') { 
+            this.commodityPanel.overlayVisible = true; 
           }
   }
 
@@ -61,13 +61,13 @@ export class StockCommodityComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FDate': this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'),
+      'FromDate': this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.ToDate, 'MM/dd/yyyy'),
-      'CommodityCode ': this.ITCode.value,
+      'CommodityCode': this.ITCode.value,
       'CommodityName': this.ITCode.label,
       'UserName': this.username.user
     }
-    this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
+    this.restApiService.post(PathConstants.STOCK_COMMODITY_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.stockCommodityData = res;
         let sno = 1;
@@ -75,6 +75,7 @@ export class StockCommodityComponent implements OnInit {
           data.SlNo = sno;
           sno += 1;
         });
+        this.loading = false;
       } else {
         this.loading = false;
         this.messageService.clear();
