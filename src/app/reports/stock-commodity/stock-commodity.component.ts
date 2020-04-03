@@ -128,6 +128,9 @@ export class StockCommodityComponent implements OnInit {
     this.table.reset();
     this.loading = false;
   }
-
+  onClose()
+  {
+    
+  }
 
 }
