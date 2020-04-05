@@ -86,6 +86,7 @@ export class QuantityDetailIssueComponent implements OnInit {
               }
             });
             this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
         }
         break;

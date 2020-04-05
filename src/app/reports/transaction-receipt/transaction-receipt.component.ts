@@ -72,6 +72,7 @@ export class TransactionReceiptComponent implements OnInit {
               regionSelection.push({ 'label': x.RName, 'value': x.RCode });
             });
             this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
         } else {
           if (this.regionsData !== undefined) {
