@@ -28,6 +28,7 @@ export class StockCommodityComponent implements OnInit {
   stockCommodityCols: any;
   ITCode: any;
   roleId: any;
+  IsGodownSelected: boolean = false;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
 
@@ -65,7 +66,8 @@ export class StockCommodityComponent implements OnInit {
       'ToDate': this.datePipe.transform(this.ToDate, 'MM/dd/yyyy'),
       'CommodityCode': this.ITCode.value,
       'CommodityName': this.ITCode.label,
-      'UserName': this.username.user
+      'UserName': this.username.user,
+      'IsGodown': (this.IsGodownSelected) ? 'YES' : 'NO'
     }
     this.restApiService.post(PathConstants.STOCK_COMMODITY_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
