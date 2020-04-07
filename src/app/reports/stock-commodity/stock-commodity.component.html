@@ -31,7 +31,7 @@
           dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect()"></p-calendar>
       </div>
       <div class="ui-g-6 ui-md-1" style="padding-top: 24px;">
-        <p-checkbox [(ngModel)]="IsGodownSelected" binary="true" label="Godown"></p-checkbox>
+        <p-checkbox [(ngModel)]="IsGodownSelected" binary="true" (onChange)="onResetTable('selection')" label="Godown"></p-checkbox>
       </div>
       <div class="ui-g-1"></div>
       <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
@@ -53,14 +53,14 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
+            <tr style="text-align: center;">
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field !== 'RName'">
+                <div *ngIf="col.field !== 'RName' && col.field !== 'GName' && col.field !== 'SlNo'">
                   <div style="text-align: end !important">
                     {{rowData[col.field]}}
                   </div>
                 </div>
-                <div *ngIf="col.field === 'RName'">
+                <div *ngIf="col.field === 'RName' || col.field === 'GName' || col.field === 'SlNo'">
                   {{rowData[col.field]}}
                 </div>
               </td>
