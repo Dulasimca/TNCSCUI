@@ -201,7 +201,7 @@ export class DailyDocumentsComponent implements OnInit {
     this.ReceiptDocumentDetailData = [];
     this.viewPane = true;
     this.AllReceiptDocuments.forEach(data => {
-      if(data.DocNo === selectedRow.DocNo) {
+      if(data.ReceivedFrom === selectedRow.ReceivedFrom) {
         this.ReceiptDocumentDetailData.push(data);
       }
     })
