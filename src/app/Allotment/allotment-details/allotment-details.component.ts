@@ -265,6 +265,7 @@ export class AllotmentDetailsComponent implements OnInit {
           this.AllotmentData = excelData;
           const objLen = this.AllotmentCols.length - 6;
           for (let obj of this.AllotmentData) {
+            var itemList = [];
             for (let key in obj) {
               obj['FPSName'] = obj['FPS Name'];
               if (key !== 'FPS Code' && key !== '#' && key !== 'Taluk' && key !== 'FPS Name'
@@ -277,8 +278,9 @@ export class AllotmentDetailsComponent implements OnInit {
                   const commodity: string = c.Acommname;
                   if (j < objLen) {
                     if (val === commodity.replace(/\s/g, '')) {
-                      this.itemList.push({ ITCode: c.Acommcode, ITName: val, Quantity: obj[key] });
+                      itemList.push({ ITCode: c.Acommcode, ITName: val, Quantity: obj[key] });
                     }
+                    this.itemList = itemList;
                     obj['ItemList'] = this.itemList; //adding new key value pair
                     j += 1;
                   } else {

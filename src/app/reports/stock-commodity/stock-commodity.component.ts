@@ -28,6 +28,7 @@ export class StockCommodityComponent implements OnInit {
   stockCommodityCols: any;
   ITCode: any;
   roleId: any;
+  IsGodownSelected: boolean = false;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
 
@@ -36,23 +37,23 @@ export class StockCommodityComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.stockCommodityCols = this.tableConstants.StockCommodityReport;
+    this.stockCommodityCols = this.tableConstants.StockCommodityReport.slice(0);
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
+    let commoditySelection = [];
+    this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+      if (data !== undefined) {
+        data.forEach(y => {
+          commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+          this.commodityOptions = commoditySelection;
+        });
+      }
+    })
   }
 
   onSelect(item, type) {
-    let commoditySelection = [];
-          if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
-          if (this.commodityOptions === undefined) {
-            this.restApiService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-              if (data !== undefined) {
-                data.forEach(y => {
-                  commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                  this.commodityOptions = commoditySelection;
-                });
-              }
-            })
+          if (type === 'enter') { 
+            this.commodityPanel.overlayVisible = true; 
           }
   }
 
@@ -61,20 +62,30 @@ export class StockCommodityComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'FDate': this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'),
+      'FromDate': this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'),
       'ToDate': this.datePipe.transform(this.ToDate, 'MM/dd/yyyy'),
-      'CommodityCode ': this.ITCode.value,
+      'CommodityCode': this.ITCode.value,
       'CommodityName': this.ITCode.label,
-      'UserName': this.username.user
+      'UserName': this.username.user,
+      'IsGodown': (this.IsGodownSelected) ? 'YES' : 'NO'
     }
-    this.restApiService.post(PathConstants.STOCK_STATEMENT_REPORT, params).subscribe((res: any) => {
+    this.restApiService.post(PathConstants.STOCK_COMMODITY_REPORT, params).subscribe((res: any) => {
       if (res !== undefined && res.length !== 0) {
         this.stockCommodityData = res;
         let sno = 1;
         this.stockCommodityData.forEach(data => {
           data.SlNo = sno;
+          data.OpeningBalance = (data.OpeningBalance * 1).toFixed(3);
+          data.Receipt = (data.TotalReceipt * 1).toFixed(3);
+          data.TotalReceipt = (((data.TotalReceipt * 1) + (data.OpeningBalance * 1)).toFixed(3));
+          data.TotalIssue = ((data.IssueSales * 1) + (data.IssueOthers * 1)).toFixed(3);
+          data.ClosingBalance = (data.ClosingBalance * 1).toFixed(3);
+          data.CSBalance = (data.CSBalance * 1).toFixed(3);
+          data.Shortage = (data.Shortage * 1).toFixed(3);
+          data.PhycialBalance = (data.PhycialBalance * 1).toFixed(3);
           sno += 1;
         });
+        this.loading = false;
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -120,5 +131,9 @@ export class StockCommodityComponent implements OnInit {
     this.loading = false;
   }
 
+  onClose()
+  {
+    this.messageService.clear('t-err');
+  }
 
 }
