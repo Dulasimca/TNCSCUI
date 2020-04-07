@@ -41,8 +41,8 @@ export class TruckFromRegionComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
 
-  constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
-    private authService: AuthService, private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
+  constructor(private tableConstants: TableConstants, private datePipe: DatePipe, private authService: AuthService,
+    private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -69,15 +69,16 @@ export class TruckFromRegionComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
         } else {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -91,7 +92,7 @@ export class TruckFromRegionComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -111,8 +112,8 @@ export class TruckFromRegionComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = new HttpParams().set('Fdate', this.datePipe.transform(this.fromDate, 'MM-dd-yyyy')).append('ToDate', this.datePipe.transform(this.toDate, 'MM-dd-yyyy'))
-    .append('GCode', this.GCode).append('UserName', this.username.user).append('GName', this.GName)
-    .append('RName', this.RName).append('RCode', this.RCode);
+      .append('GCode', this.GCode).append('UserName', this.username.user).append('GName', this.GName)
+      .append('RName', this.RName).append('RCode', this.RCode);
     this.restAPIService.getByParameters(PathConstants.TRUCK_FROM_REGION_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.TruckFromRegionData = res;
@@ -128,13 +129,19 @@ export class TruckFromRegionComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -154,8 +161,10 @@ export class TruckFromRegionComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:5000
-        ,summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
+          , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
