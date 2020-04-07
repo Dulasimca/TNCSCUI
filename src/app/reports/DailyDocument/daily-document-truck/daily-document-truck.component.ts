@@ -71,11 +71,11 @@ export class DailyDocumentTruckComponent implements OnInit {
           this.table.exportCSV();
         }
       },
-        {
+      {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }
-      }]
+      }];
   }
 
   onSelect(selectedItem, type) {
@@ -83,45 +83,45 @@ export class DailyDocumentTruckComponent implements OnInit {
     let regionSelection = [];
     switch (selectedItem) {
       case 'reg':
-          this.regionData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1 || this.roleId === 2) {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
-          if (this.roleId === 1) {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
+        } else {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-              this.regionOptions.unshift({ label: 'All', value: 'All' });
-            }
-          } else {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
-          }
-        break;
-      case 'gd':
-          if (type === 'enter') {
-            this.godownPanel.overlayVisible = true;
-          }
-          this.gdata = this.roleBasedService.instance;
-          if (this.gdata !== undefined) {
-            this.gdata.forEach(x => {
-              if (x.RCode === this.RCode.value) {
-                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
               }
             });
-            this.godownOptions = godownSelection;
-            if (this.roleId !== 3) {
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            }
+            this.regionOptions = regionSelection;
           }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        this.gdata = this.roleBasedService.instance;
+        if (this.gdata !== undefined) {
+          this.gdata.forEach(x => {
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        }
         break;
     }
   }
@@ -161,7 +161,7 @@ export class DailyDocumentTruckComponent implements OnInit {
               NETWT: g[0].NETWT,
               ReceivedFrom: g[0].ReceivedFrom,
               STTime: g[0].STTime
-            }
+            };
           })
           .toArray() //.toArray because I guess you want to loop on it with ngFor      
           .subscribe(d => groupedData = d);
@@ -177,19 +177,25 @@ export class DailyDocumentTruckComponent implements OnInit {
           GName: this.GCode.label,
           RName: this.RCode.label,
           RCode: this.RCode.value
-        })
+        });
         ///End
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
+        });
       }
       this.DailyDocumentTruckData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -201,12 +207,12 @@ export class DailyDocumentTruckComponent implements OnInit {
       if (data.DocNo === selectedRow.DocNo) {
         this.TruckDocumentDetailData.push(data);
       }
-    })
+    });
     let slno = 1;
     this.TruckDocumentDetailData.forEach(s => {
       s.SlNo = slno;
       slno += 1;
-    })
+    });
 
   }
 
@@ -239,7 +245,8 @@ export class DailyDocumentTruckComponent implements OnInit {
     var col = this.DailyDocumentTruckCols;
     var rows = [];
     this.DailyDocumentTruckData.forEach(element => {
-      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName, element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.SCHEME, element.ReceivedFrom];
+      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName,
+      element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.SCHEME, element.ReceivedFrom];
       rows.push(temp);
     });
     doc.autoTable(col, rows);

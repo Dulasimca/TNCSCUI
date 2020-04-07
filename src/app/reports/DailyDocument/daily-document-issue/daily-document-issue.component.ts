@@ -52,7 +52,9 @@ export class DailyDocumentIssueComponent implements OnInit {
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService, private excelService: ExcelService,
+    private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -70,7 +72,7 @@ export class DailyDocumentIssueComponent implements OnInit {
           this.table.exportCSV();
         }
       },
-        {
+      {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF();
         }
@@ -82,45 +84,45 @@ export class DailyDocumentIssueComponent implements OnInit {
     let regionSelection = [];
     switch (selectedItem) {
       case 'reg':
-          this.regionData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1 || this.roleId === 2) {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
-          if (this.roleId === 1) {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
+        } else {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-              this.regionOptions.unshift({ label: 'All', value: 'All' });
-            }
-          } else {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
-          }
-        break;
-      case 'gd':
-          if (type === 'enter') {
-            this.godownPanel.overlayVisible = true;
-          }
-          this.gdata = this.roleBasedService.instance;
-          if (this.gdata !== undefined) {
-            this.gdata.forEach(x => {
-              if (x.RCode === this.RCode.value) {
-                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
               }
             });
-            this.godownOptions = godownSelection;
-            if (this.roleId !== 3) {
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            }
+            this.regionOptions = regionSelection;
           }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        this.gdata = this.roleBasedService.instance;
+        if (this.gdata !== undefined) {
+          this.gdata.forEach(x => {
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        }
         break;
     }
   }
@@ -144,7 +146,7 @@ export class DailyDocumentIssueComponent implements OnInit {
         Rx.Observable.from(this.AllIssueDocuments)
           .groupBy((x: any) => x.DocNo) // using groupBy from Rxjs
           .flatMap(group => group.toArray())// GroupBy dont create a array object so you have to flat it
-          .map(g => {// mapping 
+          .map(g => {// mapping
             return {
               DocNo: g[0].DocNo,//take the first name because we grouped them by name
               CommodityName: g[0].CommodityName,
@@ -160,7 +162,7 @@ export class DailyDocumentIssueComponent implements OnInit {
               NETWT: g[0].NETWT,
               ReceivedFrom: g[0].ReceivedFrom,
               SITime: g[0].SITime
-            }
+            };
           })
           .toArray() //.toArray because I guess you want to loop on it with ngFor      
           .subscribe(d => groupedData = d);
@@ -181,14 +183,20 @@ export class DailyDocumentIssueComponent implements OnInit {
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
+        });
       }
       this.DailyDocumentIssueData.slice(0);
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -200,12 +208,12 @@ export class DailyDocumentIssueComponent implements OnInit {
       if (data.DocNo === selectedRow.DocNo) {
         this.IssueDocumentDetailData.push(data);
       }
-    })
+    });
     let slno = 1;
     this.IssueDocumentDetailData.forEach(s => {
       s.SlNo = slno;
       slno += 1;
-    })
+    });
 
   }
 
@@ -238,7 +246,8 @@ export class DailyDocumentIssueComponent implements OnInit {
     var col = this.DailyDocumentIssueCols;
     var rows = [];
     this.DailyDocumentIssueData.forEach(element => {
-      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName, element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.SCHEME, element.ReceivedFrom];
+      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName,
+      element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.SCHEME, element.ReceivedFrom];
       rows.push(temp);
     });
     doc.autoTable(col, rows);

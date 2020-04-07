@@ -81,45 +81,45 @@ export class DailyDocumentsComponent implements OnInit {
     let regionSelection = [];
     switch (selectedItem) {
       case 'reg':
-          this.regionData = this.roleBasedService.regionsData;
-          if (type === 'enter') {
-            this.regionPanel.overlayVisible = true;
+        this.regionData = this.roleBasedService.regionsData;
+        if (type === 'enter') {
+          this.regionPanel.overlayVisible = true;
+        }
+        if (this.roleId === 1 || this.roleId === 2) {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
-          if (this.roleId === 1) {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
+        } else {
+          if (this.regionData !== undefined) {
+            this.regionData.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
                 regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              });
-              this.regionOptions = regionSelection;
-              this.regionOptions.unshift({ label: 'All', value: 'All' });
-            }
-          } else {
-            if (this.regionData !== undefined) {
-              this.regionData.forEach(x => {
-                if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-                }
-              });
-              this.regionOptions = regionSelection;
-            }
-          }
-        break;
-      case 'gd':
-          if (type === 'enter') {
-            this.godownPanel.overlayVisible = true;
-          }
-          this.gdata = this.roleBasedService.instance;
-          if (this.gdata !== undefined) {
-            this.gdata.forEach(x => {
-              if (x.RCode === this.RCode.value) {
-                godownSelection.push({ 'label': x.GName, 'value': x.GCode });
               }
             });
-            this.godownOptions = godownSelection;
-            if (this.roleId !== 3) {
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            }
+            this.regionOptions = regionSelection;
           }
+        }
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        this.gdata = this.roleBasedService.instance;
+        if (this.gdata !== undefined) {
+          this.gdata.forEach(x => {
+            if (x.RCode === this.RCode.value) {
+              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        }
         break;
     }
   }
@@ -175,25 +175,31 @@ export class DailyDocumentsComponent implements OnInit {
       this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
       ///End
 
-      ///No.Of Document 
-      this.DailyDocumentTotalData.push({
-        NoDocument: this.noOfDocs,
-        GCode: this.GCode.value,
-        GName: this.GCode.label,
-        RName: this.RCode.value,
-        RCode: this.RCode.label
-      })
-      ///End
+        ///No.Of Document 
+        this.DailyDocumentTotalData.push({
+          NoDocument: this.noOfDocs,
+          GCode: this.GCode.value,
+          GName: this.GCode.label,
+          RName: this.RCode.value,
+          RCode: this.RCode.label
+        });
+        ///End
       } else {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
+        });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
         this.loading = false;
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
       }
     });
   }
@@ -202,20 +208,20 @@ export class DailyDocumentsComponent implements OnInit {
     this.ReceiptDocumentDetailData = [];
     this.viewPane = true;
     this.AllReceiptDocuments.forEach(data => {
-      if(data.ReceivedFrom === selectedRow.ReceivedFrom) {
+      if (data.ReceivedFrom === selectedRow.ReceivedFrom) {
         this.ReceiptDocumentDetailData.push(data);
       }
-    })
+    });
     let slno = 1;
     this.ReceiptDocumentDetailData.forEach(s => {
       s.SlNo = slno;
       slno += 1;
-    })
+    });
   }
 
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
     this.ReceiptDocumentDetailData = [];
@@ -242,7 +248,9 @@ export class DailyDocumentsComponent implements OnInit {
     var col = this.DailyDocumentReceiptCols;
     var rows = [];
     this.DailyDocumentReceiptData.forEach(element => {
-      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName, element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT, element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName,
+      element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT,
+      element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
       rows.push(temp);
     });
     doc.autoTable(col, rows);

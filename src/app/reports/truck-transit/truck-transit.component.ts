@@ -72,15 +72,16 @@ export class TruckTransitComponent implements OnInit {
         if (this.roleId === 1) {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
           }
         } else {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -94,7 +95,7 @@ export class TruckTransitComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
             }
           });
           this.godownOptions = godownSelection;
@@ -110,7 +111,7 @@ export class TruckTransitComponent implements OnInit {
           this.transactionPanel.overlayVisible = true;
         }
         if (this.transferOptions === undefined) {
-          transactionSelection.push({ 'label': 'TRANSFER', value: 'TRANSFER' }, { 'label': 'INTERNAL TRANSFER', value: 'INTERNAL TRANSFER' });
+          transactionSelection.push({ label: 'TRANSFER', value: 'TRANSFER' }, { label: 'INTERNAL TRANSFER', value: 'INTERNAL TRANSFER' });
         }
         this.transferOption = transactionSelection;
     }
@@ -184,8 +185,10 @@ export class TruckTransitComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:5000
-        ,summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
+          , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -202,7 +205,7 @@ export class TruckTransitComponent implements OnInit {
     const filename = this.GCode + GolbalVariable.TruckTransitFileName + ".txt";
     saveAs(path + filename, filename);
   }
-  
+
   onClose() {
     this.messageService.clear('t-err');
   }
