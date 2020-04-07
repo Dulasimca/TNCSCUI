@@ -53,7 +53,7 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr style="text-align: center;">
+            <tr>
               <td *ngFor="let col of columns">
                 <div *ngIf="col.field !== 'RName' && col.field !== 'GName' && col.field !== 'SlNo'">
                   <div style="text-align: end !important">
