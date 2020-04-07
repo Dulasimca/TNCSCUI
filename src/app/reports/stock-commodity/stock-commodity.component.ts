@@ -37,7 +37,8 @@ export class StockCommodityComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.stockCommodityCols = this.tableConstants.StockCommodityReport;
+    this.stockCommodityCols = this.tableConstants.StockCommodityReport.slice(0);
+    this.onSelection();
     this.username = JSON.parse(this.authService.getCredentials());
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     let commoditySelection = [];
@@ -130,6 +131,24 @@ export class StockCommodityComponent implements OnInit {
     this.table.reset();
     this.loading = false;
   }
+
+  onSelection() {
+    this.stockCommodityData = [];
+    if(this.table) {
+    this.table.reset();
+    }
+    if(!this.IsGodownSelected) {
+      this.stockCommodityCols.forEach((x, index) => {
+       if(x.field === 'GName') {
+         this.stockCommodityCols.splice(index, 1);
+       }
+      })
+    } else {
+      this.table.columns = this.tableConstants.StockCommodityReport.slice(0);
+      this.stockCommodityCols = this.tableConstants.StockCommodityReport.slice(0);
+    }
+  } 
+
   onClose()
   {
     

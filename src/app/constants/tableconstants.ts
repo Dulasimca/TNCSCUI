@@ -919,6 +919,7 @@ export class TableConstants {
     this.StockCommodityReport = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Region Name', field: 'RName' },
+      { header: 'Godown Name', field: 'GName' },
       { header: 'OB', field: 'OpeningBalance', align: 'right' },
       { header: 'Receipt', field: 'Receipt' },
       { header: 'Total (OB + Receipt)', field: 'TotalReceipt' },
