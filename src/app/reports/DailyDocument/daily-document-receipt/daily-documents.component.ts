@@ -154,6 +154,7 @@ export class DailyDocumentsComponent implements OnInit {
           NOOfPACKING: g[0].NOOfPACKING,
           ORDERDate: g[0].ORDERDate,
           OrderNo: g[0].OrderNo,
+          LorryNo: g[0].LorryNo,
           PERIODALLOT: g[0].PERIODALLOT,
           PackingType: g[0].PackingType,
           ReceivedFrom: g[0].ReceivedFrom,

@@ -103,7 +103,7 @@
   </p-panel>
 </div>
 <p-dialog header="Daily Document Truck" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [responsive]="true">
+[(visible)]="viewPane" [responsive]="true" [style]="{width: '80vw', height: '80vw'}">
     <div>
         <p-table [columns]="TruckDocumentDetailCols" [value]="TruckDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" 

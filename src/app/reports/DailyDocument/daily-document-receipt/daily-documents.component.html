@@ -105,7 +105,7 @@
   </p-panel>
 </div>
 <p-dialog class="ui-g-10" header="Daily Document Receipts" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [style]="{width: '1000px'}" [responsive]="true">
+[(visible)]="viewPane" [style]="{width: '1000px'}" [responsive]="true" [style]="{width: '80vw', height: '80vw'}">
     <div>
         <p-table [columns]="ReceiptDocumentDetailCols" [value]="ReceiptDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" 

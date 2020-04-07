@@ -152,6 +152,7 @@ export class DailyDocumentIssueComponent implements OnInit {
               StackNo: g[0].StackNo,
               TransactionType: g[0].TransactionType,
               NOOfPACKING: g[0].NOOfPACKING,
+              LorryNo: g[0].LorryNo,
               PackingType: g[0].PackingType,
               GROSSWT: g[0].GROSSWT,
               GodownName: g[0].GodownName,

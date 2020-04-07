@@ -156,6 +156,7 @@ export class DailyDocumentTruckComponent implements OnInit {
               PackingType: g[0].PackingType,
               GROSSWT: g[0].GROSSWT,
               GodownName: g[0].GodownName,
+              LorryNo: g[0].LorryNo,
               SCHEME: g[0].SCHEME,
               NETWT: g[0].NETWT,
               ReceivedFrom: g[0].ReceivedFrom,
