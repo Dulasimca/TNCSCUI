@@ -53,6 +53,7 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
+  selectedParty: any;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
@@ -196,6 +197,7 @@ export class DailyDocumentsComponent implements OnInit {
       this.noOfDocs = groupedData.length;
       let sno = 1;
       this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
+      this.AllReceiptDocuments.forEach(x => { x.SlNo = sno; sno += 1; })
       ///End
 
         ///No.Of Document 
@@ -229,6 +231,7 @@ export class DailyDocumentsComponent implements OnInit {
 
   viewDetailsOfDocument(selectedRow) {
     this.ReceiptDocumentDetailData = [];
+    this.selectedParty = selectedRow.ReceivedFrom;
     this.viewPane = true;
     this.AllReceiptDocuments.forEach(data => {
       if (data.ReceivedFrom === selectedRow.ReceivedFrom) {
@@ -280,18 +283,20 @@ export class DailyDocumentsComponent implements OnInit {
   onSearch(value) {
     this.DailyDocumentReceiptData = this.filterArray;
     if (value !== undefined && value !== '') {
-      value = value.toString().toUpperCase();
-      this.DailyDocumentReceiptData = this.DailyDocumentReceiptData.filter(item => {
-        // if (item.DepositorName.toString().startsWith(value)) {
-        return item.CommodityName.toString().startsWith(value);
-        // }
+      value = value.toString().toLowerCase();
+      this.DailyDocumentReceiptData = this.AllReceiptDocuments.filter(item => {
+        return item.ReceivedFrom.toString().toLowerCase().startsWith(value);
       });
+    } else {
+      this.DailyDocumentReceiptData = this.AllReceiptDocuments;
     }
+    let sno = 1;
+    this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
   }
 
   exportAsPDF(type) {
-    var doc = new jsPDF('p', 'pt', 'a4');
-    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
+    var doc = new jsPDF('l', 'pt', 'a4');
+    doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 200, 18);
     var rows = [];
     if(type === '1') {
     var col = this.DailyDocumentReceiptCols;
@@ -301,6 +306,8 @@ export class DailyDocumentsComponent implements OnInit {
       rows.push(temp);
     });
   } else {
+    const header = "Receipt Document Details of - " + this.selectedParty;
+    doc.text(header, 210, 36);
     var col = this.ReceiptDocumentDetailCols;
     this.ReceiptDocumentDetailData.forEach(element => {
       var temp = [element.SlNo, element.DocNo, element.DocDate,
@@ -313,7 +320,7 @@ export class DailyDocumentsComponent implements OnInit {
     });
   }
   doc.autoTable(col, rows);
-  doc.save('Daily_Receipt.pdf');
+  doc.save('DAILY_RECEIPT.pdf');
 }
 
   onPrint() { }

@@ -7,7 +7,7 @@
         <div class="ui-g-4 dashboard">Daily Documents Receipt</div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
-            placeholder="Search by Commodity" (ngModelChange)="onSearch($event)">
+            placeholder="Search by Recevior Name" (ngModelChange)="onSearch($event)">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
           [disabled]="(DailyDocumentReceiptData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
@@ -132,7 +132,7 @@
       <div class="ui-g-12 ui-md-12">
         <p-table #dt_detail [columns]="ReceiptDocumentDetailCols" [value]="ReceiptDocumentDetailData"
         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" 
-        autoLayout="true"> 
+        autoLayout="true" exportFilename="DAILY_RECEIPT_REPORT"> 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
               <col *ngFor="let col of columns" style="width:80px">

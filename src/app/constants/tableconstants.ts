@@ -1235,13 +1235,13 @@ export class TableConstants {
 
     this.FrozenQuantityACReceiptDetailsCommodity = [
       //   { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'GName', header: 'Godown Name' },
+      { field: 'GName', header: 'Name' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'OpeningBalance', header: 'Opening Balance' },
     ];
 
     this.FrozenQuantityACIssueDetailsCommodity = [
-      { header: 'Godown Name', field: 'GName' },
+      { header: 'Name', field: 'GName' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
     ];
