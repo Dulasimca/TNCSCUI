@@ -30,7 +30,9 @@ export class DailyDocumentsComponent implements OnInit {
   ReceiptDocumentDetailCols: any;
   GCode: any;
   RCode: any;
-  DocumentDate: Date = new Date();
+  ITCode: any;
+  FromDate: any = new Date();
+  ToDate: any = new Date();
   roleId: any;
   gdata: any;
   userid: any;
@@ -38,6 +40,7 @@ export class DailyDocumentsComponent implements OnInit {
   loading: boolean;
   godownOptions: SelectItem[];
   regionOptions: SelectItem[];
+  commodityOptions: SelectItem[];
   canShowMenu: boolean;
   items: any;
   filterArray: any;
@@ -46,6 +49,7 @@ export class DailyDocumentsComponent implements OnInit {
   regionData: any;
   viewPane: boolean;
   loggedInRCode: any;
+  @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
@@ -71,7 +75,7 @@ export class DailyDocumentsComponent implements OnInit {
       },
       {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
-          this.exportAsPDF();
+          this.exportAsPDF('1');
         }
       }]
   }
@@ -79,6 +83,7 @@ export class DailyDocumentsComponent implements OnInit {
   onSelect(selectedItem, type) {
     let godownSelection = [];
     let regionSelection = [];
+    let commoditySelection = [];
     switch (selectedItem) {
       case 'reg':
         this.regionData = this.roleBasedService.regionsData;
@@ -121,16 +126,34 @@ export class DailyDocumentsComponent implements OnInit {
           }
         }
         break;
+        case 'cd':
+          if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
+          if (this.commodityOptions === undefined) {
+            this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
+              if (data !== undefined) {
+                data.forEach(y => {
+                  commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
+                  this.commodityOptions = commoditySelection;
+                });
+                this.commodityOptions.unshift({ label: 'All', value: 'All' });
+              }
+            })
+          }
+          break;
     }
   }
 
   onView() {
     this.onResetTable('');
+    this.checkValidDateSelection();
     const params = {
       'GodownCode': this.GCode.value,
       'RegionCode': this.RCode.value,
       'RoleId': this.roleId,
-      'DocumentDate': this.datepipe.transform(this.DocumentDate, 'MM/dd/yyyy')
+      'FromDate': this.datepipe.transform(this.FromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datepipe.transform(this.ToDate, 'MM/dd/yyyy'),
+      'ITCode': this.ITCode.value,
+      'ITName': this.ITCode.label
     };
     this.loading = true;
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
@@ -219,7 +242,6 @@ export class DailyDocumentsComponent implements OnInit {
     });
   }
 
-
   onResetTable(item) {
     if (item === 'reg') { this.GCode = null; }
     this.DailyDocumentReceiptData = [];
@@ -227,6 +249,33 @@ export class DailyDocumentsComponent implements OnInit {
     this.ReceiptDocumentDetailData = [];
     this.AllReceiptDocuments = [];
   }
+
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+
+  checkValidDateSelection() {
+    if (this.FromDate !== undefined && this.ToDate !== undefined && this.FromDate !== '' && this.ToDate !== '') {
+      let selectedFromDate = this.FromDate.getDate();
+      let selectedToDate = this.ToDate.getDate();
+      let selectedFromMonth = this.FromDate.getMonth();
+      let selectedToMonth = this.ToDate.getMonth();
+      let selectedFromYear = this.FromDate.getFullYear();
+      let selectedToYear = this.ToDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
+        summary: StatusMessage.SUMMARY_INVALID, 
+        life:5000, detail: StatusMessage.ValidDateErrorMessage });
+        this.FromDate = this.ToDate = '';
+      }
+      return this.FromDate, this.ToDate;
+    }
+  }
+
 
   onSearch(value) {
     this.DailyDocumentReceiptData = this.filterArray;
@@ -240,22 +289,32 @@ export class DailyDocumentsComponent implements OnInit {
     }
   }
 
-  exportAsPDF() {
+  exportAsPDF(type) {
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.text("Tamil Nadu Civil Supplies Corporation - Head Office", 100, 30);
-    // var img ="assets\layout\images\dashboard\tncsc-logo.png";
-    // doc.addImage(img, 'PNG', 150, 10, 40, 20);
-    var col = this.DailyDocumentReceiptCols;
     var rows = [];
+    if(type === '1') {
+    var col = this.DailyDocumentReceiptCols;
     this.DailyDocumentReceiptData.forEach(element => {
-      var temp = [element.SlNo, element.DocNo, element.DocDate, element.Transactiontype, element.StackNo, element.CommodityName,
-      element.PackingType, element.NOOfPACKING, element.GROSSWT, element.NETWT, element.Moisture, element.SCHEME, element.PERIODALLOT,
-      element.OrderNo, element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+      var temp = [element.SlNo, element.DocNo, element.DocDate,
+        element.Transactiontype, element.ReceivedFrom, element.SRTime];
       rows.push(temp);
     });
-    doc.autoTable(col, rows);
-    doc.save('Daily_Receipt.pdf');
+  } else {
+    var col = this.ReceiptDocumentDetailCols;
+    this.ReceiptDocumentDetailData.forEach(element => {
+      var temp = [element.SlNo, element.DocNo, element.DocDate,
+        element.Transactiontype, element.StackNo, element.CommodityName,
+        element.LorryNo, element.PackingType, element.NOOfPACKING,
+        element.GROSSWT, element.NETWT, element.Moisture,
+        element.SCHEME, element.PERIODALLOT, element.OrderNo,
+        element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+      rows.push(temp);
+    });
   }
+  doc.autoTable(col, rows);
+  doc.save('Daily_Receipt.pdf');
+}
 
   onPrint() { }
 }
