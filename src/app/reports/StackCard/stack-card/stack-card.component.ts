@@ -220,7 +220,8 @@ export class StackCardComponent implements OnInit {
     const params = {
       'DocumentDate': data.SDate,
       'GodownCode': this.GCode.value,
-      'RegionCode': this.RCode.value
+      'RegionCode': this.RCode.value,
+      'Type': 2
     }
     this.selectedRowCols = this.tableConstants.StackCardDocDetailsCols;
     this.Table.reset();

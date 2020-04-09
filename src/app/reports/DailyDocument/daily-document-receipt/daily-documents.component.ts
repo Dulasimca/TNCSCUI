@@ -62,9 +62,9 @@ export class DailyDocumentsComponent implements OnInit {
     this.gdata = this.roleBasedService.getInstance();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
-    this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport;
-    this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceiptReport;
-    this.ReceiptDocumentDetailCols = this.tableConstants.DetailDailyDocumentReceiptReport;
+    this.DailyDocumentTotalCols = this.tableConstants.DailyDocumentTotalReport.slice(0);
+    this.DailyDocumentReceiptCols = this.tableConstants.DailyDocumentReceiptReport.slice(0);
+    this.ReceiptDocumentDetailCols = this.tableConstants.DetailDailyDocumentReceiptReport.slice(0);
     this.regionData = this.roleBasedService.getRegions();
     this.maxDate = new Date();
     this.userid = JSON.parse(this.authService.getCredentials());
@@ -154,7 +154,8 @@ export class DailyDocumentsComponent implements OnInit {
       'FromDate': this.datepipe.transform(this.FromDate, 'MM/dd/yyyy'),
       'ToDate': this.datepipe.transform(this.ToDate, 'MM/dd/yyyy'),
       'ITCode': this.ITCode.value,
-      'ITName': this.ITCode.label
+      'ITName': this.ITCode.label,
+      'Type': 1
     };
     this.loading = true;
     this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
@@ -308,17 +309,23 @@ export class DailyDocumentsComponent implements OnInit {
   } else {
     const header = "Receipt Document Details of - " + this.selectedParty;
     doc.text(header, 210, 36);
-    var col = this.ReceiptDocumentDetailCols;
+    var col = this.ReceiptDocumentDetailCols.slice(0);
+    col.forEach((x, index) => {
+      if(x.field === 'Transactiontype' || x.field === 'SRTime') {
+        col.splice(index, 1);
+      }
+    })
     this.ReceiptDocumentDetailData.forEach(element => {
       var temp = [element.SlNo, element.DocNo, element.DocDate,
-        element.Transactiontype, element.StackNo, element.CommodityName,
-        element.LorryNo, element.PackingType, element.NOOfPACKING,
-        element.GROSSWT, element.NETWT, element.Moisture,
-        element.SCHEME, element.PERIODALLOT, element.OrderNo,
-        element.ORDERDate, element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
+        element.LorryNo, element.StackNo, element.CommodityName,
+        element.PackingType, element.NOOfPACKING, element.GROSSWT,
+        element.NETWT, element.Moisture, element.SCHEME,
+        element.PERIODALLOT, element.OrderNo, element.ORDERDate,
+        element.ReceivedFrom, element.TruckMemoNo, element.TRUCKDate];
       rows.push(temp);
     });
   }
+  doc.setFontSize(8);
   doc.autoTable(col, rows);
   doc.save('DAILY_RECEIPT.pdf');
 }

@@ -969,7 +969,7 @@ export class TableConstants {
       { field: 'Transactiontype', header: 'Transaction Type' },
       { field: 'LorryNo', header: 'Lorry No' },
       { field: 'StackNo', header: 'Stack No' },
-      { field: 'CommodityName', header: 'Commodity Name' },
+      { field: 'CommodityName', header: 'Commodity' },
       { field: 'PackingType', header: 'Packing type' },
       { field: 'NOOfPACKING', header: 'No Of Packing' },
       { field: 'GROSSWT', header: 'Gross Wt' },
@@ -1695,7 +1695,7 @@ export class TableConstants {
     ];
 
     this.FrozenQuantityACGunnyIssueDetails = [
-      { header: 'Godown Name', field: 'GName' },
+      { header: 'Name', field: 'GName' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
     ];
@@ -1713,7 +1713,7 @@ export class TableConstants {
     ];
 
     this.FrozenQuantityACGunnyReceiptDetails = [
-      { header: 'GODOWN NAME', field: 'GName' },
+      { header: 'NAME', field: 'GName' },
       { header: 'COMMODITY', field: 'Commodity' },
       { header: 'OPENING BALANCE', field: 'OpeningBalance' },
     ];
