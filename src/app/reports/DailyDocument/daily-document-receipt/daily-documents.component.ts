@@ -268,11 +268,14 @@ export class DailyDocumentsComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.obj.Type = 2;
         this.obj.SRNo = res[0].SRNO;
-        this.obj.SRDate = this.datepipe.transform(new Date(res[0].SRDate), 'dd/MM/yyy');
+        this.obj.SRDate = this.datepipe.transform(res[0].SRDate, 'MM/dd/yyyy');
+        this.obj.ReceiptDate = this.datepipe.transform(res[0].SRDate, 'dd/MM/yyyy');
         this.obj.RowId = res[0].RowId;
-        this.obj.OrderDate = this.datepipe.transform(new Date(res[0].OrderDate), 'dd/MM/yyy');
+        this.obj.AllotOrderDate = this.datepipe.transform(res[0].OrderDate, 'dd/MM/yyyy');
+        this.obj.OrderDate = this.datepipe.transform(res[0].OrderDate, 'MM/dd/yyyy');
         this.obj.OrderNo = res[0].OrderNo;
-        this.obj.TruckMemoDate = this.datepipe.transform(new Date(res[0].TruckMemoDate), 'dd/MM/yyy');
+        this.obj.TruckDate = this.datepipe.transform(res[0].TruckMemoDate, 'dd/MM/yyyy');
+        this.obj.TruckMemoDate = this.datepipe.transform(res[0].TruckMemoDate, 'MM/dd/yyyy');
         this.obj.TruckMemoNo = res[0].TruckMemoNo;
         this.obj.LNo = res[0].LNo;
         this.obj.LFrom = res[0].LFrom;
@@ -293,8 +296,9 @@ export class DailyDocumentsComponent implements OnInit {
         this.obj.LWBNo = res[0].LWBNo;
         this.obj.GodownName = res[0].GName;
         this.obj.RegionName = res[0].RName;
-        this.obj.LWBDate = this.datepipe.transform(new Date(res[0].LWBDate), 'dd/MM/yyy');
-        this.obj.LDate = this.datepipe.transform(new Date(res[0].LDate), 'dd/MM/yyy');
+        this.obj.LWBDate = this.datepipe.transform(res[0].LWBDate, 'MM/dd/yyyy');
+        this.obj.LorryWayBillDate = this.datepipe.transform(res[0].LWBDate, 'dd/MM/yyyy');
+        this.obj.LDate = this.datepipe.transform(res[0].LDate, 'MM/dd/yyyy');
         this.obj.UserID = this.userid.user;
         let sno = 1;
         this.obj.ItemList = [];
