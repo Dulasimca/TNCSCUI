@@ -290,8 +290,8 @@ export class DailyDocumentsComponent implements OnInit {
         this.obj.Remarks = res[0].Remarks.trim();
         this.obj.UnLoadingSlip = res[0].Unloadingslip;
         this.obj.LWBNo = res[0].LWBNo;
-        this.obj.GodownName = res[0].GodownName;
-        this.obj.RegionName = res[0].RegionName;
+        this.obj.GodownName = res[0].GName;
+        this.obj.RegionName = res[0].RName;
         this.obj.LWBDate = this.datepipe.transform(new Date(res[0].LWBDate), 'dd/MM/yyy');
         this.obj.LDate = this.datepipe.transform(new Date(res[0].LDate), 'dd/MM/yyy');
         this.obj.UserID = this.userid.user;
