@@ -161,13 +161,13 @@
   </div>
 </p-dialog>
 <p-dialog header="Stock Receipt Slip - Preview" [modal]="true" [(visible)]="showPreview"
-  [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '70vw', height: '70vw'}">
-    <div>
-    <div class="ui-g-3 ui-md-2 ui-fluid" style="float: right;">
-      <button pButton type="button" label=Print [disabled]="(obj==null || obj.length=='0')"
-      icon="pi pi-download" (click)="onPrint()"></button>
+  [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '70vw', height: '75vw'}">
+    <div class="no-pad-top">
+      <div class="ui-g-4 ui-md-1 ui-fluid no-pad-top" style="float: right;">
+        <button pButton type="button" label=Print [disabled]="(obj==null || obj.length=='0')"
+        (click)="onPrint()"></button>
+      </div>
     </div>
-  </div>
   <div class="ui-g-12 ui-md-12 border-blue card">
     <div class="ui-g-12 ui-md-12">
       <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Receipt Details</div>
@@ -229,7 +229,7 @@
     <div class="ui-g-12 ui-md-12">
       <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Item Details</div>
       <div class="ui-g-12 ui-fluid no-pad-top">
-        <p-table tabindex="-1" [columns]="itemCol" [value]="itemData" [responsive]="true" autoLayout="true"
+        <p-table tabindex="-1" [columns]="itemCols" [value]="itemData" [responsive]="true" autoLayout="true"
           [scrollable]="true" scrollHeight="200px">
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
