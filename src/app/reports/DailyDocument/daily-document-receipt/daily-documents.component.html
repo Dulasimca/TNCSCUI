@@ -172,9 +172,16 @@
     <div class="ui-g-12 ui-md-12">
       <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Receipt Details</div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
-        <label> SR Date:</label>
-        <!-- <input type="text" pInputText [(ngModel)]="PreSIDate"/> -->
+        <label> Receipt No:</label>
+        <span style="color: #44a3ec;padding-left: 5px;">{{obj.SRNo}}</span>
+      </div>
+      <div class="ui-g-6 ui-md-4 label-fontsize-large">
+        <label> Receipt Date:</label>
         <span style="color: #44a3ec;padding-left: 5px;">{{obj.SRDate}}</span>
+      </div>
+      <div class="ui-g-6 ui-md-4 label-fontsize-large">
+        <label> Receiving Godown:</label>
+        <span style="color: #44a3ec;padding-left: 5px;">{{obj.GodownName}}</span>
       </div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
         <label> PAllotment:</label>
@@ -190,7 +197,7 @@
         <span style="color: #44a3ec;padding-left: 5px;">{{obj.OrderDate}}</span>
       </div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
-        <label> Transport Name:</label>
+        <label> Transport Mode:</label>
         <span style="color: #44a3ec;padding-left: 5px;">{{obj.MTransport}}</span>
       </div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
@@ -199,7 +206,7 @@
       </div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
         <label> Depositor Type:</label>
-        <span style="color: #44a3ec;padding-left: 5px;">{{obj.DepositorType}}</span>
+        <span style="color: #44a3ec;padding-left: 5px;">{{obj.DepositorTypeName}}</span>
       </div>
       <div class="ui-g-6 ui-md-4 label-fontsize-large">
         <label> Depositor Name:</label>

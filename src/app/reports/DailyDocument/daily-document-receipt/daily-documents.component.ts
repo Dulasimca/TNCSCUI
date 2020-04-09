@@ -281,9 +281,10 @@ export class DailyDocumentsComponent implements OnInit {
         this.obj.ReceivingCode = res[0].ReceivingCode;
         this.obj.RCode = res[0].RCode;
         this.obj.TransporterName = (res[0].TransporterName !== undefined && res[0].TransporterName !== null) ? res[0].TransporterName : '-';
-        this.obj.DepositorName = res[0].DepositorType;
+        this.obj.DepositorName = res[0].DepositorName;
         this.obj.DepositorType = res[0].IssuerType;
         this.obj.DepositorCode = res[0].IssuingCode;
+        this.obj.DepositorTypeName = res[0].DepositorType;
         this.obj.PAllotment = res[0].Pallotment;
         this.obj.MTransport = res[0].TransportMode;
         this.obj.ManualDocNo = res[0].Flag1;
@@ -354,9 +355,7 @@ export class DailyDocumentsComponent implements OnInit {
           doc.setFont('courier');
           doc.setFontSize(9);
           doc.text(data, 2, 2);
-        //  doc.save(filename + '.pdf');
-        var w = window.open(doc);
-        w.print();
+          doc.save(filename + '.pdf');
         } else {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }
