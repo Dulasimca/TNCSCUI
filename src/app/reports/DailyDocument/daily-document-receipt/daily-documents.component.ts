@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams, HttpClient } from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { StatusMessage } from 'src/app/constants/Messages';
@@ -61,7 +61,9 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('dt', { static: false }) table: Table;
 
 
-  constructor(private tableConstants: TableConstants, private messageService: MessageService, private restAPIService: RestAPIService, private datepipe: DatePipe, private roleBasedService: RoleBasedService, private authService: AuthService) { }
+  constructor(private tableConstants: TableConstants, private messageService: MessageService,
+    private restAPIService: RestAPIService, private datepipe: DatePipe, private http: HttpClient,
+    private roleBasedService: RoleBasedService, private authService: AuthService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -288,6 +290,8 @@ export class DailyDocumentsComponent implements OnInit {
         this.obj.Remarks = res[0].Remarks.trim();
         this.obj.UnLoadingSlip = res[0].Unloadingslip;
         this.obj.LWBNo = res[0].LWBNo;
+        this.obj.GodownName = res[0].GodownName;
+        this.obj.RegionName = res[0].RegionName;
         this.obj.LWBDate = this.datepipe.transform(new Date(res[0].LWBDate), 'dd/MM/yyy');
         this.obj.LDate = this.datepipe.transform(new Date(res[0].LDate), 'dd/MM/yyy');
         this.obj.UserID = this.userid.user;
@@ -339,25 +343,28 @@ export class DailyDocumentsComponent implements OnInit {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
-        const filename = this.GCode.value + GolbalVariable.StockReceiptDocument;
-        // let filepath = path + filename + ".txt";
-        // var w = window.open(filepath);
-        // w.print();
-
-         // let filepath = path + filename + ".txt";
-        // this.http.get(filepath, {responseType: 'text'})
-        //   .subscribe(data => {
-        //     var doc = new jsPDF({
-        //       orientation: 'landscape',
-        //     })
-        //     doc.setFont('courier');
-        //     doc.setFontSize(10);
-        //     doc.text(data, 2, 2)
-        //     doc.save(filename + '.pdf');
-        //   });
-        
- var w = window.open(filename + '.pdf');
- w.print();
+        const filename = this.obj.ReceivingCode + GolbalVariable.StockReceiptDocument;
+        let filepath = path + filename + ".txt";
+        this.http.get(filepath, { responseType: 'text' })
+      .subscribe(data => {
+        if (data !== undefined && data !== null) {
+          var doc = new jsPDF({
+            orientation: 'potrait',
+          })
+          doc.setFont('courier');
+          doc.setFontSize(9);
+          doc.text(data, 2, 2);
+        //  doc.save(filename + '.pdf');
+        var w = window.open(doc);
+        w.print();
+        } else {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        }
+      });
         this.messageService.clear();
         this.messageService.clear();
         this.showPreview = false;
