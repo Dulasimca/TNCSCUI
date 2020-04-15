@@ -23,9 +23,11 @@ export class ReceiptSchemeComponent implements OnInit {
   toDate: any = new Date();
   regionOptions: SelectItem[];
   godownOptions: SelectItem[];
+  schemeOptions: SelectItem[];
   regions: any;
   RCode: any;
   GCode: any;
+  SCode: any;
   data: any;
   roleId: any;
   maxDate: Date;
@@ -34,8 +36,10 @@ export class ReceiptSchemeComponent implements OnInit {
   loading: boolean = false;
   userId: any;
   loggedInRCode: string;
+  scheme_data: any;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
+  @ViewChild('scheme', { static: false }) schemePanel: Dropdown;
 
   constructor(private datePipe: DatePipe, private authService: AuthService, 
     private restAPIService: RestAPIService, private roleBasedService: RoleBasedService, private messageService: MessageService) { }
@@ -48,11 +52,13 @@ export class ReceiptSchemeComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
+    this.scheme_data = this.roleBasedService.getSchemeData();
   }
 
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
+    let schemeSelection = [];
     switch (item) {
       case 'reg':
           this.regions = this.roleBasedService.regionsData;
@@ -62,7 +68,7 @@ export class ReceiptSchemeComponent implements OnInit {
           if (this.roleId === 1) {
             if (this.regions !== undefined) {
               this.regions.forEach(x => {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               });
               this.regionOptions = regionSelection;
               this.regionOptions.unshift({ label: 'All', value: 'All' });
@@ -71,7 +77,7 @@ export class ReceiptSchemeComponent implements OnInit {
             if (this.regions !== undefined) {
               this.regions.forEach(x => {
                 if(x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
                 }
               });
               this.regionOptions = regionSelection;
@@ -86,7 +92,7 @@ export class ReceiptSchemeComponent implements OnInit {
         if (this.data !== undefined) {
           this.data.forEach(x => {
             if (x.RCode === this.RCode.value) {
-               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+               godownSelection.push({ label: x.GName, value: x.GCode });
             }
           });
           this.godownOptions = godownSelection;
@@ -97,6 +103,20 @@ export class ReceiptSchemeComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
+        case 'sc':
+          if (type === 'enter') {
+            this.schemePanel.overlayVisible = true;
+          }
+          if (this.scheme_data !== undefined && this.scheme_data !== null) {
+            this.scheme_data.forEach(y => {
+              schemeSelection.push({ label: y.SName, value: y.SCode, ascheme: y.AScheme });
+            });
+            this.schemeOptions = schemeSelection;
+            this.schemeOptions.unshift({ label: 'All', value: 'All' });
+          } else {
+            this.schemeOptions = schemeSelection;
+          }
+          break;
     }
   }
 
@@ -105,13 +125,15 @@ export class ReceiptSchemeComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      FromDate: this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
-      ToDate: this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
-      GCode: this.GCode.value,
-      RCode: this.RCode.value,
-      UserId: this.userId.user,
-      RName: this.RCode.label,
-      GName: this.GCode.label
+      'FromDate': this.datePipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'GCode': this.GCode.value,
+      'RCode': this.RCode.value,
+      'UserId': this.userId.user,
+      'RName': this.RCode.label,
+      'GName': this.GCode.label,
+      'SchemeCode': this.SCode.value,
+      'SchemeName': this.SCode.label
     };
     this.restAPIService.post(PathConstants.QUANTITY_ACCOUNT_RECEIPT_SCHEME_REPORT, params).subscribe(res => {
       if (res !== undefined && res.length !== 0) {

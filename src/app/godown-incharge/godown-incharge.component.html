@@ -1,0 +1,80 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">Godown Incharge - Approval</div>
+        <div class="ui-g-6"></div>
+        <!-- <div class="ui-g-3 ui-md-1 no-pad-top" style="padding-left: 90%">
+        </div> -->
+      </div>
+    </p-header>
+    <div class="ui-g">
+      <!-- <div style="text-align: center"> -->
+      <p-toast position="top-center" (onClose)="onClose()" [modal]="true" key="t-err"></p-toast>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Region</label>
+        <input name="Region" type="text" size="20" pInputText autocomplete="off"
+        [(ngModel)]="regionName" [readOnly]="true">
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+        <input name="Godown" type="text" size="20" pInputText autocomplete="off"
+        [(ngModel)]="godownName" [readOnly]="true">
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">From</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="FromDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect('fdate')"></p-calendar>
+      </div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-7 label-fontsize dashboard">To</label>
+        <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="ToDate" [maxDate]="maxDate" [showIcon]="true"
+          dateFormat="dd/mm/yy" (ngModelChange)="onDateSelect('todate')"></p-calendar>
+      </div>
+      <div class="ui-g-1"></div>
+      <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton type="button" label=View (click)="onView()"
+          [disabled]="(!FromDate || !ToDate || !GCode || !RCode)"></button>
+      </div>
+      <!-- <div class="ui-g-4 ui-md-1 ui-fluid" style="padding-top: 24px;">
+        <button pButton type="button" label=Excel (click)="dt.exportCSV()"
+          [disabled]="(stockReceiptData.length=='0')"></button>
+      </div> -->
+      <div class="ui-g-12 dashboard">
+        <p-table #dt [columns]="stockReceiptCols" [value]="stockReceiptData" [loading]="loading" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+              <th style="width:3.2em" pTooltip="Preview"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                <div
+                  *ngIf="col.field === 'Totals' || col.field === 'Cheque_DD' || col.field === 'PaymentAmount' || col.field === 'Netwt_Kgs' || col.field === 'Rate_Rs' || col.field === 'Itemamount' || col.field === 'PreviousAmount' || col.field === 'Adjusted' || col.field === 'Balance' || col.field === 'MarginAmount'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div
+                  *ngIf="col.field !== 'Totals' && col.field !== 'Cheque_DD' && col.field !== 'PaymentAmount' && col.field !== 'Netwt_Kgs' && col.field !== 'Rate_Rs' && col.field !== 'Itemamount' && col.field !== 'PreviousAmount' && col.field !== 'Adjusted' && col.field !== 'Balance' && col.field !== 'MarginAmount'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+              <td>
+                <button pButton icon="pi pi-check" (click)="onSelectedRow(rowData, rowIndex)"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- </div> -->
+    </div>
+  </p-panel>
+</div>
