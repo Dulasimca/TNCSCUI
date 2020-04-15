@@ -42,10 +42,10 @@ export class CBStatementComponent implements OnInit {
   regions: any;
   abstractData: any = [];
   abstractCols: any;
+  items: any[];
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
-  items: any[];
 
   constructor(private restApiService: RestAPIService, private authService: AuthService,
     private messageService: MessageService, private excelService: ExcelService,
@@ -286,6 +286,7 @@ export class CBStatementComponent implements OnInit {
           x.SUGAR = (x.SUGAR * 1).toFixed(3);
           x.WHEAT = (x.WHEAT * 1).toFixed(3);
           x.cement = (x.cement * 1).toFixed(3);
+          x.palmoil = (x.palmoil * 1).toFixed(3);
           x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
           sno += 1;
         })
@@ -361,14 +362,15 @@ export class CBStatementComponent implements OnInit {
         TNCSCapacity: (item.TNCSCapacity * 1),
         boiledRice: (item.boiledRice * 1),
         rawRice: (item.rawRice * 1),
-        toorDhall: (item.toorDhall * 1),
-        uridDhall: (item.uridDhall * 1),
         totalRice: (item.totalRice * 1),
-        totalDhall: (item.totalDhall * 1),
         SUGAR: (item.SUGAR * 1),
         WHEAT: (item.WHEAT * 1),
+        toorDhall: (item.toorDhall * 1),
+        kanadaToorDhall: (item.kanadaToorDhall * 1),
+        totalDhall: (item.totalDhall * 1),
+        uridDhall: (item.uridDhall * 1),
+        palmoil: (item.palmoil * 1),
         cement: (item.cement * 1),
-        kanadaToorDhall: (item.kanadaToorDhall * 1)
       })
     })
     this.excelService.exportAsExcelFile(data, 'CB_STATEMENT_REGIONWISE_ABSTRACT', this.abstractCols);
