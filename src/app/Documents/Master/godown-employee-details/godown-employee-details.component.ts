@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { Toast } from 'primeng/toast';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 @Component({
   selector: 'app-godown-employee-details',
@@ -317,7 +318,7 @@ export class GodownEmployeeDetailsComponent implements OnInit {
       'Empname': this.Empname,
       'Designation': this.Designation.value || this.DesignationCode,
       'Jrtype': this.Jrtype,
-      'Rdate': this.datepipe.transform(this.Rdate, 'MM/dd/yyyy'),
+      // 'Rdate': this.datepipe.transform(this.Rdate, 'MM/dd/yyyy'),
       'Refdate': this.datepipe.transform(this.Refdate, 'MM/dd/yyyy'),
       'Jrdate': this.datepipe.transform(this.Jrdate, 'MM/dd/yyyy'),
       'Refno': this.Refno,

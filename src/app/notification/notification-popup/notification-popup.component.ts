@@ -37,7 +37,8 @@ export class NotificationPopupComponent implements OnInit {
   imgUrl = "../../assets/NotificationPopup/";
   imgPost = "";
 
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private messageService: MessageService, private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService) { }
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private messageService: MessageService,
+    private http: HttpClient, private tableConstant: TableConstants, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -187,7 +188,7 @@ export class NotificationPopupComponent implements OnInit {
   onClose() {
     this.messageService.clear('t-err');
   }
-  
+
   showDialog() {
     const param = { 'Type': 1 };
     this.restApiService.getByParameters(PathConstants.NOTIFICATIONS, param).subscribe(res => {
