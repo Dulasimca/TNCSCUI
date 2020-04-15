@@ -262,7 +262,7 @@ export class TableConstants {
 
     this.CBStatementColumns = [
       // { field: 'serialNo', header: 'SI.NO' },
-      { field: 'TNCSName', header: 'Region Name' },
+      { field: 'TNCSName', header: 'Name' },
       { field: 'TNCSCapacity', header: 'Capacity' },
       { field: 'boiledRice', header: 'Boiled Rice' },
       { field: 'rawRice', header: 'Raw Rice' },

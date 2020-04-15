@@ -55,6 +55,7 @@ export class DailyDocumentsComponent implements OnInit {
   obj: any = {};
   itemCols: any;
   itemData: any = [];
+  commodity_data: any;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
@@ -67,6 +68,7 @@ export class DailyDocumentsComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
+    this.commodity_data = this.roleBasedService.getCommodityData();
     this.gdata = this.roleBasedService.getInstance();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
@@ -102,7 +104,7 @@ export class DailyDocumentsComponent implements OnInit {
         if (this.roleId === 1 || this.roleId === 2) {
           if (this.regionData !== undefined) {
             this.regionData.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              regionSelection.push({ label: x.RName, value: x.RCode });
             });
             this.regionOptions = regionSelection;
             this.regionOptions.unshift({ label: 'All', value: 'All' });
@@ -111,7 +113,7 @@ export class DailyDocumentsComponent implements OnInit {
           if (this.regionData !== undefined) {
             this.regionData.forEach(x => {
               if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+                regionSelection.push({ label: x.RName, value: x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -126,7 +128,7 @@ export class DailyDocumentsComponent implements OnInit {
         if (this.gdata !== undefined) {
           this.gdata.forEach(x => {
             if (x.RCode === this.RCode.value) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
+              godownSelection.push({ label: x.GName, value: x.GCode });
             }
           });
           this.godownOptions = godownSelection;
@@ -137,16 +139,14 @@ export class DailyDocumentsComponent implements OnInit {
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
-        if (this.commodityOptions === undefined) {
-          this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
-            if (data !== undefined) {
-              data.forEach(y => {
-                commoditySelection.push({ 'label': y.ITDescription, 'value': y.ITCode });
-                this.commodityOptions = commoditySelection;
-              });
-              this.commodityOptions.unshift({ label: 'All', value: 'All' });
-            }
-          })
+        if (this.commodity_data !== undefined && this.commodity_data !== null) {
+          this.commodity_data.forEach(y => {
+            commoditySelection.push({ label: y.ITName, value: y.ITCode, ascheme: y.AGroup });
+          });
+          this.commodityOptions = commoditySelection;
+          this.commodityOptions.unshift({ label: '-select-', value: null, disabled: true });
+        } else {
+          this.commodityOptions = commoditySelection;
         }
         break;
     }
@@ -360,6 +360,8 @@ export class DailyDocumentsComponent implements OnInit {
           doc.setFontSize(9);
           doc.text(data, 2, 2);
           doc.save(filename + '.pdf');
+          window.open(doc.output(filepath), '_blank');
+          // doc.output('dataurlnewwindow');
         } else {
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
         }

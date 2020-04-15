@@ -5,6 +5,12 @@
     <p-header>
       <div class="ui-g panel-header">
         <div class="ui-g-4 dashboard">Receipts - Scheme Godown Wise</div>
+        <div class="ui-g-12 ui-md-8 dashboard" style="padding-left: 45%">
+          <button pButton class="ui-g-3 dashboard inline-margin" type="button" label=View (click)="onView()" 
+            [disabled]="(!fromDate || !toDate || !GCode || !RCode || !SCode)"></button>
+          <button pButton class="ui-g-3 dashboard inline-margin" type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(receiptSchemeData.length=='0')"></button>
+          <button pButton class="ui-g-3 dashboard inline-margin" type="button" label=Print (click)="onPrint()" [disabled]="(receiptSchemeData.length=='0')"></button>
+        </div> 
       </div>
     </p-header>
     <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
@@ -30,6 +36,16 @@
           </p-dropdown>
         </div>
         <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Scheme</label>
+          <p-dropdown #scheme class="ui-g-12 ui-fluid dashboard" [options]="schemeOptions" [(ngModel)]="SCode" (onClick)="onSelect('sc', 'click')"
+            (keydown.enter)="onSelect('sc', 'enter')" (ngModelChange)="onResetTable('sc')" optionLabel="label" filter="true"
+            resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-2">
           <label class="ui-g-7 label-fontsize dashboard">From</label>
           <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
             (ngModelChange)="onDateSelect()"></p-calendar>
@@ -39,16 +55,6 @@
           <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
             (ngModelChange)="onDateSelect()"></p-calendar>
         </div>
-          <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=View (click)="onView()" 
-            [disabled]="(!fromDate || !toDate || !GCode || !RCode)"></button>
-          </div>
-          <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Print (click)="onPrint()" [disabled]="(receiptSchemeData.length=='0')"></button>
-          </div>
-          <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-            <button pButton type="button" label=Excel (click)="dt.exportCSV()" [disabled]="(receiptSchemeData.length=='0')"></button>
-          </div>
           <div class="ui-g-12 dashboard">
             <p-table #dt [columns]="receiptSchemeCols" [value]="receiptSchemeData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading" exportFilename="RECEIPT_SCHEME_ABSTRACT_RECEIPT">

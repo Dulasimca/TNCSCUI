@@ -119,6 +119,7 @@ import { PurchaseTaxComponent } from './GST/Reports/purchase-tax/purchase-tax.co
 import { ServiceProviderComponent } from './GST/Reports/service-provider/service-provider.component';
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { StockCommodityComponent } from './reports/stock-commodity/stock-commodity.component';
+import { GodownInchargeComponent } from './godown-incharge/godown-incharge.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -240,6 +241,7 @@ const routes: Routes = [
   { path: 'ServiceProviderTax', component: ServiceProviderComponent, canActivate: [AuthGuard] },
   { path: 'InspectionReport', component: AuditReportComponent, canActivate: [AuthGuard] },
   { path: 'StockCommodityReport', component: StockCommodityComponent, canActivate: [AuthGuard] },
+  { path: 'GodownInchargeApproval', component: GodownInchargeComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

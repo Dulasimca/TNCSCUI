@@ -13,10 +13,12 @@ export class RoleBasedService {
     scheme_data?: any;
     loggedInRegion: any;
     roleId: any;
+    mappingId: any;
     gCode: any;
     rCode: any;
     regionsData: any = [];
     godownsList: any = [];
+    commodity_data?: any;
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
     /// All Godowns
@@ -97,6 +99,42 @@ export class RoleBasedService {
             });
         }
         return this.scheme_data;
+    }
+    ///End
+
+    /// Item Master Data based on mappingid
+    getCommodityData() {
+        this.mappingId = JSON.parse(this.authService.getUserAccessible().mappingId);
+            this.commodity_data = [];
+            this.restApiService.get(PathConstants.ITEM_MASTER).subscribe((res: any) => {
+                if (res !== undefined) {
+                    if (this.mappingId === 8) {
+                        res.forEach(value => {
+                            if (value.Allotmentgroup === 'RICE') {
+                                this.commodity_data.push({ 'ITName': value.ITDescription, 'ITCode': value.ITCode, 'AGroup': value.Allotmentgroup });
+                            }
+                        })
+                    } else if (this.mappingId === 9) {
+                        res.forEach(value => {
+                            if (value.Allotmentgroup === 'SUGAR' || value.Allotmentgroup === 'SALT'
+                                || value.Allotmentgroup === 'WHEAT') {
+                                this.commodity_data.push({ 'ITName': value.ITDescription, 'ITCode': value.ITCode, 'AGroup': value.Allotmentgroup });
+                            }
+                        })
+                    } else if (this.mappingId === 11) {
+                        res.forEach(value => {
+                            if (value.Allotmentgroup === 'DHALL' || value.Allotmentgroup === 'PALMOIL') {
+                                this.commodity_data.push({ 'ITName': value.ITDescription, 'ITCode': value.ITCode, 'AGroup': value.Allotmentgroup });
+                            }
+                        })
+                    } else {
+                        res.forEach(value => {
+                            this.commodity_data.push({ 'ITName': value.ITDescription, 'ITCode': value.ITCode, 'AGroup': value.Allotmentgroup });
+                        })
+                    }
+                }
+            });
+        return this.commodity_data;
     }
     ///End
 
