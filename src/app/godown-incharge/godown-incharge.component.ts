@@ -26,6 +26,9 @@ export class GodownInchargeComponent implements OnInit {
   loading: boolean;
   GCode: string;
   RCode: string;
+  roleId: any;
+  ApprovalID: any;
+  blockScreen: boolean;
 
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
@@ -41,53 +44,102 @@ export class GodownInchargeComponent implements OnInit {
     this.RCode = this.authService.getUserAccessible().rCode;
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.FromDate = this.ToDate = this.maxDate;
-    this.stockReceiptCols = this.tableConstants.StockReceiptDocumentViewCols.slice(0);
+    this.stockReceiptCols = this.tableConstants.DailyDocumentReceiptReport.slice(0);
+    this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
   }
 
   onClose() {
     this.messageService.clear('t-err');
   }
-  
+
   onView() {
     this.messageService.clear();
-    this.stockReceiptCols.forEach((x, index) => {
-      if(x.field === 'TNCSName') {
-        this.stockReceiptCols.splice(index, 1);
-      }
-    })
-    const params = new HttpParams().set('FDate', this.datepipe.transform(this.FromDate, 'MM/dd/yyyy'))
-    .append('GCode', this.GCode).append('TDate', this.datepipe.transform(this.ToDate, 'MM/dd/yyyy'));
-    this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        let sno = 1;
-        res.forEach(data => {
-          data.sno = sno;
-          data.SRDate = this.datepipe.transform(data.SRDate, 'dd-MM-yyyy');
-          sno += 1;
-        });
+    const params = {
+      'GodownCode': this.GCode,
+      'RegionCode': this.RCode,
+      'RoleId': this.roleId,
+      'FromDate': this.datepipe.transform(this.FromDate, 'MM/dd/yyyy'),
+      'ToDate': this.datepipe.transform(this.ToDate, 'MM/dd/yyyy'),
+      'ITCode': 'All',
+      'Type': 1
+    };
+    this.loading = true;
+    this.restAPIService.post(PathConstants.DAILY_DOCUMENT_RECEIPT_POST, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
         this.stockReceiptData = res;
+        this.loading = false;
+        let sno = 1;
+        this.stockReceiptData.forEach(x => {
+          x.SlNo = sno;
+          sno += 1;
+          x.SRDate = this.datepipe.transform(new Date(x.DocDate), 'MM/dd/yyyy');
+        })
       } else {
-        this.stockReceiptData = [];
+        this.loading = false;
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING,
+          detail: StatusMessage.NoRecForCombination
         });
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {
-        this.stockReceiptData = [];
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
+  onSelectedRow(data, index, type) {
+    this.messageService.clear();
+    this.blockScreen = true;
+    const params = {
+      'DocNo': data.DocNo,
+      'DocDate': data.SRDate,
+      'GCode': this.GCode,
+      'RCode': this.RCode,
+      'IssuerName': data.ReceivedFrom,
+      'Flag': (type === 'A') ? 1 : 0,
+      'ApprovalID': (this.ApprovalID !== null && this.ApprovalID !== undefined) ? this.ApprovalID : 0
+    }
+    this.restAPIService.post(PathConstants.GODOWN_APPROVAL_POST, params).subscribe(res => {
+      if (res.Item1) {
+        this.blockScreen = false;
+        var msg = data.DocNo + ((type === 'A') ? '  Document is Approved successfully!' : '  Document is Rejected successfully!');
+        var summary = (type === 'A') ? StatusMessage.SUMMARY_APPROVED : StatusMessage.SUMMARY_REJECTED;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: summary, detail: msg
+        });
+        } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
           summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
         });
       }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+        });
+      }
     });
-  }
-
-  onSelectedRow(data, index) {
-    
   }
 
   onDateSelect(date) {
@@ -106,14 +158,13 @@ export class GodownInchargeComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_INVALID, life:5000, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_INVALID, life: 5000, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.FromDate = this.ToDate = '';
       }
       return this.FromDate, this.ToDate;
     }
   }
-
-
-
 }

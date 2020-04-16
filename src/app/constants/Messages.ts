@@ -5,6 +5,8 @@ export class StatusMessage {
     public static readonly SUMMARY_SUCCESS = 'Success Message';
     public static readonly SUMMARY_WARNING = 'Warning Message';
     public static readonly SUMMARY_ALERT = 'Alert Message!';
+    public static readonly SUMMARY_APPROVED = 'Approved!';
+    public static readonly SUMMARY_REJECTED = 'Rejected!';
     public static readonly SUMMARY_REQUIRED = 'Data Required';
     public static readonly SUMMARY_ERROR = 'Error Message';
     public static readonly SUMMARY_INVALID = 'Invalid Date!'
