@@ -115,11 +115,11 @@
               <div class="ui-g-12 ui-md-2 dashboard">
                 <div class="ui-g-12 ui-md-6" style="padding-top: 26px;">
                   <p-radioButton name="Jrtype" value="J" label="Join" for="Jrtype" [(ngModel)]="Jrtype"
-                  (ngModelChange)="onRelieve()"></p-radioButton>
+                    (ngModelChange)="onRelieve()"></p-radioButton>
                 </div>
                 <div class="ui-g-12 ui-md-6" style="padding-top: 26px;">
                   <p-radioButton name="Jrtype" value="R" label="Relieve" for="Jrtype" [(ngModel)]="Jrtype"
-                  (ngModelChange)="onRelieve()">
+                    (ngModelChange)="onRelieve()">
                   </p-radioButton>
                 </div>
               </div>
@@ -128,7 +128,8 @@
                 <div class="ui-g">
                   <label class="ui-g-10 label-fontsize dashboard" for="Jrdate">Join Date</label>
                   <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy"
-                    [maxDate]="maxDate" name="Jrdate" [(ngModel)]="Jrdate" (ngModelChange)="onDateSelect()" [disabled]="(!Join)">
+                    [maxDate]="maxDate" name="Jrdate" [(ngModel)]="Jrdate" (ngModelChange)="onDateSelect()"
+                    [disabled]="(!Join)">
                   </p-calendar>
                 </div>
               </div>
@@ -136,14 +137,23 @@
                 <div class="ui-g">
                   <label class="ui-g-10 label-fontsize dashboard" for="Rdate">Releive Date</label>
                   <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy"
-                    [maxDate]="maxDate" name="Rdate" [(ngModel)]="Rdate" (ngModelChange)="onDateSelect()" [disabled]="(!Relieve)">
+                    [maxDate]="maxDate" name="Rdate" [(ngModel)]="Rdate" (ngModelChange)="onDateSelect()"
+                    [disabled]="(!Relieve)">
                   </p-calendar>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-1"></div>
             </div>
 
-            <div class="ui-g"></div>
+            <!-- <div class="ui-g">
+              <div class="ui-g-12 ui-md-5">
+                <div id="signature-pad" class="m-signature-pad">
+                  <div class="m-signature-pad-body">
+                    <signature-pad [options]="SignaturePadOptions"></signature-pad>
+                  </div>
+                </div>
+              </div>
+            </div> -->
 
             <div class="ui-g">
               <div class="ui-g-12 ui-md-5"></div>

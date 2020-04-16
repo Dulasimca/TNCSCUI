@@ -30,6 +30,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+// import { SignaturePadModule } from 'angular2-signaturepad/signaturepad';
+// import { SignaturePad } from 'signature_pad';
+// import SignaturePad from 'signature_pad';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -336,7 +339,8 @@ import { GodownInchargeComponent } from './godown-incharge/godown-incharge.compo
     ProgressSpinnerModule,
     InputMaskModule,
     FileUploadModule,
-    SlimLoadingBarModule
+    SlimLoadingBarModule,
+    // SignaturePad
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
     DatePipe, RestAPIService, PathConstants, ExcelService, MessageService, RoleBasedService, PrintService],

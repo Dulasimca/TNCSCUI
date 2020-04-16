@@ -1103,6 +1103,7 @@ export class TableConstants {
       { field: 'TELNO', header: 'Telephone No' },
       { field: 'MOBNO', header: 'Mobile No' },
       { field: 'FAXNO', header: 'Fax No' },
+      { field: 'ImageName', header: 'Sign' },
     ];
 
     this.KeroseneSuppliers = [

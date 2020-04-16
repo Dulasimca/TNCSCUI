@@ -12,6 +12,7 @@
 @import '../node_modules/select2/dist/css/select2.min.css';
 @import '../node_modules/main/main.min.css';
 @import "../node_modules/ng2-slim-loading-bar/style.css";
+/* @import "../node_modules/angular-signature-pad/styles"; */
 /* @import '../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css'; */
 
 
@@ -1811,3 +1812,31 @@ body {
   background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
   background: linear-gradient(to right, #3F5EFB, #FC466B);
 }
+
+.signature-pad {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 10px;
+  width: 100%;
+  height: 100%;
+  max-width: 900px;
+  max-height: 460px;
+  border: 1px solid #e8e8e8;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;
+  border-radius: 4px;
+  padding: 16px;
+}
+.signature-pad--body {
+   position: relative;
+   -webkit-box-flex: 1;
+   -ms-flex: 1;
+   flex: 1;
+   border: 1px solid #f4f4f4;
+ }
