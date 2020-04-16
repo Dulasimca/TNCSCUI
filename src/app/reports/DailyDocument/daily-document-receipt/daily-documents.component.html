@@ -132,7 +132,8 @@
   </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
     <button pButton type="button" class="ui-g-12 dashboard" label=PDF
-      [disabled]="(ReceiptDocumentDetailData.length=='0')" (click)="exportAsPDF('2')"></button>
+      [disabled]="true" (click)="exportAsPDF('2')" ></button>
+      <!-- (ReceiptDocumentDetailData.length=='0') -->
   </div>
   <div class="ui-g-12 ui-md-12">
     <p-table #dt_detail [columns]="ReceiptDocumentDetailCols" [value]="ReceiptDocumentDetailData" [rows]="20"
