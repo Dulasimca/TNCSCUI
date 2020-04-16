@@ -123,7 +123,7 @@ export class RoleBasedService {
                         })
                     } else if (this.mappingId === 11) {
                         res.forEach(value => {
-                            if (value.Allotmentgroup === 'DHALL' || value.Allotmentgroup === 'PALMOIL') {
+                            if (value.Allotmentgroup.toString().includes('DHALL') || value.Allotmentgroup === 'PALMOIL') {
                                 this.commodity_data.push({ 'ITName': value.ITDescription, 'ITCode': value.ITCode, 'AGroup': value.Allotmentgroup });
                             }
                         })
