@@ -289,7 +289,7 @@ export class GodownProfileComponent implements OnInit {
       if (files.length === 0) {
         return;
       }
-      this.SignName = this.gCode + '_' + 'Incharge_Signature.png';
+      this.SignName = this.gCode + '.png';
       const formData = new FormData();
       for (let file of files) {
         formData.append(this.SignName, file);
@@ -308,7 +308,7 @@ export class GodownProfileComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: 'Signature Saved Successfully!'
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: 'Signature Saved Successfully! Please enter profile details below and SUBMIT'
           });
         }
         // else {
@@ -343,7 +343,7 @@ export class GodownProfileComponent implements OnInit {
       });
     } else {
       const dataURL = this.Sign.toDataURL();
-      const SIGNNAME = this.gCode + '_' + 'Incharge_Signature.png';
+      const SIGNNAME = this.gCode + '.png';
       this.download(dataURL, SIGNNAME);
       // this.SignName = this.gCode + '_' + 'Incharge_Signature.png';
     }
