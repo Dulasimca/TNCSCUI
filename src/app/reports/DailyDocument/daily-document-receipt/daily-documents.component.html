@@ -132,8 +132,7 @@
   </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
     <button pButton type="button" class="ui-g-12 dashboard" label=PDF
-      [disabled]="true" (click)="exportAsPDF('2')" ></button>
-      <!-- (ReceiptDocumentDetailData.length=='0') -->
+      [disabled]="(ReceiptDocumentDetailData.length=='0')" (click)="exportAsPDF('2')" ></button>
   </div>
   <div class="ui-g-12 ui-md-12">
     <p-table #dt_detail [columns]="ReceiptDocumentDetailCols" [value]="ReceiptDocumentDetailData" [rows]="20"
@@ -165,8 +164,9 @@
   [contentStyle]="{'overflow':'scroll'}" [maximizable]="true" [style]="{width: '70vw', height: '75vw'}">
     <div class="no-pad-top">
       <div class="ui-g-4 ui-md-1 ui-fluid no-pad-top" style="float: right;">
-        <button pButton type="button" label=Print [disabled]="(obj==null || obj.length=='0')"
+        <button pButton type="button" label=Print [disabled]="true"
         (click)="onPrint()"></button>
+        <!-- (obj==null || obj.length=='0') -->
       </div>
     </div>
   <div class="ui-g-12 ui-md-12 border-blue card">
