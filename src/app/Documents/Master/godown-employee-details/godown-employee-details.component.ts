@@ -11,7 +11,6 @@ import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { Dropdown } from 'primeng/primeng';
 import { Toast } from 'primeng/toast';
-import { SignaturePadModule } from 'angular2-signaturepad';
 
 @Component({
   selector: 'app-godown-employee-details',
