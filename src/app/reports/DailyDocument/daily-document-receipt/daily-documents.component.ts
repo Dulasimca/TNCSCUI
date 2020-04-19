@@ -256,13 +256,16 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onSelectedRow(data, index, type) {
+    this.obj = {};
     if (data) {
       switch (type) {
         case 'preview':
-          this.loadPreview(data.DocNo);
+          this.onLoadSRDetails(data.DocNo);
+          this.showPreviewPane();
           break;
         case 'pdf':
-          this.downloadPDF(data.DocNo);
+          this.onLoadSRDetails(data.DocNo);
+          this.downloadPDF();
           break;
         case 'unlock':
           this.callUnlockDocUpdate(data.DocNo);
@@ -271,9 +274,7 @@ export class DailyDocumentsComponent implements OnInit {
     }
   }
 
-  loadPreview(num) {
-    this.showPreview = true;
-    this.itemCols = this.tableConstants.StockReceiptItemColumns;
+  onLoadSRDetails(num) {
     const params = new HttpParams().set('sValue', num).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -335,8 +336,6 @@ export class DailyDocumentsComponent implements OnInit {
           sno += 1;
         });
         this.itemData = this.obj.ItemList;
-        console.log('list', this.obj.ItemList);
-        console.log('data', this.itemData);
       } else {
         this.messageService.clear();
         this.messageService.add({
@@ -355,8 +354,13 @@ export class DailyDocumentsComponent implements OnInit {
     });
   }
 
-  downloadPDF(docNo) {
-    this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, { 'SRNo': docNo }).subscribe(res => {
+  showPreviewPane() {
+    this.showPreview = true;
+    this.itemCols = this.tableConstants.StockReceiptItemColumns;
+  }
+
+  downloadPDF() {
+    this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
         const filename = this.GCode + GolbalVariable.DailyReceiptPDFFileName + ".pdf";
@@ -423,7 +427,6 @@ export class DailyDocumentsComponent implements OnInit {
               doc.text(data, 2, 2);
               doc.save(filename + '.pdf');
               window.open(doc.output(filepath), '_blank');
-              // doc.output('dataurlnewwindow');
             } else {
               this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
             }
