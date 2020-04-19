@@ -293,14 +293,14 @@ export class PartyLedgerUpdateComponent implements OnInit {
   }
 
   onSearch(value) {
-    this.CompanyTitle = this.PartyLedgerData;
+    this.IssuerData = this.CompanyTitle;
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.IssuerData = this.CompanyTitle.filter(item => {
-        return item.IssuerName.toString().startsWith(value);
+        return item.IssuerName.toString().toUpperCase().startsWith(value);
       });
     } else {
-      this.CompanyTitle = this.PartyLedgerData;
+      this.IssuerData = this.CompanyTitle;
     }
   }
 

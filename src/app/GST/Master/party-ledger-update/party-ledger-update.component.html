@@ -84,16 +84,6 @@
           <label class="ui-g-10 label-fontsize dashboard" for="IssuerName">Issuer Name</label>
         </div>
       </div>
-      <!-- <div class="ui-g-12 ui-md-3">
-        <p-dropdown #issuer name="IssuerName" class="ui-g-12 ui-fluid dashboard" [options]="issuerOptions"
-          [(ngModel)]="IssuerName" (onClick)="onSelect('issuer','click')" (keyup.tab)="onSelect('issuer', 'tab')"
-          [showClear]="true" filter="true" optionLabel="label" filterMatchMode="startsWith"
-          (keyup.shift.tab)="onSelect('issuer', 'tab')" resetFilterOnHide="true">
-          <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle">{{item.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div> -->
       <div class="ui-g-12 ui-md-4">
         <label class="ui-g-10 label-fontsize dashboard" for="PartyName">Party Name</label>
         <p-dropdown #party name="PartyName" class="ui-g-12 ui-fluid dashboard" [options]="partyOptions"
@@ -104,7 +94,7 @@
             <span style="vertical-align:middle">{{item.label}}</span>
           </ng-template>
         </p-dropdown>
-      </div> 
+      </div>
       <div class="ui-g-12 ui-md-4" style="padding-top: 20px">
         <div class="ui-float-label">
           <input class="icon2" type="text" size="30" pInputText [(ngModel)]="GSTNumber" name="GSTNo" autocomplete="off"
@@ -123,17 +113,6 @@
       <div class="ui-g-12 ui-md-5" style="font-size: 15px; padding-top: 25px">
         Party GST Number {{' - ' + PartyTin}}
       </div>
-
-      <!-- <div class="ui-g-12 ui-md-8"></div>
-      <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
-        <div class="ui-float-label">
-          <input class="icon2" type="text" size="30" pInputText [(ngModel)]="PartyTin" name="PartyTin"
-            autocomplete="off" [readonly]="true" required>
-          <label for="GSTNo">Party GST Number</label>
-        </div>
-      </div>
-      <div class="ui-g-12 ui-md-1"></div> -->
-
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12 ui-md-2 ui-fluid" style="padding-top: 23px">
         <button pButton type="button" (click)="onSubmit()"

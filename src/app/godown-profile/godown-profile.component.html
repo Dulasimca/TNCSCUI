@@ -47,11 +47,17 @@
             </div>
           </div>
         </div>
-        <div class="ui-g-12 ui-md-3"></div>
+        <div class="ui-g-12 ui-md-3">
+          <div class="ui-g-12 ui-md-5"></div>
+          <div class="ui-g-12 ui-md-12 ui-fluid" style="text-align: center;color: red;">
+            <p style="text-align: center;color: yellow;">Note</p>
+            <p>* Image should be in .PNG format</p>
+            <p>* Click 'Submit' to add the credentials</p>
+          </div>
+        </div>
         <div class="ui-g-12 ui-md-1" style="padding-top: 45px;">
-        <input #file type="file" accept=".png, .jpg, .jpeg" multiple (change)="handleFileInput($event.target.files)" />
-          <!-- <p-fileUpload #file mode="basic" type="file" accept=".png, .jpg, .jpeg" multiple
-            (change)="handleFileInput($event.target.files)"></p-fileUpload> -->
+          <input #file type="file" accept=".png, .jpg, .jpeg" multiple
+            (change)="handleFileInput($event.target.files)" />
           <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
             {{progress}}%
           </span>

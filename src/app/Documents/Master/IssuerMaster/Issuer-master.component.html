@@ -34,9 +34,8 @@
                 <input class="ui-g-12 ui-md-12" *ngSwitchCase="'Issuername'" pInputText type="text"
                   [(ngModel)]="searchText" pInputText placeholder="Search by Issuer Name"
                   (ngModelChange)="onSearch($event)">
-                <input class="ui-g-12 ui-md-12" *ngSwitchCase="'ACSCode'" pInputText type="text"
-                  [(ngModel)]="searchAcs" pInputText placeholder="Search by ACSCode"
-                  (ngModelChange)="onIssuer($event)" >
+                <input class="ui-g-12 ui-md-12" *ngSwitchCase="'ACSCode'" pInputText type="text" [(ngModel)]="searchAcs"
+                  pInputText placeholder="Search by ACSCode" (ngModelChange)="onIssuer($event)">
               </th>
             </tr>
           </ng-template>
@@ -72,10 +71,9 @@
         </div>
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Issuer_Type" class="label-fontsize">Issuer Type</label>
-          <p-dropdown #k name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType"
-            optionLabel="label" (onClick)="onSelect('click', 'iss')" (onChange)="onChange()"
-            (keyup.shift.tab)="onSelect('tab', 'iss')" (keyup.tab)="onSelect('tab', 'iss')"
-            filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
+          <p-dropdown #k name="Issuer_Type" [options]="issuerTypeOptions" [(ngModel)]="IssuerType" optionLabel="label"
+            (onClick)="onSelect('click', 'iss')" (onChange)="onChange()" (keyup.shift.tab)="onSelect('tab', 'iss')"
+            (keyup.tab)="onSelect('tab', 'iss')" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
           </p-dropdown>
         </div>
         <!-- <div class="ui-g-2"></div> -->
@@ -85,22 +83,22 @@
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Society_Type" class="label-fontsize">Society Type</label>
           <p-dropdown #society name="Society_Type" [options]="societyOptions" [(ngModel)]="Society" optionLabel="label"
-            (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety"
-            (keyup.shift.tab)="onSelect('tab', 'soc')" (keyup.tab)="onSelect('tab', 'soc')"
-            filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
+            (onClick)="onSelect('click', 'soc')" [disabled]="enableSociety" (keyup.shift.tab)="onSelect('tab', 'soc')"
+            (keyup.tab)="onSelect('tab', 'soc')" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true">
           </p-dropdown>
         </div>
         <div class="ui-g-6 ui-md-4" style="margin-top: -20px">
           <label for="Category_Type" class="label-fontsize">OWS Category</label>
           <p-dropdown #category name="Category_Type" [options]="categoryOptions" [(ngModel)]="CategoryType"
             optionLabel="label" (onClick)="onSelect('click', 'cat')" filter="true" resetFilterOnHide="true"
-            filterMatchMode="startsWith" (keyup.shift.tab)="onSelect('tab', 'cat')" (keyup.tab)="onSelect('tab', 'cat')">
+            filterMatchMode="startsWith" (keyup.shift.tab)="onSelect('tab', 'cat')"
+            (keyup.tab)="onSelect('tab', 'cat')">
           </p-dropdown>
         </div>
         <div class="ui-g-6 ui-md-2">
           <span class="ui-float-label">
-            <input name="Acs_Code" pInputText [(ngModel)]="ACSCode"
-            style="text-transform: uppercase !important" autocomplete="off">
+            <input name="Acs_Code" pInputText [(ngModel)]="ACSCode" style="text-transform: uppercase !important"
+              autocomplete="off" [disabled]="enableACS">
             <label for="Acs_Code" class="float-input">ACSCode</label>
           </span>
         </div>
@@ -141,8 +139,8 @@
         <div class="ui-g-6 ui-md-4">
           <span class="ui-float-label">
             <input name="GST_No" pInputText [(ngModel)]="GSTNumber"
-            oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-            style="text-transform: uppercase !important"  minlength="15" maxlength="15" autocomplete="off">
+              oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+              style="text-transform: uppercase !important" minlength="15" maxlength="15" autocomplete="off">
             <label for="GST_No" class="float-input">GST No.</label>
           </span>
           <span style="font-size: 11px;">No GST number? Type

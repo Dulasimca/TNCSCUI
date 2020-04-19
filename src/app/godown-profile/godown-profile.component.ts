@@ -5,7 +5,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse, HttpRequest, HttpEventType, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpRequest, HttpEventType, HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from '../constants/Messages';
@@ -289,7 +289,7 @@ export class GodownProfileComponent implements OnInit {
       if (files.length === 0) {
         return;
       }
-      this.SignName = this.gCode + '_' + 'Incharge_Signature.png';
+      this.SignName = this.gCode + '.png';
       const formData = new FormData();
       for (let file of files) {
         formData.append(this.SignName, file);
@@ -297,6 +297,7 @@ export class GodownProfileComponent implements OnInit {
       var path = this.restAPIService.BASEURL + '/api/Signature';
       const uploadReq = new HttpRequest("POST", path, formData,
         {
+          headers: new HttpHeaders(this.SignName),
           reportProgress: true,
         });
       this.OnEdit = true;
@@ -308,7 +309,7 @@ export class GodownProfileComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: 'Signature Saved Successfully!'
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: 'Signature Saved Successfully! Please enter profile details below and SUBMIT'
           });
         }
         // else {
@@ -343,7 +344,7 @@ export class GodownProfileComponent implements OnInit {
       });
     } else {
       const dataURL = this.Sign.toDataURL();
-      const SIGNNAME = this.gCode + '_' + 'Incharge_Signature.png';
+      const SIGNNAME = this.gCode + '.png';
       this.download(dataURL, SIGNNAME);
       // this.SignName = this.gCode + '_' + 'Incharge_Signature.png';
     }
