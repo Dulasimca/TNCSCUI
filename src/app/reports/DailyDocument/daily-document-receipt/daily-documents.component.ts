@@ -256,7 +256,6 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onSelectedRow(data, index, type) {
-    this.obj = {};
     if (data) {
       switch (type) {
         case 'preview':
@@ -273,6 +272,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onLoadSRDetails(num, type) {
+    this.obj = {};
     const params = new HttpParams().set('sValue', num).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
