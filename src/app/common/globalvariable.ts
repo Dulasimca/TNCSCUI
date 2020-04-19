@@ -56,6 +56,7 @@ export class GolbalVariable {
     //Daily Reports
     public static readonly StockStatementFileName = 'STOCKSTATEMENT';
     public static readonly StockLedgerFileName = 'STOCKSLEDGERTATEMENT';
+    public static readonly DailyReceiptPDFFileName = 'ACK';
 
     ///Documents
     public static readonly StockReceiptDocument = 'REDOC';

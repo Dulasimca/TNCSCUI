@@ -15,6 +15,7 @@ import * as Rx from 'rxjs';
 import { Dropdown } from 'primeng/primeng';
 import { Table } from 'primeng/table';
 import { GolbalVariable } from 'src/app/common/globalvariable';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-daily-documents',
@@ -254,9 +255,19 @@ export class DailyDocumentsComponent implements OnInit {
     });
   }
 
-  onSelectedRow(data, index) {
+  onSelectedRow(data, index, type) {
     if (data) {
-      this.loadPreview(data.DocNo);
+      switch (type) {
+        case 'preview':
+          this.loadPreview(data.DocNo);
+          break;
+        case 'pdf':
+          this.downloadPDF(data.DocNo);
+          break;
+        case 'unlock':
+          this.callUnlockDocUpdate(data.DocNo);
+          break;
+      }
     }
   }
 
@@ -344,6 +355,51 @@ export class DailyDocumentsComponent implements OnInit {
     });
   }
 
+  downloadPDF(docNo) {
+    this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, { 'SRNo': docNo }).subscribe(res => {
+      if (res.Item1) {
+        const path = "../../assets/Reports/" + this.userid.user + "/";
+        const filename = this.GCode + GolbalVariable.DailyReceiptPDFFileName + ".txt";
+        saveAs(path + filename, filename);
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
+  callUnlockDocUpdate(docNo) {
+    this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, {'DocNumber': docNo, 'Status': 0}).subscribe(res => {
+      if (res.Item1) {
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
   onPrint() {
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, this.obj).subscribe(res => {
       if (res.Item1) {
@@ -351,25 +407,25 @@ export class DailyDocumentsComponent implements OnInit {
         const filename = this.obj.ReceivingCode + GolbalVariable.StockReceiptDocument;
         let filepath = path + filename + ".txt";
         this.http.get(filepath, { responseType: 'text' })
-      .subscribe(data => {
-        if (data !== undefined && data !== null) {
-          var doc = new jsPDF({
-            orientation: 'potrait',
-          })
-          doc.setFont('courier');
-          doc.setFontSize(9);
-          doc.text(data, 2, 2);
-          doc.save(filename + '.pdf');
-          window.open(doc.output(filepath), '_blank');
-          // doc.output('dataurlnewwindow');
-        } else {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0) {
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-        }
-      });
+          .subscribe(data => {
+            if (data !== undefined && data !== null) {
+              var doc = new jsPDF({
+                orientation: 'potrait',
+              })
+              doc.setFont('courier');
+              doc.setFontSize(9);
+              doc.text(data, 2, 2);
+              doc.save(filename + '.pdf');
+              window.open(doc.output(filepath), '_blank');
+              // doc.output('dataurlnewwindow');
+            } else {
+              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+            }
+          }, (err: HttpErrorResponse) => {
+            if (err.status === 0) {
+              this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+            }
+          });
         this.messageService.clear();
         this.messageService.clear();
         this.showPreview = false;
@@ -379,7 +435,7 @@ export class DailyDocumentsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ErrorMessage
         });
       }
     }, (err: HttpErrorResponse) => {

@@ -96,7 +96,9 @@
               <th *ngFor="let col of columns">
                 {{col.header}}
               </th>
-              <th style="width:3.2em" pTooltip="Preview"></th>
+              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">Preview</th>
+              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">PDF</th>
+              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">Unlock</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
@@ -113,8 +115,14 @@
                   {{rowData[col.field]}}
                 </div>
               </td>
-              <td>
-                <button pButton icon="pi pi-eye" (click)="onSelectedRow(rowData, rowIndex)"></button>
+              <td *ngIf="roleId=='1'">
+                <button pButton icon="pi pi-eye" (click)="onSelectedRow(rowData, rowIndex, 'preview')"></button>
+              </td>
+              <td *ngIf="roleId=='1'">
+                <button pButton icon="pi pi-file-pdf" (click)="onSelectedRow(rowData, rowIndex, 'pdf')"></button>
+              </td>
+              <td *ngIf="roleId=='1'">
+                <button pButton icon="pi pi-unlock" (click)="onSelectedRow(rowData, rowIndex, 'unlock')"></button>
               </td>
             </tr>
           </ng-template>
