@@ -390,10 +390,11 @@ export class DailyDocumentsComponent implements OnInit {
     const params = {'DocNumber': docNo, 'Status': 0};
     this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
       if (res.Item1) {
+        var msg = 'Unlocked the document no: ' + docNo + ' successfully';
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: res.Item2
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: msg
         });
         } else {
         this.messageService.clear();
@@ -441,7 +442,6 @@ export class DailyDocumentsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.clear();
         this.showPreview = false;
-        this.obj = {};
         this.itemData = [];
       } else {
         this.messageService.clear();
