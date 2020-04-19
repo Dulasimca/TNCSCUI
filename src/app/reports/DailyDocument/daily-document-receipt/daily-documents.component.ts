@@ -260,12 +260,10 @@ export class DailyDocumentsComponent implements OnInit {
     if (data) {
       switch (type) {
         case 'preview':
-          this.onLoadSRDetails(data.DocNo);
-          this.showPreviewPane();
+          this.onLoadSRDetails(data.DocNo, type);
           break;
         case 'pdf':
-          this.onLoadSRDetails(data.DocNo);
-          this.downloadPDF();
+          this.onLoadSRDetails(data.DocNo, type);
           break;
         case 'unlock':
           this.callUnlockDocUpdate(data.DocNo);
@@ -274,7 +272,7 @@ export class DailyDocumentsComponent implements OnInit {
     }
   }
 
-  onLoadSRDetails(num) {
+  onLoadSRDetails(num, type) {
     const params = new HttpParams().set('sValue', num).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -336,6 +334,11 @@ export class DailyDocumentsComponent implements OnInit {
           sno += 1;
         });
         this.itemData = this.obj.ItemList;
+        if(type === 'preview') {
+          this.showPreviewPane();
+        } else if(type === 'pdf') {
+          this.downloadPDF();
+        }
       } else {
         this.messageService.clear();
         this.messageService.add({
