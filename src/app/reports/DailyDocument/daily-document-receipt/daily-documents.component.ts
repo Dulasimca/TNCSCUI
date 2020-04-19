@@ -372,7 +372,7 @@ export class DailyDocumentsComponent implements OnInit {
     this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
-        const filename = this.GCode + GolbalVariable.DailyReceiptPDFFileName + ".pdf";
+        const filename = this.obj.ReceivingCode + GolbalVariable.DailyReceiptPDFFileName + ".pdf";
         saveAs(path + filename, filename);
         this.blockScreen = false;
       } else {
