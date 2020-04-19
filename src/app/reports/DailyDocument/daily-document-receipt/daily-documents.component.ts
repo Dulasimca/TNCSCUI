@@ -363,6 +363,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   downloadPDF() {
+    console.log('obj', this.obj);
     this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
@@ -389,7 +390,7 @@ export class DailyDocumentsComponent implements OnInit {
   callUnlockDocUpdate(docNo) {
     const params = {'DocNumber': docNo, 'Status': 0};
     this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
-      if (res.Item1) {
+      if (res) {
         var msg = 'Unlocked the document no: ' + docNo + ' successfully';
         this.messageService.clear();
         this.messageService.add({
