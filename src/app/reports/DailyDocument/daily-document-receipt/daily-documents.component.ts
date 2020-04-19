@@ -56,6 +56,7 @@ export class DailyDocumentsComponent implements OnInit {
   obj: any = {};
   itemCols: any;
   itemData: any = [];
+  blockScreen: boolean;
   commodity_data: any;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
@@ -272,6 +273,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onLoadSRDetails(num, type) {
+    this.blockScreen = true;
     this.obj = {};
     const params = new HttpParams().set('sValue', num).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_RECEIPT_VIEW_DOCUMENT, params).subscribe((res: any) => {
@@ -334,12 +336,13 @@ export class DailyDocumentsComponent implements OnInit {
           sno += 1;
         });
         this.itemData = this.obj.ItemList;
-        if(type === 'preview') {
+        if (type === 'preview') {
           this.showPreviewPane();
-        } else if(type === 'pdf') {
+        } else if (type === 'pdf') {
           this.downloadPDF();
         }
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -347,6 +350,7 @@ export class DailyDocumentsComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -360,16 +364,19 @@ export class DailyDocumentsComponent implements OnInit {
   showPreviewPane() {
     this.showPreview = true;
     this.itemCols = this.tableConstants.StockReceiptItemColumns;
+    this.blockScreen = false;
   }
 
   downloadPDF() {
-    console.log('obj', this.obj);
+    this.blockScreen = true;
     this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
         const filename = this.GCode + GolbalVariable.DailyReceiptPDFFileName + ".pdf";
         saveAs(path + filename, filename);
+        this.blockScreen = false;
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -377,6 +384,7 @@ export class DailyDocumentsComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -388,7 +396,8 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   callUnlockDocUpdate(docNo) {
-    const params = {'DocNumber': docNo, 'Status': 0};
+    const params = { 'DocNumber': docNo, 'Status': 0 };
+    this.blockScreen = true;
     this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
       if (res) {
         var msg = 'Unlocked the document no: ' + docNo + ' successfully';
@@ -397,7 +406,9 @@ export class DailyDocumentsComponent implements OnInit {
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: msg
         });
-        } else {
+        this.blockScreen = false;
+      } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -405,6 +416,7 @@ export class DailyDocumentsComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -416,6 +428,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   onPrint() {
+    this.blockScreen = true;
     this.restAPIService.post(PathConstants.STOCK_RECEIPT_DOCUMENT, this.obj).subscribe(res => {
       if (res.Item1) {
         const path = "../../assets/Reports/" + this.userid.user + "/";
@@ -434,17 +447,21 @@ export class DailyDocumentsComponent implements OnInit {
               window.open(doc.output(filepath), '_blank');
             } else {
               this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+              this.blockScreen = false;
             }
           }, (err: HttpErrorResponse) => {
+            this.blockScreen = false;
             if (err.status === 0) {
               this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
             }
           });
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.clear();
         this.showPreview = false;
         this.itemData = [];
       } else {
+        this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -452,6 +469,7 @@ export class DailyDocumentsComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
@@ -468,6 +486,7 @@ export class DailyDocumentsComponent implements OnInit {
     this.DailyDocumentTotalData = [];
     this.ReceiptDocumentDetailData = [];
     this.AllReceiptDocuments = [];
+    this.blockScreen = false;
   }
 
   onDateSelect() {
