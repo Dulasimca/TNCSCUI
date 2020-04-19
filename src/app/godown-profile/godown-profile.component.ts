@@ -5,7 +5,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpParams, HttpErrorResponse, HttpRequest, HttpEventType, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse, HttpRequest, HttpEventType, HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from '../constants/Messages';
@@ -297,6 +297,7 @@ export class GodownProfileComponent implements OnInit {
       var path = this.restAPIService.BASEURL + '/api/Signature';
       const uploadReq = new HttpRequest("POST", path, formData,
         {
+          headers: new HttpHeaders(this.SignName),
           reportProgress: true,
         });
       this.OnEdit = true;

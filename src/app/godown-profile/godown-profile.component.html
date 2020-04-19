@@ -58,8 +58,6 @@
         <div class="ui-g-12 ui-md-1" style="padding-top: 45px;">
           <input #file type="file" accept=".png, .jpg, .jpeg" multiple
             (change)="handleFileInput($event.target.files)" />
-          <!-- <p-fileUpload #file mode="basic" type="file" accept=".png, .jpg, .jpeg" multiple
-            (change)="handleFileInput($event.target.files)"></p-fileUpload> -->
           <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
             {{progress}}%
           </span>
