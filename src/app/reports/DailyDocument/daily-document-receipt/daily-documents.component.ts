@@ -380,9 +380,15 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   callUnlockDocUpdate(docNo) {
-    this.restAPIService.post(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, {'DocNumber': docNo, 'Status': 0}).subscribe(res => {
+    const params = {'DocNumber': docNo, 'Status': 0};
+    this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
       if (res.Item1) {
-      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: res.Item2
+        });
+        } else {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
