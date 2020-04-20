@@ -954,12 +954,15 @@ export class TableConstants {
     ];
 
     this.DailyDocumentReceiptReport = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'DocNo', header: 'Doc No' },
-      { field: 'DocDate', header: 'Doc_Date' },
-      { field: 'Transactiontype', header: 'Transaction Type' },
-      { field: 'ReceivedFrom', header: 'Received From' },
-      { field: 'SRTime', header: 'Created Date' }
+      { header: 'S.No', field: 'SlNo', width: '1.2em' },
+      { field: 'DocNo', header: 'Doc No', width: '4.2em' },
+      { field: 'DocDate', header: 'Doc_Date', width: '4.2em' },
+      { field: 'Transactiontype', header: 'Transaction Type', width: '5.4em' },
+      { field: 'ReceivedFrom', header: 'Received From', width: '6.2em' },
+      { field: 'SRTime', header: 'Created Date', width: '6em' },
+      { field: 'ipreview', header: 'Preview', width: '1.6em' },
+      { field: 'ipdf', header: 'PDF' , width: '1.6em'},
+      { field: 'ilock', header: 'Unlock', width: '1.6em' }
     ];
 
     this.DetailDailyDocumentReceiptReport = [

@@ -92,16 +92,18 @@
       </div>
       <div class="ui-g-12 dashboard" style="text-align: center">
         <p-table #dt [columns]="DailyDocumentReceiptCols" [value]="DailyDocumentReceiptData" [rows]="20"
-          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
           [loading]="loading" exportFilename="DAILY_RECEIPT_REPORT">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+          </ng-template>
           <ng-template pTemplate="header" let-columns>
             <tr style="text-align: center;">
               <th *ngFor="let col of columns">
                 {{col.header}}
               </th>
-              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">Preview</th>
-              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">PDF</th>
-              <th *ngIf="roleId=='1'" style="width:3.2em" pTooltip="Preview">Unlock</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
@@ -114,18 +116,22 @@
                   </span>
                 </div>
                 <div
-                  *ngIf="col.field !== 'GROSSWT' && col.field !== 'NOOfPACKING' && col.field !== 'NETWT' && col.field !== 'Moisture'">
+                  *ngIf="col.field !== 'GROSSWT' && col.field !== 'ilock' && col.field !== 'ipreview' && col.field !== 'ipdf'
+                  && col.field !== 'NOOfPACKING' && col.field !== 'NETWT' && col.field !== 'Moisture'">
                   {{rowData[col.field]}}
                 </div>
-              </td>
-              <td *ngIf="roleId=='1'">
-                <button pButton icon="pi pi-eye" (click)="onSelectedRow(rowData, rowIndex, 'preview')"></button>
-              </td>
-              <td *ngIf="roleId=='1'">
-                <button pButton icon="pi pi-file-pdf" (click)="onSelectedRow(rowData, rowIndex, 'pdf')"></button>
-              </td>
-              <td *ngIf="roleId=='1'">
-                <button pButton icon="pi pi-unlock" (click)="onSelectedRow(rowData, rowIndex, 'unlock')"></button>
+                <div *ngIf="col.field === 'ilock' && roleId=='1'">
+                  <button pButton icon={{rowData[col.field]}} (click)="onSelectedRow(rowData, rowIndex, 'unlock')">
+                  </button>
+                </div>
+                <div *ngIf="col.field === 'ipreview' && roleId=='1'">
+                  <button pButton icon={{rowData[col.field]}} (click)="onSelectedRow(rowData, rowIndex, 'preview')">
+                  </button>
+                </div>
+                <div *ngIf="col.field === 'ipdf' && roleId=='1'">
+                  <button pButton icon={{rowData[col.field]}} (click)="onSelectedRow(rowData, rowIndex, 'pdf')">
+                  </button>
+                </div>
               </td>
             </tr>
           </ng-template>

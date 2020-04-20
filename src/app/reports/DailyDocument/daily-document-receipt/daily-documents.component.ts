@@ -62,6 +62,7 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
+  isLocked: any;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -90,7 +91,14 @@ export class DailyDocumentsComponent implements OnInit {
         label: 'PDF', icon: "fa fa-file-pdf-o", command: () => {
           this.exportAsPDF('1');
         }
-      }]
+      }];
+    if (this.roleId !== 1) {
+      this.DailyDocumentReceiptCols.forEach((x, index) => {
+        if (x.field === 'ilock' || 'ipreview' || 'ipdf') {
+          this.DailyDocumentReceiptCols.splice(index, 1);
+        }
+      })
+    }
   }
 
   onSelect(selectedItem, type) {
@@ -199,16 +207,16 @@ export class DailyDocumentsComponent implements OnInit {
               Transactiontype: g[0].Transactiontype,
               TRUCKDate: g[0].TRUCKDate,
               TruckMemoNo: g[0].TruckMemoNo,
-              SRTime: g[0].SRTime
+              SRTime: g[0].SRTime,
+              Status: g[0].Status
             }
           })
           .toArray() //.toArray because I guess you want to loop on it with ngFor      
           .subscribe(d => groupedData = d);
         this.DailyDocumentReceiptData = groupedData;
         this.noOfDocs = groupedData.length;
-        let sno = 1;
-        this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
-        this.AllReceiptDocuments.forEach(x => { x.SlNo = sno; sno += 1; })
+        this.doIterateList(this.DailyDocumentReceiptData);
+        this.doIterateList(this.AllReceiptDocuments);
         ///End
 
         ///No.Of Document 
@@ -239,6 +247,17 @@ export class DailyDocumentsComponent implements OnInit {
       }
     });
   }
+
+  doIterateList(data) {
+    let sno = 1;
+    data.forEach(x => {
+    x.SlNo = sno;
+    sno += 1;
+    x.ilock = (x.Status) ? 'pi pi-lock' : 'pi pi-lock-open';
+    x.ipreview = 'pi pi-eye';
+    x.ipdf = 'pi pi-file-pdf';
+  })
+}
 
   viewDetailsOfDocument(selectedRow) {
     this.ReceiptDocumentDetailData = [];
@@ -407,6 +426,7 @@ export class DailyDocumentsComponent implements OnInit {
           summary: StatusMessage.SUMMARY_SUCCESS, detail: msg
         });
         this.blockScreen = false;
+        this.onView();
       } else {
         this.blockScreen = false;
         this.messageService.clear();
