@@ -37,7 +37,7 @@
         <div class="ui-g-12 no-pad-top border-teal">
           <div class="ui-g-12">
             <div class="ui-g-1"></div>
-            <div class="ui-g-6 ui-md-3 no-pad-top">
+            <div class="ui-g-6 ui-md-2 no-pad-top">
               <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown Name</label>
               <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="GCode"
                 filterMatchMode="startsWith" (keyup.tab)="onSelect('gd')" (onClick)="onSelect('gd')" filter="true"
@@ -58,11 +58,21 @@
                 </ng-template>
               </p-dropdown>
             </div>
-            <div class="form-group ui-g-6 ui-md-3 no-pad-top">
+            <div class="form-group ui-g-6 ui-md-2 no-pad-top">
               <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
               <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="ICode" (onClick)="onSelect('cd')"
                 (keyup.shift.tab)="onSelect('cd')" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
                 (keyup.tab)="onSelect('cd')" name="CommodityName" [readonly]="nonEditable">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="ui-g-6 ui-md-2 no-pad-top">
+              <label class="ui-g-7 label-fontsize dashboard" for="DepositorType">Depositor Type</label>
+              <p-dropdown #depositor name="DepositorType" [options]="typeOptions" [(ngModel)]="Tycode"
+                filterMatchMode="startsWith" (keyup.tab)="onSelect('ty')" (onClick)="onSelect('ty')" filter="true"
+                (keyup.shift.tab)="onSelect('ty')" resetFilterOnHide="true" [readonly]="nonEditable">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>

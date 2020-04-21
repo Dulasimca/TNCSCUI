@@ -36,6 +36,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   godownOptions: SelectItem[];
   commodityOptions: SelectItem[];
   currYearOptions: SelectItem[];
+  typeOptions: SelectItem[];
   commoditySelection: any[] = [];
   CommodityLabel: any[] = [];
   Weights: any = 0;
@@ -62,6 +63,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   ClosingBalance: any;
   msgOfClosing: string;
   showErrMsg: boolean = false;
+  Tycode: any;
   @ViewChild('f', { static: false }) ngForm: NgForm;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -75,11 +77,19 @@ export class StackCardOpeningEntryComponent implements OnInit {
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.Date = this.maxDate;
+    this.RCode = this.authService.getUserAccessible().rCode;
+    this.GCode = this.authService.getUserAccessible().gCode;
+    this.loadMasters();
+  }
+
+  loadMasters() {
+    ///Stack year
     this.restAPIService.get(PathConstants.STACK_YEAR).subscribe(data => {
       if (data !== null && data !== undefined) {
         this.curYear_data = data;
       }
     });
+    /// commodity
     if (this.commodityOptions === undefined) {
       this.restAPIService.get(PathConstants.ITEM_MASTER).subscribe(data => {
         if (data !== undefined) {
@@ -92,6 +102,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
         }
       })
     }
+    /// curyear
     let currYrSelection = [];
     this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
       res.forEach(s => {
@@ -100,7 +111,20 @@ export class StackCardOpeningEntryComponent implements OnInit {
     });
     this.currYearOptions = currYrSelection;
     this.currYearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
-    this.RCode = this.authService.getUserAccessible().rCode;
+    ///depositor type
+    const params = new HttpParams().set('TRCode', 'All').append('GCode', this.GCode);
+    let typeList = [];
+    this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+        res.forEach(t => {
+          if(t.TYTransaction === 'D') {
+          typeList.push({ 'label': t.Tyname, 'value': t.Tycode });
+          }
+        });
+        this.typeOptions = typeList;
+        this.typeOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+      }
+    });
   }
 
   calculateStackNo() {
@@ -431,7 +455,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
         'Bags': this.Bags,
         'Weights': this.Weights,
         'RegionCode': this.RCode,
-        'clstackdate': new Date()
+        'clstackdate': new Date(),
+        'Tycode': this.Tycode
       };
       this.restAPIService.post(PathConstants.STACK_OPENING_ENTRY_REPORT_POST, params).subscribe(res => {
         if (res.Item1) {
