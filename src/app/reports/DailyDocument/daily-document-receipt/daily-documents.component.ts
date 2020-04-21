@@ -399,7 +399,7 @@ export class DailyDocumentsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ErrorMessage
+          summary: StatusMessage.SUMMARY_WARNING, detail: res.Item2
         });
       }
     }, (err: HttpErrorResponse) => {
