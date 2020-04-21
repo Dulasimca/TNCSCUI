@@ -433,6 +433,7 @@ export class TableConstants {
 
     this.SchemeReceiptReport = [
       { field: 'SlNo', header: 'S.No' },
+      { field: 'Region', header: 'Region' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Ackno', header: 'Ack. No' },
@@ -446,6 +447,7 @@ export class TableConstants {
 
     this.TransactionReceiptReport = [
       { field: 'SlNo', header: 'S.No', width: '20px !important' },
+      { field: 'Region', header: 'Region' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Commodity', header: 'COMMODITY' },
       { field: 'Date', header: 'DATE' },
@@ -455,6 +457,7 @@ export class TableConstants {
 
     this.CommodityIssueMemoReport = [
       { field: 'SlNo', header: 'S.No' },
+      { field: 'Region', header: 'Region' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Issue_Memono', header: 'I.MEMO NO' },
@@ -468,6 +471,7 @@ export class TableConstants {
 
     this.SchemeIssueMemoReport = [
       { field: 'SlNo', header: 'S.No' },
+      { field: 'Region', header: 'Region' },
       { field: 'Godownname', header: 'GODOWN' },
       { field: 'Scheme', header: 'SCHEME' },
       { field: 'Issue_Memono', header: 'I.MEMO NO' },
@@ -480,6 +484,7 @@ export class TableConstants {
 
     this.WriteoffReport = [
       { field: 'SlNo', header: 'S.No', width: '15px' },
+      { field: 'Region', header: 'Region' },
       { field: 'Godownname', header: 'GODOWN', width: '60px' },
       { field: 'Issue_Date', header: 'DATE', width: '35px' },
       { field: 'Issueno', header: 'ISSUE NO', width: '35px' },
@@ -491,6 +496,8 @@ export class TableConstants {
 
     this.HullingDetailsReport = [
       { field: 'SlNo', header: 'S.No', width: '15px' },
+      { field: 'Region', header: 'Region' },
+      { field: 'Godownname', header: 'GODOWN' },
       { field: 'SRNo', header: 'Ack. No', width: '25px' },
       { field: 'SRDate', header: 'Date', width: '35px' },
       { field: 'ITDescription', header: 'Commodity', width: '50px' },
