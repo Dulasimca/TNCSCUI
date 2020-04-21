@@ -399,7 +399,7 @@ export class DailyDocumentsComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ErrorMessage
+          summary: StatusMessage.SUMMARY_WARNING, detail: res.Item2
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -415,7 +415,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   callUnlockDocUpdate(docNo) {
-    const params = { 'DocNumber': docNo, 'Status': 0 };
+    const params = { 'DocNumber': docNo, 'Status': 0,'UserId':this.userid.user };
     this.blockScreen = true;
     this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
       if (res) {
