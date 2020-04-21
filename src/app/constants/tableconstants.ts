@@ -496,11 +496,11 @@ export class TableConstants {
 
     this.HullingDetailsReport = [
       { field: 'SlNo', header: 'S.No', width: '15px' },
-      { field: 'Region', header: 'Region' },
-      { field: 'Godownname', header: 'GODOWN' },
-      { field: 'SRNo', header: 'Ack. No', width: '25px' },
-      { field: 'SRDate', header: 'Date', width: '35px' },
-      { field: 'ITDescription', header: 'Commodity', width: '50px' },
+      { field: 'Region', header: 'Region', width: '60px' },
+      { field: 'Godownname', header: 'GODOWN', width: '60px' },
+      { field: 'SRNo', header: 'Ack. No', width: '42px' },
+      { field: 'SRDate', header: 'Date', width: '42px' },
+      { field: 'ITDescription', header: 'Commodity', width: '60px' },
       { field: 'DepositorName', header: 'Depositor', width: '80px' },
       { field: 'NoPacking', header: 'Bags', width: '25px' },
       { field: 'Nkgs', header: 'Quantity', width: '35px' }
