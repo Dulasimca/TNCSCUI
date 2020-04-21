@@ -415,7 +415,7 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
   callUnlockDocUpdate(docNo) {
-    const params = { 'DocNumber': docNo, 'Status': 0 };
+    const params = { 'DocNumber': docNo, 'Status': 0,'UserId':this.userid.user };
     this.blockScreen = true;
     this.restAPIService.put(PathConstants.DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT, params).subscribe(res => {
       if (res) {
