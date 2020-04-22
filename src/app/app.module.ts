@@ -174,6 +174,7 @@ import { ServiceProviderComponent } from './GST/Reports/service-provider/service
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { StockCommodityComponent } from './reports/stock-commodity/stock-commodity.component';
 import { GodownInchargeComponent } from './godown-incharge/godown-incharge.component';
+import { AuditFileReportComponent } from './reports/audit-file-report/audit-file-report.component';
 
 
 @NgModule({
@@ -304,6 +305,7 @@ import { GodownInchargeComponent } from './godown-incharge/godown-incharge.compo
     AuditReportComponent,
     StockCommodityComponent,
     GodownInchargeComponent,
+    AuditFileReportComponent,
   ],
   imports: [
     BrowserModule,

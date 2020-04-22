@@ -76,6 +76,7 @@ export class PathConstants {
   public static readonly DAILY_DOCUMENT_RECEIPT_POST = '/api/DailyReceipt/Post';
   public static readonly DAILY_RECEIPT_REPORT_PDF_DOWNLOAD = '/api/PDFGeneration/Post';
   public static readonly DAILY_RECEIPT_REPORT_UNLOCK_DOC_PUT = '/api/PDFGeneration/Put';
+  public static readonly DAILY_RECEIPT_REPORT_PDF_DOWNLOAD_GET = '/api/PDFGeneration/Get';
   public static readonly DAILY_DOCUMENT_ISSUE_POST = '/api/DailyIssues/Post';
   public static readonly DAILY_DOCUMENT_TRUCK_POST = '/api/DailyTruckMemo/Post';
   public static readonly STACK_BALANCE = '/api/StackBalance/Post';

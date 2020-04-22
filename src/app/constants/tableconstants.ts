@@ -152,6 +152,8 @@ export class TableConstants {
   GodownDBAllotmentColumns: any;
   GodownDBAllotmentShopColumns: any;
   StockCommodityReport: any;
+  SRDocPDFDownloadDocColumns: any;
+  SRDocPDFDownloadLogColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1889,6 +1891,23 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '20px' },
       { header: 'Society Name', field: 'SocietyName', width: '70px' },
       { header: 'No of Shops', field: 'NoOfShops', width: '55px' },
+      { header: 'No of Shops Advanced Moved', field: 'NoOfShopsAdvanced', width: '55px' },
+      { header: 'No of Shops to be Moved', field: 'NoOfShopsToMoved', width: '55px' },
+    ];
+
+    this.SRDocPDFDownloadDocColumns = [
+      { header: 'S.No', field: 'SlNo', width: '20px' },
+      { header: 'Doc No.', field: 'DocNo', width: '70px' },
+      { header: 'Doc Date', field: 'DocDate', width: '55px' },
+      { header: 'User Name', field: 'UserName', width: '55px' },
+      { header: 'Doc Type', field: 'DocType', width: '55px' },
+      { header: 'Created Date', field: 'CreatedDate', width: '55px' },
+    ];
+
+    this.SRDocPDFDownloadLogColumns = [
+      { header: 'S.No', field: 'SlNo', width: '20px' },
+      { header: 'Doc No.', field: 'DocNo', width: '70px' },
+      { header: 'Doc Date', field: 'DocDate', width: '55px' },
       { header: 'No of Shops Advanced Moved', field: 'NoOfShopsAdvanced', width: '55px' },
       { header: 'No of Shops to be Moved', field: 'NoOfShopsToMoved', width: '55px' },
     ];

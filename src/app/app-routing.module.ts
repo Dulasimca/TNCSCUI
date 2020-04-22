@@ -120,6 +120,7 @@ import { ServiceProviderComponent } from './GST/Reports/service-provider/service
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { StockCommodityComponent } from './reports/stock-commodity/stock-commodity.component';
 import { GodownInchargeComponent } from './godown-incharge/godown-incharge.component';
+import { AuditFileReportComponent } from './reports/audit-file-report/audit-file-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -242,6 +243,7 @@ const routes: Routes = [
   { path: 'InspectionReport', component: AuditReportComponent, canActivate: [AuthGuard] },
   { path: 'StockCommodityReport', component: StockCommodityComponent, canActivate: [AuthGuard] },
   { path: 'GodownInchargeApproval', component: GodownInchargeComponent, canActivate: [AuthGuard] },
+  { path: 'AuditFileReport', component: AuditFileReportComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

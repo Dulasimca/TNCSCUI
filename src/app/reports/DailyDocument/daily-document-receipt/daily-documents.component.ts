@@ -465,6 +465,7 @@ export class DailyDocumentsComponent implements OnInit {
               doc.text(data, 2, 2);
               doc.save(filename + '.pdf');
               window.open(doc.output(filepath), '_blank');
+              this.onView();
             } else {
               this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
               this.blockScreen = false;
