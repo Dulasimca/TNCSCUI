@@ -1896,20 +1896,22 @@ export class TableConstants {
     ];
 
     this.SRDocPDFDownloadDocColumns = [
-      { header: 'S.No', field: 'SlNo', width: '20px' },
-      { header: 'Doc No.', field: 'DocNo', width: '70px' },
-      { header: 'Doc Date', field: 'DocDate', width: '55px' },
-      { header: 'User Name', field: 'UserName', width: '55px' },
-      { header: 'Doc Type', field: 'DocType', width: '55px' },
-      { header: 'Created Date', field: 'CreatedDate', width: '55px' },
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'Region', field: 'RegionName', width: '60px' },
+      { header: 'Godown', field: 'GodownName', width: '65px' },
+      { header: 'Doc No.', field: 'DocNo', width: '55px' },
+      { header: 'Doc Date', field: 'DocDate', width: '35px' },
+      { header: 'Received From', field: 'From_Whom_Received', width: '90px' },
+      { header: 'Created Date', field: 'srtime', width: '60px' },
     ];
 
     this.SRDocPDFDownloadLogColumns = [
-      { header: 'S.No', field: 'SlNo', width: '20px' },
-      { header: 'Doc No.', field: 'DocNo', width: '70px' },
-      { header: 'Doc Date', field: 'DocDate', width: '55px' },
-      { header: 'No of Shops Advanced Moved', field: 'NoOfShopsAdvanced', width: '55px' },
-      { header: 'No of Shops to be Moved', field: 'NoOfShopsToMoved', width: '55px' },
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'Region', field: 'RegionName', width: '60px' },
+      { header: 'Godown', field: 'GodownName', width: '65px' },
+      { header: 'Doc No.', field: 'DocNumber', width: '55px' },
+      { header: 'User Name', field: 'UserName', width: '55px' },
+      { header: 'Created Date', field: 'CreatedDate', width: '55px' },
     ];
   }
 }

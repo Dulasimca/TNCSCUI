@@ -56,7 +56,6 @@ export class AuditFileReportComponent implements OnInit {
     this.data = this.roleBasedService.getInstance();
     this.maxDate = new Date();
     this.username = JSON.parse(this.authService.getCredentials());
-
   }
 
   onSelect(item, type) {
@@ -110,9 +109,9 @@ export class AuditFileReportComponent implements OnInit {
     this.onResetTable('');
     this.checkValidDateSelection();
     this.loading = true;
-    const params = new HttpParams().set('FromDate', this.datePipe.transform(this.FromDate, 'MM-dd-yyyy'))
-    .append('ToDate', this.datePipe.transform(this.ToDate, 'MM-dd-yyyy')).append('GCode', this.GCode)
-    .append('RCode', this.RCode).append('Type', (this.selectedOption === 'D') ? '1' : '2');
+    const params = new HttpParams().set('FromDate', this.datePipe.transform(this.FromDate, 'MM/dd/yyyy'))
+    .append('ToDate', this.datePipe.transform(this.ToDate, 'MM/dd/yyyy')).append('GCode', this.GCode)
+    .append('RCode', this.RCode).append('Type', (this.selectedOption === 'L') ? '1' : '2');
     this.restAPIService.getByParameters(PathConstants.DAILY_RECEIPT_REPORT_PDF_DOWNLOAD_GET, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.SRDocPDFDownloadStatusData = res;
@@ -145,7 +144,8 @@ export class AuditFileReportComponent implements OnInit {
       this.SRDocPDFDownloadStatusCols = this.tableConstants.SRDocPDFDownloadLogColumns;
       this.excelFileName = 'RECEIPT_DOCUMENT_LOG_DETAILS_REPORT';
     }
-    this.onView();
+   // this.onView();
+   this.onResetTable('');
   }
 
   onResetTable(item) {
