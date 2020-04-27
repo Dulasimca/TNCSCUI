@@ -194,6 +194,7 @@ export class QuantityDetailIssueComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.QtyReceiptData = [];
     this.QtyIssueData = [];
+    this.loading = false;
   }
 
   exportExcel(type) {
