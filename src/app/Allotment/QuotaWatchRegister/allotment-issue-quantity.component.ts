@@ -89,7 +89,9 @@ export class AllotmentIssueQuantityComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
-  }
+    this.AllotmentQuantityCols = this.tableConstant.AllotmentIssueQuantity;
+    this.AllotmentQuantityAbtractCols = this.tableConstant.AllotmentIssueQuantityAbstract;
+   }
 
   onSelect(item, type) {
     let regionSelection = [];

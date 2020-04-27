@@ -378,7 +378,8 @@ export class TableConstants {
       { field: 'NoPacking', header: 'No Packing' },
       { field: 'Commodity', header: 'Commodity' },
       { field: 'NetWt', header: 'Net Wt' },
-      { field: 'ACSCode', header: 'ACSCode' }
+      { field: 'ACSCode', header: 'ACSCode' },
+      { field: 'Flag2', header: 'Reg/Adv'}
     ];
 
     this.TruckMemoRegisterReport = [
@@ -1616,6 +1617,7 @@ export class TableConstants {
     this.ProcessToG2GCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'DOC NO.', field: 'DocNumber' },
+      { header: 'Doc Date', field: 'DocDate'},
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Response', field: 'Error' },

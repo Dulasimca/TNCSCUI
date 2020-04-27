@@ -76,7 +76,7 @@
                 <td *ngFor="let col of columns">
                   <div *ngIf="col.field !== 'GName' && col.field !== 'Commodity'">
                     <div style="text-align: end !important">
-                      {{rowData[col.field]}}
+                      {{rowData[col.field] | number: '.3'}}
                     </div>
                   </div>
                   <div *ngIf="col.field === 'GName' || col.field === 'Commodity'">
@@ -126,7 +126,7 @@
                   <td *ngFor="let col of columns">
                     <div *ngIf="col.field !== 'GName' && col.field !== 'Commodity'">
                       <div style="text-align: end !important">
-                        {{rowData[col.field]}}
+                        {{rowData[col.field] | number: '.3'}}
                       </div>
                     </div>
                     <div *ngIf="col.field === 'GName' || col.field === 'Commodity'">

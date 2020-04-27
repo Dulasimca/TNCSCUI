@@ -111,6 +111,7 @@ export class ProcessToG2GComponent implements OnInit {
 
     onResetTable(item) {
         if (item === 'reg') { this.GCode = null; }
+        this.loading = false;
     }
 
     isRowSelected(rowData: any) {

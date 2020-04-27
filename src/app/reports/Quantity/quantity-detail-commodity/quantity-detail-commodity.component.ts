@@ -172,10 +172,6 @@ export class QuantityDetailCommodityComponent implements OnInit {
     });
   }
 
-  // viewIssueDetails() {
-  //   this.showIssueDetails = true;
-  // }
-
   onDateSelect() {
     this.checkValidDateSelection();
     this.onResetTable('');
@@ -227,9 +223,6 @@ export class QuantityDetailCommodityComponent implements OnInit {
         });
       });
       cols = this.tableConstants.FrozenQuantityACReceiptDetailsCommodity + this.tableConstants.QuantityACReceiptDetailsCommodity;
-      //  cols.unshift({ field: 'Commodity', header: 'Commodity'});
-      //  cols.unshift({ field: 'Opening Balance', header: 'OpeningBalance'});
-      //  cols.unshift({ field: 'GName', header: 'Godown Name'});
       this.excelService.exportAsExcelFile(data, 'QTY_AC_RECEIPT_COMMODITY_REPORT', cols);
     } else {
       this.QtyIssueData.forEach(el => {
