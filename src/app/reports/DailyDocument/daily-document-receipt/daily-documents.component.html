@@ -10,7 +10,7 @@
         <div class="ui-g-4 dashboard">Daily Documents Receipt</div>
         <div class="ui-g-8 dashboard" style="text-align: end !important;">
           <input class="search-masters" type="text" [(ngModel)]="searchText" pInputText
-            placeholder="Search by Recevior Name" (ngModelChange)="onSearch($event)">
+            placeholder="Search by Recevior Name" (ngModelChange)="onSearch($event, 'R')">
           <button class="inline-padding" pButton type="button" icon="fa fa-search" class="ui-button-warn"></button>
           <p-splitButton class="inline-padding" label="Export" icon="pi pi-download" [model]="items"
             [disabled]="(DailyDocumentReceiptData.length=='0')" styleClass="ui-button-danger"></p-splitButton>
@@ -142,7 +142,11 @@
 </div>
 <p-dialog class="ui-g-10" header="Daily Document Receipts" [modal]="true" [maximizable]="true" [(visible)]="viewPane"
   [style]="{width: '1000px'}" [responsive]="true" [style]="{width: '90vw', height: '80vw'}">
-  <div class="ui-g-10"></div>
+  <div class="ui-g-8"></div>
+  <div class="ui-g-5 ui-md-2 no-left-pad">
+    <input class="search-masters" type="text" [(ngModel)]="searchTNo" pInputText
+    placeholder="Search by Truck No" (ngModelChange)="onSearch($event, 'T')">
+  </div>
   <div class="ui-g-4 ui-md-1 no-left-pad">
     <button pButton type="button" class="ui-g-12 dashboard" label=Excel
       [disabled]="(ReceiptDocumentDetailData.length=='0')" (click)="dt_detail.exportCSV()"></button>

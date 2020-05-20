@@ -63,6 +63,7 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
   isLocked: any;
+  AllReceiptDetailDocuments: any;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -273,6 +274,7 @@ export class DailyDocumentsComponent implements OnInit {
       s.SlNo = slno;
       slno += 1;
     });
+    this.AllReceiptDetailDocuments = this.ReceiptDocumentDetailData.slice(0);
   }
 
   onSelectedRow(data, index, type) {
@@ -506,6 +508,7 @@ export class DailyDocumentsComponent implements OnInit {
     this.DailyDocumentReceiptData = [];
     this.DailyDocumentTotalData = [];
     this.ReceiptDocumentDetailData = [];
+    this.AllReceiptDetailDocuments = [];
     this.AllReceiptDocuments = [];
     this.blockScreen = false;
   }
@@ -539,7 +542,8 @@ export class DailyDocumentsComponent implements OnInit {
   }
 
 
-  onSearch(value) {
+  onSearch(value, type) {
+    if(type === 'R') {
     this.DailyDocumentReceiptData = this.filterArray;
     if (value !== undefined && value !== '') {
       value = value.toString().toLowerCase();
@@ -551,6 +555,19 @@ export class DailyDocumentsComponent implements OnInit {
     }
     let sno = 1;
     this.DailyDocumentReceiptData.forEach(x => { x.SlNo = sno; sno += 1; })
+  } else {
+   // this.DailyDocumentReceiptData = this.filterArray;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toLowerCase();
+      this.ReceiptDocumentDetailData = this.AllReceiptDetailDocuments.filter(item => {
+        return item.TruckMemoNo.toString().toLowerCase().startsWith(value);
+      });
+    } else {
+      this.ReceiptDocumentDetailData = this.AllReceiptDetailDocuments;
+    }
+    let sno = 1;
+    this.ReceiptDocumentDetailData.forEach(x => { x.SlNo = sno; sno += 1; })
+  }
   }
 
   exportAsPDF(type) {
