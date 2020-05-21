@@ -1913,7 +1913,7 @@ export class TableConstants {
       { header: 'Godown', field: 'GodownName', width: '65px' },
       { header: 'Doc No.', field: 'DocNumber', width: '55px' },
       { header: 'User Name', field: 'UserName', width: '55px' },
-      { header: 'Created Date', field: 'CreatedDate', width: '55px' },
+      { header: 'Downloaded Date', field: 'CreatedDate', width: '55px' },
     ];
   }
 }
