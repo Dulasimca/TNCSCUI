@@ -64,6 +64,7 @@ export class DailyDocumentsComponent implements OnInit {
   @ViewChild('dt', { static: false }) table: Table;
   isLocked: any;
   AllReceiptDetailDocuments: any;
+  searchTNo: any;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,

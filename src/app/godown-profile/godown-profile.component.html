@@ -38,65 +38,6 @@
         </p-fieldset>
       </div>
 
-      <div class="ui-g-12">
-        <div class="ui-g-12 ui-md-3">
-          <h1 style="color: Green;">Current Incharge Signature</h1>
-          <div class="signature-pad">
-            <div class="signature-pad--body">
-              <img class="ui-g-12" src='{{imgPost}}' style="height: 150px; width: auto;border: 1px solid green;" />
-            </div>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <div class="ui-g-12 ui-md-5"></div>
-          <div class="ui-g-12 ui-md-12 ui-fluid" style="text-align: center;color: red;">
-            <p style="text-align: center;color: yellow;">Note</p>
-            <p>* Image should be in .PNG format</p>
-            <p>* Click 'Submit' to add the credentials</p>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-1" style="padding-top: 45px;">
-          <input #file type="file" accept=".png, .jpg, .jpeg" multiple
-            (change)="handleFileInput($event.target.files)" />
-          <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
-            {{progress}}%
-          </span>
-          <span style="font-weight:bold;color:green;" *ngIf="message">
-            {{message}}
-          </span>
-          <div class="ui-g-12 ui-md-1"></div>
-          <div class="ui-g-12 ui-md-12 ui-fluid">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="upload(file.files)"
-              label="Add Sign" [disabled]=(!AddSign)></button>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-1" style="padding-top: 50px; text-align:center">(OR)</div>
-        <div class="ui-g-12 ui-md-4">
-          <h1 style="color: Green;">Incharge Signature Pad</h1>
-          <div class="signature-pad">
-            <div class="signature-pad--body">
-              <canvas class="ui-g-12" #sPad width="700" height="250"
-                style="touch-action: none; border: 1px solid darkgrey;"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui-g-12 dashboard">
-        <div class="ui-g-9"></div>
-        <div class="ui-g-12 ui-md-2">
-          <div class="ui-g-12 ui-md-6 ui-fluid">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="savePNG()"
-              label="Download" [disabled]=(!Sign)></button>
-          </div>
-          <div class="ui-g-12 ui-md-6 ui-fluid">
-            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="OnSignPad()"
-              label="Clear"></button>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-2"></div>
-      </div>
-
       <div *ngIf="OnEdit" class="ui-g-12" style="border: 8px solid lightgray;">
         <div>
           <div class="ui-g">
@@ -182,7 +123,7 @@
               </div>
             </div>
             <div class="ui-g-12 ui-md-5"></div>
-            <div class="ui-g-6 ui-md-1 ui-fluid">
+            <!-- <div class="ui-g-6 ui-md-1 ui-fluid">
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
                 label=Submit tabindex="9"
                 [disabled]="(!Gname || !Designation || !address1 || !address2 || !email || !telno || !phone || !fax)"></button>
@@ -190,11 +131,86 @@
             <div class="ui-g-6 ui-md-1 ui-fluid">
               <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onClear()"
                 label=Clear tabindex="9"></button>
-            </div>
+            </div> -->
             <div class="ui-g-12 ui-md-5"></div>
           </form>
         </div>
       </div>
+
+      <div *ngIf="OnEdit" class="ui-g-12">
+        <!-- <div class="ui-g-12 ui-md-3">
+          <h1 style="color: Green;">Current Incharge Signature</h1>
+          <div class="signature-pad">
+            <div class="signature-pad--body">
+              <img class="ui-g-12" src='{{imgPost}}' style="height: 150px; width: auto;border: 1px solid green;" />
+            </div>
+          </div>
+        </div> -->
+        <div class="ui-g-12 ui-md-3">
+          <div class="ui-g-12 ui-md-5"></div>
+          <div class="ui-g-12 ui-md-12 ui-fluid" style="text-align: center;color: red;">
+            <p style="text-align: center;color: yellow;">Note</p>
+            <p>* Image should be in .PNG format</p>
+            <p>* Click 'Submit' to add the credentials</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1" style="padding-top: 45px;">
+          <input #file type="file" accept=".png, .jpg, .jpeg" multiple
+            (change)="handleFileInput($event.target.files)" />
+          <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+            {{progress}}%
+          </span>
+          <span style="font-weight:bold;color:green;" *ngIf="message">
+            {{message}}
+          </span>
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-12 ui-md-12 ui-fluid">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="upload(file.files)"
+              label="Add Sign" [disabled]=(!AddSign)></button>
+          </div>
+        </div>
+
+        <!-- <div class="ui-g-12 ui-md-1" style="padding-top: 50px; text-align:center">(OR)</div>
+        <div class="ui-g-12 ui-md-4">
+          <h1 style="color: Green;">Incharge Signature Pad</h1>
+          <div class="signature-pad">
+            <div class="signature-pad--body">
+              <canvas class="ui-g-12" #sPad width="700" height="250"
+                style="touch-action: none; border: 1px solid darkgrey;"></canvas>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- <div class="ui-g-12 dashboard">
+          <div class="ui-g-9"></div>
+          <div class="ui-g-12 ui-md-2">
+            <div class="ui-g-12 ui-md-6 ui-fluid">
+              <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="savePNG()"
+                label="Download" [disabled]=(!Sign)></button>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-fluid">
+              <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="OnSignPad()"
+                label="Clear"></button>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-2"></div>
+        </div> -->
+
+        <div style="padding-top: 55px;">
+          <div class="ui-g-12 ui-md-1"></div>
+          <div class="ui-g-6 ui-md-1 ui-fluid">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onSubmit(formUser)"
+              label=Submit tabindex="9"
+              [disabled]="(!Gname || !Designation || !address1 || !address2 || !email || !telno || !phone || !fax)"></button>
+          </div>
+          <div class="ui-g-6 ui-md-1 ui-fluid">
+            <button class="btn" style="padding: 4px 10px 4px 10px" pButton type="button" (click)="onClear()" label=Clear
+              tabindex="9"></button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </p-panel>
 </div>
