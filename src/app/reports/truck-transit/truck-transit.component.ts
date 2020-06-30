@@ -134,7 +134,15 @@ export class TruckTransitComponent implements OnInit {
         this.loading = false;
         if (this.TruckTransitData !== null && this.TruckTransitData.length !== 0) {
           let sno = 0;
+          let AckCode;
           this.TruckTransitData.forEach(data => {
+            if (data.ReceivingCode !== null) {
+              this.data.forEach(res => {
+                if (res.GCode === data.ReceivingCode) {
+                  data.AckCode = res.GName;
+                }
+              });
+            }
             data.STDate = this.datePipe.transform(data.STDate, 'dd-MM-yyyy');
             data.SRDate = this.datePipe.transform(data.SRDate, 'dd-MM-yyyy');
             data.Nkgs = (data.Nkgs * 1).toFixed(3);
@@ -142,6 +150,18 @@ export class TruckTransitComponent implements OnInit {
             sno += 1;
             data.SlNo = sno;
           });
+          // this.TruckTransitData.forEach(value => {
+          //   if (value.ReceivingCode !== null) {
+          //     this.data.forEach(res => {
+          //       if (res.GCode === value.ReceivingCode) {
+          //         value.AckCode = res.GName;
+          //       }
+          //     });
+          //   }
+          // });
+          //   this.data.forEach(gm => {
+          //     (gm.GCode === data.ReceivingCode) ? AckCode = gm.GName : AckCode;
+          // });
         } else {
           this.loading = false;
           this.messageService.clear();

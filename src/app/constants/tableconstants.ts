@@ -581,6 +581,8 @@ export class TableConstants {
       { field: 'NoPacking', header: 'Bags' },
       { field: 'Nkgs', header: 'Quantity' },
       { field: 'ACKNO', header: 'AckNo' },
+      // { field: 'ReceivingCode', header: 'AckGod' },
+      { field: 'AckCode', header: 'AckGodown' },
       { field: 'STDate', header: 'Receiver Date' },
       { field: 'DepositorName', header: 'Receiver Godown' },
       { field: 'ITDescription', header: 'Receiver Commodity' },
