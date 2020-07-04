@@ -9,8 +9,6 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
-import { Toast } from 'primeng/toast';
-import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -130,8 +128,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
   calculateStackNo() {
     if (this.Location !== undefined && this.Location !== null && this.Formation !== undefined && this.Formation !== null) {
       let formationNo: any = this.Formation.trim();
-      this.showErrMsg = (formationNo.length < 3) ? true : false;
-      this.StackNo = this.Location.toString().toUpperCase() + "/" + this.Formation;
+      formationNo = (formationNo !== '') ? (formationNo * 1) : null;
+      this.showErrMsg = (formationNo !== undefined && formationNo !== null) ? ((formationNo.length < 3) ? true : false) : false;
+      this.StackNo = this.Location.toString().toUpperCase() + "/" + ((formationNo !== undefined && formationNo !== null) ?
+        ((formationNo.toString().length === 1) ? ('00' + formationNo) : ((formationNo.toString().length === 2) ? ('0' + formationNo)
+        : formationNo)) : '');
       this.StackNo = this.StackNo.replace("//", "/");
       if (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
         this.stackOpeningData.forEach(x => {
