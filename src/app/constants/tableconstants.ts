@@ -154,6 +154,7 @@ export class TableConstants {
   StockCommodityReport: any;
   SRDocPDFDownloadDocColumns: any;
   SRDocPDFDownloadLogColumns: any;
+  LorryReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -379,7 +380,7 @@ export class TableConstants {
       { field: 'Commodity', header: 'Commodity' },
       { field: 'NetWt', header: 'Net Wt' },
       { field: 'ACSCode', header: 'ACSCode' },
-      { field: 'Flag2', header: 'Reg/Adv'}
+      { field: 'Flag2', header: 'Reg/Adv' }
     ];
 
     this.TruckMemoRegisterReport = [
@@ -973,7 +974,7 @@ export class TableConstants {
       { field: 'ReceivedFrom', header: 'Received From', width: '6.2em' },
       { field: 'SRTime', header: 'Created Date', width: '6em' },
       { field: 'ipreview', header: 'Preview', width: '1.6em' },
-      { field: 'ipdf', header: 'PDF' , width: '1.6em'},
+      { field: 'ipdf', header: 'PDF', width: '1.6em' },
       { field: 'ilock', header: 'Unlock', width: '1.6em' }
     ];
 
@@ -1619,7 +1620,7 @@ export class TableConstants {
     this.ProcessToG2GCols = [
       { header: 'S.No', field: 'SlNo' },
       { header: 'DOC NO.', field: 'DocNumber' },
-      { header: 'Doc Date', field: 'DocDate'},
+      { header: 'Doc Date', field: 'DocDate' },
       { header: 'Start Date', field: 'GToGStartDate' },
       { header: 'End Date', field: 'GToGEndDate' },
       { header: 'Response', field: 'Error' },
@@ -1916,6 +1917,17 @@ export class TableConstants {
       { header: 'Doc No.', field: 'DocNumber', width: '55px' },
       { header: 'User Name', field: 'UserName', width: '55px' },
       { header: 'Downloaded Date', field: 'CreatedDate', width: '55px' },
+    ];
+
+    this.LorryReport = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Doc No', field: 'Doc.No' },
+      { header: 'Lorry No', field: 'LorryNo' },
+      { header: 'Doc Date', field: 'DocDt' },
+      { header: 'Doc Time', field: 'Dt.Time' },
+      { header: 'Region', field: 'Region' },
+      { header: 'Issued To', field: 'Issued to' },
+      { header: 'Issue Type', field: 'IssType' },
     ];
   }
 }

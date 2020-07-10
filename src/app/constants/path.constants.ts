@@ -116,6 +116,7 @@ export class PathConstants {
   public static readonly QUANTITY_OTHERS_POST = '/api/QuantityOthersReceiptAndIssue/Post';
   public static readonly SECTION_DAILY_STATEMENT_POST = '/api/DailyStatement/Post';
   public static readonly WAGES_LOADING_POST = '/api/WagesLoading/Post';
+  public static readonly LORRY_DETAIL_GET = '/api/LorryDetail/Get';
 
   ///Documents
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';
