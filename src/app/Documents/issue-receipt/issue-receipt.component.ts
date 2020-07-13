@@ -953,7 +953,8 @@ export class IssueReceiptComponent implements OnInit {
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
     this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
-    this.IRelates = this.year + '/' + this.curMonth
+    this.IRelates = this.year + '/' + this.curMonth;
+    const docType = (this.isViewed ? '2' : '1') ;
     const params = {
       'Type': type,
       'SINo': this.SINo,
@@ -990,7 +991,8 @@ export class IssueReceiptComponent implements OnInit {
       'IssuerCode': (this.IssCode !== undefined && this.IssCode !== null) ? this.IssCode : '-',
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
-      'IssueMemo ': 'F'
+      'IssueMemo ': 'F',
+      'DocType': docType
     };
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
