@@ -11,6 +11,7 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GolbalVariable } from 'src/app/common/globalvariable';
 import { saveAs } from 'file-saver';
+import { time } from 'highcharts';
 
 
 @Component({
@@ -24,14 +25,9 @@ export class LorryMasterComponent implements OnInit {
   response: any;
   fromDate: any = new Date();
   toDate: any = new Date();
-  godownOptions: SelectItem[];
-  regionOptions: SelectItem[];
-  typeOptions: SelectItem[];
   transferOptions: SelectItem[];
   transferOption = [];
-  GCode: any;
   TrCode: any;
-  RCode: any;
   regions: any;
   roleId: any;
   data: any;
@@ -43,9 +39,6 @@ export class LorryMasterComponent implements OnInit {
   totalRecords: number;
   username: any;
   LNo: any;
-  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
-  @ViewChild('region', { static: false }) regionPanel: Dropdown;
-  @ViewChild('type', { static: false }) documentPanel: Dropdown;
   @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
 
 
@@ -71,48 +64,6 @@ export class LorryMasterComponent implements OnInit {
     let DocumentSelection = [];
     let transactionSelection = [];
     switch (item) {
-      case 'reg':
-        this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 1) {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ label: x.RName, value: x.RCode });
-            });
-            this.regionOptions = regionSelection;
-            this.regionOptions.unshift({ label: 'All', value: 'All' });
-          }
-        } else {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ label: x.RName, value: x.RCode });
-              }
-            });
-            this.regionOptions = regionSelection;
-          }
-        }
-        break;
-      case 'gd':
-        if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
-        }
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-            }
-          });
-          this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
-        } else {
-          this.godownOptions = godownSelection;
-        }
-        break;
       case 'transaction':
         if (type === 'enter') {
           this.transactionPanel.overlayVisible = true;
@@ -124,59 +75,6 @@ export class LorryMasterComponent implements OnInit {
     }
   }
 
-  onView() {
-    this.onResetTable('');
-    this.checkValidDateSelection();
-    this.loading = true;
-    const params = {
-      'LorryNo': this.LNo,
-      'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'DType': this.TrCode.value,
-    };
-    this.restAPIService.getByParameters(PathConstants.LORRY_DETAIL_GET, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-        this.loading = false;
-        if (this.LorryReportData !== null && this.LorryReportData.length !== 0) {
-          let sno = 0;
-          this.LorryReportData.forEach(data => {
-            data.DocDt = this.datePipe.transform(data.DocDt, 'dd-MM-yyyy');
-            data.Dt.Time = this.datePipe.transform(data.Dt.Time, 'MMM d, y, h:mm:ss a');
-            data.LNo = data.LNo.toUpperCase();
-            sno += 1;
-            data.SlNo = sno;
-          });
-        } else {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-          });
-        }
-      } else {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.loading = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    });
-  }
-  onDateSelect() {
-    this.checkValidDateSelection();
-    this.onResetTable('');
-  }
   checkValidDateSelection() {
     if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
       let selectedFromDate = this.fromDate.getDate();
@@ -199,7 +97,62 @@ export class LorryMasterComponent implements OnInit {
     }
   }
 
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+
+  onView() {
+    this.onResetTable('');
+    this.checkValidDateSelection();
+    this.loading = true;
+    const params = {
+      'LorryNo': this.LNo,
+      'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'DType': this.TrCode.value,
+    };
+    this.restAPIService.getByParameters(PathConstants.LORRY_DETAIL_GET, params).subscribe(res => {
+      if (res !== undefined && res.length !== 0 && res !== null) {
+        this.loading = false;
+        this.LorryReportData = res;
+        let sno = 0;
+        this.LorryReportData.forEach(data => {
+          // let dTime = data.Dt.Time;
+          // data.DocDt = this.datePipe.transform(data.DocDt, 'dd-MM-yyyy');
+          // data.Dt.Time = this.datePipe.transform(dTime, 'dd-MM-yyyy, h:mm:ss a');
+          // data.LNo = data.LNo.toUpperCase();
+          sno += 1;
+          data.SlNo = sno;
+        });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
   onResetTable(item) {
+    if (item === 'Ttype') {
+      this.LorryReportData = [];
+    } else if (item === 'LorryN') {
+      if (this.LNo.length <= 8) {
+        this.LorryReportData = [];
+      }
+    }
   }
 
   onClose() {

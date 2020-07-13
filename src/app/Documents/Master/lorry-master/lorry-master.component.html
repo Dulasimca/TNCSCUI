@@ -10,8 +10,6 @@
             [disabled]="(!fromDate || !toDate || !LNo || !TrCode)"></button>
           <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
             [disabled]="(LorryReportData.length=='0')"></button>
-          <!-- <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print (click)="onPrint()"
-            [disabled]="(LorryReportData.length=='0')"></button> -->
         </div>
       </div>
     </p-header>
@@ -22,7 +20,7 @@
         <label class="ui-g-7 label-fontsize dashboard">Document Type</label>
         <p-dropdown class="ui-fluid dashboard" [options]="transferOption" [(ngModel)]="TrCode"
           (keydown.enter)="onSelect('transaction', 'enter')" (onClick)="onSelect('transaction', 'click')"
-          (ngModelChange)="onResetTable('transaction')" filter="true" optionLabel="label" resetFilterOnHide="true"
+          (ngModelChange)="onResetTable('Ttype')" filter="true" optionLabel="label" resetFilterOnHide="true"
           filterMatchMode="startsWith" [showClear]="true" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItems">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -32,8 +30,8 @@
 
       <div class="ui-g-12 ui-md-2" style="padding-top: 19px;">
         <div class="ui-float-label">
-          <input class="icon2" type="text" size="20" pInputText [(ngModel)]="LNo" name="LNo"
-            pTooltip="Enter Lorry Number" autocomplete="off" maxlength="11" required>
+          <input class="icon2" type="text" size="20" pInputText [(ngModel)]="LNo" name="LNo" pTooltip="Enter Lorry Number
+               Eg: TN03X0735" autocomplete="off" (ngModelChange)="onResetTable('LorryN')" maxlength="10" required>
           <label for="LNo">Lorry number</label>
         </div>
       </div>
@@ -63,14 +61,7 @@
           <ng-template pTemplate="body" let-rowData let-columns="columns">
             <tr>
               <td *ngFor="let col of columns">
-                <div *ngIf="col.field === 'NoPacking' || col.field === Nkgs">
-                  <div style="text-align: end !important">
-                    {{rowData[col.field]}}
-                  </div>
-                </div>
-                <div *ngIf="col.field !== 'NoPacking' && col.field !== Nkgs">
-                  {{rowData[col.field]}}
-                </div>
+                {{rowData[col.field]}}
               </td>
             </tr>
           </ng-template>
