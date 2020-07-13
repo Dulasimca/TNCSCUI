@@ -194,6 +194,40 @@ export class IssueReceiptComponent implements OnInit {
         this.categoryTypeCodeList = res;
       }
     });
+    this.generateSINo();
+  }
+
+  generateSINo() {
+    const params = {
+      SIDate: this.datepipe.transform(this.SIDate, 'MM/dd/yyyy'),
+      IssuingCode: this.IssuingCode,
+      DocType: 1
+    }
+    this.blockScreen = true;
+    this.restAPIService.post(PathConstants.STOCK_ISSUE_GENERATE_DOCNO, params).subscribe((res: any) => {
+      if (res !== null && res !== undefined && res.length !== 0) {
+        this.SINo = res[0].GSINO;
+        this.blockScreen = false;
+      } else {
+        this.blockScreen = false;
+        this.SINo = null;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.SINo = null;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
   }
 
   onSelect(selectedItem, type) {
@@ -977,7 +1011,7 @@ export class IssueReceiptComponent implements OnInit {
             life: 5000, detail: res.Item2
           });
 
-          this.onClear();
+          this.onClear('1');
         } else {
           this.isViewed = false;
           this.isSaveSucceed = false;
@@ -1260,7 +1294,7 @@ export class IssueReceiptComponent implements OnInit {
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
       if (res.Table !== undefined && res.Table.length !== 0 && res.Table !== null) {
-        this.onClear();
+        this.onClear('2');
         this.RowId = res.Table[0].RowId;
         this.SINo = res.Table[0].SINo;
         this.SIDate = new Date(res.Table[0].SIDate);
@@ -1391,7 +1425,7 @@ export class IssueReceiptComponent implements OnInit {
     this.month = this.datepipe.transform(new Date(), 'MMM');
   }
 
-  onClear() {
+  onClear(type) {
     this.itemData = []; this.issueData = [];
     this.trCode = null; this.Trcode = null;
     this.rtCode = null; this.RTCode = null;
@@ -1403,7 +1437,7 @@ export class IssueReceiptComponent implements OnInit {
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
-    this.StackBalance = 0; this.NetStackBalance = 0; this.SINo = null;
+    this.StackBalance = 0; this.NetStackBalance = 0; 
     this.godownNo = null; this.locationNo = null; this.stackCompartment = null;
     this.NoPacking = null; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -1439,6 +1473,11 @@ export class IssueReceiptComponent implements OnInit {
     this.form.controls.RemarksText.reset();
     this.form.controls.SocName.reset();
     this.form.controls.IssuerCode.reset();
+    if(type === '1') {
+      this.generateSINo();
+      } else {
+        this.SINo = null;
+      }
   }
 
   openNext() {

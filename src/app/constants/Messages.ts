@@ -14,6 +14,7 @@ export class StatusMessage {
     public static readonly ErrorMessage = 'Please Contact Administrator!';
     public static readonly WarningMessage = 'Please try after sometime!';
     public static readonly NoRecordMessage = 'No Record Found!';
+    public static readonly ErrorGeneratingDocNo = 'Error occurred in generating document number!';
     public static readonly NoRecForCombination = 'No Record for this combination!'
     public static readonly NetworkErrorMessage = 'Please your Network Connectivity!';
     public static readonly ExceedingStackBalance = 'Exceeding the Stack Balance!';

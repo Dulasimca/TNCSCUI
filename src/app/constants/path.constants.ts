@@ -134,6 +134,7 @@ export class PathConstants {
   public static readonly OPENING_BALANCE_MASTER_PUT = '/api/OpeningBalanceMaster/Put';
   public static readonly STOCK_ISSUE_MEMO_DOCUMENTS = '/api/StockIssueMemo/Post';
   public static readonly STOCK_ISSUE_VIEW_DOCUMENTS = '/api/StockIssueMemo/Get';
+  public static readonly STOCK_ISSUE_GENERATE_DOCNO = '/api/GenerateDocumentNo/Post';
   public static readonly STOCK_ISSUE_DUPLICATE_DOCUMENT = '/api/StockIssueMemo/Put';
   public static readonly STACK_OPENING_ENTRY_REPORT_POST = '/api/StackOpeningEntry/Post';
   public static readonly STACK_OPENING_BALANCE_DETAIL_POST = '/api/StackDetails/Post';
