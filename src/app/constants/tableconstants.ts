@@ -488,7 +488,7 @@ export class TableConstants {
 
     this.WriteoffReport = [
       { field: 'SlNo', header: 'S.No', width: '15px' },
-      { field: 'Region', header: 'Region' },
+      { field: 'Region', header: 'Region', width: '60px' },
       { field: 'Godownname', header: 'GODOWN', width: '60px' },
       { field: 'Issue_Date', header: 'DATE', width: '35px' },
       { field: 'Issueno', header: 'ISSUE NO', width: '35px' },
@@ -1920,14 +1920,14 @@ export class TableConstants {
     ];
 
     this.LorryReport = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Doc No', field: 'Doc.No' },
-      { header: 'Lorry No', field: 'LorryNo' },
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'Doc No', field: 'DocNo' },
+      { header: 'Lorry No', field: 'Lorry No' },
       { header: 'Doc Date', field: 'DocDt' },
-      { header: 'Doc Time', field: 'Dt.Time' },
+      { header: 'Doc Time', field: 'DtTime' },
       { header: 'Region', field: 'Region' },
-      { header: 'Issued To', field: 'Issued to' },
       { header: 'Issue Type', field: 'IssType' },
+      { header: 'Issued To', field: 'Issued To' }
     ];
   }
 }
