@@ -161,6 +161,7 @@ export class IssueReceiptComponent implements OnInit {
   @ViewChild('pt', { static: false }) packingPanel: Dropdown;
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
+  docType: string;
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService, private messageService: MessageService,
     private authService: AuthService, private tableConstants: TableConstants, private datepipe: DatePipe) {
@@ -194,6 +195,7 @@ export class IssueReceiptComponent implements OnInit {
         this.categoryTypeCodeList = res;
       }
     });
+    this.docType = '1';
     this.generateSINo();
   }
 
@@ -954,7 +956,6 @@ export class IssueReceiptComponent implements OnInit {
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
     this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
     this.IRelates = this.year + '/' + this.curMonth;
-    const docType = (this.isViewed ? '2' : '1') ;
     const params = {
       'Type': type,
       'SINo': this.SINo,
@@ -992,7 +993,7 @@ export class IssueReceiptComponent implements OnInit {
       'UserID': this.UserID.user,
       'Loadingslip': this.Loadingslip,
       'IssueMemo ': 'F',
-      'DocType': docType
+      'DocType': this.docType
     };
     this.restAPIService.post(PathConstants.STOCK_ISSUE_MEMO_DOCUMENTS, params).subscribe(res => {
       if (res.Item1 !== undefined && res.Item1 !== null && res.Item2 !== undefined && res.Item2 !== null) {
@@ -1292,6 +1293,7 @@ export class IssueReceiptComponent implements OnInit {
     this.viewPane = false;
     this.isSaveSucceed = false;
     this.isViewed = true;
+    this.docType = '2';
     this.itemData = []; this.issueData = [];
     const params = new HttpParams().set('value', this.SINo).append('Type', '2');
     this.restAPIService.getByParameters(PathConstants.STOCK_ISSUE_VIEW_DOCUMENTS, params).subscribe((res: any) => {
@@ -1446,6 +1448,7 @@ export class IssueReceiptComponent implements OnInit {
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.year = new Date().getFullYear();
     this.SIDate = this.maxDate;
+    this.docType = '1';
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.Moisture = null; this.schemeCode = null; this.Scheme = null;
     this.iCode = null; this.ICode = null;
