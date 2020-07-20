@@ -954,7 +954,7 @@ export class IssueReceiptComponent implements OnInit {
     this.blockScreen = true;
     this.RowId = (this.RowId !== undefined && this.RowId !== null) ? this.RowId : 0;
     this.SINo = (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0;
-    this.Loadingslip = (this.SINo !== 0) ? this.Loadingslip : 'N';
+    this.Loadingslip = (this.isViewed) ? this.Loadingslip : 'N';
     this.IRelates = this.year + '/' + this.curMonth;
     const params = {
       'Type': type,
