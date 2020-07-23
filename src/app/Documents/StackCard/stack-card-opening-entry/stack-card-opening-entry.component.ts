@@ -161,7 +161,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
               });
             }
           } else {
-            this.StackNo = this.StackNo;
+            this.cardExits = false;
             this.newEntry = false;
           }
         });
@@ -415,6 +415,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.commodityOptions = undefined;
     this.ICode = null; this.ClosingBalance = null;
     this.showErrMsg = false;
+    this.Tycode = null;
   }
 
   onSave() {
