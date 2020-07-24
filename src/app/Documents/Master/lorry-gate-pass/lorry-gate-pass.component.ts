@@ -6,28 +6,28 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
-import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
+import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { time } from 'highcharts';
-
 
 @Component({
-  selector: 'app-lorry-master',
-  templateUrl: './lorry-master.component.html',
-  styleUrls: ['./lorry-master.component.css']
+  selector: 'app-lorry-gate-pass',
+  templateUrl: './lorry-gate-pass.component.html',
+  styleUrls: ['./lorry-gate-pass.component.css']
 })
-export class LorryMasterComponent implements OnInit {
-  LorryReportCols: any;
-  LorryReportData: any = [];
+export class LorryGatePassComponent implements OnInit {
+  GatePassCols: any;
+  GatePassData: any = [];
   response: any;
   fromDate: any = new Date();
   toDate: any = new Date();
   transferOptions: SelectItem[];
+  godownOptions: SelectItem[];
+  regionOptions: SelectItem[];
   transferOption = [];
   TrCode: any;
+  GCode: any;
+  RCode: any;
   regions: any;
   roleId: any;
   data: any;
@@ -40,6 +40,8 @@ export class LorryMasterComponent implements OnInit {
   username: any;
   LNo: any;
   @ViewChild('transaction', { static: false }) transactionPanel: Dropdown;
+  @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('region', { static: false }) regionPanel: Dropdown;
 
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
@@ -48,7 +50,7 @@ export class LorryMasterComponent implements OnInit {
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
-    this.LorryReportCols = this.tableConstants.LorryReport;
+    this.GatePassCols = this.tableConstants.GatePass;
     this.regions = this.roleBasedService.getRegions();
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
@@ -61,39 +63,58 @@ export class LorryMasterComponent implements OnInit {
   onSelect(item, type) {
     let regionSelection = [];
     let godownSelection = [];
-    let DocumentSelection = [];
-    let transactionSelection = [];
     switch (item) {
-      case 'transaction':
+      case 'reg':
+        this.regions = this.roleBasedService.regionsData;
         if (type === 'enter') {
-          this.transactionPanel.overlayVisible = true;
+          this.regionPanel.overlayVisible = true;
         }
-        if (this.transferOptions === undefined) {
-          transactionSelection.push({ label: 'Receipt', value: 'R' }, { label: 'Issue', value: 'I' }, { label: 'Transfer', value: 'T' });
+        if (this.roleId === 1) {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              regionSelection.push({ label: x.RName, value: x.RCode });
+            });
+            this.regionOptions = regionSelection;
+            this.regionOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          if (this.regions !== undefined) {
+            this.regions.forEach(x => {
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ label: x.RName, value: x.RCode });
+              }
+            });
+            this.regionOptions = regionSelection;
+          }
         }
-        this.transferOption = transactionSelection;
+        break;
+      case 'gd':
+        if (type === 'enter') {
+          this.godownPanel.overlayVisible = true;
+        }
+        if (this.data !== undefined) {
+          this.data.forEach(x => {
+            if (x.RCode === this.RCode) {
+              godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+            }
+          });
+          this.godownOptions = godownSelection;
+          if (this.roleId !== 3) {
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
+        } else {
+          this.godownOptions = godownSelection;
+        }
+        break;
     }
   }
 
   checkValidDateSelection() {
-    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-      let selectedFromDate = this.fromDate.getDate();
+    if (this.toDate !== undefined && this.toDate !== '') {
       let selectedToDate = this.toDate.getDate();
-      let selectedFromMonth = this.fromDate.getMonth();
       let selectedToMonth = this.toDate.getMonth();
-      let selectedFromYear = this.fromDate.getFullYear();
       let selectedToYear = this.toDate.getFullYear();
-      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
-          , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
-        });
-        this.fromDate = this.toDate = '';
-      }
-      return this.fromDate, this.toDate;
+      return this.toDate;
     }
   }
 
@@ -107,21 +128,17 @@ export class LorryMasterComponent implements OnInit {
     this.checkValidDateSelection();
     this.loading = true;
     const params = {
-      'LorryNo': this.LNo,
-      'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
+      'RCode': this.RCode,
+      'GCode': this.GCode,
       'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
-      'DType': this.TrCode.value,
+      'DType': 'G',
     };
     this.restAPIService.post(PathConstants.LORRY_DETAIL_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.loading = false;
-        this.LorryReportData = res;
+        this.GatePassData = res;
         let sno = 0;
-        this.LorryReportData.forEach(data => {
-          // let dTime = data.Dt.Time;
-          // data.DocDt = this.datePipe.transform(data.DocDt, 'dd-MM-yyyy');
-          // data.Dt.Time = this.datePipe.transform(dTime, 'dd-MM-yyyy, h:mm:ss a');
-          // data.LNo = data.LNo.toUpperCase();
+        this.GatePassData.forEach(data => {
           sno += 1;
           data.SlNo = sno;
         });
@@ -146,11 +163,14 @@ export class LorryMasterComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if (item === 'Ttype') {
-      this.LorryReportData = [];
+    if (item === 'reg') {
+      this.GCode = null;
+      this.GatePassData = [];
+    } else if (item === 'Ttype') {
+      this.GatePassData = [];
     } else if (item === 'LorryN') {
       if (this.LNo.length <= 8) {
-        this.LorryReportData = [];
+        this.GatePassData = [];
       }
     }
   }

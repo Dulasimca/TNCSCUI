@@ -122,6 +122,7 @@ import { StockCommodityComponent } from './reports/stock-commodity/stock-commodi
 import { GodownInchargeComponent } from './godown-incharge/godown-incharge.component';
 import { AuditFileReportComponent } from './reports/audit-file-report/audit-file-report.component';
 import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-master.component';
+import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -246,6 +247,7 @@ const routes: Routes = [
   { path: 'GodownInchargeApproval', component: GodownInchargeComponent, canActivate: [AuthGuard] },
   { path: 'AuditFileReport', component: AuditFileReportComponent, canActivate: [AuthGuard] },
   { path: 'LorryReport', component: LorryMasterComponent, canActivate: [AuthGuard] },
+  { path: 'LorryGatePassReport', component: LorryGatePassComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
