@@ -69,7 +69,7 @@ export class LorryMasterComponent implements OnInit {
           this.transactionPanel.overlayVisible = true;
         }
         if (this.transferOptions === undefined) {
-          transactionSelection.push({ label: 'Receipt', value: 'R' }, { label: 'Issue', value: 'I' });
+          transactionSelection.push({ label: 'Receipt', value: 'R' }, { label: 'Issue', value: 'I' }, { label: 'Transfer', value: 'T' });
         }
         this.transferOption = transactionSelection;
     }

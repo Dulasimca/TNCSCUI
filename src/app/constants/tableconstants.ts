@@ -1928,7 +1928,7 @@ export class TableConstants {
       { header: 'Region', field: 'Region' },
       { header: 'Godown', field: 'Received From' },
       { header: 'Issue Type', field: 'IssType' },
-      { header: 'Issued To', field: 'Issued To' }
+      { header: 'Issued To', field: 'Issued to' }
     ];
   }
 }
