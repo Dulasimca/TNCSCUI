@@ -1927,9 +1927,9 @@ export class TableConstants {
       { header: 'Doc Date', field: 'DocDt' },
       { header: 'Doc Time', field: 'DtTime' },
       { header: 'Region', field: 'Region' },
-      { header: 'Godown', field: 'Received From' },
+      { header: 'Godown', field: 'Issued to' },
+      { header: 'Received From', field: 'Received From' },
       { header: 'Issue Type', field: 'IssType' },
-      { header: 'Issued To', field: 'Issued to' }
     ];
 
     this.GatePass = [
