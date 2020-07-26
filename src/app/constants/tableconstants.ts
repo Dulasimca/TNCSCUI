@@ -1937,7 +1937,7 @@ export class TableConstants {
       { header: 'Gate Pass ID', field: 'GatePassId' },
       { header: 'Region', field: 'Region' },
       { header: 'Godown', field: 'Godown' },
-      { header: 'Lorry No', field: 'Lorry No' },
+      { header: 'Lorry No', field: 'LorryNo' },
       { header: 'Society Type', field: 'Society Type' },
       { header: 'Gate Pass Date', field: 'GatepassDatetiem' },
     ];

@@ -31,6 +31,8 @@ export class LorryGatePassComponent implements OnInit {
   regions: any;
   roleId: any;
   data: any;
+  searchText: any;
+  PristineData: any = [];
   transferData: any;
   maxDate: Date;
   canShowMenu: boolean;
@@ -137,6 +139,7 @@ export class LorryGatePassComponent implements OnInit {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.loading = false;
         this.GatePassData = res;
+        this.PristineData = res;
         let sno = 0;
         this.GatePassData.forEach(data => {
           sno += 1;
@@ -166,12 +169,18 @@ export class LorryGatePassComponent implements OnInit {
     if (item === 'reg') {
       this.GCode = null;
       this.GatePassData = [];
-    } else if (item === 'Ttype') {
-      this.GatePassData = [];
-    } else if (item === 'LorryN') {
-      if (this.LNo.length <= 8) {
-        this.GatePassData = [];
-      }
+    }
+  }
+
+  onSearch(value) {
+    this.GatePassData = this.PristineData;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.GatePassData = this.PristineData.filter(item => {
+        return item.LorryNo.toString().toUpperCase().startsWith(value);
+      });
+    } else {
+      this.GatePassData = this.PristineData;
     }
   }
 
