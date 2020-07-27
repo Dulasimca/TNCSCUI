@@ -1927,7 +1927,7 @@ export class TableConstants {
       { header: 'Doc Date', field: 'DocDt' },
       { header: 'Doc Time', field: 'DtTime' },
       { header: 'Region', field: 'Region' },
-      { header: 'Godown', field: 'Issued to' },
+      { header: 'Godown', field: 'Godown' },
       { header: 'Received From', field: 'Received From' },
       { header: 'Issue Type', field: 'IssType' },
     ];
