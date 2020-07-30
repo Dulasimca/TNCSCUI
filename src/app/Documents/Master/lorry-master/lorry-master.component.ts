@@ -34,6 +34,7 @@ export class LorryMasterComponent implements OnInit {
   transferData: any;
   maxDate: Date;
   canShowMenu: boolean;
+  dateView: boolean = false;
   loading: boolean = false;
   loggedInRCode: string;
   totalRecords: number;
@@ -59,9 +60,6 @@ export class LorryMasterComponent implements OnInit {
   }
 
   onSelect(item, type) {
-    let regionSelection = [];
-    let godownSelection = [];
-    let DocumentSelection = [];
     let transactionSelection = [];
     switch (item) {
       case 'transaction':
@@ -105,11 +103,16 @@ export class LorryMasterComponent implements OnInit {
   onView() {
     this.onResetTable('');
     this.checkValidDateSelection();
+    // if (this.LNo === undefined) {
+    //   // let startdate = this.maxDate;
+    //   // this.fromDate.setDate(startdate.getDate() - 7);
+    //   this.fromDate = this.toDate;
+    // }
     this.loading = true;
     const params = {
-      'LorryNo': this.LNo,
+      'LorryNo': this.LNo || 'L',
       'Fdate': this.datePipe.transform(this.fromDate, 'MM-dd-yyyy'),
-      'ToDate': this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
+      'ToDate': (this.LNo === undefined) ? this.datePipe.transform(this.fromDate, 'MM-dd-yyyy') : this.datePipe.transform(this.toDate, 'MM-dd-yyyy'),
       'DType': this.TrCode.value,
     };
     this.restAPIService.post(PathConstants.LORRY_DETAIL_POST, params).subscribe(res => {
@@ -118,10 +121,6 @@ export class LorryMasterComponent implements OnInit {
         this.LorryReportData = res;
         let sno = 0;
         this.LorryReportData.forEach(data => {
-          // let dTime = data.Dt.Time;
-          // data.DocDt = this.datePipe.transform(data.DocDt, 'dd-MM-yyyy');
-          // data.Dt.Time = this.datePipe.transform(dTime, 'dd-MM-yyyy, h:mm:ss a');
-          // data.LNo = data.LNo.toUpperCase();
           sno += 1;
           data.SlNo = sno;
         });
@@ -151,6 +150,9 @@ export class LorryMasterComponent implements OnInit {
     } else if (item === 'LorryN') {
       if (this.LNo.length <= 8) {
         this.LorryReportData = [];
+        this.dateView = false;
+      } else if (this.LNo !== undefined) {
+        this.dateView = true;
       }
     }
   }
