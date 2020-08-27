@@ -1930,6 +1930,8 @@ export class TableConstants {
       { header: 'Godown', field: 'Godown' },
       { header: 'Received From', field: 'Received From' },
       { header: 'Issue Type', field: 'IssType' },
+      { header: 'GPS Installed Region', field: 'LorryRegion' },
+      { header: 'GPS Status', field: 'GPS' },
     ];
 
     this.GatePass = [
