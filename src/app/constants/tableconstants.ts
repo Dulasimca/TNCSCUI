@@ -155,6 +155,7 @@ export class TableConstants {
   SRDocPDFDownloadDocColumns: any;
   SRDocPDFDownloadLogColumns: any;
   LorryReport: any;
+  GatePass: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1926,8 +1927,21 @@ export class TableConstants {
       { header: 'Doc Date', field: 'DocDt' },
       { header: 'Doc Time', field: 'DtTime' },
       { header: 'Region', field: 'Region' },
+      { header: 'Godown', field: 'Godown' },
+      { header: 'Received From', field: 'Received From' },
       { header: 'Issue Type', field: 'IssType' },
-      { header: 'Issued To', field: 'Issued To' }
+      { header: 'GPS Installed Region', field: 'LorryRegion' },
+      { header: 'GPS Status', field: 'GPS' },
+    ];
+
+    this.GatePass = [
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'Gate Pass ID', field: 'GatePassId' },
+      { header: 'Region', field: 'Region' },
+      { header: 'Godown', field: 'Godown' },
+      { header: 'Lorry No', field: 'LorryNo' },
+      { header: 'Society Type', field: 'Society Type' },
+      { header: 'Gate Pass Date', field: 'GatepassDatetiem' },
     ];
   }
 }
