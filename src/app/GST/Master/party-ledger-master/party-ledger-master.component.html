@@ -102,14 +102,14 @@
       <div>
         <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
           <div class="ui-g">
-            <div class="ui-g-12 ui-md-8" style="padding-top: 22px">
+            <div class="ui-g-12 ui-md-10" style="padding-top: 22px">
               <div class="ui-float-label">
                 <input class="icon2" size="30" pInputText [(ngModel)]="Partyname" name="Partyname" autocomplete="off"
                   required>
                 <label for="Partyname">Party Name</label>
               </div>
             </div>
-            <div class="ui-g-12 ui-md-4">
+            <div class="ui-g-12 ui-md-2">
               <label class="ui-g label-fontsize-large" for="Godown">Purpose of Use</label>
               <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions"
                 [(ngModel)]="Godown" (onClick)="onSelect('godown', 'click')"
@@ -120,6 +120,29 @@
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
               </p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-float-label">
+                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Address1" name="Address1"
+                  autocomplete="off" required>
+                <label for="Address1">Address1</label>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <div class="ui-float-label">
+                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Address2" name="Address2"
+                  autocomplete="off" required>
+                <label for="Address2">Address2</label>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <div class="ui-float-label">
+                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Pincode" name="Pincode"
+                  autocomplete="off" required>
+                <label for="Pincode">Pincode</label>
+              </div>
             </div>
           </div>
           <div class="ui-g">

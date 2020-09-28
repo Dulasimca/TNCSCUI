@@ -1433,6 +1433,8 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'StateCode', header: 'State Code' },
       { field: 'PartyName', header: 'Party Name' },
+      { field: 'Address1', header: 'Address1' },
+      { field: 'Address2', header: 'Address2' },
       { field: 'Favour', header: 'Alias / Favour of' },
       { field: 'Pan', header: 'Pan No' },
       { field: 'TIN', header: 'GST No' },
