@@ -29,7 +29,7 @@
                     <div class="ui-g-12 ui-md-2 no-pad-top">
                       <label for="StockIssueDate" class="label-fontsize">Stock Issue Date</label>
                       <p-calendar name="StockIssueDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="SIDate"
-                        [showIcon]="true" (ngModelChange)="resetFields()"></p-calendar>
+                        [showIcon]="true" (ngModelChange)="resetFields();generateSINo()"></p-calendar>
                     </div>
                     <div class="ui-g-12 ui-md-2 ui-fluid" style="margin-top: 13px">
                       <span class="ui-float-label">
