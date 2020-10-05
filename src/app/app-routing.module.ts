@@ -123,6 +123,7 @@ import { GodownInchargeComponent } from './godown-incharge/godown-incharge.compo
 import { AuditFileReportComponent } from './reports/audit-file-report/audit-file-report.component';
 import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-master.component';
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
+import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -172,6 +173,7 @@ const routes: Routes = [
   { path: 'Do SPLPDS Scheme', component: SplpdsComponent },
   { path: 'Do Annapoorna Scheme', component: AnnapoornaComponent },
   { path: 'Do Other Scheme', component: OtherSchemesComponent },
+  { path: 'E-Invoice', component: EInvoiceComponent },
   { path: 'Do Society Abstract', component: SocietyAbstractComponent, canActivate: [AuthGuard] },
   { path: 'Demand Draft', component: DemandDraftComponent, canActivate: [AuthGuard] },
   { path: 'Do Margin Details', component: MarginAmountComponent, canActivate: [AuthGuard] },

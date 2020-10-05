@@ -66,8 +66,8 @@ export class PathConstants {
   public static readonly HULLING_DETAILS_REPORT = '/api/HullingDetails/Get';
   public static readonly TRUCK_TO_REGION_REPORT = '/api/TruckToRegion/Get';
   public static readonly TRUCK_FROM_REGION_REPORT = '/api/TruckFromRegion/Get';
-  public static readonly GUNNY_REPORT = '/api/GUGR/Post'; 
-  public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get'; 
+  public static readonly GUNNY_REPORT = '/api/GUGR/Post';
+  public static readonly TRUCK_TRANSIT = '/api/TruckTransit/Get';
   public static readonly RECEIPT_RONO_PURCHASE_REPORT = '/api/ReceiptRono/Post';
   public static readonly RECEIPT_REGION_PURCHASE_REPORT = '/api/ReceiptRegionPurchase/Post';
   public static readonly RECEIPT_REGION_HO_PURCHASE = '/api/RegionHoPurchase/Post';
@@ -126,7 +126,7 @@ export class PathConstants {
   public static readonly TRANSACTION_STATUS_DETAILS_POST = '/api/TransactionStatusDetails/Post';
   public static readonly TRANSACTION_STATUS_GET = '/api/TransactionStatus/Get';
   public static readonly STOCK_RECEIPT_DOCUMENT = '/api/StockReceipt/Post';
-  public static readonly STOCK_RECEIPT_VIEW_DOCUMENT = '/api/StockReceipt/Get'; 
+  public static readonly STOCK_RECEIPT_VIEW_DOCUMENT = '/api/StockReceipt/Get';
   public static readonly STOCK_RECEIPT_DUPLICATE_DOCUMENT = '/api/StockReceipt/Put';
   public static readonly STOCK_DELIVERY_ORDER_DOCUMENT = '/api/StockDeliveryOrder/Post';
   public static readonly STOCK_DELIVERY_ORDER_VIEW_DOCUMENT = '/api/StockDeliveryOrder/Get';
@@ -169,7 +169,7 @@ export class PathConstants {
   public static readonly RATE_MASTER_GET = '/api/RateMaster/Get';
   public static readonly RATE_MASTER_POST = '/api/RateMaster/Post';
   public static readonly ALLOTMENT_GROUP_ITEM = '/api/AllotmentGroupMaster';
- 
+
   //Account Module
   public static readonly PARTY_LEDGER_ENTRY_GET = '/api/PartyLedger/Get';
   public static readonly PARTY_LEDGER_ENTRY_POST = '/api/PartyLedger/Post';
@@ -182,6 +182,7 @@ export class PathConstants {
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
+  public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
 
 
   //Allotment Module
@@ -219,7 +220,7 @@ export class PathConstants {
 
   ///TrackIP
   public static readonly IMAGE_UPLOAD = '/api/Upload';
-  
+
 
   ///End
 }
