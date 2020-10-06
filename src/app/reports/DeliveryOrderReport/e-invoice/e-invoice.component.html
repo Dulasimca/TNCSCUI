@@ -63,7 +63,7 @@
         <div class="ui-g-12 ui-md-4"></div>
       </div>
       <div class="ui-g-12">
-        <div class="ui-g-12 ui-md-4"></div>
+        <div class="ui-g-12 ui-md-5"></div>
         <div class="ui-g-12 ui-md-1">
           <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"></button>
         </div>
@@ -71,11 +71,11 @@
           <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
             [disabled]="(EInvoiceData.length=='0')"></button>
         </div>
-        <div class="ui-g-12 ui-md-1">
+        <!-- <div class="ui-g-12 ui-md-1">
           <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print (click)="onPrint()"
             [disabled]="(EInvoiceData.length=='0')"></button>
-        </div>
-        <div class="ui-g-12 ui-md-4"></div>
+        </div> -->
+        <div class="ui-g-12 ui-md-5"></div>
       </div>
       <div class="ui-g-12 ui-fluid">
         <p-table #dt [columns]="EInvoiceCols" [value]="EInvoiceData" [rows]="20"

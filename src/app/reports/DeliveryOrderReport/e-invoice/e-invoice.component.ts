@@ -254,6 +254,10 @@ export class EInvoiceComponent implements OnInit {
     saveAs(path + filename, filename);
   }
 
+   public getColor(name: string): string {
+    return (name === 'Grand Total') ? "#53aae5" : "white";
+  }
+  
   onClose() {
     this.messageService.clear('t-err');
   }
