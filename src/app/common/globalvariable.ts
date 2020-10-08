@@ -67,6 +67,9 @@ export class GolbalVariable {
     public static readonly GSTFileName = 'GST';
     public static readonly IssueMemoGatePass = 'GATEPASS';
 
+    ///E-Invoice
+    public static readonly EInvoice = 'GATEPASS';
+
     ///IMAGES
     public static readonly PopupImage = 'Image';
 

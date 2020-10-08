@@ -1,0 +1,109 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-4 dashboard">E - Invoice</div>
+      </div>
+    </p-header>
+    <p-toast position="center" (onClose)="onClose()" key="t-err" [modal]="true"></p-toast>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-2"></div>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Region</label>
+          <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+            (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" [showClear]="true"
+            (ngModelChange)="onResetTable('reg')" filter="true" filterMatchMode="startsWith" resetFilterOnHide="true"
+            optionLabel="label" placeholder="-select-" [disabled]="EnDoNumber">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Godown</label>
+          <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
+            (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')"
+            (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+            filterMatchMode="startsWith" optionLabel="label" placeholder="-select-" [disabled]="EnDoNumber">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">From</label>
+          <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()" [disabled]="EnDoNumber"></p-calendar>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">To</label>
+          <p-calendar [(ngModel)]="toDate" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+            (ngModelChange)="onDateSelect()" [disabled]="EnDoNumber"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-2"></div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-4"></div>
+        <div class="ui-g-12 ui-md-2">
+          <p-checkbox name="DNumber" value="false" [(ngModel)]="checkBox" (ngModelChange)="oncheckbox()"></p-checkbox>
+          <label>Tick to Enter DO Number</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <span class="ui-float-label">
+            <input name="DNumber" type="text" maxlength="12" size="10" [(ngModel)]="DoNumber" pInputText
+              autocomplete="off" (ngModelChange)="oncheckbox()" [disabled]="!DoCheck" binary="showTrue" required>
+            <label for="DNumber" class="float-input">Delivery Order Number</label>
+          </span>
+        </div>
+        <div class="ui-g-12 ui-md-4"></div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-5"></div>
+        <div class="ui-g-12 ui-md-1">
+          <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=View (click)="onView()"></button>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <button class="ui-g-3 dashboard inline-margin" pButton label="Excel" (click)="dt.exportCSV()"
+            [disabled]="(EInvoiceData.length=='0')"></button>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-1">
+          <button class="ui-g-3 dashboard inline-margin" pButton type="button" label=Print (click)="onPrint()"
+            [disabled]="(EInvoiceData.length=='0')"></button>
+        </div> -->
+        <div class="ui-g-12 ui-md-5"></div>
+      </div>
+      <div class="ui-g-12 ui-fluid">
+        <p-table #dt [columns]="EInvoiceCols" [value]="EInvoiceData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" autoLayout="true"
+          [loading]="loading" exportFilename="E_INVOICE">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [ngStyle]="{'background-color': getColor(rowData.Dono)}">
+              <td *ngFor="let col of columns">
+                <div *ngIf="col.field === 'Quantity' || col.field ==='Rate' || col.field === 'Amount'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div *ngIf="col.field !== 'Quantity' && col.field !=='Rate' && col.field !== 'Amount'">
+                  {{rowData[col.field]}}
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-panel>
+</div>

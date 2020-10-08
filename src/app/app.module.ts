@@ -177,6 +177,7 @@ import { GodownInchargeComponent } from './godown-incharge/godown-incharge.compo
 import { AuditFileReportComponent } from './reports/audit-file-report/audit-file-report.component';
 import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-master.component';
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
+import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
 
 
 @NgModule({
@@ -310,6 +311,7 @@ import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry
     AuditFileReportComponent,
     LorryMasterComponent,
     LorryGatePassComponent,
+    EInvoiceComponent,
   ],
   imports: [
     BrowserModule,

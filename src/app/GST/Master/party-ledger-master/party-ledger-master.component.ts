@@ -65,6 +65,9 @@ export class PartyLedgerMasterComponent implements OnInit {
   NewState: any;
   NewPan: any;
   NewTin: any;
+  Address1: any;
+  Address2: any;
+  Pincode: any;
   onDrop: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
@@ -88,6 +91,9 @@ export class PartyLedgerMasterComponent implements OnInit {
       'Bank': new FormControl(''),
       'Branch': new FormControl(''),
       'IFSC': new FormControl(''),
+      'Address1': new FormControl(''),
+      'Address2': new FormControl(''),
+      'Pincode': new FormControl(''),
     });
   }
 
@@ -193,6 +199,9 @@ export class PartyLedgerMasterComponent implements OnInit {
         this.Gst = this.PartyLedgerData[0].GST;
         this.State = this.PartyLedgerData[0].StateCode;
         this.Account = this.PartyLedgerData[0].Account;
+        this.Address1 = this.PartyLedgerData[0].Address1;
+        this.Address2 = this.PartyLedgerData[0].Address2;
+        this.Pincode = this.PartyLedgerData[0].Pincode;
         this.Favour = this.PartyLedgerData[0].Favour;
         this.Bank = this.PartyLedgerData[0].Bank;
         this.Branch = this.PartyLedgerData[0].Branch;
@@ -241,12 +250,12 @@ export class PartyLedgerMasterComponent implements OnInit {
 
   onFormClear() {
     this.Partyname = this.PartyCode = this.Favour = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = undefined;
-    this.Godown = undefined;
+    this.Godown = this.Address1 = this.Address2 = this.Pincode = undefined;
   }
 
   onClear() {
-    this.Pan = this.Favour = this.Gst = this.State = this.Account = this.Bank = this.Branch = this.IFSC = this.PartyCode = undefined;
-    this.isActive = this.LedgerID = this.Partyname = this.Godown = this.TIN = this.NewState = this.NewPan = this.NewGst = undefined;
+    this.Pan = this.Favour = this.Gst = this.State = this.Account = this.Pincode = this.Bank = this.Branch = this.IFSC = this.PartyCode = undefined;
+    this.isActive = this.LedgerID = this.Address1 = this.Address2 = this.Partyname = this.Godown = this.TIN = this.NewState = this.NewPan = this.NewGst = undefined;
     this.onReg = this.onDrop = false;
   }
 
@@ -271,6 +280,9 @@ export class PartyLedgerMasterComponent implements OnInit {
     this.LedgerID = this.selectedRow.LedgerID;
     this.PartyCode = this.selectedRow.PCode;
     this.Flag = this.selectedRow.isActive;
+    this.Address1 = this.selectedRow.Address1;
+    this.Address2 = this.selectedRow.Address2;
+    this.Pincode = this.selectedRow.Pincode;
   }
 
   onSubmit(formUser) {
@@ -286,6 +298,9 @@ export class PartyLedgerMasterComponent implements OnInit {
       'GST': (this.onDrop === true) ? this.NewGst.toUpperCase() : this.Gst.toUpperCase(),
       'Tin': (this.onDrop === true) ? (this.NewState + this.NewPan + this.NewGst).toUpperCase() : (this.State + this.Pan + this.Gst).toUpperCase(),
       'Favour': this.Favour,
+      'Address1': this.Address1,
+      'Address2': this.Address2,
+      'Pincode': this.Pincode,
       'Account': this.Account.toUpperCase(),
       'Bank': this.Bank.toUpperCase(),
       'Branch': this.Branch.toUpperCase(),
