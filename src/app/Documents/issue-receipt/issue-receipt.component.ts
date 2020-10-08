@@ -679,7 +679,7 @@ export class IssueReceiptComponent implements OnInit {
     const stockDate = issue_date.getDate();
     const stockMonth = issue_date.getMonth() + 1; //SIDate month
     const stockYear = issue_date.getFullYear(); //SIDate year
-    if (value !== null && value !== undefined && value.toUpperCase() === 'R') {
+    if (value !== null && value !== undefined && value.togitUpperCase() === 'R') {
       this.curMonth = (stockMonth <= 9) ? '0' + stockMonth : stockMonth;
       this.month = this.datepipe.transform(issue_date, 'MMM');
       this.year = stockYear;
