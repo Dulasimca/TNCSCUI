@@ -162,8 +162,8 @@ export class EInvoiceComponent implements OnInit {
         'DType': 2,
         'GCode': this.GCode.value,
         'RCode': this.RCode.value,
-        'fromdate': this.fromDate,
-        'todate': this.toDate,
+        'fromdate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+        'todate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy')
       };
       this.restAPIService.post(PathConstants.E_INVOICE_POST, params).subscribe(res => {
         if (res !== null && res !== undefined && res.length !== 0) {
@@ -171,7 +171,7 @@ export class EInvoiceComponent implements OnInit {
           this.loading = false;
           let sno = 0;
           this.EInvoiceData.forEach(data => {
-            data.DoDate = this.datepipe.transform(data.DoDate, 'MM/dd/yyyy');
+            data.DoDate = this.datepipe.transform(data.DoDate, 'dd/MM/yyyy');
             sno += 1;
             data.SlNo = sno;
           });
