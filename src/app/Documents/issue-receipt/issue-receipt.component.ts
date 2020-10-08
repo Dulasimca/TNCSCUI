@@ -686,7 +686,7 @@ export class IssueReceiptComponent implements OnInit {
       this.yearOptions = [{ label: this.year, value: this.year }];
       this.disableYear = true;
     } else if (value !== undefined && value.toUpperCase().trim() === 'A') {
-      this.curMonth = (stockMonth !== 12) ? ((stockMonth <= 9) ? '0' + (stockMonth + 1) : (stockMonth + 1)) : '01';
+      this.curMonth = (stockMonth !== 12) ? ((stockMonth < 9) ? '0' + (stockMonth + 1) : (stockMonth + 1)) : '01';
       // let nextMonth = (stockMonth === 12) ? 0 : stockMonth + 1;
       let formDate = this.curMonth + "-" + '01' + "-" + stockYear;
       this.month = this.datepipe.transform(formDate, 'MMM');
