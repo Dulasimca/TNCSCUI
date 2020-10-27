@@ -154,20 +154,21 @@ export class PdsLiftmentReportComponent implements OnInit {
     let cols = [];
       this.PDSLiftmentData.forEach(el => {
         data.push({
-          RName: el.RName, AllotmentRice: el.AllotmentRice, LiftedRice: (el.LiftedRice * 1),
-          BalanceRice: (el.BalanceRice * 1), AvailableRice: (el.AvailableRice * 1), PercentRice: (el.PercentRice * 1),
-          AllotmentSugar: (el.AllotmentSugar * 1), LiftedSugar: (el.LiftedSugar * 1), BalanceSugar: (el.BalanceSugar * 1),
-          AvailableSugar: (el.AvailableSugar * 1), PercentSugar: (el.PercentSugar * 1),
-          AllotmentWheat: (el.AllotmentWheat * 1), LiftedWheat: (el.LiftedWheat * 1), BalanceWheat: (el.BalanceWheat * 1),
-          AvailableWheat: (el.AvailableWheat * 1), PercentWheat: (el.PercentWheat * 1),
-          AllotmentDhall: (el.AllotmentDhall * 1), LiftedDhall: (el.LiftedDhall * 1), BalanceDhall: (el.BalanceDhall * 1),
-          AvailableDhall: (el.AvailableDhall * 1), PercentDhall: (el.PercentDhall * 1),
-          AllotmentOil: (el.AllotmentOil * 1), LiftedOil: (el.LiftedOil * 1), BalanceOil: (el.BalanceOil * 1),
-          AvailableOil: (el.AvailableOil * 1), PercentOil: (el.PercentOil * 1)
+          RName: el.RName, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
+          RiceBalanceToBeLifted: (el.BalanceRice * 1), AvailableRiceInTNCSCGodown: (el.AvailableRice * 1),
+          PercentageOfRiceLiftment: (el.PercentRice * 1), AllotmentSugar: (el.AllotmentSugar * 1),
+          SugarLiftedToShops: (el.LiftedSugar * 1), SugarBalanceToBeLifted: (el.BalanceSugar * 1),
+          AvailableSugarInTNCSCGodown: (el.AvailableSugar * 1), PercentageOfSugarLiftment: (el.PercentSugar * 1),
+          AllotmentWheat: (el.AllotmentWheat * 1), WheatLiftedToShops: (el.LiftedWheat * 1), WheatBalanceToBeLifted: (el.BalanceWheat * 1),
+          AvailableWheatInTNCSCGodown: (el.AvailableWheat * 1), PercentageOfWheatLiftment: (el.PercentWheat * 1),
+          AllotmentDhall: (el.AllotmentDhall * 1), DhallLiftedToShops: (el.LiftedDhall * 1), DhallBalanceToBeLifted: (el.BalanceDhall * 1),
+          AvailableDhallInTNCSCGodown: (el.AvailableDhall * 1), PercentageOfDhallLiftment: (el.PercentDhall * 1),
+          AllotmentOil: (el.AllotmentOil * 1), PalmoilLiftedToShops: (el.LiftedOil * 1), PalmoilBalanceToBeLifted: (el.BalanceOil * 1),
+          AvailablePalmoilInTNCSCGodown: (el.AvailableOil * 1), PercentageOfPalmoilLiftment: (el.PercentOil * 1)
         });
       });
       cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
-      this.excelService.exportAsExcelFile(data, 'QTY_AC_RECEIPT_COMMODITY_REPORT', cols);
+      this.excelService.exportAsExcelFile(data, 'PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS_REPORT', cols);
     }
 
 
