@@ -39,7 +39,7 @@ export class PdsLiftmentReportComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private restAPIService: RestAPIService,
-    private excelService: ExcelService, private messageService: MessageService) { }
+    private messageService: MessageService, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -167,7 +167,7 @@ export class PdsLiftmentReportComponent implements OnInit {
         });
       });
       cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
-      this.excelService.exportAsExcelFile(data, 'PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS', cols);
+      this.excelService.exportAsExcelFile(data, 'QTY_AC_RECEIPT_COMMODITY_REPORT', cols);
     }
 
 
