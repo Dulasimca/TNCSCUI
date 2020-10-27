@@ -8,6 +8,7 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ExcelService } from 'src/app/shared-services/excel.service';
 
 @Component({
   selector: 'app-pds-liftment-report',
@@ -38,7 +39,7 @@ export class PdsLiftmentReportComponent implements OnInit {
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private restAPIService: RestAPIService,
-    private messageService: MessageService) { }
+    private excelService: ExcelService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -147,6 +148,27 @@ export class PdsLiftmentReportComponent implements OnInit {
     this.PDSLiftmentData = [];
     this.loading = false;
   }
+
+  exportExcel() {
+    let data = [];
+    let cols = [];
+      this.PDSLiftmentData.forEach(el => {
+        data.push({
+          RName: el.RName, AllotmentRice: el.AllotmentRice, LiftedRice: (el.LiftedRice * 1),
+          BalanceRice: (el.BalanceRice * 1), AvailableRice: (el.AvailableRice * 1), PercentRice: (el.PercentRice * 1),
+          AllotmentSugar: (el.AllotmentSugar * 1), LiftedSugar: (el.LiftedSugar * 1), BalanceSugar: (el.BalanceSugar * 1),
+          AvailableSugar: (el.AvailableSugar * 1), PercentSugar: (el.PercentSugar * 1),
+          AllotmentWheat: (el.AllotmentWheat * 1), LiftedWheat: (el.LiftedWheat * 1), BalanceWheat: (el.BalanceWheat * 1),
+          AvailableWheat: (el.AvailableWheat * 1), PercentWheat: (el.PercentWheat * 1),
+          AllotmentDhall: (el.AllotmentDhall * 1), LiftedDhall: (el.LiftedDhall * 1), BalanceDhall: (el.BalanceDhall * 1),
+          AvailableDhall: (el.AvailableDhall * 1), PercentDhall: (el.PercentDhall * 1),
+          AllotmentOil: (el.AllotmentOil * 1), LiftedOil: (el.LiftedOil * 1), BalanceOil: (el.BalanceOil * 1),
+          AvailableOil: (el.AvailableOil * 1), PercentOil: (el.PercentOil * 1)
+        });
+      });
+      cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
+      this.excelService.exportAsExcelFile(data, 'PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS', cols);
+    }
 
 
 }
