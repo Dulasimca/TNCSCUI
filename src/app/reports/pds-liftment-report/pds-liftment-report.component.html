@@ -1,0 +1,71 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <div class="ui-g-12 ui-md-12 ui-lg-12">
+    <p-panel>
+      <p-header>
+        <div class="ui-g panel-header">
+          <div class="ui-g-4 dashboard">PDS Liftment from Godown to Shops</div>
+        </div>
+      </p-header>
+      <p-toast [style]="{background: '#FFAEAE'}" position="top-center" (onClose)="onClose()" [modal]="true" key="t-err">
+      </p-toast>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-6 ui-md-2 no-left-pad">
+          <label class="ui-g-7 label-fontsize dashboard">Date</label>
+          <p-calendar [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"></p-calendar>
+        </div>
+        <div class="ui-g-8"></div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+          <button pButton type="button" label=View (click)="onView()" [disabled]="(!Date)"></button>
+        </div>
+        <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
+          <button pButton type="button" label=Excel (click)="dt.exportCSV()"
+            [disabled]="(PDSLiftmentData.length=='0')"></button>
+        </div>
+        <div class="ui-g-12 dashboard">
+          <p-table #dt [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentCols" [value]="PDSLiftmentData"
+            [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading" [rows]="10"
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col *ngFor="let col of columns" [style.width]="col.width">
+              </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="border-right-color: transparent !important;"></th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th colspan="3" style="border-right-color: lightgray !important;">Rice</th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th colspan="3" style="border-right-color: lightgray !important;">Sugar</th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th colspan="3" style="border-right-color: lightgray !important;">Wheat</th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th colspan="3" style="border-right-color: lightgray !important;">Tur Dhall/YL</th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th style="border-right-color: transparent !important;"></th>
+                <th colspan="3" style="border-right-color: lightgray !important;">P.Oil(in Pouches)</th>
+              </tr>
+              <tr>
+                <th *ngFor="let col of columns">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</div>

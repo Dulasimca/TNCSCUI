@@ -157,6 +157,8 @@ export class TableConstants {
   LorryReport: any;
   GatePass: any;
   EInvoice: any;
+  FrozenPDSLiftmentColumns: any;
+  PDSLiftmentColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1252,6 +1254,11 @@ export class TableConstants {
       { field: 'Bank', header: 'W/OFF Quantity' }
     ];
 
+    this.FrozenPDSLiftmentColumns = [
+       { field: 'slno', header: 'Sl.No.', width: '55px' },
+      { field: 'RName', header: 'Region Name', width: '270px' }
+    ]
+
     this.FrozenQuantityACReceiptDetailsCommodity = [
       //   { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GName', header: 'Name' },
@@ -1263,6 +1270,35 @@ export class TableConstants {
       { header: 'Name', field: 'GName' },
       { header: 'Commodity', field: 'Commodity' },
       { header: 'OB+Receipt', field: 'GrandTotalReceipt' },
+    ];
+
+    this.PDSLiftmentColumns = [
+      { header: 'Allotment', field: 'AllotmentRice', width: '180px' },
+      { header: 'Lifted To Shops', field: 'LiftedRice', width: '180px' },
+      { header: 'Balance To Be Lifted', field: 'BalanceRice', width: '180px' },
+      { header: 'Available Stock in TNCSC Godown', field: 'AvailableRice', width: '180px' },
+      { header: '% of Liftment', field: 'PercentRice', width: '180px' },
+      { header: 'Allotment', field: 'AllotmentSugar', width: '180px' },
+      { header: 'Lifted To Shops', field: 'LiftedSugar', width: '180px' },
+      { header: 'Balance To Be Lifted', field: 'BalanceSugar', width: '180px' },
+      { header: 'Available Stock in TNCSC Godown', field: 'AvailableSugar', width: '180px' },
+      { header: '% of Liftment', field: 'PercentSugar', width: '180px' },
+      { header: 'Allotment', field: 'AllotmentWheat', width: '180px' },
+      { header: 'Lifted To Shops', field: 'LiftedWheat', width: '180px' },
+      { header: 'Balance To Be Lifted', field: 'BalanceWheat', width: '180px' },
+      { header: 'Available Stock in TNCSC Godown', field: 'AvailableWheat', width: '180px' },
+      { header: '% of Liftment', field: 'PercentWheat', width: '180px' },
+      { header: 'Allotment', field: 'AllotmentDhall', width: '180px' },
+      { header: 'Lifted To Shops', field: 'LiftedDhall', width: '180px' },
+      { header: 'Balance To Be Lifted', field: 'BalanceDhall', width: '180px' },
+      { header: 'Available Stock in TNCSC Godown', field: 'AvailableDhall', width: '180px' },
+      { header: '% of Liftment', field: 'PercentDhall', width: '180px' },
+      { header: 'Allotment', field: 'AllotmentOil', width: '180px' },
+      { header: 'Lifted To Shops', field: 'LiftedOil', width: '180px' },
+      { header: 'Balance To Be Lifted', field: 'BalanceOil', width: '180px' },
+      { header: 'Available Stock in TNCSC Godown', field: 'AvailableOil', width: '180px' },
+      { header: '% of Liftment', field: 'PercentOil', width: '180px' }
+
     ];
 
     this.QuantityACIssueDetailsCommodity = [

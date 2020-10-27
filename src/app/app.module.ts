@@ -178,6 +178,7 @@ import { AuditFileReportComponent } from './reports/audit-file-report/audit-file
 import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-master.component';
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
 import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
+import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
 
 
 @NgModule({
@@ -312,6 +313,7 @@ import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-inv
     LorryMasterComponent,
     LorryGatePassComponent,
     EInvoiceComponent,
+    PdsLiftmentReportComponent,
   ],
   imports: [
     BrowserModule,

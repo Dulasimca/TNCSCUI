@@ -124,6 +124,7 @@ import { AuditFileReportComponent } from './reports/audit-file-report/audit-file
 import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-master.component';
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
 import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
+import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -250,6 +251,7 @@ const routes: Routes = [
   { path: 'AuditFileReport', component: AuditFileReportComponent, canActivate: [AuthGuard] },
   { path: 'LorryReport', component: LorryMasterComponent, canActivate: [AuthGuard] },
   { path: 'LorryGatePassReport', component: LorryGatePassComponent, canActivate: [AuthGuard] },
+  { path: 'PDSLiftmentReport', component: PdsLiftmentReportComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
