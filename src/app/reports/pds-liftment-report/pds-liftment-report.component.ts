@@ -170,6 +170,10 @@ export class PdsLiftmentReportComponent implements OnInit {
       cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
       this.excelService.exportAsExcelFile(data, 'PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS_REPORT', cols);
     }
+    
+    onClose() {
+      this.messageService.clear('t-err');
+    }
 
 
 }
