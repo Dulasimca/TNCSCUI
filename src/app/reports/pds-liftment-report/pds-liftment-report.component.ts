@@ -83,34 +83,34 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].PercentOil = percentOil.toFixed(0) + '%';
             break;
           case 'RICE':
-            this.PDSLiftmentData[j].AllotmentRice = (res[i].AllotmentQty * 1) / 1000;
-            this.PDSLiftmentData[j].LiftedRice = (res[i].IssueQty * 1) / 1000;
-            this.PDSLiftmentData[j].BalanceRice = (res[i].BalanceQty * 1) / 1000;
-            this.PDSLiftmentData[j].AvailableRice = (res[i].ClosingBalance * 1) / 1000;
+            this.PDSLiftmentData[j].AllotmentRice = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].LiftedRice = ((res[i].IssueQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].BalanceRice = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].AvailableRice = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
             const percentRice = isNaN((res[i].IssueQty * 1) / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100;
             this.PDSLiftmentData[j].PercentRice = percentRice.toFixed(0) + '%';
             break;
           case 'SUGAR':
-            this.PDSLiftmentData[j].AllotmentSugar = (res[i].AllotmentQty * 1) / 1000;
-            this.PDSLiftmentData[j].LiftedSugar = (res[i].IssueQty * 1) / 1000;
-            this.PDSLiftmentData[j].BalanceSugar = (res[i].BalanceQty * 1) / 1000;
-            this.PDSLiftmentData[j].AvailableSugar = (res[i].ClosingBalance * 1) / 1000;
+            this.PDSLiftmentData[j].AllotmentSugar = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].LiftedSugar = ((res[i].IssueQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].BalanceSugar = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].AvailableSugar = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
             const percentSugar = isNaN((res[i].IssueQty * 1) / allotQty) ? 0 :((res[i].IssueQty * 1) / allotQty) * 100;
             this.PDSLiftmentData[j].PercentSugar = percentSugar.toFixed(0) + '%';
             break;
           case 'WHEAT':
-            this.PDSLiftmentData[j].AllotmentWheat = (res[i].AllotmentQty * 1) / 1000;
-            this.PDSLiftmentData[j].LiftedWheat = (res[i].IssueQty * 1) / 1000;
-            this.PDSLiftmentData[j].BalanceWheat = (res[i].BalanceQty * 1) / 1000;
-            this.PDSLiftmentData[j].AvailableWheat = (res[i].ClosingBalance * 1) / 1000;
+            this.PDSLiftmentData[j].AllotmentWheat = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].LiftedWheat = ((res[i].IssueQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].BalanceWheat = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].AvailableWheat = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
             const percentWheat = isNaN((res[i].IssueQty * 1) / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100;
             this.PDSLiftmentData[j].PercentWheat = percentWheat.toFixed(0) + '%';
             break;
           case 'TOORDHALL':
-            this.PDSLiftmentData[j].AllotmentDhall = (res[i].AllotmentQty * 1) / 1000;
-            this.PDSLiftmentData[j].LiftedDhall = (res[i].IssueQty * 1) / 1000;
-            this.PDSLiftmentData[j].BalanceDhall = (res[i].BalanceQty * 1) / 1000;
-            this.PDSLiftmentData[j].AvailableDhall = (res[i].ClosingBalance * 1) / 1000;
+            this.PDSLiftmentData[j].AllotmentDhall = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].LiftedDhall = ((res[i].IssueQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].BalanceDhall = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
+            this.PDSLiftmentData[j].AvailableDhall = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
             const percentDhall = isNaN((res[i].IssueQty * 1) / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100;
             this.PDSLiftmentData[j].PercentDhall = percentDhall.toFixed(0) + '%';
             break;
