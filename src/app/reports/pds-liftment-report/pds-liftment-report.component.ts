@@ -66,7 +66,7 @@ export class PdsLiftmentReportComponent implements OnInit {
         let j = 0;
         for(let i = 0; i <= res.length - 1; i++) {
           const allotQty: number = (res[i].AllotmentQty !== null && res[i].AllotmentQty !== undefined) ? (res[i].AllotmentQty * 1) : 0;
-          const issueQty: number = (res[i].IssueQty !== null && res[i].IssueQty !== undefined) ? (res[i].IssueQty * 1) : 0;
+          const issueQty: number = (res[i].IssueQty !== null && res[i].IssueQty !== undefined) ? (res[i].IssueQty * 1)/100 : 0;
           const rcodePrev = res[i-1] !== undefined ? res[i-1].RCode : '';
           const rcode = (rcodePrev !== '') ? res[i].RCode : '';
           const rcodeNext = (res[i+1] !== undefined) ? res[i+1].RCode : '';
