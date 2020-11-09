@@ -205,8 +205,9 @@ export class IssueReceiptComponent implements OnInit {
       IssuingCode: this.IssuingCode,
       DocType: 1
     }
-    this.blockScreen = true;
-    this.restAPIService.post(PathConstants.STOCK_ISSUE_GENERATE_DOCNO, params).subscribe((res: any) => {
+    if(!this.isViewed) {
+      this.blockScreen = true;
+      this.restAPIService.post(PathConstants.STOCK_ISSUE_GENERATE_DOCNO, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
         this.SINo = res[0].GSINO;
         this.blockScreen = false;
@@ -230,6 +231,7 @@ export class IssueReceiptComponent implements OnInit {
         });
       }
     });
+  }
   }
 
   onSelect(selectedItem, type) {
