@@ -61,12 +61,13 @@ export class PdsLiftmentReportComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.PDS_LIFTMENT_POST, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
-        let sno = 0;
         this.PDSLiftmentData = res;
         let j = 0;
         for(let i = 0; i <= res.length - 1; i++) {
-          const allotQty: number = (res[i].AllotmentQty !== null && res[i].AllotmentQty !== undefined) ? (res[i].AllotmentQty * 1) : 0;
-          const issueQty: number = (res[i].IssueQty !== null && res[i].IssueQty !== undefined) ? (res[i].IssueQty * 1)/100 : 0;
+          let allotQty: any = (res[i].AllotmentQty !== null && res[i].AllotmentQty !== undefined) ? ((res[i].AllotmentQty * 1) / 1000).toFixed(3) : 0;
+          allotQty = (allotQty * 1)
+          let issueQty: any = (res[i].IssueQty !== null && res[i].IssueQty !== undefined) ? ((res[i].IssueQty * 1) / 1000).toFixed(3) : 0;
+          issueQty = (issueQty * 1);
           const rcodePrev = res[i-1] !== undefined ? res[i-1].RCode : '';
           const rcode = (rcodePrev !== '') ? res[i].RCode : '';
           const rcodeNext = (res[i+1] !== undefined) ? res[i+1].RCode : '';
@@ -80,7 +81,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].LiftedOil = res[i].IssueQty;
             this.PDSLiftmentData[j].BalanceOil = res[i].BalanceQty;
             this.PDSLiftmentData[j].AvailableOil = res[i].ClosingBalance;
-            const percentOil = (allotQty === 0) ? 0 :(isNaN( issueQty/ allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100);
+            const percentOil = (allotQty === 0) ? 0 :(isNaN( issueQty/ allotQty) ? 0 : (issueQty / allotQty) * 100);
             this.PDSLiftmentData[j].PercentOil = percentOil.toFixed(0) + '%';
             break;
           case 'RICE':
@@ -88,7 +89,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].LiftedRice = ((res[i].IssueQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].BalanceRice = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].AvailableRice = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
-            const percentRice = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100);
+            const percentRice = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
             this.PDSLiftmentData[j].PercentRice = percentRice.toFixed(0) + '%';
             break;
           case 'SUGAR':
@@ -96,7 +97,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].LiftedSugar = ((res[i].IssueQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].BalanceSugar = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].AvailableSugar = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
-            const percentSugar = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 :((res[i].IssueQty * 1) / allotQty) * 100);
+            const percentSugar = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 :(issueQty / allotQty) * 100);
             this.PDSLiftmentData[j].PercentSugar = percentSugar.toFixed(0) + '%';
             break;
           case 'WHEAT':
@@ -104,7 +105,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].LiftedWheat = ((res[i].IssueQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].BalanceWheat = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].AvailableWheat = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
-            const percentWheat = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100);
+            const percentWheat = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
             this.PDSLiftmentData[j].PercentWheat = percentWheat.toFixed(0) + '%';
             break;
           case 'TOORDHALL':
@@ -112,7 +113,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             this.PDSLiftmentData[j].LiftedDhall = ((res[i].IssueQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].BalanceDhall = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
             this.PDSLiftmentData[j].AvailableDhall = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
-            const percentDhall = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : ((res[i].IssueQty * 1) / allotQty) * 100);
+            const percentDhall = (allotQty === 0) ? 0 :(isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
             this.PDSLiftmentData[j].PercentDhall = percentDhall.toFixed(0) + '%';
             break;
         }
