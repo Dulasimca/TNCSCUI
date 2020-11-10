@@ -15,7 +15,11 @@
           <label class="ui-g-7 label-fontsize dashboard">Date</label>
           <p-calendar [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate" dateFormat="dd/mm/yy"></p-calendar>
         </div>
-        <div class="ui-g-8"></div>
+        <div class="ui-g-6 ui-md-2 no-left-pad">
+          <label class="ui-g-7 label-fontsize dashboard" for="allotPeriod">Allotment Month & Year</label>
+          <p-calendar name="allotPeriod" [(ngModel)]="AllotmentPeriod" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"></p-calendar>
+      </div>
+        <div class="ui-g-6"></div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!Date)"></button>
         </div>

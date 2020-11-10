@@ -36,6 +36,8 @@ export class PdsLiftmentReportComponent implements OnInit {
   canShowMenu: boolean;
   loading: boolean = false;
   userId: any;
+  yearRange: string;
+  AllotmentPeriod: Date;
 
   constructor(private tableConstants: TableConstants, private datePipe: DatePipe,
     private authService: AuthService, private restAPIService: RestAPIService,
@@ -48,15 +50,17 @@ export class PdsLiftmentReportComponent implements OnInit {
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.userId = JSON.parse(this.authService.getCredentials());
     this.maxDate = new Date();
+    this.yearRange = (this.maxDate.getFullYear() - 10) + ':' + this.maxDate.getFullYear();
+    this.AllotmentPeriod = new Date();
   }
 
   onView() {
     this.loading = true;
-    const month = this.Date.getMonth() + 1;
+    const month = this.AllotmentPeriod.getMonth() + 1;
     const params = {
       Date: this.datePipe.transform(this.Date, 'MM/dd/yyyy'),
       Month: (month <= 9) ? '0' + month : month,
-      Year: this.Date.getFullYear(),
+      Year: this.AllotmentPeriod.getFullYear(),
       DocType: 1
     };
     this.restAPIService.post(PathConstants.PDS_LIFTMENT_POST, params).subscribe(res => {
