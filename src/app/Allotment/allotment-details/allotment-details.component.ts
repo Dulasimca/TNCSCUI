@@ -295,7 +295,7 @@ export class AllotmentDetailsComponent implements OnInit {
                   const trim: string = key.slice(len - 5, len);
                   const val: string = key.replace(trim, '').replace(/\s/g, '').toUpperCase();
                   const commodity: string = c.Acommname;
-                  if (j < objLen) {
+                  if (j <= objLen) {
                     if (val === commodity.replace(/\s/g, '')) {
                       itemList.push({ ITCode: c.Acommcode, ITName: val, Quantity: obj[key] });
                     }
