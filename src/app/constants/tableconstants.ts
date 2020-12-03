@@ -159,6 +159,7 @@ export class TableConstants {
   EInvoice: any;
   FrozenPDSLiftmentColumns: any;
   PDSLiftmentColumns: any;
+  DOtoSalesTaxReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -2072,6 +2073,23 @@ export class TableConstants {
       { header: 'Vehicle No', field: 'Sample' },
       { header: 'Error List', field: 'Sample' },
       { header: 'Despatch pincode', field: 'Sample' }
+    ];
+
+    this.DOtoSalesTaxReport = [
+      { header: 'S.No', field: 'SlNo', width: '15px' },
+      { header: 'Dono', field: 'Dono' },
+      { header: 'Dodate', field: 'DoDate' },
+      { header: 'Receivor Name', field: 'ReceivorCode' },
+      { header: 'ITDescription', field: 'ITDescription' },
+      { header: 'Wtype', field: 'Wtype' },
+      { header: 'Net weight', field: 'NetWeight' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Total', field: 'Value' },
+      { header: 'Hsncode', field: 'Hsncode' },
+      { header: 'Taxpercentage', field: 'TaxPercentage' },
+      { header: 'GST Total', field: 'GSTTOTAL' },
+      { header: 'IGST', field: 'SGST' },
+      { header: 'CGST', field: 'CGST' }
     ];
   }
 }
