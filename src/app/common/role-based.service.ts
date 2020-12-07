@@ -19,6 +19,7 @@ export class RoleBasedService {
     regionsData: any = [];
     godownsList: any = [];
     commodity_data?: any;
+    products?: any = [];
     constructor(private restApiService: RestAPIService, private authService: AuthService) { }
 
     /// All Godowns
@@ -135,6 +136,18 @@ export class RoleBasedService {
                 }
             });
         return this.commodity_data;
+    }
+    ///End
+
+    ///get products
+    getProducts() {
+            this.products = [];
+            this.restApiService.get(PathConstants.PRODUCT_MASTER).subscribe((res: any) => {
+                res.forEach(x => {
+                    this.products.push({ 'PName': x.Product_Type, 'PCode': x.Product_ID });
+                });
+            })
+            return this.products;
     }
     ///End
 

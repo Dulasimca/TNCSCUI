@@ -125,6 +125,7 @@ import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-mast
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
 import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
 import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
+import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 
 const routes: Routes = [
@@ -253,6 +254,7 @@ const routes: Routes = [
   { path: 'LorryReport', component: LorryMasterComponent, canActivate: [AuthGuard] },
   { path: 'LorryGatePassReport', component: LorryGatePassComponent, canActivate: [AuthGuard] },
   { path: 'PDSLiftmentReport', component: PdsLiftmentReportComponent, canActivate: [AuthGuard] },
+  { path: 'QuotationDetails', component: QuotationDetailsComponent, canActivate: [AuthGuard] },
   { path: 'DoToSalesTax', component: DoToSalesTaxComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

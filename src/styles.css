@@ -749,7 +749,7 @@ h3 a {
 .cursor-pointer{
   cursor: pointer !important;
 }
-@media screen and (min-width: 1189px) and (max-width: 1299px){
+/* @media screen and (min-width: 1189px) and (max-width: 1299px){
 .content {
  min-height: 610px !important;
 }
@@ -761,10 +761,10 @@ h3 a {
   }
   .content {
     min-height: 550px !important;
-   }
+   } */
 
 .footer {
-  position:unset;
+  position:fixed;
   left: 0;
   width: 100%;
   text-align: center;

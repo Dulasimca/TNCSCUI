@@ -30,6 +30,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 // import { SignaturePadModule } from 'angular2-signaturepad/signaturepad';
 // import { SignaturePad } from 'signature_pad';
 // import SignaturePad from 'signature_pad';
@@ -179,6 +181,7 @@ import { LorryMasterComponent } from './Documents/Master/lorry-master/lorry-mast
 import { LorryGatePassComponent } from './Documents/Master/lorry-gate-pass/lorry-gate-pass.component';
 import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-invoice.component';
 import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
+import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 
 
@@ -315,6 +318,8 @@ import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.com
     LorryGatePassComponent,
     EInvoiceComponent,
     PdsLiftmentReportComponent,
+    HullingDetailsComponent,
+    QuotationDetailsComponent,
     DoToSalesTaxComponent,
   ],
   imports: [
@@ -352,6 +357,7 @@ import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.com
     InputMaskModule,
     FileUploadModule,
     SlimLoadingBarModule,
+    MultiSelectModule
     // SignaturePad
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,

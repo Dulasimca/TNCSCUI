@@ -43,6 +43,7 @@ export class PathConstants {
   public static readonly STACK_CARD_DETAILS = '/api/StackDetails/Post';
   public static readonly STACK_DAY_TO_DAY_POST = '/api/StackDayToDay/Post';
   public static readonly INSPECTION_MASTER = '/api/InceptionMaster';
+  public static readonly PRODUCT_MASTER = '/api/ProductTypeMaster';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
@@ -160,6 +161,8 @@ export class PathConstants {
   public static readonly GODOWN_APPROVAL_POST = '/api/GodownInchargeApproval/Post';
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
+  public static readonly QUOTATION_DETAILS_POST = '/api/QuotationDetails/Post';
+  public static readonly PRODUCT_MASTER_DETAILS_POST = '/api/ProductTypeMaster/Post';
 
   //Inspection
   public static readonly INSPECTION_DETAILS_POST = '/api/AuditInception/Post';
