@@ -30,6 +30,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 // import { SignaturePadModule } from 'angular2-signaturepad/signaturepad';
 // import { SignaturePad } from 'signature_pad';
 // import SignaturePad from 'signature_pad';
@@ -355,6 +357,7 @@ import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.com
     InputMaskModule,
     FileUploadModule,
     SlimLoadingBarModule,
+    MultiSelectModule
     // SignaturePad
   ],
   providers: [AuthService, ConfirmationService, TableConstants, StatusMessage, LoginService,
