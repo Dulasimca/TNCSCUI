@@ -2079,17 +2079,19 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '15px' },
       { header: 'Dono', field: 'Dono' },
       { header: 'Dodate', field: 'DoDate' },
-      { header: 'Receivor Name', field: 'ReceivorCode' },
+      { header: 'PartyID', field: 'PartyID' },
+      { header: 'GST Number', field: 'GSTNumber' },
+      { header: 'Receivor Name', field: 'ReceivorName' },
       { header: 'ITDescription', field: 'ITDescription' },
       { header: 'Wtype', field: 'Wtype' },
       { header: 'Net weight', field: 'NetWeight' },
-      { header: 'Rate', field: 'Rate' },
-      { header: 'Total', field: 'Value' },
+      { header: 'Rate', field: 'Doc-Rate' },
+      { header: 'Total', field: 'Doc-Value' },
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Taxpercentage', field: 'TaxPercentage' },
-      { header: 'GST Total', field: 'GSTTOTAL' },
-      { header: 'IGST', field: 'SGST' },
-      { header: 'CGST', field: 'CGST' }
+      { header: 'GST Total', field: 'D-GSTTOTAL' },
+      { header: 'IGST', field: 'D-SGST' },
+      { header: 'CGST', field: 'D-CGST' }
     ];
   }
 }
