@@ -37,6 +37,8 @@ export class QuotationDetailsComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('product', { static: false }) productPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
+
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
     private authService: AuthService, private messageService: MessageService,) { }
@@ -92,9 +94,11 @@ export class QuotationDetailsComponent implements OnInit {
           });
           this.productOptions = productSelection;
         }
+        if(this.pcode !== undefined && this.pcode !== null) {
         this.pcode.forEach(p => {
           this.isOtherProductSelected = (p === 8) ? true : false;
         })
+      }
         break;
       }
   }
@@ -108,7 +112,7 @@ export class QuotationDetailsComponent implements OnInit {
   onSave() {
     this.blockScreen = true;
     if(this.isOtherProductSelected) {
-      this.restAPIService.put(PathConstants.PRODUCT_MASTER_DETAILS_PUT, {'PName': this.productNew}).subscribe(res => {
+      this.restAPIService.post(PathConstants.PRODUCT_MASTER_DETAILS_POST, {'PName': this.productNew}).subscribe(res => {
         if(res) {
           console.log('updated!');
         } else {
@@ -127,6 +131,13 @@ export class QuotationDetailsComponent implements OnInit {
     };
     this.restAPIService.post(PathConstants.QUOTATION_DETAILS_POST, params).subscribe(res => {
         if (res.Item1) {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+          });
+          this.onClear();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -154,8 +165,8 @@ export class QuotationDetailsComponent implements OnInit {
 
   }
 
-  onClear(form: NgForm) {
-    form.reset();
+  onClear() {
+    this.form.reset();
   }
 
 }
