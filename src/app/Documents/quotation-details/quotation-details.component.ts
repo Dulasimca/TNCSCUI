@@ -18,7 +18,7 @@ export class QuotationDetailsComponent implements OnInit {
   maxDate: Date;
   rcode: any;
   gcode: any;
-  pcode: any;
+  pcode: number[];
   canShowMenu: boolean;
   blockScreen: boolean;
   remarks: string;
@@ -90,8 +90,11 @@ export class QuotationDetailsComponent implements OnInit {
           this.products.forEach(x => {
             productSelection.push({ 'label': x.PName, 'value': x.PCode });
           });
+          this.productOptions = productSelection;
         }
-        this.isOtherProductSelected = (this.pcode === 8) ? true : false;
+        this.pcode.forEach(p => {
+          this.isOtherProductSelected = (p === 8) ? true : false;
+        })
         break;
       }
   }
@@ -104,14 +107,22 @@ export class QuotationDetailsComponent implements OnInit {
 
   onSave() {
     this.blockScreen = true;
-    if(this.isOtherProductSelected) {}
+    if(this.isOtherProductSelected) {
+      this.restAPIService.put(PathConstants.PRODUCT_MASTER_DETAILS_PUT, {'PName': this.productNew}).subscribe(res => {
+        if(res) {
+          console.log('updated!');
+        } else {
+          console.log('Not Updated!');
+        }
+      })
+    }
     const params = {
       'RCode': this.rcode,
       'GCode': this.gcode,
-      'ProductID': this.pcode,
       'Remarks': (this.remarks !== null && this.remarks.trim() !== '') ? this.remarks.trim() : '-',
       'EmailID': this.emailId,
       'PhoneNo': this.phoneNo,
+      'ProductID': this.pcode,
       'UserID': this.username.user
     };
     this.restAPIService.post(PathConstants.QUOTATION_DETAILS_POST, params).subscribe(res => {

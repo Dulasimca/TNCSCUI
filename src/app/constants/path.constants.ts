@@ -162,6 +162,7 @@ export class PathConstants {
   public static readonly KEROSENE_REGIONAL_SUPPLIERS = '';
   public static readonly CUSTOMER_MASTER = '';
   public static readonly QUOTATION_DETAILS_POST = '/api/QuotationDetails/Post';
+  public static readonly PRODUCT_MASTER_DETAILS_PUT = '/api/ProductTypeMaster/Post';
 
   //Inspection
   public static readonly INSPECTION_DETAILS_POST = '/api/AuditInception/Post';

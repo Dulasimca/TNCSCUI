@@ -144,7 +144,7 @@ export class RoleBasedService {
             this.products = [];
             this.restApiService.get(PathConstants.PRODUCT_MASTER).subscribe((res: any) => {
                 res.forEach(x => {
-                    this.products.push({ 'PName': x.Name, 'PCode': x.Id });
+                    this.products.push({ 'PName': x.Product_Type, 'PCode': x.Product_ID });
                 });
             })
             return this.products;
