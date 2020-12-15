@@ -2083,15 +2083,20 @@ export class TableConstants {
       { header: 'GST Number', field: 'GSTNumber' },
       { header: 'Receivor Name', field: 'ReceivorName' },
       { header: 'ITDescription', field: 'ITDescription' },
-      { header: 'Wtype', field: 'Wtype' },
-      { header: 'Net weight', field: 'NetWeight' },
-      { header: 'Rate', field: 'Doc-Rate' },
-      { header: 'Total', field: 'Doc-Value' },
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Taxpercentage', field: 'TaxPercentage' },
-      { header: 'GST Total', field: 'D-GSTTOTAL' },
-      { header: 'IGST', field: 'D-SGST' },
-      { header: 'CGST', field: 'D-CGST' }
+      { header: 'Net weight', field: 'NetWeight' },
+      { header: 'Wtype', field: 'Wtype' },
+      { header: 'Rate', field: 'Doc-Rate' },
+      { header: 'Total', field: 'Doc-Value' },
+      { header: 'Sales Rate', field: 'SalesRate' },
+      { header: '[Sales Total]', field: '[SalesTOTAL]' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'GST Total', field: 'GSTTOTAL' },
+      { header: 'Total Amount', field: 'TotalAmount' },
+      { header: 'Grand Total', field: 'GrandTotal' },
+      
     ];
   }
 }
