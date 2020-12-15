@@ -2090,13 +2090,12 @@ export class TableConstants {
       { header: 'Rate', field: 'Doc-Rate' },
       { header: 'Total', field: 'Doc-Value' },
       { header: 'Sales Rate', field: 'SalesRate' },
-      { header: '[Sales Total]', field: '[SalesTOTAL]' },
+      { header: 'Sales Total', field: 'SalesTOTAL' },
       { header: 'SGST', field: 'SGST' },
       { header: 'CGST', field: 'CGST' },
       { header: 'GST Total', field: 'GSTTOTAL' },
       { header: 'Total Amount', field: 'TotalAmount' },
       { header: 'Grand Total', field: 'GrandTotal' },
-      
     ];
   }
 }
