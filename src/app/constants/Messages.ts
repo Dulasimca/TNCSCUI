@@ -53,4 +53,5 @@ export class StatusMessage {
     public static readonly RateExists = 'Entered Commodity and Scheme is already available for this date. Please update the close date for the existing record!';
     public static readonly ProvideSignature = 'Please provide a signature first!';
     public static readonly NoLeftDataToProcess = 'No data left to process for this combination';
+    public static readonly DOSalesTaxImportErr = 'Failed to import to DO to Sales Tax !';
 }
