@@ -176,6 +176,7 @@ export class DoToSalesTaxComponent implements OnInit {
         this.loading = false;
       } else {
         this.loading = false;
+        this.onResetTable('');
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -210,14 +211,14 @@ export class DoToSalesTaxComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.DOSalesTaxImportErr
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.DOSalesTaxImportSuccess
           });
         } else {
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.DOSalesTaxImportError
           });
         }
       }, (err: HttpErrorResponse) => {
@@ -261,7 +262,10 @@ export class DoToSalesTaxComponent implements OnInit {
   }
 
   onResetTable(item) {
-
+   if(item === 'R') {
+     this.GCode = null;
+   }
+   this.DOSalesData = [];
   }
   onClose() {
     this.messageService.clear('t-err');
