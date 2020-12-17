@@ -196,15 +196,15 @@ export class DoToSalesTaxComponent implements OnInit {
 
   importToSales() {
     if (this.DOSalesData.length !== 0) {
-      this.blockScreen = true;
       this.DOSalesData.forEach(x => {
         x.CreatedBy = this.username.user;
-        x.Year = x.OrderPeriod.toSring().slice(0,4);
-        x.Month = x.OrderPeriod.toString().slice(5, 6);
+        x.Year = x.OrderPeriod.slice(0,4);
+        x.Month = x.OrderPeriod.slice(5, 7);
         x.CurrentDate = this.datepipe.transform(this.maxDate, 'MM/dd/yyyy');
       })
+      this.blockScreen = true;
       const params = JSON.stringify(this.DOSalesData);
-      this.restApiService.post(PathConstants.DO_TO_SALES_POST, params).subscribe((res: any) => {
+      this.restApiService.post(PathConstants.DO_TO_SALES_POST, this.DOSalesData).subscribe((res: any) => {
         if (res.Item1) {
           this.blockScreen = false;
           this.messageService.clear();
@@ -216,8 +216,8 @@ export class DoToSalesTaxComponent implements OnInit {
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.ErrorMessage
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
           });
         }
       }, (err: HttpErrorResponse) => {
