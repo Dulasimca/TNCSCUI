@@ -11,7 +11,7 @@
       </div>
     </p-header>
     <div class="ui-g ui-fluid">
-      <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
+      <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
       <div class="ui-g-12 dashboard">
         <div class="ui-g-12 ui-md-12" style="border: 1px solid #18c5a9">
           <form #f="ngForm" name="QuotationForm">
@@ -75,7 +75,7 @@
                 label=Save [disabled]="!f.valid" (click)="onSave()"></button></div>
                 <div class="ui-g-2 ui-md-1">
                   <button class="ui-g-6 ui-md-1 dashboard" name="clear" type="button" pButton
-                    label=Clear (click)="onClear(f)"></button></div>
+                    label=Clear (click)="onClear()"></button></div>
           </div>
             </div>
           </form>
