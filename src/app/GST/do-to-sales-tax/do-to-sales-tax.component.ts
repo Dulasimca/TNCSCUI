@@ -43,6 +43,8 @@ export class DoToSalesTaxComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  blockScreen: boolean;
+  username: any;
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private messageService: MessageService,
@@ -70,6 +72,7 @@ export class DoToSalesTaxComponent implements OnInit {
       }
     });
     this.DOSalesCols = this.tableConstants.DOtoSalesTaxReport;
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -173,6 +176,7 @@ export class DoToSalesTaxComponent implements OnInit {
         this.loading = false;
       } else {
         this.loading = false;
+        this.onResetTable('');
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
@@ -189,6 +193,45 @@ export class DoToSalesTaxComponent implements OnInit {
         });
       }
     });
+  }
+
+  importToSales() {
+    if (this.DOSalesData.length !== 0) {
+      this.DOSalesData.forEach(x => {
+        x.CreatedBy = this.username.user;
+        x.Year = x.OrderPeriod.slice(0,4);
+        x.Month = x.OrderPeriod.slice(5, 7);
+        x.CurrentDate = this.datepipe.transform(this.maxDate, 'MM/dd/yyyy');
+      })
+      this.blockScreen = true;
+      const params = JSON.stringify(this.DOSalesData);
+      this.restApiService.post(PathConstants.DO_TO_SALES_POST, this.DOSalesData).subscribe((res: any) => {
+        if (res.Item1) {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.DOSalesTaxImportSuccess
+          });
+        } else {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.DOSalesTaxImportError
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+        } else {
+          this.messageService.clear();
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage });
+        }
+      });
+    }
   }
 
   onDateSelect() {
@@ -208,8 +251,10 @@ export class DoToSalesTaxComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life:5000
-        ,summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage });
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
+          , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
         this.fromDate = this.toDate = '';
       }
       return this.fromDate, this.toDate;
@@ -217,7 +262,10 @@ export class DoToSalesTaxComponent implements OnInit {
   }
 
   onResetTable(item) {
-
+   if(item === 'R') {
+     this.GCode = null;
+   }
+   this.DOSalesData = [];
   }
   onClose() {
     this.messageService.clear('t-err');

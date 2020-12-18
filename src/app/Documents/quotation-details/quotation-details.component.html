@@ -35,7 +35,7 @@
               <label for="product" class="ui-g-7 label-fontsize dashboard">Product</label>
               <p-multiSelect #product name="product" class="ui-g-12 ui-fluid dashboard" [options]="productOptions" [(ngModel)]="pcode"
               (onClick)="onSelect('pd', 'click')" (keydown.enter)="onSelect('pd', 'enter')" filter="true"
-                resetFilterOnHide="true" filterMatchMode="startsWith" defaultLabel="-select-">
+               optionLabel="label"  resetFilterOnHide="true" filterMatchMode="startsWith" defaultLabel="-select-">
               </p-multiSelect>
             </div>
             <div *ngIf="isOtherProductSelected" class="ui-g-6 ui-md-6 ui-lg-2" style="margin-top: 15px;">

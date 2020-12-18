@@ -1,3 +1,6 @@
+<p-blockUI [blocked]="blockScreen">
+  <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -14,7 +17,7 @@
         <label class="ui-g-12 label-fontsize dashboard">Region</label>
         <p-dropdown #region class="ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
           (onClick)="onSelect('reg', 'click')" (keyup.shift.tab)="onSelect('reg', 'tab')" [showClear]="true"
-          (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+          (ngModelChange)="onResetTable('R')" filter="true" resetFilterOnHide="true"
           (keyup.tab)="onSelect('reg', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -25,7 +28,7 @@
         <label class="ui-g-12 label-fontsize dashboard">Godown</label>
         <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
           (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
-          (ngModelChange)="onResetTable('gd')" filter="true" resetFilterOnHide="true" [showClear]="true"
+          (ngModelChange)="onResetTable('G')" filter="true" resetFilterOnHide="true" [showClear]="true"
           (keyup.tab)="onSelect('gd', 'tab')" filterMatchMode="startsWith" placeholder="-select-">
           <ng-template let-item pTemplate="selectedItem">
             <span style="vertical-align:middle">{{item.label}}</span>
@@ -69,7 +72,7 @@
       </div>
       <div class="ui-g-4 ui-md-2 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" style="padding: 1px;"
-          [disabled]=true label="Import To Sales"></button>
+          [disabled]="(DOSalesData.length=='0')" label="Import To Sales" (click)="importToSales()"></button>
       </div>
   </div> 
   <div class="ui-g-12 ui-md-12 ui-lg-12">

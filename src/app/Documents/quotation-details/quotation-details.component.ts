@@ -18,7 +18,7 @@ export class QuotationDetailsComponent implements OnInit {
   maxDate: Date;
   rcode: any;
   gcode: any;
-  pcode: number[];
+  pcode: any[];
   canShowMenu: boolean;
   blockScreen: boolean;
   remarks: string;
@@ -120,13 +120,20 @@ export class QuotationDetailsComponent implements OnInit {
         }
       })
     }
+    var pid_list: number[] = [];
+    var product_list: string[] = [];
+    this.pcode.forEach(p => {
+      pid_list.push(p.value);
+      product_list.push(p.label)
+    })
     const params = {
       'RCode': this.rcode,
       'GCode': this.gcode,
       'Remarks': (this.remarks !== null && this.remarks.trim() !== '') ? this.remarks.trim() : '-',
       'EmailID': this.emailId,
       'PhoneNo': this.phoneNo,
-      'ProductID': this.pcode,
+      'ProductID': pid_list,
+      'Products': product_list.toString(),
       'UserID': this.username.user
     };
     this.restAPIService.post(PathConstants.QUOTATION_DETAILS_POST, params).subscribe(res => {
