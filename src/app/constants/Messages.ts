@@ -55,4 +55,5 @@ export class StatusMessage {
     public static readonly NoLeftDataToProcess = 'No data left to process for this combination';
     public static readonly DOSalesTaxImportError = 'Failed to import DO to Sales Tax !';
     public static readonly DOSalesTaxImportSuccess = 'Imported Successgully !';
+    public static readonly DOAprrovalMessage = 'Approval sent for ';
 }

@@ -978,6 +978,10 @@ box-shadow: 0 1px 4px #464141, 0 0 0 1px #949191;
   border-radius: .25rem !important;
 }
 
+.no-pad {
+  padding: 0 !important;
+}
+
 .search-masters {
   padding: 3px;
 }

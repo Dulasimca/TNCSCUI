@@ -41,8 +41,8 @@ export class DoToSalesTaxComponent implements OnInit {
   toDate: any = new Date();
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
-  @ViewChild('m', { static: false }) monthPanel: Dropdown;
-  @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  // @ViewChild('m', { static: false }) monthPanel: Dropdown;
+  // @ViewChild('y', { static: false }) yearPanel: Dropdown;
   blockScreen: boolean;
   username: any;
 
@@ -125,32 +125,32 @@ export class DoToSalesTaxComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-      case 'y':
-        if (type === 'tab') {
-          this.yearPanel.overlayVisible = true;
-        }
-        const year = new Date().getFullYear();
-        for (let i = 0; i < range; i++) {
-          if (i === 0) {
-            yearArr.push({ label: (year - 1).toString(), value: year - 1 });
-          } else if (i === 1) {
-            yearArr.push({ label: (year).toString(), value: year });
-          }
-        }
-        this.yearOptions = yearArr;
-        this.yearOptions.unshift({ label: '-select-', value: null, disabled: true });
-        break;
-      case 'm':
-        if (type === 'tab') {
-          this.monthPanel.overlayVisible = true;
-        }
-        this.monthOptions = [{ label: 'Jan', value: '01' },
-        { label: 'Feb', value: '02' }, { label: 'Mar', value: '03' }, { label: 'Apr', value: '04' },
-        { label: 'May', value: '05' }, { label: 'Jun', value: '06' }, { label: 'Jul', value: '07' },
-        { label: 'Aug', value: '08' }, { label: 'Sep', value: '09' }, { label: 'Oct', value: '10' },
-        { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
-        this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
-        break;
+      // case 'y':
+      //   if (type === 'tab') {
+      //     this.yearPanel.overlayVisible = true;
+      //   }
+      //   const year = new Date().getFullYear();
+      //   for (let i = 0; i < range; i++) {
+      //     if (i === 0) {
+      //       yearArr.push({ label: (year - 1).toString(), value: year - 1 });
+      //     } else if (i === 1) {
+      //       yearArr.push({ label: (year).toString(), value: year });
+      //     }
+      //   }
+      //   this.yearOptions = yearArr;
+      //   this.yearOptions.unshift({ label: '-select-', value: null, disabled: true });
+      //   break;
+      // case 'm':
+      //   if (type === 'tab') {
+      //     this.monthPanel.overlayVisible = true;
+      //   }
+      //   this.monthOptions = [{ label: 'Jan', value: '01' },
+      //   { label: 'Feb', value: '02' }, { label: 'Mar', value: '03' }, { label: 'Apr', value: '04' },
+      //   { label: 'May', value: '05' }, { label: 'Jun', value: '06' }, { label: 'Jul', value: '07' },
+      //   { label: 'Aug', value: '08' }, { label: 'Sep', value: '09' }, { label: 'Oct', value: '10' },
+      //   { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
+      //   this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
+      //   break;
     }
   }
 

@@ -160,6 +160,7 @@ export class TableConstants {
   FrozenPDSLiftmentColumns: any;
   PDSLiftmentColumns: any;
   DOtoSalesTaxReport: any;
+  DOApprovalReport: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -2096,6 +2097,16 @@ export class TableConstants {
       { header: 'GST Total', field: 'GSTTOTAL' },
       { header: 'Total Amount', field: 'TotalAmount' },
       { header: 'Grand Total', field: 'GrandTotal' },
+    ];
+
+    this.DOApprovalReport = [
+      { header: 'Sl.No', field: 'SlNo' },
+      { header: 'Do No.', field: 'BillNo' },
+      { header: 'Do Date', field: 'BillDate' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Godown Name', field: 'TNCSName' }
+      // { header: 'Status', field: 'icon' },
+
     ];
   }
 }

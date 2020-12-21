@@ -120,7 +120,7 @@ export class PathConstants {
   public static readonly LORRY_DETAIL_POST = '/api/LorryDetail/Post';
   public static readonly PDS_LIFTMENT_POST =  '/api/MDStockStatement/Post';
   public static readonly DO_TO_SALES_POST = '/api/DeliveryOrderToSalesTax/Post';
-
+  public static readonly GST_SALES_TAX_UPDATE = '/api/GSTSalesTaxApproval/Post';
 
   ///Documents
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';

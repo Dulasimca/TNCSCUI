@@ -183,6 +183,7 @@ import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-inv
 import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
 import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
+import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
 
 
 @NgModule({
@@ -321,6 +322,7 @@ import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.com
     HullingDetailsComponent,
     QuotationDetailsComponent,
     DoToSalesTaxComponent,
+    DoApprovalDocsComponent,
   ],
   imports: [
     BrowserModule,

@@ -127,6 +127,7 @@ import { EInvoiceComponent } from './reports/DeliveryOrderReport/e-invoice/e-inv
 import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-liftment-report.component';
 import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
+import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -256,6 +257,7 @@ const routes: Routes = [
   { path: 'PDSLiftmentReport', component: PdsLiftmentReportComponent, canActivate: [AuthGuard] },
   { path: 'QuotationDetails', component: QuotationDetailsComponent, canActivate: [AuthGuard] },
   { path: 'DoToSalesTax', component: DoToSalesTaxComponent, canActivate: [AuthGuard] },
+  { path: 'DoApproval', component: DoApprovalDocsComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
