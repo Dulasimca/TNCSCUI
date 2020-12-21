@@ -45,6 +45,7 @@ export class DoToSalesTaxComponent implements OnInit {
   // @ViewChild('y', { static: false }) yearPanel: Dropdown;
   blockScreen: boolean;
   username: any;
+  accYear: any;
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private messageService: MessageService,
@@ -63,12 +64,21 @@ export class DoToSalesTaxComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
+    const accountingYear = '04' + '/' + '01' + '/' + this.Year;
     this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
       if (data !== undefined) {
         data.forEach(y => {
-          this.accYearSelection.push({ label: y.ShortYear });
+          if(y.FromDate === accountingYear) {
+          this.accYear = y.ShortYear;
+          }
         });
-        this.AccountingYearOptions = this.accYearSelection;
+      }
+      if(this.accYear !== null && this.accYear !== undefined) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoAccountingYearFound
+          });  
       }
     });
     this.DOSalesCols = this.tableConstants.DOtoSalesTaxReport;
@@ -200,11 +210,11 @@ export class DoToSalesTaxComponent implements OnInit {
       this.DOSalesData.forEach(x => {
         x.CreatedBy = this.username.user;
         x.Year = x.OrderPeriod.slice(0,4);
+        x.AccYear = this.accYear;
         x.Month = x.OrderPeriod.slice(5, 7);
         x.CurrentDate = this.datepipe.transform(this.maxDate, 'MM/dd/yyyy');
       })
       this.blockScreen = true;
-      const params = JSON.stringify(this.DOSalesData);
       this.restApiService.post(PathConstants.DO_TO_SALES_POST, this.DOSalesData).subscribe((res: any) => {
         if (res.Item1) {
           this.blockScreen = false;
