@@ -33,6 +33,7 @@ export class DoApprovalDocsComponent implements OnInit {
   toDate: any = new Date();
   blockScreen: boolean;
   username: any;
+  DocNo: string;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
 
@@ -107,8 +108,10 @@ export class DoApprovalDocsComponent implements OnInit {
     onView(type) {
       this.loading = true;
       const params = {
-        'fromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
-        'toDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+        'fromDate':  this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+        'toDate':  this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+        'BillNo': this.DocNo,
+        'SPType': (this.DocNo !== undefined) ? 2 : 1,
         'type': 1
       };
       this.restApiService.getByParameters(PathConstants.DO_TO_SALESTAX, params).subscribe(res => {

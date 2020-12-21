@@ -189,7 +189,7 @@ export class PathConstants {
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
-  public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Post';
+  public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
   
 
 
