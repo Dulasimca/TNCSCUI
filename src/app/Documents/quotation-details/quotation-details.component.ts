@@ -41,7 +41,7 @@ export class QuotationDetailsComponent implements OnInit {
 
 
   constructor(private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
-    private authService: AuthService, private messageService: MessageService,) { }
+    private authService: AuthService, private messageService: MessageService, ) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -64,14 +64,14 @@ export class QuotationDetailsComponent implements OnInit {
         if (type === 'enter') {
           this.regionPanel.overlayVisible = true;
         }
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              }
-            });
-            this.regionOptions = regionSelection;
-          }
+        if (this.regions !== undefined) {
+          this.regions.forEach(x => {
+            if (x.RCode === this.loggedInRCode) {
+              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+            }
+          });
+          this.regionOptions = regionSelection;
+        }
         break;
       case 'gd':
         if (type === 'enter') { this.godownPanel.overlayVisible = true; }
@@ -94,13 +94,13 @@ export class QuotationDetailsComponent implements OnInit {
           });
           this.productOptions = productSelection;
         }
-        if(this.pcode !== undefined && this.pcode !== null) {
-        this.pcode.forEach(p => {
-          this.isOtherProductSelected = (p === 8) ? true : false;
-        })
-      }
+        if (this.pcode !== undefined && this.pcode !== null) {
+          this.pcode.forEach(p => {
+            this.isOtherProductSelected = (p === 8) ? true : false;
+          })
+        }
         break;
-      }
+    }
   }
 
   onResetField(type) {
@@ -108,12 +108,12 @@ export class QuotationDetailsComponent implements OnInit {
       this.gcode = null;
     }
   }
-
+  onClose() { }
   onSave() {
     this.blockScreen = true;
-    if(this.isOtherProductSelected) {
-      this.restAPIService.post(PathConstants.PRODUCT_MASTER_DETAILS_POST, {'PName': this.productNew}).subscribe(res => {
-        if(res) {
+    if (this.isOtherProductSelected) {
+      this.restAPIService.post(PathConstants.PRODUCT_MASTER_DETAILS_POST, { 'PName': this.productNew }).subscribe(res => {
+        if (res) {
           console.log('updated!');
         } else {
           console.log('Not Updated!');
@@ -137,22 +137,22 @@ export class QuotationDetailsComponent implements OnInit {
       'UserID': this.username.user
     };
     this.restAPIService.post(PathConstants.QUOTATION_DETAILS_POST, params).subscribe(res => {
-        if (res.Item1) {
-          this.blockScreen = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
-          });
-          this.onClear();
-        } else {
-          this.blockScreen = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
-          });
-        }
+      if (res.Item1) {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+        });
+        this.onClear();
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: res.Item2
+        });
+      }
     }, (err: HttpErrorResponse) => {
       this.blockScreen = false;
       if (err.status === 0 || err.status === 400) {
