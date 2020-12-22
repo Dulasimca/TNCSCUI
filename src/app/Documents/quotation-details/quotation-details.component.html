@@ -21,14 +21,16 @@
                 <p-dropdown #region name="region" class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="rcode"
                  (onClick)="onSelect('reg', 'click')" (keydown.enter)="onSelect('reg', 'enter')" 
                  (ngModelChange)="onResetField('R')" filter="true" resetFilterOnHide="true"
-                  [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
+                  [showClear]="true" filterMatchMode="startsWith" placeholder="-select-"
+                  optionLabel="label">
                 </p-dropdown>
               </div>
             <div class="ui-g-6 ui-md-6 ui-lg-2">
               <label for="godown" class="ui-g-7 label-fontsize dashboard">Godown</label>
               <p-dropdown #godown name="godown" class="ui-g-12 ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="gcode"
               (onClick)="onSelect('gd', 'click')" (keydown.enter)="onSelect('gd', 'enter')" filter="true"
-                resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
+                resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith" placeholder="-select-"
+                optionLabel="label">
               </p-dropdown>
             </div>
             <div class="ui-g-6 ui-md-6 ui-lg-2">

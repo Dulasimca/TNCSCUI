@@ -78,7 +78,7 @@ export class QuotationDetailsComponent implements OnInit {
         this.data = this.roleBasedService.instance;
         if (this.data !== undefined) {
           this.data.forEach(x => {
-            if (x.RCode === this.rcode) {
+            if (x.RCode === this.rcode.value) {
               godownSelection.push({ 'label': x.GName, 'value': x.GCode });
             }
           });
@@ -127,8 +127,10 @@ export class QuotationDetailsComponent implements OnInit {
       product_list.push(p.label)
     })
     const params = {
-      'RCode': this.rcode,
-      'GCode': this.gcode,
+      'RCode': this.rcode.value,
+      'GCode': this.gcode.value,
+      'GName': this.gcode.label,
+      'RName': this.rcode.label,
       'Remarks': (this.remarks !== null && this.remarks.trim() !== '') ? this.remarks.trim() : '-',
       'EmailID': this.emailId,
       'PhoneNo': this.phoneNo,
