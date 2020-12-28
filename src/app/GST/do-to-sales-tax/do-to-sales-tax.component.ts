@@ -9,6 +9,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-do-to-sales-tax',
@@ -41,6 +42,7 @@ export class DoToSalesTaxComponent implements OnInit {
   toDate: any = new Date();
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
   // @ViewChild('m', { static: false }) monthPanel: Dropdown;
   // @ViewChild('y', { static: false }) yearPanel: Dropdown;
   blockScreen: boolean;
@@ -73,13 +75,14 @@ export class DoToSalesTaxComponent implements OnInit {
           }
         });
       }
+    }, () => {
       if(this.accYear !== null && this.accYear !== undefined) {
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoAccountingYearFound
-          });  
-      }
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoAccountingYearFound
+        });  
+    }
     });
     this.DOSalesCols = this.tableConstants.DOtoSalesTaxReport;
     this.username = JSON.parse(this.authService.getCredentials());
@@ -275,7 +278,7 @@ export class DoToSalesTaxComponent implements OnInit {
    if(item === 'R') {
      this.GCode = null;
    }
-   this.DOSalesData = [];
+   this.table.reset();
   }
   onClose() {
     this.messageService.clear('t-err');

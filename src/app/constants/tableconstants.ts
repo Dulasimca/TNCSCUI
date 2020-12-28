@@ -1869,7 +1869,7 @@ export class TableConstants {
 
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Buyer_Name', field: 'CompanyName', width: '40px' },
+      { header: 'Buyer_Name', field: 'PartyName', width: '60px' },
       { header: 'GSTIN', field: 'TIN', width: '40px' },
       { header: 'Commodity', field: 'CommodityName' },
       { header: 'HSN_CODE', field: 'Hsncode' },
@@ -1878,11 +1878,11 @@ export class TableConstants {
       { header: 'Quantity', field: 'Quantity' },
       { header: 'Rate', field: 'Rate' },
       { header: 'Sales_Value', field: 'Amount' },
-      { header: 'Rate Of Tax', field: 'Percentage' },
+      { header: 'Rate Of Tax', field: 'TaxPercentage' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },
-      { header: 'TOTAL GST', field: 'VatAmount' },
+      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'Total Amount', field: 'Total' },
       { header: 'Region', field: 'RGNAME' },
       { header: 'DO Rate', field: 'DORate' },

@@ -9,6 +9,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Table } from 'primeng';
 
 @Component({
   selector: 'app-sales-tax',
@@ -41,6 +42,7 @@ export class SalesTaxComponent implements OnInit {
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
+  @ViewChild('dt', { static: false }) table: Table;
   @ViewChild('accountingYear', { static: false }) accountingYearPanel: Dropdown;
 
 
@@ -203,7 +205,12 @@ export class SalesTaxComponent implements OnInit {
     });
   }
 
-  onResetTable(item) { }
+  onResetTable(item) {
+    if(item === 'reg') {
+      this.GCode = null;
+    }
+    this.table.reset();
+   }
 
   onClose() {
     this.messageService.clear('t-err');
