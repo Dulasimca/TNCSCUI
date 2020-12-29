@@ -9,7 +9,7 @@ import { PathConstants } from 'src/app/constants/path.constants';
 import { Dropdown } from 'primeng/primeng';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Table } from 'primeng';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-sales-tax',
