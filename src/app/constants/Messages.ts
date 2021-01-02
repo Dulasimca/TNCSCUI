@@ -57,4 +57,5 @@ export class StatusMessage {
     public static readonly DOSalesTaxImportSuccess = 'Imported Successfully !';
     public static readonly DOAprrovalMessage = 'Approval sent for ';
     public static readonly NoAccountingYearFound = 'No accounting year found!';
+    public static readonly SalesDataCleared = 'No uncleared data is been found! Proceed with View';
 }
