@@ -181,7 +181,10 @@ export class SalesTaxComponent implements OnInit {
         this.salesTaxReportData = res;
         this.finalData = res;
         this.salesTaxReportData.forEach(un => {
-          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0) {
+          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 || un.TIN.length !== 15) {
+            if (un.TIN !== 'URD') {
+              this.uncleardata.push(un);
+            }
             this.uncleardata.push(un);
           }
         })
