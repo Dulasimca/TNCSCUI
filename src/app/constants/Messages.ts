@@ -57,4 +57,5 @@ export class StatusMessage {
     public static readonly DOSalesTaxImportSuccess = 'Imported Successgully !';
     public static readonly DOAprrovalMessage = 'Approval sent for ';
     public static readonly NoAccountingYearFound = 'No accounting year found!';
+    public static readonly HSNCodeError = 'Selected Item has no HSNCode! Please update item details in Item Master.'
 }
