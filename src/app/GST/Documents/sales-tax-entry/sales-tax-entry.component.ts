@@ -571,7 +571,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (value !== undefined && value !== '') {
       value = value.toString().toUpperCase();
       this.SalesTaxData = this.CompanyTitle.filter(item => {
-        return item.TIN.toString().startsWith(value);
+        return item.BillNo.toString().startsWith(value);
       });
     } else {
       this.SalesTaxData = this.CompanyTitle;

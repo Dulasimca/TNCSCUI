@@ -54,8 +54,9 @@ export class StatusMessage {
     public static readonly ProvideSignature = 'Please provide a signature first!';
     public static readonly NoLeftDataToProcess = 'No data left to process for this combination';
     public static readonly DOSalesTaxImportError = 'Failed to import DO to Sales Tax !';
-    public static readonly DOSalesTaxImportSuccess = 'Imported Successgully !';
+    public static readonly DOSalesTaxImportSuccess = 'Imported Successfully !';
     public static readonly DOAprrovalMessage = 'Approval sent for ';
     public static readonly NoAccountingYearFound = 'No accounting year found!';
     public static readonly HSNCodeError = 'Selected Item has no HSNCode! Please update item details in Item Master.'
+    public static readonly SalesDataCleared = 'No uncleared data is been found! Proceed with View';
 }

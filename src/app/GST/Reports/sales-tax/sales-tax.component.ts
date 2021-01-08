@@ -38,6 +38,9 @@ export class SalesTaxComponent implements OnInit {
   salesTaxReportData: any = [];
   salesTaxReportCols: any;
   loading: boolean;
+  uncleardata: any = [];
+  finalData: any = [];
+  viewEnable: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
@@ -159,6 +162,11 @@ export class SalesTaxComponent implements OnInit {
 
   onView() {
     this.loading = true;
+    this.salesTaxReportData = this.finalData;
+  }
+
+  onCleared() {
+    this.loading = true;
     const params = {
       // 'RoleId': this.roleId,
       'GCode': this.GCode,
@@ -171,6 +179,24 @@ export class SalesTaxComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.salesTaxReportData = res;
+        this.finalData = res;
+        this.salesTaxReportData.forEach(un => {
+          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 || un.TIN.length !== 15) {
+            if (un.TIN !== 'URD') {
+              this.uncleardata.push(un);
+            }
+            this.uncleardata.push(un);
+          }
+        })
+        if (this.uncleardata.length === 0) {
+          this.viewEnable = true;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SalesDataCleared
+          });
+        }
+        this.salesTaxReportData = this.uncleardata;
         let sno = 0;
         this.salesTaxReportData.forEach(s => {
           sno += 1;
@@ -206,11 +232,11 @@ export class SalesTaxComponent implements OnInit {
   }
 
   onResetTable(item) {
-    if(item === 'reg') {
+    if (item === 'reg') {
       this.GCode = null;
     }
     this.table.reset();
-   }
+  }
 
   onClose() {
     this.messageService.clear('t-err');

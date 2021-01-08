@@ -1564,7 +1564,7 @@ export class TableConstants {
 
     this.GodownSalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'SchemeName', header: 'Scheme Name' },
       // { field: 'SchemeCode', header: 'Scheme Code' },
