@@ -280,6 +280,7 @@ export class DoToSalesTaxComponent implements OnInit {
    }
    this.table.reset();
   }
+  
   onClose() {
     this.messageService.clear('t-err');
   }

@@ -66,20 +66,20 @@
                       </p-dropdown>
                     </div>
                   </div>
-                  <div class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center">
+                  <div class="ui-g-12 ui-md-2 ui-fluid" style="text-align: center;padding-top: 15px;">
                     <div class="ui-g-12 dashboard label-fontsize-large">
                       Allotment/Release Order No
                     </div><br>
-                    <div class="ui-g-12 ui-fluid" style="padding-left:15px">
+                    <div class="ui-g-12 ui-fluid">
                       <input #ordNo="ngModel" name="AllotmentOrderNo" type="text" size="20" [(ngModel)]="OrderNo"
                         maxlength="20" pInputText autocomplete="off" required>
                     </div>
                   </div>
-                  <div class="ui-g-12 ui-md-3 ui-fluid">
+                  <div class="ui-g-12 ui-md-3 ui-fluid" style="padding-top: 15px;">
                     <label for="AllotmentOrderDate" class=" label-fontsize-large"
                       style="padding-left: 10px">Allotment/Release Order
                       Date</label><br>
-                    <div class="ui-g-12 ui-fluid" style="padding-top: 15px">
+                    <div class="ui-g-12 ui-fluid">
                       <p-calendar name="AllotmentOrderDate" class="ui-g-12" dateFormat="dd/mm/yy"
                         [(ngModel)]="OrderDate" [maxDate]="maxDate" maxlength="20" [showIcon]="true">
                       </p-calendar>
@@ -212,7 +212,7 @@
                       <label for="Commodity" class="label-fontsize">Item Description</label>
                       <p-dropdown #i_desc name="Commodity" [options]="itemDescOptions" [(ngModel)]="ICode"
                         (onClick)="onSelect('i_desc', 'click')" (keyup.shift.tab)="onSelect('i_desc', 'tab')"
-                        (keyup.tab)="onSelect('i_desc', 'tab')" (onChange)="refreshSelect('i_desc')" filter="true"
+                        (keyup.tab)="onSelect('i_desc', 'tab')" (ngModelChange)="refreshSelect('i_desc')" filter="true"
                         resetFilterOnHide="true" optionLabel="label" filterMatchMode="startsWith" [showClear]="true">
                         <ng-template let-item pTemplate="selectedItem">
                           <span style="vertical-align:middle">{{item.label}}</span>

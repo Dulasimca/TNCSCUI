@@ -163,6 +163,8 @@ export class StockReceiptComponent implements OnInit {
   @ViewChild('wmt', { static: false }) weightmentPanel: Dropdown;
   @ViewChild('vc', { static: false }) vehiclePanel: Dropdown;
   @ViewChild('fc', { static: false }) freightPanel: Dropdown;
+  @ViewChild('f', { static: false }) form: NgForm;
+
 
   constructor(private authService: AuthService, private tableConstants: TableConstants,
     private roleBasedService: RoleBasedService, private restAPIService: RestAPIService,
@@ -320,7 +322,7 @@ export class StockReceiptComponent implements OnInit {
             this.restAPIService.getByParameters(PathConstants.COMMODITY_FOR_SCHEME, params).subscribe((res: any) => {
               if (res !== undefined && res !== null && res.length !== 0) {
                 res.forEach(i => {
-                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode });
+                  itemDesc.push({ 'label': i.ITDescription, 'value': i.ITCode, 'Hsncode': i.Hsncode });
                 });
                 this.itemDescOptions = itemDesc;
                 this.itemDescOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
@@ -410,9 +412,28 @@ export class StockReceiptComponent implements OnInit {
       case 'i_desc':
         this.stackOptions = [];
         this.TStockNo = null;
+        this.onCheckItemFields();
         break;
     }
   }
+
+  onCheckItemFields() {
+    if(this.ICode.value !== undefined && this.ICode.value !== null) {
+      const Hsncode: string = this.ICode.Hsncode;
+      if(Hsncode !== undefined && Hsncode !== null && Hsncode !== '') {
+        this.messageService.clear();
+      } else {
+        this.form.controls.Commodity.reset();
+        // this.ICode = null;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
+          life: 5000, detail: StatusMessage.HSNCodeError
+        });
+      }
+    }
+  }
+
 
   deleteRow(data, index) {
     let sno = 1;
