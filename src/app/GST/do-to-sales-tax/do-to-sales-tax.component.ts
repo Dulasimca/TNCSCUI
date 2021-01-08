@@ -212,9 +212,11 @@ export class DoToSalesTaxComponent implements OnInit {
     if (this.DOSalesData.length !== 0) {
       this.DOSalesData.forEach(x => {
         x.CreatedBy = this.username.user;
-        x.Year = x.OrderPeriod.slice(0,4);
+        x.Year = new Date(x.DoDate).getFullYear();
+        x.Month = (new Date(x.DoDate).getMonth()) + 1;
+       // x.Year = x.OrderPeriod.slice(0,4);
         x.AccYear = this.accYear;
-        x.Month = x.OrderPeriod.slice(5, 7);
+        // x.Month = x.OrderPeriod.slice(5, 7);
         x.CurrentDate = this.datepipe.transform(this.maxDate, 'MM/dd/yyyy');
       })
       this.blockScreen = true;
