@@ -39,6 +39,7 @@ export class SalesTaxComponent implements OnInit {
   salesTaxReportCols: any;
   loading: boolean;
   uncleardata: any = [];
+  unclear: any = [];
   finalData: any = [];
   viewEnable: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
@@ -163,7 +164,82 @@ export class SalesTaxComponent implements OnInit {
   onView() {
     this.loading = true;
     this.salesTaxReportData = this.finalData;
+    let sno = 0;
+    this.salesTaxReportData.forEach(s => {
+      sno += 1;
+      s.SlNo = sno;
+    });
+    this.loading = false;
   }
+
+  // onCleared() {
+  //   this.loading = true;
+  //   const params = {
+  //     // 'RoleId': this.roleId,
+  //     'GCode': this.GCode,
+  //     'RCode': this.RCode,
+  //     'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
+  //     'Year': this.Year,
+  //     'AccountingYear': this.AccountingYear.label,
+  //     'GSTType': '3'
+  //   };
+  //   this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
+  //     if (res !== undefined && res !== null && res.length !== 0) {
+  //       this.salesTaxReportData = res;
+  //       this.finalData = res;
+  //       this.salesTaxReportData.forEach(un => {
+  //         if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0) {
+  //           this.unclear.push(un);
+  //         }
+  //         this.unclear.forEach(s => {
+  //           if (s.TIN.length !== 15 || s.TIN !== 'URD') {
+  //             this.uncleardata.push(un);
+  //           }
+  //         })
+  //       });
+  //       this.loading = false;
+  //       if (this.uncleardata.length === 0) {
+  //         this.viewEnable = true;
+  //         this.messageService.clear();
+  //         this.messageService.add({
+  //           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+  //           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SalesDataCleared
+  //         });
+  //       }
+  //       this.salesTaxReportData = this.uncleardata;
+  //       let sno = 0;
+  //       this.salesTaxReportData.forEach(s => {
+  //         sno += 1;
+  //         s.SlNo = sno;
+  //         s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+  //         s.Amount = ((s.Amount * 1) > 0) ? (s.Amount * 1).toFixed(2) : s.Amount;
+  //         s.Rate = ((s.Rate * 1) > 0) ? (s.Rate * 1).toFixed(2) : s.Rate;
+  //         s.DORate = ((s.DORate * 1) > 0) ? (s.DORate * 1).toFixed(2) : s.DORate;
+  //         s.DOTotal = ((s.DOTotal * 1) > 0) ? (s.DOTotal * 1).toFixed(2) : s.DOTotal;
+  //         s.Quantity = ((s.Quantity * 1) > 0) ? (s.Quantity * 1).toFixed(3) : s.Quantity;
+  //         s.TaxAmount = ((s.TaxAmount * 1) > 0) ? (s.TaxAmount * 1).toFixed(2) : s.TaxAmount;
+  //         s.Total = ((s.Total * 1) > 0) ? (s.Total * 1).toFixed(2) : s.Total;
+  //       });
+  //       this.loading = false;
+  //     } else {
+  //       this.loading = false;
+  //       this.messageService.clear();
+  //       this.messageService.add({
+  //         key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+  //         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+  //       });
+  //     }
+  //   }, (err: HttpErrorResponse) => {
+  //     if (err.status === 0 || err.status === 400) {
+  //       this.loading = false;
+  //       this.messageService.clear();
+  //       this.messageService.add({
+  //         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+  //         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+  //       });
+  //     }
+  //   });
+  // }
 
   onCleared() {
     this.loading = true;
@@ -181,13 +257,11 @@ export class SalesTaxComponent implements OnInit {
         this.salesTaxReportData = res;
         this.finalData = res;
         this.salesTaxReportData.forEach(un => {
-          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 || un.TIN.length !== 15) {
-            if (un.TIN !== 'URD') {
-              this.uncleardata.push(un);
-            }
+          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 || (un.TIN.length !== 15 && un.TIN.length !== 3)) {
             this.uncleardata.push(un);
           }
-        })
+        });
+        this.loading = false;
         if (this.uncleardata.length === 0) {
           this.viewEnable = true;
           this.messageService.clear();
