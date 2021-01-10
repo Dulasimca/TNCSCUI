@@ -66,24 +66,7 @@ export class DoToSalesTaxComponent implements OnInit {
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
     this.Year = new Date().getFullYear();
     this.yearOptions = [{ label: this.Year, value: this.Year }];
-    const accountingYear = '04' + '/' + '01' + '/' + this.Year;
-    this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
-      if (data !== undefined) {
-        data.forEach(y => {
-          if(y.FromDate === accountingYear) {
-          this.accYear = y.ShortYear;
-          }
-        });
-      }
-    }, () => {
-      if(this.accYear !== null && this.accYear !== undefined) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoAccountingYearFound
-        });  
-    }
-    });
+    // const accountingYear = '04' + '/' + '01' + '/' + this.Year;
     this.DOSalesCols = this.tableConstants.DOtoSalesTaxReport;
     this.username = JSON.parse(this.authService.getCredentials());
   }
@@ -186,7 +169,7 @@ export class DoToSalesTaxComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
-        this.loading = false;
+        this.callAccountingYear();
       } else {
         this.loading = false;
         this.onResetTable('');
@@ -212,9 +195,8 @@ export class DoToSalesTaxComponent implements OnInit {
     if (this.DOSalesData.length !== 0) {
       this.DOSalesData.forEach(x => {
         x.CreatedBy = this.username.user;
-        x.Year = x.OrderPeriod.slice(0,4);
-        x.AccYear = this.accYear;
-        x.Month = x.OrderPeriod.slice(5, 7);
+        x.Year = new Date(x.DoDate).getFullYear();
+        x.Month = (new Date(x.DoDate).getMonth()) + 1;
         x.CurrentDate = this.datepipe.transform(this.maxDate, 'MM/dd/yyyy');
       })
       this.blockScreen = true;
@@ -245,6 +227,32 @@ export class DoToSalesTaxComponent implements OnInit {
         }
       });
     }
+  }
+
+  callAccountingYear() {
+    if(this.DOSalesData.length !== 0) {
+    this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
+      if (data !== undefined) {
+        this.DOSalesData.forEach(x => {
+          // const doDate_year = new Date(x.DoDate).getFullYear();
+          const doDate_year = new Date(x.DoDate);
+          data.forEach(y => {
+            // const from_accYear = new Date(y.FromDate).getFullYear();
+            // const to_accYear = new Date(y.ToDate).getFullYear();
+            const from_accYear = new Date(y.FromDate);
+            const to_accYear = new Date(y.ToDate);
+            if(from_accYear <= doDate_year && to_accYear >= doDate_year) {
+               x.AccYear = y.ShortYear;
+            }
+          });
+        })
+      } else {
+        this.loading = false;
+      }
+    }, () => {
+      this.loading = false;
+    });
+  }
   }
 
   onDateSelect() {
