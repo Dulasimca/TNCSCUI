@@ -39,7 +39,6 @@ export class SalesTaxComponent implements OnInit {
   salesTaxReportCols: any;
   loading: boolean;
   uncleardata: any = [];
-  unclear: any = [];
   finalData: any = [];
   viewEnable: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;

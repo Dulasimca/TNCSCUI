@@ -1504,7 +1504,7 @@ export class TableConstants {
 
     this.PurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
@@ -1526,7 +1526,7 @@ export class TableConstants {
 
     this.AADSPurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
@@ -1544,7 +1544,7 @@ export class TableConstants {
 
     this.AADSSalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
@@ -1558,8 +1558,6 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-      // { header: 'Modify' },
-      // { header: 'Delete' }
     ];
 
     this.GodownSalesTaxEntry = [
@@ -1589,7 +1587,7 @@ export class TableConstants {
       { field: 'bd', header: 'Bill Date' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'TIN', header: 'GST No' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Service Name' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
