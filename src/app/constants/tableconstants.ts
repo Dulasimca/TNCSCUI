@@ -1504,7 +1504,7 @@ export class TableConstants {
 
     this.PurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'PartyName', header: 'Company Name' },
+      { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'SchemeName', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
@@ -1526,7 +1526,7 @@ export class TableConstants {
 
     this.AADSPurchaseTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'PartyName', header: 'Company Name' },
+      { field: 'CompanyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
@@ -1582,21 +1582,19 @@ export class TableConstants {
 
     this.ServiceProviderEntry = [
       { header: 'S.No', field: 'SlNo' },
+      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'TIN', header: 'GST No' },
+      { field: 'CommodityName', header: 'Service Name' },
       { field: 'Month', header: 'Month' },
       { field: 'Year', header: 'Year' },
-      { field: 'bd', header: 'Bill Date' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'TIN', header: 'GST No' },
-      { field: 'PartyName', header: 'Company Name' },
-      { field: 'CommodityName', header: 'Service Name' },
+      { field: 'bd', header: 'Bill Date' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-      // { header: 'Modify' },
-      // { header: 'Delete' }
     ];
 
     this.TenderAllotmentToRegionCols = [
@@ -1868,7 +1866,7 @@ export class TableConstants {
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Buyer_Name', field: 'PartyName', width: '60px' },
-      { header: 'GSTIN', field: 'TIN', width: '40px' },
+      // { header: 'GSTIN', field: 'TIN', width: '40px' },
       { header: 'Commodity', field: 'CommodityName' },
       { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Bill No', field: 'BillNo' },
@@ -1889,10 +1887,10 @@ export class TableConstants {
 
     this.GSTPurchasexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Name_of_seller', field: 'PartyName' },
-      { header: 'GSTIN', field: 'TIN' },
+      // { header: 'Name_of_seller', field: 'PartyName' },
+      // { header: 'GSTIN', field: 'TIN' },
       { header: 'Commodity_Name', field: 'CommodityName' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
+      // { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Invoice_No', field: 'BillNo' },
       { header: 'Invoice_Date', field: 'BillDate' },
       { header: 'Quantity', field: 'Quantity' },

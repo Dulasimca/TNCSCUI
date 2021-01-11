@@ -40,6 +40,8 @@ export class SalesTaxComponent implements OnInit {
   loading: boolean;
   uncleardata: any = [];
   finalData: any = [];
+  TINNo: string;
+  unclear: any = [];
   viewEnable: boolean = false;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
@@ -150,10 +152,10 @@ export class SalesTaxComponent implements OnInit {
         if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
-        this.monthOptions = [{ label: 'Jan', value: '01' },
-        { label: 'Feb', value: '02' }, { label: 'Mar', value: '03' }, { label: 'Apr', value: '04' },
-        { label: 'May', value: '05' }, { label: 'Jun', value: '06' }, { label: 'Jul', value: '07' },
-        { label: 'Aug', value: '08' }, { label: 'Sep', value: '09' }, { label: 'Oct', value: '10' },
+        this.monthOptions = [{ label: 'Jan', value: '1' },
+        { label: 'Feb', value: '2' }, { label: 'Mar', value: '3' }, { label: 'Apr', value: '4' },
+        { label: 'May', value: '5' }, { label: 'Jun', value: '6' }, { label: 'Jul', value: '7' },
+        { label: 'Aug', value: '8' }, { label: 'Sep', value: '9' }, { label: 'Oct', value: '10' },
         { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
         this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
@@ -253,16 +255,21 @@ export class SalesTaxComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.salesTaxReportData = res;
+        this.unclear = res;
         this.finalData = res;
-        this.salesTaxReportData.forEach(un => {
-          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 || (un.TIN.length !== 15 && un.TIN.length !== 3)) {
+        this.loading = false;
+        let sno = 0;
+        this.unclear.forEach(un => {
+          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 ) {
             this.uncleardata.push(un);
+            // this.TINNo = un.StateCode + un.Pan + un.GSTNo;
+            // sno += 1;
+            // un.SlNo = sno;
           }
         });
-        this.loading = false;
         if (this.uncleardata.length === 0) {
           this.viewEnable = true;
+          this.loading = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
@@ -270,7 +277,7 @@ export class SalesTaxComponent implements OnInit {
           });
         }
         this.salesTaxReportData = this.uncleardata;
-        let sno = 0;
+        sno = 0;
         this.salesTaxReportData.forEach(s => {
           sno += 1;
           s.SlNo = sno;
@@ -309,6 +316,7 @@ export class SalesTaxComponent implements OnInit {
       this.GCode = null;
     }
     this.table.reset();
+    this.viewEnable = false;
   }
 
   onClose() {

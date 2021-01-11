@@ -188,6 +188,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
+        if(this.godownOptions === undefined){
         if (this.data !== undefined && this.AADS === "1") {
           this.data.forEach(x => {
             if (x.RCode === this.RCode) {
@@ -195,14 +196,17 @@ export class PurchaseTaxEntryComponent implements OnInit {
             }
           });
           this.godownOptions = this.godownSelection;
-        } else if (this.AADS === "2") {
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
+        } else if (this.data !== undefined && this.AADS === "2") {
           this.aadsGodownSelection.forEach(s => {
             if (s.RCode === this.RCode) {
               godownSelection.push({ 'label': s.label, 'value': s.value });
             }
           });
           this.godownOptions = godownSelection;
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
+      }
         break;
       case 'y':
         if (type === 'tab') {
@@ -251,10 +255,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
-        this.monthOptions = [{ 'label': 'Jan', 'value': '01' },
-        { 'label': 'Feb', 'value': '02' }, { 'label': 'Mar', 'value': '03' }, { 'label': 'Apr', 'value': '04' },
-        { 'label': 'May', 'value': '05' }, { 'label': 'Jun', 'value': '06' }, { 'label': 'Jul', 'value': '07' },
-        { 'label': 'Aug', 'value': '08' }, { 'label': 'Sep', 'value': '09' }, { 'label': 'Oct', 'value': '10' },
+        this.monthOptions = [{ 'label': 'Jan', 'value': '1' },
+        { 'label': 'Feb', 'value': '2' }, { 'label': 'Mar', 'value': '3' }, { 'label': 'Apr', 'value': '4' },
+        { 'label': 'May', 'value': '5' }, { 'label': 'Jun', 'value': '6' }, { 'label': 'Jul', 'value': '7' },
+        { 'label': 'Aug', 'value': '8' }, { 'label': 'Sep', 'value': '9' }, { 'label': 'Oct', 'value': '10' },
         { 'label': 'Nov', 'value': '11' }, { 'label': 'Dec', 'value': '12' }];
         this.monthOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         break;
@@ -626,7 +630,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     const params = {
       'Roleid': this.roleId,
       'PurchaseID': (this.PurchaseID !== undefined && this.PurchaseID !== null) ? this.PurchaseID : 0,
-      'Month': this.curMonth,
+      'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
       'GST': this.Gst,
