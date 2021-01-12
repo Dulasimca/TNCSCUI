@@ -1866,7 +1866,7 @@ export class TableConstants {
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Buyer_Name', field: 'PartyName', width: '60px' },
-      // { header: 'GSTIN', field: 'TIN', width: '40px' },
+      { header: 'GSTIN', field: 'TIN', width: '40px' },
       { header: 'Commodity', field: 'CommodityName' },
       { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Bill No', field: 'BillNo' },
@@ -1887,10 +1887,10 @@ export class TableConstants {
 
     this.GSTPurchasexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      // { header: 'Name_of_seller', field: 'PartyName' },
-      // { header: 'GSTIN', field: 'TIN' },
+      { header: 'Name_of_seller', field: 'PartyName' },
+      { header: 'GSTIN', field: 'TIN' },
       { header: 'Commodity_Name', field: 'CommodityName' },
-      // { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Invoice_No', field: 'BillNo' },
       { header: 'Invoice_Date', field: 'BillDate' },
       { header: 'Quantity', field: 'Quantity' },

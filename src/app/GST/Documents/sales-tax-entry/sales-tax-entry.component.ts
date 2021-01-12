@@ -68,6 +68,7 @@ export class SalesTaxEntryComponent implements OnInit {
   Bdate: Date;
   Cdate: Date;
   Gst: any;
+  curDate: Date;
   Commodity: any;
   CommodityName: any;
   Quantity: any;
@@ -140,6 +141,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.curDate = new Date();
     this.curMonth = new Date().getMonth() + 1;
     this.Month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
@@ -191,23 +193,26 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
-        if (this.data !== undefined && this.AADS === "1") {
-          this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              this.godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-            }
-          });
-          this.godownOptions = this.godownSelection;
-        } else if (this.AADS === "2") {
-          this.aadsGodownSelection.forEach(s => {
-            if (s.RCode === this.RCode) {
-              godownSelection.push({ 'label': s.label, 'value': s.value });
-            }
-          });
-          this.godownOptions = godownSelection;
+        if(this.godownOptions === undefined){
+          if (this.data !== undefined && this.AADS === "1") {
+            this.data.forEach(x => {
+              if (x.RCode === this.RCode) {
+                this.godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              }
+            });
+            this.godownOptions = this.godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          } else if (this.data !== undefined && this.AADS === "2") {
+            this.aadsGodownSelection.forEach(s => {
+              if (s.RCode === this.RCode) {
+                godownSelection.push({ 'label': s.label, 'value': s.value });
+              }
+            });
+            this.godownOptions = godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
-        this.godownOptions.unshift({ label: 'All', value: 'All' });
-        break;
+          break;
       case 'y':
         if (type === 'tab') {
           this.accountingYearPanel.overlayVisible = true;
@@ -672,7 +677,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'TaxAmount': this.Vat,
       'Total': this.Total,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.curDate,
       'RCode': this.RCode,
       'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
       'GSTType': this.AADS,

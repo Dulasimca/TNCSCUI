@@ -37,6 +37,7 @@ export class PurchaseTaxComponent implements OnInit {
   purchaseTaxReportData: any = [];
   purchaseTaxReportCols: any;
   loading: boolean;
+  AADS: any = 1;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
@@ -155,34 +156,75 @@ export class PurchaseTaxComponent implements OnInit {
     }
   }
 
+  // onView() {
+  //   this.loading = true;
+  //   const params = {
+  //     // 'RoleId': this.roleId,
+  //     'GCode': this.GCode,
+  //     'RCode': this.RCode,
+  //     'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
+  //     'Year': this.Year,
+  //     'AccountingYear': this.AccountingYear.label,
+  //     'GSTType': 3
+  //   };
+  //   this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
+  //     if (res !== undefined && res !== null && res.length !== 0) {
+  //       this.purchaseTaxReportData = res;
+  //       let sno = 0;
+  //       this.purchaseTaxReportData.forEach(s => {
+  //         sno += 1;
+  //         s.SlNo = sno;
+  //         s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+  //         s.Amount = ((s.Amount * 1) > 0) ? (s.Amount * 1).toFixed(2) : s.Amount;
+  //         s.Rate = ((s.Rate * 1) > 0) ? (s.Rate * 1).toFixed(2) : s.Rate;
+  //         s.DORate = ((s.DORate * 1) > 0) ? (s.DORate * 1).toFixed(2) : s.DORate;
+  //         s.DOTotal = ((s.DOTotal * 1) > 0) ? (s.DOTotal * 1).toFixed(2) : s.DOTotal;
+  //         s.Quantity = ((s.Quantity * 1) > 0) ? (s.Quantity * 1).toFixed(3) : s.Quantity;
+  //         s.VatAmount = ((s.VatAmount * 1) > 0) ? (s.VatAmount * 1).toFixed(2) : s.VatAmount;
+  //         s.Total = ((s.Total * 1) > 0) ? (s.Total * 1).toFixed(2) : s.Total;
+  //       });
+  //       this.loading = false;
+  //     } else {
+  //       this.loading = false;
+  //       this.messageService.clear();
+  //       this.messageService.add({
+  //         key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+  //         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+  //       });
+  //     }
+  //   }, (err: HttpErrorResponse) => {
+  //     if (err.status === 0 || err.status === 400) {
+  //       this.loading = false;
+  //       this.messageService.clear();
+  //       this.messageService.add({
+  //         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+  //         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+  //       });
+  //     }
+  //   });
+  // }
+
   onView() {
-    this.loading = true;
     const params = {
-      // 'RoleId': this.roleId,
       'GCode': this.GCode,
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label,
-      'GSTType': '3'
+      'GSTType': this.AADS
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
+        this.purchaseTaxReportCols = (this.AADS === '2') ? this.tableConstants.AADSPurchaseTaxEntry : this.tableConstants.PurchaseTaxEntry;
         this.purchaseTaxReportData = res;
+        this.loading = false;
         let sno = 0;
+        let bd = new Date();
         this.purchaseTaxReportData.forEach(s => {
+          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
-          s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
-          s.Amount = ((s.Amount * 1) > 0) ? (s.Amount * 1).toFixed(2) : s.Amount;
-          s.Rate = ((s.Rate * 1) > 0) ? (s.Rate * 1).toFixed(2) : s.Rate;
-          s.DORate = ((s.DORate * 1) > 0) ? (s.DORate * 1).toFixed(2) : s.DORate;
-          s.DOTotal = ((s.DOTotal * 1) > 0) ? (s.DOTotal * 1).toFixed(2) : s.DOTotal;
-          s.Quantity = ((s.Quantity * 1) > 0) ? (s.Quantity * 1).toFixed(3) : s.Quantity;
-          s.VatAmount = ((s.VatAmount * 1) > 0) ? (s.VatAmount * 1).toFixed(2) : s.VatAmount;
-          s.Total = ((s.Total * 1) > 0) ? (s.Total * 1).toFixed(2) : s.Total;
         });
-        this.loading = false;
       } else {
         this.loading = false;
         this.messageService.clear();

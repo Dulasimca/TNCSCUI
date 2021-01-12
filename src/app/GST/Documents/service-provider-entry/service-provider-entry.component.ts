@@ -74,6 +74,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   userdata: any;
   maxDate: Date;
   minDate: Date;
+  curDate: Date;
   searchText: any;
   searchParty: any;
   items: any;
@@ -111,6 +112,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.curDate = new Date();
     this.curMonth = new Date().getMonth() + 1;
     this.Month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
@@ -456,7 +458,7 @@ export class ServiceProviderEntryComponent implements OnInit {
       'TaxAmount': this.Vat,
       'Total': this.Total,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.curDate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };

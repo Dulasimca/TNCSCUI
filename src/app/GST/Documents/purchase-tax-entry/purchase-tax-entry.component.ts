@@ -90,6 +90,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   items: any;
   Month: any;
   Year: any;
+  curDate: Date;
   loggedInRCode: any;
   viewPane: boolean = false;
   isViewed: boolean = false;
@@ -137,6 +138,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.curDate = new Date();
     this.curMonth = new Date().getMonth() + 1;
     this.Month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
@@ -653,7 +655,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'SGST': this.SGST,
       'Total': this.Total,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.curDate,
       'RCode': this.RCode,
       'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
       'GSTType': this.AADS,
