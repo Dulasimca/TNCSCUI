@@ -165,6 +165,7 @@ export class DoToSalesTaxComponent implements OnInit {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.DOSalesData = res;
         let sno = 0;
+        this.loading = false;
         this.DOSalesData.forEach(s => {
           sno += 1;
           s.SlNo = sno;
