@@ -695,7 +695,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.PurchaseTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
-    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; }
+    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; this.godownOptions = undefined;}
   }
 
   onClose() {

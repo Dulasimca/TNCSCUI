@@ -1257,7 +1257,7 @@ export class TableConstants {
     ];
 
     this.FrozenPDSLiftmentColumns = [
-       { field: 'slno', header: 'Sl.No.', width: '55px' },
+      { field: 'slno', header: 'Sl.No.', width: '55px' },
       { field: 'RName', header: 'Region Name', width: '270px' }
     ]
 
@@ -1865,46 +1865,42 @@ export class TableConstants {
 
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Buyer_ID', field: 'CompanyID', width: '60px' },
       { header: 'Buyer_Name', field: 'PartyName', width: '60px' },
       { header: 'GSTIN', field: 'TIN', width: '40px' },
-      { header: 'Commodity', field: 'CommodityName' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Bill No', field: 'BillNo' },
       { header: 'Bill Date', field: 'BillDate' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'Commodity', field: 'CommodityName' },
       { header: 'Quantity', field: 'Quantity' },
       { header: 'Rate', field: 'Rate' },
       { header: 'Sales_Value', field: 'Amount' },
       { header: 'Rate Of Tax', field: 'TaxPercentage' },
+      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
-      { header: 'IGST', field: 'IGST' },
-      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'Total Amount', field: 'Total' },
-      { header: 'Region', field: 'RGNAME' },
-      { header: 'DO Rate', field: 'DORate' },
-      { header: 'DO Total', field: 'DOTotal' },
+      // { header: 'Region', field: 'RGNAME' },
     ];
 
     this.GSTPurchasexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Name_of_seller', field: 'PartyName' },
+      { header: 'Seller_ID', field: 'CompanyID' },
+      { header: 'Name_of_seller', field: 'CompanyName' },
       { header: 'GSTIN', field: 'TIN' },
-      { header: 'Commodity_Name', field: 'CommodityName' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Invoice_No', field: 'BillNo' },
       { header: 'Invoice_Date', field: 'BillDate' },
-      { header: 'Quantity', field: 'Quantity' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'Commodity_Name', field: 'CommodityName' },
       { header: 'Scale', field: 'Measurement' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Rate', field: 'Rate' },
       { header: 'Purchase_Value', field: 'Amount' },
-      { header: 'Tax_Rate', field: 'TaxPercentage' },
+      { header: 'Tax_Percentage', field: 'Percentage' },
+      { header: 'TOTAL_TAX', field: 'VatAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
-      { header: 'IGST', field: 'IGST' },
-      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'Total Amount', field: 'Total' },
-      { header: 'Region', field: 'RGNAME' },
-      { header: 'DO Rate', field: 'DORate' },
-      { header: 'DO Total', field: 'DOTotal' },
     ];
 
     this.RateMaster = [

@@ -193,7 +193,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (type === 'tab') {
           this.GodownPanel.overlayVisible = true;
         }
-        if(this.godownOptions === undefined){
+        if (this.godownOptions === undefined) {
           if (this.data !== undefined && this.AADS === "1") {
             this.data.forEach(x => {
               if (x.RCode === this.RCode) {
@@ -212,7 +212,7 @@ export class SalesTaxEntryComponent implements OnInit {
             this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
         }
-          break;
+        break;
       case 'y':
         if (type === 'tab') {
           this.accountingYearPanel.overlayVisible = true;
@@ -717,7 +717,7 @@ export class SalesTaxEntryComponent implements OnInit {
     if (item === 'reg') { this.GCode = null; }
     this.SalesTaxData = [];
     if (item === 'company') { this.Pan = this.Gst = this.State = null; }
-    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; }
+    if (item === 'AADS') { this.GCode = this.formUser = null; this.OnEdit = false; this.godownOptions = undefined }
   }
 
   onClose() {

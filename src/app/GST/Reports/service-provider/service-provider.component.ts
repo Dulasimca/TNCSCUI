@@ -187,7 +187,7 @@ export class ServiceProviderComponent implements OnInit {
                 ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
                 ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
               });
-              this.serviceTaxData.push({ CommodityName: 'ABSTRACT' });
+              this.serviceTaxData.push({ CommodityName: 'Total' });
               abstract.forEach(x => {
                 this.serviceTaxData.push({ Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
                   CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2) });;

@@ -215,7 +215,7 @@ export class PurchaseTaxComponent implements OnInit {
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.purchaseTaxReportCols = (this.AADS === '2') ? this.tableConstants.AADSPurchaseTaxEntry : this.tableConstants.PurchaseTaxEntry;
+        // this.purchaseTaxReportCols = this.tableConstants.PurchaseTaxEntry;
         this.purchaseTaxReportData = res;
         this.loading = false;
         let sno = 0;
@@ -225,6 +225,35 @@ export class PurchaseTaxComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
+        ///Abstract
+        var hash = Object.create(null),
+          abstract = [];
+        this.purchaseTaxReportData.forEach(function (o) {
+          var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = {
+              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
+              Quantity: 0, Rate: 0, Amount: 0, TaxPercentage: o.Percentage,
+              VatAmount: 0, CGST: 0, SGST: 0, Total: 0
+            };
+            abstract.push(hash[key]);
+          }
+          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Rate'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['VatAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
+        this.purchaseTaxReportData.push({ CompanyName: 'Total' });
+        abstract.forEach(x => {
+          this.purchaseTaxReportData.push({
+            Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount   * 1).toFixed(2),
+            CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
+          });;
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -250,6 +279,14 @@ export class PurchaseTaxComponent implements OnInit {
   }
   onClose() {
     this.messageService.clear('t-err');
+  }
+
+  public getStyle(value: string, id: string): string {
+    if (id === 'line') {
+      return (value === 'ABSTRACT') ? "underline" : "none";
+    } else {
+      return (value === 'ABSTRACT') ? "#18c5a9" : "black";
+    }
   }
 
 }

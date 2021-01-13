@@ -72,7 +72,6 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <!-- <div class="ui-g-6 ui-md-1"></div> -->
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
@@ -81,9 +80,6 @@
         <button pButton type="button" icon="pi pi-plus" label=Add (click)="OnEdit = true;onClear()"
           [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)"></button>
       </div>
-      <!-- <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
-        <button pButton type="button" label=Excel style="padding: 1px;" (click)="table.exportCSV()"></button>
-      </div> -->
       <div class="ui-g-12 ui-md-1"></div>
       <div class="ui-g-12"></div>
 
