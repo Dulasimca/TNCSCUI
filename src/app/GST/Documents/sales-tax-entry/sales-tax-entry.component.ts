@@ -189,30 +189,6 @@ export class SalesTaxEntryComponent implements OnInit {
           }
         }
         break;
-      case 'gd':
-        if (type === 'tab') {
-          this.GodownPanel.overlayVisible = true;
-        }
-        if (this.godownOptions === undefined) {
-          if (this.data !== undefined && this.AADS === "1") {
-            this.data.forEach(x => {
-              if (x.RCode === this.RCode) {
-                godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-              }
-            });
-            this.godownOptions = godownSelection;
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          } else if (this.data !== undefined && this.AADS === "2") {
-            this.aadsGodownSelection.forEach(s => {
-              if (s.RCode === this.RCode) {
-                godownSelection.push({ 'label': s.label, 'value': s.value });
-              }
-            });
-            this.godownOptions = godownSelection;
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
-        }
-        break;
       case 'y':
         if (type === 'tab') {
           this.accountingYearPanel.overlayVisible = true;
@@ -348,6 +324,30 @@ export class SalesTaxEntryComponent implements OnInit {
             this.SchemeOptions = SchemeSelection;
             this.SchemeOptions.unshift({ label: '-select-', value: null, disabled: true });
           });
+        }
+        break;
+      case 'gd':
+        if (type === 'tab') {
+          this.GodownPanel.overlayVisible = true;
+        }
+        if (this.godownOptions === undefined) {
+          if (this.data !== undefined && this.AADS === "1") {
+            this.data.forEach(x => {
+              if (x.RCode === this.RCode) {
+                godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              }
+            });
+            this.godownOptions = godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          } else if (this.data !== undefined && this.AADS === "2") {
+            this.aadsGodownSelection.forEach(s => {
+              if (s.RCode === this.RCode) {
+                godownSelection.push({ 'label': s.label, 'value': s.value });
+              }
+            });
+            this.godownOptions = godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          }
         }
         break;
     }
