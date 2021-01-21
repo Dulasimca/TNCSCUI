@@ -36,12 +36,15 @@ export class ServiceProviderComponent implements OnInit {
   godownOptions: SelectItem[];
   GCode: any;
   serviceTaxData: any = [];
+  TaxPercentOptions: SelectItem[];
+  TaxPercent: any;
   serviceTaxCols: any;
   @ViewChild('region', { static: false }) RegionPanel: Dropdown;
   @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('accountingYear', { static: false }) accountingYearPanel: Dropdown;
+  @ViewChild('taxPercentage', { static: false }) taxPercentagePanel: Dropdown;
   loading: boolean;
 
 
@@ -134,7 +137,7 @@ export class ServiceProviderComponent implements OnInit {
           } else if (i === 1) {
             yearArr.push({ label: (year).toString(), value: year });
           }
-            }
+        }
         this.yearOptions = yearArr;
         this.yearOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
@@ -149,6 +152,14 @@ export class ServiceProviderComponent implements OnInit {
         { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
         this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
+      case 'tp':
+        if (type === 'tab') {
+          this.taxPercentagePanel.overlayVisible = true;
+        }
+        this.TaxPercentOptions = [{ label: 'All', value: 'All' },
+        { label: '0 %', value: '0.00' }, { label: '2 %', value: '2.00' }, { label: '5 %', value: '5.00' },
+        { label: '12 %', value: '12.00' }, { label: '18 %', value: '18.00' }, { label: '100 %', value: '100.00' }];
+        break;
     }
   }
 
@@ -159,7 +170,8 @@ export class ServiceProviderComponent implements OnInit {
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined && this.Month.value !== null) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear
+      'AccountingYear': this.AccountingYear,
+      'TaxPer': this.TaxPercent.value
     };
     this.restApiService.getByParameters(PathConstants.SERVICE_PROVIDER_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -170,29 +182,33 @@ export class ServiceProviderComponent implements OnInit {
           sno += 1;
           s.SlNo = sno;
         });
-                ///Abstract
-                var hash = Object.create(null),
-                abstract = [];
-              this.serviceTaxData.forEach(function (o) {
-                var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
-                if (!hash[key]) {
-                  hash[key] = { BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
-                    TIN: o.TIN, Pan: o.Pan, Amount: 0, TaxPercentage: o.TaxPercentage,
-                    TaxAmount: 0, CGST: 0, SGST: 0, Total: 0 };
-                  abstract.push(hash[key]);
-                }
-                ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-                ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-                ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-                ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-                ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-              });
-              this.serviceTaxData.push({ CommodityName: 'Total' });
-              abstract.forEach(x => {
-                this.serviceTaxData.push({ Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
-                  CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2) });;
-              })
-              ///End
+        ///Abstract
+        var hash = Object.create(null),
+          abstract = [];
+        this.serviceTaxData.forEach(function (o) {
+          var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
+          if (!hash[key]) {
+            hash[key] = {
+              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
+              TIN: o.TIN, Pan: o.Pan, Amount: 0, TaxPercentage: o.TaxPercentage,
+              TaxAmount: 0, CGST: 0, SGST: 0, Total: 0
+            };
+            abstract.push(hash[key]);
+          }
+          ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+        });
+        this.serviceTaxData.push({ CommodityName: 'Total' });
+        abstract.forEach(x => {
+          this.serviceTaxData.push({
+            Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
+            CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
+          });;
+        })
+        ///End
       } else {
         this.loading = false;
         this.messageService.clear();

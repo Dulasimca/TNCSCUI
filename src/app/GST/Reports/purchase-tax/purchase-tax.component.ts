@@ -32,6 +32,8 @@ export class PurchaseTaxComponent implements OnInit {
   godownOptions: SelectItem[];
   accYearSelection: any = [];
   AccountingYearOptions: SelectItem[];
+  TaxPercentOptions: SelectItem[];
+  TaxPercent: any;
   loggedInRCode: string;
   AccountingYear: any;
   purchaseTaxReportData: any = [];
@@ -43,6 +45,7 @@ export class PurchaseTaxComponent implements OnInit {
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('accountingYear', { static: false }) accountingYearPanel: Dropdown;
+  @ViewChild('taxPercentage', { static: false }) taxPercentagePanel: Dropdown;
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private messageService: MessageService,
@@ -153,6 +156,14 @@ export class PurchaseTaxComponent implements OnInit {
         { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
         this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
+      case 'tp':
+        if (type === 'tab') {
+          this.taxPercentagePanel.overlayVisible = true;
+        }
+        this.TaxPercentOptions = [{ label: 'All', value: 'All' },
+        { label: '0 %', value: '0.00' }, { label: '2 %', value: '2.00' }, { label: '5 %', value: '5.00' },
+        { label: '12 %', value: '12.00' }, { label: '18 %', value: '18.00' }, { label: '100 %', value: '100.00' }];
+        break;
     }
   }
 
@@ -211,7 +222,8 @@ export class PurchaseTaxComponent implements OnInit {
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label,
-      'GSTType': this.AADS
+      'GSTType': 5,
+      'TaxPer': this.TaxPercent.value
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -250,7 +262,7 @@ export class PurchaseTaxComponent implements OnInit {
         this.purchaseTaxReportData.push({ CompanyName: 'Total' });
         abstract.forEach(x => {
           this.purchaseTaxReportData.push({
-            Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount   * 1).toFixed(2),
+            Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount * 1).toFixed(2),
             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
           });;
         })

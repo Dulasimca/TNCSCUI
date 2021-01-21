@@ -464,7 +464,8 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label,
-      'GSTType': this.AADS
+      'GSTType': this.AADS,
+      'TaxPer': 'All'
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -662,7 +663,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'CreatedBy': this.GCode,
       'CreatedDate': this.curDate,
       'RCode': this.RCode,
-      'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
+      'GCode': this.GCode,
       'GSTType': this.AADS,
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : ''
