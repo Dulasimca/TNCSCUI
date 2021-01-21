@@ -105,6 +105,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   RName: any;
   CGST: any;
   SGST: any;
+  RevRate: any;
   Hsncode: any;
   AADS: string;
   SchemeCode: any;
@@ -185,30 +186,30 @@ export class PurchaseTaxEntryComponent implements OnInit {
           }
         }
         break;
-        case 'gd':
-          if (type === 'tab') {
-            this.GodownPanel.overlayVisible = true;
+      case 'gd':
+        if (type === 'tab') {
+          this.GodownPanel.overlayVisible = true;
+        }
+        if (this.godownOptions === undefined) {
+          if (this.data !== undefined && this.AADS === "1") {
+            this.data.forEach(x => {
+              if (x.RCode === this.RCode) {
+                godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
+              }
+            });
+            this.godownOptions = godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
+          } else if (this.data !== undefined && this.AADS === "2") {
+            this.aadsGodownSelection.forEach(s => {
+              if (s.RCode === this.RCode) {
+                godownSelection.push({ 'label': s.label, 'value': s.value });
+              }
+            });
+            this.godownOptions = godownSelection;
+            this.godownOptions.unshift({ label: 'All', value: 'All' });
           }
-          if (this.godownOptions === undefined) {
-            if (this.data !== undefined && this.AADS === "1") {
-              this.data.forEach(x => {
-                if (x.RCode === this.RCode) {
-                  godownSelection.push({ label: x.GName, value: x.GCode, 'rcode': x.RCode, 'rname': x.RName });
-                }
-              });
-              this.godownOptions = godownSelection;
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            } else if (this.data !== undefined && this.AADS === "2") {
-              this.aadsGodownSelection.forEach(s => {
-                if (s.RCode === this.RCode) {
-                  godownSelection.push({ 'label': s.label, 'value': s.value });
-                }
-              });
-              this.godownOptions = godownSelection;
-              this.godownOptions.unshift({ label: 'All', value: 'All' });
-            }
-          }
-          break;
+        }
+        break;
       case 'y':
         if (type === 'tab') {
           this.accountingYearPanel.overlayVisible = true;
@@ -546,8 +547,13 @@ export class PurchaseTaxEntryComponent implements OnInit {
       this.Vat = GA.toFixed(2);
       // this.Total = (this.Amount * 1) + (this.Vat * 1);
       this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
+      // this.onRevRate();
     }
   }
+
+  // onRevRate() {
+  //   this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage));
+  // }
 
   onClear() {
     this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = null;

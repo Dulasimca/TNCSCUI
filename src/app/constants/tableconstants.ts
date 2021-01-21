@@ -1558,6 +1558,8 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
+      { field: 'DORate', header: 'DO Rate' },
+      { field: 'DOTotal', header: 'DO Total' },
     ];
 
     this.GodownSalesTaxEntry = [
@@ -1578,6 +1580,8 @@ export class TableConstants {
       { field: 'SGST', header: 'SGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
+      { field: 'DORate', header: 'DO Rate' },
+      { field: 'DOTotal', header: 'DO Total' },
     ];
 
     this.ServiceProviderEntry = [
@@ -2080,8 +2084,8 @@ export class TableConstants {
       { header: 'Taxpercentage', field: 'TaxPercentage' },
       { header: 'Net weight', field: 'NetWeight' },
       { header: 'Wtype', field: 'Wtype' },
-      { header: 'Rate', field: 'Doc-Rate' },
-      { header: 'Total', field: 'Doc-Value' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Total', field: 'DITotal' },
       { header: 'Sales Rate', field: 'SalesRate' },
       { header: 'Sales Total', field: 'SalesTOTAL' },
       { header: 'SGST', field: 'SGST' },

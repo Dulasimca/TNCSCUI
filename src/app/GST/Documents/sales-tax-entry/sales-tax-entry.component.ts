@@ -10,6 +10,7 @@ import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouteConfigLoadEnd } from '@angular/router';
 
 @Component({
   selector: 'app-sales-tax-entry',
@@ -126,6 +127,7 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
   aadsGodownSelection: any = [];
+  RevRate: any;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -561,12 +563,17 @@ export class SalesTaxEntryComponent implements OnInit {
       this.Vat = GA.toFixed(2);
       // this.Total = (this.Amount * 1) + (this.Vat * 1);
       this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
+      this.onRevRate();
     }
+  }
+
+  onRevRate() {
+  this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage));
   }
 
   onClear() {
     this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = null;
-    this.Commodity = this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
+    this.Commodity = this.Quantity = this.Rate = this.RevRate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.Total = this.SchemeOptions = this.Scheme = this.Party = null;
     this.TaxtypeOptions = this.MeasurementOptions = null;
     this.Credit = false;
@@ -630,6 +637,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.CommodityID = selectedRow.CommodityID;
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.Rate;
+    this.RevRate = selectedRow.RevRate;
     this.Amount = selectedRow.Amount;
     this.Credit = selectedRow.CreditSales;
     this.CGST = selectedRow.CGST;
@@ -682,7 +690,8 @@ export class SalesTaxEntryComponent implements OnInit {
       'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
       'GSTType': this.AADS,
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
-      'AADS': (this.AADS === '2') ? this.GCode : ''
+      'AADS': (this.AADS === '2') ? this.GCode : '',
+      'RevRate': this.RevRate
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
