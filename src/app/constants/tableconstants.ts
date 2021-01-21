@@ -2092,7 +2092,7 @@ export class TableConstants {
       { header: 'CGST', field: 'CGST' },
       { header: 'GST Total', field: 'GSTTOTAL' },
       { header: 'Total Amount', field: 'TotalAmount' },
-      { header: 'Grand Total', field: 'GrandTotal' },
+      // { header: 'Grand Total', field: 'GrandTotal' },
     ];
 
     this.DOApprovalReport = [

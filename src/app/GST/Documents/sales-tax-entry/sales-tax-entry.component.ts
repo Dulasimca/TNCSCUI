@@ -554,21 +554,16 @@ export class SalesTaxEntryComponent implements OnInit {
   onGST() {
     if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
       let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
-      this.Amount = this.QtyAndRateCalculation(unit, this.Rate, this.Quantity);
+      this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage));
+      this.Amount = this.QtyAndRateCalculation(unit, this.RevRate, this.Quantity);
       let GA;
       GA = (this.Amount / 100) * this.percentage;
       this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
       this.CGST = (GA / 2).toFixed(2);
       this.SGST = (GA / 2).toFixed(2);
       this.Vat = GA.toFixed(2);
-      // this.Total = (this.Amount * 1) + (this.Vat * 1);
       this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
-      this.onRevRate();
     }
-  }
-
-  onRevRate() {
-  this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage));
   }
 
   onClear() {
