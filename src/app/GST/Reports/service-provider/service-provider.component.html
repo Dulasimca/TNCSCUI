@@ -65,7 +65,7 @@
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
-          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
+          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !TaxPercent)" label=View></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"

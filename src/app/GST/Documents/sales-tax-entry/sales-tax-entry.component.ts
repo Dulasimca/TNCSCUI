@@ -554,7 +554,7 @@ export class SalesTaxEntryComponent implements OnInit {
   onGST() {
     if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
       let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
-      this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage));
+      this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage)).toFixed(2);
       this.Amount = this.QtyAndRateCalculation(unit, this.RevRate, this.Quantity);
       let GA;
       GA = (this.Amount / 100) * this.percentage;

@@ -43,12 +43,15 @@ export class SalesTaxComponent implements OnInit {
   TINNo: string;
   unclear: any = [];
   viewEnable: boolean = false;
+  TaxPercentOptions: SelectItem[];
+  TaxPercent: any;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
   @ViewChild('accountingYear', { static: false }) accountingYearPanel: Dropdown;
+  @ViewChild('taxPercentage', { static: false }) taxPercentagePanel: Dropdown;
 
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private messageService: MessageService,
@@ -158,6 +161,14 @@ export class SalesTaxComponent implements OnInit {
         { label: 'Aug', value: '8' }, { label: 'Sep', value: '9' }, { label: 'Oct', value: '10' },
         { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
         this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
+        break;
+        case 'tp':
+        if (type === 'tab') {
+          this.taxPercentagePanel.overlayVisible = true;
+        }
+        this.TaxPercentOptions = [{ label: 'All', value: 'All' },
+        { label: '0 %', value: '0.00' }, { label: '2 %', value: '2.00' }, { label: '5 %', value: '5.00' },
+        { label: '12 %', value: '12.00' }, { label: '18 %', value: '18.00' }, { label: '100 %', value: '100.00' }];
         break;
     }
   }
@@ -280,7 +291,8 @@ export class SalesTaxComponent implements OnInit {
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label,
-      'GSTType': '3'
+      'GSTType': '3',
+      'TaxPer': this.TaxPercent.value
     };
     this.restApiService.getByParameters(PathConstants.SALES_TAX_ENTRY_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
