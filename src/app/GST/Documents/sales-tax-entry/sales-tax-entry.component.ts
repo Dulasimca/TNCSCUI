@@ -630,7 +630,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.viewPane = false;
     this.AADS = selectedRow.GSTType;
     this.OnEdit = true;
-    this.companyOptions = [{ label: selectedRow.CompanyName, value: selectedRow.CompanyID }];
+    this.companyOptions = [{ label: selectedRow.PartyName, value: selectedRow.CompanyID }];
     this.commodityOptions = [{ label: selectedRow.CommodityName, value: selectedRow.CommodityID }];
     this.TaxtypeOptions = [{ label: selectedRow.TaxType, value: selectedRow.Tax }];
     this.MeasurementOptions = [{ label: selectedRow.Measurement, value: selectedRow.measurement }];
@@ -642,14 +642,15 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Measurement = selectedRow.Measurement;
     this.Bill = selectedRow.BillNo;
     this.Billdate = this.datepipe.transform(selectedRow.BillDate, 'MM/dd/yyyy');
-    this.Party = selectedRow.CompanyName;
+    this.Party = selectedRow.PartyName;
     this.PartyID = selectedRow.CompanyID;
     this.Commodity = selectedRow.CommodityName;
     this.CommodityID = selectedRow.CommodityID;
     this.Quantity = selectedRow.Quantity;
-    this.Rate = selectedRow.Rate;
-    this.RevRate = selectedRow.RevRate;
+    this.Rate = selectedRow.DORate;
+    this.RevRate = selectedRow.Rate;
     this.Amount = selectedRow.Amount;
+    this.RevAmount = selectedRow.DOTotal;
     this.Credit = selectedRow.CreditSales;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
@@ -690,7 +691,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Hsncode': this.Hsncode,
       'CGST': this.CGST,
       'SGST': this.SGST,
-      'IGST': this.IGST,
+      'IGST': this.IGST || 0,
       'Quantity': this.Quantity,
       'Rate': this.RevRate,
       'Amount': this.Amount,
@@ -705,6 +706,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : '',
       'RevRate': this.Rate,
+      'RevAmount': this.RevAmount
       
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
