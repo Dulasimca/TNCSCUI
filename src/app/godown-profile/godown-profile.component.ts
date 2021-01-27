@@ -10,7 +10,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { ExcelService } from 'src/app/shared-services/excel.service';
 import { StatusMessage } from '../constants/Messages';
 import { Dropdown } from 'primeng/primeng';
-import SignaturePad from 'signature_pad';
+// import SignaturePad from 'signature_pad';
 
 @Component({
   selector: 'app-godown-profile',
@@ -96,7 +96,7 @@ export class GodownProfileComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.Sign = new SignaturePad(this.signaturePadElement.nativeElement);
+    // this.Sign = new SignaturePad(this.signaturePadElement.nativeElement);
     const color = 'black';
     this.Sign.penColor = color;
   }
@@ -236,7 +236,7 @@ export class GodownProfileComponent implements OnInit {
   }
 
   OnSignPad() {
-    this.Sign = new SignaturePad(this.signaturePadElement.nativeElement);
+    // this.Sign = new SignaturePad(this.signaturePadElement.nativeElement);
     const color = 'black';
     this.Sign.penColor = color;
     if (this.Sign.isEmpty()) {

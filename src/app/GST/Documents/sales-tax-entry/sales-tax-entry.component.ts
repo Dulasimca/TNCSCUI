@@ -694,7 +694,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'IGST': this.IGST || 0,
       'Quantity': this.Quantity,
       'Rate': this.RevRate,
-      'Amount': this.Amount,
+      'Amount': this.RevAmount,
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
       'Total': this.Total,
@@ -706,7 +706,7 @@ export class SalesTaxEntryComponent implements OnInit {
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : '',
       'RevRate': this.Rate,
-      'RevAmount': this.RevAmount
+      'RevAmount': this.Amount
       
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
