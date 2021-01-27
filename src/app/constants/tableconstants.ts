@@ -1556,6 +1556,7 @@ export class TableConstants {
       { field: 'TaxPercentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
       { field: 'DORate', header: 'DO Rate' },
@@ -1578,6 +1579,7 @@ export class TableConstants {
       { field: 'TaxPercentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
       { field: 'DORate', header: 'DO Rate' },
@@ -1597,6 +1599,7 @@ export class TableConstants {
       { field: 'TaxPercentage', header: 'GST %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
     ];
@@ -1883,6 +1886,7 @@ export class TableConstants {
       { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
       // { header: 'Region', field: 'RGNAME' },
     ];
@@ -1904,6 +1908,7 @@ export class TableConstants {
       { header: 'TOTAL_TAX', field: 'VatAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
     ];
 

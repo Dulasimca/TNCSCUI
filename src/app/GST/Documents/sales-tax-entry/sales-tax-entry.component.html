@@ -288,7 +288,7 @@
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate"
                     autocomplete="off" (input)="onGST()" required>
-                  <label for="Rate">Rate</label>
+                  <label for="Rate">DORate/BillRate</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
@@ -303,14 +303,21 @@
 
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
                     autocomplete="off" (input)="onGST()" readonly="true" required>
                   <label for="Amount">Value</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="RevAmount" name="RevAmount"
+                    autocomplete="off" (input)="onGST()" readonly="true" required>
+                  <label for="RevAmount">RevValue</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage"
                     oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
@@ -331,14 +338,21 @@
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
 
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="SGST" name="SGST"
                     (input)="onGST()" autocomplete="off" readonly="true" required>
                   <label for="SGST">SGST Amount</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="IGST" name="IGST"
+                    (input)="onGST()" autocomplete="off" readonly="true" required>
+                  <label for="IGST">IGST Amount</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" (input)="onGST()"
                     autocomplete="off" readonly="true" required>

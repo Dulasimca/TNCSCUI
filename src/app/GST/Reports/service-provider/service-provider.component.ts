@@ -158,7 +158,7 @@ export class ServiceProviderComponent implements OnInit {
         }
         this.TaxPercentOptions = [{ label: 'All', value: 'All' },
         { label: '0 %', value: '0.00' }, { label: '2 %', value: '2.00' }, { label: '5 %', value: '5.00' },
-        { label: '12 %', value: '12.00' }, { label: '18 %', value: '18.00' }, { label: '100 %', value: '100.00' }];
+        { label: '12 %', value: '12.00' }, { label: '18 %', value: '18.00' }, { label: '28 %', value: '28.00' }];
         break;
     }
   }

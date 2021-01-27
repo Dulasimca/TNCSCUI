@@ -76,6 +76,7 @@ export class SalesTaxEntryComponent implements OnInit {
   Rate: any;
   percentage: any;
   Amount: any;
+  RevAmount: any;
   Vat: any;
   Total: any;
   userdata: any;
@@ -554,21 +555,36 @@ export class SalesTaxEntryComponent implements OnInit {
   onGST() {
     if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
       let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
-      this.RevRate = Math.round((this.Rate * 100) / (100 + this.percentage)).toFixed(2);
-      this.Amount = this.QtyAndRateCalculation(unit, this.RevRate, this.Quantity);
-      let GA;
-      GA = (this.Amount / 100) * this.percentage;
-      this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
-      this.CGST = (GA / 2).toFixed(2);
-      this.SGST = (GA / 2).toFixed(2);
-      this.Vat = GA.toFixed(2);
-      this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
+      this.Amount = this.QtyAndRateCalculation(unit, this.Rate, this.Quantity);
+      this.RevRate = ((this.Rate * 100) / (100 + this.percentage)).toFixed(3);
+      this.RevAmount = ((this.Amount * 100) / (100 + this.percentage)).toFixed(2);
+      //let GA;
+      //GA = (this.Amount / 100) * this.percentage;
+      //GA = (this.Amount  - ((this.Amount *100)/(100+this.percentage))).toFixed(2)
+      //this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
+      //this.Total = this.Amount;
+      if ((this.State === 33) || this.State === null || this.State === ''){
+        // this.CGST = (GA / 2).toFixed(2);
+        // this.SGST = (GA / 2).toFixed(2);
+        // this.IGST = 0; 
+        this.CGST = ((this.Amount  - ((this.Amount *100)/(100+this.percentage)))/2).toFixed(2) ;
+        this.SGST = ((this.Amount  - ((this.Amount *100)/(100+this.percentage)))/2).toFixed(2) ;
+        this.IGST = 0 ;          
+        this.Vat = (this.Amount - ((this.Amount*100)/(100+this.percentage))).toFixed(2);       
+      }
+    else{
+        this.CGST = 0;
+        this.SGST = 0;
+        this.IGST = (this.Amount - ((this.Amount*100)/(100+this.percentage))).toFixed(2); 
+        this.Vat = (this.Amount - ((this.Amount*100)/(100+this.percentage))).toFixed(2);      
+    }
+       this.Total =(((this.Amount*100)/(100+this.percentage)+ (this.Amount - ((this.Amount*100)/(100+this.percentage))))).toFixed(2);
     }
   }
 
   onClear() {
     this.SalesID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.Measurement = this.CompanyName = null;
-    this.Commodity = this.Quantity = this.Rate = this.RevRate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Hsncode = null;
+    this.Commodity = this.Quantity = this.Rate = this.RevRate = this.Amount = this.RevAmount = this.percentage = this.Vat = this.SGST = this.CGST = this.IGST = this.Hsncode = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.Total = this.SchemeOptions = this.Scheme = this.Party = null;
     this.TaxtypeOptions = this.MeasurementOptions = null;
     this.Credit = false;
@@ -637,6 +653,7 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Credit = selectedRow.CreditSales;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
+    this.IGST = selectedRow.IGST;
     this.percentage = selectedRow.TaxPercentage;
     this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
@@ -673,8 +690,9 @@ export class SalesTaxEntryComponent implements OnInit {
       'Hsncode': this.Hsncode,
       'CGST': this.CGST,
       'SGST': this.SGST,
+      'IGST': this.IGST,
       'Quantity': this.Quantity,
-      'Rate': this.Rate,
+      'Rate': this.RevRate,
       'Amount': this.Amount,
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
@@ -686,7 +704,8 @@ export class SalesTaxEntryComponent implements OnInit {
       'GSTType': this.AADS,
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : '',
-      'RevRate': this.RevRate
+      'RevRate': this.Rate,
+      
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
       if (value) {
