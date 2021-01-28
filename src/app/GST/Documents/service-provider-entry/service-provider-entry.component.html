@@ -184,14 +184,14 @@
               </div>
               <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage" name="percentage"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="percentage" name="percentage"
                     autocomplete="off" (input)="onGST()" required>
                   <label for="percentage">GST %</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Amount" name="Amount"
                     autocomplete="off" (input)="onGST()" required>
                   <label for="Amount">Amount(Exclusive of GST)</label>
                 </div>
@@ -200,18 +200,25 @@
 
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="CGST" name="CGST"
                     autocomplete="off" (input)="onGST()" readonly="true" required>
                   <label for="CGST">CGST Amount</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
                   <input class="icon2" type="number" size="30" pInputText [(ngModel)]="SGST" name="SGST"
                     autocomplete="off" (input)="onGST()" readonly="true" required>
                   <label for="SGST">SGST Amount</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-float-label">
+                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="IGST" name="IGST"
+                    autocomplete="off" (input)="onGST()" readonly="true" required>
+                  <label for="IGST">IGST Amount</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-3">

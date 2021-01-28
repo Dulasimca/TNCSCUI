@@ -1519,6 +1519,7 @@ export class TableConstants {
       { field: 'Percentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST' },
       { field: 'SGST', header: 'SGST' },
+      { field: 'SGST', header: 'SGST' },
       { field: 'VatAmount', header: 'Tax Amount' },
       { field: 'Total', header: 'Total' },
       // { header: 'Modify' },
@@ -1538,6 +1539,7 @@ export class TableConstants {
       { field: 'Percentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'VatAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
     ];
@@ -2095,6 +2097,7 @@ export class TableConstants {
       { header: 'Sales Total', field: 'SalesTOTAL' },
       { header: 'SGST', field: 'SGST' },
       { header: 'CGST', field: 'CGST' },
+      { header: 'IGST', field: 'IGST' },
       { header: 'GST Total', field: 'GSTTOTAL' },
       { header: 'Total Amount', field: 'TotalAmount' },
       // { header: 'Grand Total', field: 'GrandTotal' },

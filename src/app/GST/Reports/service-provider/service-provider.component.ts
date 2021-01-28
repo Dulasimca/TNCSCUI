@@ -191,7 +191,7 @@ export class ServiceProviderComponent implements OnInit {
             hash[key] = {
               BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
               TIN: o.TIN, Pan: o.Pan, Amount: 0, TaxPercentage: o.TaxPercentage,
-              TaxAmount: 0, CGST: 0, SGST: 0, Total: 0
+              TaxAmount: 0, CGST: 0, SGST: 0,IGST: 0, Total: 0
             };
             abstract.push(hash[key]);
           }
@@ -199,11 +199,13 @@ export class ServiceProviderComponent implements OnInit {
           ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['IGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
         });
-        this.serviceTaxData.push({ CommodityName: 'Total' });
+       // this.serviceTaxData.push({ CommodityName: 'Total' });
         abstract.forEach(x => {
           this.serviceTaxData.push({
+            CommodityName: 'Total',
             Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
           });;

@@ -105,6 +105,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
   RName: any;
   CGST: any;
   SGST: any;
+  IGST: any;
   RevRate: any;
   Hsncode: any;
   AADS: string;
@@ -540,15 +541,25 @@ export class PurchaseTaxEntryComponent implements OnInit {
     if (this.Quantity !== undefined && this.Rate !== undefined && this.Quantity !== null && this.Rate !== null) {
       let unit = (this.Measurement.value !== undefined && this.Measurement.value !== null) ? this.Measurement.value : this.Measurement;
       this.Amount = this.QtyAndRateCalculation(unit, this.Rate, this.Quantity);
+      if ((this.State === 33) || this.State === null || this.State === ''){
       let GA;
       GA = (this.Amount / 100) * this.percentage;
       this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
       this.CGST = (GA / 2).toFixed(2);
       this.SGST = (GA / 2).toFixed(2);
+      this.IGST = 0;
       this.Vat = GA.toFixed(2);
-      // this.Total = (this.Amount * 1) + (this.Vat * 1);
       this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount);
-      // this.onRevRate();
+      }else{
+        let GA;
+        GA = (this.Amount / 100) * this.percentage;
+        this.Total = this.Amount + ((this.Amount / 100) * this.percentage);
+        this.CGST = 0;
+        this.SGST = 0;
+        this.IGST = GA.toFixed(2);
+        this.Vat = GA.toFixed(2);      
+        this.Total = this.PercentageAndAmountTotal(this.Vat, this.Amount); 
+      }      // this.onRevRate();
     }
   }
 
@@ -558,7 +569,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
 
   onClear() {
     this.PurchaseID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.Quantity = this.Rate = this.Amount = null;
-    this.percentage = this.Vat = this.Total = this.CGST = this.SGST = this.Scheme = this.Hsncode = this.Commodity = null;
+    this.percentage = this.Vat = this.Total = this.CGST = this.SGST = this.IGST = this.Scheme = this.Hsncode = this.Commodity = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.SchemeOptions = this.Measurement = this.TaxType = null;
     this.TaxtypeOptions = this.MeasurementOptions = this.Party = null;
   }
@@ -624,6 +635,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
     this.percentage = selectedRow.Percentage;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
+    this.IGST = selectedRow.IGST;
     this.Total = selectedRow.Total;
     this.Vat = selectedRow.VatAmount;
     this.PurchaseID = selectedRow.PurchaseID;
@@ -659,6 +671,7 @@ export class PurchaseTaxEntryComponent implements OnInit {
       'VatAmount': this.Vat,
       'CGST': this.CGST,
       'SGST': this.SGST,
+      'IGST': this.IGST,
       'Total': this.Total,
       'CreatedBy': this.GCode,
       'CreatedDate': this.curDate,

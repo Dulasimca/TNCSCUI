@@ -70,6 +70,7 @@ export class ServiceProviderEntryComponent implements OnInit {
   Vat: any;
   CGST: any;
   SGST: any;
+  IGST: any;
   Total: any;
   userdata: any;
   maxDate: Date;
@@ -347,7 +348,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         let sno = 0;
         let bd = new Date();
         this.ServiceTaxData.forEach(s => {
-          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          s.bd = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -372,16 +373,26 @@ export class ServiceProviderEntryComponent implements OnInit {
   }
 
   onGST() {
-    let GA = (this.Amount / 100) * this.percentage;
-    this.CGST = (GA / 2).toFixed(2);
-    this.SGST = (GA / 2).toFixed(2);
-    this.Vat = GA.toFixed(2);
-    this.Total = (this.Amount * 1) + (this.Vat * 1);
+    if ((this.State === 33) || this.State === null || this.State === ''){
+        let GA = (this.Amount / 100) * this.percentage;
+        this.CGST = (GA / 2).toFixed(2);
+        this.SGST = (GA / 2).toFixed(2);
+        this.IGST = 0;
+        this.Vat = GA.toFixed(2);
+        this.Total = (this.Amount * 1) + (this.Vat * 1);
+    }else{
+        let GA = (this.Amount / 100) * this.percentage;
+        this.CGST = 0,
+        this.SGST = 0,
+        this.IGST = GA.toFixed(2);
+        this.Vat = GA.toFixed(2);
+        this.Total = (this.Amount * 1) + (this.Vat * 1);
+    }
   }
 
   onClear() {
     this.ServiceID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.CompanyName = this.Commodity = null;
-    this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Total = null;
+    this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.IGST =this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.Party = null;
   }
 
@@ -429,6 +440,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.Amount = selectedRow.Amount;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
+    this.IGST = selectedRow.IGST;
     this.percentage = selectedRow.TaxPercentage;
     this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
@@ -453,6 +465,7 @@ export class ServiceProviderEntryComponent implements OnInit {
       'TaxType': this.TaxType,
       'CGST': this.CGST,
       'SGST': this.SGST,
+      'IGST': this.IGST,
       'Amount': this.Amount,
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
