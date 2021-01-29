@@ -313,6 +313,7 @@ export class SalesTaxEntryComponent implements OnInit {
             { label: 'KGS', value: 'KGS' }, { label: 'KILOLITRE', value: 'KILOLITRE' }, { label: 'LTRS', value: 'LTRS' },
             { label: 'M.TONS', value: 'TONS' }, { label: 'NO.s', value: 'NOS' }, { label: 'QUINTAL', value: 'QUINTAL' });
           this.MeasurementOptions = MeasurementSelection;
+          this.Amount = ''
         }
         break;
       case 'scheme':

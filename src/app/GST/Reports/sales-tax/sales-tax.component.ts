@@ -190,7 +190,7 @@ export class SalesTaxComponent implements OnInit {
         hash[key] = {
           BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
           Quantity: 0, Rate: 0, Amount: 0, TaxPercentage: o.TaxPercentage,
-          TaxAmount: 0, CGST: 0, SGST: 0, Total: 0
+          TaxAmount: 0, CGST: 0, SGST: 0, IGST: 0, Total: 0
         };
         abstract.push(hash[key]);
       }
@@ -201,13 +201,14 @@ export class SalesTaxComponent implements OnInit {
       ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      ['IGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
     });
-    this.salesTaxReportData.push({ PartyName: 'Total' });
+    //this.salesTaxReportData.push({ PartyName: 'Total' });
     abstract.forEach(x => {
-      this.salesTaxReportData.push({
+      this.salesTaxReportData.push({ PartyName: 'Total' ,
         Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
-        CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
+        CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2),IGST: (x.IGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
       });;
     })
     this.loading = false;
@@ -355,7 +356,7 @@ export class SalesTaxComponent implements OnInit {
   onResetTable(item) {
     if (item === 'reg') {
       this.GCode = null;
-      // this.salesTaxReportData = null;
+      this.salesTaxReportData = null;
     }
     this.table.reset();
     this.viewEnable = false;

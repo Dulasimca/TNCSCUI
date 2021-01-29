@@ -337,7 +337,8 @@ export class ServiceProviderEntryComponent implements OnInit {
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear.label
+      'AccountingYear': this.AccountingYear.label,
+      'TaxPer': 'All'
     };
     this.restApiService.getByParameters(PathConstants.SERVICE_PROVIDER_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
