@@ -196,27 +196,30 @@ export class TaxAbstractComponent implements OnInit {
         var hash = Object.create(null),
           abstract = [];
         this.TaxReportData.forEach(function (o) {
-          var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
+          var key = ['Month'].map(function (k) { return o[k]; }).join('|');
           if (!hash[key]) {
-            hash[key] = {
-            
-              Amount: 0, TaxPercentage: o.Percentage,
-              VatAmount: 0,  Total: 0
+            hash[key] = {            
+              Amount: 0, TaxPercentage: o.Percentage, RGNAME: o.RGNAME,
+              TaxAmount: 0,  Total: 0, CGST: 0, SGST: 0, IGST: 0,
             };
             abstract.push(hash[key]);
           }
-          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); }); 
+          
           ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-          ['VatAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['IGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
         });
-        // this.TaxReportData.push({ CompanyName: 'Total' });
-        // abstract.forEach(x => {
-        //   this.TaxReportData.push({
-        //      Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount * 1).toFixed(2),
-        //     Total: (x.Total * 1).toFixed(2)
-        //   });;
-        // })
+        //this.TaxReportData.push({ CompanyName: 'Total' });
+        abstract.forEach(x => {
+          this.TaxReportData.push({ RGNAME: 'Total',
+             Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
+             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), IGST: (x.IGST * 1).toFixed(2),
+             Total: (x.Total * 1).toFixed(2)
+          });;
+        })
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -238,6 +241,12 @@ export class TaxAbstractComponent implements OnInit {
   }
 
   onResetTable(item) {
+    if (item === 'reg') {
+      this.GCode = null;
+      
+    }
+    
+    this.TaxReportData = [];
 
   }
   onClose() {

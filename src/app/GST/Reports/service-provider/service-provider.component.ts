@@ -186,16 +186,16 @@ export class ServiceProviderComponent implements OnInit {
         var hash = Object.create(null),
           abstract = [];
         this.serviceTaxData.forEach(function (o) {
-          var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|')
+          var key = ['Month'].map(function (k) { return o[k]; }).join('|')
           if (!hash[key]) {
             hash[key] = {
-              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
-              TIN: o.TIN, Pan: o.Pan, Amount: 0, TaxPercentage: o.TaxPercentage,
+              BillNo: o.BillNo, BillDate: o.BillDate, Month: o.Month, Year: o.Year,
+              Amount: 0, TaxPercentage: o.TaxPercentage,
               TaxAmount: 0, CGST: 0, SGST: 0,IGST: 0, Total: 0
             };
             abstract.push(hash[key]);
           }
-          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+         
           ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
@@ -205,8 +205,7 @@ export class ServiceProviderComponent implements OnInit {
         });
        //this.serviceTaxData.push({ CommodityName: 'Total' });
         abstract.forEach(x => {
-          this.serviceTaxData.push({
-            
+          this.serviceTaxData.push({CommodityName: 'Total' ,  BillNo: x.Month, BillDate: x.Year,
             Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), IGST: (x.IGST * 1).toFixed(2),Total: (x.Total * 1).toFixed(2)
           });;
@@ -233,8 +232,9 @@ export class ServiceProviderComponent implements OnInit {
   }
 
   onResetFields(item) {
-    if (item === 'reg') { this.GCode = null; }
-    //this.serviceTaxData = [];
+    if (item === 'reg') 
+    { this.GCode = null; }
+    this.serviceTaxData = [];
   }
 
   onClose() {

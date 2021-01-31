@@ -101,7 +101,7 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-5"></div>
             <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '1')">Godown Purchase Tax Entry</div>
-            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '2')">AADS Purchase Tax Entry</div>
+            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '2')">Purchase Tax Entry</div>
             <div class="ui-g-12 ui-md-5"></div>
           </div>
           <form #PurchaseForm="ngForm" (ngSubmit)="onSubmit(formUser)">
@@ -249,7 +249,7 @@
                   <label class="ui-g-10 label-fontsize dashboard" for="TaxType">Tax Type</label>
                   <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
                     [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keyup.shift.tab)="onSelect('tax','tab')"
-                    (keyup.tab)="onSelect('tax','tab')" [showClear]="true" filter="true" filterMatchMode="startsWith"
+                    (keyup.tab)="onSelect('tax','tab')" [showClear]="true" filter="true" filterMatchMode="startsWith" (onChange)="onGST()" required
                     resetFilterOnHide="true">
                     <ng-template let-item pTemplate="selectedItem">
                       <span style="vertical-align:middle">{{item.label}}</span>
@@ -261,7 +261,7 @@
                   <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
                     [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
                     (keyup.shift.tab)="onSelect('measurement','tab')" [showClear]="true" filter="true"
-                    (keyup.tab)="onSelect('measurement','tab')" filterMatchMode="startsWith" resetFilterOnHide="true">
+                    (keyup.tab)="onSelect('measurement','tab')" filterMatchMode="startsWith" (onChange)="onGST()" required resetFilterOnHide="true">
                     <ng-template let-item pTemplate="selectedItem">
                       <span style="vertical-align:middle">{{item.label}}</span>
                     </ng-template>

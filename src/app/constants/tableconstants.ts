@@ -161,6 +161,7 @@ export class TableConstants {
   PDSLiftmentColumns: any;
   DOtoSalesTaxReport: any;
   DOApprovalReport: any;
+  TaxReportColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1570,11 +1571,10 @@ export class TableConstants {
       { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'SchemeName', header: 'Scheme Name' },
-      // { field: 'SchemeCode', header: 'Scheme Code' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'bd', header: 'Bill Date' },
+      { field: 'BillDate', header: 'Bill Date' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Value' },
@@ -1593,10 +1593,8 @@ export class TableConstants {
       { field: 'CompanyName', header: 'Company Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'CommodityName', header: 'Service Name' },
-      { field: 'Month', header: 'Month' },
-      { field: 'Year', header: 'Year' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'bd', header: 'Bill Date' },
+      { field: 'BillDate', header: 'Bill Date' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
       { field: 'CGST', header: 'CGST Amt' },
@@ -1605,6 +1603,21 @@ export class TableConstants {
       { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
     ];
+    // this.TaxReportColumns = [
+    //   { header: 'S.No', field: 'SlNo' },
+    //   { field: 'CompanyName', header: 'Company Name' },
+    //   { field: 'TIN', header: 'GST No' },
+    //   { field: 'CommodityName', header: 'Service Name' },
+    //   { field: 'BillNo', header: 'Bill No' },
+    //   { field: 'BillDate', header: 'Bill Date' },
+    //   { field: 'Amount', header: 'Amount' },
+    //   { field: 'TaxPercentage', header: 'GST %' },
+    //   { field: 'CGST', header: 'CGST Amt' },
+    //   { field: 'SGST', header: 'SGST Amt' },
+    //   { field: 'IGST', header: 'IGST Amt' },
+    //   { field: 'TaxAmount', header: 'Total Tax Amt' },
+    //   { field: 'Total', header: 'Total Amt' },
+    // ];
 
     this.TenderAllotmentToRegionCols = [
       { header: 'S.No', field: 'SlNo' },
@@ -1908,6 +1921,17 @@ export class TableConstants {
       { header: 'Purchase_Value', field: 'Amount' },
       { header: 'Tax_Percentage', field: 'Percentage' },
       { header: 'TOTAL_TAX', field: 'VatAmount' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'Total Amount', field: 'Total' },
+    ];
+    this.TaxReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'Value', field: 'Amount' },
+      { header: 'GST %', field: 'TaxPercentage' },
+      { header: 'GST Amount', field: 'TaxAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },

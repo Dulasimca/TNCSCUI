@@ -241,18 +241,16 @@ export class PurchaseTaxComponent implements OnInit {
         var hash = Object.create(null),
           abstract = [];
         this.purchaseTaxReportData.forEach(function (o) {
-          var key = ['TaxPercentage'].map(function (k) { return o[k]; }).join('|');
+          var key = ['Month'].map(function (k) { return o[k]; }).join('|');
           if (!hash[key]) {
             hash[key] = {
-              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
-              Quantity: 0, Rate: 0, Amount: 0, TaxPercentage: o.Percentage,
+              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,Month: o.Month,Year: o.Year,
+              Amount: 0, TaxPercentage: o.Percentage,
               VatAmount: 0, CGST: 0, SGST: 0, IGST: 0, Total: 0
             };
             abstract.push(hash[key]);
           }
-          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-          ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-          ['Rate'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });        
           ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['VatAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
@@ -262,8 +260,8 @@ export class PurchaseTaxComponent implements OnInit {
         });
         //this.purchaseTaxReportData.push({ CompanyName: 'Total' });
         abstract.forEach(x => {
-          this.purchaseTaxReportData.push({CompanyName: 'Total',
-            Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount * 1).toFixed(2),
+          this.purchaseTaxReportData.push({CompanyName: 'Total',BillNo: x.Month,BillDate: x.Year,
+            Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount * 1).toFixed(2),
             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2),IGST: (x.IGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
           });;
         })
@@ -288,8 +286,14 @@ export class PurchaseTaxComponent implements OnInit {
   }
 
   onResetTable(item) {
-
+    if (item === 'reg') {
+      this.GCode = null;
+      
+    }
+    
+    this.purchaseTaxReportData = [];
   }
+  
   onClose() {
     this.messageService.clear('t-err');
   }

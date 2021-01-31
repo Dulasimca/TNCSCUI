@@ -60,7 +60,7 @@
         <p-dropdown #taxPercentage class="ui-g-12 ui-fluid dashboard" [options]="TaxPercentOptions"
           [(ngModel)]="TaxPercent" [showClear]="true" (onClick)="onSelect('tp','click')"
           (keyup.shift.tab)="onSelect('tp','tab')" (keyup.tab)="onSelect('tp','tab')" placeholder="-select-"
-          filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label">
+          filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" (ngModelChange)="onResetFields('taxPercentage')" optionLabel="label">
         </p-dropdown>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">

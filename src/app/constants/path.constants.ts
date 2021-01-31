@@ -188,6 +188,7 @@ export class PathConstants {
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
+  public static readonly GSTTAX_ABSTRAC_POST = '/api/SalesTaxAbstract/Post';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
   

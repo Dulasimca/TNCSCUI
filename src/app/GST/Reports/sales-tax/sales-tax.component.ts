@@ -185,18 +185,17 @@ export class SalesTaxComponent implements OnInit {
     var hash = Object.create(null),
       abstract = [];
     this.salesTaxReportData.forEach(function (o) {
-      var key = ['Percentage'].map(function (k) { return o[k]; }).join('|');
+      var key = ['Month'].map(function (k) { return o[k]; }).join('|');
       if (!hash[key]) {
         hash[key] = {
-          BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,
-          Quantity: 0, Rate: 0, Amount: 0, TaxPercentage: o.TaxPercentage,
+          Amount: 0, Month: o.Month, BillNo: o.BillNo, BillDate: o.BillDate, Year: o.Year,
           TaxAmount: 0, CGST: 0, SGST: 0, IGST: 0, Total: 0
         };
         abstract.push(hash[key]);
       }
-      ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-      ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-      ['Rate'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+    //  ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      // ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      // ['Rate'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
@@ -206,8 +205,8 @@ export class SalesTaxComponent implements OnInit {
     });
     //this.salesTaxReportData.push({ PartyName: 'Total' });
     abstract.forEach(x => {
-      this.salesTaxReportData.push({ PartyName: 'Total' ,
-        Quantity: (x.Quantity * 1).toFixed(2), Rate: (x.Rate * 1).toFixed(2), Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
+      this.salesTaxReportData.push({ PartyName: 'Total',BillNo: x.Month,BillDate: x.Year,
+        Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
         CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2),IGST: (x.IGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
       });;
     })
@@ -284,6 +283,7 @@ export class SalesTaxComponent implements OnInit {
   // }
 
   onCleared() {
+    this.uncleardata = [];
     this.loading = true;
     const params = {
       // 'RoleId': this.roleId,
@@ -302,7 +302,7 @@ export class SalesTaxComponent implements OnInit {
         this.loading = false;
         let sno = 0;
         this.unclear.forEach(un => {
-          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0) {
+          if (un.BillNo === null || un.Hsncode === null || un.PartyName === null || un.Quantity === 0 && un.CreatedBy === this.GCode) {
             this.uncleardata.push(un);
             // this.TINNo = un.StateCode + un.Pan + un.GSTNo;
             // sno += 1;
