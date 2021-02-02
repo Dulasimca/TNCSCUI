@@ -261,7 +261,7 @@
                   <p-dropdown #measurement name="Measurement" class="ui-g-12 ui-fluid dashboard"
                     [options]="MeasurementOptions" [(ngModel)]="Measurement" (onClick)="onSelect('measurement','click')"
                     (keyup.shift.tab)="onSelect('measurement','tab')" [showClear]="true" filter="true"
-                    (keyup.tab)="onSelect('measurement','tab')" filterMatchMode="startsWith" (onChange)="onGST()" required resetFilterOnHide="true">
+                    (keyup.tab)="onSelect('measurement','tab')" filterMatchMode="startsWith" (onSelect)="onGST()" required resetFilterOnHide="true">
                     <ng-template let-item pTemplate="selectedItem">
                       <span style="vertical-align:middle">{{item.label}}</span>
                     </ng-template>
