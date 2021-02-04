@@ -184,7 +184,7 @@ import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-li
 import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
-
+import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
 
 @NgModule({
   declarations: [
@@ -323,6 +323,7 @@ import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-
     QuotationDetailsComponent,
     DoToSalesTaxComponent,
     DoApprovalDocsComponent,
+    TaxAbstractComponent,
   ],
   imports: [
     BrowserModule,

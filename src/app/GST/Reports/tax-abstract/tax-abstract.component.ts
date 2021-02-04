@@ -180,7 +180,7 @@ export class TaxAbstractComponent implements OnInit {
       'GSTType': 3,
       'TaxPer': this.TaxPercent.value
     };
-    this.restApiService.getByParameters(PathConstants.GSTTAX_ABSTRAC_POST, params).subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.GSTTAX_ABSTRAC_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         // this.purchaseTaxReportCols = this.tableConstants.PurchaseTaxEntry;
         this.TaxReportData = res;

@@ -222,7 +222,7 @@ export class PurchaseTaxComponent implements OnInit {
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'AccountingYear': this.AccountingYear.label,
-      'GSTType': 5,
+      'GSTType': 3,
       'TaxPer': this.TaxPercent.value
     };
     this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {

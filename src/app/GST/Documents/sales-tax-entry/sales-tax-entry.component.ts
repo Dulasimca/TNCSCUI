@@ -650,8 +650,8 @@ export class SalesTaxEntryComponent implements OnInit {
     this.Quantity = selectedRow.Quantity;
     this.Rate = selectedRow.DORate;
     this.RevRate = selectedRow.Rate;
-    this.Amount = selectedRow.Amount;
-    this.RevAmount = selectedRow.DOTotal;
+    this.Amount = selectedRow.DOTotal;
+    this.RevAmount = selectedRow.Amount;
     this.Credit = selectedRow.CreditSales;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
@@ -706,8 +706,8 @@ export class SalesTaxEntryComponent implements OnInit {
       'GSTType': this.AADS,
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
       'AADS': (this.AADS === '2') ? this.GCode : '',
-      'RevRate': this.Rate,
-      'RevAmount': this.Amount
+      'DORATE': this.Rate,
+      'DOTOTAL': this.Amount
       
     };
     this.restApiService.post(PathConstants.SALES_TAX_ENTRY_POST, params).subscribe(value => {
