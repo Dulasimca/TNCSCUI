@@ -244,7 +244,7 @@ export class SalesTaxEntryComponent implements OnInit {
         if (this.commodityOptions !== undefined && this.PresistData !== undefined && this.AADS === "2") {
           this.PresistData = this.CommodityGlobal;
           this.PresistData.forEach(y => {
-            commoditySelection.push({ label: y.CommodityName, value: y.CommodityName, 'TaxPer': y.TaxPercentage, 'Hsncode': y.Hsncode });
+            commoditySelection.push({ label: y.CommodityName, value: y.CommodityID, 'TaxPer': y.TaxPercentage, 'Hsncode': y.Hsncode });
           });
           this.loading = false;
           this.commodityOptions = commoditySelection;
@@ -702,10 +702,10 @@ export class SalesTaxEntryComponent implements OnInit {
       'CreatedBy': this.GCode,
       'CreatedDate': this.curDate,
       'RCode': this.RCode,
-      'GCode': (this.AADS === '2') ? this.GodownCode : this.GCode,
+      'GCode': (this.AADS === '1') ? this.GCode : '0' ,
       'GSTType': this.AADS,
       'Scheme': (this.AADS === '1') ? this.Scheme.value || this.SchemeCode : '',
-      'AADS': (this.AADS === '2') ? this.GCode : '',
+      'AADS': (this.AADS === '2') ? this.GCode : 'NULL',
       'DORATE': this.Rate,
       'DOTOTAL': this.Amount
       
