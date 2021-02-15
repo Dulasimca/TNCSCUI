@@ -257,8 +257,6 @@ export class HoqtyabstractComponent implements OnInit {
       let selectedFromYear = this.fromDate.getFullYear();
       let todaydate =   new Date();
       let curyear = todaydate.getFullYear();
-     
-     
       if ((selectedFromYear > curyear)) {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 

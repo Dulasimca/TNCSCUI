@@ -1602,6 +1602,7 @@ export class TableConstants {
       { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
+      { header: 'Region', field: 'RGNAME' },
     ];
     // this.TaxReportColumns = [
     //   { header: 'S.No', field: 'SlNo' },
@@ -1903,28 +1904,29 @@ export class TableConstants {
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
-      // { header: 'Region', field: 'RGNAME' },
+      { header: 'Region', field: 'RGNAME' },
     ];
 
     this.GSTPurchasexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Seller_ID', field: 'CompanyID' },
-      { header: 'Name_of_seller', field: 'CompanyName' },
+      { header: 'Seller ID', field: 'CompanyID' },
+      { header: 'Name of seller', field: 'CompanyName' },
       { header: 'GSTIN', field: 'TIN' },
-      { header: 'Invoice_No', field: 'BillNo' },
-      { header: 'Invoice_Date', field: 'BillDate' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
-      { header: 'Commodity_Name', field: 'CommodityName' },
+      { header: 'Invoice No', field: 'BillNo' },
+      { header: 'Invoice Date', field: 'BillDate' },
+      { header: 'HSNCODE', field: 'Hsncode' },
+      { header: 'CommodityName', field: 'CommodityName' },
       { header: 'Scale', field: 'Measurement' },
       { header: 'Quantity', field: 'Quantity' },
       { header: 'Rate', field: 'Rate' },
-      { header: 'Purchase_Value', field: 'Amount' },
-      { header: 'Tax_Percentage', field: 'Percentage' },
-      { header: 'TOTAL_TAX', field: 'VatAmount' },
+      { header: 'Purchase Value', field: 'Amount' },
+      { header: 'Tax Percentage', field: 'Percentage' },
+      { header: 'TOTAL TAX', field: 'VatAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
+      { header: 'Region', field: 'RGNAME' },
     ];
     this.TaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
