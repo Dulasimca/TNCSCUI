@@ -116,6 +116,8 @@ export class SalesTaxEntryComponent implements OnInit {
   Sum: any;
   AllTotal: any;
   CompanyTitle: any = [];
+  aadsGodownSelection: any = [];
+  RevRate: any;
   @ViewChild('region', { static: false }) RegionPanel: Dropdown;
   @ViewChild('godown', { static: false }) GodownPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
@@ -127,8 +129,7 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-  aadsGodownSelection: any = [];
-  RevRate: any;
+  
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -526,10 +527,10 @@ export class SalesTaxEntryComponent implements OnInit {
         sum = (qty * amnt).toFixed(2);
         break;
       case 'QUINTAL':
-        sum = ((qty / 100) * amnt).toFixed(2);
+        sum = (qty * amnt).toFixed(2);
         break;
       case 'TONS':
-        sum = ((qty / 1000) * amnt).toFixed(2);
+        sum = (qty * amnt).toFixed(2);
         break;
       case 'LTRS':
         sum = (qty * amnt).toFixed(2);
@@ -538,10 +539,10 @@ export class SalesTaxEntryComponent implements OnInit {
         sum = (qty * amnt).toFixed(2);
         break;
       case 'KILOLITRE':
-        sum = ((qty / 1000) * amnt).toFixed(2);
+        sum = (qty  * amnt).toFixed(2);
         break;
       case 'GRAMS':
-        sum = ((qty * amnt).toFixed(2));
+        sum = (qty * amnt).toFixed(2);
         break;
     }
     return sum;

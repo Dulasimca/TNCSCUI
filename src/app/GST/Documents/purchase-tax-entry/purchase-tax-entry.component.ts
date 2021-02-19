@@ -511,10 +511,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
         sum = (qty * amnt).toFixed(2);
         break;
       case 'QUINTAL':
-        sum = ((qty / 100) * amnt).toFixed(2);
+        sum = (qty  * amnt).toFixed(2);
         break;
       case 'TONS':
-        sum = ((qty / 1000) * amnt).toFixed(2);
+        sum = (qty * amnt).toFixed(2);
         break;
       case 'LTRS':
         sum = (qty * amnt).toFixed(2);
@@ -523,10 +523,10 @@ export class PurchaseTaxEntryComponent implements OnInit {
         sum = (qty * amnt).toFixed(2);
         break;
       case 'KILOLITRE':
-        sum = ((qty / 1000) * amnt).toFixed(2);
+        sum = (qty * amnt).toFixed(2);
         break;
       case 'GRAMS':
-        sum = ((qty * amnt).toFixed(2));
+        sum = (qty * amnt).toFixed(2);
         break;
     }
     return sum;

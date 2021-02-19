@@ -1553,6 +1553,7 @@ export class TableConstants {
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'Scheme', header: 'Scheme' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Value' },
@@ -1570,7 +1571,7 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo' },
       { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
-      { field: 'SchemeName', header: 'Scheme Name' },
+      { field: 'Schemename', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
@@ -1905,6 +1906,7 @@ export class TableConstants {
       { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
       { header: 'Region', field: 'RGNAME' },
+      { header: 'Scheme', field: 'SCName' },
     ];
 
     this.GSTPurchasexTaxReportColumns = [
@@ -2113,6 +2115,7 @@ export class TableConstants {
       { header: 'GST Number', field: 'GSTNumber' },
       { header: 'Receivor Name', field: 'ReceivorName' },
       { header: 'ITDescription', field: 'ITDescription' },
+      { header: 'SCHEME', field: 'SCName' },
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Taxpercentage', field: 'TaxPercentage' },
       { header: 'Net weight', field: 'NetWeight' },

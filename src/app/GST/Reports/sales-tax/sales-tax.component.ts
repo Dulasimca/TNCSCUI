@@ -175,7 +175,9 @@ export class SalesTaxComponent implements OnInit {
 
   onView() {
     this.loading = true;
+
     this.salesTaxReportData = this.finalData;
+    
     let sno = 0;
     this.salesTaxReportData.forEach(s => {
       sno += 1;
@@ -183,7 +185,9 @@ export class SalesTaxComponent implements OnInit {
     });
     ///Abstract
     var hash = Object.create(null),
+     
       abstract = [];
+      
     this.salesTaxReportData.forEach(function (o) {
       var key = ['Month'].map(function (k) { return o[k]; }).join('|');
       if (!hash[key]) {
@@ -192,7 +196,9 @@ export class SalesTaxComponent implements OnInit {
           TaxAmount: 0, CGST: 0, SGST: 0, IGST: 0, Total: 0
         };
         abstract.push(hash[key]);
+        
       }
+      
     //  ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       // ['Quantity'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
       // ['Rate'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
@@ -210,6 +216,7 @@ export class SalesTaxComponent implements OnInit {
         CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2),IGST: (x.IGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
       });;
     })
+    
     this.loading = false;
   }
 
