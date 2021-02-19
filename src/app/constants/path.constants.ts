@@ -192,8 +192,9 @@ export class PathConstants {
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
   
-
-
+// HoQtyAccConsolidation
+ public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
+ public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
   //Allotment Module
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';
