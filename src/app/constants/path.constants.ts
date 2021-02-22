@@ -195,6 +195,9 @@ export class PathConstants {
 // HoQtyAccConsolidation
  public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
  public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
+ public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
+
+ 
   //Allotment Module
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';

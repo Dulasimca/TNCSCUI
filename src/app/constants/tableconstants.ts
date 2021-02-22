@@ -162,6 +162,7 @@ export class TableConstants {
   DOtoSalesTaxReport: any;
   DOApprovalReport: any;
   TaxReportColumns: any;
+  hoqtyacabstractColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -2138,6 +2139,15 @@ export class TableConstants {
       { header: 'Do Date', field: 'BillDate' },
       { header: 'Region Name', field: 'RGNAME' },
       { header: 'Godown Name', field: 'TNCSName' }
+      // { header: 'Status', field: 'icon' },
+
+    ];
+    this.hoqtyacabstractColumns = [
+      { header: 'Sl.No', field: 'SlNo' },
+      { header: 'Do No.', field: 'qtyMonth' },
+      { header: 'Do Date', field: 'qtyYear' },
+      { header: 'Region Name', field: 'ITCode' },
+      { header: 'Godown Name', field: 'Trcode' }
       // { header: 'Status', field: 'icon' },
 
     ];
