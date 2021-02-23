@@ -120,7 +120,7 @@ export class HoqtyabstractrepComponent implements OnInit {
           if (type === 'tab') {
             this.transactionPanel.overlayVisible = true;
           }
-          this.transactionOptions = [ { label: 'All', value: 'All' },{ label: 'SCM', value: 'SCM' },{ label:'NON-SCM', value: 'NON-SCM' },           
+          this.transactionOptions = [ { label: 'All', value: 'All' },{ label:'NON-SCM', value: 'NON-SCM' },           
           { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'CS', value: 'CS' }];
         break;
       case 'cd':
