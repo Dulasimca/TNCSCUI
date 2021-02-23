@@ -108,11 +108,13 @@ export class DoApprovalDocsComponent implements OnInit {
     onView(type) {
       this.loading = true;
       const params = {
+        'RCode' : this.RCode,
         'fromDate':  this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
         'toDate':  this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-        'BillNo': this.DocNo,
+        'BillNo':  this.DocNo,
         'SPType': (this.DocNo !== undefined) ? 2 : 1,
-        'type': 1
+        'type': 1,
+        
       };
       this.restApiService.getByParameters(PathConstants.DO_TO_SALESTAX, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
@@ -151,7 +153,7 @@ export class DoApprovalDocsComponent implements OnInit {
       this.confirmationService.confirm({
         message: 'Do you want to send this ' + data.BillNo + ' for approval ?',
         header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
+        icon:   'pi pi-exclamation-triangle',
         accept: () => {
           this.blockScreen = true;
           const params = {

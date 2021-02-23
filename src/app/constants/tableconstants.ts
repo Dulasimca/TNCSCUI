@@ -2144,12 +2144,25 @@ export class TableConstants {
     ];
     this.hoqtyacabstractColumns = [
       { header: 'Sl.No', field: 'SlNo' },
-      { header: 'Do No.', field: 'qtyMonth' },
-      { header: 'Do Date', field: 'qtyYear' },
-      { header: 'Region Name', field: 'ITCode' },
-      { header: 'Godown Name', field: 'Trcode' }
-      // { header: 'Status', field: 'icon' },
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'Opening Bal.', field: 'OB' },
+      { header: 'Purchase', field: 'PurchaseReceipt' },
+      { header: 'Free Rice', field: 'FreeRice' },
+      { header: 'Others', field: 'OtherReceipt' },
+      { header: 'Total Receipts', field: 'TotalReceipt' },
+      { header: 'Issue on Sales', field: 'IssueOnSales' },
 
+      { header: 'Free Issues.', field: 'FreeIssues' },
+      { header: 'Total Issues', field: 'Totalssues' },
+      { header: 'Other Issues', field: 'OtherIssues' },
+      { header: 'Closing Balance', field: 'CB' },
+      { header: 'Cumulative Shortage.', field: 'CS' },
+      { header: 'Actuals', field: 'ActualBalance' },    
+      
     ];
   }
 }

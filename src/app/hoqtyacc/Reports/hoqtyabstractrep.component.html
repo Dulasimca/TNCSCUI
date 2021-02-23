@@ -54,21 +54,39 @@
             </ng-template>
           </p-dropdown>
         </div>  
-            <div class="ui-g-6 ui-md-2">
-            <label class="ui-g-7 label-fontsize dashboard">Select Month/Year</label>
-            <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" view="month" [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"
-              dateFormat="mm/yy"></p-calendar>
-            </div>  
-
-            <div class="ui-g-12 ui-md-1 dashboard "  >
-              <button  class="ui-g-9 dashboard inline-margin" pButton type="button" label=View (click)="onView()" 
-                style="margin-top: 20%;"              
-                [disabled]="(!fromDate ||  !ITCode || !Trcode || !RCode)" ></button>                
+              <div class="ui-g-6 ui-md-2">
+              <label class="ui-g-7 label-fontsize dashboard">Select Month/Year</label>
+              <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" view="month" [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"
+                dateFormat="mm/yy"></p-calendar>
+              </div>  
+              <div class="ui-g-12 ui-md-1 dashboard "  >
+                <button  class="ui-g-9 dashboard inline-margin" pButton type="button" label=View (click)="onView()" 
+                  style="margin-top: 20%;"              
+                  [disabled]="(!fromDate ||  !ITCode || !Trcode || !RCode)" ></button>                
               </div>    
-              <div class="ui-g-12 ui-md-2 dashboard "  >
-                              
-                </div>    
-    </div>
- 
+               <div class="ui-g-12 ui-md-2 dashboard "  >
+               </div>    
+      </div>
+      <div class="ui-g-12 ui-md-12 dashboard">
+        <p-table #dt [columns]="hoqtyacabstractCols" [value]="hoqtyacabstractData" [rows]="50"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
+           [loading]="loading" exportFilename="CASH_RECEIPT_REGISTER__REPORT">
+             <ng-template pTemplate="header" let-columns>
+              <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                   {{rowData[col.field]}}  
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
   </p-panel>
 </div>
