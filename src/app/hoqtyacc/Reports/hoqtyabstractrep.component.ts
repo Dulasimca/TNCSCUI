@@ -121,7 +121,7 @@ export class HoqtyabstractrepComponent implements OnInit {
             this.transactionPanel.overlayVisible = true;
           }
           this.transactionOptions = [ { label: 'All', value: 'All' },{ label:'NON-SCM', value: 'NON-SCM' },           
-          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'CS', value: 'CS' }];
+          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'DefunctGdn', value: 'DefunctGdn' }];
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }

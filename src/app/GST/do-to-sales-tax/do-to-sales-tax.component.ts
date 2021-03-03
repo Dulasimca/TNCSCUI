@@ -184,7 +184,7 @@ export class DoToSalesTaxComponent implements OnInit {
     const params = {
       // 'RoleId': this.roleId,
       'GCode': this.GCode,
-      // 'RCode': this.RCode,
+      'RCode': this.RCode,
       // 'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       // 'Year': this.Year,
       'fromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),

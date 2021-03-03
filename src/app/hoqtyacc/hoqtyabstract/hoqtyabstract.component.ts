@@ -146,7 +146,7 @@ export class HoqtyabstractComponent implements OnInit {
             this.transactionPanel.overlayVisible = true;
           }
           this.transactionOptions = [{ label:'NON-SCM', value: 'NON-SCM' },           
-          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'CS', value: 'CS' }];
+          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'DefunctGdn', value: 'DefunctGdn' }];
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
@@ -202,6 +202,7 @@ export class HoqtyabstractComponent implements OnInit {
         
       } else {
         this.RowId = 0;
+        this.onClear()
         this.Savebtn =  true ;
         this.Viewbtn = true ;
         this.loading = false;
@@ -296,6 +297,8 @@ export class HoqtyabstractComponent implements OnInit {
   }
   onResetTable(item) {    
     this.loading = false;
+    this.Savebtn =  false ;
+    this.Viewbtn = true ;
   }
   onClose() {
     this.messageService.clear('t-err');
