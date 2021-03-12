@@ -31,7 +31,7 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^7.1.1",
     "highcharts-angular": "^2.4.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.2.11",
     "ng2-charts": "^2.2.3",
     "ng2-slim-loading-bar": "^4.0.0",
