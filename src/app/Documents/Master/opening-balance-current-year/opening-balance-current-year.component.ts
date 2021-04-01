@@ -43,6 +43,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
   isViewDisabled: boolean;
   isActionDisabled: boolean;
   canShowMenu: boolean;
+  currYrSelection: any = [];
   @ViewChild('f', { static: false }) OBCurYrFrom: NgForm;
   @ViewChild('year', { static: false }) yearPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
@@ -64,6 +65,12 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         }
       })
     }
+      /// curyear
+      this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
+        for(let i = 0; i <= 2; i ++) {
+          this.currYrSelection.push({ label: res[i].StackYear, value: res[i].StackYear });
+        }
+      });
   }
   onSelect(selectedItem, type) {
     let godownSelection = [];
@@ -89,18 +96,10 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
-        let yearArr = [];
-        const range = 2;
-        const year = new Date().getFullYear();
-        for (let i = 0; i < range; i++) {
-          if (i === 0) {
-            yearArr.push({ 'label': (year).toString(), 'value': year });
-          } else {
-            yearArr.push({ 'label': (year - 1).toString(), 'value': year - 1 });
-          }
-        }
-        this.yearOptions = yearArr;
+        if(this.currYrSelection.length !== 0) {
+        this.yearOptions = this.currYrSelection;
         this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        }
         break;
     }
   }
