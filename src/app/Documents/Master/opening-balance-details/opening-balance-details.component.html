@@ -1,6 +1,6 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
+</p-blockUI>
 <app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
@@ -13,157 +13,166 @@
     <p-toast position="top-center" key="t-err" [modal]="true"></p-toast>
     <div class="ui-g ui-md-12 ui-fluid">
       <div class="ui-g-12 ui-fluid border-teal">
-      <form  #f="ngForm" name="openingBalForm">
-      <div class="form-group ui-g-12 dashboard">
-        <div class="ui-g-2"></div>
-        <div class="form-group ui-g-12 ui-md-2">
-          <label class="ui-g-7 label-fontsize dashboard" for="year">Year</label>
-          <p-dropdown #year id="float-input" [options]="yearOptions" name="year" 
-          (keyup.tab)="onSelect('y', 'tab')" (keyup.shift.tab)="onSelect('y', 'tab')"
-           [(ngModel)]="Year" (onClick)="onSelect('y', 'click')" optionLabel="label" [showClear]="true" required>
-          </p-dropdown>
-        </div>
-         <div class="ui-g-12 ui-md-3">
-            <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
+        <form #f="ngForm" name="openingBalForm">
+          <div class="form-group ui-g-12 dashboard">
+            <div class="ui-g-2"></div>
+            <div class="form-group ui-g-12 ui-md-2">
+              <label class="ui-g-7 label-fontsize dashboard" for="year">Accounting Year</label>
+              <p-dropdown #year id="float-input" [options]="yearOptions" name="year" (keyup.tab)="onSelect('y', 'tab')"
+                (keyup.shift.tab)="onSelect('y', 'tab')" [(ngModel)]="Year" (onClick)="onSelect('y', 'click')"
+                optionLabel="label" [showClear]="true" required>
+              </p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+              <label class="ui-g-7 label-fontsize dashboard" for="GodownName">Godown</label>
               <p-dropdown #godown name="godownName" [options]="godownOptions" [(ngModel)]="g_cd"
-              (onClick)="onSelect('gd', 'click')" (keyup.shift.enter)="onSelect('gd', 'tab')" 
-              (keyup.tab)="onSelect('gd', 'tab')" filter="true" resetFilterOnHide="true" 
-              filterMatchMode="startsWith" optionLabel="label" [showClear]="true" required>
-              <ng-template let-item pTemplate="selectedItem">
-                <span style="vertical-align:middle">{{item.label}}</span>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        <div class="form-group ui-g-12 ui-md-3">
-          <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
-          <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
-          (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')" resetFilterOnHide="true"
-          filter="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true" 
-          name="CommodityName" required>
-            <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle">{{item.label}}</span>
-            </ng-template>
-          </p-dropdown>
-        </div>
-        <div class="ui-g-2"></div>
-      </div>
-      <div class="form-group ui-g-12 dashboard">
-        <div class="ui-g-2"></div>
-        <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
-          <p-header>
-            <div class="dashboard label-fontsize-large" style="padding-right: 50px">
-              Book Balance
+                (onClick)="onSelect('gd', 'click')" (keyup.shift.enter)="onSelect('gd', 'tab')"
+                (keyup.tab)="onSelect('gd', 'tab')" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
+                optionLabel="label" [showClear]="true" required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
             </div>
-          </p-header>
-          <div class="form-group ui-g-6 ui-md-4">
-            <label class="label-fontsize" for="BookBalanceBags">Bags</label>
-            <input type="text" maxlength="7" name="BookBalanceBags" (input)="calculateBagS()"
-             [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
-            oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" required>
-          </div>
-          <div class="form-group ui-g-6 ui-md-8">
-            <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
-            <input type="text" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
-          </div>
-        </div>
-        <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
-          <p-header>
-            <div class="dashboard label-fontsize-large" style="padding-right: 50px">
-              Physical Balance
+            <div class="form-group ui-g-12 ui-md-3">
+              <label class="ui-g-7 label-fontsize dashboard" for="CommodityName">Commodity</label>
+              <p-dropdown #commodity [options]="commodityOptions" [(ngModel)]="c_cd" (onClick)="onCommodityClicked()"
+                (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')" resetFilterOnHide="true"
+                filter="true" filterMatchMode="startsWith" optionLabel="label" [showClear]="true" name="CommodityName"
+                required>
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
             </div>
-          </p-header>
-          <div class="form-group ui-g-6 ui-md-4">
-            <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
-            <input type="text" maxlength="7" name="PhysicalBalanceBags" (input)="calculateBagS()"
-            oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" onKeyDown="if(this.value.length==7 && event.keyCode!=8) return false;"
-            [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
-            <div *ngIf="validationErr">
-                <div class="error-Msg">Please enter bags less than BookBalance Bags!</div>
+            <div class="ui-g-2"></div>
+          </div>
+          <div class="form-group ui-g-12 dashboard">
+            <div class="ui-g-2"></div>
+            <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
+              <p-header>
+                <div class="dashboard label-fontsize-large" style="padding-right: 50px">
+                  Book Balance
+                </div>
+              </p-header>
+              <div class="form-group ui-g-6 ui-md-4">
+                <label class="label-fontsize" for="BookBalanceBags">Bags</label>
+                <input type="text" maxlength="7" name="BookBalanceBags" (input)="calculateBagS()"
+                  [(ngModel)]="BookBalanceBags" size="20" pInputText autocomplete="off"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" required>
               </div>
-          </div>
-          <div class="form-group ui-g-6 ui-md-8">
-            <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
-            <input type="text" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight" (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
-             <div *ngIf="showErr">
-               <div class="error-Msg">Please enter weight less than BookBalance Weight!</div>
-             </div>
-          </div>
-        </div>
-        <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
-          <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulative Shortage</label>
-          <input class="ui-g-6" type="text" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText autocomplete="off" [readonly]="true" appDecimalDigit>
-        </div> 
-        <div class="ui-g-2"></div>
-      </div>
-      <div class="form-group ui-g-12 dashboard">
-        <div class="ui-g-3 ui-md-4"></div>
-          <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
-             (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Save (click)="onSave()"></button>
-          </div>
-          <div class="form-group ui-g-3 ui-md-1">
-            <button pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
-          </div>
-          <div class="form-group ui-g-3 ui-md-1">
-              <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
-              (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Clear (click)="onClear()"></button>
+              <div class="form-group ui-g-6 ui-md-8">
+                <label class="label-fontsize" for="BookBalanceWeight">Weight (Kgs)</label>
+                <input type="text" name="BookBalanceWeight" [(ngModel)]="BookBalanceWeight" (input)="calculateCS()"
+                  size="20" pInputText autocomplete="off" required appDecimalDigit>
+              </div>
             </div>
-              <!-- <div class="ui-g-5"></div> -->
-        </div>
-      </form>
+            <div class="form-group ui-g-12 ui-md-3 dashboard" style="text-align: center">
+              <p-header>
+                <div class="dashboard label-fontsize-large" style="padding-right: 50px">
+                  Physical Balance
+                </div>
+              </p-header>
+              <div class="form-group ui-g-6 ui-md-4">
+                <label class="label-fontsize" for="PhysicalBalanceBags">Bags</label>
+                <input type="text" maxlength="7" name="PhysicalBalanceBags" (input)="calculateBagS()"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                  onKeyDown="if(this.value.length==7 && event.keyCode!=8) return false;"
+                  [(ngModel)]="PhysicalBalanceBags" size="20" pInputText autocomplete="off" required>
+                <div *ngIf="validationErr">
+                  <div class="error-Msg">Please enter bags less than BookBalance Bags!</div>
+                </div>
+              </div>
+              <div class="form-group ui-g-6 ui-md-8">
+                <label class="label-fontsize" for="PhysicalBalanceWeight">Weight (Kgs)</label>
+                <input type="text" name="PhysicalBalanceWeight" [(ngModel)]="PhysicalBalanceWeight"
+                  (input)="calculateCS()" size="20" pInputText autocomplete="off" required appDecimalDigit>
+                <div *ngIf="showErr">
+                  <div class="error-Msg">Please enter weight less than BookBalance Weight!</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group ui-g-12 ui-md-2" style="padding-top: 30px">
+              <label class="ui-g label-fontsize" for="CummlativeShortage">Cumulative Shortage</label>
+              <input class="ui-g-6" type="text" name="CummlativeShortage" [(ngModel)]="CumulativeShortage" pInputText
+                autocomplete="off" [readonly]="true" appDecimalDigit>
+            </div>
+            <div class="ui-g-2"></div>
+          </div>
+          <div class="form-group ui-g-12 dashboard">
+            <div class="ui-g-3 ui-md-4"></div>
+            <div class="form-group ui-g-3 ui-md-1">
+              <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
+             (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Save
+                (click)="onSave()"></button>
+            </div>
+            <div class="form-group ui-g-3 ui-md-1">
+              <button pButton type="button" [disabled]="(!Year || !g_cd)" label=View (click)="onView()"></button>
+            </div>
+            <div class="form-group ui-g-3 ui-md-1">
+              <button pButton type="submit" [disabled]="((BookBalanceBags == null) || (BookBalanceWeight == null) ||
+              (PhysicalBalanceBags == null) || (PhysicalBalanceWeight == null) || !g_cd || !c_cd || !Year)" label=Clear
+                (click)="onClear()"></button>
+            </div>
+            <!-- <div class="ui-g-5"></div> -->
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
   </p-panel>
 </div>
 <p-dialog header="Opening Balance" [contentStyle]="{'overflow':'scroll'}" [modal]="true" [maximizable]="true"
-[(visible)]="viewPane" [responsive]="true">
-<div class="ui-g-12 no-pad-top">
-  <div class="ui-g-6 ui-md-4">
+  [(visible)]="viewPane" [responsive]="true">
+  <div class="ui-g-12 no-pad-top">
+    <div class="ui-g-6 ui-md-4">
       <label class="ui-g-4 label-fontsize-large">Commodity Name</label>
-      <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd" (onClick)="onCommodityClicked()"
-       (onChange)="onChange($event)" filter="true" resetFilterOnHide="true" 
-       (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')"
-        optionLabel="label" [showClear]="true" filterMatchMode="startsWith" name="CommodityName" required>
-            <ng-template let-item pTemplate="selectedItem">
-              <span style="vertical-align:middle">{{item.label}}</span>
-            </ng-template>
-          </p-dropdown>
-  </div>
-  <div class="ui-g-5"></div>
-  <div class="ui-g-4 ui-md-1 no-right-pad">
-    <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton" (click)="showSelectedData()"></button>
-  </div>
-  <div class="ui-g-4 ui-md-1">
-      <button class="ui-g-10 dashboard" pButton type="button" [disabled]="(openingBalanceData.length=='0')" label=Excel (click)="dt.exportCSV()"></button>
+      <p-dropdown id="float-input" [options]="commodityOptions" [(ngModel)]="commodityCd"
+        (onClick)="onCommodityClicked()" (onChange)="onChange($event)" filter="true" resetFilterOnHide="true"
+        (keyup.tab)="onSelect('cd', 'tab')" (keyup.shift.tab)="onSelect('cd', 'tab')" optionLabel="label"
+        [showClear]="true" filterMatchMode="startsWith" name="CommodityName" required>
+        <ng-template let-item pTemplate="selectedItem">
+          <span style="vertical-align:middle">{{item.label}}</span>
+        </ng-template>
+      </p-dropdown>
     </div>
-  <div class="ui-g-4 ui-md-1 no-left-pad">
-      <button class="ui-g-10 dashboard" pButton label=Cancel (click)= "viewPane = false"></button>
+    <div class="ui-g-5"></div>
+    <div class="ui-g-4 ui-md-1 no-right-pad">
+      <button class="ui-g-10 dashboard" pButton label=OK [disabled]="disableOkButton"
+        (click)="showSelectedData()"></button>
+    </div>
+    <div class="ui-g-4 ui-md-1">
+      <button class="ui-g-10 dashboard" pButton type="button" [disabled]="(openingBalanceData.length=='0')" label=Excel
+        (click)="dt.exportCSV()"></button>
+    </div>
+    <div class="ui-g-4 ui-md-1 no-left-pad">
+      <button class="ui-g-10 dashboard" pButton label=Cancel (click)="viewPane = false"></button>
     </div>
   </div>
   <div class="ui-g-12 ui-fluid">
-      <p-table #dt [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20"
-       [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords" selectionMode="single"
-       [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)" 
-       exportFilename="OPENING_BALANCE_DETAILS" [scrollable]="true"> 
-          <ng-template pTemplate="colgroup" let-columns>
-          <colgroup>
-            <col *ngFor="let col of columns" style="width:80px">
-          </colgroup>
-        </ng-template>
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th *ngFor="let col of columns">
-              {{col.header}}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-          <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
-              {{rowData[col.field]}}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+    <p-table #dt [columns]="openingBalanceCols" [value]="openingBalanceData" [rows]="20"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" [totalRecords]="totalRecords" selectionMode="single"
+      [responsive]="true" autoLayout="true" [paginator]="true" (onRowSelect)="onRowSelect($event)"
+      exportFilename="OPENING_BALANCE_DETAILS" [scrollable]="true">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" style="width:80px">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </p-dialog>

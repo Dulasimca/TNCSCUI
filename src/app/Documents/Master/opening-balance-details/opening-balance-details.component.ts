@@ -71,12 +71,12 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         }
       });
     }
-     /// curyear
-     this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
-        for(let i = 0; i <= 2; i ++) {
-         this.currYrSelection.push({ label: res[i].StackYear, value: res[i].StackYear });
-       }
-     });
+    /// curyear
+    this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
+      for (let i = 0; i <= 2; i++) {
+        this.currYrSelection.push({ label: res[i].StackYear, value: res[i].StackYear });
+      }
+    });
   }
 
   calculateCS() {
@@ -125,9 +125,9 @@ export class OpeningBalanceDetailsComponent implements OnInit {
         if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
-        if(this.currYrSelection.length !== 0) {
-        this.yearOptions = this.currYrSelection;
-        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        if (this.currYrSelection.length !== 0) {
+          this.yearOptions = this.currYrSelection;
+          this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
       case 'cd':
@@ -184,7 +184,7 @@ export class OpeningBalanceDetailsComponent implements OnInit {
   onView() {
     this.blockScreen = true;
     this.openingBalanceData = []; this.opening_balance = [];
-    const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
+    const params = new HttpParams().set('ObDate', this.Year.value).append('GCode', this.g_cd.value);
     this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.viewPane = true;
