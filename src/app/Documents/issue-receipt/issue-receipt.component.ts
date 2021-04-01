@@ -205,33 +205,33 @@ export class IssueReceiptComponent implements OnInit {
       IssuingCode: this.IssuingCode,
       DocType: 1
     }
-    if(!this.isViewed) {
+    if (!this.isViewed) {
       this.blockScreen = true;
       this.restAPIService.post(PathConstants.STOCK_ISSUE_GENERATE_DOCNO, params).subscribe((res: any) => {
-      if (res !== null && res !== undefined && res.length !== 0) {
-        this.SINo = res[0].GSINO;
+        if (res !== null && res !== undefined && res.length !== 0) {
+          this.SINo = res[0].GSINO;
+          this.blockScreen = false;
+        } else {
+          this.blockScreen = false;
+          this.SINo = null;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.ErrorMessage
+          });
+        }
+      }, (err: HttpErrorResponse) => {
         this.blockScreen = false;
-      } else {
-        this.blockScreen = false;
-        this.SINo = null;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ALERT, detail: StatusMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.blockScreen = false;
-      if (err.status === 0 || err.status === 400) {
-        this.SINo = null;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    });
-  }
+        if (err.status === 0 || err.status === 400) {
+          this.SINo = null;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        }
+      });
+    }
   }
 
   onSelect(selectedItem, type) {
@@ -595,79 +595,79 @@ export class IssueReceiptComponent implements OnInit {
     this.messageService.clear();
     if (this.TStockNo !== undefined && this.TStockNo !== null) {
       this.stackCompartment = null;
-    const hasValue = (event.value !== undefined && event.value !== null) ? event.value : event;
-    if (hasValue !== undefined && hasValue !== null) {
-      const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
-        this.Trcode.value : this.trCode;
-      const itemGroup: string = (this.ICode.GRName !== undefined && this.ICode.GRName !== null) ?
-        this.ICode.GRName : this.itemGRName;
-      const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
-        this.Scheme.value : this.schemeCode;
-      this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
-      this.stackYear = (hasValue.stack_yr !== null && hasValue.stack_yr !== undefined) ? hasValue.stack_yr : this.TStockNo.stack_yr;
-      let index;
-      let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
-        this.TStockNo.value : this.TStockNo;
-      if (TStockNo !== undefined && TStockNo !== null) {
-        index = TStockNo.toString().indexOf('/', 2);
-        const totalLength = TStockNo.length;
-        this.godownNo = TStockNo.toString().slice(0, index);
-        this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
+      const hasValue = (event.value !== undefined && event.value !== null) ? event.value : event;
+      if (hasValue !== undefined && hasValue !== null) {
+        const trcode = (this.Trcode.value !== null && this.Trcode.value !== undefined) ?
+          this.Trcode.value : this.trCode;
+        const itemGroup: string = (this.ICode.GRName !== undefined && this.ICode.GRName !== null) ?
+          this.ICode.GRName : this.itemGRName;
+        const schCode: string = (this.Scheme.value !== null && this.Scheme.value !== undefined) ?
+          this.Scheme.value : this.schemeCode;
+        this.checkTrType = (trcode === 'TR024' || (schCode === 'SC025' && itemGroup === 'M024')) ? false : true;
+        this.stackYear = (hasValue.stack_yr !== null && hasValue.stack_yr !== undefined) ? hasValue.stack_yr : this.TStockNo.stack_yr;
+        let index;
+        let TStockNo = (this.TStockNo.value !== undefined && this.TStockNo.value !== null) ?
+          this.TStockNo.value : this.TStockNo;
+        if (TStockNo !== undefined && TStockNo !== null) {
+          index = TStockNo.toString().indexOf('/', 2);
+          const totalLength = TStockNo.length;
+          this.godownNo = TStockNo.toString().slice(0, index);
+          this.locationNo = TStockNo.toString().slice(index + 1, totalLength);
+        } else {
+          this.godownNo = null; this.stackYear = null;
+          this.locationNo = null; this.stackCompartment = null;
+        }
       } else {
         this.godownNo = null; this.stackYear = null;
         this.locationNo = null; this.stackCompartment = null;
       }
-    } else {
-      this.godownNo = null; this.stackYear = null;
-      this.locationNo = null; this.stackCompartment = null;
-    }
-    let stack_data = (event.value !== undefined) ? event.value : event;
-    let ind;
-    let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value
-      : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
-    ind = stockNo.indexOf('/', 2);
-    const totalLength = stockNo.length;
-    this.godownNo = stockNo.slice(0, ind);
-    this.locationNo = stockNo.slice(ind + 1, totalLength);
-    const params = {
-      DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
-      TStockNo: stockNo,
-      StackYear: stack_data.stack_yr,
-      StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
-      GCode: this.IssuingCode,
-      ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
-      Type: 1
-    };
-    this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {
-        this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
-        // this.StackBalance = (this.StackBalance * 1);
-        if ((this.StackBalance * 1) > 0 || !this.checkTrType) {
-          this.isValidStackBalance = false;
-          this.CurrentDocQtv = 0; this.NetStackBalance = 0;
-          if (this.itemData.length !== 0) {
-            this.itemData.forEach(x => {
-              if (x.TStockNo.trim() === stockNo.trim()) {
-                this.CurrentDocQtv += (x.Nkgs * 1);
-                this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
-                this.NetStackBalance = (this.NetStackBalance * 1);
-              }
-            });
+      let stack_data = (event.value !== undefined) ? event.value : event;
+      let ind;
+      let stockNo: string = (stack_data.value !== undefined && stack_data.value !== null) ? stack_data.value
+        : (stack_data.stack_no !== undefined && stack_data.stack_no !== null) ? stack_data.stack_no : '';
+      ind = stockNo.indexOf('/', 2);
+      const totalLength = stockNo.length;
+      this.godownNo = stockNo.slice(0, ind);
+      this.locationNo = stockNo.slice(ind + 1, totalLength);
+      const params = {
+        DocNo: (this.SINo !== undefined && this.SINo !== null) ? this.SINo : 0,
+        TStockNo: stockNo,
+        StackYear: stack_data.stack_yr,
+        StackDate: this.datepipe.transform(stack_data.stack_date, 'MM/dd/yyyy'),
+        GCode: this.IssuingCode,
+        ICode: (this.ICode.value !== undefined && this.ICode.value !== null) ? this.ICode.value : this.iCode,
+        Type: 1
+      };
+      this.restAPIService.post(PathConstants.STACK_BALANCE, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.StackBalance = (res[0].StackBalance * 1).toFixed(3);
+          // this.StackBalance = (this.StackBalance * 1);
+          if ((this.StackBalance * 1) > 0 || !this.checkTrType) {
+            this.isValidStackBalance = false;
+            this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+            if (this.itemData.length !== 0) {
+              this.itemData.forEach(x => {
+                if (x.TStockNo.trim() === stockNo.trim()) {
+                  this.CurrentDocQtv += (x.Nkgs * 1);
+                  this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
+                  this.NetStackBalance = (this.NetStackBalance * 1);
+                }
+              });
+            }
+          } else {
+            this.isValidStackBalance = true;
+            this.clearItemDetails();
+            this.CurrentDocQtv = 0;
+            this.NetStackBalance = 0;
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
           }
-        } else {
-          this.isValidStackBalance = true;
-          this.clearItemDetails();
-          this.CurrentDocQtv = 0;
-          this.NetStackBalance = 0;
-          this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NotSufficientStackBalance });
         }
-      }
-    });
-  } else {
-    this.godownNo = null; this.stackYear = null; this.locationNo = null;
-    this.CurrentDocQtv = 0; this.NetStackBalance = 0;
-  }
+      });
+    } else {
+      this.godownNo = null; this.stackYear = null; this.locationNo = null;
+      this.CurrentDocQtv = 0; this.NetStackBalance = 0;
+    }
   }
 
   clearItemDetails() {
@@ -832,21 +832,21 @@ export class IssueReceiptComponent implements OnInit {
           this.checkAllotmentBalance('2');
           this.NetStackBalance = ((this.StackBalance * 1) - (this.CurrentDocQtv * 1)).toFixed(3);
           this.NetStackBalance = (this.NetStackBalance * 1);
-          if(this.itemData.length >= 1) {
-          totalNkgs = 0;
-          totalBags = 0;
-          totalGkgs = 0;
-          this.itemData.forEach(x => {
-            totalBags += x.NoPacking;
-            totalGkgs += (x.GKgs * 1);
-            totalNkgs += (x.Nkgs * 1);
-          });
-          var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
-          index = this.itemData.length;
-          this.itemData.splice(index, 0, item);
-        }
+          if (this.itemData.length >= 1) {
+            totalNkgs = 0;
+            totalBags = 0;
+            totalGkgs = 0;
+            this.itemData.forEach(x => {
+              totalBags += x.NoPacking;
+              totalGkgs += (x.GKgs * 1);
+              totalNkgs += (x.Nkgs * 1);
+            });
+            var item = { TStockNo: 'Total', NoPacking: totalBags, GKgs: totalGkgs.toFixed(3), Nkgs: totalNkgs.toFixed(3) };
+            index = this.itemData.length;
+            this.itemData.splice(index, 0, item);
+          }
           this.TStockNo = null; this.ICode = null; this.IPCode = null; this.NoPacking = null;
-          this.GKgs = null; this.NKgs = null; this.godownNo = null; 
+          this.GKgs = null; this.NKgs = null; this.godownNo = null;
           this.locationNo = null; this.stackYear = null;
           this.TKgs = null; this.WTCode = null; this.Moisture = null;
           this.Scheme = null; this.selectedIndex = null; this.QuantityLimit = null;
@@ -1084,13 +1084,15 @@ export class IssueReceiptComponent implements OnInit {
   }
 
   checkAllotmentStatus(value) {
-    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value,  Type: '2'}).subscribe(status => {
+    this.restAPIService.getByParameters(PathConstants.SETTINGS_GET, { sValue: value, Type: '2' }).subscribe(status => {
       this.GodownAllotmentStatus = status.Table[0].TNCSCValue;
       this.AllotmentStatus = status.Table1[0].TNCSCValue;
     });
   }
 
   getAllotmentDetails() {
+    this.schemeCode = null; this.Scheme = null; this.schemeOptions = [];
+    this.iCode = null; this.ICode = null; this.itemDescOptions = [];
     if (!this.isViewed) {
       this.showIssuerCode();
     }
@@ -1144,33 +1146,33 @@ export class IssueReceiptComponent implements OnInit {
             for (let a = 0; a < this.allotmentDetails.length; a++) {
               if (this.allotmentDetails[a].AllotmentGroup.trim() === allot_Group.trim() &&
                 this.allotmentDetails[a].AllotmentScheme === allot_schemeCode) {
-                  this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
-                  percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
-                  if(!this.isViewed) {
-                this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
-                this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
-                this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
-                  ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
-                  + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
-                  } else {
-                    let netWt = 0;
-                    this.itemData.forEach(i => {
-                      if(i.TStockNo !== 'Total') {
+                this.AllotmentQty = (this.allotmentDetails[a].AllotmentQty * 1);
+                percentAQty = (this.RegularAdvance.toUpperCase().trim() === 'A') ? (((this.AllotmentQty * 1) * 60) / 100) : (this.AllotmentQty * 1);
+                if (!this.isViewed) {
+                  this.IssueQty = (this.allotmentDetails[a].IssueQty * 1);
+                  this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1);
+                  this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
+                    ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
+                    + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                } else {
+                  let netWt = 0;
+                  this.itemData.forEach(i => {
+                    if (i.TStockNo !== 'Total') {
                       netWt += (i.Nkgs * 1);
-                      }
-                    })
-                    if (this.viewedNetQty !== null && this.viewedNetQty !== undefined) {
-                      const remainingQty = this.viewedNetQty - netWt;
-                      this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) - remainingQty;
-                      this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) + remainingQty;
-                      this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
-                        ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
-                        + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
                     }
+                  })
+                  if (this.viewedNetQty !== null && this.viewedNetQty !== undefined) {
+                    const remainingQty = this.viewedNetQty - netWt;
+                    this.IssueQty = (this.allotmentDetails[a].IssueQty * 1) - remainingQty;
+                    this.BalanceQty = (this.allotmentDetails[a].BalanceQty * 1) + remainingQty;
+                    this.QuantityLimit = ' ALLOT_QTY ' + ': ' + this.AllotmentQty.toFixed(3) +
+                      ((this.RegularAdvance.toUpperCase().trim() === 'A') ? ('/' + percentAQty.toFixed(3)) : '')
+                      + '  ' + ' ISS_QTY ' + ': ' + this.IssueQty.toFixed(3) + '  ' + ' BAL_QTY ' + ': ' + this.BalanceQty.toFixed(3);
+                  }
                 }
                 /// ---------------- Allotment balance check ------------------ ///
-                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 && 
-                (this.RegularAdvance.toUpperCase().trim() === 'R') && this.GodownAllotmentStatus === 'YES') {
+                if ((this.BalanceQty * 1) <= 0 && this.itemData.length === 0 &&
+                  (this.RegularAdvance.toUpperCase().trim() === 'R') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1179,8 +1181,8 @@ export class IssueReceiptComponent implements OnInit {
                   });
                 }
                 ///Else Part
-                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 && 
-                (this.RegularAdvance.toUpperCase().trim() === 'A') && this.GodownAllotmentStatus === 'YES') {
+                else if ((percentAQty * 1) <= 0 && this.itemData.length === 0 &&
+                  (this.RegularAdvance.toUpperCase().trim() === 'A') && this.GodownAllotmentStatus === 'YES') {
                   this.exceedAllotBal = true;
                   this.messageService.clear();
                   this.messageService.add({
@@ -1221,9 +1223,9 @@ export class IssueReceiptComponent implements OnInit {
                   if ((this.BalanceQty * 1) < netWt) {
                     this.exceedAllotBal = true;
                     this.itemData.splice(lastIndex, 1);
-                    if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+                    if (this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
                       this.itemData.length = 0;
-                    } 
+                    }
                     this.messageService.clear();
                     this.messageService.add({
                       key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
@@ -1246,14 +1248,14 @@ export class IssueReceiptComponent implements OnInit {
                     if (x.AllotmentGroup.toString().trim() === allot_Group.trim() && x.AllotmentScheme === allot_schemeCode) {
                       netWt += (x.Nkgs * 1);
                       lastIndex = index;
-                     }
+                    }
                   });
                   if ((percentAQty * 1) < netWt) {
                     this.exceedAllotBal = true;
                     this.itemData.splice(lastIndex, 1);
-                    if(this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
+                    if (this.itemData.length === 1 && this.itemData[0].TStockNo === 'Total') {
                       this.itemData.length = 0;
-                    } 
+                    }
                     this.messageService.clear();
                     this.messageService.add({
                       key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR,
@@ -1443,7 +1445,7 @@ export class IssueReceiptComponent implements OnInit {
     this.TransporterCharges = 0; this.TransporterName = '-'; this.ManualDocNo = '-';
     this.NewBale = 0; this.GunnyReleased = 0; this.Gunnyutilised = 0;
     this.SServiceable = 0; this.SPatches = 0; this.CurrentDocQtv = 0;
-    this.StackBalance = 0; this.NetStackBalance = 0; 
+    this.StackBalance = 0; this.NetStackBalance = 0;
     this.godownNo = null; this.locationNo = null; this.stackCompartment = null;
     this.NoPacking = null; this.GKgs = 0; this.NKgs = 0; this.TKgs = 0;
     this.curMonth = "0" + (new Date().getMonth() + 1);
@@ -1479,12 +1481,12 @@ export class IssueReceiptComponent implements OnInit {
     this.form.controls.RemarksText.reset();
     this.form.controls.SocName.reset();
     this.form.controls.IssuerCode.reset();
-    if(type === '1') {
+    if (type === '1') {
       this.generateSINo();
       this.docType = '1';
-      } else {
-        this.SINo = null;
-      }
+    } else {
+      this.SINo = null;
+    }
   }
 
   openNext() {
