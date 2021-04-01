@@ -161,6 +161,8 @@ export class TableConstants {
   PDSLiftmentColumns: any;
   DOtoSalesTaxReport: any;
   DOApprovalReport: any;
+  TaxReportColumns: any;
+  hoqtyacabstractColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1257,7 +1259,7 @@ export class TableConstants {
     ];
 
     this.FrozenPDSLiftmentColumns = [
-       { field: 'slno', header: 'Sl.No.', width: '55px' },
+      { field: 'slno', header: 'Sl.No.', width: '55px' },
       { field: 'RName', header: 'Region Name', width: '270px' }
     ]
 
@@ -1519,6 +1521,7 @@ export class TableConstants {
       { field: 'Percentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST' },
       { field: 'SGST', header: 'SGST' },
+      { field: 'SGST', header: 'SGST' },
       { field: 'VatAmount', header: 'Tax Amount' },
       { field: 'Total', header: 'Total' },
       // { header: 'Modify' },
@@ -1538,68 +1541,86 @@ export class TableConstants {
       { field: 'Percentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'VatAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
     ];
 
     this.AADSSalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'CompanyName', header: 'Company Name' },
+      { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
       { field: 'bd', header: 'Bill Date' },
+      { field: 'Scheme', header: 'Scheme' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Value' },
       { field: 'TaxPercentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-      // { header: 'Modify' },
-      // { header: 'Delete' }
+      { field: 'DORate', header: 'DO Rate' },
+      { field: 'DOTotal', header: 'DO Total' },
     ];
 
     this.GodownSalesTaxEntry = [
       { header: 'S.No', field: 'SlNo' },
       { field: 'PartyName', header: 'Company Name' },
       { field: 'CommodityName', header: 'Commodity Name' },
-      { field: 'SchemeName', header: 'Scheme Name' },
-      // { field: 'SchemeCode', header: 'Scheme Code' },
+      { field: 'Schemename', header: 'Scheme Name' },
       { field: 'TIN', header: 'GST No' },
       { field: 'Hsncode', header: 'Hsncode' },
       { field: 'BillNo', header: 'Bill No' },
-      { field: 'bd', header: 'Bill Date' },
+      { field: 'BillDate', header: 'Bill Date' },
       { field: 'Quantity', header: 'Quantity' },
       { field: 'Rate', header: 'Rate' },
       { field: 'Amount', header: 'Value' },
       { field: 'TaxPercentage', header: 'Tax %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
+      { field: 'DORate', header: 'DO Rate' },
+      { field: 'DOTotal', header: 'DO Total' },
     ];
 
     this.ServiceProviderEntry = [
       { header: 'S.No', field: 'SlNo' },
-      { field: 'Month', header: 'Month' },
-      { field: 'Year', header: 'Year' },
-      { field: 'bd', header: 'Bill Date' },
-      { field: 'BillNo', header: 'Bill No' },
-      { field: 'TIN', header: 'GST No' },
       { field: 'CompanyName', header: 'Company Name' },
+      { field: 'TIN', header: 'GST No' },
       { field: 'CommodityName', header: 'Service Name' },
+      { field: 'BillNo', header: 'Bill No' },
+      { field: 'BillDate', header: 'Bill Date' },
       { field: 'Amount', header: 'Amount' },
       { field: 'TaxPercentage', header: 'GST %' },
       { field: 'CGST', header: 'CGST Amt' },
       { field: 'SGST', header: 'SGST Amt' },
+      { field: 'IGST', header: 'IGST Amt' },
       { field: 'TaxAmount', header: 'Total Tax Amt' },
       { field: 'Total', header: 'Total Amt' },
-      // { header: 'Modify' },
-      // { header: 'Delete' }
+      { header: 'Region', field: 'RGNAME' },
     ];
+    // this.TaxReportColumns = [
+    //   { header: 'S.No', field: 'SlNo' },
+    //   { field: 'CompanyName', header: 'Company Name' },
+    //   { field: 'TIN', header: 'GST No' },
+    //   { field: 'CommodityName', header: 'Service Name' },
+    //   { field: 'BillNo', header: 'Bill No' },
+    //   { field: 'BillDate', header: 'Bill Date' },
+    //   { field: 'Amount', header: 'Amount' },
+    //   { field: 'TaxPercentage', header: 'GST %' },
+    //   { field: 'CGST', header: 'CGST Amt' },
+    //   { field: 'SGST', header: 'SGST Amt' },
+    //   { field: 'IGST', header: 'IGST Amt' },
+    //   { field: 'TaxAmount', header: 'Total Tax Amt' },
+    //   { field: 'Total', header: 'Total Amt' },
+    // ];
 
     this.TenderAllotmentToRegionCols = [
       { header: 'S.No', field: 'SlNo' },
@@ -1869,46 +1890,57 @@ export class TableConstants {
 
     this.GSTSalexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Buyer_ID', field: 'CompanyID', width: '60px' },
       { header: 'Buyer_Name', field: 'PartyName', width: '60px' },
       { header: 'GSTIN', field: 'TIN', width: '40px' },
-      { header: 'Commodity', field: 'CommodityName' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
       { header: 'Bill No', field: 'BillNo' },
       { header: 'Bill Date', field: 'BillDate' },
+      { header: 'HSN_CODE', field: 'Hsncode' },
+      { header: 'Commodity', field: 'CommodityName' },
       { header: 'Quantity', field: 'Quantity' },
       { header: 'Rate', field: 'Rate' },
       { header: 'Sales_Value', field: 'Amount' },
       { header: 'Rate Of Tax', field: 'TaxPercentage' },
+      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },
-      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'Total Amount', field: 'Total' },
       { header: 'Region', field: 'RGNAME' },
-      { header: 'DO Rate', field: 'DORate' },
-      { header: 'DO Total', field: 'DOTotal' },
+      { header: 'Scheme', field: 'SCName' },
     ];
 
     this.GSTPurchasexTaxReportColumns = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { header: 'Name_of_seller', field: 'PartyName' },
+      { header: 'Seller ID', field: 'CompanyID' },
+      { header: 'Name of seller', field: 'CompanyName' },
       { header: 'GSTIN', field: 'TIN' },
-      { header: 'Commodity_Name', field: 'CommodityName' },
-      { header: 'HSN_CODE', field: 'Hsncode' },
-      { header: 'Invoice_No', field: 'BillNo' },
-      { header: 'Invoice_Date', field: 'BillDate' },
-      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Invoice No', field: 'BillNo' },
+      { header: 'Invoice Date', field: 'BillDate' },
+      { header: 'HSNCODE', field: 'Hsncode' },
+      { header: 'CommodityName', field: 'CommodityName' },
       { header: 'Scale', field: 'Measurement' },
-      { header: 'Purchase_Value', field: 'Amount' },
-      { header: 'Tax_Rate', field: 'TaxPercentage' },
+      { header: 'Quantity', field: 'Quantity' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Purchase Value', field: 'Amount' },
+      { header: 'Tax Percentage', field: 'Percentage' },
+      { header: 'TOTAL TAX', field: 'VatAmount' },
       { header: 'CGST', field: 'CGST' },
       { header: 'SGST', field: 'SGST' },
       { header: 'IGST', field: 'IGST' },
-      { header: 'TOTAL GST', field: 'TaxAmount' },
       { header: 'Total Amount', field: 'Total' },
       { header: 'Region', field: 'RGNAME' },
-      { header: 'DO Rate', field: 'DORate' },
-      { header: 'DO Total', field: 'DOTotal' },
+    ];
+    this.TaxReportColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'Value', field: 'Amount' },
+      { header: 'GST %', field: 'TaxPercentage' },
+      { header: 'GST Amount', field: 'TaxAmount' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'Total Amount', field: 'Total' },
     ];
 
     this.RateMaster = [
@@ -2084,19 +2116,21 @@ export class TableConstants {
       { header: 'GST Number', field: 'GSTNumber' },
       { header: 'Receivor Name', field: 'ReceivorName' },
       { header: 'ITDescription', field: 'ITDescription' },
+      { header: 'SCHEME', field: 'SCName' },
       { header: 'Hsncode', field: 'Hsncode' },
       { header: 'Taxpercentage', field: 'TaxPercentage' },
       { header: 'Net weight', field: 'NetWeight' },
       { header: 'Wtype', field: 'Wtype' },
-      { header: 'Rate', field: 'Doc-Rate' },
-      { header: 'Total', field: 'Doc-Value' },
+      { header: 'Rate', field: 'Rate' },
+      { header: 'Total', field: 'DITotal' },
       { header: 'Sales Rate', field: 'SalesRate' },
       { header: 'Sales Total', field: 'SalesTOTAL' },
       { header: 'SGST', field: 'SGST' },
       { header: 'CGST', field: 'CGST' },
+      { header: 'IGST', field: 'IGST' },
       { header: 'GST Total', field: 'GSTTOTAL' },
       { header: 'Total Amount', field: 'TotalAmount' },
-      { header: 'Grand Total', field: 'GrandTotal' },
+      // { header: 'Grand Total', field: 'GrandTotal' },
     ];
 
     this.DOApprovalReport = [
@@ -2107,6 +2141,28 @@ export class TableConstants {
       { header: 'Godown Name', field: 'TNCSName' }
       // { header: 'Status', field: 'icon' },
 
+    ];
+    this.hoqtyacabstractColumns = [
+      { header: 'Sl.No', field: 'SlNo' },
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'Opening Bal.', field: 'OB' },
+      { header: 'Purchase', field: 'PurchaseReceipt' },
+      { header: 'Free Rice', field: 'FreeRice' },
+      { header: 'Others', field: 'OtherReceipt' },
+      { header: 'Total Receipts', field: 'TotalReceipt' },
+      { header: 'Issue on Sales', field: 'IssueOnSales' },
+
+      { header: 'Free Issues.', field: 'FreeIssues' },
+      { header: 'Total Issues', field: 'Totalssues' },
+      { header: 'Other Issues', field: 'OtherIssues' },
+      { header: 'Closing Balance', field: 'CB' },
+      { header: 'Cumulative Shortage.', field: 'CS' },
+      { header: 'Actuals', field: 'ActualBalance' },    
+      
     ];
   }
 }

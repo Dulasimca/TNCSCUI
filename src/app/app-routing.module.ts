@@ -128,6 +128,9 @@ import { PdsLiftmentReportComponent } from './reports/pds-liftment-report/pds-li
 import { QuotationDetailsComponent } from './Documents/quotation-details/quotation-details.component';
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
+import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
+import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.component';
+import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -258,6 +261,9 @@ const routes: Routes = [
   { path: 'QuotationDetails', component: QuotationDetailsComponent, canActivate: [AuthGuard] },
   { path: 'DoToSalesTax', component: DoToSalesTaxComponent, canActivate: [AuthGuard] },
   { path: 'DoApproval', component: DoApprovalDocsComponent, canActivate: [AuthGuard] },
+  { path: 'TaxAbstract', component: TaxAbstractComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyabstract', component: HoqtyabstractComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyabstractrep', component: HoqtyabstractrepComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -21,7 +21,7 @@
           </div>
           <div class="ui-g-6 ui-md-6 dashboard">
             <p-radioButton name="AADS" value="2" [(ngModel)]="AADS" (ngModelChange)="onResetTable('AADS')"
-              label="AADS Entry">
+              label="Other Entry">
             </p-radioButton>
           </div>
         </div>
@@ -102,7 +102,7 @@
           <div class="ui-g">
             <div class="ui-g-12 ui-md-5"></div>
             <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '1')">Godown Sales Tax Entry</div>
-            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '2')">AADS Sales Tax Entry</div>
+            <div class="ui-g-12 ui-md-3" *ngIf="(AADS == '2')">Others Sales Tax Entry</div>
             <div class="ui-g-12 ui-md-5"></div>
           </div>
           <form #SalesForm="ngForm" (ngSubmit)="onSubmit(formUser)">
@@ -176,7 +176,7 @@
                 <p-dropdown #tax name="TaxType" class="ui-g-12 ui-fluid dashboard" [options]="TaxtypeOptions"
                   [(ngModel)]="TaxType" (onClick)="onSelect('tax', 'click')" (keyup.shift.tab)="onSelect('tax','tab')"
                   (keyup.tab)="onSelect('tax','tab')" [showClear]="true" filter="true" filterMatchMode="startsWith"
-                  resetFilterOnHide="true">
+                  resetFilterOnHide="true" (onChange)="onGST()" required>
                   <ng-template let-item pTemplate="selectedItem">
                     <span style="vertical-align:middle">{{item.label}}</span>
                   </ng-template>
@@ -255,7 +255,7 @@
               </div>
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-g">
-                  <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date/Invoice Date</label>
+                  <label class="ui-g-10 label-fontsize dashboard" for="Billdate">Bill Date/Invoice Date/ FORMAT: MM/dd/yyyy</label>
                   <p-calendar class="ui-g-12 ui-fluid dashboard" [showIcon]="true" dateFormat="mm/dd/yy"
                     [maxDate]="maxDate" name="Billdate" [(ngModel)]="Billdate" required>
                   </p-calendar>
@@ -284,11 +284,18 @@
                   <label for="Quantity">Quantity</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3" style="padding-top: 20px">
+              <div class="ui-g-12 ui-md-2" style="padding-top: 20px">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Rate" name="Rate"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Rate" name="Rate"
                     autocomplete="off" (input)="onGST()" required>
-                  <label for="Rate">Rate</label>
+                  <label for="Rate">DORate/BillRate</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-1" style="padding-top: 20px">
+                <div class="ui-float-label">
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="RevRate" name="RevRate"
+                    autocomplete="off" readonly="true" (input)="onGST()" required>
+                  <label for="RevRate">Reverse Rate</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-2"></div>
@@ -296,24 +303,31 @@
 
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Amount" name="Amount"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Amount" name="Amount"
                     autocomplete="off" (input)="onGST()" readonly="true" required>
                   <label for="Amount">Value</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="percentage"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="RevAmount" name="RevAmount"
+                    autocomplete="off" (input)="onGST()" readonly="true" required>
+                  <label for="RevAmount">RevValue</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-float-label">
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="percentage"
                     oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                    (input)="onGST()" name="percentage" autocomplete="off" required>
+                    (input)="onGST()" name="percentage" autocomplete="off" readonly="true" required >
                   <label for="percentage">Tax Percentage</label>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-3">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="CGST" name="CGST"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="CGST" name="CGST"
                     (input)="onGST()" autocomplete="off" readonly="true" required>
                   <label for="CGST">CGST Amount</label>
                 </div>
@@ -324,16 +338,23 @@
             <div class="ui-g">
               <div class="ui-g-12 ui-md-1"></div>
 
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="SGST" name="SGST"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="SGST" name="SGST"
                     (input)="onGST()" autocomplete="off" readonly="true" required>
                   <label for="SGST">SGST Amount</label>
                 </div>
               </div>
-              <div class="ui-g-12 ui-md-3">
+              <div class="ui-g-12 ui-md-2">
                 <div class="ui-float-label">
-                  <input class="icon2" type="number" size="30" pInputText [(ngModel)]="Vat" name="Vat" (input)="onGST()"
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="IGST" name="IGST"
+                    (input)="onGST()" autocomplete="off" readonly="true" required>
+                  <label for="IGST">IGST Amount</label>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <div class="ui-float-label">
+                  <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Vat" name="Vat" (input)="onGST()"
                     autocomplete="off" readonly="true" required>
                   <label for="Vat">Tax Amount</label>
                 </div>
@@ -348,7 +369,7 @@
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
                 <div class="ui-g-6 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
-                    [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Bill || !Billdate || !Quantity || !Rate || !Total)"
+                    [disabled]="(!RCode || !GCode  || !AccountingYear || !Month || !Year || !Commodity || !Party || !Amount || !Bill || !Billdate || !Quantity || !Rate || !Total)"
                     label=Save></button>
                 </div>
                 <div class="ui-g-6 ui-md-6 ui-fluid">

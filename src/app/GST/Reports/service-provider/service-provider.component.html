@@ -35,63 +35,72 @@
         <label for="PeriodOfMonth" class="ui-g-12 label-fontsize dashboard" for="Month">Month</label>
         <p-dropdown #m="ngModel" name="PeriodOfMonth" [options]="monthOptions" [(ngModel)]="Month"
           (onClick)="onSelect('m', 'click')" (keyup.shift.tab)="onSelect('m', 'tab')"
-          (ngModelChange)="onResetFields('m')" filter="true" resetFilterOnHide="true"
-          (keyup.tab)="onSelect('m', 'tab')" filterMatchMode="startsWith" optionLabel="label" required>
+          (ngModelChange)="onResetFields('m')" filter="true" resetFilterOnHide="true" (keyup.tab)="onSelect('m', 'tab')"
+          filterMatchMode="startsWith" optionLabel="label" required>
         </p-dropdown>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid">
         <label for="PeriodOfYear" class="ui-g-12 label-fontsize dashboard" for="Year">Year</label>
         <p-dropdown #y="ngModel" name="PeriodOfYear" [options]="yearOptions" [(ngModel)]="Year"
-          (onClick)="onSelect('y', 'click')" (keyup.shift.tab)="onSelect('y', 'tab')"
-          (keyup.tab)="onSelect('y', 'tab')" (ngModelChange)="onResetFields('y')" required>
+          (onClick)="onSelect('y', 'click')" (keyup.shift.tab)="onSelect('y', 'tab')" (keyup.tab)="onSelect('y', 'tab')"
+          (ngModelChange)="onResetFields('y')" required>
         </p-dropdown>
       </div>
       <div class="ui-g-6 ui-md-2">
         <label class="ui-g-12 label-fontsize dashboard">Accounting Year</label>
         <p-dropdown #accountingYear class="ui-g-12 ui-fluid dashboard" [options]="accYearOptions"
           [(ngModel)]="AccountingYear" [showClear]="true" (onClick)="onSelect('acc','click')"
-          (keyup.shift.tab)="onSelect('acc','tab')" (ngModelChange)="onResetFields('acc')" (keyup.tab)="onSelect('acc','tab')"
-          placeholder="-select-" filter="true" resetFilterOnHide="true" filterMatchMode="startsWith" >
+          (keyup.shift.tab)="onSelect('acc','tab')" (ngModelChange)="onResetFields('acc')"
+          (keyup.tab)="onSelect('acc','tab')" placeholder="-select-" filter="true" resetFilterOnHide="true"
+          filterMatchMode="startsWith">
         </p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-6 ui-md-2">
+        <label class="ui-g-12 label-fontsize dashboard">Tax Percentage</label>
+        <p-dropdown #taxPercentage class="ui-g-12 ui-fluid dashboard" [options]="TaxPercentOptions"
+          [(ngModel)]="TaxPercent" [showClear]="true" (onClick)="onSelect('tp','click')"
+          (keyup.shift.tab)="onSelect('tp','tab')" (keyup.tab)="onSelect('tp','tab')" placeholder="-select-"
+          filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" (ngModelChange)="onResetFields('taxPercentage')" optionLabel="label">
+        </p-dropdown>
+      </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" (click)="onView()" style="padding: 1px;"
-          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year)" label=View></button>
+          [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !TaxPercent)" label=View></button>
       </div>
       <div class="ui-g-6 ui-md-1 ui-fluid" style="padding-top: 22px">
         <button pButton type="button" label=Excel (click)="dt.exportCSV()"
           [disabled]="(serviceTaxData.length=='0')"></button>
       </div>
-    <div class="ui-g-12 ui-fluid">
-      <p-table #dt [columns]="serviceTaxCols" [value]="serviceTaxData" [rows]="20"
-        [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
-        [paginator]="true" [loading]="loading" exportFilename="SERVICE_PROVIDER_TAX_REPORT">
-        <ng-template pTemplate="header" let-columns>
-          <tr style="text-align: center;">
-            <th *ngFor="let col of columns">
-              {{col.header}}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-          <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
-            <td *ngFor="let col of columns">
-              <div *ngIf="col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
-                <div style="text-align: end !important">
+      <div class="ui-g-12 ui-fluid">
+        <p-table #dt [columns]="serviceTaxCols" [value]="serviceTaxData" [rows]="20"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true" autoLayout="true"
+          [paginator]="true" [loading]="loading" exportFilename="SERVICE_PROVIDER_TAX_REPORT">
+          <ng-template pTemplate="header" let-columns>
+            <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+              <td *ngFor="let col of columns">
+                <div
+                  *ngIf="col.field === 'Amount' || col.field === 'TaxPercentage' || col.field === 'CGST' || col.field === 'SGST' || col.field === 'TaxAmount' || col.field === 'Total'">
+                  <div style="text-align: end !important">
+                    {{rowData[col.field]}}
+                  </div>
+                </div>
+                <div
+                  *ngIf="col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'"
+                  [ngStyle]="{'text-decoration': getStyle(rowData.CommodityName, 'line'),'color': getStyle(rowData.CommodityName, 'color')}">
                   {{rowData[col.field]}}
                 </div>
-              </div>
-              <div *ngIf="col.field !== 'Amount' && col.field !== 'TaxPercentage' && col.field !== 'CGST' && col.field !== 'SGST' && col.field !== 'TaxAmount' && col.field !== 'Total'"
-              [ngStyle]="{'text-decoration': getStyle(rowData.CommodityName, 'line'),'color': getStyle(rowData.CommodityName, 'color')}">
-                {{rowData[col.field]}}
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
-  </div>
   </p-panel>
 </div>
-

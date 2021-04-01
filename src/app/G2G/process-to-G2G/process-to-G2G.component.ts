@@ -132,7 +132,7 @@ export class ProcessToG2GComponent implements OnInit {
                     this.loading = false;
                     let sno = 1;
                     let filteredArr = res.Table.filter(x => {
-                        return (x.TyCode === 'TY002' || x.TyCode === 'TY003' || x.TyCode === 'TY004');
+                        return (x.TyCode === 'TY002' || x.TyCode === 'TY003' || x.TyCode === 'TY004' );
                     });
                     filteredArr.forEach(data => {
                         data.SlNo = sno;
@@ -222,7 +222,10 @@ export class ProcessToG2GComponent implements OnInit {
     }
 
     filterByType(value) {
+        
         if (value !== null && value !== undefined && value.length !== 0) {
+            if(value === 'R')
+            {
             this.issueMemoDocData = this.primalData.filter(x => {
                 return x.IssueType === value;
             });
@@ -240,6 +243,14 @@ export class ProcessToG2GComponent implements OnInit {
                     summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage
                 });
             }
+        }
+        else
+        {
+            this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+                summary: StatusMessage.SUMMARY_WARNING, detail: 'Please get permission from Admin for Advance'
+            });
+        }
         } else {
             this.issueMemoDocData = this.primalData;
         }

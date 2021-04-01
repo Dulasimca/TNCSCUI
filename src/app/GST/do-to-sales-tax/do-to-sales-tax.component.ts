@@ -48,7 +48,11 @@ export class DoToSalesTaxComponent implements OnInit {
   blockScreen: boolean;
   username: any;
   accYear: any;
-
+  DOTotal: any;
+  Total: any = [];
+  // viewpaneTotal: boolean = false;
+  display: boolean = false;
+  FinalTotal: any;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstants: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -150,12 +154,37 @@ export class DoToSalesTaxComponent implements OnInit {
     }
   }
 
+  onTotal() {
+    ///Abstract
+    this.Total = [];
+    var hash = Object.create(null),
+      abstract = [];
+    this.DOTotal.forEach(function (o) {
+      var key = ['Total'].map(function (k) { return o[k]; }).join('|');
+      if (!hash[key]) {
+        hash[key] = {
+          TotalAmount: 0
+        };
+        abstract.push(hash[key]);
+      }
+      ['TotalAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+    });
+    // this.DOTotal.push({ PartyName: 'Total' });
+    abstract.forEach(x => {
+      this.Total.push({
+        Total: (x.TotalAmount * 1).toFixed(2)
+      });
+    });
+    this.FinalTotal = this.Total[0].Total;
+    this.display = true;
+  }
+
   onView() {
     this.loading = true;
     const params = {
       // 'RoleId': this.roleId,
       'GCode': this.GCode,
-      // 'RCode': this.RCode,
+      'RCode': this.RCode,
       // 'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       // 'Year': this.Year,
       'fromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
@@ -164,12 +193,15 @@ export class DoToSalesTaxComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.DO_TO_SALESTAX, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.DOSalesData = res;
+        this.DOTotal = res;
         let sno = 0;
+        this.loading = false;
         this.DOSalesData.forEach(s => {
           sno += 1;
           s.SlNo = sno;
         });
         this.callAccountingYear();
+        this.onTotal();
       } else {
         this.loading = false;
         this.onResetTable('');
@@ -230,29 +262,29 @@ export class DoToSalesTaxComponent implements OnInit {
   }
 
   callAccountingYear() {
-    if(this.DOSalesData.length !== 0) {
-    this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
-      if (data !== undefined) {
-        this.DOSalesData.forEach(x => {
-          // const doDate_year = new Date(x.DoDate).getFullYear();
-          const doDate_year = new Date(x.DoDate);
-          data.forEach(y => {
-            // const from_accYear = new Date(y.FromDate).getFullYear();
-            // const to_accYear = new Date(y.ToDate).getFullYear();
-            const from_accYear = new Date(y.FromDate);
-            const to_accYear = new Date(y.ToDate);
-            if(from_accYear <= doDate_year && to_accYear >= doDate_year) {
-               x.AccYear = y.ShortYear;
-            }
-          });
-        })
-      } else {
+    if (this.DOSalesData.length !== 0) {
+      this.restApiService.get(PathConstants.STACK_YEAR).subscribe(data => {
+        if (data !== undefined) {
+          this.DOSalesData.forEach(x => {
+            // const doDate_year = new Date(x.DoDate).getFullYear();
+            const doDate_year = new Date(x.DoDate);
+            data.forEach(y => {
+              // const from_accYear = new Date(y.FromDate).getFullYear();
+              // const to_accYear = new Date(y.ToDate).getFullYear();
+              const from_accYear = new Date(y.FromDate);
+              const to_accYear = new Date(y.ToDate);
+              if (from_accYear <= doDate_year && to_accYear >= doDate_year) {
+                x.AccYear = y.ShortYear;
+              }
+            });
+          })
+        } else {
+          this.loading = false;
+        }
+      }, () => {
         this.loading = false;
-      }
-    }, () => {
-      this.loading = false;
-    });
-  }
+      });
+    }
   }
 
   onDateSelect() {
@@ -283,12 +315,13 @@ export class DoToSalesTaxComponent implements OnInit {
   }
 
   onResetTable(item) {
-   if(item === 'R') {
-     this.GCode = null;
-   }
-   this.table.reset();
+    if (item === 'R') {
+      this.GCode = null;
+    }
+    this.table.reset();
+    this.FinalTotal = this.DOTotal = null;
   }
-  
+
   onClose() {
     this.messageService.clear('t-err');
   }

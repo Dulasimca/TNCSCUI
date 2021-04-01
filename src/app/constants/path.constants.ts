@@ -188,11 +188,16 @@ export class PathConstants {
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
+  public static readonly GSTTAX_ABSTRAC_GET = '/api/SalesTaxAbstract/Get';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
   
+// HoQtyAccConsolidation
+ public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
+ public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
+ public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
 
-
+ 
   //Allotment Module
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';

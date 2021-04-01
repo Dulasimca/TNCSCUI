@@ -70,10 +70,12 @@ export class ServiceProviderEntryComponent implements OnInit {
   Vat: any;
   CGST: any;
   SGST: any;
+  IGST: any;
   Total: any;
   userdata: any;
   maxDate: Date;
   minDate: Date;
+  curDate: Date;
   searchText: any;
   searchParty: any;
   items: any;
@@ -111,6 +113,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
+    this.curDate = new Date();
     this.curMonth = new Date().getMonth() + 1;
     this.Month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.Month, value: this.curMonth }];
@@ -162,9 +165,7 @@ export class ServiceProviderEntryComponent implements OnInit {
             }
           });
           this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
+          this.godownOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'y':
@@ -204,10 +205,10 @@ export class ServiceProviderEntryComponent implements OnInit {
         if (type === 'tab') {
           this.monthPanel.overlayVisible = true;
         }
-        this.monthOptions = [{ label: 'Jan', value: '01' },
-        { label: 'Feb', value: '02' }, { label: 'Mar', value: '03' }, { label: 'Apr', value: '04' },
-        { label: 'May', value: '05' }, { label: 'Jun', value: '06' }, { label: 'Jul', value: '07' },
-        { label: 'Aug', value: '08' }, { label: 'Sep', value: '09' }, { label: 'Oct', value: '10' },
+        this.monthOptions = [{ label: 'Jan', value: '1' },
+        { label: 'Feb', value: '2' }, { label: 'Mar', value: '3' }, { label: 'Apr', value: '4' },
+        { label: 'May', value: '5' }, { label: 'Jun', value: '6' }, { label: 'Jul', value: '7' },
+        { label: 'Aug', value: '8' }, { label: 'Sep', value: '9' }, { label: 'Oct', value: '10' },
         { label: 'Nov', value: '11' }, { label: 'Dec', value: '12' }];
         this.monthOptions.unshift({ label: '-select-', value: null, disabled: true });
         break;
@@ -336,7 +337,8 @@ export class ServiceProviderEntryComponent implements OnInit {
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear.label
+      'AccountingYear': this.AccountingYear.label,
+      'TaxPer': 'All'
     };
     this.restApiService.getByParameters(PathConstants.SERVICE_PROVIDER_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
@@ -347,7 +349,7 @@ export class ServiceProviderEntryComponent implements OnInit {
         let sno = 0;
         let bd = new Date();
         this.ServiceTaxData.forEach(s => {
-          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+          s.bd = this.datepipe.transform(s.BillDate, 'MM/dd/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
@@ -372,16 +374,26 @@ export class ServiceProviderEntryComponent implements OnInit {
   }
 
   onGST() {
-    let GA = (this.Amount / 100) * this.percentage;
-    this.CGST = (GA / 2).toFixed(2);
-    this.SGST = (GA / 2).toFixed(2);
-    this.Vat = GA.toFixed(2);
-    this.Total = (this.Amount * 1) + (this.Vat * 1);
+    if ((this.State === 33) || this.State === null || this.State === ''){
+        let GA = (this.Amount / 100) * this.percentage;
+        this.CGST = (GA / 2).toFixed(2);
+        this.SGST = (GA / 2).toFixed(2);
+        this.IGST = 0;
+        this.Vat = GA.toFixed(2);
+        this.Total = (this.Amount * 1) + (this.Vat * 1);
+    }else{
+        let GA = (this.Amount / 100) * this.percentage;
+        this.CGST = 0,
+        this.SGST = 0,
+        this.IGST = GA.toFixed(2);
+        this.Vat = GA.toFixed(2);
+        this.Total = (this.Amount * 1) + (this.Vat * 1);
+    }
   }
 
   onClear() {
     this.ServiceID = this.Tin = this.State = this.Pan = this.Gst = this.Bill = this.TaxType = this.CompanyName = this.Commodity = null;
-    this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.Total = null;
+    this.Quantity = this.Rate = this.Amount = this.percentage = this.Vat = this.SGST = this.CGST = this.IGST =this.Total = null;
     this.Billdate = this.commodityOptions = this.companyOptions = this.TaxtypeOptions = this.Party = null;
   }
 
@@ -429,6 +441,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     this.Amount = selectedRow.Amount;
     this.CGST = selectedRow.CGST;
     this.SGST = selectedRow.SGST;
+    this.IGST = selectedRow.IGST;
     this.percentage = selectedRow.TaxPercentage;
     this.Vat = selectedRow.TaxAmount;
     this.Total = selectedRow.Total;
@@ -442,7 +455,7 @@ export class ServiceProviderEntryComponent implements OnInit {
     const params = {
       // 'Roleid': this.roleId,
       'ServiceID': (this.ServiceID !== undefined && this.ServiceID !== null) ? this.ServiceID : 0,
-      'Month': this.curMonth,
+      'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
       'TIN': this.State + this.Pan + this.Gst,
       'AccYear': this.AccountingYear.label,
@@ -453,12 +466,13 @@ export class ServiceProviderEntryComponent implements OnInit {
       'TaxType': this.TaxType,
       'CGST': this.CGST,
       'SGST': this.SGST,
+      'IGST': this.IGST,
       'Amount': this.Amount,
       'TaxPercentage': this.percentage,
       'TaxAmount': this.Vat,
       'Total': this.Total,
       'CreatedBy': this.GCode,
-      'CreatedDate': this.Billdate,
+      'CreatedDate': this.curDate,
       'RCode': this.RCode,
       'GCode': this.GCode
     };

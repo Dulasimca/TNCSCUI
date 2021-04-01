@@ -11,11 +11,12 @@ import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-purchase-tax',
-  templateUrl: './purchase-tax.component.html',
-  styleUrls: ['./purchase-tax.component.css']
+  selector: 'app-tax-abstract',
+  templateUrl: './tax-abstract.component.html',
+  styleUrls: ['./tax-abstract.component.css']
 })
-export class PurchaseTaxComponent implements OnInit {
+
+export class TaxAbstractComponent implements OnInit {
   canShowMenu: boolean;
   data: any;
   roleId: any;
@@ -36,8 +37,8 @@ export class PurchaseTaxComponent implements OnInit {
   TaxPercent: any;
   loggedInRCode: string;
   AccountingYear: any;
-  purchaseTaxReportData: any = [];
-  purchaseTaxReportCols: any;
+  TaxReportData: any = [];
+  TaxReportCols: any;
   loading: boolean;
   AADS: any = 1;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
@@ -72,7 +73,7 @@ export class PurchaseTaxComponent implements OnInit {
         this.AccountingYearOptions = this.accYearSelection;
       }
     });
-    this.purchaseTaxReportCols = this.tableConstants.GSTPurchasexTaxReportColumns;
+    this.TaxReportCols = this.tableConstants.TaxReportColumns;
   }
 
   onSelect(item, type) {
@@ -167,53 +168,6 @@ export class PurchaseTaxComponent implements OnInit {
     }
   }
 
-  // onView() {
-  //   this.loading = true;
-  //   const params = {
-  //     // 'RoleId': this.roleId,
-  //     'GCode': this.GCode,
-  //     'RCode': this.RCode,
-  //     'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
-  //     'Year': this.Year,
-  //     'AccountingYear': this.AccountingYear.label,
-  //     'GSTType': 3
-  //   };
-  //   this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
-  //     if (res !== undefined && res !== null && res.length !== 0) {
-  //       this.purchaseTaxReportData = res;
-  //       let sno = 0;
-  //       this.purchaseTaxReportData.forEach(s => {
-  //         sno += 1;
-  //         s.SlNo = sno;
-  //         s.BillDate = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
-  //         s.Amount = ((s.Amount * 1) > 0) ? (s.Amount * 1).toFixed(2) : s.Amount;
-  //         s.Rate = ((s.Rate * 1) > 0) ? (s.Rate * 1).toFixed(2) : s.Rate;
-  //         s.DORate = ((s.DORate * 1) > 0) ? (s.DORate * 1).toFixed(2) : s.DORate;
-  //         s.DOTotal = ((s.DOTotal * 1) > 0) ? (s.DOTotal * 1).toFixed(2) : s.DOTotal;
-  //         s.Quantity = ((s.Quantity * 1) > 0) ? (s.Quantity * 1).toFixed(3) : s.Quantity;
-  //         s.VatAmount = ((s.VatAmount * 1) > 0) ? (s.VatAmount * 1).toFixed(2) : s.VatAmount;
-  //         s.Total = ((s.Total * 1) > 0) ? (s.Total * 1).toFixed(2) : s.Total;
-  //       });
-  //       this.loading = false;
-  //     } else {
-  //       this.loading = false;
-  //       this.messageService.clear();
-  //       this.messageService.add({
-  //         key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-  //         summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
-  //       });
-  //     }
-  //   }, (err: HttpErrorResponse) => {
-  //     if (err.status === 0 || err.status === 400) {
-  //       this.loading = false;
-  //       this.messageService.clear();
-  //       this.messageService.add({
-  //         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-  //         summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-  //       });
-  //     }
-  //   });
-  // }
 
   onView() {
     const params = {
@@ -221,48 +175,49 @@ export class PurchaseTaxComponent implements OnInit {
       'RCode': this.RCode,
       'Month': (this.Month.value !== undefined) ? this.Month.value : this.curMonth,
       'Year': this.Year,
-      'AccountingYear': this.AccountingYear.label,
+      'AccountingYear': this.AccountingYear.label,      
+     
       'GSTType': 3,
       'TaxPer': this.TaxPercent.value
     };
-    this.restApiService.getByParameters(PathConstants.PURCHASE_TAX_ENTRY_GET, params).subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.GSTTAX_ABSTRAC_GET, params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         // this.purchaseTaxReportCols = this.tableConstants.PurchaseTaxEntry;
-        this.purchaseTaxReportData = res;
+        this.TaxReportData = res;
         this.loading = false;
         let sno = 0;
         let bd = new Date();
-        this.purchaseTaxReportData.forEach(s => {
-          s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
+        this.TaxReportData.forEach(s => {
+          // s.bd = this.datepipe.transform(s.BillDate, 'dd/MM/yyyy');
           sno += 1;
           s.SlNo = sno;
         });
         ///Abstract
         var hash = Object.create(null),
           abstract = [];
-        this.purchaseTaxReportData.forEach(function (o) {
+        this.TaxReportData.forEach(function (o) {
           var key = ['Month'].map(function (k) { return o[k]; }).join('|');
           if (!hash[key]) {
-            hash[key] = {
-              BillNo: o.BillNo, BillDate: o.BillDate, GSTNo: o.GSTNo,Month: o.Month,Year: o.Year,
-              Amount: 0, TaxPercentage: o.Percentage,
-              VatAmount: 0, CGST: 0, SGST: 0, IGST: 0, Total: 0
+            hash[key] = {            
+              Amount: 0, TaxPercentage: o.Percentage, RGNAME: o.RGNAME,
+              TaxAmount: 0,  Total: 0, CGST: 0, SGST: 0, IGST: 0,
             };
             abstract.push(hash[key]);
           }
-          ['TaxPercentage'].forEach(function (k) { hash[key][k] += (o[k] * 1); });        
+          
           ['Amount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
-          ['VatAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+          ['TaxAmount'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['CGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['SGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['IGST'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
           ['Total'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
         });
-        //this.purchaseTaxReportData.push({ CompanyName: 'Total' });
+        //this.TaxReportData.push({ CompanyName: 'Total' });
         abstract.forEach(x => {
-          this.purchaseTaxReportData.push({CompanyName: 'Total',BillNo: x.Month,BillDate: x.Year,
-            Amount: (x.Amount * 1).toFixed(2), VatAmount: (x.VatAmount * 1).toFixed(2),
-            CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2),IGST: (x.IGST * 1).toFixed(2), Total: (x.Total * 1).toFixed(2)
+          this.TaxReportData.push({ RGNAME: 'Total',
+             Amount: (x.Amount * 1).toFixed(2), TaxAmount: (x.TaxAmount * 1).toFixed(2),
+             CGST: (x.CGST * 1).toFixed(2), SGST: (x.SGST * 1).toFixed(2), IGST: (x.IGST * 1).toFixed(2),
+             Total: (x.Total * 1).toFixed(2)
           });;
         })
       } else {
@@ -291,9 +246,9 @@ export class PurchaseTaxComponent implements OnInit {
       
     }
     
-    this.purchaseTaxReportData = [];
+    this.TaxReportData = [];
+
   }
-  
   onClose() {
     this.messageService.clear('t-err');
   }
