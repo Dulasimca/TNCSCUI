@@ -87,6 +87,7 @@ export class PdsLiftmentReportComponent implements OnInit {
           const rcodeNext = (tempData[i + 1] !== undefined) ? tempData[i + 1].RCode : '';
           if (tempData[i].RCode === rcodeNext || rcodePrev === rcode || rcodeNext === '') {
             this.PDSLiftmentData[j].RName = tempData[i].RName;
+            this.PDSLiftmentData[j].RCode = tempData[i].RCode;
             this.PDSLiftmentData[j].slno = j + 1;
             switch (tempData[i].allotmentgroup) {
               case 'PALMOIL':
@@ -290,7 +291,7 @@ export class PdsLiftmentReportComponent implements OnInit {
     } else {
       this.GodownPDSDetailData.forEach(el => {
         data.push({
-          GName: el.GName, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
+          GName: el.GName1, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
           RiceBalanceToBeLifted: (el.BalanceRice * 1), AvailableRiceInTNCSCGodown: (el.AvailableRice * 1),
           PercentageOfRiceLiftment: el.PercentRice, AllotmentSugar: (el.AllotmentSugar * 1),
           SugarLiftedToShops: (el.LiftedSugar * 1), SugarBalanceToBeLifted: (el.BalanceSugar * 1),
