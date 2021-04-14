@@ -16,7 +16,7 @@ export class StatusMessage {
     public static readonly NoRecordMessage = 'No Record Found!';
     public static readonly ErrorGeneratingDocNo = 'Error occurred in generating document number!';
     public static readonly NoRecForCombination = 'No Record for this combination!'
-    public static readonly NetworkErrorMessage = 'Please your Network Connectivity!';
+    public static readonly NetworkErrorMessage = 'Please check your Network Connectivity!';
     public static readonly ExceedingStackBalance = 'Exceeding the Stack Balance!';
     public static readonly NotSufficientStackBalance = 'Stack Balance is not sufficient!';
     public static readonly ValidDateErrorMessage = 'Please select a valid date range!';
@@ -37,7 +37,7 @@ export class StatusMessage {
     public static readonly DocumentMissingFields = 'Please fill all the below missing fields - ';
     public static readonly StackcardDeleted = 'Stack card deleted successfully!';
     public static readonly SuccessValidationMsg = 'Proceed with save or print!';
-    public static readonly GodownCodeMismatch = 'Godown Code in Mismatching! Please select valid doc!';
+    public static readonly GodownCodeMismatch = 'Godown Code is Mismatching! Please select valid doc!';
     public static readonly PurchaseTargetDateValidation = 'You have entered target date beyond completed date!';
     public static readonly AllotmentIssueQuantityValidation = 'No available balance in allotted quantity!';
     public static readonly AllotmentPercentQtyValidation = 'No available balance in allotted 60% of quantity!';
@@ -59,4 +59,5 @@ export class StatusMessage {
     public static readonly NoAccountingYearFound = 'No accounting year found!';
     public static readonly HSNCodeError = 'Selected Item has no HSNCode! Please update item details in Item Master.'
     public static readonly SalesDataCleared = 'No uncleared data is been found! Proceed with View';
+    public static readonly TransferSuccessMsg = 'Transferred Successfully !';
 }

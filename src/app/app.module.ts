@@ -187,6 +187,7 @@ import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-
 import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
 import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.component';
 import { HoqtyabstractrepComponent} from './hoqtyacc/Reports/hoqtyabstractrep.component';
+import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
 
 @NgModule({
   declarations: [
@@ -328,6 +329,7 @@ import { HoqtyabstractrepComponent} from './hoqtyacc/Reports/hoqtyabstractrep.co
     TaxAbstractComponent,
     HoqtyabstractComponent,
     HoqtyabstractrepComponent,
+    TransferOpeningBalanceToHOQtyComponent,
   ],
   imports: [
     BrowserModule,

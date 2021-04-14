@@ -65,12 +65,12 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         }
       })
     }
-      /// curyear
-      this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
-        for(let i = 0; i <= 2; i ++) {
-          this.currYrSelection.push({ label: res[i].StackYear, value: res[i].StackYear });
-        }
-      });
+    /// curyear
+    this.restAPIService.get(PathConstants.STACKCARD_YEAR_GET).subscribe(res => {
+      for (let i = 0; i <= 2; i++) {
+        this.currYrSelection.push({ label: res[i].StackYear, value: res[i].StackYear });
+      }
+    });
   }
   onSelect(selectedItem, type) {
     let godownSelection = [];
@@ -96,9 +96,9 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
         if (type === 'tab') {
           this.yearPanel.overlayVisible = true;
         }
-        if(this.currYrSelection.length !== 0) {
-        this.yearOptions = this.currYrSelection;
-        this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
+        if (this.currYrSelection.length !== 0) {
+          this.yearOptions = this.currYrSelection;
+          this.yearOptions.unshift({ 'label': '-select-', 'value': null, disabled: true });
         }
         break;
     }
@@ -106,7 +106,7 @@ export class OpeningBalanceCurrentYearComponent implements OnInit {
 
   onChange() {
     if (this.commodityOptions !== undefined && this.godownOptions !== undefined && this.yearOptions !== undefined) {
-      const params = new HttpParams().set('ObDate', '04' + '/' + '01' + '/' + this.Year.value).append('GCode', this.g_cd.value);
+      const params = new HttpParams().set('ObDate', this.Year.value).append('GCode', this.g_cd.value);
       this.restAPIService.getByParameters(PathConstants.OPENING_BALANCE_MASTER_GET, params).subscribe((res: any) => {
         if (this.commodityOptions !== undefined && this.commodityOptions.length !== 0) {
           this.OpeningBalanceDetailData = res.filter((x: { ITDescription: any; }) => { return x.ITDescription === this.commodityCd.label });

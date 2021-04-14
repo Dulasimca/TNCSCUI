@@ -17,8 +17,9 @@
         </div>
         <div class="ui-g-6 ui-md-2 no-left-pad">
           <label class="ui-g-7 label-fontsize dashboard" for="allotPeriod">Allotment Period</label>
-          <p-calendar name="allotPeriod" [(ngModel)]="AllotmentPeriod" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"></p-calendar>
-      </div>
+          <p-calendar name="allotPeriod" [(ngModel)]="AllotmentPeriod" view="month" dateFormat="mm/yy"
+            [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"></p-calendar>
+        </div>
         <div class="ui-g-6"></div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!Date)"></button>
@@ -30,7 +31,8 @@
         <div class="ui-g-12 dashboard">
           <p-table #dt [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentCols" [value]="PDSLiftmentData"
             [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading" [rows]="40"
-            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
+            [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+            exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
             <ng-template pTemplate="colgroup" let-columns>
               <colgroup>
                 <col *ngFor="let col of columns" [style.width]="col.width">
@@ -61,7 +63,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr>
+              <tr [pSelectableRow]="rowData" (dblclick)="viewGodownBreakdown(rowData)">
                 <td *ngFor="let col of columns">
                   {{rowData[col.field]}}
                 </td>
@@ -73,3 +75,48 @@
     </p-panel>
   </div>
 </div>
+<p-dialog header="PDS Liftment Godown Wise" [modal]="true" [maximizable]="true" [(visible)]="viewPane"
+  [responsive]="true" [style]="{width: '90vw', height: '90vw'}">
+  <div>
+    <p-table #dt [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentGodownCols" [value]="GodownPDSDetailData"
+      [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading" [rows]="40"
+      [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col *ngFor="let col of columns" [style.width]="col.width">
+        </colgroup>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="border-right-color: transparent !important;"></th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th colspan="3" style="border-right-color: lightgray !important;">Rice(in Mts)</th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th colspan="3" style="border-right-color: lightgray !important;">Sugar(in Mts)</th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th colspan="3" style="border-right-color: lightgray !important;">Wheat(in Mts)</th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th colspan="3" style="border-right-color: lightgray !important;">TurDhall/YL(in Mts)</th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th style="border-right-color: transparent !important;"></th>
+          <th colspan="3" style="border-right-color: lightgray !important;">P.Oil(in Pouches)</th>
+        </tr>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>

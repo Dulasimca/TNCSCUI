@@ -118,7 +118,8 @@ export class PathConstants {
   public static readonly SECTION_DAILY_STATEMENT_POST = '/api/DailyStatement/Post';
   public static readonly WAGES_LOADING_POST = '/api/WagesLoading/Post';
   public static readonly LORRY_DETAIL_POST = '/api/LorryDetail/Post';
-  public static readonly PDS_LIFTMENT_POST =  '/api/MDStockStatement/Post';
+  public static readonly PDS_LIFTMENT_POST = '/api/MDStockStatement/Post';
+  public static readonly PDS_LIFTMENT_GET = '/api/MDStockStatementGodown/Get';
   public static readonly DO_TO_SALES_POST = '/api/DeliveryOrderToSalesTax/Post';
   public static readonly GST_SALES_TAX_UPDATE = '/api/GSTSalesTaxApproval/Post';
 
@@ -191,13 +192,15 @@ export class PathConstants {
   public static readonly GSTTAX_ABSTRAC_GET = '/api/SalesTaxAbstract/Get';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
-  
-// HoQtyAccConsolidation
- public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
- public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
- public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
 
- 
+  // HoQtyAccConsolidation
+  public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
+  public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
+  public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
+  public static readonly TRANSFER_OB_TO_HO_QTY_GET = '/api/TransferOBToHoQty/Get';
+  public static readonly TRANSFER_OB_TO_HO_QTY_POST = '/api/TransferOBToHoQty/Post';
+
+
   //Allotment Module
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
   public static readonly ALLOTMENT_QUANTITY_GET = '/api/AllotmentQuantity/Get';

@@ -163,6 +163,8 @@ export class TableConstants {
   DOApprovalReport: any;
   TaxReportColumns: any;
   hoqtyacabstractColumns: any;
+  TransferOBToHOQtyColumns: any;
+  FrozenPDSLiftmentGodownColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -1263,6 +1265,12 @@ export class TableConstants {
       { field: 'RName', header: 'Region Name', width: '270px' }
     ]
 
+    this.FrozenPDSLiftmentGodownColumns = [
+      { field: 'slno', header: 'Sl.No.', width: '55px' },
+      { field: 'GName1', header: 'Godown Name', width: '270px' }
+    ]
+
+
     this.FrozenQuantityACReceiptDetailsCommodity = [
       //   { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'GName', header: 'Name' },
@@ -2161,8 +2169,20 @@ export class TableConstants {
       { header: 'Other Issues', field: 'OtherIssues' },
       { header: 'Closing Balance', field: 'CB' },
       { header: 'Cumulative Shortage.', field: 'CS' },
-      { header: 'Actuals', field: 'ActualBalance' },    
-      
+      { header: 'Actuals', field: 'ActualBalance' },
+
+    ];
+
+    this.TransferOBToHOQtyColumns = [
+      { header: 'Commodity', field: 'ITDescription' },
+      { header: 'Qty Month', field: 'QTYMONTH' },
+      { header: 'Qty Year', field: 'QTYYEAR' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Opening Balance', field: 'OB' },
+      { header: 'Physical Balance', field: 'PB' },
+      { header: 'CS Balance', field: 'CS' },
+      { header: 'OB Date', field: 'ObDate' },
+      { header: 'Cur Year', field: 'CurYear' },
     ];
   }
 }

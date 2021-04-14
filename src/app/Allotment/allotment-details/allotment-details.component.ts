@@ -278,7 +278,7 @@ export class AllotmentDetailsComponent implements OnInit {
           return x['#'] !== 'Total';
         })
         const excelData = trimObj(JSONdata);
-        if (excelData[1]['Godown Code'] === this.GCode) {
+        if (excelData[1]['Godown Code'] == this.GCode) {
           this.disableSave = false;
           this.totalRecords = excelData.length;
           this.AllotmentData = excelData;
