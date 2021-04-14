@@ -42,8 +42,7 @@
                         <div class="ui-g-12 ui-fluid no-pad-top" style="margin-top: -15px;">
                             <p-table #dt [columns]="transferOBToHOCols" [value]="transferOBToHOData" [rows]="20"
                                 [rowsPerPageOptions]="[10,20,30,40,50,100]" selectionMode="single" [responsive]="true"
-                                autoLayout="true" [paginator]="true" exportFilename="OPENING_BALANCE_DETAILS"
-                                [scrollable]="true">
+                                autoLayout="true" [paginator]="true" [scrollable]="true">
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
                                         <col *ngFor="let col of columns" style="width:auto">

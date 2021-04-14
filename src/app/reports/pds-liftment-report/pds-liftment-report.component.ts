@@ -68,64 +68,70 @@ export class PdsLiftmentReportComponent implements OnInit {
       DocType: 1
     };
     this.restAPIService.post(PathConstants.PDS_LIFTMENT_POST, params).subscribe(res => {
-      if (res !== undefined && res.length !== 0 && res !== null) {
-        this.PDSLiftmentData = res;
+      let tempData = [];
+      if (res !== undefined && res !== null && res.length !== 0) {
+        res.forEach(x => {
+          if (x.RCode !== null && x.RCode !== undefined) {
+            tempData.push(x);
+          }
+        })
+        this.PDSLiftmentData = tempData;
         let j = 0;
-        for (let i = 0; i <= res.length - 1; i++) {
-          let allotQty: any = (res[i].AllotmentQty !== null && res[i].AllotmentQty !== undefined) ? ((res[i].AllotmentQty * 1) / 1000).toFixed(3) : 0;
+        for (let i = 0; i <= tempData.length - 1; i++) {
+          let allotQty: any = (tempData[i].AllotmentQty !== null && tempData[i].AllotmentQty !== undefined) ? ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3) : 0;
           allotQty = (allotQty * 1)
-          let issueQty: any = (res[i].IssueQty !== null && res[i].IssueQty !== undefined) ? ((res[i].IssueQty * 1) / 1000).toFixed(3) : 0;
+          let issueQty: any = (tempData[i].IssueQty !== null && tempData[i].IssueQty !== undefined) ? ((tempData[i].IssueQty * 1) / 1000).toFixed(3) : 0;
           issueQty = (issueQty * 1);
-          const rcodePrev = res[i - 1] !== undefined ? res[i - 1].RCode : '';
-          const rcode = (rcodePrev !== '') ? res[i].RCode : '';
-          const rcodeNext = (res[i + 1] !== undefined) ? res[i + 1].RCode : '';
-          if (res[i].RCode === rcodeNext || rcodePrev === rcode || rcodeNext === '') {
-            this.PDSLiftmentData[j].RName = res[i].RName;
+          const rcodePrev = tempData[i - 1] !== undefined ? tempData[i - 1].RCode : '';
+          const rcode = (rcodePrev !== '') ? tempData[i].RCode : '';
+          const rcodeNext = (tempData[i + 1] !== undefined) ? tempData[i + 1].RCode : '';
+          if (tempData[i].RCode === rcodeNext || rcodePrev === rcode || rcodeNext === '') {
+            this.PDSLiftmentData[j].RName = tempData[i].RName;
             this.PDSLiftmentData[j].slno = j + 1;
-            switch (res[i].allotmentgroup) {
+            switch (tempData[i].allotmentgroup) {
               case 'PALMOIL':
-                this.PDSLiftmentData[j].AllotmentOil = res[i].AllotmentQty;
-                this.PDSLiftmentData[j].LiftedOil = res[i].IssueQty;
-                this.PDSLiftmentData[j].BalanceOil = res[i].BalanceQty;
-                this.PDSLiftmentData[j].AvailableOil = res[i].ClosingBalance;
+                this.PDSLiftmentData[j].AllotmentOil = tempData[i].AllotmentQty;
+                this.PDSLiftmentData[j].LiftedOil = tempData[i].IssueQty;
+                this.PDSLiftmentData[j].BalanceOil = tempData[i].BalanceQty;
+                this.PDSLiftmentData[j].AvailableOil = tempData[i].ClosingBalance;
                 const percentOil = (allotQty === 0) ? 0 : (isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
                 this.PDSLiftmentData[j].PercentOil = percentOil.toFixed(0) + '%';
                 break;
               case 'RICE':
-                this.PDSLiftmentData[j].AllotmentRice = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].LiftedRice = ((res[i].IssueQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].BalanceRice = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].AvailableRice = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AllotmentRice = ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].LiftedRice = ((tempData[i].IssueQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].BalanceRice = ((tempData[i].BalanceQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AvailableRice = ((tempData[i].ClosingBalance * 1) / 1000).toFixed(3);
                 const percentRice = (allotQty === 0) ? 0 : (isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
                 this.PDSLiftmentData[j].PercentRice = percentRice.toFixed(0) + '%';
                 break;
               case 'SUGAR':
-                this.PDSLiftmentData[j].AllotmentSugar = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].LiftedSugar = ((res[i].IssueQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].BalanceSugar = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].AvailableSugar = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AllotmentSugar = ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].LiftedSugar = ((tempData[i].IssueQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].BalanceSugar = ((tempData[i].BalanceQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AvailableSugar = ((tempData[i].ClosingBalance * 1) / 1000).toFixed(3);
                 const percentSugar = (allotQty === 0) ? 0 : (isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
                 this.PDSLiftmentData[j].PercentSugar = percentSugar.toFixed(0) + '%';
                 break;
               case 'WHEAT':
-                this.PDSLiftmentData[j].AllotmentWheat = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].LiftedWheat = ((res[i].IssueQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].BalanceWheat = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].AvailableWheat = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AllotmentWheat = ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].LiftedWheat = ((tempData[i].IssueQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].BalanceWheat = ((tempData[i].BalanceQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AvailableWheat = ((tempData[i].ClosingBalance * 1) / 1000).toFixed(3);
                 const percentWheat = (allotQty === 0) ? 0 : (isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
                 this.PDSLiftmentData[j].PercentWheat = percentWheat.toFixed(0) + '%';
                 break;
               case 'TOORDHALL':
-                this.PDSLiftmentData[j].AllotmentDhall = ((res[i].AllotmentQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].LiftedDhall = ((res[i].IssueQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].BalanceDhall = ((res[i].BalanceQty * 1) / 1000).toFixed(3);
-                this.PDSLiftmentData[j].AvailableDhall = ((res[i].ClosingBalance * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AllotmentDhall = ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].LiftedDhall = ((tempData[i].IssueQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].BalanceDhall = ((tempData[i].BalanceQty * 1) / 1000).toFixed(3);
+                this.PDSLiftmentData[j].AvailableDhall = ((tempData[i].ClosingBalance * 1) / 1000).toFixed(3);
                 const percentDhall = (allotQty === 0) ? 0 : (isNaN(issueQty / allotQty) ? 0 : (issueQty / allotQty) * 100);
                 this.PDSLiftmentData[j].PercentDhall = percentDhall.toFixed(0) + '%';
                 break;
             }
           }
-          if (res[i].RCode !== rcodeNext) {
+          if (tempData[i].RCode !== rcodeNext) {
             j += 1;
           }
         }
@@ -175,7 +181,6 @@ export class PdsLiftmentReportComponent implements OnInit {
         this.GodownPDSDetailData = tempData;
         let j = 0;
         for (let i = 0; i <= tempData.length - 1; i++) {
-          // if (tempData[i].GCode !== undefined && tempData[i].GCode !== null) {
           let allotQty: any = (tempData[i].AllotmentQty !== null && tempData[i].AllotmentQty !== undefined) ? ((tempData[i].AllotmentQty * 1) / 1000).toFixed(3) : 0;
           allotQty = (allotQty * 1)
           let issueQty: any = (tempData[i].IssueQty !== null && tempData[i].IssueQty !== undefined) ? ((tempData[i].IssueQty * 1) / 1000).toFixed(3) : 0;
@@ -183,7 +188,7 @@ export class PdsLiftmentReportComponent implements OnInit {
           const gcodePrev = tempData[i - 1] !== undefined ? tempData[i - 1].GCode : '';
           const gcode = (gcodePrev !== '') ? tempData[i].GCode : '';
           const gcodeNext = (tempData[i + 1] !== undefined) ? tempData[i + 1].GCode : '';
-          if (tempData[i].RCode === gcodeNext || gcodePrev === gcode || gcodeNext === '') {
+          if (tempData[i].GCode === gcodeNext || gcodePrev === gcode || gcodeNext === '') {
             this.GodownPDSDetailData[j].GName1 = tempData[i].GName1;
             this.GodownPDSDetailData[j].slno = j + 1;
             switch (tempData[i].allotmentgroup) {
@@ -233,7 +238,6 @@ export class PdsLiftmentReportComponent implements OnInit {
             j += 1;
           }
         }
-        // }
         this.GodownPDSDetailData = this.GodownPDSDetailData.slice(0, j);
         this.loading = false;
       } else {
@@ -263,25 +267,44 @@ export class PdsLiftmentReportComponent implements OnInit {
     this.loading = false;
   }
 
-  exportExcel() {
+  exportExcel(value) {
     let data = [];
     let cols = [];
-    this.PDSLiftmentData.forEach(el => {
-      data.push({
-        RName: el.RName, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
-        RiceBalanceToBeLifted: (el.BalanceRice * 1), AvailableRiceInTNCSCGodown: (el.AvailableRice * 1),
-        PercentageOfRiceLiftment: el.PercentRice, AllotmentSugar: (el.AllotmentSugar * 1),
-        SugarLiftedToShops: (el.LiftedSugar * 1), SugarBalanceToBeLifted: (el.BalanceSugar * 1),
-        AvailableSugarInTNCSCGodown: (el.AvailableSugar * 1), PercentageOfSugarLiftment: el.PercentSugar,
-        AllotmentWheat: (el.AllotmentWheat * 1), WheatLiftedToShops: (el.LiftedWheat * 1), WheatBalanceToBeLifted: (el.BalanceWheat * 1),
-        AvailableWheatInTNCSCGodown: (el.AvailableWheat * 1), PercentageOfWheatLiftment: el.PercentWheat,
-        AllotmentDhall: (el.AllotmentDhall * 1), DhallLiftedToShops: (el.LiftedDhall * 1), DhallBalanceToBeLifted: (el.BalanceDhall * 1),
-        AvailableDhallInTNCSCGodown: (el.AvailableDhall * 1), PercentageOfDhallLiftment: el.PercentDhall,
-        AllotmentOil: (el.AllotmentOil * 1), PalmoilLiftedToShops: (el.LiftedOil * 1), PalmoilBalanceToBeLifted: (el.BalanceOil * 1),
-        AvailablePalmoilInTNCSCGodown: (el.AvailableOil * 1), PercentageOfPalmoilLiftment: el.PercentOil
+    if (value === 1) {
+      this.PDSLiftmentData.forEach(el => {
+        data.push({
+          RName: el.RName, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
+          RiceBalanceToBeLifted: (el.BalanceRice * 1), AvailableRiceInTNCSCGodown: (el.AvailableRice * 1),
+          PercentageOfRiceLiftment: el.PercentRice, AllotmentSugar: (el.AllotmentSugar * 1),
+          SugarLiftedToShops: (el.LiftedSugar * 1), SugarBalanceToBeLifted: (el.BalanceSugar * 1),
+          AvailableSugarInTNCSCGodown: (el.AvailableSugar * 1), PercentageOfSugarLiftment: el.PercentSugar,
+          AllotmentWheat: (el.AllotmentWheat * 1), WheatLiftedToShops: (el.LiftedWheat * 1), WheatBalanceToBeLifted: (el.BalanceWheat * 1),
+          AvailableWheatInTNCSCGodown: (el.AvailableWheat * 1), PercentageOfWheatLiftment: el.PercentWheat,
+          AllotmentDhall: (el.AllotmentDhall * 1), DhallLiftedToShops: (el.LiftedDhall * 1), DhallBalanceToBeLifted: (el.BalanceDhall * 1),
+          AvailableDhallInTNCSCGodown: (el.AvailableDhall * 1), PercentageOfDhallLiftment: el.PercentDhall,
+          AllotmentOil: (el.AllotmentOil * 1), PalmoilLiftedToShops: (el.LiftedOil * 1), PalmoilBalanceToBeLifted: (el.BalanceOil * 1),
+          AvailablePalmoilInTNCSCGodown: (el.AvailableOil * 1), PercentageOfPalmoilLiftment: el.PercentOil
+        });
       });
-    });
-    cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
+      cols = this.tableConstants.FrozenPDSLiftmentColumns + this.tableConstants.PDSLiftmentColumns;
+    } else {
+      this.GodownPDSDetailData.forEach(el => {
+        data.push({
+          GName: el.GName, AllotmentRice: el.AllotmentRice, RiceLiftedToShops: (el.LiftedRice * 1),
+          RiceBalanceToBeLifted: (el.BalanceRice * 1), AvailableRiceInTNCSCGodown: (el.AvailableRice * 1),
+          PercentageOfRiceLiftment: el.PercentRice, AllotmentSugar: (el.AllotmentSugar * 1),
+          SugarLiftedToShops: (el.LiftedSugar * 1), SugarBalanceToBeLifted: (el.BalanceSugar * 1),
+          AvailableSugarInTNCSCGodown: (el.AvailableSugar * 1), PercentageOfSugarLiftment: el.PercentSugar,
+          AllotmentWheat: (el.AllotmentWheat * 1), WheatLiftedToShops: (el.LiftedWheat * 1), WheatBalanceToBeLifted: (el.BalanceWheat * 1),
+          AvailableWheatInTNCSCGodown: (el.AvailableWheat * 1), PercentageOfWheatLiftment: el.PercentWheat,
+          AllotmentDhall: (el.AllotmentDhall * 1), DhallLiftedToShops: (el.LiftedDhall * 1), DhallBalanceToBeLifted: (el.BalanceDhall * 1),
+          AvailableDhallInTNCSCGodown: (el.AvailableDhall * 1), PercentageOfDhallLiftment: el.PercentDhall,
+          AllotmentOil: (el.AllotmentOil * 1), PalmoilLiftedToShops: (el.LiftedOil * 1), PalmoilBalanceToBeLifted: (el.BalanceOil * 1),
+          AvailablePalmoilInTNCSCGodown: (el.AvailableOil * 1), PercentageOfPalmoilLiftment: el.PercentOil
+        });
+      });
+      cols = this.tableConstants.FrozenPDSLiftmentGodownColumns + this.tableConstants.PDSLiftmentColumns;
+    }
     this.excelService.exportAsExcelFile(data, 'PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS_REPORT', cols);
   }
 

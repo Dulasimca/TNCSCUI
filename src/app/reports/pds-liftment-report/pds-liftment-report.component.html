@@ -25,14 +25,14 @@
           <button pButton type="button" label=View (click)="onView()" [disabled]="(!Date)"></button>
         </div>
         <div class="ui-g-3 ui-md-1" style="padding-top: 24px">
-          <button pButton type="button" label=Excel (click)="exportExcel()"
+          <button pButton type="button" label=Excel (click)="exportExcel(1)"
             [disabled]="(PDSLiftmentData.length=='0')"></button>
         </div>
         <div class="ui-g-12 dashboard">
           <p-table #dt [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentCols" [value]="PDSLiftmentData"
             [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading" [rows]="40"
             [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
-            exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
+            exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS_REGION_DETAILS">
             <ng-template pTemplate="colgroup" let-columns>
               <colgroup>
                 <col *ngFor="let col of columns" [style.width]="col.width">
@@ -77,10 +77,15 @@
 </div>
 <p-dialog header="PDS Liftment Godown Wise" [modal]="true" [maximizable]="true" [(visible)]="viewPane"
   [responsive]="true" [style]="{width: '90vw', height: '90vw'}">
-  <div>
-    <p-table #dt [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentGodownCols" [value]="GodownPDSDetailData"
-      [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading" [rows]="40"
-      [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS">
+  <div class="ui-g-12 dashboard">
+    <button pButton type="button" label=Excel style="float: right; width: 60px;" (click)="exportExcel(2)"
+      [disabled]="(GodownPDSDetailData.length=='0')"></button>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12">
+    <p-table #table [columns]="PDSLiftmentCols" [frozenColumns]="frozenPDSLiftmentGodownCols"
+      [value]="GodownPDSDetailData" [scrollable]="true" scrollHeight="300px" frozenWidth="300px" [loading]="loading"
+      [rows]="40" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+      exportFilename="PDS_LIFTMENT_FROM_GODOWN_TO_SHOPS_GODOWN_DETAILS">
       <ng-template pTemplate="colgroup" let-columns>
         <colgroup>
           <col *ngFor="let col of columns" [style.width]="col.width">
