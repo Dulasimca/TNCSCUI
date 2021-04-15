@@ -101,7 +101,7 @@ export class TransferOpeningBalanceToHOQtyComponent implements OnInit {
         } else {
           this.loading = false;
           this.messageService.clear();
-          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordMessage });
         }
       }, (err: HttpErrorResponse) => {
         this.loading = false;
