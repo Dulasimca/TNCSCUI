@@ -61,6 +61,7 @@ export class PdsLiftmentReportComponent implements OnInit {
   onView() {
     this.loading = true;
     const month = this.AllotmentPeriod.getMonth() + 1;
+    this.PDSLiftmentData.length = 0;
     const params = {
       Date: this.datePipe.transform(this.Date, 'MM/dd/yyyy'),
       Month: (month <= 9) ? '0' + month : month,
@@ -332,27 +333,32 @@ export class PdsLiftmentReportComponent implements OnInit {
       TotalLiftedRice += (i.LiftedRice !== undefined && i.LiftedRice !== null) ? (i.LiftedRice * 1) : 0;
       TotalBalanceRice += (i.BalanceRice !== undefined && i.BalanceRice !== null) ? (i.BalanceRice * 1) : 0;
       TotalAvailableRice += (i.AvailableRice !== undefined && i.AvailableRice !== null) ? (i.AvailableRice * 1) : 0;
-      TotalPercentRice += (i.PercentNoRice !== undefined && i.PercentNoRice !== null) ? (i.PercentNoRice * 1) : 0;
+      TotalPercentRice = (TotalAllotmentRice === 0) ? 0 : (isNaN(TotalLiftedRice / TotalAllotmentRice)
+        ? 0 : (TotalLiftedRice / TotalAllotmentRice) * 100);
       TotalAllotmentSugar += (i.AllotmentSugar !== undefined && i.AllotmentSugar !== null) ? (i.AllotmentSugar * 1) : 0;
       TotalLiftedSugar += (i.LiftedSugar !== undefined && i.LiftedSugar !== null) ? (i.LiftedSugar * 1) : 0;
       TotalBalanceSugar += (i.BalanceSugar !== undefined && i.BalanceSugar !== null) ? (i.BalanceSugar * 1) : 0;
       TotalAvailableSugar += (i.AvailableSugar !== undefined && i.AvailableSugar !== null) ? (i.AvailableSugar * 1) : 0;
-      TotalPercentSugar += (i.PercentNoSugar !== undefined && i.PercentNoSugar !== null) ? (i.PercentNoSugar * 1) : 0;
+      TotalPercentSugar = (TotalAllotmentSugar === 0) ? 0 : (isNaN(TotalLiftedSugar / TotalAllotmentSugar)
+        ? 0 : (TotalLiftedSugar / TotalAllotmentSugar) * 100);
       TotalAllotmentWheat += (i.AllotmentWheat !== undefined && i.AllotmentWheat !== null) ? (i.AllotmentWheat * 1) : 0;
       TotalLiftedWheat += (i.LiftedWheat !== undefined && i.LiftedWheat !== null) ? (i.LiftedWheat * 1) : 0;
       TotalBalanceWheat += (i.BalanceWheat !== undefined && i.BalanceWheat !== null) ? (i.BalanceWheat * 1) : 0;
       TotalAvailableWheat += (i.AvailableWheat !== undefined && i.AvailableWheat !== null) ? (i.AvailableWheat * 1) : 0;
-      TotalPercentWheat += (i.PercentNoWheat !== undefined && i.PercentNoWheat !== null) ? (i.PercentNoWheat * 1) : 0;
+      TotalPercentWheat = (TotalAllotmentWheat === 0) ? 0 : (isNaN(TotalLiftedWheat / TotalAllotmentWheat)
+        ? 0 : (TotalLiftedWheat / TotalAllotmentWheat) * 100);
       TotalAllotmentDhall += (i.AllotmentDhall !== undefined && i.AllotmentDhallv !== null) ? (i.AllotmentDhall * 1) : 0;
       TotalLiftedDhall += (i.LiftedDhall !== undefined && i.LiftedDhall !== null) ? (i.LiftedDhall * 1) : 0;
       TotalBalanceDhall += (i.BalanceDhall !== undefined && i.BalanceDhall !== null) ? (i.BalanceDhall * 1) : 0;
       TotalAvailableDhall += (i.AvailableDhall !== undefined && i.AvailableDhall !== null) ? (i.AvailableDhall * 1) : 0;
-      TotalPercentDhall += (i.PercentNoDhall !== undefined && i.PercentNoDhall !== null) ? (i.PercentNoDhall * 1) : 0;
+      TotalPercentDhall = (TotalAllotmentDhall === 0) ? 0 : (isNaN(TotalLiftedDhall / TotalAllotmentDhall)
+        ? 0 : (TotalLiftedDhall / TotalAllotmentDhall) * 100);
       TotalAllotmentOil += (i.AllotmentOil !== undefined && i.AllotmentOil !== null) ? (i.AllotmentOil * 1) : 0;
       TotalLiftedOil += (i.LiftedOil !== undefined && i.LiftedOil !== null) ? (i.LiftedOil * 1) : 0;
       TotalBalanceOil += (i.BalanceOil !== undefined && i.BalanceOil !== null) ? (i.BalanceOil * 1) : 0;
       TotalAvailableOil += (i.AvailableOil !== undefined && i.AvailableOil !== null) ? (i.AvailableOil * 1) : 0;
-      TotalPercentOil += (i.PercentNoOil !== undefined && i.PercentNoOil !== null) ? (i.PercentNoOil * 1) : 0;
+      TotalPercentOil = (TotalAllotmentOil === 0) ? 0 : (isNaN(TotalLiftedOil / TotalAllotmentOil)
+        ? 0 : (TotalLiftedOil / TotalAllotmentOil) * 100);
     })
     data.push({
       Name: 'Grand Total', AllotmentDhall: TotalAllotmentDhall.toFixed(3),
@@ -365,9 +371,9 @@ export class PdsLiftmentReportComponent implements OnInit {
       AvailableDhall: TotalAvailableDhall.toFixed(3), AvailableOil: TotalAvailableOil,
       LiftedRice: TotalLiftedRice.toFixed(3), LiftedSugar: TotalLiftedSugar.toFixed(3),
       LiftedWheat: TotalLiftedWheat.toFixed(3), LiftedDhall: TotalLiftedDhall.toFixed(3),
-      LiftedOil: TotalLiftedOil, PercentDhall: TotalPercentDhall + '%',
-      PercentOil: TotalPercentOil + '%', PercentRice: TotalPercentRice + '%',
-      PercentSugar: TotalPercentSugar + '%', PercentWheat: TotalPercentWheat + '%'
+      LiftedOil: TotalLiftedOil, PercentDhall: ((TotalPercentDhall * 1).toFixed(0)) + '%',
+      PercentOil: ((TotalPercentOil * 1).toFixed(0)) + '%', PercentRice: ((TotalPercentRice * 1).toFixed(0)) + '%',
+      PercentSugar: ((TotalPercentSugar * 1).toFixed(0)) + '%', PercentWheat: ((TotalPercentWheat * 1).toFixed(0)) + '%'
     })
     return data;
   }
