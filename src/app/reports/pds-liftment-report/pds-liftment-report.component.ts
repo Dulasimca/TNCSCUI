@@ -328,31 +328,31 @@ export class PdsLiftmentReportComponent implements OnInit {
     let TotalAvailableDhall = 0;
     let TotalPercentDhall = 0;
     data.forEach(i => {
-      TotalAllotmentRice += (i.AllotmentRice * 1);
-      TotalLiftedRice += (i.LiftedRice * 1);
-      TotalBalanceRice += (i.BalanceRice * 1);
-      TotalAvailableRice += (i.AvailableRice * 1);
-      TotalPercentRice += (i.PercentNoRice * 1);
-      TotalAllotmentSugar += (i.AllotmentSugar * 1);
-      TotalLiftedSugar += (i.LiftedSugar * 1);
-      TotalBalanceSugar += (i.BalanceSugar * 1);
-      TotalAvailableSugar += (i.AvailableSugar * 1);
-      TotalPercentSugar += (i.PercentNoSugar * 1);
-      TotalAllotmentWheat += (i.AllotmentWheat * 1);
-      TotalLiftedWheat += (i.LiftedWheat * 1);
-      TotalBalanceWheat += (i.BalanceWheat * 1);
-      TotalAvailableWheat += (i.AvailableWheat * 1);
-      TotalPercentWheat += (i.PercentNoWheat * 1);
-      TotalAllotmentDhall += (i.AllotmentDhall * 1);
-      TotalLiftedDhall += (i.LiftedDhall * 1);
-      TotalBalanceDhall += (i.BalanceDhall * 1);
-      TotalAvailableDhall += (i.AvailableDhall * 1);
-      TotalPercentDhall += (i.PercentNoDhall * 1);
-      TotalAllotmentOil += (i.AllotmentOil * 1);
-      TotalLiftedOil += (i.LiftedOil * 1);
-      TotalBalanceOil += (i.BalanceOil * 1);
-      TotalAvailableOil += (i.AvailableOil * 1);
-      TotalPercentOil += (i.PercentNoOil * 1);
+      TotalAllotmentRice += (i.AllotmentRice !== undefined && i.AllotmentRice !== null) ? (i.AllotmentRice * 1) : 0;
+      TotalLiftedRice += (i.LiftedRice !== undefined && i.LiftedRice !== null) ? (i.LiftedRice * 1) : 0;
+      TotalBalanceRice += (i.BalanceRice !== undefined && i.BalanceRice !== null) ? (i.BalanceRice * 1) : 0;
+      TotalAvailableRice += (i.AvailableRice !== undefined && i.AvailableRice !== null) ? (i.AvailableRice * 1) : 0;
+      TotalPercentRice += (i.PercentNoRice !== undefined && i.PercentNoRice !== null) ? (i.PercentNoRice * 1) : 0;
+      TotalAllotmentSugar += (i.AllotmentSugar !== undefined && i.AllotmentSugar !== null) ? (i.AllotmentSugar * 1) : 0;
+      TotalLiftedSugar += (i.LiftedSugar !== undefined && i.LiftedSugar !== null) ? (i.LiftedSugar * 1) : 0;
+      TotalBalanceSugar += (i.BalanceSugar !== undefined && i.BalanceSugar !== null) ? (i.BalanceSugar * 1) : 0;
+      TotalAvailableSugar += (i.AvailableSugar !== undefined && i.AvailableSugar !== null) ? (i.AvailableSugar * 1) : 0;
+      TotalPercentSugar += (i.PercentNoSugar !== undefined && i.PercentNoSugar !== null) ? (i.PercentNoSugar * 1) : 0;
+      TotalAllotmentWheat += (i.AllotmentWheat !== undefined && i.AllotmentWheat !== null) ? (i.AllotmentWheat * 1) : 0;
+      TotalLiftedWheat += (i.LiftedWheat !== undefined && i.LiftedWheat !== null) ? (i.LiftedWheat * 1) : 0;
+      TotalBalanceWheat += (i.BalanceWheat !== undefined && i.BalanceWheat !== null) ? (i.BalanceWheat * 1) : 0;
+      TotalAvailableWheat += (i.AvailableWheat !== undefined && i.AvailableWheat !== null) ? (i.AvailableWheat * 1) : 0;
+      TotalPercentWheat += (i.PercentNoWheat !== undefined && i.PercentNoWheat !== null) ? (i.PercentNoWheat * 1) : 0;
+      TotalAllotmentDhall += (i.AllotmentDhall !== undefined && i.AllotmentDhallv !== null) ? (i.AllotmentDhall * 1) : 0;
+      TotalLiftedDhall += (i.LiftedDhall !== undefined && i.LiftedDhall !== null) ? (i.LiftedDhall * 1) : 0;
+      TotalBalanceDhall += (i.BalanceDhall !== undefined && i.BalanceDhall !== null) ? (i.BalanceDhall * 1) : 0;
+      TotalAvailableDhall += (i.AvailableDhall !== undefined && i.AvailableDhall !== null) ? (i.AvailableDhall * 1) : 0;
+      TotalPercentDhall += (i.PercentNoDhall !== undefined && i.PercentNoDhall !== null) ? (i.PercentNoDhall * 1) : 0;
+      TotalAllotmentOil += (i.AllotmentOil !== undefined && i.AllotmentOil !== null) ? (i.AllotmentOil * 1) : 0;
+      TotalLiftedOil += (i.LiftedOil !== undefined && i.LiftedOil !== null) ? (i.LiftedOil * 1) : 0;
+      TotalBalanceOil += (i.BalanceOil !== undefined && i.BalanceOil !== null) ? (i.BalanceOil * 1) : 0;
+      TotalAvailableOil += (i.AvailableOil !== undefined && i.AvailableOil !== null) ? (i.AvailableOil * 1) : 0;
+      TotalPercentOil += (i.PercentNoOil !== undefined && i.PercentNoOil !== null) ? (i.PercentNoOil * 1) : 0;
     })
     data.push({
       Name: 'Grand Total', AllotmentDhall: TotalAllotmentDhall.toFixed(3),
