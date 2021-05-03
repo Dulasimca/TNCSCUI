@@ -52,6 +52,7 @@ export class PathConstants {
   ///Reports
   public static readonly DAILY_STOCK_STATEMENT_REPORT = '/api/DailyStatement/Get';
   public static readonly CB_STATEMENT_REPORT = '/api/DailyCBStatement/Get';
+  public static readonly CB_STATEMENT_CURRENT_DATE_REPORT = '/api/DailyCBStatement';
   public static readonly STOCK_RECEIPT_REGISTER_REPORT = '/api/StockReceipts/Post';
   public static readonly STOCK_ISSUE_REGISTER_REPORT = '/api/StockIssue/Post';
   public static readonly STOCK_TRUCK_MEMO_REPORT = '/api/StockTruckMemos/Post';
@@ -122,6 +123,7 @@ export class PathConstants {
   public static readonly PDS_LIFTMENT_GET = '/api/MDStockStatementGodown/Get';
   public static readonly DO_TO_SALES_POST = '/api/DeliveryOrderToSalesTax/Post';
   public static readonly GST_SALES_TAX_UPDATE = '/api/GSTSalesTaxApproval/Post';
+  public static readonly CB_FROM_TN_DAILY = '/api/CBFromTNDaily';
 
   ///Documents
   public static readonly STOCK_TRUCK_MEMO_DOCUMENT = '/api/StockTruckMemo/Post';

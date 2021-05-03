@@ -15,6 +15,7 @@ export class TableConstants {
   SchemeData: any;
   TenderDetailsCols: any;
   CBStatementColumns: any;
+  CBFromTNDailyStatementColumns: any;
   CBStatementAbstractCols: any;
   DeliveryDocumentcolumns: any;
   DeliveryDocumentViewCols: any;
@@ -292,6 +293,33 @@ export class TableConstants {
       { field: 'GRemarks', header: 'Godown Remarks' },
       { field: 'RStatus', header: 'Regional Approval Status' },
       { field: 'RRemarks', header: 'Region Remarks' }
+    ];
+
+    this.CBFromTNDailyStatementColumns = [
+      { field: 'TNCSName', header: 'Name' },
+      { field: 'TNCSCapacity', header: 'Capacity' },
+      { field: 'boiledRice', header: 'SCM - Boiled Rice' },
+      { field: 'ManualBoiledRice', header: 'Manual BoiledRice' },
+      { field: 'rawRice', header: 'SCM - Raw Rice' },
+      { field: 'ManualRawRice', header: 'Manual Rawice' },
+      { field: 'totalRice', header: 'SCM - Rice Total' },
+      { field: 'ManualTotalRice', header: 'Manual Total Rice' },
+      { field: 'SUGAR', header: 'SCM - SUGAR' },
+      { field: 'ManualSugar', header: 'Manual SUGAR' },
+      { field: 'WHEAT', header: 'SCM - WHEAT' },
+      { field: 'ManualWheat', header: 'Manual WHEAT' },
+      { field: 'toorDhall', header: 'SCM - TOOR DHALL' },
+      { field: 'ManualToorDhall', header: 'Manual TOOR DHALL' },
+      { field: 'kanadaToorDhall', header: 'SCM - CYL TOOR Dhall' },
+      { field: 'ManualCYLDhall', header: 'Manual CYL TOOR Dhall' },
+      { field: 'totalDhall', header: 'SCM - Dhall Total' },
+      { field: 'ManualTotalDhall', header: 'Manual Dhall Total' },
+      { field: 'uridDhall', header: 'SCM - URID Dhall' },
+      { field: 'ManualUridDhall', header: 'Manual URID Dhall' },
+      { field: 'palmoil', header: 'SCM - PALMOLIEN OIL' },
+      { field: 'ManualPOil', header: 'Manual PALMOLIEN OIL' },
+      { field: 'cement', header: 'SCM - CEMENT' },
+
     ];
 
     this.CBStatementAbstractCols = [

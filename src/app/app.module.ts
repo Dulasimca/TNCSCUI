@@ -186,8 +186,9 @@ import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.com
 import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
 import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
 import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.component';
-import { HoqtyabstractrepComponent} from './hoqtyacc/Reports/hoqtyabstractrep.component';
+import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
+import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
 
 @NgModule({
   declarations: [
@@ -330,6 +331,7 @@ import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balan
     HoqtyabstractComponent,
     HoqtyabstractrepComponent,
     TransferOpeningBalanceToHOQtyComponent,
+    CBComparsionStatementComponent,
   ],
   imports: [
     BrowserModule,
