@@ -297,7 +297,6 @@ export class TableConstants {
 
     this.CBFromTNDailyStatementColumns = [
       { field: 'TNCSName', header: 'Name' },
-      { field: 'TNCSCapacity', header: 'Capacity' },
       { field: 'boiledRice', header: 'SCM - Boiled Rice' },
       { field: 'ManualBoiledRice', header: 'Manual BoiledRice' },
       { field: 'rawRice', header: 'SCM - Raw Rice' },
@@ -318,8 +317,6 @@ export class TableConstants {
       { field: 'ManualUridDhall', header: 'Manual URID Dhall' },
       { field: 'palmoil', header: 'SCM - PALMOLIEN OIL' },
       { field: 'ManualPOil', header: 'Manual PALMOLIEN OIL' },
-      { field: 'cement', header: 'SCM - CEMENT' },
-
     ];
 
     this.CBStatementAbstractCols = [

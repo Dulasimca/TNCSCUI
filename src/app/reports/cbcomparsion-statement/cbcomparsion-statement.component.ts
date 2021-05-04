@@ -113,7 +113,6 @@ export class CBComparsionStatementComponent implements OnInit {
       if (res.Table !== null && res.Table !== undefined && res.Table.length !== 0) {
         this.CBManualData = res.Table;
         this.onLoadCBData();
-        console.log('manual', this.CBManualData);
       } else {
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -136,8 +135,6 @@ export class CBComparsionStatementComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
       if (response !== undefined && response !== null && response.length !== 0) {
         this.CBData = response;
-        // this.CBData.push(manualData);
-        console.log('scm', this.CBData);
         this.CBData.forEach(record => {
           let boiledRiceTotal = ((record.BOILED_RICE_A !== null && record.BOILED_RICE_A !== undefined) ? (record.BOILED_RICE_A * 1) : 0) +
             ((record.BOILED_RICE_A_HULLING !== null && record.BOILED_RICE_A_HULLING !== undefined) ? (record.BOILED_RICE_A_HULLING * 1) : 0) +
@@ -177,12 +174,6 @@ export class CBComparsionStatementComponent implements OnInit {
               record.PALMOLIEN_POUCH * 1 : 0);
           record.palmoil = (palmoilTotal !== 0) ? palmoilTotal.toFixed(3) : palmoilTotal;
           record.palmoil = (record.palmoil * 1);
-          let cementTotal = ((record.CEMENT_IMPORTED !== null && record.CEMENT_IMPORTED !== undefined) ?
-            record.CEMENT_IMPORTED * 1 : 0) + ((record.CEMENT_REGULAR !== null && record.CEMENT_REGULAR !== undefined) ?
-              record.CEMENT_REGULAR * 1 : 0) + ((record.AMMA_CEMENT !== null && record.AMMA_CEMENT !== undefined) ?
-                record.AMMA_CEMENT * 1 : 0);
-          record.cement = (cementTotal !== 0) ? cementTotal.toFixed(3) : cementTotal;
-          record.cement = (record.cement * 1);
           let totalRice = boiledRiceTotal + rawRiceTotal;
           let totalDhall = toorDhallTotal + kanadaToorDhallTotal;
           record.totalRice = (totalRice !== 0) ? totalRice.toFixed(3) : totalRice;
@@ -236,7 +227,6 @@ export class CBComparsionStatementComponent implements OnInit {
           .map(g => {// mapping 
             return {
               RNAME: g[0].RNAME,//take the first name because we grouped them by name
-              TNCSCapacity: _.sumBy(g, 'TNCSCapacity'),
               boiledRice: _.sumBy(g, 'boiledRice'), // using lodash to sum quantity
               rawRice: _.sumBy(g, 'rawRice'),
               totalRice: _.sumBy(g, 'totalRice'),
@@ -247,7 +237,6 @@ export class CBComparsionStatementComponent implements OnInit {
               totalDhall: _.sumBy(g, 'totalDhall'),
               uridDhall: _.sumBy(g, 'uridDhall'),
               palmoil: _.sumBy(g, 'palmoil'),
-              cement: _.sumBy(g, 'cement'),
               manualBoiledRice: _.sumBy(g, 'ManualBoiledRice'),
               manualRawRice: _.sumBy(g, 'ManualRawRice'),
               manualTotalRice: _.sumBy(g, 'ManualTotalRice'),
@@ -268,7 +257,7 @@ export class CBComparsionStatementComponent implements OnInit {
         for (let i = 0; i < this.CBData.length; i++) {
           if (this.CBData[i].RNAME !== groupedData[index].RNAME) {
             item = {
-              TNCSName: 'TOTAL', TNCSCapacity: groupedData[index].TNCSCapacity,
+              TNCSName: 'TOTAL',
               boiledRice: (groupedData[index].boiledRice * 1).toFixed(3),
               rawRice: (groupedData[index].rawRice * 1).toFixed(3),
               totalRice: (groupedData[index].totalRice * 1).toFixed(3),
@@ -277,7 +266,7 @@ export class CBComparsionStatementComponent implements OnInit {
               kanadaToorDhall: (groupedData[index].kanadaToorDhall * 1).toFixed(3),
               kanadaToorDhallTotal: (groupedData[index].kanadaToorDhallTotal * 1).toFixed(3),
               SUGAR: (groupedData[index].SUGAR * 1).toFixed(3), WHEAT: (groupedData[index].WHEAT * 1).toFixed(3),
-              cement: (groupedData[index].cement * 1).toFixed(3), uridDhall: (groupedData[index].uridDhall * 1).toFixed(3),
+              uridDhall: (groupedData[index].uridDhall * 1).toFixed(3),
               palmoil: (groupedData[index].palmoil * 1), manualPOil: (groupedData[index].manualPOil !== null && groupedData[index].manualPOil !== undefined) ? groupedData[index].manualPOil : 0,
               ManualBoiledRice: (groupedData[index].manualBoiledRice * 1).toFixed(3),
               ManualSugar: (groupedData[index].manualSugar * 1).toFixed(3),
@@ -309,7 +298,6 @@ export class CBComparsionStatementComponent implements OnInit {
               this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
           }
         }
-        console.log('final', this.CBData);
         this.loading = false;
       } else {
         this.messageService.clear();
