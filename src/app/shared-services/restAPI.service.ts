@@ -9,15 +9,16 @@ import { delay, timeout, retry, catchError } from 'rxjs/operators';
 })
 
 export class RestAPIService {
- //BASEURL = 'http://180.179.49.72:8084';
- BASEURL = 'http://localhost:5000';
+  BASEURL = 'http://180.179.49.72:8084';
+  //BASEURL = 'https://api.tncsc-scm.in';
+  //  BASEURL = 'http://localhost:55922';
   public HttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':'Content-Type',
-      'Access-Control-Allow-Methods' : 'Get,Post,Put,Delete,Options',
-      'Access-Control-Allow-Credentials' : 'true'
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'Get,Post,Put,Delete,Options',
+      'Access-Control-Allow-Credentials': 'true'
     })
   };
   constructor(private httpClient: HttpClient) { }
@@ -28,28 +29,28 @@ export class RestAPIService {
 
   post(url, obj): Observable<any> {
     return this.httpClient.post(this.BASEURL + url, obj).pipe(
-     // delay(90000),
-    //  retry(1),
+      // delay(90000),
+      //  retry(1),
       catchError(this.handleError)
     );
   }
 
   getByParameters(url, params): Observable<any> {
-   return this.httpClient.get(this.BASEURL + url, { params: params });
+    return this.httpClient.get(this.BASEURL + url, { params: params });
   }
 
   put(url, obj): Observable<any> {
-   return this.httpClient.put(this.BASEURL + url, obj).pipe(
-    //retry(1),
-    catchError(this.handleError)
-  );
+    return this.httpClient.put(this.BASEURL + url, obj).pipe(
+      //retry(1),
+      catchError(this.handleError)
+    );
   }
 
   delete(url, options): Observable<any> {
     return this.httpClient.delete(this.BASEURL + url, options);
   }
 
-  handleError(error) {    
+  handleError(error) {
     return throwError(error);
   }
 
