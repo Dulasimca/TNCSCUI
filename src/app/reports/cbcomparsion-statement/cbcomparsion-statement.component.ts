@@ -39,6 +39,8 @@ export class CBComparsionStatementComponent implements OnInit {
   CBData: any = [];
   CBManualData: any = [];
   rowGroupMetadata: any;
+  showRowGroupMD: boolean;
+  Records: any;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('dt', { static: false }) table: Table;
@@ -50,6 +52,7 @@ export class CBComparsionStatementComponent implements OnInit {
 
   ngOnInit() {
     this.rowGroupMetadata = {};
+    this.showRowGroupMD = true;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.data = this.roleBasedService.getInstance();
@@ -57,54 +60,6 @@ export class CBComparsionStatementComponent implements OnInit {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
     this.CBCols = this.tableConstants.CBFromTNDailyStatementColumns;
     this.onLoadManualCBData();
-  }
-
-  onSelect(item, type) {
-    let regionSelection = [];
-    let godownSelection = [];
-    switch (item) {
-      case 'reg':
-        this.regions = this.roleBasedService.regionsData;
-        if (type === 'enter') {
-          this.regionPanel.overlayVisible = true;
-        }
-        if (this.roleId === 1) {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-            });
-            this.regionOptions = regionSelection;
-            this.regionOptions.unshift({ label: 'All', value: 'All' });
-          }
-        } else {
-          if (this.regions !== undefined) {
-            this.regions.forEach(x => {
-              if (x.RCode === this.loggedInRCode) {
-                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
-              }
-            });
-            this.regionOptions = regionSelection;
-          }
-        }
-        break;
-      case 'gd':
-        if (type === 'enter') {
-          this.godownPanel.overlayVisible = true;
-        }
-        this.data = this.roleBasedService.instance;
-        if (this.data !== undefined) {
-          this.data.forEach(x => {
-            if (x.RCode === this.RCode) {
-              godownSelection.push({ 'label': x.GName, 'value': x.GCode });
-            }
-          });
-          this.godownOptions = godownSelection;
-          if (this.roleId !== 3) {
-            this.godownOptions.unshift({ label: 'All', value: 'All' });
-          }
-        }
-        break;
-    }
   }
 
   onLoadManualCBData() {
@@ -272,7 +227,7 @@ export class CBComparsionStatementComponent implements OnInit {
               ManualSugar: (groupedData[index].manualSugar * 1).toFixed(3),
               ManualRawRice: (groupedData[index].manualRawRice * 1).toFixed(3),
               ManualTotalRice: (groupedData[index].manualTotalRice * 1).toFixed(3),
-              ManualWheat: (groupedData[index].manualSugar * 1).toFixed(3),
+              ManualWheat: (groupedData[index].manualWheat * 1).toFixed(3),
               ManualToorDhall: (groupedData[index].manualToorDhall * 1).toFixed(3),
               ManualUridDhall: (groupedData[index].uridDhall * 1).toFixed(3),
               ManualTotalDhall: (groupedData[index].manualTotalDhall * 1).toFixed(3),
@@ -298,6 +253,50 @@ export class CBComparsionStatementComponent implements OnInit {
               this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
           }
         }
+        let gt_BR = 0; let gt_RR = 0; let gt_TR = 0; let gt_SU = 0;
+        let gt_WH = 0; let gt_TD = 0; let gt_UR = 0; let gt_CYL = 0;
+        let gt_TLD = 0; let gt_PO = 0; let gt_MBR = 0; let gt_MRR = 0;
+        let gt_MTR = 0; let gt_MTD = 0; let gt_MUD = 0; let gt_MTLD = 0;
+        let gt_MCYL = 0; let gt_MPO = 0; let gt_MSU = 0; let gt_MWH = 0;
+        this.CBData.forEach(x => {
+          if (x.TNCSName === 'TOTAL') {
+            gt_BR += (x.boiledRice * 1);
+            gt_RR += (x.rawRice * 1);
+            gt_TR += (x.totalRice * 1);
+            gt_SU += (x.SUGAR * 1);
+            gt_WH += (x.WHEAT * 1);
+            gt_CYL += (x.kanadaToorDhall * 1);
+            gt_PO += (x.palmoil * 1);
+            gt_TD += (x.toorDhall * 1);
+            gt_UR += (x.uridDhall * 1);
+            gt_TLD += (x.totalDhall * 1);
+            gt_MBR += (x.ManualBoiledRice * 1);
+            gt_MRR += (x.ManualRawRice * 1);
+            gt_MTR += (x.ManualTotalRice * 1);
+            gt_MSU += (x.ManualSugar * 1);
+            gt_MWH += (x.ManualWheat * 1);
+            gt_MCYL += (x.ManualCYLDhall * 1);
+            gt_MTD += (x.ManualToorDhall * 1);
+            gt_MUD += (x.ManualUridDhall * 1);
+            gt_MTLD += (x.ManualTotalDhall * 1);
+            gt_MPO += (x.ManualPOil * 1);
+          }
+        })
+        this.CBData.push({
+          TNCSName: 'GRAND-TOTAL',
+          boiledRice: gt_BR.toFixed(3), rawRice: gt_RR.toFixed(3),
+          totalRice: gt_TR.toFixed(3), toorDhall: gt_TD.toFixed(3),
+          kanadaToorDhall: gt_CYL.toFixed(3), kanadaToorDhallTotal: gt_CYL.toFixed(3),
+          uridDhall: gt_UR.toFixed(3), totalDhall: gt_TLD.toFixed(3),
+          SUGAR: gt_SU.toFixed(3), WHEAT: gt_WH.toFixed(3),
+          palmoil: gt_PO, ManualBoiledRice: gt_MBR.toFixed(3),
+          ManualRawRice: gt_MRR.toFixed(3), ManualTotalRice: gt_MTR.toFixed(3),
+          ManualWheat: gt_MWH.toFixed(3), ManualSugar: gt_MSU.toFixed(3),
+          ManualToorDhall: gt_MTD.toFixed(3), ManualUridDhall: gt_MUD.toFixed(3),
+          ManualTotalDhall: gt_MTLD.toFixed(3), ManualCYLDhall: gt_MCYL.toFixed(3),
+          ManualPOil: gt_MPO
+        })
+        this.Records = this.CBData.slice(0);
         this.loading = false;
       } else {
         this.messageService.clear();
@@ -313,7 +312,37 @@ export class CBComparsionStatementComponent implements OnInit {
     })
   }
 
+  onFilterTable(event) {
+    if (event.target.value !== null && event.target.value !== undefined && event.target.value.trim() !== '') {
+      this.table.filterGlobal(event.target.value, 'contains');
+      this.showRowGroupMD = false;
+    } else {
+      this.showRowGroupMD = true;
+      this.table.reset();
+      this.CBData = this.Records.slice(0);
+      for (let i = 0; i < this.CBData.length; i++) {
+        let rowData = this.CBData[i];
+        let RNAME = rowData.RNAME;
+        if (i == 0) {
+          this.rowGroupMetadata[RNAME] = { index: 0, size: 1 };
+        }
+        else {
+          let previousRowData = this.CBData[i - 1];
+          let previousRowGroup = previousRowData.RNAME;
+          if (RNAME === previousRowGroup)
+            this.rowGroupMetadata[RNAME].size++;
+          else
+            this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
+        }
+      }
+    }
+  }
+
   public getColor(name: string): string {
-    return name === 'TOTAL' ? "#53aae5" : "white";
+    return name === 'TOTAL' ? "#ECECEC" : ((name === 'GRAND-TOTAL') ? "D4D4D4" : "white");
+  }
+
+  public setFloat(name): string {
+    return name === 'TNCSName' ? 'left' : 'right';
   }
 }

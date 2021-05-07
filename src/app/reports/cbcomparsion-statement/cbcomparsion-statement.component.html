@@ -10,7 +10,7 @@
         <div class="ui-g">
             <p-toast position="top-center" [modal]="true" key="t-err"></p-toast>
             <div class="ui-g-12 ui-md-12 border-blue">
-                <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Compariosn
+                <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Comparison
                     Statement Details
                     <button class="ui-g-1 dashboard inline-margin" style="float: right;" pButton label="Excel"
                         icon="pi pi-download" (click)="dt.exportCSV()" [disabled]="(CBData.length=='0')"></button>
@@ -18,7 +18,17 @@
                 <div class="ui-g-12 ui-md-12 ui-lg-12">
                     <p-table #dt [value]="CBData" [columns]="CBCols" [rows]="20" [style]="{'font-size': '0.93em'}"
                         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [autoLayout]="true"
-                        [responsive]="true" [loading]="loading" exportFilename="CB_COMPARISON_STATEMENT_REPORT">
+                        [responsive]="true" [loading]="loading" exportFilename="CB_COMPARISON_STATEMENT_REPORT"
+                        [globalFilterFields]="['RNAME']">
+                        <ng-template pTemplate="caption">
+                            <div class="p-d-flex" style="margin-left: 10%;">
+                                <span class="p-input-icon-left p-ml-auto">
+                                    <input pInputText type="text" (input)="onFilterTable($event)"
+                                        placeholder="Search By Region" />
+                                    <i class="pi pi-search"></i>
+                                </span>
+                            </div>
+                        </ng-template>
                         <ng-template pTemplate="header" let-columns>
                             <tr style="text-align: center;">
                                 <th *ngFor="let col of columns">
@@ -27,19 +37,28 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-columns="columns" let-data let-rowIndex="rowIndex">
-                            <tr class="ui-widget-header" *ngIf="rowGroupMetadata[data.RNAME].index === rowIndex">
+                            <tr class="ui-widget-header"
+                                *ngIf="(rowGroupMetadata[data.RNAME].index === rowIndex && showRowGroupMD)">
                                 <td colspan="13">
                                     <span style="font-weight:bold">{{data.RNAME}}</span>
                                 </td>
                             </tr>
                             <tr [ngStyle]="{'background-color': getColor(data.TNCSName)}">
                                 <td *ngFor="let col of columns">
-                                    <div *ngIf="col.field !== 'TNCSName'">
-                                        <span style="float: right">
-                                            {{data[col.field]}}
-                                        </span>
+                                    <div *ngIf="col.field !== 'ManualBoiledRice' && 
+                                    col.field !== 'ManualRawRice' && col.field !== 'ManualTotalRice' && col.field !== 'ManualSugar'
+                                    && col.field !== 'ManualWheat' && col.field !== 'ManualToorDhall' && 
+                                    col.field !== 'ManualCYLDhall' && col.field !== 'ManualTotalDhall' 
+                                    && col.field !== 'ManualUridDhall' && col.field !== 'ManualPOil'"
+                                        [ngStyle]="{'float': setFloat(col.field)}">
+                                        {{data[col.field]}}
                                     </div>
-                                    <div *ngIf="col.field === 'TNCSName'">
+                                    <div *ngIf="col.field === 'ManualBoiledRice' || 
+                                    col.field === 'ManualRawRice' || col.field === 'ManualTotalRice' || col.field === 'ManualSugar'
+                                    || col.field === 'ManualWheat' || col.field === 'ManualToorDhall' || col.field === 'ManualCYLDhall'
+                                    || col.field === 'ManualTotalDhall' || col.field === 'ManualUridDhall' 
+                                    || col.field === 'ManualPOil'"
+                                        [ngStyle]="{'color': '#53aae5', 'float': setFloat(col.field)}">
                                         {{data[col.field]}}
                                     </div>
                                 </td>
