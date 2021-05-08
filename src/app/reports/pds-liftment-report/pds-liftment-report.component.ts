@@ -76,10 +76,9 @@ export class PdsLiftmentReportComponent implements OnInit {
     this.loading = true;
     const month = this.AllotmentPeriod.getMonth() + 1;
     this.PDSLiftmentData.length = 0;
-    // this.canLoad = (type === 'R') ? true : false;
     if (type === 'R') {
       this.canLoad = true;
-      this.frozenPDSLiftmentCols = this.tableConstants.FrozenPDSLiftmentGodownColumns;
+      this.frozenPDSLiftmentCols = this.tableConstants.FrozenPDSLiftmentColumns;
     } else {
       this.canLoad = false;
       this.frozenPDSLiftmentCols.forEach(i => {
@@ -92,13 +91,14 @@ export class PdsLiftmentReportComponent implements OnInit {
       Date: this.datePipe.transform(this.Date, 'MM/dd/yyyy'),
       Month: (month <= 9) ? '0' + month : month,
       Year: this.AllotmentPeriod.getFullYear(),
-      DocType: 1
+      DocType: 1,
+      Type: (this.canLoad) ? 1 : 2
     };
     this.restAPIService.post(PathConstants.PDS_LIFTMENT_POST, params).subscribe(res => {
       let tempData = [];
       if (res !== undefined && res !== null && res.length !== 0) {
         res.forEach(x => {
-          if (x.RCode !== null && x.RCode !== undefined) {
+          if (x.Code !== null && x.Code !== undefined) {
             tempData.push(x);
           }
         })
@@ -133,12 +133,12 @@ export class PdsLiftmentReportComponent implements OnInit {
       allotQty = (allotQty * 1)
       let issueQty: any = (tempData[i].IssueQty !== null && tempData[i].IssueQty !== undefined) ? ((tempData[i].IssueQty * 1) / 1000).toFixed(3) : 0;
       issueQty = (issueQty * 1);
-      const rcodePrev = tempData[i - 1] !== undefined ? tempData[i - 1].RCode : '';
-      const rcode = (rcodePrev !== '') ? tempData[i].RCode : '';
-      const rcodeNext = (tempData[i + 1] !== undefined) ? tempData[i + 1].RCode : '';
-      if (tempData[i].RCode === rcodeNext || rcodePrev === rcode || rcodeNext === '') {
-        this.PDSLiftmentData[j].Name = tempData[i].RName;
-        this.PDSLiftmentData[j].RCode = tempData[i].RCode;
+      const codePrev = tempData[i - 1] !== undefined ? tempData[i - 1].Code : '';
+      const code = (codePrev !== '') ? tempData[i].Code : '';
+      const codeNext = (tempData[i + 1] !== undefined) ? tempData[i + 1].Code : '';
+      if (tempData[i].Code === codeNext || codePrev === code || codeNext === '') {
+        this.PDSLiftmentData[j].Name = tempData[i].Name;
+        this.PDSLiftmentData[j].Code = tempData[i].Code;
         this.PDSLiftmentData[j].slno = j + 1;
         switch (tempData[i].allotmentgroup) {
           case 'PALMOIL':
@@ -200,7 +200,7 @@ export class PdsLiftmentReportComponent implements OnInit {
             break;
         }
       }
-      if (tempData[i].RCode !== rcodeNext) {
+      if (tempData[i].Code !== codeNext) {
         j += 1;
       }
     }
@@ -219,7 +219,7 @@ export class PdsLiftmentReportComponent implements OnInit {
         Date: this.datePipe.transform(this.Date, 'MM/dd/yyyy'),
         Month: (month <= 9) ? '0' + month : month,
         Year: this.AllotmentPeriod.getFullYear(),
-        RCode: data.RCode
+        RCode: data.Code
       };
       this.restAPIService.getByParameters(PathConstants.PDS_LIFTMENT_GET, params).subscribe(res => {
         let tempData = [];

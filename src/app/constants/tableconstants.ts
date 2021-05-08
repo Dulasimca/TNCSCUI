@@ -297,6 +297,7 @@ export class TableConstants {
 
     this.CBFromTNDailyStatementColumns = [
       { field: 'TNCSName', header: 'Name' },
+      { field: 'GStatus', header: 'Godown Approval Status' },
       { field: 'boiledRice', header: 'SCM - Boiled Rice' },
       { field: 'ManualBoiledRice', header: 'Manual BoiledRice' },
       { field: 'rawRice', header: 'SCM - Raw Rice' },
