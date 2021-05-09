@@ -189,6 +189,7 @@ import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.c
 import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
 import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
+import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gstcommoditymaster.component';
 
 @NgModule({
   declarations: [
@@ -332,6 +333,7 @@ import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement
     HoqtyabstractrepComponent,
     TransferOpeningBalanceToHOQtyComponent,
     CBComparsionStatementComponent,
+    GstcommoditymasterComponent,
   ],
   imports: [
     BrowserModule,

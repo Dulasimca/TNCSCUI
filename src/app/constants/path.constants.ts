@@ -194,6 +194,7 @@ export class PathConstants {
   public static readonly GSTTAX_ABSTRAC_GET = '/api/SalesTaxAbstract/Get';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';
+  public static readonly GST_COMMODITY_MASTER_POST = '/api/GSTCommodityMaster/Post';
 
   // HoQtyAccConsolidation
   public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
