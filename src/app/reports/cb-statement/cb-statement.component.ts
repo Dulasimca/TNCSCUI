@@ -37,7 +37,7 @@ export class CBStatementComponent implements OnInit {
   Date: any = new Date();
   roleId: any;
   disbaleGodown: boolean;
-  maxDate: Date = new Date();  
+  maxDate: Date = new Date();
   loggedInRCode: string;
   regions: any;
   abstractData: any = [];
@@ -62,12 +62,12 @@ export class CBStatementComponent implements OnInit {
     this.column = this.tableConstants.CBStatementColumns;
     this.items = [
       {
-        label: 'CB Details', icon: 'fa fa-table',  command: () => {
+        label: 'CB Details', icon: 'fa fa-table', command: () => {
           this.table.exportCSV();
         }
       },
       {
-        label: 'CB Abstract', icon: 'fa fa-table',  command: () => {
+        label: 'CB Abstract', icon: 'fa fa-table', command: () => {
           this.exportAsXLSX();
         }
       }]
@@ -93,8 +93,8 @@ export class CBStatementComponent implements OnInit {
         } else {
           if (this.regions !== undefined) {
             this.regions.forEach(x => {
-              if(x.RCode === this.loggedInRCode) {
-              regionSelection.push({ 'label': x.RName, 'value': x.RCode });
+              if (x.RCode === this.loggedInRCode) {
+                regionSelection.push({ 'label': x.RName, 'value': x.RCode });
               }
             });
             this.regionOptions = regionSelection;
@@ -125,7 +125,7 @@ export class CBStatementComponent implements OnInit {
     this.onResetTable('');
     this.loading = true;
     const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'))
-    .append('GCode', this.GCode).append('RCode', this.RCode).append('RoleId', this.roleId);
+      .append('GCode', this.GCode).append('RCode', this.RCode).append('RoleId', this.roleId);
     this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
       if (response !== undefined && response !== null && response.length !== 0) {
         this.cbData = response;
@@ -247,13 +247,13 @@ export class CBStatementComponent implements OnInit {
               this.rowGroupMetadata[RNAME] = { index: i, size: 1 };
           }
         }
-        if(this.GCode === 'All' && this.RCode === 'All') {
+        if (this.GCode === 'All' && this.RCode === 'All') {
           this.loadAbstract(groupedData);
           const result = this.calculateGrandTotal(this.cbData, 'CBActual');
-          if(result) {
-           this.cbData.push(result);
+          if (result) {
+            this.cbData.push(result);
           }
-          }
+        }
         this.loading = false;
       } else {
         this.messageService.clear();
@@ -273,27 +273,27 @@ export class CBStatementComponent implements OnInit {
     this.abstractCols = this.tableConstants.CBStatementAbstractCols;
     data.splice(data.length - 1, 1);
     this.abstractData = data;
-        let sno = 1;
-        this.abstractData.forEach(x => {
-          x.SlNo = sno;
-          x.TNCSCapacity = (x.TNCSCapacity * 1).toFixed(3);
-          x.boiledRice = (x.boiledRice * 1).toFixed(3);
-          x.rawRice = (x.rawRice * 1).toFixed(3);
-          x.toorDhall = (x.toorDhall * 1).toFixed(3);
-          x.uridDhall = (x.uridDhall * 1).toFixed(3);
-          x.totalRice = (x.totalRice * 1).toFixed(3);
-          x.totalDhall = (x.totalDhall * 1).toFixed(3);
-          x.SUGAR = (x.SUGAR * 1).toFixed(3);
-          x.WHEAT = (x.WHEAT * 1).toFixed(3);
-          x.cement = (x.cement * 1).toFixed(3);
-          x.palmoil = (x.palmoil * 1).toFixed(3);
-          x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
-          sno += 1;
-        })
-        const result = this.calculateGrandTotal(this.abstractData, 'CBAbstract');
-        if(result) {
-        this.abstractData.push(result);
-        }
+    let sno = 1;
+    this.abstractData.forEach(x => {
+      x.SlNo = sno;
+      x.TNCSCapacity = (x.TNCSCapacity * 1).toFixed(3);
+      x.boiledRice = (x.boiledRice * 1).toFixed(3);
+      x.rawRice = (x.rawRice * 1).toFixed(3);
+      x.toorDhall = (x.toorDhall * 1).toFixed(3);
+      x.uridDhall = (x.uridDhall * 1).toFixed(3);
+      x.totalRice = (x.totalRice * 1).toFixed(3);
+      x.totalDhall = (x.totalDhall * 1).toFixed(3);
+      x.SUGAR = (x.SUGAR * 1).toFixed(3);
+      x.WHEAT = (x.WHEAT * 1).toFixed(3);
+      x.cement = (x.cement * 1).toFixed(3);
+      x.palmoil = (x.palmoil * 1).toFixed(3);
+      x.kanadaToorDhall = (x.kanadaToorDhall * 1).toFixed(3);
+      sno += 1;
+    })
+    const result = this.calculateGrandTotal(this.abstractData, 'CBAbstract');
+    if (result) {
+      this.abstractData.push(result);
+    }
   }
 
 
@@ -305,7 +305,7 @@ export class CBStatementComponent implements OnInit {
     let wheat = 0; let uDhall = 0;
     var item = {};
     data.forEach(x => {
-      if(id === 'CBActual' && x.TNCSName === 'TOTAL') {
+      if (id === 'CBActual' && x.TNCSName === 'TOTAL') {
         capacity += (x.TNCSCapacity * 1);
         bRice += (x.boiledRice * 1);
         rRice += (x.rawRice * 1);
@@ -319,15 +319,17 @@ export class CBStatementComponent implements OnInit {
         wheat += (x.WHEAT * 1);
         uDhall += (x.uridDhall * 1);
         pOil += (x.palmoil * 1);
-        item = { TNCSName: 'GRAND TOTAL',
-        TNCSCapacity: capacity.toFixed(3),
-        boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
-        toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
-        totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
-        WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
-        uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
-        kanadaToorDhallTotal: kDhallTotal.toFixed(3)};
-      } else if(id === 'CBAbstract') {
+        item = {
+          TNCSName: 'GRAND TOTAL',
+          TNCSCapacity: capacity.toFixed(3),
+          boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+          toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+          totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+          WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+          uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+          kanadaToorDhallTotal: kDhallTotal.toFixed(3)
+        };
+      } else if (id === 'CBAbstract') {
         capacity += (x.TNCSCapacity * 1);
         bRice += (x.boiledRice * 1);
         rRice += (x.rawRice * 1);
@@ -341,14 +343,16 @@ export class CBStatementComponent implements OnInit {
         wheat += (x.WHEAT * 1);
         uDhall += (x.uridDhall * 1);
         pOil += (x.palmoil * 1);
-        item = { RNAME: 'GRAND TOTAL',
-        TNCSCapacity: capacity.toFixed(3),
-        boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
-        toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
-        totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
-        WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
-        uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
-        kanadaToorDhallTotal: kDhallTotal.toFixed(3)};
+        item = {
+          RNAME: 'GRAND TOTAL',
+          TNCSCapacity: capacity.toFixed(3),
+          boiledRice: bRice.toFixed(3), rawRice: rRice.toFixed(3),
+          toorDhall: trDhall.toFixed(3), totalRice: tRice.toFixed(3),
+          totalDhall: tDhall.toFixed(3), SUGAR: sugar.toFixed(3),
+          WHEAT: wheat.toFixed(3), palmoil: pOil, cement: cement.toFixed(3),
+          uridDhall: uDhall.toFixed(3), kanadaToorDhall: kDhall.toFixed(3),
+          kanadaToorDhallTotal: kDhallTotal.toFixed(3)
+        };
       }
     })
     return item;
@@ -374,19 +378,19 @@ export class CBStatementComponent implements OnInit {
       })
     })
     this.excelService.exportAsExcelFile(data, 'CB_STATEMENT_REGIONWISE_ABSTRACT', this.abstractCols);
-}
+  }
 
   public getColor(name: string): string {
     return name === 'TOTAL' ? "#53aae5" : (name === 'GRAND TOTAL' ? "#18c5a9" : "white");
   }
 
   onResetTable(item) {
-    if(item === 'reg') { this.GCode = null; }
+    if (item === 'reg') { this.GCode = null; }
     this.cbData = [];
     this.abstractData = [];
     this.record = [];
     this.table.reset();
     this.loading = false;
   }
-  
+
 }
