@@ -185,12 +185,15 @@ export class PathConstants {
   public static readonly PARTY_MASTER = '/api/PartyMaster/Get';
   public static readonly PURCHASE_TAX_ENTRY_GET = '/api/PurchaseTaxEntry/Get';
   public static readonly PURCHASE_TAX_ENTRY_POST = '/api/PurchaseTaxEntry/Post';
+  public static readonly PURCHASE_TAX_ENTRY_DELETE = '/api/PurchaseTaxEntry/Delete';
   public static readonly SALES_TAX_ENTRY_GET = '/api/SalesTaxEntry/Get';
   public static readonly SALES_TAX_ENTRY_POST = '/api/SalesTaxEntry/Post';
+  public static readonly SALES_TAX_ENTRY_DELETE = '/api/SalesTaxEntry/Delete';
   public static readonly GST_COMMODITY_MASTER = '/api/GSTCommodityMaster';
   public static readonly GST_SERVICE_PROVIDER_MASTER = '/api/ServiceProviderMaster';
   public static readonly SERVICE_PROVIDER_GET = '/api/ServiceProviderEntry/Get';
   public static readonly SERVICE_PROVIDER_POST = '/api/ServiceProviderEntry/Post';
+  public static readonly SERVICE_TAX_ENTRY_DELETE = '/api/ServiceProviderEntry/Delete';
   public static readonly GSTTAX_ABSTRAC_GET = '/api/SalesTaxAbstract/Get';
   public static readonly E_INVOICE_POST = '/api/EInvoice/Post';
   public static readonly DO_TO_SALESTAX = '/api/DeliveryOrderToSalesTax/Get';

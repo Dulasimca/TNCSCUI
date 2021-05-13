@@ -60,4 +60,5 @@ export class StatusMessage {
     public static readonly HSNCodeError = 'Selected Item has no HSNCode! Please update item details in Item Master.'
     public static readonly SalesDataCleared = 'No uncleared data is been found! Proceed with View';
     public static readonly TransferSuccessMsg = 'Transferred Successfully !';
+    public static readonly GstDataDelete = 'GST Data Deleted Successfully !';
 }

@@ -133,6 +133,7 @@ import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.c
 import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
 import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
+import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gstcommoditymaster.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -268,6 +269,7 @@ const routes: Routes = [
   { path: 'Hoqtyabstractrep', component: HoqtyabstractrepComponent, canActivate: [AuthGuard] },
   { path: 'TransferOBToHOQty', component: TransferOpeningBalanceToHOQtyComponent, canActivate: [AuthGuard] },
   { path: 'CBFromTNDaily', component: CBComparsionStatementComponent, canActivate: [AuthGuard] },
+  { path: 'Gstcommoditymaster', component: GstcommoditymasterComponent, canActivate: [AuthGuard] },  
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

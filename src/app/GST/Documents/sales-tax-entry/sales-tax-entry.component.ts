@@ -9,7 +9,8 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { PathConstants } from 'src/app/constants/path.constants';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { ConfirmationService } from 'primeng/primeng';
 import { RouteConfigLoadEnd } from '@angular/router';
 
 @Component({
@@ -129,10 +130,9 @@ export class SalesTaxEntryComponent implements OnInit {
   @ViewChild('measurement', { static: false }) MeasurementPanel: Dropdown;
   @ViewChild('scheme', { static: false }) SchemePanel: Dropdown;
   @ViewChild('f', { static: false }) form: NgForm;
-  
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
-    private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
+    private tableConstant: TableConstants, private confirmationService: ConfirmationService, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
 
   ngOnInit() {
     this.canShowMenu = (this.authService.isLoggedIn()) ? this.authService.isLoggedIn() : false;
@@ -591,7 +591,55 @@ export class SalesTaxEntryComponent implements OnInit {
     this.TaxtypeOptions = this.MeasurementOptions = null;
     this.Credit = false;
   }
-
+  onDelete() {
+    const httpParams = new HttpParams().set('RowID', this.SalesID)
+    .append('Month', this.Month.value)
+    .append('Year', this.Year)
+    .append('RCode', this.RCode)
+    .append('BillNo', this.Bill)
+    .append('Ttype', 'Sales');
+  
+    let options = { params: httpParams};
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete the record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',      
+      accept: () => {          
+        this.blockScreen = true;
+            this.messageService.clear();
+            this.restApiService.delete(PathConstants.SALES_TAX_ENTRY_DELETE, options).subscribe(res => {
+              if (res) {
+                this.blockScreen = false;
+                this.onClear();
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+                  summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.GstDataDelete});
+              } else {
+                this.blockScreen = false;
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
+                  summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
+                });
+              }
+            }, (err: HttpErrorResponse) => {
+              this.blockScreen = false;
+              if (err.status === 0 || err.status === 400) {
+                this.messageService.clear();
+                this.messageService.add({
+                  key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                  summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+                });
+              }
+            });
+            this.blockScreen = false; 
+      },
+      reject: () => {  
+        console.log("no");
+      }
+    });
+  }
   onSearch(value) {
     this.SalesTaxData = this.CompanyTitle;
     if (value !== undefined && value !== '') {

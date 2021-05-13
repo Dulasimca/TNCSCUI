@@ -11,6 +11,7 @@
       </div>
     </p-header>
     <p-toast (onClose)="onClose()" position="top-center" key="t-err" [modal]="true"></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-g-12 ui-md-4"></div>
@@ -347,13 +348,16 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-md-2 dashboard" style="padding-top: 3px;">
-                <div class="ui-g-6 ui-md-6 ui-fluid">
+                <div class="ui-g-4 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onSubmit(formUser)"
                     [disabled]="(!RCode || !GCode || !AccountingYear || !Month || !Year || !Party || !Amount || !Bill || !Billdate || !TaxType || !Measurement || !Quantity || !Rate || !Total)"
                     label=Save></button>
                 </div>
-                <div class="ui-g-6 ui-md-6 ui-fluid">
+                <div class="ui-g-4 ui-md-6 ui-fluid">
                   <button pButton type="button" (click)="onClear()" label=Clear></button>
+                </div>
+                <div class="ui-g-4 ui-md-6 ui-fluid">
+                  <button pButton type="button" (click)="onDelete()" label=Delete></button>
                 </div>
               </div>
             </div>
