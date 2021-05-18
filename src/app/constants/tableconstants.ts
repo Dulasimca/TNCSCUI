@@ -1288,7 +1288,7 @@ export class TableConstants {
 
     this.FrozenPDSLiftmentColumns = [
       { field: 'slno', header: 'Sl.No.', width: '55px' },
-      { field: 'Name', header: 'Region Name', width: '270px' }
+      { field: 'Name', header: 'Region Name', width: '300px' }
     ]
 
     this.FrozenPDSLiftmentGodownColumns = [
