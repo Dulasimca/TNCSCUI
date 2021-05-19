@@ -39,7 +39,7 @@ export class DoApprovalDocsComponent implements OnInit {
 
   constructor(private authService: AuthService, private roleBasedService: RoleBasedService,
     private tableConstants: TableConstants, private messageService: MessageService,
-    private datepipe: DatePipe, private restApiService: RestAPIService, 
+    private datepipe: DatePipe, private restApiService: RestAPIService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class DoApprovalDocsComponent implements OnInit {
     const maxDate = new Date(JSON.parse(this.authService.getServerDate()));
     this.maxDate = (maxDate !== null && maxDate !== undefined) ? maxDate : new Date();
     this.DODocsCols = this.tableConstants.DOApprovalReport;
-    this.username = JSON.parse(this.authService.getCredentials()); 
+    this.username = JSON.parse(this.authService.getCredentials());
   }
 
   onSelect(item, type) {
@@ -102,141 +102,143 @@ export class DoApprovalDocsComponent implements OnInit {
           this.godownOptions = godownSelection;
         }
         break;
-      }
     }
+  }
 
-    onView(type) {
-      this.loading = true;
-      const params = {
-        'RCode' : this.RCode,
-        'fromDate':  this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
-        'toDate':  this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
-        'BillNo':  this.DocNo,
-        'SPType': (this.DocNo !== undefined) ? 2 : 1,
-        'type': 1,
-        
-      };
-      this.restApiService.getByParameters(PathConstants.DO_TO_SALESTAX, params).subscribe(res => {
-        if (res !== undefined && res !== null && res.length !== 0) {
-          this.DODocsData = res;
-          let sno = 0;
-          this.DODocsData.forEach(d => {
-            sno += 1;
-            d.SlNo = sno;
-            // d.icon = 'pi pi-lock';
-          });
-          this.loading = false;
-        } else {
-          this.loading = false;
-          this.onResetTable('');
-          this.messageService.clear();
-          if(type === 1) {
+  onView(type) {
+    this.onResetTable('');
+    this.loading = true;
+    const params = {
+      'RCode': this.RCode,
+      'fromDate': this.datepipe.transform(this.fromDate, 'MM/dd/yyyy'),
+      'toDate': this.datepipe.transform(this.toDate, 'MM/dd/yyyy'),
+      'BillNo': this.DocNo,
+      'SPType': (this.DocNo !== undefined && this.DocNo !== null && this.DocNo.trim() !== '') ? 2 : 1,
+      'type': 1,
+
+    };
+    this.restApiService.getByParameters(PathConstants.DO_TO_SALESTAX, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.DODocsData = res;
+        let sno = 0;
+        this.DODocsData.forEach(d => {
+          sno += 1;
+          d.SlNo = sno;
+          // d.icon = 'pi pi-lock';
+        });
+        this.loading = false;
+      } else {
+        this.loading = false;
+        this.onResetTable('');
+        this.messageService.clear();
+        if (type === 1) {
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
             summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
           });
-          }
         }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-          });
-        }
-      });
-    }
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
 
-    onSendForApproval(data) {
-      this.confirmationService.confirm({
-        message: 'Do you want to send this ' + data.BillNo + ' for approval ?',
-        header: 'Confirmation',
-        icon:   'pi pi-exclamation-triangle',
-        accept: () => {
-          this.blockScreen = true;
-          const params = {
-            'BillNo': data.BillNo,
-            'BillDate': data.BillDate,
-            'RCode': data.RCode,
-            'GCode': data.GCode
-          }
-          this.restApiService.post(PathConstants.GST_SALES_TAX_UPDATE, params).subscribe(res => {
-            if(res.Item1) {
-              this.blockScreen = false;
-              this.messageService.clear();
-              this.messageService.add({
-                key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-                summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.DOAprrovalMessage + data.BillNo
-              });
-              this.onView(2);
-            }
-            else {
-              this.blockScreen = false;
-              this.messageService.clear();
-              this.messageService.add({
-                key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-                summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-              });
-            }
-          }, (err: HttpErrorResponse) => {
+  onSendForApproval(data) {
+    this.confirmationService.confirm({
+      message: 'Do you want to send this ' + data.BillNo + ' for approval ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.blockScreen = true;
+        const params = {
+          'BillNo': data.BillNo,
+          'BillDate': data.BillDate,
+          'RCode': data.RCode,
+          'GCode': data.GCode,
+          'GSTSalesID': data.GSTSalesID
+        }
+        this.restApiService.post(PathConstants.GST_SALES_TAX_UPDATE, params).subscribe(res => {
+          if (res.Item1) {
             this.blockScreen = false;
-            if (err.status === 0 || err.status === 400) {
-              this.messageService.clear();
-              this.messageService.add({
-                key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-                summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-              });
-            } else {
-              this.messageService.clear();
-              this.messageService.add({
-                key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-                summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
-              });
-            }
-          })
-        },
-        reject: () => {
-          this.messageService.clear();
-         }
-      });
-    }
-
-    onDateSelect() {
-      this.checkValidDateSelection();
-      this.onResetTable('');
-    }
-  
-    checkValidDateSelection() {
-      if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
-        let selectedFromDate = this.fromDate.getDate();
-        let selectedToDate = this.toDate.getDate();
-        let selectedFromMonth = this.fromDate.getMonth();
-        let selectedToMonth = this.toDate.getMonth();
-        let selectedFromYear = this.fromDate.getFullYear();
-        let selectedToYear = this.toDate.getFullYear();
-        if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
-          (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
-          (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
-            , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
-          });
-          this.fromDate = this.toDate = '';
-        }
-        return this.fromDate, this.toDate;
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+              summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.DOAprrovalMessage + data.BillNo
+            });
+            this.onView(2);
+          }
+          else {
+            this.blockScreen = false;
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+            });
+          }
+        }, (err: HttpErrorResponse) => {
+          this.blockScreen = false;
+          if (err.status === 0 || err.status === 400) {
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+            });
+          } else {
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+              summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.NetworkErrorMessage
+            });
+          }
+        })
+      },
+      reject: () => {
+        this.messageService.clear();
       }
-    }
+    });
+  }
 
-    onResetTable(item) {
-      if(item === 'R') {
-        this.GCode = null;
+  onDateSelect() {
+    this.checkValidDateSelection();
+    this.onResetTable('');
+  }
+
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR, life: 5000
+          , summary: StatusMessage.SUMMARY_INVALID, detail: StatusMessage.ValidDateErrorMessage
+        });
+        this.fromDate = this.toDate = '';
       }
-      this.DODocsData = [];
-     }
-     onClose() {
-       this.messageService.clear('t-err');
-     }
+      return this.fromDate, this.toDate;
+    }
+  }
+
+  onResetTable(item) {
+    if (item === 'R') {
+      this.GCode = null;
+    }
+    this.DODocsData = [];
+  }
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 }
