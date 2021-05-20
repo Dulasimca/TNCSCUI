@@ -13,7 +13,6 @@ import 'rxjs/add/observable/from';
 import 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import * as _ from 'lodash';
-import { PDSEntity } from 'src/app/entity/pds-entity';
 import { Table } from 'primeng/table';
 
 @Component({

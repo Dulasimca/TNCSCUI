@@ -211,7 +211,6 @@ export class TableConstants {
       { field: 'DepositorName', header: 'Depositor Name' }
     ]
     this.SupplierData = [
-      { field: 'SlNo', header: 'S.No' },
       { field: 'DepositorCode', header: 'Depositor Code' },
       { field: 'Tyname', header: 'Depositor Type' },
       { field: 'DepositorName', header: 'Depositor Name' }
