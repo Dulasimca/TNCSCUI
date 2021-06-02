@@ -85,7 +85,7 @@ export class CBComparsionStatementComponent implements OnInit {
   onLoadCBData() {
     this.CBData.length = 0;
     this.loading = true;
-    const params = new HttpParams().set('Date', this.datepipe.transform(new Date(), 'MM/dd/yyyy'))
+    const params = new HttpParams().set('Date', this.datepipe.transform(this.Date, 'MM/dd/yyyy'))
       .append('GCode', 'All').append('RCode', 'All').append('RoleId', this.roleId);
     this.restApiService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
       if (response !== undefined && response !== null && response.length !== 0) {

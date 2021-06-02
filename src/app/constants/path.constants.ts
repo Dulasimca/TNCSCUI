@@ -44,6 +44,7 @@ export class PathConstants {
   public static readonly STACK_DAY_TO_DAY_POST = '/api/StackDayToDay/Post';
   public static readonly INSPECTION_MASTER = '/api/InceptionMaster';
   public static readonly PRODUCT_MASTER = '/api/ProductTypeMaster';
+  public static readonly LOCATION_MASTER = '/api/LocationMaster';
 
   ///Menu&Login
   public static readonly MENU = '/api/Menu/Get';
@@ -205,6 +206,10 @@ export class PathConstants {
   public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_GET = '/api/TransferOBToHoQty/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_POST = '/api/TransferOBToHoQty/Post';
+  public static readonly HO_QTY_PURCHASE_GET = '/api/HOQtyPurchase/Get';
+  public static readonly HO_QTY_PURCHASE_POST = '/api/HOQtyPurchase/Post';
+  public static readonly HO_QTY_FREE_RECEIPT_GET = '/api/HOQtyFreeReceipt/Get';
+  public static readonly HO_QTY_FREE_RECEIPT_POST = '/api/HOQtyFreeReceipt/Post';
 
 
   //Allotment Module

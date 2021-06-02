@@ -17,7 +17,7 @@ import * as _ from 'lodash';
   styleUrls: ['./hoqtyabstract.component.css']
 })
 export class HoqtyabstractComponent implements OnInit {
-  
+
   hoqtyacabstractData: any = [];
   fromDate: any = new Date();
   data: any;
@@ -42,10 +42,10 @@ export class HoqtyabstractComponent implements OnInit {
   formUser = [];
   loggedInRCode: any;
   Openingbookbalance: any;
-  PurchaseReceipt: any; 
-  Freerice : any;
+  PurchaseReceipt: any;
+  Freerice: any;
   OtherReceipt: any;
-  TotalReceipt: any;  
+  TotalReceipt: any;
   Openingbalancetotalreceipt: any;
   Issueonsales: any;
   Freeissue: any;
@@ -55,8 +55,8 @@ export class HoqtyabstractComponent implements OnInit {
   CumulativeShortage: any;
   ActualBalance: any;
   RowId: any;
-  Savebtn: boolean ;
-  Viewbtn: boolean ;
+  Savebtn: boolean;
+  Viewbtn: boolean;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
@@ -73,13 +73,13 @@ export class HoqtyabstractComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
-    this.yearRange = (this.maxDate.getFullYear() - 1) + ':' + this.maxDate.getFullYear();    
+    this.yearRange = (this.maxDate.getFullYear() - 1) + ':' + this.maxDate.getFullYear();
     this.username = JSON.parse(this.authService.getCredentials());
     this.Openingbookbalance = 0;
-    this.PurchaseReceipt = 0; 
-    this.Freerice  = 0;
+    this.PurchaseReceipt = 0;
+    this.Freerice = 0;
     this.OtherReceipt = 0;
-    this.TotalReceipt = 0;  
+    this.TotalReceipt = 0;
     this.Openingbalancetotalreceipt = 0;
     this.Issueonsales = 0;
     this.Freeissue = 0;
@@ -89,8 +89,8 @@ export class HoqtyabstractComponent implements OnInit {
     this.CumulativeShortage = 0;
     this.ActualBalance = 0;
     this.RowId = 0;
-    this.Savebtn =  false ;
-    this.Viewbtn = true ;
+    this.Savebtn = false;
+    this.Viewbtn = true;
 
   }
 
@@ -142,11 +142,11 @@ export class HoqtyabstractComponent implements OnInit {
         }
         break;
       case 'tr':
-          if (type === 'tab') {
-            this.transactionPanel.overlayVisible = true;
-          }
-          this.transactionOptions = [{ label:'NON-SCM', value: 'NON-SCM' },           
-          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'DefunctGdn', value: 'DefunctGdn' }];
+        if (type === 'tab') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        this.transactionOptions = [{ label: 'NON-SCM', value: 'NON-SCM' },
+        { label: 'DPC', value: 'DPC' }, { label: 'CRS', value: 'CRS' }, { label: 'DefunctGdn', value: 'DefunctGdn' }];
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
@@ -180,8 +180,8 @@ export class HoqtyabstractComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.HO_QTY_ABSRTACT_GET, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.hoqtyacabstractData = res;
-        this.Savebtn =  true ;
-        this.Viewbtn = true ;
+        this.Savebtn = true;
+        this.Viewbtn = true;
         //this.RowId = res[0].RowId;
         //this.OrderDate = new Date(res[0].OrderDate);
         this.Openingbookbalance = this.hoqtyacabstractData[0].OB;
@@ -195,16 +195,16 @@ export class HoqtyabstractComponent implements OnInit {
         this.Otherissue = this.hoqtyacabstractData[0].OtherIssues;
         this.Totalissue = this.hoqtyacabstractData[0].Totalssues;
         this.ClosingBookBalance = this.hoqtyacabstractData[0].CB;
-        this.CumulativeShortage = this.hoqtyacabstractData[0].CS;        
+        this.CumulativeShortage = this.hoqtyacabstractData[0].CS;
         this.ActualBalance = this.hoqtyacabstractData[0].ActualBalance;
         this.RowId = this.hoqtyacabstractData[0].HOQtyId;
         this.loading = false;
-        
+
       } else {
         this.RowId = 0;
         this.onClear()
-        this.Savebtn =  true ;
-        this.Viewbtn = true ;
+        this.Savebtn = true;
+        this.Viewbtn = true;
         this.loading = false;
         this.messageService.clear();
         this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination });
@@ -218,46 +218,46 @@ export class HoqtyabstractComponent implements OnInit {
     })
   }
   onSubmit(formUser) {
-    
+
     this.messageService.clear();
-    const params = {     
-      qtymonth : this.datePipe.transform(this.fromDate, 'MM'),
-      qtyyear : this.datePipe.transform(this.fromDate, 'yyyy'),
-      RCode : this.RCode,
-      ITCode : this.ITCode.value,       
-      Trcode : this.Trcode.value,
-      OB : this.Openingbookbalance,
-      PurchaseReceipt : this.PurchaseReceipt,
-      Freerice : this.Freerice,
-      OtherReceipt : this.OtherReceipt,
-      TotalReceipt : this.TotalReceipt,
-      Issueonsales : this.Issueonsales,
-      Freeissue : this.Freeissue,
-      Otherissue : this.Otherissue,
-      TotalIssues : this.Totalissue,
-      CB : this.ClosingBookBalance,
-      CS : this.CumulativeShortage,
-      ActualBalance : this.ActualBalance,
-      HOQtyId : this.RowId,
+    const params = {
+      qtymonth: this.datePipe.transform(this.fromDate, 'MM'),
+      qtyyear: this.datePipe.transform(this.fromDate, 'yyyy'),
+      RCode: this.RCode,
+      ITCode: this.ITCode.value,
+      Trcode: this.Trcode.value,
+      OB: this.Openingbookbalance,
+      PurchaseReceipt: this.PurchaseReceipt,
+      Freerice: this.Freerice,
+      OtherReceipt: this.OtherReceipt,
+      TotalReceipt: this.TotalReceipt,
+      Issueonsales: this.Issueonsales,
+      Freeissue: this.Freeissue,
+      Otherissue: this.Otherissue,
+      TotalIssues: this.Totalissue,
+      CB: this.ClosingBookBalance,
+      CS: this.CumulativeShortage,
+      ActualBalance: this.ActualBalance,
+      HOQtyId: this.RowId,
     };
     this.restAPIService.post(PathConstants.HO_QTY_ABSTRACT_POST, params).subscribe(value => {
       if (value) {
         this.onClear();
-        this.Savebtn=false
+        this.Savebtn = false
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
           summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
         });
-      } else {        
+      } else {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_WARNING, life: 5000,
           summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.ValidCredentialsErrorMessage
         });
       }
-    }, (err: HttpErrorResponse) => { 
-      if (err.status === 0 || err.status === 400) {        
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
@@ -268,47 +268,49 @@ export class HoqtyabstractComponent implements OnInit {
   }
   onDateSelect() {
     this.checkValidDateSelection();
-   this.onResetTable('');
+    this.onResetTable('');
   }
 
-   checkValidDateSelection() {
-    if (this.fromDate !== undefined &&  this.fromDate !== '' ) {         
-      
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.fromDate !== '') {
+
       let selectedFromYear = this.fromDate.getFullYear();
-      let todaydate =   new Date();
+      let todaydate = new Date();
       let curyear = todaydate.getFullYear();
-     
-     
+
+
       if ((selectedFromYear > curyear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
-        summary: StatusMessage.SUMMARY_INVALID, 
-        life:5000, detail: StatusMessage.ValidDateErrorMessage });
-        
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_INVALID,
+          life: 5000, detail: StatusMessage.ValidDateErrorMessage
+        });
+
       }
       return this.fromDate
     }
-  }  
-  onClear() {
-    this.PurchaseReceipt = this.Freerice = this.OtherReceipt  =  this.TotalReceipt = this.Openingbookbalance = this.Openingbalancetotalreceipt = 0;
-    this.Issueonsales = this.Freeissue = this.Otherissue = this.Totalissue = this.ClosingBookBalance = this.ActualBalance  = this.CumulativeShortage = 0;
-    this.Savebtn =  false ;
-    this.Viewbtn = true ;
   }
-  onResetTable(item) {    
+  onClear() {
+    this.PurchaseReceipt = this.Freerice = this.OtherReceipt = this.TotalReceipt = this.Openingbookbalance = this.Openingbalancetotalreceipt = 0;
+    this.Issueonsales = this.Freeissue = this.Otherissue = this.Totalissue = this.ClosingBookBalance = this.ActualBalance = this.CumulativeShortage = 0;
+    this.Savebtn = false;
+    this.Viewbtn = true;
+  }
+  onResetTable(item) {
     this.loading = false;
-    this.Savebtn =  false ;
-    this.Viewbtn = true ;
+    this.Savebtn = false;
+    this.Viewbtn = true;
   }
   onClose() {
     this.messageService.clear('t-err');
   }
   onTOTREC() {
-    this.TotalReceipt = (this.PurchaseReceipt * 1) + (this.Freerice * 1) + (this.OtherReceipt * 1);  
+    this.TotalReceipt = (this.PurchaseReceipt * 1) + (this.Freerice * 1) + (this.OtherReceipt * 1);
     this.Openingbalancetotalreceipt = (this.Openingbookbalance * 1) + (this.TotalReceipt * 1)
-    this.Totalissue = (this.Issueonsales * 1) + (this.Freeissue * 1) + (this.Otherissue * 1);  
+    this.Totalissue = (this.Issueonsales * 1) + (this.Freeissue * 1) + (this.Otherissue * 1);
     this.ClosingBookBalance = (this.Openingbalancetotalreceipt * 1) - (this.Totalissue * 1);
-    this.ActualBalance = (this.ClosingBookBalance * 1) - (this.CumulativeShortage * 1) ;
-    
-   }
+    this.ActualBalance = (this.ClosingBookBalance * 1) - (this.CumulativeShortage * 1);
+
+  }
 }

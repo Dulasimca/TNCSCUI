@@ -190,6 +190,12 @@ import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.c
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
 import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
 import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gstcommoditymaster.component';
+import { HoqtypurchaseComponent } from './hoqtyacc/hoqtypurchase/hoqtypurchase.component';
+import { HoqtyfreereceiptComponent } from './hoqtyacc/hoqtyfreereceipt/hoqtyfreereceipt.component';
+import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty-other-receipt.component';
+import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
+import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
+import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
 
 @NgModule({
   declarations: [
@@ -334,6 +340,12 @@ import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gst
     TransferOpeningBalanceToHOQtyComponent,
     CBComparsionStatementComponent,
     GstcommoditymasterComponent,
+    HoqtypurchaseComponent,
+    HoqtyfreereceiptComponent,
+    HoqtyOtherReceiptComponent,
+    HoqtyOtherIssuesComponent,
+    HoqtyFreeIssuesComponent,
+    HoqtySalesComponent,
   ],
   imports: [
     BrowserModule,

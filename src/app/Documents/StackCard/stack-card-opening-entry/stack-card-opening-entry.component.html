@@ -22,16 +22,17 @@
       </p-confirmDialog>
       <p-dialog #cf header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '30vw', height: '12vw'}"
         [modal]="true" [(visible)]="showDialog">
-        <span style="font-size: 16px;color: #898989;"> <i class="pi pi-exclamation-triangle"></i> {{msgOfClosing}}</span>
-         <p-footer> 
+        <span style="font-size: 16px;color: #898989;"> <i class="pi pi-exclamation-triangle"></i>
+          {{msgOfClosing}}</span>
+        <p-footer>
           <div class="ui-g-12 ui-md-12 dashboard">
             <div class="ui-g-8"></div>
             <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="Yes"
-             (click)="saveClosingDate()"></button>
+              (click)="saveClosingDate()"></button>
             <button class="ui-g-3 no-pad-top no-pad-bottom" type="button" pButton label="No"
               (click)="showDialog = false;blockScreen = false;"></button>
           </div>
-         </p-footer>
+        </p-footer>
       </p-dialog>
       <form #f="ngForm" name="form">
         <div class="ui-g-12 no-pad-top border-teal">
@@ -49,10 +50,9 @@
             </div>
             <div class="form-group ui-g-6 ui-md-2 no-pad-top">
               <label class="ui-g-7 label-fontsize dashboard" for="CurrYr">Current Year</label>
-              <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" 
-              (keyup.shift.tab)="onSelect('cy')" (keyup.tab)="onSelect('cy')"
-                (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true" filterMatchMode="contains"
-                name="CurrYr" [readonly]="nonEditable">
+              <p-dropdown #curr_yr [options]="currYearOptions" [(ngModel)]="CurrYear" (keyup.shift.tab)="onSelect('cy')"
+                (keyup.tab)="onSelect('cy')" (onChange)="onSelect('cy')" filter="true" resetFilterOnHide="true"
+                filterMatchMode="contains" name="CurrYr" [readonly]="nonEditable">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -104,10 +104,11 @@
               <input type="text" minlength="3" maxlength="3" name="FormationNo" [readonly]="nonEditable"
                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
                 (input)="calculateStackNo()" [(ngModel)]="Formation" size="20" pInputText autocomplete="off" required>
-                <div *ngIf="showErrMsg">
-                  <span style="font-size: 12px; color:crimson;">Formarion No should be 3 digits!</span>
-                </div>
-                <div *ngIf="!showErrMsg" class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No 001 OR 028 OR 523</div>
+              <div *ngIf="showErrMsg">
+                <span style="font-size: 12px; color:crimson;">Formarion No should be 3 digits!</span>
+              </div>
+              <div *ngIf="!showErrMsg" class="label-fontsize" style="color: black; font-size: 11px">Sample Formation No
+                001 OR 028 OR 523</div>
             </div>
             <div class="form-group ui-g-12 ui-md-2 no-pad-top">
               <label class="ui-g-12 label-fontsize dashboard" for="StackNumber">Stack No</label>
@@ -118,7 +119,8 @@
               <label class="ui-g-12 label-fontsize dashboard" for="NoOfBags">Bags</label>
               <input type="text" name="NoOfBags" [(ngModel)]="Bags" pInputText autocomplete="off"
                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
-                onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" [readonly]="allowInput" required>
+                onKeyDown="if(this.value.length==11 && event.keyCode!=8) return false;" [readonly]="allowInput"
+                required>
             </div>
             <div class="form-group ui-g-6 ui-md-2 no-pad-top">
               <label class="ui-g-12 label-fontsize dashboard" for="Kgs">Qty(Kgs/Nos)</label>
@@ -138,7 +140,7 @@
             </div>
             <div *ngIf="(nonEditable && ClosingBalance!=null)" class="ui-g-2" style="vertical-align: bottom;">
               <label for="CBalance" class="ui-g-12 label-fontsize dashboard">Closing Balance</label>
-              <input type="text" name="CBalance" [(ngModel)]="ClosingBalance" pInputText [readonly]="true" >
+              <input type="text" name="CBalance" [(ngModel)]="ClosingBalance" pInputText [readonly]="true">
             </div>
           </div>
           <div class="ui-g-12 dashboard">
@@ -165,11 +167,13 @@
             [paginator]="true" [loading]="loading">
             <ng-template pTemplate="header" let-columns>
               <tr style="text-align: center;">
+                <th>S.No</th>
                 <th *ngFor="let col of columns">
                   {{col.header}}
                 </th>
               </tr>
               <tr>
+                <th></th>
                 <th *ngFor="let col of columns" [ngSwitch]="col.field">
                   <input class="ui-g-12 ui-md-12" *ngSwitchCase="'StackNo'" pInputText type="text"
                     [(ngModel)]="searchText" pInputText placeholder="Search by StackNo"
@@ -177,8 +181,9 @@
                 </th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
               <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect($event, rowData)">
+                <td>{{rowIndex + 1 | number}}</td>
                 <td *ngFor="let col of columns">
                   <div *ngIf="col.field=='StackBalanceBags' || col.field=='StackBalanceWeight' || col.field=='CurYear'">
                     <div style="text-align: end !important">

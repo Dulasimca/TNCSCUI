@@ -9,13 +9,18 @@
         </p-header>
         <div class="ui-g">
             <p-toast position="top-center" [modal]="true" key="t-err"></p-toast>
+            <div class="ui-g-6 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard">Date</label>
+                <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="Date" [showIcon]="true" [maxDate]="maxDate"
+                    dateFormat="dd/mm/yy" (ngModelChange)="onLoadCBData()"></p-calendar>
+            </div>
             <div class="ui-g-12 ui-md-12 border-blue">
                 <div class="ui-g-12 no-pad-top" style="color: #18c5a9;text-decoration: underline;">CB Comparison
                     Statement Details
                     <button class="ui-g-1 dashboard inline-margin" style="float: right;" pButton label="Excel"
                         icon="pi pi-download" (click)="dt.exportCSV()" [disabled]="(CBData.length=='0')"></button>
                 </div>
-                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <div class="ui-g-12 ui-md-12 ui-lg-12 no-pad-top">
                     <p-table #dt [value]="CBData" [columns]="CBCols" [rows]="20" [style]="{'font-size': '0.93em'}"
                         [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [autoLayout]="true"
                         [responsive]="true" [loading]="loading" exportFilename="CB_COMPARISON_STATEMENT_REPORT"

@@ -134,6 +134,12 @@ import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.c
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
 import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
 import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gstcommoditymaster.component';
+import { HoqtypurchaseComponent } from './hoqtyacc/hoqtypurchase/hoqtypurchase.component';
+import { AuthService } from './shared-services/auth.service';
+import { HoqtyfreereceiptComponent } from './hoqtyacc/hoqtyfreereceipt/hoqtyfreereceipt.component';
+import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty-other-receipt.component';
+import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
+import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -269,7 +275,12 @@ const routes: Routes = [
   { path: 'Hoqtyabstractrep', component: HoqtyabstractrepComponent, canActivate: [AuthGuard] },
   { path: 'TransferOBToHOQty', component: TransferOpeningBalanceToHOQtyComponent, canActivate: [AuthGuard] },
   { path: 'CBFromTNDaily', component: CBComparsionStatementComponent, canActivate: [AuthGuard] },
-  { path: 'Gstcommoditymaster', component: GstcommoditymasterComponent, canActivate: [AuthGuard] },  
+  { path: 'Gstcommoditymaster', component: GstcommoditymasterComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtypurchase', component: HoqtypurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyfreereceipt', component: HoqtyfreereceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyotherreceipt', component: HoqtyOtherReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyfreeissue', component: HoqtyFreeIssuesComponent, canActivate: [AuthGuard] },
+  { path: 'Hoqtyotherissue', component: HoqtyOtherIssuesComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

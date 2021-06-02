@@ -582,7 +582,6 @@ export class TableConstants {
     ];
 
     this.StackCardOpeningEntryReport = [
-      { field: 'SlNo', header: 'S.No' },
       { field: 'CommodityName', header: 'Commodity' },
       { field: 'StackNo', header: 'Stack No' },
       { field: 'StackBalanceBags', header: 'Bags' },

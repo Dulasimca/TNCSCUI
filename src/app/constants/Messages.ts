@@ -61,4 +61,10 @@ export class StatusMessage {
     public static readonly SalesDataCleared = 'No uncleared data is been found! Proceed with View';
     public static readonly TransferSuccessMsg = 'Transferred Successfully !';
     public static readonly GstDataDelete = 'GST Data Deleted Successfully !';
+    public static readonly HoQtyTotalPurchase = 'Total Purchase is not available, Please submit entry in Ho Abstract !';
+    public static readonly HoQtyTotalFreeRice = 'Total Free Rice is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalOtherRice = 'Total Other Rice is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalFreeIssue = 'Total Free Issue is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalOtherIssue = 'Total Other Issue is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalSales = 'Total Sales is not available, Please submit entry in Ho Abstract !'
 }

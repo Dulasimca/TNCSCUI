@@ -9,6 +9,7 @@ import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { NgForm } from '@angular/forms';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-stack-card-opening-entry',
@@ -63,6 +64,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
   showErrMsg: boolean = false;
   Tycode: any;
   @ViewChild('f', { static: false }) ngForm: NgForm;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
     private datepipe: DatePipe, private restAPIService: RestAPIService,
@@ -115,8 +117,8 @@ export class StackCardOpeningEntryComponent implements OnInit {
     this.restAPIService.getByParameters(PathConstants.DEPOSITOR_TYPE_MASTER, params).subscribe((res: any) => {
       if (res !== null && res !== undefined && res.length !== 0) {
         res.forEach(t => {
-          if(t.TYTransaction === 'D') {
-          typeList.push({ 'label': t.Tyname, 'value': t.Tycode });
+          if (t.TYTransaction === 'D') {
+            typeList.push({ 'label': t.Tyname, 'value': t.Tycode });
           }
         });
         this.typeOptions = typeList;
@@ -132,7 +134,7 @@ export class StackCardOpeningEntryComponent implements OnInit {
       this.showErrMsg = (formationNo !== undefined && formationNo !== null) ? ((formationNo.length < 3) ? true : false) : false;
       this.StackNo = this.Location.toString().toUpperCase() + "/" + ((formationNo !== undefined && formationNo !== null) ?
         ((formationNo.toString().length === 1) ? ('00' + formationNo) : ((formationNo.toString().length === 2) ? ('0' + formationNo)
-        : formationNo)) : '');
+          : formationNo)) : '');
       this.StackNo = this.StackNo.replace("//", "/");
       if (this.StackNo !== undefined && this.stackOpeningData.length !== 0) {
         this.stackOpeningData.forEach(x => {
@@ -280,11 +282,11 @@ export class StackCardOpeningEntryComponent implements OnInit {
               this.CDate = null;
             } else {
               res.forEach(x => {
-                if(x.AckDate !== 'Total') {
+                if (x.AckDate !== 'Total') {
                   this.ClosingDate = this.datepipe.transform(x.SDate, 'dd/MM/yyyy');
                   this.CDate = this.datepipe.transform(x.SDate, 'MM/dd/yyyy');
                   this.ClosingBalance = ((x.ClosingBalance * 1) > 0) ?
-                   (x.ClosingBalance * 1).toFixed(3) : (x.ClosingBalance * 1);
+                    (x.ClosingBalance * 1).toFixed(3) : (x.ClosingBalance * 1);
                   this.activateLoader = false;
                 }
               });
@@ -325,21 +327,21 @@ export class StackCardOpeningEntryComponent implements OnInit {
   }
 
   onView() {
+    if (this.table !== undefined) {
+      this.table.reset();
+    }
     if (this.CurrYear !== undefined && this.CurrYear !== null && this.GCode !== null
       && this.GCode !== undefined) {
+      this.stackOpeningData = [];
       this.loading = true;
-      this.stackOpeningData.length = 0;
       const params = new HttpParams().set('ICode', this.ICode).append('GCode', this.GCode).append('CurYear', this.CurrYear);
       this.restAPIService.getByParameters(PathConstants.STACK_OPENING_ENTRY_REPORT_GET, params).subscribe((res: any) => {
         if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
           this.openView = true;
           this.stackOpeningCols = this.tableConstants.StackCardOpeningEntryReport;
           this.loading = false;
-          let sno = 0;
           res.Table.forEach(i => {
-            sno += 1;
             this.stackOpeningData.push({
-              SlNo: sno,
               RowId: i.RowId,
               ObStackDate: this.datepipe.transform(i.ObStackDate, 'dd-MM-yyyy'),
               StackDate: i.ObStackDate,
@@ -502,9 +504,9 @@ export class StackCardOpeningEntryComponent implements OnInit {
       });
       this.onClear();
     } else {
-      this.msgOfClosing = ((this.ClosingBalance * 1) > 0) ? 
-      (this.StackNo + '  has closing balance of ' + this.ClosingBalance + '. Do you still want to close this card ?')
-      : (this.StackNo + ' Do you want to close this card ?');
+      this.msgOfClosing = ((this.ClosingBalance * 1) > 0) ?
+        (this.StackNo + '  has closing balance of ' + this.ClosingBalance + '. Do you still want to close this card ?')
+        : (this.StackNo + ' Do you want to close this card ?');
       this.showDialog = true;
       this.blockScreen = false;
     }
