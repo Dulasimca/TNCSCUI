@@ -11,30 +11,30 @@
       </div>
     </p-header>
     <p-toast position="top-center" key="t-err" (onClose)="onClose()" [modal]="true"></p-toast>
-    
 
 
-    <div  class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
-      
-      
+
+    <div class="employee-main" style="max-width: 1000px; margin: 20px auto !important;">
+
+
       <div>
         <form #partyForm="ngForm" (ngSubmit)="onSubmit(formUser)">
           <div class="ui-g">
             <div class="ui-g-12 ui-md-3" style="padding-top: 22px">
               <div class="ui-float-label">
-                <input class="icon2" size="30" pInputText [(ngModel)]="CommodityCode" name="CommodityCode" autocomplete="off"
-                  readonly="true">
+                <input class="icon2" size="30" pInputText [(ngModel)]="CommodityCode" name="CommodityCode"
+                  autocomplete="off" readonly="true">
                 <label for="CommodityCode">CommodityCode</label>
               </div>
             </div>
             <div class="ui-g-12 ui-md-9" style="padding-top: 22px">
               <div class="ui-float-label">
-                <input class="icon2" size="30" pInputText [(ngModel)]="CommodityName" name="CommodityName" autocomplete="off"
-                  required>
+                <input class="icon2" size="30" pInputText [(ngModel)]="CommodityName" name="CommodityName"
+                  autocomplete="off" required>
                 <label for="CommodityName">CommodityName</label>
               </div>
             </div>
-            
+
           </div>
           <div class="ui-g">
             <div class="ui-g-12 ui-md-6">
@@ -44,25 +44,25 @@
                 <label for="HSNcode">HSNcode</label>
               </div>
             </div>
-            
+
             <div class="ui-g-12 ui-md-2">
               <div class="ui-float-label">
-                <input class="icon2" type="number" size="30" pInputText [(ngModel)]="TaxPercentage" name="Pincode"
-                  autocomplete="off" required>
+                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="TaxPercentage" name="Pincode"
+                  autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); 
+                  this.value = this.value.replace(/(\..*)\./g, '$1');" required>
                 <label for="16001">TaxPercentage</label>
               </div>
             </div>
           </div>
-         
+
           <div class="ui-g">
           </div>
-          
+
           <div class="ui-g">
-            
+
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onSubmit(formUser)" style="padding: 3px"
-                [disabled]="(!CommodityName || !TaxPercentage || !HSNcode )"
-                label=Add></button>
+                [disabled]="!partyForm.valid" label=Add></button>
             </div>
             <div class="ui-g-6 ui-md-2 ui-fluid">
               <button pButton type="button" (click)="onClear()" style="padding: 3px" label=Clear></button>
@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    
+
 
   </p-panel>
 </div>
