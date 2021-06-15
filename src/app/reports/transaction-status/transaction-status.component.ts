@@ -3,7 +3,7 @@ import { TableConstants } from 'src/app/constants/tableconstants';
 import { AuthService } from 'src/app/shared-services/auth.service';
 import { RoleBasedService } from 'src/app/common/role-based.service';
 import { SelectItem, MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { RestAPIService } from 'src/app/shared-services/restAPI.service';
 import { PathConstants } from 'src/app/constants/path.constants';
@@ -44,7 +44,10 @@ export class TransactionStatusComponent implements OnInit {
   gdata: any;
   godownOptions: SelectItem[];
   canShowMenu: boolean;
+  CBCols: any;
+  CBData: any = [];
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+  loading_cb: boolean;
 
 
   constructor(private tableConstants: TableConstants, private messageService: MessageService,
@@ -57,6 +60,7 @@ export class TransactionStatusComponent implements OnInit {
     this.gdata = this.roleBasedService.instance;
     this.roleId = JSON.parse(this.authService.getUserAccessible().roleId);
     this.userid = JSON.parse(this.authService.getCredentials());
+    this.CBCols = this.tableConstants.CBAllColumns;
   }
 
   onSelect(selectedItem, type) {
@@ -72,9 +76,6 @@ export class TransactionStatusComponent implements OnInit {
             godownSelection.push({ 'label': x.GName, 'value': x.GCode, 'RCode': x.RCode });
           });
           this.godownOptions = godownSelection;
-          // if (this.roleId !== 3) {
-          //   this.godownOptions.unshift({ label: 'All', value: 'All' });
-          // }
         }
         break;
     }
@@ -107,7 +108,7 @@ export class TransactionStatusComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
-            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+            summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecordForTransactionStatus
           });
         }
       }, (err: HttpErrorResponse) => {
@@ -125,31 +126,66 @@ export class TransactionStatusComponent implements OnInit {
 
   // For Grid
   onTable() {
-    this.loading = true;
-    this.TransactionStatusTableData = [];
-    if (this.roleId === 2) {
-      this.TransactionStatusCols = this.tableConstants.TransactionStatus;
-      const params = {
-        'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
-        'RCode': this.GCode.RCode,
-        'RoleId': this.roleId,
-        'Type': 2
-      };
-      this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
-        if (res !== undefined && res !== null && res.length !== 0 && this.godownOptions !== undefined) {
-          this.TransactionStatusTableData = res;
-          this.loading = false;
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.status === 0 || err.status === 400) {
-          this.loading = false;
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+    if (this.GCode !== null && this.GCode !== undefined && this.Docdate !== null && this.Docdate !== undefined) {
+      if (this.GCode.RCode !== null && this.GCode.RCode !== undefined && this.GCode.value !== null &&
+        this.GCode.value !== undefined) {
+        this.loading = true;
+        this.TransactionStatusTableData = [];
+        this.CBData.length = 0;
+        if (this.roleId === 2) {
+          this.TransactionStatusCols = this.tableConstants.TransactionStatus;
+          const params = {
+            'Docdate': this.datepipe.transform(this.Docdate, 'MM-dd-yyyy'),
+            'RCode': this.GCode.RCode,
+            'RoleId': this.roleId,
+            'Type': 2
+          };
+          this.restAPIService.post(PathConstants.TRANSACTION_STATUS_DETAILS_POST, params).subscribe((res: any) => {
+            if (res !== undefined && res !== null && res.length !== 0 && this.godownOptions !== undefined) {
+              this.TransactionStatusTableData = res;
+              this.loading = false;
+            }
+          }, (err: HttpErrorResponse) => {
+            if (err.status === 0 || err.status === 400) {
+              this.loading = false;
+              this.messageService.clear();
+              this.messageService.add({
+                key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+                summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+              });
+            }
           });
         }
-      });
+        const params = new HttpParams().set('Date', this.datepipe.transform(this.Docdate, 'MM/dd/yyyy'))
+          .append('GCode', this.GCode.value).append('RCode', this.GCode.RCode).append('RoleId', this.roleId);
+        this.restAPIService.getByParameters(PathConstants.CB_STATEMENT_REPORT, params).subscribe((response: any) => {
+          if (response !== undefined && response !== null && response.length !== 0) {
+            response.forEach(x => {
+              x.CEMENT_ALL = ((x.AMMA_CEMENT * 1) + (x.CEMENT_IMPORTED * 1) + (x.CEMENT_REGULAR * 1));
+              x.SALT_ALL = ((x.AMMA_SALT_CIS * 1) + (x.AMMA_SALT_DFS * 1) + (x.AMMA_SALT_LSS * 1) +
+                (x.AMMA_SALT_RFFIS * 1) + (x.SALT * 1) + (x.SALT_FF * 1));
+              x.RCode = this.GCode.RCode;
+              x.GCode = this.GCode.value;
+              x.StkDate = this.datepipe.transform(this.Docdate, 'MM/dd/yyyy');
+            })
+            this.CBData = response;
+            this.loading_cb = false;
+          } else {
+            this.messageService.clear();
+            this.messageService.add({
+              key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+              summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoCBDataFound
+            });
+            this.loading_cb = false;
+          }
+        }, (err: HttpErrorResponse) => {
+          if (err.status === 0 || err.status === 400) {
+            this.loading_cb = false;
+            this.messageService.clear();
+            this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+          }
+        })
+      }
     }
   }
 
@@ -157,16 +193,18 @@ export class TransactionStatusComponent implements OnInit {
     this.Receipt = this.Issues = this.Transfer = this.CB = this.GCode = this.Docdate =
       this.remarks = this.TransactionStatusTableData = null;
     this.loading = false;
+    this.loading_cb = false;
+    this.CBData.length = 0;
   }
 
-  onResetTable(item) {
-    this.Receipt = false;
-    this.Issues = false;
-    this.Transfer = false;
-    this.CB = false;
-    this.remarks = '';
-    if (item === 'date') { this.godownOptions = []; this.GCode = null; }
-  }
+  // onResetTable(item) {
+  //   this.Receipt = false;
+  //   this.Issues = false;
+  //   this.Transfer = false;
+  //   this.CB = false;
+  //   this.remarks = '';
+  //   if (item === 'date') { this.godownOptions = []; this.GCode = null; }
+  // }
 
   showTrue(e: any) {
     if (this.Receipt == true && this.Issues == true && this.Transfer == true && this.CB == true) {
@@ -212,7 +250,34 @@ export class TransactionStatusComponent implements OnInit {
         });
       }
     });
-    this.onClear();
+    this.onTransferCBToTnDaily();
+  }
+
+  onTransferCBToTnDaily() {
+    this.restAPIService.post(PathConstants.CB_TO_TNDAILY_POST, this.CBData[0]).subscribe(res => {
+      if (res) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.CBToTNDailyTransferSuccessMsg, life: 2800
+        });
+        this.onClear();
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
   }
 }
 

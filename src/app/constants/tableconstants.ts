@@ -166,6 +166,7 @@ export class TableConstants {
   hoqtyacabstractColumns: any;
   TransferOBToHOQtyColumns: any;
   FrozenPDSLiftmentGodownColumns: any;
+  CBAllColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -2207,6 +2208,27 @@ export class TableConstants {
       { header: 'CS Balance', field: 'CS' },
       { header: 'OB Date', field: 'ObDate' },
       { header: 'Cur Year', field: 'CurYear' },
+    ];
+
+    this.CBAllColumns = [
+      { header: 'PADDY_A', field: 'PADDY_A' },
+      { header: 'PADDY_COMMON', field: 'PADDY_COMMON' },
+      { header: 'RAW_RICE_A', field: 'RAW_RICE_A' },
+      { header: 'RAW_RICE_COMMON', field: 'RAW_RICE_COMMON' },
+      { header: 'BOILED_RICE_A', field: 'BOILED_RICE_A' },
+      { header: 'BOILED_RICE_COMMON', field: 'BOILED_RICE_COMMON' },
+      { header: 'MAIDA', field: 'MAIDA' },
+      { header: 'RAVA', field: 'RAVA' },
+      { header: 'SUGAR', field: 'SUGAR' },
+      { header: 'ATTA', field: 'SALT_ALL' },
+      { header: 'WHEAT', field: 'WHEAT' },
+      { header: 'CYL', field: 'Candian_Yellow_lentil_TD' },
+      { header: 'MAZOOR_DHALL', field: 'MAZOOR__DHALL' },
+      { header: 'TOOR_DHALL', field: 'TOOR_DHALL' },
+      { header: 'URID_DHALL', field: 'URID_DHALL' },
+      { header: 'PALMOLIEN_POUCH', field: 'PALMOLIEN_POUCH' },
+      { header: 'CEMENT', field: 'CEMENT_ALL' },
+      { header: 'MALIKAIPKT', field: 'TEA' },
     ];
   }
 }

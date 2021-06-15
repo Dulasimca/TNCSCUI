@@ -132,12 +132,13 @@ export class HoqtyfreereceiptComponent implements OnInit {
       'Trcode': this.Location.label,
       'Location': this.Location.value,
       'UserName': this.username.user,
+      'Type': 2
     }
     this.restApiService.getByParameters(PathConstants.HO_QTY_ABSRTACT_GET, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.TotalFreeRice = (res[0].FreeRice * 1);
         //actual purchase data view
-        this.restApiService.getByParameters(PathConstants.HO_QTY_FREE_RECEIPT_GET, params).subscribe(res => {
+        this.restApiService.getByParameters(PathConstants.HO_QTY_FECTH_ALL_TABLES_GET, params).subscribe(res => {
           if (res !== undefined && res.length !== 0 && res !== null) {
             this.RowId = res[0].HOQtyFreeReceiptID;
             this.NMP = res[0].NMP;
@@ -150,12 +151,12 @@ export class HoqtyfreereceiptComponent implements OnInit {
             this.TotalFreeRice = res[0].TotalFreeRice;
           } else {
             this.RowId = 0;
-            this.onClear(2);
             this.messageService.clear();
             this.messageService.add({
               key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
               summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
             });
+            this.onClear(2);
           }
         }, (err: HttpErrorResponse) => {
           if (err.status === 0 || err.status === 400) {
@@ -167,7 +168,7 @@ export class HoqtyfreereceiptComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalFreeRice, life: 5000
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalFreeReceipt, life: 5000
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -178,8 +179,16 @@ export class HoqtyfreereceiptComponent implements OnInit {
     })
   }
 
+  checkTotalTally(): boolean {
+    let total = 0;
+    total += ((this.Annapoorna * 1) + (this.ANB * 1) + (this.NMP * 1) + (this.SGRY * 1)
+      + (this.PmgkyAAY * 1) + (this.PmgkyPriority * 1) + (this.FortifiedKernels * 1));
+    return (total === (this.TotalFreeRice * 1)) ? true : false;
+  }
+
   onSave() {
     this.messageService.clear();
+    const isTally = this.checkTotalTally();
     const params = {
       HOQtyFreeReceiptID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -197,30 +206,38 @@ export class HoqtyfreereceiptComponent implements OnInit {
       FORTIFIED_KERNELS: this.FortifiedKernels,
       TotalFreeRice: this.TotalFreeRice,
     }
-    this.restApiService.post(PathConstants.HO_QTY_FREE_RECEIPT_POST, params).subscribe(res => {
-      if (res) {
-        this.onClear(1);
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
-        });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    });
+    if (isTally) {
+      this.restApiService.post(PathConstants.HO_QTY_FREE_RECEIPT_POST, params).subscribe(res => {
+        if (res) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+          });
+          this.onClear(1);
+        } else {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        }
+      });
+    } else {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalFreeReceiptNotTally, life: 3500
+      });
+    }
   }
 
   onClear(type) {

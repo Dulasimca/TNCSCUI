@@ -140,6 +140,7 @@ import { HoqtyfreereceiptComponent } from './hoqtyacc/hoqtyfreereceipt/hoqtyfree
 import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty-other-receipt.component';
 import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
 import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
+import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -276,11 +277,12 @@ const routes: Routes = [
   { path: 'TransferOBToHOQty', component: TransferOpeningBalanceToHOQtyComponent, canActivate: [AuthGuard] },
   { path: 'CBFromTNDaily', component: CBComparsionStatementComponent, canActivate: [AuthGuard] },
   { path: 'Gstcommoditymaster', component: GstcommoditymasterComponent, canActivate: [AuthGuard] },
-  { path: 'Hoqtypurchase', component: HoqtypurchaseComponent, canActivate: [AuthGuard] },
-  { path: 'Hoqtyfreereceipt', component: HoqtyfreereceiptComponent, canActivate: [AuthGuard] },
-  { path: 'Hoqtyotherreceipt', component: HoqtyOtherReceiptComponent, canActivate: [AuthGuard] },
-  { path: 'Hoqtyfreeissue', component: HoqtyFreeIssuesComponent, canActivate: [AuthGuard] },
-  { path: 'Hoqtyotherissue', component: HoqtyOtherIssuesComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtyPurchase', component: HoqtypurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtyFreeReceipt', component: HoqtyfreereceiptComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtyOtherReceipt', component: HoqtyOtherReceiptComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtyFreeIssue', component: HoqtyFreeIssuesComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtyOtherIssue', component: HoqtyOtherIssuesComponent, canActivate: [AuthGuard] },
+  { path: 'HoQtySales', component: HoqtySalesComponent, canActivate: [AuthGuard] },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

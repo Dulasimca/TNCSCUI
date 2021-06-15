@@ -1,1 +1,216 @@
-<p>hoqty-sales works!</p>
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+    <app-menu *ngIf="canShowMenu"></app-menu>
+    <p-panel>
+        <p-header>
+            <div class="ui-g panel-header">
+                <div class="ui-g-12 ui-md-12 dashboard" style="text-align: center;">Head Office Quantity Account
+                    Free Issues</div>
+            </div>
+        </p-header>
+        <div class="ui-g">
+            <p-toast position="top-center" (onClose)="onClose()" [modal]="true" key="t-err"></p-toast>
+            <div class="ui-g-1"></div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard" for="rcode">Region</label>
+                <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode"
+                    (onClick)="onSelect('reg', 'click')" name="rcode" (keydown.enter)="onSelect('reg', 'enter')"
+                    filter="true" resetFilterOnHide="true" [showClear]="true" filterMatchMode="startsWith"
+                    placeholder="-select-">
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard" for="loc">Field Point</label>
+                <p-dropdown #loaction class="ui-g-12 ui-fluid dashboard" name="loc" [options]="locationOptions"
+                    [(ngModel)]="Location" (onClick)="onSelect('lc', 'click')" filter="true" [showClear]="true"
+                    placeholder="-select-" optionLabel="label" filterMatchMode="startsWith" resetFilterOnHide="true"
+                    (keydown.enter)="onSelect('lc', 'enter')" required>
+                </p-dropdown>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard" for="itcode">Commodity</label>
+                <p-dropdown #commodity class="ui-g-12 ui-fluid dashboard" [options]="commodityOptions"
+                    [(ngModel)]="ITCode" (onClick)="onSelect('cd', 'click')" (keydown.enter)="onSelect('cd', 'enter')"
+                    filter="true" filterMatchMode="startsWith" resetFilterOnHide="true" optionLabel="label"
+                    [showClear]="true" name="itcode" placeholder="-select-">
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span style="vertical-align:middle">{{item.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="ui-g-6 ui-md-2">
+                <label class="ui-g-7 label-fontsize dashboard">Select Month/Year</label>
+                <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="FromDate" view="month"
+                    [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker" dateFormat="mm/yy">
+                </p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-1 dashboard ">
+                <button class="ui-g-9 dashboard inline-margin" pButton type="button" label=View (click)="onView()"
+                    style="margin-top: 20%;" [disabled]="(!FromDate ||  !ITCode || !Location || !RCode)"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2 dashboard ">
+
+            </div>
+        </div>
+        <form #f="ngForm" name="hoQtySalesForm">
+            <p-panel>
+                <p-header>
+                    <div class="ui-g panel-header">
+                        <div class="ui-g-12 ui-md-4 dashboard">Sales Entry</div>
+                    </div>
+                </p-header>
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-1"></div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="CRS" name="crs_value"
+                                    autocomplete="off" required>
+                                <label for="crs_value">CRS</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="COOP"
+                                    name="coop_value" autocomplete="off" required>
+                                <label for="coop_value">COOP</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="SPLPDS_CRS"
+                                    name="splpds_value" autocomplete="off" required>
+                                <label for="splpds_value">SPLPDS CRS</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="SPLPDS_COOP"
+                                    name="splpds_coop_value" autocomplete="off" required>
+                                <label for="splpds_coop_value"> SPLPDS COOP</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="POLICE"
+                                    name="police_value" autocomplete="off" required>
+                                <label for="police_value">POLICE </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-1"></div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="PTMGR_NMP"
+                                    name="ptmgr_nmp_value" autocomplete="off" required>
+                                <label for="ptmgr_nmp_value">PTMGR NMP</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="BULK_QTY"
+                                    name="bulk_value" autocomplete="off" required>
+                                <label for="bulk_value">BULK</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="CREDIT"
+                                    name="credit_value" autocomplete="off" required>
+                                <label for="credit_value">CREDIT</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="ICDS"
+                                    name="icds_value" autocomplete="off" required>
+                                <label for="icds_value">ICDS</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="OAP" name="oap_value"
+                                    autocomplete="off" required>
+                                <label for="oap_value">OAP</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-1"></div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-1"></div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Srilanka"
+                                    name="srilanka_value" autocomplete="off" required>
+                                <label for="srilanka_value">Srilanka</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Flood"
+                                    name="flood_value" autocomplete="off" required>
+                                <label for="flood_value">Flood</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="TenderSales"
+                                    name="tender_sales_value" autocomplete="off" required>
+                                <label for="tender_sales_value">TenderSales</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="NPHH_SSR"
+                                    name="nphh_ssr_value" autocomplete="off" required>
+                                <label for="nphh_ssr_value">NPHH SSR</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="AAY" name="aay_value"
+                                    autocomplete="off" required>
+                                <label for="aay_value">AAY</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-1"></div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-1"></div>
+                        <div class="ui-g-12 ui-md-2">
+                            <div class="ui-float-label">
+                                <input class="icon2" type="text" size="30" pInputText [(ngModel)]="TotalSales"
+                                    name="total_sales_value" autocomplete="off" readonly="true" required
+                                    style="background-color: rgb(223, 217, 238);">
+                                <label for="total_sales_value">Total Sales</label>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-1"></div>
+                    </div>
+                </div>
+            </p-panel>
+        </form>
+        <div class="ui-g panel-header">
+            <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-5"></div>
+                <div class="ui-g-12 ui-md-1 dashboard">
+                    <button class="ui-g-9 dashboard inline-margin" pButton type="button" label=Save (click)="onSave()"
+                        [disabled]="(!FromDate || !ITCode || !Location  || !RCode ||!f.valid || !f.dirty)">
+                    </button>
+                </div>
+                <div class="ui-g-12 ui-md-1 dashboard">
+                    <button class="ui-g-9 dashboard inline-margin" pButton type="button" label=Clear
+                        (click)="onClear(1)" [disabled]="(!FromDate || !ITCode || !Location || !RCode)"></button>
+                </div>
+            </div>
+        </div>
+
+
+    </p-panel>
+</div>

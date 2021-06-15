@@ -1,4 +1,4 @@
-<!-- <app-header></app-header>
+<app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
     <app-menu *ngIf="canShowMenu"></app-menu>
     <p-panel>
@@ -69,9 +69,16 @@
                     <div class="ui-g-12 ui-md-1"></div>
                     <div class="ui-g-12 ui-md-2">
                         <div class="ui-float-label">
-                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="ToProcess"
-                                name="to_process_value" autocomplete="off" required>
-                            <label for="to_process_value">To Process</label>
+                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="ToProcessMRM"
+                                name="to_process_mrm_value" autocomplete="off" required>
+                            <label for="to_process_mrm_value">To Process MRM</label>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <div class="ui-float-label">
+                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="ToProcessHulling"
+                                name="to_process_hulling_value" autocomplete="off" required>
+                            <label for="to_process_hulling_value">To Process Hulling</label>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-2">
@@ -95,27 +102,28 @@
                             <label for="write_off_value">Write Off</label>
                         </div>
                     </div>
-                    <div class="ui-g-12 ui-md-2">
-                        <div class="ui-float-label">
-                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="ClPacking"
-                                name="cl_packing_value" autocomplete="off" required>
-                            <label for="cl_packing_value">CL/Packing</label>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-1"></div>
                     <div class="ui-g-12 ui-md-2">
                         <div class="ui-float-label">
-                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="VCBTBLG"
-                                name="vc_bt_blg_value" autocomplete="off" required>
-                            <label for="vc_bt_blg_value">VC/BT/BLG</label>
+                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="Packing"
+                                name="packing_value" autocomplete="off" required>
+                            <label for="packing_value">CL/Packing</label>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <div class="ui-float-label">
+                            <input class="icon2" type="text" size="30" pInputText [(ngModel)]="BLG" name="blg_value"
+                                autocomplete="off" required>
+                            <label for="blg_value">VC/BT/BLG</label>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-2">
                         <div class="ui-float-label">
                             <input class="icon2" type="text" size="30" pInputText [(ngModel)]="PurchaseReturn"
-                                name="purchase_kernels_value" autocomplete="off" required>
+                                name="purchase_return_value" autocomplete="off" required>
                             <label for="purchase_return_value">Purchase Return</label>
                         </div>
                     </div>
@@ -157,4 +165,4 @@
 
 
     </p-panel>
-</div> -->
+</div>

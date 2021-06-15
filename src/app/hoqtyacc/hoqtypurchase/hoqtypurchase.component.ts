@@ -138,12 +138,13 @@ export class HoqtypurchaseComponent implements OnInit {
       'Trcode': this.Location.label,
       'Location': this.Location.value,
       'UserName': this.username.user,
+      'Type': 1
     }
     this.restApiService.getByParameters(PathConstants.HO_QTY_ABSRTACT_GET, params).subscribe(res => {
       if (res !== undefined && res.length !== 0 && res !== null) {
         this.TotalPurchase = (res[0].PurchaseReceipt * 1);
         //actual purchase data view
-        this.restApiService.getByParameters(PathConstants.HO_QTY_PURCHASE_GET, params).subscribe(res => {
+        this.restApiService.getByParameters(PathConstants.HO_QTY_FECTH_ALL_TABLES_GET, params).subscribe(res => {
           if (res !== undefined && res.length !== 0 && res !== null) {
             this.RowId = res[0].HOQtyPurchaseID;
             this.ROPurchase = res[0].ROPurchase;
@@ -161,12 +162,12 @@ export class HoqtypurchaseComponent implements OnInit {
             this.Priority = res[0].PriorityQty;
           } else {
             this.RowId = 0;
-            this.onClear(2);
             this.messageService.clear();
             this.messageService.add({
               key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
               summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
             });
+            this.onClear(2);
           }
         }, (err: HttpErrorResponse) => {
           if (err.status === 0 || err.status === 400) {
@@ -189,8 +190,17 @@ export class HoqtypurchaseComponent implements OnInit {
     })
   }
 
+  checkTotalTally(): boolean {
+    let total = 0;
+    total += ((this.Levy * 1) + (this.NonLevy * 1) + (this.NPHS * 1) + (this.AAY * 1)
+      + (this.Seizure * 1) + (this.ICDS * 1) + (this.OMSS * 1) + (this.ROPurchase * 1)
+      + (this.Hostel * 1) + (this.HO * 1) + (this.TideOver * 1) + (this.Priority * 1));
+    return (total === (this.TotalPurchase * 1)) ? true : false;
+  }
+
   onSave() {
     this.messageService.clear();
+    const isTally = this.checkTotalTally();
     const params = {
       HOQtyPurchaseID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -213,30 +223,38 @@ export class HoqtypurchaseComponent implements OnInit {
       TotalPurchase: this.TotalPurchase,
       TideOver: this.TideOver
     }
-    this.restApiService.post(PathConstants.HO_QTY_PURCHASE_POST, params).subscribe(res => {
-      if (res) {
-        this.onClear(1);
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
-          summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
-        });
-      } else {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
-        });
-      }
-    });
+    if (isTally) {
+      this.restApiService.post(PathConstants.HO_QTY_PURCHASE_POST, params).subscribe(res => {
+        if (res) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS,
+            summary: StatusMessage.SUMMARY_SUCCESS, detail: StatusMessage.SuccessMessage
+          });
+          this.onClear(1);
+        } else {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+            summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          });
+        }
+      });
+    } else {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalPurchaseNotTally, life: 3500
+      });
+    }
   }
 
   onClear(type) {

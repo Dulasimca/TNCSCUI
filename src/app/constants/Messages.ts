@@ -62,9 +62,18 @@ export class StatusMessage {
     public static readonly TransferSuccessMsg = 'Transferred Successfully !';
     public static readonly GstDataDelete = 'GST Data Deleted Successfully !';
     public static readonly HoQtyTotalPurchase = 'Total Purchase is not available, Please submit entry in Ho Abstract !';
-    public static readonly HoQtyTotalFreeRice = 'Total Free Rice is not available, Please submit entry in Ho Abstract !'
-    public static readonly HoQtyTotalOtherRice = 'Total Other Rice is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalPurchaseNotTally = 'Total Purchase exceeds/lower than abstract !';
+    public static readonly HoQtyTotalFreeReceipt = 'Total Free Rice is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalFreeReceiptNotTally = 'Total Free Rice exceeds/lower than abstract !';
+    public static readonly HoQtyTotalOtherReceipt = 'Total Other Rice is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalOtherReceiptNotTally = 'Total Other Rice exceeds/lower than abstract !';
     public static readonly HoQtyTotalFreeIssue = 'Total Free Issue is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalFreeIssueNotTally = 'Total Free Issue exceeds/lower than abstract !';
     public static readonly HoQtyTotalOtherIssue = 'Total Other Issue is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalOtherIssueNotTally = 'Total Other Issue exceeds/lower than abstract !';
     public static readonly HoQtyTotalSales = 'Total Sales is not available, Please submit entry in Ho Abstract !'
+    public static readonly HoQtyTotalSalesTally = 'Total Sales exceeds/lower than abstract !';
+    public static readonly CBToTNDailyTransferSuccessMsg = 'CB data transferred to TN Daily successfully !';
+    public static readonly NoRecordForTransactionStatus = 'No Transaction Status records found for this combination !';
+    public static readonly NoCBDataFound = 'No CB data found for this combination !';
 }

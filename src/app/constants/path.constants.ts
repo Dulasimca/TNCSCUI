@@ -168,6 +168,7 @@ export class PathConstants {
   public static readonly CUSTOMER_MASTER = '';
   public static readonly QUOTATION_DETAILS_POST = '/api/QuotationDetails/Post';
   public static readonly PRODUCT_MASTER_DETAILS_POST = '/api/ProductTypeMaster/Post';
+  public static readonly CB_TO_TNDAILY_POST = '/api/CBToTNDaily/Post';
 
   //Inspection
   public static readonly INSPECTION_DETAILS_POST = '/api/AuditInception/Post';
@@ -206,11 +207,13 @@ export class PathConstants {
   public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_GET = '/api/TransferOBToHoQty/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_POST = '/api/TransferOBToHoQty/Post';
-  public static readonly HO_QTY_PURCHASE_GET = '/api/HOQtyPurchase/Get';
   public static readonly HO_QTY_PURCHASE_POST = '/api/HOQtyPurchase/Post';
-  public static readonly HO_QTY_FREE_RECEIPT_GET = '/api/HOQtyFreeReceipt/Get';
   public static readonly HO_QTY_FREE_RECEIPT_POST = '/api/HOQtyFreeReceipt/Post';
-
+  public static readonly HO_QTY_OTHER_RECEIPT_POST = '/api/HOQtyOtherReceipt/Post';
+  public static readonly HO_QTY_FREE_ISSUE_POST = '/api/HOQtyFreeIssues/Post';
+  public static readonly HO_QTY_OTHER_ISSUE_POST = '/api/HOQtyOtherIssues/Post';
+  public static readonly HO_QTY_SALES_POST = '/api/HOQtySales/Post';
+  public static readonly HO_QTY_FECTH_ALL_TABLES_GET = '/api/HOQtyAllFormFetch/Get';
 
   //Allotment Module
   public static readonly ALLOTMENT_COMMODITY_MASTER = '/api/AllotmentCommodityMaster';
