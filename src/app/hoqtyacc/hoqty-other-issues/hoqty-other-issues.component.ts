@@ -183,17 +183,21 @@ export class HoqtyOtherIssuesComponent implements OnInit {
     })
   }
 
-  checkTotalTally(): boolean {
+  checkTotalTally() {
     let total = 0;
     total += ((this.ToProcessMRM * 1) + (this.ToProcessHulling * 1) + (this.WithinRegion * 1)
       + (this.WriteOff * 1) + (this.Packing * 1) + (this.BLG * 1) + (this.PurchaseReturn * 1)
       + (this.OtherIssues * 1) + (this.OtherRegion * 1));
-    return (total === (this.TotalOtherIssue * 1)) ? true : false;
+    return {
+      'isTally': (total === (this.TotalOtherIssue * 1)) ? true : false,
+      'Total': total
+    };
   }
 
   onSave() {
     this.messageService.clear();
-    const isTally = this.checkTotalTally();
+    const isTally = this.checkTotalTally().isTally;
+    const current_total = this.checkTotalTally().Total;
     const params = {
       HOQtyOtherIssueID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -242,7 +246,8 @@ export class HoqtyOtherIssuesComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({
         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalOtherIssueNotTally, life: 3500
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalOtherIssueNotTally + ' Current Total is- ' + current_total,
+        life: 4000
       });
     }
   }

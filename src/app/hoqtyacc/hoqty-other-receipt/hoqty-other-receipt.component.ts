@@ -183,17 +183,21 @@ export class HoqtyOtherReceiptComponent implements OnInit {
     })
   }
 
-  checkTotalTally(): boolean {
+  checkTotalTally() {
     let total = 0;
     total += ((this.FromMrm * 1) + (this.FromHulling * 1) + (this.WithinRegion * 1)
       + (this.Excess * 1) + (this.Packing * 1) + (this.Blg * 1) + (this.SalesReturn * 1)
       + (this.Others * 1) + (this.OtherRegion * 1));
-    return (total === (this.TotalOtherReceipt * 1)) ? true : false;
+    return {
+      'isTally': (total === (this.TotalOtherReceipt * 1)) ? true : false,
+      'Total': total
+    };
   }
 
   onSave() {
     this.messageService.clear();
-    const isTally = this.checkTotalTally();
+    const isTally = this.checkTotalTally().isTally;
+    const current_total = this.checkTotalTally().Total;
     const params = {
       HOQtyOtherReceiptID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -242,7 +246,8 @@ export class HoqtyOtherReceiptComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({
         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalOtherReceiptNotTally, life: 3500
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalOtherReceiptNotTally + ' Current Total is- ' + current_total,
+        life: 4000
       });
     }
   }

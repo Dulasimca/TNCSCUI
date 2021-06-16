@@ -2220,7 +2220,7 @@ export class TableConstants {
       { header: 'MAIDA', field: 'MAIDA' },
       { header: 'RAVA', field: 'RAVA' },
       { header: 'SUGAR', field: 'SUGAR' },
-      { header: 'ATTA', field: 'SALT_ALL' },
+      { header: 'SALT', field: 'SALT_ALL' },
       { header: 'WHEAT', field: 'WHEAT' },
       { header: 'CYL', field: 'Candian_Yellow_lentil_TD' },
       { header: 'MAZOOR_DHALL', field: 'MAZOOR__DHALL' },
@@ -2228,7 +2228,7 @@ export class TableConstants {
       { header: 'URID_DHALL', field: 'URID_DHALL' },
       { header: 'PALMOLIEN_POUCH', field: 'PALMOLIEN_POUCH' },
       { header: 'CEMENT', field: 'CEMENT_ALL' },
-      { header: 'MALIKAIPKT', field: 'TEA' },
+      { header: 'TEA', field: 'TEA' },
     ];
   }
 }

@@ -190,17 +190,21 @@ export class HoqtypurchaseComponent implements OnInit {
     })
   }
 
-  checkTotalTally(): boolean {
+  checkTotalTally() {
     let total = 0;
     total += ((this.Levy * 1) + (this.NonLevy * 1) + (this.NPHS * 1) + (this.AAY * 1)
       + (this.Seizure * 1) + (this.ICDS * 1) + (this.OMSS * 1) + (this.ROPurchase * 1)
       + (this.Hostel * 1) + (this.HO * 1) + (this.TideOver * 1) + (this.Priority * 1));
-    return (total === (this.TotalPurchase * 1)) ? true : false;
+    return {
+      'isTally': (total === (this.TotalPurchase * 1)) ? true : false,
+      'Total': total
+    };
   }
 
   onSave() {
     this.messageService.clear();
-    const isTally = this.checkTotalTally();
+    const isTally = this.checkTotalTally().isTally;
+    const current_total = this.checkTotalTally().Total;
     const params = {
       HOQtyPurchaseID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -252,7 +256,8 @@ export class HoqtypurchaseComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({
         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalPurchaseNotTally, life: 3500
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalPurchaseNotTally + ' Current Total is- ' + current_total,
+        life: 4000
       });
     }
   }

@@ -179,17 +179,21 @@ export class HoqtyFreeIssuesComponent implements OnInit {
     })
   }
 
-  checkTotalTally(): boolean {
+  checkTotalTally() {
     let total = 0;
     total += ((this.NMP * 1) + (this.SGRY * 1) + (this.Annapoorna * 1)
       + (this.PmgkyPriority * 1) + (this.PmgkyAAY * 1) + (this.ANB * 1)
       + (this.FortifiedKernels * 1));
-    return (total === (this.TotalFreeRice * 1)) ? true : false;
+    return {
+      'isTally': (total === (this.TotalFreeRice * 1)) ? true : false,
+      'Total': total
+    };
   }
 
   onSave() {
     this.messageService.clear();
-    const isTally = this.checkTotalTally();
+    const isTally = this.checkTotalTally().isTally;
+    const current_total = this.checkTotalTally().Total;
     const params = {
       HOQtyFreeIssueID: this.RowId,
       Qtymonth: this.datePipe.transform(this.FromDate, 'MM'),
@@ -236,7 +240,8 @@ export class HoqtyFreeIssuesComponent implements OnInit {
       this.messageService.clear();
       this.messageService.add({
         key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalFreeIssueNotTally, life: 3500
+        summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.HoQtyTotalFreeIssueNotTally + ' Current Total is- ' + current_total,
+        life: 4000
       });
     }
   }
