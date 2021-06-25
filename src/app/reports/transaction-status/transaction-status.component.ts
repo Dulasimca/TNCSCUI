@@ -164,6 +164,10 @@ export class TransactionStatusComponent implements OnInit {
               x.CEMENT_ALL = ((x.AMMA_CEMENT * 1) + (x.CEMENT_IMPORTED * 1) + (x.CEMENT_REGULAR * 1));
               x.SALT_ALL = ((x.AMMA_SALT_CIS * 1) + (x.AMMA_SALT_DFS * 1) + (x.AMMA_SALT_LSS * 1) +
                 (x.AMMA_SALT_RFFIS * 1) + (x.SALT * 1) + (x.SALT_FF * 1));
+              x.BOILED_RICE_A = (x.BOILED_RICE_A_HULLING * 1) + (x.BOILED_RICE_A * 1);
+              x.BOILED_RICE_COMMON = (x.BOILED_RICE_C_HULLING * 1) + (x.BOILED_RICE_COMMON * 1);
+              x.RAW_RICE_A = (x.RAW_RICE_A * 1) + (x.RAW_RICE_A_HULLING * 1);
+              x.RAW_RICE_COMMON = (x.RAW_RICE_COMMON * 1) + (x.RAW_RICE_COM_HULLING * 1);
               x.RCode = this.GCode.RCode;
               x.GCode = this.GCode.value;
               x.StkDate = this.datepipe.transform(this.Docdate, 'MM/dd/yyyy');
