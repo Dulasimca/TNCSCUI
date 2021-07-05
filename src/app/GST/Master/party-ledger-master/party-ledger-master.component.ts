@@ -69,9 +69,14 @@ export class PartyLedgerMasterComponent implements OnInit {
   Address2: any;
   Pincode: any;
   onDrop: boolean = false;
+  CompanyTitleCols: any;
+  CompanyTitleData: any = [];
+  showPane: boolean;
+  CompanyGlobal: any = [];
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('active', { static: false }) activePanel: Dropdown;
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
+
 
   constructor(private authService: AuthService, private fb: FormBuilder, private datepipe: DatePipe, private messageService: MessageService,
     private tableConstant: TableConstants, private roleBasedService: RoleBasedService, private restApiService: RestAPIService) { }
@@ -247,6 +252,58 @@ export class PartyLedgerMasterComponent implements OnInit {
       }
     }
   }
+
+  onCompany() {
+    this.loading = true;
+    const params = {
+      'RCode': this.RCode,
+      'Type': 2
+    };
+    this.CompanyTitleCols = this.tableConstant.PartyName;
+    this.restApiService.getByParameters(PathConstants.PARTY_MASTER, params).subscribe(res => {
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.CompanyTitleData = res;
+        this.CompanyGlobal = res.slice(0);
+        this.showPane = true;
+        // this.onDrop = false;
+        this.loading = false;
+        let sno = 0;
+        this.CompanyTitleData.forEach(s => {
+          sno += 1;
+          s.SlNo = sno;
+        });
+      } else {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_WARNING,
+          summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.NoRecForCombination
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+        });
+      }
+    });
+  }
+
+  onSearchParty(value) {
+    this.CompanyTitleData = this.CompanyGlobal;
+    if (value !== undefined && value !== '') {
+      value = value.toString().toUpperCase();
+      this.CompanyTitleData = this.CompanyGlobal.filter(item => {
+        return item.PartyName.startsWith(value) || item.TIN.toString().startsWith(value);
+      });
+    } else {
+      this.CompanyTitleData = this.CompanyGlobal;
+    }
+  }
+
 
   onFormClear() {
     this.Partyname = this.PartyCode = this.Favour = this.Account = this.Bank = this.Branch = this.IFSC = this.LedgerID = undefined;

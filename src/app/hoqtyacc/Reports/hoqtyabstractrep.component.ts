@@ -17,7 +17,7 @@ import * as _ from 'lodash';
   styleUrls: ['./hoqtyabstractrep.component.css']
 })
 export class HoqtyabstractrepComponent implements OnInit {
-  
+
   hoqtyacabstractData: any = [];
   hoqtyacabstractCols: any;
   fromDate: any = new Date();
@@ -43,7 +43,7 @@ export class HoqtyabstractrepComponent implements OnInit {
   formUser = [];
   loggedInRCode: any;
   RowId: any;
- 
+
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('commodity', { static: false }) commodityPanel: Dropdown;
@@ -60,11 +60,11 @@ export class HoqtyabstractrepComponent implements OnInit {
     this.regions = this.roleBasedService.getRegions();
     this.loggedInRCode = this.authService.getUserAccessible().rCode;
     this.maxDate = new Date();
-    this.yearRange = (this.maxDate.getFullYear() - 1) + ':' + this.maxDate.getFullYear();    
+    this.yearRange = (this.maxDate.getFullYear() - 1) + ':' + this.maxDate.getFullYear();
     this.username = JSON.parse(this.authService.getCredentials());
-  
+
     this.RowId = 0;
- 
+
     this.hoqtyacabstractCols = this.tableConstants.hoqtyacabstractColumns;
 
   }
@@ -117,11 +117,11 @@ export class HoqtyabstractrepComponent implements OnInit {
         }
         break;
       case 'tr':
-          if (type === 'tab') {
-            this.transactionPanel.overlayVisible = true;
-          }
-          this.transactionOptions = [ { label: 'All', value: 'All' },{ label:'NON-SCM', value: 'NON-SCM' },           
-          { label: 'DPC', value: 'DPC' }, { label:'CRS', value: 'CRS' },{ label: 'DefunctGdn', value: 'DefunctGdn' }];
+        if (type === 'tab') {
+          this.transactionPanel.overlayVisible = true;
+        }
+        this.transactionOptions = [{ label: 'All', value: 'All' }, { label: 'NON-SCM', value: 'NON-SCM' },
+        { label: 'DPC', value: 'DPC' }, { label: 'CRS', value: 'CRS' }, { label: 'DefunctGdn', value: 'DefunctGdn' }];
         break;
       case 'cd':
         if (type === 'enter') { this.commodityPanel.overlayVisible = true; }
@@ -151,17 +151,17 @@ export class HoqtyabstractrepComponent implements OnInit {
       'RCode': this.RCode,
       'ITCode': this.ITCode.value,
       'Trcode': this.Trcode.value,
-     
+      'Type': 1
     };
     this.restAPIService.getByParameters(PathConstants.HO_QTY_ABSRTACTREP_GET, params).subscribe(res => {
-      if (res !== undefined && res !== null && res.length !== 0) {  
-        this.loading = false;  
-        this.hoqtyacabstractData = res;        
-        let sno = 0;        
-        this.hoqtyacabstractData.forEach(s => {     
+      if (res !== undefined && res !== null && res.length !== 0) {
+        this.loading = false;
+        this.hoqtyacabstractData = res;
+        let sno = 0;
+        this.hoqtyacabstractData.forEach(s => {
           sno += 1;
           s.SlNo = sno;
-        });     
+        });
       } else {
         this.loading = false;
         this.messageService.clear();
@@ -184,33 +184,35 @@ export class HoqtyabstractrepComponent implements OnInit {
 
   onDateSelect() {
     this.checkValidDateSelection();
-   this.onResetTable('');
+    this.onResetTable('');
   }
 
-   checkValidDateSelection() {
-    if (this.fromDate !== undefined &&  this.fromDate !== '' ) {         
-      
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.fromDate !== '') {
+
       let selectedFromYear = this.fromDate.getFullYear();
-      let todaydate =   new Date();
+      let todaydate = new Date();
       let curyear = todaydate.getFullYear();
-     
-     
+
+
       if ((selectedFromYear > curyear)) {
         this.messageService.clear();
-        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, 
-        summary: StatusMessage.SUMMARY_INVALID, 
-        life:5000, detail: StatusMessage.ValidDateErrorMessage });
-        
+        this.messageService.add({
+          key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
+          summary: StatusMessage.SUMMARY_INVALID,
+          life: 5000, detail: StatusMessage.ValidDateErrorMessage
+        });
+
       }
       return this.fromDate
     }
-  }  
- 
-  onResetTable(item) {    
+  }
+
+  onResetTable(item) {
     this.loading = false;
   }
   onClose() {
     this.messageService.clear('t-err');
   }
- 
+
 }

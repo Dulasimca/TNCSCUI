@@ -141,6 +141,7 @@ import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty
 import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
 import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
 import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
+import { HoqtyComponent } from './reports/hoqty/hoqty.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -283,6 +284,17 @@ const routes: Routes = [
   { path: 'HoQtyFreeIssue', component: HoqtyFreeIssuesComponent, canActivate: [AuthGuard] },
   { path: 'HoQtyOtherIssue', component: HoqtyOtherIssuesComponent, canActivate: [AuthGuard] },
   { path: 'HoQtySales', component: HoqtySalesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'HoQty',
+    children: [
+      { path: 'freereceipt', component: HoqtyComponent, data: { kind: 'freereceipt' } },
+      { path: 'otherreceipt', component: HoqtyComponent, data: { kind: 'otherreceipt' } },
+      { path: 'freeissue', component: HoqtyComponent, data: { kind: 'freeissue' } },
+      { path: 'otherissue', component: HoqtyComponent, data: { kind: 'otherissue' } },
+      { path: 'purchase', component: HoqtyComponent, data: { kind: 'purchase' } },
+      { path: 'sales', component: HoqtyComponent, data: { kind: 'sales' } },
+    ]
+  },
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

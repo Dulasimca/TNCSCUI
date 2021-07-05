@@ -12,7 +12,6 @@ import { saveAs } from 'file-saver';
 import { TableConstants } from 'src/app/constants/tableconstants';
 import * as _ from 'lodash';
 import { Table } from 'primeng/table';
-import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-allotment-details',

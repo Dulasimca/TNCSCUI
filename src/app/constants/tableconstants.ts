@@ -167,6 +167,12 @@ export class TableConstants {
   TransferOBToHOQtyColumns: any;
   FrozenPDSLiftmentGodownColumns: any;
   CBAllColumns: any;
+  HOQtyPurchaseColumns: any;
+  HOQtySalesColumns: any;
+  HOQtyFreeReceiptColumns: any;
+  HOQtyFreeIssueColumns: any;
+  HOQtyOtherReceiptColumns: any;
+  HOQtyOtherIssueColumns: any;
 
   constructor() {
     this.DailyStockStatement = [
@@ -2197,6 +2203,130 @@ export class TableConstants {
       { header: 'Actuals', field: 'ActualBalance' },
 
     ];
+
+    this.HOQtyFreeReceiptColumns = [
+      { header: 'Month', field: 'QtyMonth', width: '60px !important' },
+      { header: 'Year', field: 'QtyYear', width: '60px !important' },
+      { header: 'Region Name', field: 'RGNAME', width: '110px !important' },
+      { header: 'Location', field: 'Location', width: '80px !important' },
+      { header: 'Commodity', field: 'ITDESCRIPTION', width: '165px !important' },
+      { header: 'NMP', field: 'NMP', width: '60px !important' },
+      { header: 'SGRY', field: 'SGRY', width: '60px !important' },
+      { header: 'ANNA POORNA', field: 'ANNAPOORNA', width: '230px !important' },
+      { header: 'PMGKY AAY', field: 'PMGKY_AAY', width: '230px !important' },
+      { header: 'PMGKY PRIORITY', field: 'PMGKY_PRIORITY', width: '275px !important' },
+      { header: 'ANB', field: 'ANB', width: '50px !important' },
+      { header: 'FORTIFIED KERNELS', field: 'FORTIFIED_KERNELS', width: '260px !important' },
+      { header: 'Total FreeRice', field: 'TotalFreeRice', width: '260px !important' },
+      { header: 'Created Date', field: 'CreatedDate', width: '100px !important' }
+    ];
+
+    this.HOQtyOtherReceiptColumns = [
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'From MRM', field: 'FromMRM' },
+      { header: 'From Hulling', field: 'FromHulling' },
+      { header: 'Within Region', field: 'WithinRegion' },
+      { header: 'Other Region', field: 'OtherRegion' },
+      { header: 'Excess', field: 'Excess' },
+      { header: 'Packing', field: 'Packing' },
+      { header: 'BLG', field: 'BLG' },
+      { header: 'Sales Return', field: 'SalesReturn' },
+      { header: 'Others', field: 'Others' },
+      { header: 'Total Other Receipts', field: 'TotalOtherReceipts' },
+      { header: 'Created Date', field: 'CreatedDate' }
+    ];
+
+    this.HOQtyFreeIssueColumns = [
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'NMP', field: 'NMP' },
+      { header: 'SGRY', field: 'SGRY' },
+      { header: 'ANNA POORNA', field: 'ANNAPOORNA' },
+      { header: 'PMGKY AAY', field: 'PMGKY_AAY' },
+      { header: 'PMGKY PRIORITY', field: 'PMGKY_PRIORITY' },
+      { header: 'ANB', field: 'ANB' },
+      { header: 'FORTIFIED KERNELS', field: 'FORTIFIED_KERNELS' },
+      { header: 'Total FreeRice', field: 'TotalFreeRice' },
+      { header: 'Created Date', field: 'CreatedDate' }
+    ];
+
+    this.HOQtyOtherIssueColumns = [
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'ToProcess MRM', field: 'ToProcessMRM' },
+      { header: 'Within Region', field: 'WithinRegion' },
+      { header: 'Other Region', field: 'OtherRegion' },
+      { header: 'Write Off', field: 'WriteOff' },
+      { header: 'Packing', field: 'Packing' },
+      { header: 'BLG', field: 'BLG' },
+      { header: 'Purchase Return', field: 'PurchaseReturn' },
+      { header: 'Other Issues', field: 'OtherIssues' },
+      { header: 'ToProcess HULLING', field: 'ToProcessHULLING' },
+      { header: 'Total Other Issuses', field: 'TotalOtherIssuses' },
+      { header: 'Created Date', field: 'CreatedDate' }
+    ];
+
+    this.HOQtyPurchaseColumns = [
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'Priority Qty', field: 'PriorityQty' },
+      { header: 'AAY', field: 'AAY' },
+      { header: 'Seizure', field: 'Seizure' },
+      { header: 'Tide Over', field: 'TideOver' },
+      { header: 'HO', field: 'HO' },
+      { header: 'Hostel', field: 'Hostel' },
+      { header: 'ICDS', field: 'ICDS' },
+      { header: 'OMSS', field: 'OMSS' },
+      { header: 'NPHS', field: 'NPHS' },
+      { header: 'RO Purchase', field: 'ROPurchase' },
+      { header: 'Levy', field: 'Levy' },
+      { header: 'Non Levy', field: 'NonLevy' },
+      { header: 'Total Purchase', field: 'TotalPurchase' },
+      { header: 'Created Date', field: 'CreatedDate' }
+    ];
+
+    this.HOQtySalesColumns = [
+      { header: 'Month', field: 'QtyMonth' },
+      { header: 'Year', field: 'QtyYear' },
+      { header: 'Region Name', field: 'RGNAME' },
+      { header: 'Location', field: 'Location' },
+      { header: 'Commodity', field: 'ITDESCRIPTION' },
+      { header: 'CRS', field: 'CRS' },
+      { header: 'COOP', field: 'COOP' },
+      { header: 'SPLPDS CRS', field: 'SPLPDS_CRS' },
+      { header: 'SPLPDS COOP', field: 'SPLPDS_COOP' },
+      { header: 'POLICE', field: 'POLICE' },
+      { header: 'PTMGR NMP', field: 'PTMGR_NMP' },
+      { header: 'BULK QTY', field: 'BULK_QTY' },
+      { header: 'ICDS', field: 'ICDS' },
+      { header: 'CREDIT', field: 'CREDIT' },
+      { header: 'OAP', field: 'OAP' },
+      { header: 'Srilanka', field: 'Srilanka' },
+      { header: 'Flood', field: 'Flood' },
+      { header: 'Tender Sales', field: 'TenderSales' },
+      { header: 'NPHH SSR', field: 'NPHH_SSR' },
+      { header: 'AAY', field: 'Flood' },
+      { header: 'Total Sales', field: 'TotalSales' },
+      { header: 'Created Date', field: 'CreatedDate' }
+    ]
+
+
+
+
+
 
     this.TransferOBToHOQtyColumns = [
       { header: 'Commodity', field: 'ITDescription' },
