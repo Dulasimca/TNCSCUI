@@ -9,6 +9,7 @@ import * as Highcharts from 'highcharts';
 import { MessageService } from 'primeng/api';
 import { StatusMessage } from '../constants/Messages';
 import { TableConstants } from '../constants/tableconstants';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-home',
@@ -77,9 +78,11 @@ export class HomeComponent implements OnInit, AfterContentInit {
   allotmentCols: any;
   allotmentShopMovedData: any = [];
   allotmentShopMovedCols: any;
+  allotmentAbstractData: any = [];
   @ViewChild('AADS', { static: false }) divAADS: ElementRef;
   @ViewChild('element', { static: false }) toastObj;
-  
+  isLoadingAbstract: boolean;
+
 
   constructor(private authService: AuthService, private restApiService: RestAPIService,
     private datePipe: DatePipe, private router: Router, private locationStrategy: LocationStrategy,
@@ -119,24 +122,24 @@ export class HomeComponent implements OnInit, AfterContentInit {
     });
     this.restApiService.get(PathConstants.REGION).subscribe(data => data);
     ///LOAD CHART DATA
-    if(this.roleId !== 3) {
-    this.loadChartData();
+    if (this.roleId !== 3) {
+      this.loadChartData();
     }
     ///LOAD ALLOTMENT DETAILS FOR GODOWN
-    if(this.roleId === 3) {
+    if (this.roleId === 3) {
       this.loadAllotmentDetails();
     }
     ///LOAD QUANTITY OF EACH COMMODITY PER REGION/GODOWN
     let type;
     let code;
-    if(this.roleId === 1) {
+    if (this.roleId === 1) {
       type = '1';
-    } else if(this.roleId === 2) {
-       type = '2';
-       code = this.RCode;
+    } else if (this.roleId === 2) {
+      type = '2';
+      code = this.RCode;
     } else {
-       type = '3';
-       code = this.GCode;
+      type = '3';
+      code = this.GCode;
     }
     this.loadItemQuantity(code, type);
   }
@@ -733,12 +736,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
     curMonth = (curMonth <= 9) ? '0' + curMonth : curMonth;
     const curYear: any = this.maxDate.getFullYear();
     let advMonth: any = ((curMonth * 1) <= 11) ? ((curMonth * 1) + 1) : '01';
-    advMonth = ((advMonth * 1) <= 9) ?  ('0' + advMonth) : advMonth;
+    advMonth = ((advMonth * 1) <= 9) ? ('0' + advMonth) : advMonth;
     const advYear = (advMonth === '01') ? curYear + 1 : curYear;
     const periodOfMonth = advMonth + '/' + advYear;
     const allot_params = new HttpParams().set('GCode', this.GCode).append('Type', '1').append('Month', curMonth)
-     .append('Year', curYear);
-     const allotshop_params = new HttpParams().set('GCode', this.GCode).append('Type', '2').append('Month', periodOfMonth);
+      .append('Year', curYear);
+    const allotshop_params = new HttpParams().set('GCode', this.GCode).append('Type', '2').append('Month', periodOfMonth);
     this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allot_params).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
         this.allotmentCols = this.tableConstants.GodownDBAllotmentColumns;
@@ -748,39 +751,41 @@ export class HomeComponent implements OnInit, AfterContentInit {
           x.SlNo = sno;
           sno += 1;
         })
-  } else {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
-  }
-}, (err: HttpErrorResponse) => {
-  if (err.status === 0 || err.status === 400) {
-    this.messageService.clear();
-    this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-  }
-});
-this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allotshop_params).subscribe(res => {
-  if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
-    this.allotmentShopMovedCols = this.tableConstants.GodownDBAllotmentShopColumns;
-    var data = [];
-    let sno = 1;
-    var table1 = [];
-    if(res.Table1.length !== 0 && res.Table1 !== undefined && res.Table1 !== null) {
-      res.Table.filter(x => {
-        res.Table1.filter(y => {
-          if(x.SocietyCode === y.SocietyCode) {
-            data.push({
-              SlNo: sno,
-              NoOfShops: x.NoOfShops,
-              NoOfShopsAdvanced: y.NoOfShopsAdvanced,
-              NoOfShopsToMoved: (x.NoOfShops * 1) - (y.NoOfShopsAdvanced * 1),
-              SocietyName: x.SocietyName
+        var data = res.Table.slice(0);
+        this.doAbstract(data);
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+    this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allotshop_params).subscribe(res => {
+      if (res.Table !== undefined && res.Table !== null && res.Table.length !== 0) {
+        this.allotmentShopMovedCols = this.tableConstants.GodownDBAllotmentShopColumns;
+        var data = [];
+        let sno = 1;
+        var table1 = [];
+        if (res.Table1.length !== 0 && res.Table1 !== undefined && res.Table1 !== null) {
+          res.Table.filter(x => {
+            res.Table1.filter(y => {
+              if (x.SocietyCode === y.SocietyCode) {
+                data.push({
+                  SlNo: sno,
+                  NoOfShops: x.NoOfShops,
+                  NoOfShopsAdvanced: y.NoOfShopsAdvanced,
+                  NoOfShopsToMoved: (x.NoOfShops * 1) - (y.NoOfShopsAdvanced * 1),
+                  SocietyName: x.SocietyName
+                })
+                sno += 1;
+              }
             })
-            sno += 1;
-          }
-        })
-      });
-    } else {
-      res.Table.filter(x => {
+          });
+        } else {
+          res.Table.filter(x => {
             data.push({
               SlNo: sno,
               NoOfShops: x.NoOfShops,
@@ -789,19 +794,131 @@ this.restApiService.getByParameters(PathConstants.DASHBOARD_ALLOTMENT_GET, allot
               SocietyName: x.SocietyName
             })
             sno += 1;
-      });
+          });
+        }
+        this.allotmentShopMovedData = data;
+      } else {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
+      }
+    }, (err: HttpErrorResponse) => {
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
+      }
+    });
+  }
+
+  doAbstract(data) {
+    this.isLoadingAbstract = true;
+    let sortedArray = _.sortBy(data, 'Commodity', 'SocietyType');
+    var tempData = [];
+    var total_iss = 0;
+    var total_reg = 0;
+    var total_allot = 0;
+    var total_bal = 0;
+    var total_adv = 0;
+    let arr = sortedArray;
+    var hash = Object.create(null),
+      groupedData = [];
+    arr.forEach(function (o) {
+      var key = ['Commodity', 'SocietyType'].map(function (k) { return o[k]; }).join('|');
+      if (!hash[key]) {
+        hash[key] = {
+          SocietyType: o.SocietyType, Commodity: o.Commodity, ITCode: o.ITCode, IssueQty: 0, Regulared: 0,
+          AllotmentQty: 0, Advanced: 0, BalanceQty: 0
+        };
+        groupedData.push(hash[key]);
+      }
+      ['IssueQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      ['Regulared'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      ['AllotmentQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      ['Advanced'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+      ['BalanceQty'].forEach(function (k) { hash[key][k] += (o[k] * 1); });
+    });
+    for (let i = 0; i <= groupedData.length - 1; i++) {
+      let nextCommodity = (groupedData[i + 1] !== undefined && i !== groupedData.length - 1) ? groupedData[i + 1].Commodity : groupedData[i].Commodity;
+      if (groupedData[i].SocietyType !== 'TY004' && groupedData[i].Commodity === nextCommodity) {
+        total_iss += (groupedData[i].IssueQty * 1);
+        total_reg += (groupedData[i].Regulared * 1);
+        total_allot += (groupedData[i].AllotmentQty * 1);
+        total_bal += (groupedData[i].BalanceQty * 1);
+        total_adv += (groupedData[i].Advanced * 1);
+      } else if (groupedData[i].SocietyType === 'TY004' && groupedData[i].Commodity === groupedData[i - 1].Commodity) {
+        tempData.push({
+          'SocietyName': 'Other Society', 'Commodity': groupedData[i].Commodity,
+          'AllotmentQty': total_allot, 'Advanced': total_adv, 'Regulared': total_reg,
+          'IssueQty': total_iss, 'BalanceQty': total_bal
+        })
+        tempData.push({
+          'SocietyName': 'CRS', 'Commodity': groupedData[i].Commodity,
+          'AllotmentQty': groupedData[i].AllotmentQty, 'Advanced': groupedData[i].Advanced,
+          'Regulared': groupedData[i].Regulared, 'IssueQty': groupedData[i].IssueQty,
+          'BalanceQty': groupedData[i].BalanceQty
+        })
+        total_iss = 0;
+        total_reg = 0;
+        total_adv = 0;
+        total_bal = 0;
+        total_allot = 0;
+      } else if (groupedData[i].Commodity !== groupedData[i + 1].Commodity) {
+        total_iss = 0;
+        total_reg = 0;
+        total_adv = 0;
+        total_bal = 0;
+        total_allot = 0;
+      } else {
+        this.isLoadingAbstract = false;
+      }
     }
-    this.allotmentShopMovedData = data;
-} else {
-this.messageService.clear();
-this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_WARNING, summary: StatusMessage.SUMMARY_WARNING, detail: StatusMessage.DashboardNoRecord });
-}
-}, (err: HttpErrorResponse) => {
-if (err.status === 0 || err.status === 400) {
-this.messageService.clear();
-this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_ERROR, summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage });
-}
-});
+    this.isLoadingAbstract = false;
+    let sno = 1;
+    tempData.forEach(f => {
+      f.SlNo = sno;
+      sno += 1;
+    })
+    this.allotmentAbstractData = this.calculateAbsTotal(tempData);
+  }
+
+  calculateAbsTotal(data) {
+    if (data.length !== 0) {
+      var resultSet = data;
+      var actualData = data;
+      for (let i = 0; i <= actualData.length - 1; i++) {
+        let nxtComm = (actualData[i + 1] !== undefined) ? actualData[i + 1].Commodity : '';
+        if (actualData[i].Commodity === nxtComm && actualData[i + 1].SocietyName !== 'Total') {
+          var item = {
+            SocietyName: 'Total', Commodity: actualData[i].Commodity,
+            IssueQty: ((actualData[i].IssueQty * 1) + (actualData[i + 1].IssueQty * 1)),
+            AllotmentQty: ((actualData[i].AllotmentQty * 1) + (actualData[i + 1].AllotmentQty * 1)),
+            Advanced: ((actualData[i].Advanced * 1) + (actualData[i + 1].Advanced * 1)),
+            Regulared: ((actualData[i].Regulared * 1) + (actualData[i + 1].Regulared * 1)),
+            BalanceQty: ((actualData[i].BalanceQty * 1) + (actualData[i + 1].BalanceQty * 1)),
+          };
+          resultSet.splice(i + 2, 0, item);
+        }
+      }
+    }
+    var iss_qty = 0, bal_qty = 0, allot_qty = 0, adv_qty = 0, reg_qty = 0;
+    resultSet.forEach(y => {
+      if (y.SocietyName === 'Total') {
+        iss_qty += (y.IssueQty * 1);
+        bal_qty += (y.BalanceQty * 1);
+        adv_qty += (y.Advanced * 1);
+        allot_qty += (y.AllotmentQty * 1);
+        reg_qty += (y.Regulared * 1);
+      }
+    })
+    resultSet.push({
+      'SocietyName': 'GRAND TOTAL', 'Commodity': '',
+      'AllotmentQty': allot_qty, 'Advanced': adv_qty, 'Regulared': reg_qty, 'IssueQty': iss_qty,
+      'BalanceQty': bal_qty
+    });
+    return resultSet;
+  }
+
+  public getColor(name: any): string {
+    return (name === 'Total') ? "#b8e2ff" : (name === 'GRAND TOTAL' ? "#56f5b0" : "white");
   }
 
   calculateQuantity(id) {
