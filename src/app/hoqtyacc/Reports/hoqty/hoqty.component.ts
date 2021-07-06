@@ -194,4 +194,7 @@ export class HoqtyComponent implements OnInit {
     })
   }
 
+  onClose() {
+    this.messageService.clear('t-err');
+  }
 }

@@ -9,10 +9,6 @@ import { RoleBasedService } from 'src/app/common/role-based.service';
 import { PathConstants } from 'src/app/constants/path.constants';
 import { StatusMessage } from 'src/app/constants/Messages';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GolbalVariable } from 'src/app/common/globalvariable';
-import { saveAs } from 'file-saver';
-import { time } from 'highcharts';
-
 
 @Component({
   selector: 'app-lorry-master',

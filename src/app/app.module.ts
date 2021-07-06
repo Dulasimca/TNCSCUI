@@ -196,7 +196,7 @@ import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty
 import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
 import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
 import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
-import { HoqtyComponent } from './reports/hoqty/hoqty.component';
+import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
 
 @NgModule({
   declarations: [

@@ -135,13 +135,12 @@ import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balan
 import { CBComparsionStatementComponent } from './reports/cbcomparsion-statement/cbcomparsion-statement.component';
 import { GstcommoditymasterComponent } from './GST/Master/gstcommoditymaster/gstcommoditymaster.component';
 import { HoqtypurchaseComponent } from './hoqtyacc/hoqtypurchase/hoqtypurchase.component';
-import { AuthService } from './shared-services/auth.service';
 import { HoqtyfreereceiptComponent } from './hoqtyacc/hoqtyfreereceipt/hoqtyfreereceipt.component';
 import { HoqtyOtherReceiptComponent } from './hoqtyacc/hoqty-other-receipt/hoqty-other-receipt.component';
 import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
 import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
 import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
-import { HoqtyComponent } from './reports/hoqty/hoqty.component';
+import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

@@ -347,9 +347,9 @@ export class PdsLiftmentReportComponent implements OnInit {
               this.GodownPDSDetailData[j].slno = j + 1;
               switch (tempData[i].allotmentgroup) {
                 case 'PALMOIL':
-                  this.PDSLiftmentData[j].AllotmentOil = (tempData[i].AllotmentQty !== undefined && tempData[i].AllotmentQty !== null)
+                  this.GodownPDSDetailData[j].AllotmentOil = (tempData[i].AllotmentQty !== undefined && tempData[i].AllotmentQty !== null)
                     ? (tempData[i].AllotmentQty * 1) : 0;
-                  this.PDSLiftmentData[j].LiftedOil = (tempData[i].IssueQty !== undefined && tempData[i].IssueQty !== null)
+                  this.GodownPDSDetailData[j].LiftedOil = (tempData[i].IssueQty !== undefined && tempData[i].IssueQty !== null)
                     ? (tempData[i].IssueQty * 1) : 0;
                   this.GodownPDSDetailData[j].BalanceOil = (tempData[i].BalanceQty !== undefined && tempData[i].BalanceQty !== null)
                     ? (tempData[i].BalanceQty * 1) : 0;
