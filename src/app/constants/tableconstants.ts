@@ -163,6 +163,8 @@ export class TableConstants {
   DOtoSalesTaxReport: any;
   DOApprovalReport: any;
   TaxReportColumns: any;
+  TaxReportPurchaseColumns: any;
+  TaxReportServiceColumns: any;
   hoqtyacabstractColumns: any;
   TransferOBToHOQtyColumns: any;
   FrozenPDSLiftmentGodownColumns: any;
@@ -1981,7 +1983,28 @@ export class TableConstants {
       { header: 'IGST', field: 'IGST' },
       { header: 'Total Amount', field: 'Total' },
     ];
-
+    this.TaxReportPurchaseColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'Purchase Value', field: 'Amount' },
+      { header: 'GST %', field: 'TaxPercentage' },
+      { header: 'GST Amount', field: 'TaxAmount' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'Total Purchase Amount', field: 'Total' },
+    ];
+    this.TaxReportServiceColumns = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { header: 'Region', field: 'RGNAME' },
+      { header: 'Service Value', field: 'Amount' },
+      { header: 'GST %', field: 'TaxPercentage' },
+      { header: 'GST Amount', field: 'TaxAmount' },
+      { header: 'CGST', field: 'CGST' },
+      { header: 'SGST', field: 'SGST' },
+      { header: 'IGST', field: 'IGST' },
+      { header: 'Total Service Amount', field: 'Total' },
+    ];
     this.RateMaster = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { header: 'Allotment Name', field: 'AllotmentName' },
@@ -2036,8 +2059,8 @@ export class TableConstants {
       { header: 'S.No', field: 'SlNo', width: '15px' },
       { header: 'Doc No', field: 'DocNo' },
       { header: 'Lorry No', field: 'Lorry No' },
-      { header: 'Doc Prepared Date', field: 'DocDt' },
-      { header: 'Doc Prepared Time', field: 'DtTime' },
+      { header: 'Doc Date', field: 'DocDt' },
+      { header: 'Doc Pre. DateTime', field: 'DtTime' },
       { header: 'Region', field: 'Region' },
       { header: 'Godown', field: 'Godown' },
       { header: 'Received From', field: 'Received From' },
