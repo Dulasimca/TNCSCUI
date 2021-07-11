@@ -185,6 +185,8 @@ import { QuotationDetailsComponent } from './Documents/quotation-details/quotati
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
 import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
+import { TaxAbstractPurchaseComponent } from './GST/Reports/tax-abstractpurchase/tax-abstractpurchase.component';
+import { TaxAbstractServiceComponent } from './GST/Reports/tax-abstractservice/tax-abstractservice.component';
 import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.component';
 import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
@@ -336,6 +338,8 @@ import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
     DoToSalesTaxComponent,
     DoApprovalDocsComponent,
     TaxAbstractComponent,
+    TaxAbstractPurchaseComponent,
+    TaxAbstractServiceComponent,
     HoqtyabstractComponent,
     HoqtyabstractrepComponent,
     TransferOpeningBalanceToHOQtyComponent,

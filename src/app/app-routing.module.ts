@@ -129,6 +129,8 @@ import { QuotationDetailsComponent } from './Documents/quotation-details/quotati
 import { DoToSalesTaxComponent } from './GST/do-to-sales-tax/do-to-sales-tax.component';
 import { DoApprovalDocsComponent } from './reports/do-approval-docs/do-approval-docs.component';
 import { TaxAbstractComponent } from './GST/Reports/tax-abstract/tax-abstract.component';
+import { TaxAbstractPurchaseComponent } from './GST/Reports/tax-abstractpurchase/tax-abstractpurchase.component';
+import { TaxAbstractServiceComponent } from './GST/Reports/tax-abstractservice/tax-abstractservice.component';
 import { HoqtyabstractComponent } from './hoqtyacc/hoqtyabstract/hoqtyabstract.component';
 import { HoqtyabstractrepComponent } from './hoqtyacc/Reports/hoqtyabstractrep.component';
 import { TransferOpeningBalanceToHOQtyComponent } from './transfer-opening-balance-to-hoqty/transfer-opening-balance-to-hoqty.component';
@@ -272,6 +274,8 @@ const routes: Routes = [
   { path: 'DoToSalesTax', component: DoToSalesTaxComponent, canActivate: [AuthGuard] },
   { path: 'DoApproval', component: DoApprovalDocsComponent, canActivate: [AuthGuard] },
   { path: 'TaxAbstract', component: TaxAbstractComponent, canActivate: [AuthGuard] },
+  { path: 'TaxAbstractPurchase', component: TaxAbstractPurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'TaxAbstractService', component: TaxAbstractServiceComponent, canActivate: [AuthGuard] },
   { path: 'Hoqtyabstract', component: HoqtyabstractComponent, canActivate: [AuthGuard] },
   { path: 'Hoqtyabstractrep', component: HoqtyabstractrepComponent, canActivate: [AuthGuard] },
   { path: 'TransferOBToHOQty', component: TransferOpeningBalanceToHOQtyComponent, canActivate: [AuthGuard] },
