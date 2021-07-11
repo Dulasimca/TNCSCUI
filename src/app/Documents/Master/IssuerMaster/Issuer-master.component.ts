@@ -255,11 +255,12 @@ export class IssuerMasterComponent implements OnInit {
         this.CategoryType.value !== undefined && this.CategoryType.value !== null) ? this.CategoryType.value
         : (this.CategoryId !== undefined && this.CategoryId !== null) ? this.CategoryId : 0,
       'NoOfBeneficiaries': (this.Beneficiaries !== undefined && this.Beneficiaries !== null) ? this.Beneficiaries : 0,
-      'GSTNumber': (this.GSTNumber !== null && this.GSTNumber.trim() !== '' && this.GSTNumber !== undefined) ? this.GSTNumber.trim().toUpperCase() : ''
+      'GSTNumber': (this.GSTNumber !== null && this.GSTNumber !== undefined) ?
+        ((this.GSTNumber.trim() !== '') ? this.GSTNumber.trim().toUpperCase() : '') : ''
 
     };
     this.restApiService.post(PathConstants.ISSUER_MASTER_POST, params).subscribe(res => {
-      if (res) {
+      if (res.Item1) {
         this.viewPane = false;
         this.onLoadData();
         this.onClear();
@@ -275,7 +276,8 @@ export class IssuerMasterComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
-          summary: StatusMessage.SUMMARY_ERROR, detail: StatusMessage.ErrorMessage
+          summary: StatusMessage.SUMMARY_ERROR, detail: 'ACSCode - ' + this.ACSCode.trim().toUpperCase() +
+            ' is active in ' + res.Item2.Table[0].TNCSName + ' godown. Permission denied!'
         });
       }
     }, (err: HttpErrorResponse) => {

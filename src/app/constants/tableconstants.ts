@@ -474,7 +474,8 @@ export class TableConstants {
       { field: 'Lorryno', header: 'LORRY NO' },
       { field: 'TruckMemoNo', header: 'T.MEMO.MC' },
       { field: 'Truckmemodate', header: 'T.MEMO.DT' },
-      { field: 'Orderno', header: 'Order.No' }
+      { field: 'Orderno', header: 'Order.No' },
+      { field: 'CreatedDate', header: 'Doc Prepared Date & Time' }
     ];
 
     this.SchemeReceiptReport = [
