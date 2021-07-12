@@ -1,7 +1,7 @@
 <p-blockUI [blocked]="blockScreen">
   <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
-  </p-blockUI>
-  <app-header></app-header>
+</p-blockUI>
+<app-header></app-header>
 <div class="ui-g-12 ui-md-12 ui-lg-12 content">
   <app-menu *ngIf="canShowMenu"></app-menu>
   <p-panel>
@@ -11,7 +11,8 @@
           <div class="ui-g-4 dashboard">Allotment Details</div>
           <div class="ui-g-3"></div>
           <div class="ui-g-4 ui-md-2 dashboard" style="float: right !important;">
-            <button class="ui-g-2 dashboard" style="float: right !important;" pButton type="button" icon="pi pi-download" (click)="downloadSample()"></button>
+            <button class="ui-g-2 dashboard" style="float: right !important;" pButton type="button"
+              icon="pi pi-download" (click)="downloadSample()"></button>
           </div>
         </div>
       </div>
@@ -38,8 +39,7 @@
               <p-dropdown #godown class="ui-fluid dashboard" [options]="godownOptions" [(ngModel)]="GCode"
                 (onClick)="onSelect('gd', 'click')" (keyup.shift.tab)="onSelect('gd', 'tab')"
                 (ngModelChange)="onResetTable('gd');" filter="true" filterMatchMode="startsWith"
-                resetFilterOnHide="true" [showClear]="true" (keyup.tab)="onSelect('gd', 'tab')"
-                placeholder="-select-">
+                resetFilterOnHide="true" [showClear]="true" (keyup.tab)="onSelect('gd', 'tab')" placeholder="-select-">
                 <ng-template let-item pTemplate="selectedItem">
                   <span style="vertical-align:middle">{{item.label}}</span>
                 </ng-template>
@@ -69,19 +69,20 @@
               <button pButton label=View (click)="getAllotmentDetails()"
                 [disabled]="(!RCode || !GCode || !month || !year)"></button>
             </div>
-              <div class="ui-g-4 ui-md-1">
+            <div class="ui-g-4 ui-md-1">
               <button pButton label=Save (click)="onSave()"
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-                <button pButton label=Clear (click)="onClear();"></button>
-              </div>
+              <button pButton label=Clear (click)="onClear();"></button>
+            </div>
           </div>
+          <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment Details:</div>
           <div class="ui-g-12">
             <p-table #dt [columns]="AllotmentCols" [value]="AllotmentData" [rows]="20" [totalRecords]="totalRecords"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-              [loading]="loading" [scrollable]="true">
-               <ng-template pTemplate="colgroup" let-columns>
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [loading]="loading"
+              [scrollable]="true">
+              <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
                   <col *ngFor="let col of columns" [style.width]="col.width">
                 </colgroup>
@@ -90,12 +91,44 @@
                 <tr>
                   <th *ngFor="let col of columns" [pSortableColumn]="col.field" (click)="onSort()">
                     {{col.header}}
-                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                   </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                 <tr>
+                  <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          <hr class="ui-g-12 dashboard border-teal">
+          <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment - Abstract
+            Details:</div>
+          <div class="ui-g-12">
+            <p-table #dt [columns]="abstractCols" [value]="abstractData" [rows]="20" [totalRecords]="totalRecords"
+              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [loading]="loading"
+              [scrollable]="true">
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col *ngFor="let col of columns" [style.width]="col.width">
+                </colgroup>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th style="width: 50px;">S.No:</th>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                <tr>
+                  <td style="width: 50px;">{{rowIndex + 1}}</td>
                   <td *ngFor="let col of columns">
                     {{rowData[col.field]}}
                   </td>

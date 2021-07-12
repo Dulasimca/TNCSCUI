@@ -48,13 +48,21 @@ export class AllotmentDetailsComponent implements OnInit {
   godownOptions: SelectItem[];
   blockScreen: boolean;
   count: number;
+  cell_range: number;
+  totalRow: any;
+  totalRice: number = 0;
+  totalSugar: number = 0;
+  totalWheat: number = 0;
+  totalDhall: number = 0;
+  totalPoil: number = 0;
+  abstractCols: any;
+  abstractData: any = [];
   @ViewChild('godown', { static: false }) godownPanel: Dropdown;
   @ViewChild('region', { static: false }) regionPanel: Dropdown;
   @ViewChild('m', { static: false }) monthPanel: Dropdown;
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('fileSelector', { static: false }) fileSelector: ElementRef;
   @ViewChild('dt', { static: false }) table: Table;
-  cell_range: number;
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
@@ -274,6 +282,7 @@ export class AllotmentDetailsComponent implements OnInit {
         let JSONdata = JSON.parse(json_object);
         // trim the space in json key and value
         JSONdata = JSONdata.filter(x => {
+          if (x['#'] === 'Total') { this.totalRow = x; }
           return x['#'] !== 'Total';
         })
         const excelData = trimObj(JSONdata);
@@ -310,6 +319,7 @@ export class AllotmentDetailsComponent implements OnInit {
             this.itemList = [];
           }
           this.constructData(this.AllotmentData);
+          this.constructAbstract();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -342,6 +352,36 @@ export class AllotmentDetailsComponent implements OnInit {
     };
     reader.readAsBinaryString(file);
   };
+
+  constructAbstract() {
+    for (let key in this.totalRow) {
+      var item: string = key.toUpperCase();
+      if (item.includes('RICE', 0)) {
+        this.totalRice += (this.totalRow[key] * 1);
+      } else if (item.includes('SUGAR', 0)) {
+        this.totalSugar += (this.totalRow[key] * 1);
+      } else if (item.includes('WHEAT', 0)) {
+        this.totalWheat += (this.totalRow[key] * 1);
+      } else if (item.includes('DHALL', 0)) {
+        this.totalDhall += (this.totalRow[key] * 1);
+      } else if (item.includes('PALMOIL', 0)) {
+        this.totalPoil += (this.totalRow[key] * 1);
+      } else {
+        console.log('No matching key found!');
+      }
+    }
+    this.abstractCols = [
+      { header: 'Commodity', field: 'commodity' },
+      { header: 'Quantity', field: 'qty' }
+    ];
+    this.abstractData.push(
+      { commodity: 'RICE', qty: this.totalRice },
+      { commodity: 'WHEAT', qty: this.totalWheat },
+      { commodity: 'SUGAR', qty: this.totalSugar },
+      { commodity: 'DHALL', qty: this.totalDhall },
+      { commodity: 'PALMOIL', qty: this.totalPoil }
+    )
+  }
 
   checkValidHeaders(headers): any {
     let result: boolean;
@@ -444,6 +484,9 @@ export class AllotmentDetailsComponent implements OnInit {
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
     this.fileSelector.nativeElement.value = null;
+    this.totalRice = 0; this.totalWheat = 0;
+    this.totalSugar = 0; this.totalDhall = 0;
+    this.totalPoil = 0;
   }
 
   downloadSample() {
