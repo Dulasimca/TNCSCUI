@@ -272,13 +272,14 @@ export class IssuerMasterComponent implements OnInit {
 
       } else {
         this.viewPane = false;
-        this.onClear();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: StatusMessage.SEVERITY_ERROR,
           summary: StatusMessage.SUMMARY_ERROR, detail: 'ACSCode - ' + this.ACSCode.trim().toUpperCase() +
-            ' is active in ' + res.Item2.Table[0].TNCSName + ' godown. Permission denied!'
+            ' is active in ' + res.Item2.Table[0].TNCSName + ' - ' + res.Item2.Table[0].Godcode +
+            ' godown. Permission denied!', life: 5000
         });
+        this.onClear();
       }
     }, (err: HttpErrorResponse) => {
       if (err.status === 0 || err.status === 400) {

@@ -63,6 +63,8 @@ export class AllotmentDetailsComponent implements OnInit {
   @ViewChild('y', { static: false }) yearPanel: Dropdown;
   @ViewChild('fileSelector', { static: false }) fileSelector: ElementRef;
   @ViewChild('dt', { static: false }) table: Table;
+  @ViewChild('abstract', { static: false }) abstract_table: Table;
+
 
   constructor(private authService: AuthService, private datepipe: DatePipe, private restAPIService: RestAPIService,
     private messageService: MessageService, private roleBasedService: RoleBasedService,
@@ -162,7 +164,8 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   getAllotmentDetails() {
-    this.table.reset();
+    this.onClear('');
+    this.fileSelector.nativeElement.value = null;
     if (this.GCode !== undefined && this.GCode !== null && this.month !== null && this.month !== undefined
       && ((this.month.value !== undefined && this.month.value !== null)
         || (this.curMonth !== undefined && this.curMonth !== null)) && this.year !== null
@@ -171,10 +174,6 @@ export class AllotmentDetailsComponent implements OnInit {
         .append('AMonth', (this.month.value !== undefined && this.month.value !== null) ? this.month.value : this.curMonth)
         .append('AYear', this.year);
       this.loading = true;
-      this.table.reset();
-      this.AllotmentData = [];
-      this.AllotmentCols = [];
-      this.totalRecords = 0;
       this.restAPIService.getByParameters(PathConstants.ALLOTMENT_BALANCE_GET, params).subscribe(res => {
         if (res.length !== 0 && res !== undefined && res !== null) {
           this.AllotmentCols = this.tableConstants.AllotmentDetailsCols;
@@ -185,6 +184,8 @@ export class AllotmentDetailsComponent implements OnInit {
             sno += 1;
           })
           this.AllotmentData = res;
+          this.totalRecords = res.length;
+          this.constructAbstract(this.AllotmentData, 2);
           this.loading = false;
           this.disableSave = true;
         } else {
@@ -215,9 +216,7 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   uploadData(event) {
-    this.AllotmentCols.length = 0;
-    this.allotmentDetails.length = 0;
-    this.AllotmentData.length = 0;
+    this.onClear('');
     this.blockScreen = true;
     let filesData = event.target.files;
     if (this.GCode !== undefined && this.GCode !== null) {
@@ -245,7 +244,6 @@ export class AllotmentDetailsComponent implements OnInit {
   }
 
   parseExcel(file) {
-    this.table.reset();
     this.blockScreen = true;
     let reader = new FileReader();
     reader.onload = (e) => {
@@ -319,7 +317,12 @@ export class AllotmentDetailsComponent implements OnInit {
             this.itemList = [];
           }
           this.constructData(this.AllotmentData);
-          this.constructAbstract();
+          console.log('data', this.AllotmentData);
+          if (this.totalRow !== undefined && this.totalRow !== null) {
+            this.constructAbstract(this.totalRow, 1);
+          } else {
+            this.constructAbstract(this.AllotmentData, 3);
+          }
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -353,34 +356,86 @@ export class AllotmentDetailsComponent implements OnInit {
     reader.readAsBinaryString(file);
   };
 
-  constructAbstract() {
-    for (let key in this.totalRow) {
-      var item: string = key.toUpperCase();
-      if (item.includes('RICE', 0)) {
-        this.totalRice += (this.totalRow[key] * 1);
-      } else if (item.includes('SUGAR', 0)) {
-        this.totalSugar += (this.totalRow[key] * 1);
-      } else if (item.includes('WHEAT', 0)) {
-        this.totalWheat += (this.totalRow[key] * 1);
-      } else if (item.includes('DHALL', 0)) {
-        this.totalDhall += (this.totalRow[key] * 1);
-      } else if (item.includes('PALMOIL', 0)) {
-        this.totalPoil += (this.totalRow[key] * 1);
+  constructAbstract(data, type) {
+    this.abstractData.length = 0;
+    if (data !== undefined && data !== null) {
+      //  this.abstract_table.reset();
+      if (type === 1) {
+        for (let key in data) {
+          var item: string = key.toUpperCase();
+          if (item.indexOf('RICE') !== -1 || item.indexOf('SUGAR') !== -1 || item.indexOf('WHEAT') !== -1 ||
+            item.indexOf('DHALL') !== -1 || item.indexOf('PALMOIL') !== -1) {
+            if (item.includes('RICE', 0)) {
+              this.totalRice += (data[key] * 1);
+            } else if (item.includes('SUGAR', 0)) {
+              this.totalSugar += (data[key] * 1);
+            } else if (item.includes('WHEAT', 0)) {
+              this.totalWheat += (data[key] * 1);
+            } else if (item.includes('DHALL', 0)) {
+              this.totalDhall += (data[key] * 1);
+            } else if (item.includes('PALMOIL', 0)) {
+              this.totalPoil += (data[key] * 1);
+            } else {
+              console.log('No matching key found!');
+            }
+          } else {
+            console.log('No matching key found!');
+          }
+        }
+      } else if (type === 2) {
+        data.forEach(item => {
+          var commodity: string = item['Commodity'].toUpperCase();
+          if (commodity.includes('RICE', 0)) {
+            this.totalRice += (item['Quantity'] * 1);
+          } else if (commodity.includes('SUGAR', 0)) {
+            this.totalSugar += (item['Quantity'] * 1);
+          } else if (commodity.includes('WHEAT', 0)) {
+            this.totalWheat += (item['Quantity'] * 1);
+          } else if (commodity.includes('DHALL', 0)) {
+            this.totalDhall += (item['Quantity'] * 1);
+          } else if (commodity.includes('PALMOIL', 0)) {
+            this.totalPoil += (item['Quantity'] * 1);
+          } else {
+            console.log('No matching key found!');
+          }
+        })
       } else {
-        console.log('No matching key found!');
+        data.forEach(obj => {
+          for (let key in obj) {
+            var item: string = key.toUpperCase();
+            if (item.indexOf('RICE') !== -1 || item.indexOf('SUGAR') !== -1 || item.indexOf('WHEAT') !== -1 ||
+              item.indexOf('DHALL') !== -1 || item.indexOf('PALMOIL') !== -1) {
+              if (item.includes('RICE', 0)) {
+                this.totalRice += (obj[key] * 1);
+              } else if (item.includes('SUGAR', 0)) {
+                this.totalSugar += (obj[key] * 1);
+              } else if (item.includes('WHEAT', 0)) {
+                this.totalWheat += (obj[key] * 1);
+              } else if (item.includes('DHALL', 0)) {
+                this.totalDhall += (obj[key] * 1);
+              } else if (item.includes('PALMOIL', 0)) {
+                this.totalPoil += (obj[key] * 1);
+              } else {
+                console.log('No matching key found!');
+              }
+            } else {
+              console.log('No matching key found!');
+            }
+          }
+        })
       }
+      this.abstractCols = [
+        { header: 'Commodity', field: 'commodity' },
+        { header: 'Quantity', field: 'qty' }
+      ];
+      this.abstractData.push(
+        { commodity: 'RICE', qty: (this.totalRice * 1).toFixed(3) },
+        { commodity: 'WHEAT', qty: (this.totalWheat * 1).toFixed(3) },
+        { commodity: 'SUGAR', qty: (this.totalSugar * 1).toFixed(3) },
+        { commodity: 'DHALL', qty: (this.totalDhall * 1).toFixed(3) },
+        { commodity: 'PALMOIL', qty: (this.totalPoil * 1).toFixed(3) }
+      )
     }
-    this.abstractCols = [
-      { header: 'Commodity', field: 'commodity' },
-      { header: 'Quantity', field: 'qty' }
-    ];
-    this.abstractData.push(
-      { commodity: 'RICE', qty: this.totalRice },
-      { commodity: 'WHEAT', qty: this.totalWheat },
-      { commodity: 'SUGAR', qty: this.totalSugar },
-      { commodity: 'DHALL', qty: this.totalDhall },
-      { commodity: 'PALMOIL', qty: this.totalPoil }
-    )
   }
 
   checkValidHeaders(headers): any {
@@ -423,6 +478,7 @@ export class AllotmentDetailsComponent implements OnInit {
     this.AllotmentData = [];
     this.table.reset();
     this.totalRecords = 0;
+    if (this.abstractData.length !== 0) { this.abstract_table.reset(); }
   }
 
   onSave() {
@@ -444,7 +500,7 @@ export class AllotmentDetailsComponent implements OnInit {
           })
           this.onSave();
           this.blockScreen = false;
-          this.onClear();
+          this.onClear('1');
           this.messageService.clear();
           this.messageService.add({ key: 't-err', severity: StatusMessage.SEVERITY_SUCCESS, summary: StatusMessage.SUMMARY_SUCCESS, detail: res.Item2 });
         }
@@ -469,24 +525,30 @@ export class AllotmentDetailsComponent implements OnInit {
     });
   }
 
-  onClear() {
+  onClear(type) {
+    if (type === '1') {
+      this.RCode = null; this.GCode = null;
+      this.regionOptions = [];
+      this.godownOptions = [];
+      this.disableSave = false;
+      this.loading = false;
+      this.blockScreen = false;
+      this.fileSelector.nativeElement.value = null;
+    }
     this.AllotmentData = [];
     this.AllotmentCols.length = 0;
     this.table.reset();
     this.totalRecords = 0;
-    this.disableSave = false;
-    this.blockScreen = false;
-    this.loading = false;
-    this.RCode = null; this.GCode = null;
     this.curMonth = ((new Date().getMonth() + 1) <= 9) ? "0" + (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     this.month = this.datepipe.transform(new Date(), 'MMM');
     this.monthOptions = [{ label: this.month, value: this.curMonth }];
     this.year = new Date().getFullYear();
     this.yearOptions = [{ label: this.year, value: this.year }];
-    this.fileSelector.nativeElement.value = null;
     this.totalRice = 0; this.totalWheat = 0;
     this.totalSugar = 0; this.totalDhall = 0;
     this.totalPoil = 0;
+    if (this.abstractData.length !== 0) { this.abstract_table.reset(); }
+    this.abstractData.length = 0;
   }
 
   downloadSample() {

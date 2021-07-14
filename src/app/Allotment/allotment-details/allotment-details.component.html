@@ -74,7 +74,7 @@
                 [disabled]="(AllotmentData.length=='0' || disableSave)"></button>
             </div>
             <div class="ui-g-4 ui-md-1">
-              <button pButton label=Clear (click)="onClear();"></button>
+              <button pButton label=Clear (click)="onClear('1');"></button>
             </div>
           </div>
           <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment Details:</div>
@@ -106,35 +106,38 @@
               </ng-template>
             </p-table>
           </div>
-          <hr class="ui-g-12 dashboard border-teal">
-          <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">Allotment - Abstract
-            Details:</div>
-          <div class="ui-g-12">
-            <p-table #dt [columns]="abstractCols" [value]="abstractData" [rows]="20" [totalRecords]="totalRecords"
-              [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [loading]="loading"
-              [scrollable]="true">
-              <ng-template pTemplate="colgroup" let-columns>
-                <colgroup>
-                  <col *ngFor="let col of columns" [style.width]="col.width">
-                </colgroup>
-              </ng-template>
-              <ng-template pTemplate="header" let-columns>
-                <tr>
-                  <th style="width: 50px;">S.No:</th>
-                  <th *ngFor="let col of columns">
-                    {{col.header}}
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                <tr>
-                  <td style="width: 50px;">{{rowIndex + 1}}</td>
-                  <td *ngFor="let col of columns">
-                    {{rowData[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
+          <div *ngIf="abstractData.length!='0'">
+            <hr class="ui-g-12 dashboard border-teal">
+            <div class="ui-g-11 no-pad-top" style="color: #18c5a9;text-decoration: underline;">
+              Allotment - Abstract
+              Details:</div>
+            <div class="ui-g-12">
+              <p-table #abstract [columns]="abstractCols" [value]="abstractData" [rows]="20"
+                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true" [loading]="loading"
+                [scrollable]="true">
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col *ngFor="let col of columns" [style.width]="col.width">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 50px;">S.No:</th>
+                    <th *ngFor="let col of columns">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                  <tr>
+                    <td style="width: 50px;">{{rowIndex + 1}}</td>
+                    <td *ngFor="let col of columns">
+                      {{rowData[col.field]}}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </div>
         </div>
       </div>
