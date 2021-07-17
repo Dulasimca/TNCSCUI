@@ -166,6 +166,7 @@ export class TableConstants {
   TaxReportPurchaseColumns: any;
   TaxReportServiceColumns: any;
   hoqtyacabstractColumns: any;
+  hoqtyacabstractregColumns: any;
   TransferOBToHOQtyColumns: any;
   FrozenPDSLiftmentGodownColumns: any;
   CBAllColumns: any;
@@ -2218,13 +2219,32 @@ export class TableConstants {
       { header: 'Others', field: 'OtherReceipt' },
       { header: 'Total Receipts', field: 'TotalReceipt' },
       { header: 'Issue on Sales', field: 'IssueOnSales' },
-
-      { header: 'Free Issues.', field: 'FreeIssues' },
-      { header: 'Total Issues', field: 'Totalssues' },
+      { header: 'Free Issues.', field: 'FreeIssues' },     
       { header: 'Other Issues', field: 'OtherIssues' },
+      { header: 'Total Issues', field: 'Totalssues' },
       { header: 'Closing Balance', field: 'CB' },
       { header: 'Cumulative Shortage.', field: 'CS' },
       { header: 'Actuals', field: 'ActualBalance' },
+
+    ];
+    this.hoqtyacabstractregColumns = [
+      { header: 'Sl.No', field: 'SlNo' },
+      { header: 'Month', field: 'Month' },
+      { header: 'Year', field: 'Year' },
+      { header: 'Region Name', field: 'Region' },
+      { header: 'Commodity', field: 'Commodity' },
+      { header: 'Opening Bal.', field: 'Ope.Bal' },
+      { header: 'Purchase', field: 'Purchase Receipt' },
+      { header: 'Free Rice', field: 'Free Receipt' },
+      { header: 'Others', field: 'Other Receipt' },
+      { header: 'Total Receipts', field: 'Total Receipt' },
+      { header: 'Issue on Sales', field: 'Sales' },
+      { header: 'Free Issues.', field: 'Free Issues' },     
+      { header: 'Other Issues', field: 'Other Issues' },
+      { header: 'Total Issues', field: 'Total Issues' },
+      { header: 'Closing Balance', field: 'CB' },
+      { header: 'Cumulative Shortage.', field: 'CS' },
+      { header: 'Actuals', field: 'Actual Balance' },
 
     ];
 

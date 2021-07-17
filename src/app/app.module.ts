@@ -199,6 +199,8 @@ import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-o
 import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
 import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-free-issues.component';
 import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
+import { GsthomeComponent } from './GST/Documents/gsthome/gsthome.component';
+import { HoqtyregionComponent } from './hoqtyacc/Reports/hoqtyregion/hoqtyregion.component';
 
 @NgModule({
   declarations: [
@@ -352,6 +354,8 @@ import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
     HoqtyFreeIssuesComponent,
     HoqtySalesComponent,
     HoqtyComponent,
+    GsthomeComponent,
+    HoqtyregionComponent,
   ],
   imports: [
     BrowserModule,

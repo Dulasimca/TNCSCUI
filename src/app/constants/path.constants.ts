@@ -205,6 +205,7 @@ export class PathConstants {
   public static readonly HO_QTY_ABSTRACT_POST = '/api/HoqtAbstract/Post';
   public static readonly HO_QTY_ABSRTACT_GET = '/api/HoqtAbstract/Get';
   public static readonly HO_QTY_ABSRTACTREP_GET = '/api/HoqtAbstractrep/Get';
+  public static readonly HO_QTY_ABSRTACTREGREP_GET = '/api/HoqtAbstractregrep/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_GET = '/api/TransferOBToHoQty/Get';
   public static readonly TRANSFER_OB_TO_HO_QTY_POST = '/api/TransferOBToHoQty/Post';
   public static readonly HO_QTY_PURCHASE_POST = '/api/HOQtyPurchase/Post';

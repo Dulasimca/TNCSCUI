@@ -1,0 +1,66 @@
+<app-header></app-header>
+<div class="ui-g-12 ui-md-12 ui-lg-12 content">
+  <app-menu *ngIf="canShowMenu"></app-menu>
+  <p-panel>
+    <p-header>
+      <div class="ui-g panel-header">
+        <div class="ui-g-12 ui-md-12 dashboard" style="text-align: left;">Head Office Quantity Account Region Consolidation</div>
+        </div>
+    </p-header>
+    <div class="ui-g">
+        <p-toast position="top-center" (onClose)="onClose()" [modal]="true" key="t-err"></p-toast>
+        <div class="ui-g-12 ui-md-2">
+          <label class="ui-g-7 label-fontsize dashboard">Region</label>
+          <p-dropdown #region class="ui-g-12 ui-fluid dashboard" [options]="regionOptions" [(ngModel)]="RCode" (onClick)="onSelect('reg', 'click')"
+            (keydown.enter)="onSelect('reg', 'enter')" (ngModelChange)="onResetTable('reg')" filter="true" resetFilterOnHide="true"
+            [showClear]="true" filterMatchMode="startsWith" placeholder="-select-">
+            <ng-template let-item pTemplate="selectedItem">
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+          </p-dropdown>
+        </div>   
+        <div class="ui-g-12 ui-md-2">
+              <label class="ui-g-7 label-fontsize dashboard">Select Month/Year</label>
+              <p-calendar class="ui-g-12 ui-fluid dashboard" [(ngModel)]="fromDate" view="month" [yearNavigator]="true" yearRange={{yearRange}} inputId="monthpicker"
+                dateFormat="mm/yy"></p-calendar>
+        </div>  
+        <div class="ui-g-12 ui-md-1 dashboard"  >
+                <button  class="ui-g-9 dashboard inline-margin" pButton type="button" label=View (click)="onView()" 
+                style="margin-top: 17%;"
+                  [disabled]="(!fromDate ||  !RCode)" ></button>                
+        </div>
+       
+        <div class="ui-g-12 ui-md-1 dashboard"  >
+                <button class="ui-g-9 dashboard inline-margin" pButton type="button" (click)="dt.exportCSV()" 
+                style="margin-top: 17%;"
+                [disabled]="(!fromDate ||  !RCode)" label=Excel></button>
+        </div>   
+        <div style="margin-top: 20px;" > 
+          <p-checkbox  name="DNumber"  value="false" [(ngModel)]="checkBox" (ngModelChange)="oncheckbox()"
+          ></p-checkbox> 
+          Commodity Order
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 dashboard">
+        <p-table #dt [columns]="hoqtyacabstractregCols" [value]="hoqtyacabstractregData" [rows]="50"
+          [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" autoLayout="true"
+           [loading]="loading" exportFilename="QTYAbstractregREPORT">
+             <ng-template pTemplate="header" let-columns>
+              <tr style="text-align: center;">
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">
+                   {{rowData[col.field]}}  
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+  </p-panel>
+</div>

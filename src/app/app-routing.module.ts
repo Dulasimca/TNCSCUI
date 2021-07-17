@@ -143,6 +143,8 @@ import { HoqtyFreeIssuesComponent } from './hoqtyacc/hoqty-free-issues/hoqty-fre
 import { HoqtyOtherIssuesComponent } from './hoqtyacc/hoqty-other-issues/hoqty-other-issues.component';
 import { HoqtySalesComponent } from './hoqtyacc/hoqty-sales/hoqty-sales.component';
 import { HoqtyComponent } from './hoqtyacc/Reports/hoqty/hoqty.component';
+import { HoqtyregionComponent } from './hoqtyacc/Reports/hoqtyregion/hoqtyregion.component';
+import { GsthomeComponent } from './GST/Documents/gsthome/gsthome.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -298,6 +300,9 @@ const routes: Routes = [
       { path: 'sales', component: HoqtyComponent, data: { kind: 'sales' } },
     ]
   },
+  { path: 'Hoqtyregion', component: HoqtyregionComponent, canActivate: [AuthGuard] },
+  { path: 'Gsthome', component: GsthomeComponent, canActivate: [AuthGuard] },
+  
   { path: 'pageNotFound', redirectTo: 'Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
